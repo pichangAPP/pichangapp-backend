@@ -1,0 +1,25 @@
+# FastAPI y servidor
+fastapi
+uvicorn[standard]
+
+# Base de datos PostgreSQL
+sqlalchemy
+psycopg2-binary
+alembic
+
+# Validación y esquemas
+pydantic
+
+# Variables de entorno
+python-dotenv
+
+# Seguridad (hashing, JWT)
+passlib[bcrypt]
+python-jose[cryptography]
+
+# Cliente HTTP (útil para comunicación entre microservicios)
+httpx
+
+# Pruebas
+pytest
+pytest-asyncio
