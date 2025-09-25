@@ -1,7 +1,4 @@
-fastapi
-uvicorn[standard]
-sqlalchemy
-psycopg2-binary
-python-dotenv
-pydantic
-passlib[bcrypt]
+-r ../../requirements.base.txt
+
+# Cuando empieces a usar reservation, aquí agregas lo específico
+# FastAPI y servidor
