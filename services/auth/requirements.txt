@@ -9,6 +9,7 @@ alembic
 
 # Validación y esquemas
 pydantic
+pydantic[email]
 
 # Variables de entorno
 python-dotenv
