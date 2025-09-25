@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Annotated, Optional
 
-from pydantic import BaseModel, EmailStr, Field, StringConstraints
+from pydantic import BaseModel, EmailStr, Field, StringConstraints, constr, field_validator, validator
 
 
 NameStr = Annotated[
@@ -21,6 +21,22 @@ class RegisterRequest(BaseModel):
     phone: PhoneStr
     password: PasswordStr
     id_role: Annotated[int, Field(ge=1)]
+
+class UserUpdateRequest(BaseModel):
+    name: NameStr
+    phone: PhoneStr 
+    status: str
+    id_role: int 
+
+    @field_validator("status")
+    def validate_status(cls, v: str) -> str:
+        allowed = {"active", "disabled"}
+        if v not in allowed:
+            raise ValueError(f"Status must be one of: {allowed}")
+        return v
+
+    class Config:
+        from_attributes = True
 
 
 class LoginRequest(BaseModel):
