@@ -49,7 +49,8 @@ class AuthService:
         
         if not user_db or not user_db.id_user:
             audit_entry = AuditLog(
-                user_id=None,
+                id_user=None,
+                entity="AuthService",
                 action="register_error",
                 message="User creation failed: repository returned null"
             )
@@ -61,9 +62,11 @@ class AuthService:
             )
 
         audit_entry = AuditLog(
-            user_id=new_user.id_user,
+            id_user=new_user.id_user,
+            entity="AuthService",
             action="register",
             message="User registered",
+            state="active"
         )
 
         audit_log_repository.create_audit_log(self.db, audit_entry)
@@ -74,9 +77,11 @@ class AuthService:
             self.db.rollback()
 
             audit_entry = AuditLog(
-                user_id=None,
+                id_user=None,
+                entity="AuthService",
                 action="register_exception",
-                message=f"Exception during commit: {str(exc)}"
+                message=f"Exception during commit: {str(exc)}",
+                state="active"
             )
             audit_log_repository.create_audit_log(self.db, audit_entry)
 
@@ -101,17 +106,31 @@ class AuthService:
         access_token = self._create_access_token({"sub": str(user.id_user), "email": user.email})
 
         audit_entry = AuditLog(
-            user_id=user.id_user,
+            id_user=user.id_user,
+            entity="AuthService",
             action="login",
             message="User login",
+            state="active"
         )
         audit_log_repository.create_audit_log(self.db, audit_entry)
 
         try:
             self.db.commit()
-        except Exception as exc:  # pragma: no cover - defensive rollback
+        except Exception as exc:
+
             self.db.rollback()
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Could not complete login") from exc
+            audit_entry = AuditLog(
+                id_user=None,
+                entity="AuthService",
+                action="login_exception",
+                message=f"Exception during commit: {str(exc)}",
+                state="active"
+            )
+            audit_log_repository.create_audit_log(self.db, audit_entry)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Could not complete login"
+            ) from exc
 
         return access_token, user
 
