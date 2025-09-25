@@ -1,20 +1,31 @@
 from datetime import datetime
-from typing import Optional
+from typing import Annotated, Optional
 
-from pydantic import BaseModel, EmailStr, Field, constr
+from pydantic import BaseModel, EmailStr, Field, StringConstraints
+
+
+NameStr = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, min_length=1, max_length=200),
+]
+PhoneStr = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, min_length=5, max_length=20),
+]
+PasswordStr = Annotated[str, StringConstraints(min_length=8, max_length=128)]
 
 
 class RegisterRequest(BaseModel):
-    name: constr(strip_whitespace=True, min_length=1, max_length=200)
+    name: NameStr
     email: EmailStr
-    phone: constr(strip_whitespace=True, min_length=5, max_length=20)
-    password: constr(min_length=8, max_length=128)
-    rol_id_role: int = Field(..., ge=1)
+    phone: PhoneStr
+    password: PasswordStr
+    rol_id_role: Annotated[int, Field(ge=1)]
 
 
 class LoginRequest(BaseModel):
     email: EmailStr
-    password: constr(min_length=8, max_length=128)
+    password: PasswordStr
 
 
 class UserResponse(BaseModel):
