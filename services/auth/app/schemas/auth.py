@@ -1,20 +1,47 @@
 from datetime import datetime
-from typing import Optional
+from typing import Annotated, Optional
 
-from pydantic import BaseModel, EmailStr, Field, constr
+from pydantic import BaseModel, EmailStr, Field, StringConstraints, constr, field_validator, validator
+
+
+NameStr = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, min_length=1, max_length=200),
+]
+PhoneStr = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, min_length=5, max_length=20),
+]
+PasswordStr = Annotated[str, StringConstraints(min_length=8, max_length=128)]
 
 
 class RegisterRequest(BaseModel):
-    name: constr(strip_whitespace=True, min_length=1, max_length=200)
+    name: NameStr
     email: EmailStr
-    phone: constr(strip_whitespace=True, min_length=5, max_length=20)
-    password: constr(min_length=8, max_length=128)
-    rol_id_role: int = Field(..., ge=1)
+    phone: PhoneStr
+    password: PasswordStr
+    id_role: Annotated[int, Field(ge=1)]
+
+class UserUpdateRequest(BaseModel):
+    name: NameStr
+    phone: PhoneStr 
+    status: str
+    id_role: int 
+
+    @field_validator("status")
+    def validate_status(cls, v: str) -> str:
+        allowed = {"active", "disabled"}
+        if v not in allowed:
+            raise ValueError(f"Status must be one of: {allowed}")
+        return v
+
+    class Config:
+        from_attributes = True
 
 
 class LoginRequest(BaseModel):
     email: EmailStr
-    password: constr(min_length=8, max_length=128)
+    password: PasswordStr
 
 
 class UserResponse(BaseModel):
@@ -23,11 +50,11 @@ class UserResponse(BaseModel):
     email: EmailStr
     phone: str
     status: str
-    rol_id_role: int
+    id_role: int
     created_at: Optional[datetime] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class TokenResponse(BaseModel):

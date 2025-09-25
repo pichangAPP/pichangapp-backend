@@ -1,0 +1,9 @@
+# Dependencias comunes a todos los microservicios
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg2-binary
+python-dotenv
+alembic
+pydantic
+pydantic[email]

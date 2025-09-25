@@ -8,10 +8,11 @@ from app.services.auth_service import AuthService
 router = APIRouter()
 
 
-@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
 def register_user(register_data: RegisterRequest, db: Session = Depends(get_db)):
     auth_service = AuthService(db)
-    return auth_service.register_user(register_data)
+    access_token, user = auth_service.register_user(register_data)
+    return {"access_token": access_token, "token_type": "bearer", "user": user}
 
 
 @router.post("/login", response_model=TokenResponse)

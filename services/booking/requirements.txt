@@ -1,0 +1,3 @@
+-r ../../requirements.base.txt
+
+# Cuando empieces a usar reservation, aquí agregas lo específico

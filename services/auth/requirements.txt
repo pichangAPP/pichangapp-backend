@@ -1,20 +1,17 @@
 # FastAPI y servidor
-fastapi
-uvicorn[standard]
 
 # Base de datos PostgreSQL
-sqlalchemy
-psycopg2-binary
-alembic
 
-# Validación y esquemas
-pydantic
+
+# Validación y esquemas (Pydantic v2)
 
 # Variables de entorno
-python-dotenv
 
 # Seguridad (hashing, JWT)
+-r ../../requirements.base.txt
+
 passlib[bcrypt]
+bcrypt
 python-jose[cryptography]
 
 # Cliente HTTP (útil para comunicación entre microservicios)
