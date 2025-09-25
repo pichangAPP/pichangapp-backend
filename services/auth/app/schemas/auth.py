@@ -20,7 +20,7 @@ class RegisterRequest(BaseModel):
     email: EmailStr
     phone: PhoneStr
     password: PasswordStr
-    rol_id_role: Annotated[int, Field(ge=1)]
+    id_role: Annotated[int, Field(ge=1)]
 
 
 class LoginRequest(BaseModel):
@@ -34,7 +34,7 @@ class UserResponse(BaseModel):
     email: EmailStr
     phone: str
     status: str
-    rol_id_role: int
+    id_role: int
     created_at: Optional[datetime] = None
 
     class Config:
