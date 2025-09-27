@@ -13,7 +13,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Modality(Base):
     __tablename__ = "modality"
-    __table_args__ = {"schema": "reservation"}
+    __table_args__ = {"schema": "booking"}
 
     id_modality: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     modality_description: Mapped[str] = mapped_column(Text, nullable=False)

@@ -13,7 +13,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Image(Base):
     __tablename__ = "images"
-    __table_args__ = {"schema": "reservation"}
+    __table_args__ = {"schema": "booking"}
 
     id_image: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True)
     name_image: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -21,7 +21,7 @@ class Image(Base):
     state: Mapped[str] = mapped_column(String(30), nullable=False)
     deleted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     id_campus: Mapped[int] = mapped_column(
-        BigInteger, ForeignKey("reservation.campus.id_campus", ondelete="CASCADE"), nullable=False
+        BigInteger, ForeignKey("booking.campus.id_campus", ondelete="CASCADE"), nullable=False
     )
 
     campus: Mapped["Campus"] = relationship("Campus", back_populates="images")

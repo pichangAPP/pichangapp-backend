@@ -14,13 +14,13 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Sport(Base):
     __tablename__ = "sports"
-    __table_args__ = {"schema": "reservation"}
+    __table_args__ = {"schema": "booking"}
 
     id_sport: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     sport_name: Mapped[str] = mapped_column(String(100), nullable=False)
     sport_type: Mapped[str] = mapped_column(String(100), nullable=False)
     id_modality: Mapped[int] = mapped_column(
-        Integer, ForeignKey("reservation.modality.id_modality"), nullable=False
+        Integer, ForeignKey("booking.modality.id_modality"), nullable=False
     )
 
     modality: Mapped["Modality"] = relationship("Modality", back_populates="sports")

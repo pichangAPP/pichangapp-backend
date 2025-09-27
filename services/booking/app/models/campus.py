@@ -18,7 +18,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Campus(Base):
     __tablename__ = "campus"
-    __table_args__ = {"schema": "reservation"}
+    __table_args__ = {"schema": "booking"}
 
     id_campus: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(300), nullable=False)
@@ -34,12 +34,12 @@ class Campus(Base):
     coords_y: Mapped[float] = mapped_column(Numeric(9, 6), nullable=False)
     id_business: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey("reservation.business.id_business", ondelete="CASCADE"),
+        ForeignKey("booking.business.id_business", ondelete="CASCADE"),
         nullable=False,
     )
     id_characteristic: Mapped[int] = mapped_column(
         BigInteger,
-        ForeignKey("reservation.characteristic.id_characteristic", ondelete="CASCADE"),
+        ForeignKey("booking.characteristic.id_characteristic", ondelete="CASCADE"),
         nullable=False,
         unique=True,
     )

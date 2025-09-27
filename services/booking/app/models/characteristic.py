@@ -13,7 +13,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Characteristic(Base):
     __tablename__ = "characteristic"
-    __table_args__ = {"schema": "reservation"}
+    __table_args__ = {"schema": "booking"}
 
     id_characteristic: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True)
     lights: Mapped[bool] = mapped_column(Boolean, nullable=False)

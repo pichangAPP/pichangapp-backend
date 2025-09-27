@@ -18,7 +18,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Field(Base):
     __tablename__ = "field"
-    __table_args__ = {"schema": "reservation"}
+    __table_args__ = {"schema": "booking"}
 
     id_field: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True)
     field_name: Mapped[str] = mapped_column(String(200), nullable=False)
@@ -30,9 +30,9 @@ class Field(Base):
     open_time: Mapped[time] = mapped_column(Time, nullable=False)
     close_time: Mapped[time] = mapped_column(Time, nullable=False)
     minutes_wait: Mapped[float] = mapped_column(Numeric(6, 2), nullable=False)
-    id_sport: Mapped[int] = mapped_column(Integer, ForeignKey("reservation.sports.id_sport"), nullable=False)
+    id_sport: Mapped[int] = mapped_column(Integer, ForeignKey("booking.sports.id_sport"), nullable=False)
     id_campus: Mapped[int] = mapped_column(
-        BigInteger, ForeignKey("reservation.campus.id_campus", ondelete="CASCADE"), nullable=False
+        BigInteger, ForeignKey("booking.campus.id_campus", ondelete="CASCADE"), nullable=False
     )
 
     campus: Mapped["Campus"] = relationship("Campus", back_populates="fields")

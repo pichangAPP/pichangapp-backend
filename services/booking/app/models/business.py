@@ -15,7 +15,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Business(Base):
     __tablename__ = "business"
-    __table_args__ = {"schema": "reservation"}
+    __table_args__ = {"schema": "booking"}
 
     id_business: Mapped[int] = mapped_column(BigInteger, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(300), nullable=False)
