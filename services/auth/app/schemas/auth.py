@@ -17,14 +17,24 @@ PasswordStr = Annotated[str, StringConstraints(min_length=8, max_length=128)]
 
 class RegisterRequest(BaseModel):
     name: NameStr
+    lastname: NameStr
     email: EmailStr
     phone: PhoneStr
+    birthdate: datetime
+    gender: str
+    city: str
+    district: str
     password: PasswordStr
     id_role: Annotated[int, Field(ge=1)]
 
 class UserUpdateRequest(BaseModel):
     name: NameStr
+    lastname: NameStr
     phone: PhoneStr 
+    birthdate: datetime
+    gender: str
+    city: str
+    district: str
     status: str
     id_role: int 
 
@@ -47,8 +57,13 @@ class LoginRequest(BaseModel):
 class UserResponse(BaseModel):
     id_user: int
     name: str
+    lastname: str
     email: EmailStr
     phone: str
+    birthdate: datetime
+    gender: str
+    city: str
+    district: str
     status: str
     id_role: int
     created_at: Optional[datetime] = None
