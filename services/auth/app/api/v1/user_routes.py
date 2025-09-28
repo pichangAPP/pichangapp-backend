@@ -46,7 +46,7 @@ def get_user_by_id(
     user_service = UserService(db)
     return user_service.get_user_by_id(user_id, current_user)
 
-@router.get("/{user_id}/exists", response_model=bool)
+@router.get("/exists/{user_id}", response_model=bool)
 def check_user_exists(
     user_id: int,
     current_user: User = Depends(get_current_user),
