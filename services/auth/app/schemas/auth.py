@@ -72,7 +72,19 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
+TokenStr = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+
+
 class TokenResponse(BaseModel):
     access_token: str
+    refresh_token: str
     token_type: str = "bearer"
     user: UserResponse
+
+
+class GoogleLoginRequest(BaseModel):
+    id_token: TokenStr
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: TokenStr
