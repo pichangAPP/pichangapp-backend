@@ -1,8 +1,9 @@
 from sqlalchemy import Column, BigInteger, String, Boolean, ForeignKey, DateTime, func
+
 from app.core.database import Base
 
 
-class Session(Base):
+class UserSession(Base):
     __tablename__ = "sessions"
     __table_args__ = {"schema": "auth"}
 
