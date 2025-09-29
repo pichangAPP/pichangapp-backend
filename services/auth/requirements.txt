@@ -17,6 +17,8 @@ python-jose[cryptography]
 # Cliente HTTP (útil para comunicación entre microservicios)
 httpx
 
+firebase-admin
+
 # Pruebas
 pytest
 pytest-asyncio
