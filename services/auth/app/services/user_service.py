@@ -156,7 +156,12 @@ class UserService:
 
             # Actualizar solo campos permitidos
             user.name = updates["name"]
+            user.lastname = updates["lastname"]
             user.phone = updates["phone"]
+            user.birthdate = updates["birthdate"]
+            user.gender = updates["gender"]
+            user.city = updates["city"]
+            user.district = updates["district"]
             user.status = updates["status"]
             user.id_role = updates["id_role"]
 

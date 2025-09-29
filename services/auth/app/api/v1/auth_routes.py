@@ -63,9 +63,3 @@ def refresh_token(payload: RefreshTokenRequest, db: Session = Depends(get_db)):
     }
 
 
-@router.get("/db-test")
-def db_test(db: Session = Depends(get_db)):
-    from app.models.user import User
-
-    user_count = db.query(User).count()
-    return {"users_in_db": user_count}
