@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import secrets
 from typing import Dict, Tuple
 
@@ -10,8 +10,9 @@ from sqlalchemy.orm import Session
 from app.core.config import settings
 from app.core.firebase import get_firebase_app
 from app.models.audit_log import AuditLog
+from app.models.session import UserSession
 from app.models.user import User
-from app.repository import audit_log_repository, role_repository, user_repository
+from app.repository import audit_log_repository, role_repository, session_repository, user_repository
 from app.schemas.auth import LoginRequest, RegisterRequest
 
 from firebase_admin import auth as firebase_auth
@@ -76,6 +77,12 @@ class AuthService:
 
         audit_log_repository.create_audit_log(self.db, audit_entry)
 
+        access_token = self._create_access_token({"sub": str(new_user.id_user), "email": new_user.email})
+
+        refresh_token = self._create_refresh_token({"sub": str(new_user.id_user), "email": new_user.email})
+
+        self._create_user_session(new_user.id_user, access_token, refresh_token)
+
         try:
             self.db.commit()
         except Exception as exc:
@@ -96,9 +103,6 @@ class AuthService:
             ) from exc
 
         self.db.refresh(new_user)
-        access_token = self._create_access_token({"sub": str(new_user.id_user), "email": new_user.email})
-
-        refresh_token = self._create_refresh_token({"sub": str(new_user.id_user), "email": new_user.email})
 
         return access_token, refresh_token, new_user
 
@@ -121,6 +125,8 @@ class AuthService:
             state="active"
         )
         audit_log_repository.create_audit_log(self.db, audit_entry)
+
+        self._create_user_session(user.id_user, access_token, refresh_token)
 
         try:
             self.db.commit()
@@ -229,6 +235,8 @@ class AuthService:
         )
         audit_log_repository.create_audit_log(self.db, audit_entry)
 
+        self._create_user_session(user.id_user, access_token, refresh_token)
+
         try:
             self.db.commit()
         except Exception as exc:  # pragma: no cover - database errors
@@ -291,3 +299,26 @@ class AuthService:
         expire = datetime.utcnow() + timedelta(minutes=settings.REFRESH_TOKEN_EXPIRE_MINUTES)
         to_encode.update({"exp": expire, "type": "refresh"})
         return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+
+    def _create_user_session(
+        self, user_id: int, access_token: str, refresh_token: str
+    ) -> UserSession:
+        active_sessions = session_repository.get_active_sessions(self.db, user_id)
+        for session in active_sessions:
+            session_repository.deactivate_session(self.db, session.id_session)
+
+        expires_at = None
+        if settings.REFRESH_TOKEN_EXPIRE_MINUTES:
+            expires_at = datetime.now(timezone.utc) + timedelta(
+                minutes=settings.REFRESH_TOKEN_EXPIRE_MINUTES
+            )
+
+        user_session = UserSession(
+            id_user=user_id,
+            access_token=access_token,
+            refresh_token=refresh_token,
+            expires_at=expires_at,
+            is_active=True,
+        )
+
+        return session_repository.create_session(self.db, user_session)
