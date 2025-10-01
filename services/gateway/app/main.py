@@ -11,7 +11,7 @@ app = FastAPI(title="Pichangapp API Gateway")
 
 SERVICE_URLS: Dict[str, str] = {
     "auth": os.getenv("AUTH_SERVICE_URL", "http://auth-service:8000"),
-    "booking": os.getenv("BOOKING_SERVICE_URL", "http://booking-service:8000"),
+    "booking": os.getenv("BOOKING_SERVICE_URL", "http://booking-service:8001"),
 }
 
 FORWARDED_HEADERS = {"content-encoding", "transfer-encoding", "connection"}

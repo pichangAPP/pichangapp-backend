@@ -11,6 +11,8 @@ class Settings:
 
     PROJECT_NAME: str = "Booking Service"
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "changeme")
+    ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
 
 
 @lru_cache()
