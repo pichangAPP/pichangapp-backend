@@ -10,6 +10,7 @@ class User(Base):
     lastname = Column(String(200), nullable=False)
     email = Column(String(255), unique=True, nullable=False, index=True)
     phone = Column(String(20), nullable=False)
+    imageurl = Column(Text, nullable=True)
     birthdate = Column(DateTime, nullable=False)
     gender = Column(String(10), nullable=False)
     city = Column(String(100), nullable=True)
