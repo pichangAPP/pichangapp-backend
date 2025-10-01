@@ -8,8 +8,3 @@ app.include_router(
     v1_router,
     prefix="/api/pichangapp/v1/booking",
 )
-
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}

@@ -34,6 +34,6 @@ class Characteristic(Base):
     coporative_event: Mapped[bool] = mapped_column(Boolean, nullable=False)
     recreational_act: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
-    campus: Mapped["Campus" | None] = relationship(
+    campus: Mapped["Campus"] = relationship(
         "Campus", back_populates="characteristic", uselist=False
     )

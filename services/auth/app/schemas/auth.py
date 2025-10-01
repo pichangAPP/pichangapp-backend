@@ -20,21 +20,22 @@ class RegisterRequest(BaseModel):
     lastname: NameStr
     email: EmailStr
     phone: PhoneStr
-    birthdate: datetime
-    gender: str
-    city: str
-    district: str
+    birthdate: datetime | None = None
+    gender: str | None = None
+    city: str | None = None
+    district: str | None = None
     password: PasswordStr
     id_role: Annotated[int, Field(ge=1)]
 
 class UserUpdateRequest(BaseModel):
     name: NameStr
     lastname: NameStr
-    phone: PhoneStr 
-    birthdate: datetime
-    gender: str
-    city: str
-    district: str
+    phone: PhoneStr
+    imageurl: str | None = None
+    birthdate: datetime | None = None
+    gender: str | None = None
+    city: str | None = None
+    district: str | None = None
     status: str
     id_role: int 
 
@@ -60,10 +61,11 @@ class UserResponse(BaseModel):
     lastname: str
     email: EmailStr
     phone: str
-    birthdate: datetime
-    gender: str
-    city: str
-    district: str
+    imageurl: str | None = None
+    birthdate: datetime | None = None
+    gender: str | None = None
+    city: str | None = None
+    district: str | None = None
     status: str
     id_role: int
     created_at: Optional[datetime] = None

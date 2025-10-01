@@ -39,7 +39,7 @@ async def _proxy_request(request: Request, service_key: str, path: str) -> Respo
 
     try:
         body = await request.body()
-    except Exception:  # pragma: no cover - defensive, body reading rarely fails
+    except Exception:  # defensive, body reading rarely fails
         body = b""
 
     try:

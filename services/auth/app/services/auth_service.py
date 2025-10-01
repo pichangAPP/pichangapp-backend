@@ -196,7 +196,7 @@ class AuthService:
                 lastname=last_name,
                 email=email,
                 phone=decoded_token.get("phone_number") or "000000000",
-                birthdate=datetime.now(),
+                birthdate=None,
                 gender="unspecified",
                 city=None,
                 district=None,
@@ -239,7 +239,7 @@ class AuthService:
 
         try:
             self.db.commit()
-        except Exception as exc:  # pragma: no cover - database errors
+        except Exception as exc:  #  database errors
             self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
