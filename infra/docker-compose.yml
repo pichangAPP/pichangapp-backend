@@ -1,4 +1,4 @@
-version: "3.8"
+version: "4.47"
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.1
@@ -23,18 +23,18 @@ services:
       - "29092:29092"
 
   postgres:
-    image: postgres:15
+    image: postgres:17
     environment:
-      POSTGRES_USER: pichang
-      POSTGRES_PASSWORD: pichangpwd
-      POSTGRES_DB: pichangdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fabri005
+      POSTGRES_DB: pichangapp
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
   mongo:
-    image: mongo:6
+    image: mongo:8
     ports:
       - "27017:27017"
     volumes:
