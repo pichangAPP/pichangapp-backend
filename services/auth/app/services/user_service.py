@@ -129,6 +129,11 @@ class UserService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Unexpected error while retrieving user by id",
             ) from exc
+       
+        
+    def exists_user_by_id(self, user_id: int) -> bool:
+        return user_repository.exists_user_by_id(self.db, user_id)
+
 
     def update_user(self, user_id: int, updates: dict, requester: User | None = None) -> User:
         """
@@ -153,7 +158,13 @@ class UserService:
 
             # Actualizar solo campos permitidos
             user.name = updates["name"]
+            user.lastname = updates["lastname"]
             user.phone = updates["phone"]
+            user.imageurl = updates.get("imageurl", user.imageurl)
+            user.birthdate = updates["birthdate"]
+            user.gender = updates["gender"]
+            user.city = updates["city"]
+            user.district = updates["district"]
             user.status = updates["status"]
             user.id_role = updates["id_role"]
 

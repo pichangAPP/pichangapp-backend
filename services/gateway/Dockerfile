@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.4
 
 FROM python:3.13-slim AS builder
 
@@ -38,6 +37,9 @@ RUN groupadd --system appuser \
 
 USER appuser
 
-EXPOSE 8000
+EXPOSE 8080
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENV AUTH_SERVICE_URL="http://auth-service:8000" \
+    BOOKING_SERVICE_URL="http://booking-service:8001"
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]

@@ -17,14 +17,25 @@ PasswordStr = Annotated[str, StringConstraints(min_length=8, max_length=128)]
 
 class RegisterRequest(BaseModel):
     name: NameStr
+    lastname: NameStr
     email: EmailStr
     phone: PhoneStr
+    birthdate: datetime | None = None
+    gender: str | None = None
+    city: str | None = None
+    district: str | None = None
     password: PasswordStr
     id_role: Annotated[int, Field(ge=1)]
 
 class UserUpdateRequest(BaseModel):
     name: NameStr
-    phone: PhoneStr 
+    lastname: NameStr
+    phone: PhoneStr
+    imageurl: str | None = None
+    birthdate: datetime | None = None
+    gender: str | None = None
+    city: str | None = None
+    district: str | None = None
     status: str
     id_role: int 
 
@@ -47,8 +58,14 @@ class LoginRequest(BaseModel):
 class UserResponse(BaseModel):
     id_user: int
     name: str
+    lastname: str
     email: EmailStr
     phone: str
+    imageurl: str | None = None
+    birthdate: datetime | None = None
+    gender: str | None = None
+    city: str | None = None
+    district: str | None = None
     status: str
     id_role: int
     created_at: Optional[datetime] = None
@@ -57,7 +74,19 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 
+TokenStr = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+
+
 class TokenResponse(BaseModel):
     access_token: str
+    refresh_token: str
     token_type: str = "bearer"
     user: UserResponse
+
+
+class GoogleLoginRequest(BaseModel):
+    id_token: TokenStr
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: TokenStr

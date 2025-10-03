@@ -29,3 +29,6 @@ def get_users_by_role(db: Session, role_id: int) -> List[User]:
 
 def get_user_by_id(db: Session, user_id: int) -> Optional[User]:
     return db.query(User).filter(User.id_user == user_id).first()
+
+def exists_user_by_id(db: Session, user_id: int) -> bool:
+    return db.query(User).filter(User.id_user == user_id).count() > 0

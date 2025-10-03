@@ -1,3 +1,6 @@
 -r ../../requirements.base.txt
+passlib[bcrypt]
+bcrypt
+python-jose[cryptography]
 
 # Cuando empieces a usar reservation, aquí agregas lo específico
