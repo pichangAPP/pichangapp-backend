@@ -195,6 +195,7 @@ class AuthService:
                 name=first_name,
                 lastname=last_name,
                 email=email,
+                imageurl=decoded_token.get("picture") or None,
                 phone=decoded_token.get("phone_number") or "000000000",
                 birthdate=None,
                 gender="unspecified",

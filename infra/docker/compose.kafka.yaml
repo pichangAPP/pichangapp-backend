@@ -1,15 +1,18 @@
-version: "3.8"
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.1
+    container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
+    networks:
+      - pichanga_net
 
   kafka:
     image: confluentinc/cp-kafka:7.4.1
+    container_name: kafka
     depends_on:
       - zookeeper
     environment:
@@ -21,25 +24,10 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
+    networks:
+      - pichanga_net
 
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: pichang
-      POSTGRES_PASSWORD: pichangpwd
-      POSTGRES_DB: pichangdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-  mongo:
-    image: mongo:6
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodata:/data/db
-
-volumes:
-  pgdata:
-  mongodata:
+networks:
+  pichanga_net:
+    external: true
+    name: pichanga_net

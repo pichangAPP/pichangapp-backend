@@ -1,0 +1,29 @@
+services:
+  auth:
+    build: ../services/auth
+    container_name: auth
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../services/auth/.env
+    depends_on:
+      - postgres
+    networks:
+      - pichanga_net
+
+  booking:
+    build: ../services/booking
+    container_name: booking
+    ports:
+      - "8001:8001"
+    env_file:
+      - ../services/booking/.env
+    depends_on:
+      - postgres
+    networks:
+      - pichanga_net
+
+networks:
+  pichanga_net:
+    external: true
+    name: pichanga_net
