@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from datetime import date
 
-from sqlalchemy import BigInteger, Date, ForeignKey, Integer, String, Text
+from sqlalchemy import BigInteger, Date, ForeignKey, Integer, String, Text,func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
@@ -23,7 +23,7 @@ class Business(Base):
     ruc: Mapped[str | None] = mapped_column(String(30), nullable=True)
     email_contact: Mapped[str] = mapped_column(String(300), nullable=False)
     phone_contact: Mapped[str] = mapped_column(String(20), nullable=False)
-    created_at: Mapped[date] = mapped_column(Date, nullable=False)
+    created_at: Mapped[date] = mapped_column(Date, server_default=func.current_date(), nullable=False)
     district: Mapped[str] = mapped_column(String(50), nullable=False)
     address: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[str] = mapped_column(String(30), nullable=False)

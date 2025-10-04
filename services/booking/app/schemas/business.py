@@ -15,7 +15,6 @@ class BusinessBase(BaseModel):
     ruc: Optional[str] = None
     email_contact: str
     phone_contact: str
-    created_at: date
     district: str
     address: str
     status: str
