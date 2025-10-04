@@ -4,10 +4,20 @@ from typing import TYPE_CHECKING
 
 from datetime import date
 
-from sqlalchemy import BigInteger, Date, ForeignKey, Integer, String, Text,func
+from sqlalchemy import BigInteger, Column, Date, ForeignKey, Integer, String, Text, Table, func
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.core.database import Base
+from app.core.database import Base, engine
+
+Table(
+    "memberships",
+    Base.metadata,
+    Column("id_membership", Integer, primary_key=True),
+    schema="payment",
+    keep_existing=True, 
+)
+
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.campus import Campus
@@ -30,6 +40,7 @@ class Business(Base):
     id_membership: Mapped[int] = mapped_column(
         Integer, ForeignKey("payment.memberships.id_membership"), nullable=False
     )
+
 
     campuses: Mapped[list["Campus"]] = relationship(
         "Campus",

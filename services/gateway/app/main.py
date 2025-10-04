@@ -124,7 +124,6 @@ async def proxy_users(request: Request, path: str):
 async def proxy_booking_root(request: Request):
     return await _proxy_request(request, "booking", "/api/pichangapp/v1/booking")
 
-
 @app.api_route(
     "/api/pichangapp/v1/booking/{path:path}",
     methods=SUPPORTED_METHODS,
@@ -133,3 +132,21 @@ async def proxy_booking_root(request: Request):
 async def proxy_booking(request: Request, path: str):
     target_path = _build_path("/api/pichangapp/v1/booking", path)
     return await _proxy_request(request, "booking", target_path)
+
+
+@app.api_route(
+    "/api/pichangapp/v1/payment",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_payment_root(request: Request):
+    return await _proxy_request(request, "payment", "/api/pichangapp/v1/payment")
+
+@app.api_route(
+    "/api/pichangapp/v1/payment/{path:path}",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_payment(request: Request, path: str):
+    target_path = _build_path("/api/pichangapp/v1/payment", path)
+    return await _proxy_request(request, "payment", target_path)
