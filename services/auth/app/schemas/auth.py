@@ -19,12 +19,13 @@ class RegisterRequest(BaseModel):
     name: NameStr
     lastname: NameStr
     email: EmailStr
+    password: PasswordStr
+    imageurl: str | None = None
     phone: PhoneStr
     birthdate: datetime | None = None
     gender: str | None = None
     city: str | None = None
     district: str | None = None
-    password: PasswordStr
     id_role: Annotated[int, Field(ge=1)]
 
 class UserUpdateRequest(BaseModel):
@@ -69,7 +70,7 @@ class UserResponse(BaseModel):
     status: str
     id_role: int
     created_at: Optional[datetime] = None
-
+    updated_at: Optional[datetime] = None
     class Config:
         from_attributes = True
 

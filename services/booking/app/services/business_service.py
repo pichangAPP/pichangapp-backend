@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import HTTPException
+from fastapi import HTTPException,status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -44,10 +44,12 @@ class BusinessService:
             return business
         except SQLAlchemyError as exc:
             self.db.rollback()
+            print(f"SQLAlchemy error: {exc}")  # o usa logging
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to create business",
+                detail=f"Failed to create business: {exc}"
             ) from exc
+
 
     def update_business(self, business_id: int, business_in: BusinessUpdate) -> Business:
         business = self.get_business(business_id)
