@@ -1,0 +1,8 @@
+
+[project]
+name = "prod-rasa-3c6fe2c6"
+version = "0.1.0"
+description = "Add your description for your Rasa bot here"
+readme = "README.md"
+dependencies = ["rasa-pro>=3.13"]
+requires-python = ">=3.10"
