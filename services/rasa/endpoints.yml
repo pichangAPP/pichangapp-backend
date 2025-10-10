@@ -17,14 +17,15 @@ action_endpoint:
 # By default the conversations are stored in memory.
 # https://rasa.com/docs/rasa-pro/production/tracker-stores
 
-#tracker_store:
-#    type: redis
-#    url: <host of the redis instance, e.g. localhost>
-#    port: <port of your redis instance, usually 6379>
-#    db: <number of your database within redis, e.g. 0>
-#    password: <password used for authentication>
-#    use_ssl: <whether or not the communication is encrypted, default false>
-
+tracker_store:
+  type: SQL
+  dialect: "postgresql"
+  url: "localhost"
+  port: 5432
+  db: "pichangapp"
+  username: "postgres"
+  password: "fabri005"
+  driver: "psycopg2"
 #tracker_store:
 #    type: mongod
 #    url: <url to your mongo instance, e.g. mongodb://localhost:27017>
@@ -46,22 +47,25 @@ action_endpoint:
 # For more details, refer to the documentation:
 # https://rasa.com/docs/rasa-pro/concepts/contextual-response-rephraser
 # To enable the rephraser, remove the comment symbols in the lines below.
-nlg:
-  type: rephrase
-  llm:
-    model_group: openai-gpt-4o
-  prompt_template: prompts/rephraser_demo_personality_prompt.jinja2
-  rephrase_all: False
-  summarize_history: False
+# --- Natural Language Generator (desactivado temporalmente) ---
+# Desactiva el uso de OpenAI hasta que quieras reactivar GPT.
+#nlg:
+#  type: rephrase
+#  llm:
+#    model_group: openai-gpt-4o
+#  prompt_template: prompts/rephraser_demo_personality_prompt.jinja2
+#  rephrase_all: False
+#  summarize_history: False
 
-model_groups:
-  - id: openai-gpt-4o
-    models:
-      - provider: openai
-        model: gpt-4o-2024-11-20
-        timeout: 7
-        max_completion_tokens: 256
-  - id: openai-embeddings
-    models:
-      - provider: openai
-        model: text-embedding-3-large
+# --- Model Groups (solo para cuando uses GPT) ---
+#model_groups:
+#  - id: openai-gpt-4o
+#    models:
+#      - provider: openai
+#        model: gpt-4o-2024-11-20
+#        timeout: 7
+#        max_completion_tokens: 256
+#  - id: openai-embeddings
+#    models:
+#      - provider: openai
+#        model: text-embedding-3-large
