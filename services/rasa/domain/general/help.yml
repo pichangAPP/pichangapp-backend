@@ -4,18 +4,19 @@ slots:
   example_questions:
     type: text
     initial_value: |
-      - What can you do?
-      - Connect me to a human
-      - Browse FAQs
+      - ¿Qué puedes hacer?
+      - Muéstrame mis recomendaciones anteriores
+      - Conéctame con un agente humano
     mappings:
       - type: controlled
 
-responses: 
+responses:
   utter_what_can_you_do:
     - text: |
-        I can help you with a few basics like:
-        - Connecting you to a human
-        - Help you try out the FAQs
-        - Collect your feedback
+        Puedo ayudarte a:
+        - Buscar canchas disponibles según tus preferencias.
+        - Explicarte cómo reservar, modificar o cancelar.
+        - Mostrarte tu historial de recomendaciones y feedback.
+        - Conectarte con un agente humano si lo necesitas.
       metadata:
         rephrase: True

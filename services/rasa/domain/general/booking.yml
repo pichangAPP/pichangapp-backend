@@ -1,0 +1,182 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - request_field_recommendation
+  - ask_reservation_process
+  - ask_modify_reservation
+  - ask_cancellation_policy
+  - ask_pricing_info
+  - show_previous_recommendations
+  - ask_feedback_status
+  - show_faqs
+  - affirm
+  - deny
+  - human_handoff
+  - help
+
+entities:
+  - sport
+  - location
+  - surface
+  - date
+  - time
+  - budget
+  - skill_level
+  - user_id
+
+slots:
+  user_id:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: user_id
+      - type: from_text
+        conditions:
+          - active_loop: field_recommendation_form
+            requested_slot: user_id
+          - active_loop: feedback_status_form
+            requested_slot: user_id
+  chatbot_session_id:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  chat_theme:
+    type: text
+    influence_conversation: false
+    initial_value: "Reservas y alquileres"
+    mappings:
+      - type: custom
+  preferred_sport:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: sport
+      - type: from_text
+        conditions:
+          - active_loop: field_recommendation_form
+            requested_slot: preferred_sport
+  preferred_location:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: location
+      - type: from_text
+        conditions:
+          - active_loop: field_recommendation_form
+            requested_slot: preferred_location
+  preferred_surface:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: surface
+      - type: from_text
+        conditions:
+          - active_loop: field_recommendation_form
+            requested_slot: preferred_surface
+  preferred_date:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: date
+      - type: from_text
+        conditions:
+          - active_loop: field_recommendation_form
+            requested_slot: preferred_date
+  preferred_start_time:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: time
+      - type: from_text
+        conditions:
+          - active_loop: field_recommendation_form
+            requested_slot: preferred_start_time
+  preferred_end_time:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: time
+      - type: from_text
+        conditions:
+          - active_loop: field_recommendation_form
+            requested_slot: preferred_end_time
+  preferred_budget:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: budget
+  preferred_skill_level:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: skill_level
+
+forms:
+  field_recommendation_form:
+    required_slots:
+      - user_id
+      - preferred_sport
+      - preferred_date
+      - preferred_start_time
+      - preferred_location
+      - preferred_surface
+  feedback_status_form:
+    required_slots:
+      - user_id
+
+responses:
+  utter_ask_field_recommendation_form_user_id:
+    - text: "Para buscar canchas necesito tu ID de usuario en PichangApp. ¿Cuál es?"
+  utter_ask_field_recommendation_form_preferred_sport:
+    - text: "¿Qué deporte deseas jugar?"
+  utter_ask_field_recommendation_form_preferred_date:
+    - text: "¿Para qué fecha necesitas la cancha? (formato AAAA-MM-DD)"
+  utter_ask_field_recommendation_form_preferred_start_time:
+    - text: "¿A qué hora te gustaría empezar? (por ejemplo 19:00)"
+  utter_ask_field_recommendation_form_preferred_location:
+    - text: "¿En qué distrito o zona prefieres jugar?"
+  utter_ask_field_recommendation_form_preferred_surface:
+    - text: "¿Tienes preferencia por alguna superficie (sintético, grass, etc.)?"
+  utter_ask_feedback_status_form_user_id:
+    - text: "Perfecto, dime tu ID de usuario para revisar tus comentarios."
+  utter_reservation_process:
+    - text: |
+        Para reservar una cancha solo debes:
+        1. Elegir el deporte y la sede que prefieras.
+        2. Seleccionar fecha y horario disponibles.
+        3. Confirmar la reserva y realizar el pago desde la app.
+        Si necesitas ayuda en algún paso, ¡dímelo!
+  utter_modify_reservation:
+    - text: |
+        Puedes modificar tu reserva desde la sección "Mis reservas" eligiendo una nueva fecha u hora disponible.
+        Si la reserva ya está muy cerca, es posible que necesites apoyo del equipo de soporte.
+  utter_cancellation_policy:
+    - text: |
+        Las cancelaciones se permiten hasta 24 horas antes del horario reservado.
+        Si cancelas dentro de ese plazo, el saldo queda como crédito para tu siguiente reserva.
+        Fuera de ese tiempo, contáctanos para revisar tu caso.
+  utter_pricing_info:
+    - text: |
+        El precio de cada cancha depende del deporte, la sede y la franja horaria.
+        Cuando busques opciones te mostraré el costo por hora y promociones disponibles.
+  utter_default_fallback:
+    - text: "No estoy seguro de haber entendido. ¿Podrías reformular tu mensaje o darme más detalles?"
+
+actions:
+  - action_submit_field_recommendation_form
+  - action_show_recommendation_history
+  - action_check_feedback_status
+  - action_close_chat_session
+  - action_human_handoff

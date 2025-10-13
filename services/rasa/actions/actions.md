@@ -1,10 +1,15 @@
-## 📂 `actions/` – The Agent's Toolkit
+## 📂 `actions/` – Toolkit del asistente de reservas
 
-This folder contains Python files that define custom actions your agent can perform. Actions are pieces of code that run when your agent needs to do something beyond just responding with text.
+Aquí viven las acciones personalizadas que amplían las capacidades del bot. Úsalas para conectar con Postgres, consultar canchas, registrar métricas o derivar la conversación a un humano.
 
-**What you'll find:**
-- `action_human_handoff.py`: Handles transferring the conversation to a human agent when needed.
+### Acciones disponibles
+- `action_chatbot.py`
+  - `ActionSubmitFieldRecommendationForm`: valida los datos capturados en el formulario, consulta las canchas disponibles en `booking.field` y registra la recomendación en los esquemas `analytics.*`.
+  - `ActionShowRecommendationHistory`: resume las últimas sugerencias del usuario leyendo los logs del chatbot.
+  - `ActionCheckFeedbackStatus`: consulta los comentarios registrados en `analytics.feedback` para un usuario.
+  - `ActionCloseChatSession`: marca la conversación como cerrada en `analytics.chatbot`.
+- `action_human_handoff.py`: comparte un resumen de los últimos mensajes y permite derivar la conversación a un agente humano.
 
-**Edit Python files in this folder** to add new custom logic, integrate with APIs, or perform calculations and data processing.
+Cada acción utiliza SQLAlchemy y lee las credenciales de la base de datos desde las variables de entorno (`CHATBOT_DATABASE_URL` o `DATABASE_URL`).
 
-Learn more about custom actions in the [Rasa documentation](https://rasa.com/docs/pro/build/custom-actions).
+Consulta la [documentación oficial de Rasa](https://rasa.com/docs/pro/build/custom-actions) para profundizar en el ciclo de vida de las acciones.

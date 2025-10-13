@@ -1,6 +1,6 @@
-flows: 
-  goodbye_flow:
-    description: Handle user goodbye messages, say farewell, and collect feedback
+flows:
+  despedida_basica:
+    description: Gestiona las despedidas del usuario.
     steps:
+      - intent: goodbye
       - action: utter_goodbye
-      - link: leave_feedback
