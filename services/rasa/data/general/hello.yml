@@ -1,6 +1,6 @@
 flows:
-  hello:
-    description: Flow for greeting the user hello
-    name: hello
+  saludo_basico:
+    description: Maneja saludos simples del usuario.
     steps:
+      - intent: greet
       - action: utter_hello

@@ -1,0 +1,92 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - hola
+      - buenos días
+      - buenas tardes
+      - qué tal
+      - hola pichangapp
+  - intent: goodbye
+    examples: |
+      - gracias, nos vemos
+      - chao
+      - hasta luego
+      - hablamos luego
+      - eso es todo, gracias
+  - intent: help
+    examples: |
+      - ¿qué puedes hacer?
+      - necesito ayuda
+      - ¿cómo me ayudas?
+      - muéstrame tus funciones
+  - intent: request_field_recommendation
+    examples: |
+      - quiero alquilar una cancha hoy
+      - necesito una cancha de [fulbito](sport) esta noche
+      - ¿qué cancha me recomiendas para jugar [fútbol](sport) en [Miraflores](location)?
+      - buscamos un campo con [grass sintético](surface) para mañana a las [19:00](time)
+      - ayúdame a encontrar una cancha en [Surco](location) para el [2024-06-15](date)
+      - ¿dónde puedo jugar [pádel](sport) cerca de [San Isidro](location)?
+  - intent: ask_reservation_process
+    examples: |
+      - ¿cómo reservo una cancha?
+      - explícame el proceso de reserva
+      - ¿cuáles son los pasos para reservar?
+      - necesito saber cómo confirmar una reserva
+  - intent: ask_modify_reservation
+    examples: |
+      - quiero cambiar mi reserva
+      - ¿puedo modificar la hora de mi cancha?
+      - necesito mover mi reserva para otro día
+      - ¿cómo edito mi reserva?
+  - intent: ask_cancellation_policy
+    examples: |
+      - ¿puedo cancelar la reserva?
+      - dime la política de cancelaciones
+      - ¿qué pasa si cancelo?
+      - ¿con cuánta anticipación puedo anular?
+  - intent: ask_pricing_info
+    examples: |
+      - ¿cuánto cuesta la cancha?
+      - dame precios por hora
+      - ¿hay promociones disponibles?
+      - necesito saber la tarifa para hoy
+  - intent: show_previous_recommendations
+    examples: |
+      - recuérdame las canchas que me sugeriste
+      - muéstrame mi historial de recomendaciones
+      - ¿qué opciones me diste antes?
+      - quiero ver recomendaciones pasadas
+  - intent: ask_feedback_status
+    examples: |
+      - ¿registraste mi feedback?
+      - quiero ver mis comentarios
+      - muéstrame las calificaciones que dejé
+      - revisa mis opiniones
+  - intent: show_faqs
+    examples: |
+      - muéstrame las preguntas frecuentes
+      - qué preguntas puedo hacerte
+      - dame sugerencias de temas
+      - enséñame el faq
+  - intent: affirm
+    examples: |
+      - sí
+      - claro
+      - por supuesto
+      - dale
+      - de acuerdo
+  - intent: deny
+    examples: |
+      - no
+      - mejor no
+      - prefiero que no
+      - no gracias
+  - intent: human_handoff
+    examples: |
+      - quiero hablar con una persona
+      - pásame con un agente
+      - necesito soporte humano
+      - conéctame con alguien del equipo

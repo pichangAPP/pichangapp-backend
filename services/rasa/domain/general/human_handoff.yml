@@ -2,31 +2,31 @@ version: "3.1"
 actions:
   - "action_human_handoff"
 
-slots: 
- confirm_human_handoff:
+slots:
+  confirm_human_handoff:
     type: "categorical"
     mappings:
       - type: "from_llm"
     values:
-      - "Yes"
-      - "No" 
+      - "Sí"
+      - "No"
 
 responses:
   utter_ask_confirm_human_handoff:
-    - text: "Do you want to be connected to a human agent?"
+    - text: "¿Quieres que te conecte con un agente humano?"
       buttons:
-        - payload: "/SetSlots(confirm_human_handoff=Yes)"
-          title: "Yes"
+        - payload: "/SetSlots(confirm_human_handoff=Sí)"
+          title: "Sí, por favor"
         - payload: "/SetSlots(confirm_human_handoff=No)"
-          title: "No"
+          title: "No, gracias"
 
   utter_transferring_to_human:
-    - text: "You will be transfered to a human agent in a few moments."
+    - text: "Listo, te voy a derivar con un agente humano en unos momentos."
 
   utter_human_handoff_cancelled:
-    - text: "Ok, I understand you don't want to be connected to a human agent. Is there something else I can help you with?"
+    - text: "Entendido, seguimos por aquí. ¿Hay algo más en lo que pueda ayudarte?"
       metadata:
         rephrase: True
 
   utter_transfer_to_manager:
-    - text: "I will transfer the following summary of our conversation to the Callback Manager:\n{summary}"
+    - text: "Voy a compartir el siguiente resumen de la conversación con el equipo de soporte:\n{summary}"

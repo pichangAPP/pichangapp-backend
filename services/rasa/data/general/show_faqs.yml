@@ -1,6 +1,6 @@
 flows:
-  show_faqs:
-    description: Show users the most frequently asked questions about Rasa and CALM
-    name: show_faqs
+  sugerencias_faq:
+    description: Sugiere preguntas frecuentes relacionadas a reservas.
     steps:
+      - intent: show_faqs
       - action: utter_top_faqs

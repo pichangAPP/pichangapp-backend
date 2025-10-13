@@ -1,6 +1,6 @@
 flows:
-  help:
-    description: Answer the users question on what the agent can do to help them
-    name: help
+  ayuda_general:
+    description: Responde cuando el usuario solicita ayuda general.
     steps:
+      - intent: help
       - action: utter_what_can_you_do
