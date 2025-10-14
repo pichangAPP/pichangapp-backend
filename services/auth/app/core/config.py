@@ -9,8 +9,8 @@ load_dotenv()
 class Settings:
     PROJECT_NAME: str = "Auth Service"
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "change_me")
-    ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "")
+    ALGORITHM: str = os.getenv("ALGORITHM", "")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
     REFRESH_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("REFRESH_TOKEN_EXPIRE_MINUTES", "10080"))
     FIREBASE_CREDENTIALS_PATH: str = os.getenv("FIREBASE_CREDENTIALS_PATH", "")

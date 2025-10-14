@@ -4,13 +4,24 @@ from typing import TYPE_CHECKING
 
 from datetime import date
 
-from sqlalchemy import BigInteger, Date, ForeignKey, Integer, String, Text,func
+from sqlalchemy import BigInteger, Column, Date, ForeignKey, Integer, Numeric, String, Text, Table, func
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.core.database import Base
+from app.core.database import Base, engine
+
+Table(
+    "memberships",
+    Base.metadata,
+    Column("id_membership", Integer, primary_key=True),
+    schema="payment",
+    keep_existing=True, 
+)
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.campus import Campus
+    from app.models.image import Image
+
 
 
 class Business(Base):
@@ -27,6 +38,8 @@ class Business(Base):
     district: Mapped[str] = mapped_column(String(50), nullable=False)
     address: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[str] = mapped_column(String(30), nullable=False)
+    imageurl: Mapped[str | None] = mapped_column(Text, nullable=True)
+    min_price: Mapped[float | None] = mapped_column(Numeric(10, 2), nullable=True)
     id_membership: Mapped[int] = mapped_column(
         Integer, ForeignKey("payment.memberships.id_membership"), nullable=False
     )
@@ -36,4 +49,8 @@ class Business(Base):
         back_populates="business",
         cascade="all, delete-orphan",
         passive_deletes=True,
+    )
+
+    images: Mapped[list["Image"]] = relationship(
+        "Image", back_populates="business", cascade="all, delete-orphan", passive_deletes=True
     )
