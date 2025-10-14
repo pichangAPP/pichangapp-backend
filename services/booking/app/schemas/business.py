@@ -19,6 +19,8 @@ class BusinessBase(BaseModel):
     address: str
     status: str
     id_membership: int
+    imageurl: Optional[str] = None
+    min_price: Optional[float] = None
 
 
 class BusinessCreate(BusinessBase):
@@ -35,7 +37,8 @@ class BusinessUpdate(BaseModel):
     address: Optional[str] = None
     status: Optional[str] = None
     id_membership: Optional[int] = None
-
+    imageurl: Optional[str] = None
+    min_price: Optional[float] = None
 
 class BusinessResponse(BusinessBase):
     model_config = ConfigDict(from_attributes=True)

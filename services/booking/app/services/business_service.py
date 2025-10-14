@@ -54,6 +54,9 @@ class BusinessService:
     def update_business(self, business_id: int, business_in: BusinessUpdate) -> Business:
         business = self.get_business(business_id)
         update_data = business_in.model_dump(exclude_unset=True)
+        print("Update data:", update_data)
+        print("Business before update:", business)
+
         for field, value in update_data.items():
             setattr(business, field, value)
         try:
