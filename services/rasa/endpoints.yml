@@ -20,11 +20,11 @@ action_endpoint:
 tracker_store:
   type: SQL
   dialect: "postgresql"
-  url: "localhost"
-  port: 5432
-  db: "pichangapp"
-  username: "postgres"
-  password: "fabri005"
+  url: ${POSTGRES_HOST}
+  port: ${POSTGRES_PORT}
+  db: ${POSTGRES_DB}
+  username: ${POSTGRES_USER}
+  password: ${POSTGRES_PASSWORD}
   driver: "psycopg2"
 #tracker_store:
 #    type: mongod

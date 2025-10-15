@@ -1,59 +1,59 @@
-flows:
-  saludo:
-    description: Responde cuando el usuario saluda al asistente.
+version: "3.1"
+stories:
+  - story: saludo
     steps:
       - intent: greet
       - action: utter_hello
-  despedida:
-    description: Cierra la conversación y registra el cierre.
+
+  - story: despedida
     steps:
       - intent: goodbye
       - action: action_close_chat_session
       - action: utter_goodbye
-  ayuda:
-    description: Explica qué puede hacer el asistente.
+
+  - story: ayuda
     steps:
       - intent: help
       - action: utter_what_can_you_do
-  recomendar_cancha:
-    description: Solicita datos y recomienda canchas disponibles.
+
+  - story: recomendar_cancha
     steps:
       - intent: request_field_recommendation
       - action: field_recommendation_form
       - action: action_submit_field_recommendation_form
-  proceso_reserva:
-    description: Explica cómo realizar una reserva en la app.
+
+  - story: proceso_reserva
     steps:
       - intent: ask_reservation_process
       - action: utter_reservation_process
-  modificar_reserva:
-    description: Detalla cómo modificar una reserva existente.
+
+  - story: modificar_reserva
     steps:
       - intent: ask_modify_reservation
       - action: utter_modify_reservation
-  cancelacion:
-    description: Informa sobre la política de cancelación.
+
+  - story: cancelacion
     steps:
       - intent: ask_cancellation_policy
       - action: utter_cancellation_policy
-  precios:
-    description: Entrega detalles sobre precios y promociones.
+
+  - story: precios
     steps:
       - intent: ask_pricing_info
       - action: utter_pricing_info
-  historial_recomendaciones:
-    description: Muestra recomendaciones previas registradas en la sesión.
+
+  - story: historial_recomendaciones
     steps:
       - intent: show_previous_recommendations
       - action: action_show_recommendation_history
-  historial_feedback:
-    description: Consulta el feedback del usuario.
+
+  - story: historial_feedback
     steps:
       - intent: ask_feedback_status
       - action: feedback_status_form
       - action: action_check_feedback_status
-  mano_humana:
-    description: Deriva a un agente humano cuando el usuario lo pide.
+
+  - story: mano_humana
     steps:
       - intent: human_handoff
       - action: utter_ask_confirm_human_handoff

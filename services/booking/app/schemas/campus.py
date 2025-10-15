@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field as PydanticField
 from app.schemas.characteristic import (
     CharacteristicCreate,
     CharacteristicResponse,
+    CharacteristicUpdate
 )
 from app.schemas.field import FieldCreate, FieldResponse
 from app.schemas.image import ImageCreate, ImageResponse
@@ -46,6 +47,7 @@ class CampusUpdate(BaseModel):
     count_fields: Optional[int] = None
     coords_x: Optional[float] = None
     coords_y: Optional[float] = None
+    characteristic: Optional[CharacteristicUpdate] = None
 
 
 class CampusResponse(CampusBase):
