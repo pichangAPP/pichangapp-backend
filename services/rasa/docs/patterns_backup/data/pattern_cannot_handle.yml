@@ -1,4 +1,5 @@
 # Flow for handling cases where the agent cannot provide a relevant answer
+# Copia archivada desde Rasa Studio: se mantiene solo como referencia.
 flows:
   cannot_handle:
     description: Handle cases where no relevant answer is found

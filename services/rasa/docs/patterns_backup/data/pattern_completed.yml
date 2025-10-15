@@ -1,4 +1,5 @@
-flows: 
+# Copia archivada desde Rasa Studio: se mantiene solo como referencia.
+flows:
   pattern_completed:
     description: A flow has been completed and there is nothing else to be done
     if: False

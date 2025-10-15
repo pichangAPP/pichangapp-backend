@@ -1,6 +1,0 @@
-flows:
-  despedida_basica:
-    description: Gestiona las despedidas del usuario.
-    steps:
-      - intent: goodbye
-      - action: utter_goodbye
