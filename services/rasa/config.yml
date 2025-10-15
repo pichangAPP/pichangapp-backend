@@ -4,31 +4,37 @@
 
 recipe: default.v1
 language: es
-assistant_id: rasel-agent
+assistant_id: chato-bot
 
 pipeline:
-  # Convierte texto a tokens, sensible a idioma español
+  # Tokenizador básico compatible con español
   - name: WhitespaceTokenizer
 
-  # Usa preentrenamiento en español (spaCy)
-  - name: SpacyNLP
-    model: "es_core_news_md" # modelo en español (debes instalarlo)
+  # Características léxicas (prefijos, sufijos, etc.)
+  - name: LexicalSyntacticFeaturizer
 
-  # Detecta entidades (lugares, fechas, etc.)
-  - name: SpacyEntityExtractor
+  # Bolsa de palabras para intenciones
+  - name: CountVectorsFeaturizer
 
-  # Embeddings contextuales para intenciones
+  # Características de caracteres (maneja errores tipográficos)
+  - name: CountVectorsFeaturizer
+    analyzer: char_wb
+    min_ngram: 1
+    max_ngram: 4
+
+  # Clasificador multitarea para intenciones y entidades
   - name: DIETClassifier
     epochs: 100
     random_seed: 42
+    constrain_similarities: true
 
   # Sinónimos (por ejemplo "sí" = "afirmativo")
   - name: EntitySynonymMapper
 
-  # Usa reglas simples si las defines en rules.yml
+  # Extrae entidades basadas en regex si las defines en rules.yml
   - name: RegexEntityExtractor
 
-  # Selección de respuestas
+  # Selección de respuestas para preguntas frecuentes
   - name: ResponseSelector
     epochs: 100
 

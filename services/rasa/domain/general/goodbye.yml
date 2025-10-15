@@ -1,9 +1,0 @@
-version: "3.1"
-
-responses:
-  utter_goodbye:
-    - text: "¡Gracias por contactarnos! Que tengas un gran partido."
-    - text: "¡Hasta pronto! Si necesitas otra reserva, aquí estaré."
-    - text: "Listo, cualquier cosa vuelve a escribirme. ¡Éxitos en la cancha!"
-    - text: "Gracias por usar PichangApp. ¡Nos vemos!"
-    - text: "¡Cuídate! Estoy disponible cuando quieras organizar otro encuentro."

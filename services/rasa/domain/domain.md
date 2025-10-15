@@ -1,11 +1,12 @@
-## 📂 `domain/` – The Agent's Brain
+## 📂 `domain/` – Memoria y respuestas de Chato Bot
 
-This folder contains YAML files that define the agent's:
-- **Slots**: The agent's memory (e.g., user's name, session info) [1](https://rasa.com/docs/reference/primitives/slots/).
-- **Responses**: The messages your agent can say to users (e.g., greetings, confirmations) [2](https://rasa.com/docs/reference/primitives/responses).
-- **Actions**: Custom logic your agent can run (e.g., handling feedback, human handoff) [3](https://rasa.com/docs/reference/primitives/custom-actions).
+El dominio reúne todo lo que el asistente necesita para conversar:
 
-**What you'll find:**
-- **general/**: Basic conversational domain elements (greetings, help, feedback)
+- **Intenciones** y **entidades** disponibles.
+- **Slots** que guardan información clave (usuario, preferencias, etc.).
+- **Formularios** que recopilan datos paso a paso.
+- **Respuestas** predefinidas y la lista de **acciones personalizadas**.
 
-You can organize the domain as one big file or many small ones. Rasa will automatically merge everything during training [1](https://rasa.com/docs/reference/config/domain).
+Ahora todo vive en un único archivo `domain.yml`, listo para que `rasa train` lo procese sin mezclar formatos de Rasa Studio.
+
+> Nota: los slots heredados de los flows (`confirm_human_handoff` y `feedback_rating`) se mantienen como `controlled` para que puedan completarse desde las acciones sin requerir mapeos LLM.

@@ -1,3 +1,4 @@
+# Copia archivada desde Rasa Studio: se mantiene solo como referencia.
 responses:
   utter_no_relevant_answer_found:
     - text: I’m sorry, I can’t help with that.

@@ -1,8 +1,9 @@
-## 📂 `data/` – The Agent's Business Logic
+## 📂 `data/` – Datos de entrenamiento del asistente
 
-This folder holds files that define your agent’s skills using "flows". [1](https://rasa.com/docs/pro/build/writing-flows) Each flow is a step-by-step conversation pattern (like a recipe) for handling a user goal (e.g., checking a balance, updating an address).
+En esta carpeta viven los archivos que Rasa usa para entrenar el modelo:
 
-**What you'll find:**
-- **general/**: Basic conversational flows (greetings, help, feedback, human handoff)
+- **`nlu.yml`**: ejemplos de intenciones y entidades que Chato Bot debe reconocer.
+- **`stories.yml`**: conversaciones de ejemplo que muestran cómo debe fluir el diálogo.
+- **`rules.yml`**: atajos deterministas (por ejemplo, responder a un saludo o activar un formulario).
 
-**Edit YAML files in this folder** to add new skills, change existing flows, or adjust what the agent asks.
+Los patrones heredados de Rasa Studio se movieron a `../docs/patterns_backup/` para mantenerlos como referencia sin interferir en el entrenamiento.
