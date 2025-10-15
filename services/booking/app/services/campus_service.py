@@ -76,8 +76,17 @@ class CampusService:
     def update_campus(self, campus_id: int, campus_in: CampusUpdate) -> Campus:
         campus = self.get_campus(campus_id)
         update_data = campus_in.model_dump(exclude_unset=True)
+        characteristic_data = update_data.pop("characteristic", None)
+
         for field, value in update_data.items():
             setattr(campus, field, value)
+
+        if characteristic_data is not None:
+            if not campus.characteristic:
+                campus.characteristic = Characteristic(**characteristic_data)
+            else:
+                for field, value in characteristic_data.items():
+                    setattr(campus.characteristic, field, value)
         try:
             self.db.flush()
             self.db.commit()
