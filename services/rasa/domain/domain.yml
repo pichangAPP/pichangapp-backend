@@ -3,6 +3,7 @@ version: "3.1"
 intents:
   - greet
   - goodbye
+  - help
   - request_field_recommendation
   - ask_reservation_process
   - ask_modify_reservation
@@ -11,10 +12,9 @@ intents:
   - show_previous_recommendations
   - ask_feedback_status
   - show_faqs
+  - human_handoff
   - affirm
   - deny
-  - human_handoff
-  - help
 
 entities:
   - sport
@@ -43,13 +43,13 @@ slots:
     type: text
     influence_conversation: false
     mappings:
-      - type: custom
+      - type: controlled
   chat_theme:
     type: text
     influence_conversation: false
     initial_value: "Reservas y alquileres"
     mappings:
-      - type: custom
+      - type: controlled
   preferred_sport:
     type: text
     influence_conversation: false
@@ -122,6 +122,21 @@ slots:
     mappings:
       - type: from_entity
         entity: skill_level
+  example_questions:
+    type: text
+    influence_conversation: false
+    initial_value: |
+      - ¿Qué puedes hacer?
+      - Muéstrame mis recomendaciones anteriores
+      - Conéctame con un agente humano
+    mappings:
+      - type: controlled
+  agent_name:
+    type: text
+    influence_conversation: false
+    initial_value: "Chato Bot"
+    mappings:
+      - type: controlled
 
 forms:
   field_recommendation_form:
@@ -130,6 +145,7 @@ forms:
       - preferred_sport
       - preferred_date
       - preferred_start_time
+      - preferred_end_time
       - preferred_location
       - preferred_surface
   feedback_status_form:
@@ -137,6 +153,27 @@ forms:
       - user_id
 
 responses:
+  utter_hello:
+    - text: "¡Hola! Soy Chato Bot, tu asistente de PichangApp listo para ayudarte con reservas y recomendaciones."
+      metadata:
+        rephrase: True
+    - text: "¡Bienvenido! Soy Chato Bot. ¿Listo para encontrar la mejor cancha para tu partido?"
+    - text: "¡Hola! Chato Bot a tu servicio. Cuéntame qué necesitas y buscaremos la mejor opción disponible."
+  utter_goodbye:
+    - text: "¡Gracias por contactarnos! Que tengas un gran partido."
+    - text: "¡Hasta pronto! Si necesitas otra reserva, aquí estaré."
+    - text: "Listo, cualquier cosa vuelve a escribirme. ¡Éxitos en la cancha!"
+    - text: "Gracias por usar PichangApp. ¡Nos vemos!"
+    - text: "¡Cuídate! Estoy disponible cuando quieras organizar otro encuentro."
+  utter_what_can_you_do:
+    - text: |
+        Puedo ayudarte a:
+        - Buscar canchas disponibles según tus preferencias.
+        - Explicarte cómo reservar, modificar o cancelar.
+        - Mostrarte tu historial de recomendaciones y feedback.
+        - Conectarte con un agente humano si lo necesitas.
+      metadata:
+        rephrase: True
   utter_ask_field_recommendation_form_user_id:
     - text: "Para buscar canchas necesito tu ID de usuario en PichangApp. ¿Cuál es?"
   utter_ask_field_recommendation_form_preferred_sport:
@@ -145,6 +182,8 @@ responses:
     - text: "¿Para qué fecha necesitas la cancha? (formato AAAA-MM-DD)"
   utter_ask_field_recommendation_form_preferred_start_time:
     - text: "¿A qué hora te gustaría empezar? (por ejemplo 19:00)"
+  utter_ask_field_recommendation_form_preferred_end_time:
+    - text: "¿Hasta qué hora necesitas la cancha? (por ejemplo 21:00)"
   utter_ask_field_recommendation_form_preferred_location:
     - text: "¿En qué distrito o zona prefieres jugar?"
   utter_ask_field_recommendation_form_preferred_surface:
@@ -171,8 +210,56 @@ responses:
     - text: |
         El precio de cada cancha depende del deporte, la sede y la franja horaria.
         Cuando busques opciones te mostraré el costo por hora y promociones disponibles.
+  utter_top_faqs:
+    - text: |
+        Puedes preguntarme sobre:
+
+        - 📅 ¿Cómo reservo una cancha?
+        - 🔁 ¿Puedo cambiar o cancelar una reserva?
+        - 💸 ¿Cuánto cuesta jugar en determinada sede?
+        - ⭐ ¿Cómo dejar feedback de mis partidos?
+        - 🧑‍🤝‍🧑 ¿Cómo contacto a un agente humano?
+      metadata:
+        rephrase: True
+  utter_thankyou_positive:
+    - text: "¡Gracias por el comentario positivo! Seguiremos mejorando para ti."
+    - text: "¡Genial! Nos alegra saber que disfrutaste el servicio."
+    - text: "¡Muchas gracias! Tus buenos comentarios nos motivan a seguir creciendo."
+  utter_thankyou_negative:
+    - text: "Gracias por tu sinceridad. Revisaremos cómo mejorar tu próxima experiencia."
+    - text: "Apreciamos tu feedback. Trabajaremos para ofrecerte un mejor servicio."
+    - text: "Gracias por avisarnos. Tu comentario nos ayuda a mejorar."
+  utter_ask_confirm_human_handoff:
+    - text: "¿Quieres que te conecte con un agente humano?"
+      buttons:
+        - payload: "/affirm"
+          title: "Sí, por favor"
+        - payload: "/deny"
+          title: "No, gracias"
+  utter_transferring_to_human:
+    - text: "Listo, te voy a derivar con un agente humano en unos momentos."
+  utter_human_handoff_cancelled:
+    - text: "Entendido, seguimos por aquí. ¿Hay algo más en lo que pueda ayudarte?"
+      metadata:
+        rephrase: True
+  utter_transfer_to_manager:
+    - text: "Voy a compartir el siguiente resumen de la conversación con el equipo de soporte:\n{summary}"
   utter_default_fallback:
     - text: "No estoy seguro de haber entendido. ¿Podrías reformular tu mensaje o darme más detalles?"
+  utter_no_relevant_answer_found:
+    - text: "Lo siento, por ahora no tengo una respuesta para eso. ¿Quieres intentarlo con otra pregunta?"
+      metadata:
+        rephrase: True
+  utter_welcome:
+    - text: |
+        ¡Hola! Soy {agent_name} 👋. Estoy aquí para ayudarte con tus reservas deportivas.
+
+        Puedes empezar con preguntas como:
+        {example_questions}
+  utter_help:
+    - text: "¿En qué puedo ayudarte?"
+      metadata:
+        rephrase: True
 
 actions:
   - action_submit_field_recommendation_form
@@ -180,3 +267,7 @@ actions:
   - action_check_feedback_status
   - action_close_chat_session
   - action_human_handoff
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

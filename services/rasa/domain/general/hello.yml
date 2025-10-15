@@ -1,9 +1,0 @@
-version: "3.1"
-
-responses:
-  utter_hello:
-    - text: "¡Hola! Soy tu asistente de PichangApp, listo para ayudarte con reservas y recomendaciones."
-      metadata:
-        rephrase: True
-    - text: "¡Bienvenido! ¿Listo para encontrar la mejor cancha para tu partido?"
-    - text: "¡Hola! Cuéntame qué necesitas y buscaremos la mejor opción disponible."

@@ -1,6 +1,6 @@
-# 🤖 Asistente de reservas para PichangApp
+# 🤖 Chato Bot – Asistente de reservas para PichangApp
 
-Este servicio de Rasa convierte el bot en un concierge deportivo: responde preguntas frecuentes, recomienda canchas según preferencias y registra cada interacción en los esquemas `analytics` de la base de datos.
+Este servicio de Rasa convierte al bot en un concierge deportivo: responde preguntas frecuentes, recomienda canchas según preferencias y registra cada interacción en los esquemas `analytics` de la base de datos.
 
 ## 🚀 Capacidades principales
 - **Recomendaciones inteligentes**: consulta `booking.field`, `booking.sports` y `booking.campus` para sugerir canchas acordes al deporte, zona y superficie solicitada.
@@ -18,10 +18,10 @@ Este servicio de Rasa convierte el bot en un concierge deportivo: responde pregu
    ```bash
    cd services/rasa
    pip install -r requirements.txt
-   python -m spacy download es_core_news_md
    ```
 3. Entrena el modelo:
    ```bash
+   rasa data validate
    rasa train
    ```
 4. Levanta el servidor de acciones personalizadas (requiere las variables de entorno anteriores):
@@ -34,8 +34,11 @@ Este servicio de Rasa convierte el bot en un concierge deportivo: responde pregu
    ```
 
 ## 🧪 Datos y dominio
-- **`data/general/*.yml`**: Flujos y NLU en español para saludos, reservas, historial, preguntas frecuentes y más.
-- **`domain/general/*.yml`**: Intenciones, entidades, formularios y respuestas ajustadas al negocio deportivo.
-- **`actions/action_chatbot.py`**: Conectores SQLAlchemy que consultan y actualizan las tablas analíticas.
+- **`data/nlu.yml`**: Intenciones y ejemplos en español.
+- **`data/stories.yml`**: Historias que ilustran formularios y derivaciones humanas.
+- **`data/rules.yml`**: Reglas que responden preguntas frecuentes y activan formularios.
+- **`domain/domain.yml`**: Intenciones, entidades, formularios, respuestas y acciones de Chato Bot.
+
+Los patrones heredados de Rasa Studio se conservan en `docs/patterns_backup/` como referencia. Allí encontrarás exactamente los archivos exportados desde Rasa Studio (no se usan en el entrenamiento de `rasa train`).
 
 Consulta `actions/actions.md` para entender el detalle de cada acción personalizada.
