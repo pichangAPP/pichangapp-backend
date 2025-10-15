@@ -43,8 +43,6 @@ stories:
       - slot_was_set:
           - preferred_start_time: "19:00"
       - slot_was_set:
-          - preferred_end_time: "21:00"
-      - slot_was_set:
           - preferred_location: "Miraflores"
       - slot_was_set:
           - preferred_surface: "grass sintético"

@@ -43,13 +43,13 @@ slots:
     type: text
     influence_conversation: false
     mappings:
-      - type: controlled
+      - type: custom
   chat_theme:
     type: text
     influence_conversation: false
     initial_value: "Reservas y alquileres"
     mappings:
-      - type: controlled
+      - type: custom
   preferred_sport:
     type: text
     influence_conversation: false
@@ -122,6 +122,22 @@ slots:
     mappings:
       - type: from_entity
         entity: skill_level
+  feedback_rating:
+    type: categorical
+    influence_conversation: false
+    values:
+      - thumbs_up
+      - thumbs_down
+    mappings:
+      - type: from_llm
+  confirm_human_handoff:
+    type: categorical
+    influence_conversation: false
+    values:
+      - "Sí"
+      - "No"
+    mappings:
+      - type: from_llm
   example_questions:
     type: text
     influence_conversation: false
@@ -145,7 +161,6 @@ forms:
       - preferred_sport
       - preferred_date
       - preferred_start_time
-      - preferred_end_time
       - preferred_location
       - preferred_surface
   feedback_status_form:
@@ -182,8 +197,6 @@ responses:
     - text: "¿Para qué fecha necesitas la cancha? (formato AAAA-MM-DD)"
   utter_ask_field_recommendation_form_preferred_start_time:
     - text: "¿A qué hora te gustaría empezar? (por ejemplo 19:00)"
-  utter_ask_field_recommendation_form_preferred_end_time:
-    - text: "¿Hasta qué hora necesitas la cancha? (por ejemplo 21:00)"
   utter_ask_field_recommendation_form_preferred_location:
     - text: "¿En qué distrito o zona prefieres jugar?"
   utter_ask_field_recommendation_form_preferred_surface:
@@ -221,6 +234,13 @@ responses:
         - 🧑‍🤝‍🧑 ¿Cómo contacto a un agente humano?
       metadata:
         rephrase: True
+  utter_ask_feedback_rating:
+    - text: "¿Cómo calificarías tu experiencia?"
+      buttons:
+        - title: "👍 Excelente"
+          payload: "/SetSlots(feedback_rating=thumbs_up)"
+        - title: "👎 Podría mejorar"
+          payload: "/SetSlots(feedback_rating=thumbs_down)"
   utter_thankyou_positive:
     - text: "¡Gracias por el comentario positivo! Seguiremos mejorando para ti."
     - text: "¡Genial! Nos alegra saber que disfrutaste el servicio."
@@ -232,9 +252,9 @@ responses:
   utter_ask_confirm_human_handoff:
     - text: "¿Quieres que te conecte con un agente humano?"
       buttons:
-        - payload: "/affirm"
+        - payload: "/SetSlots(confirm_human_handoff=Sí)"
           title: "Sí, por favor"
-        - payload: "/deny"
+        - payload: "/SetSlots(confirm_human_handoff=No)"
           title: "No, gracias"
   utter_transferring_to_human:
     - text: "Listo, te voy a derivar con un agente humano en unos momentos."
