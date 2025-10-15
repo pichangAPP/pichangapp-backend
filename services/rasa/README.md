@@ -41,6 +41,4 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
 
 Los patrones heredados de Rasa Studio se conservan en `docs/patterns_backup/` como referencia. Allí encontrarás exactamente los archivos exportados desde Rasa Studio (no se usan en el entrenamiento de `rasa train`).
 
-> ℹ️ Si antes usabas los **flows** de Studio notarás que ya no son necesarios: los slots `confirm_human_handoff` y `feedback_rating` ahora se administran internamente por las acciones, por eso aparecen como `controlled` en el dominio. Con esta configuración `rasa data validate` y `rasa train` dejan de exigir flows o mapeos LLM.
-
 Consulta `actions/actions.md` para entender el detalle de cada acción personalizada.
