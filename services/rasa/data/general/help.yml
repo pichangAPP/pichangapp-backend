@@ -1,6 +1,0 @@
-flows:
-  ayuda_general:
-    description: Responde cuando el usuario solicita ayuda general.
-    steps:
-      - intent: help
-      - action: utter_what_can_you_do
