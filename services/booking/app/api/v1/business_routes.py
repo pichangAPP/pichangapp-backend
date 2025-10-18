@@ -20,6 +20,16 @@ def create_business(business_in: BusinessCreate, db: Session = Depends(get_db)):
     return service.create_business(business_in)
 
 
+@router.get("/nearby", response_model=list[BusinessResponse])
+def list_businesses_by_location(
+    latitude: float,
+    longitude: float,
+    db: Session = Depends(get_db),
+):
+    service = BusinessService(db)
+    return service.list_businesses_by_location(latitude=latitude, longitude=longitude)
+
+
 @router.get("/{business_id}", response_model=BusinessResponse)
 def get_business(business_id: int, db: Session = Depends(get_db)):
     service = BusinessService(db)
