@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.models import Campus, Characteristic, Field, Image
 from app.repository import business_repository, campus_repository
 from app.schemas import CampusCreate, CampusUpdate
+from app.services.location_utils import haversine_distance
 
 
 def build_campus_entity(campus_in: CampusCreate) -> Campus:
@@ -42,6 +43,31 @@ class CampusService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to list campuses",
             ) from exc
+
+    def list_campuses_by_location(
+        self, business_id: int, latitude: float, longitude: float
+    ) -> list[Campus]:
+        campuses = self.list_campuses(business_id)
+
+        campuses_with_distance: list[tuple[float, Campus]] = []
+        campuses_without_coordinates: list[Campus] = []
+
+        for campus in campuses:
+            if campus.coords_x is None or campus.coords_y is None:
+                campuses_without_coordinates.append(campus)
+                continue
+
+            distance = haversine_distance(
+                latitude, longitude, float(campus.coords_x), float(campus.coords_y)
+            )
+            campuses_with_distance.append((distance, campus))
+
+        campuses_with_distance.sort(key=lambda item: item[0])
+
+        ordered_campuses = [campus for _, campus in campuses_with_distance]
+        ordered_campuses.extend(campuses_without_coordinates)
+
+        return ordered_campuses
 
     def get_campus(self, campus_id: int) -> Campus:
         campus = campus_repository.get_campus(self.db, campus_id)
