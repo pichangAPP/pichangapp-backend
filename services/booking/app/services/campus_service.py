@@ -117,6 +117,7 @@ class CampusService:
 
     def update_campus(self, campus_id: int, campus_in: CampusUpdate) -> Campus:
         campus = self.get_campus(campus_id)
+        print("Campus before update:", campus)
         update_data = campus_in.model_dump(exclude_unset=True)
         characteristic_data = update_data.pop("characteristic", None)
 

@@ -5,7 +5,7 @@ from app.core.database import Base
 
 class User(Base):
     __tablename__ = "users"
-    __table_args__ = {"schema": "auth"}  # 👈 importante
+    __table_args__ = {"schema": "auth"}  #importante
 
     id_user = Column(BigInteger, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
