@@ -1,5 +1,11 @@
+from typing import TYPE_CHECKING
 from sqlalchemy import Column, Integer, BigInteger, String, Text, DateTime, ForeignKey, func
 from app.core.database import Base
+from sqlalchemy.orm import relationship, Mapped
+
+
+if TYPE_CHECKING:  # pragma: no cover
+    from booking.app.models.campus import Campus
 
 class User(Base):
     __tablename__ = "users"
@@ -20,3 +26,10 @@ class User(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     status = Column(String(30), nullable=False, default="active")
     id_role = Column(Integer, ForeignKey("auth.rol.id_role"), nullable=False)
+
+    
+    campuses: Mapped[list["Campus"]] = relationship(
+        "booking.app.models.campus.Campus",  # ruta completa al modelo remoto
+        back_populates="manager",
+        lazy="selectin"
+    )
