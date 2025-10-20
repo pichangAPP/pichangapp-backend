@@ -4,17 +4,25 @@ from typing import TYPE_CHECKING
 
 from datetime import time
 
-from sqlalchemy import BigInteger, ForeignKey, Integer, Numeric, String, Text, Time
+from sqlalchemy import BigInteger, Column, ForeignKey, Integer, Numeric, String, Table, Text, Time
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
+
+Table(
+    "users",
+    Base.metadata,
+    Column("id_user", BigInteger, primary_key=True),
+    schema="auth",
+    keep_existing=True,
+)
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.business import Business
     from app.models.characteristic import Characteristic
     from app.models.field import Field
     from app.models.image import Image
-
+    from auth.app.models.user import User 
 
 class Campus(Base):
     __tablename__ = "campus"
@@ -43,6 +51,12 @@ class Campus(Base):
         nullable=False,
         unique=True,
     )
+    id_manager: Mapped[int | None] = mapped_column(
+        BigInteger,
+        ForeignKey("auth.users.id_user", ondelete="SET NULL"),
+        nullable=True,
+    )
+    
 
     business: Mapped["Business"] = relationship("Business", back_populates="campuses")
     characteristic: Mapped["Characteristic"] = relationship(
@@ -56,4 +70,9 @@ class Campus(Base):
     )
     images: Mapped[list["Image"]] = relationship(
         "Image", back_populates="campus", cascade="all, delete-orphan", passive_deletes=True
+    )
+    manager: Mapped["User"] = relationship(
+        "auth.app.models.user.User",  # ruta absoluta al modelo User
+        back_populates="campuses",
+        lazy="joined"
     )
