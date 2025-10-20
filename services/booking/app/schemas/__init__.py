@@ -24,4 +24,6 @@ __all__ = [
     "ImageCreate",
     "ImageResponse",
     "ImageUpdate",
+    "ModalityResponse",
+    "SportResponse",
 ]
