@@ -6,6 +6,7 @@ from datetime import time
 
 from pydantic import BaseModel, ConfigDict
 
+from app.schemas.sport import SportResponse
 
 class FieldBase(BaseModel):
     field_name: str
@@ -21,6 +22,7 @@ class FieldBase(BaseModel):
 
 
 class FieldCreate(FieldBase):
+    id_sport: int
     pass
 
 
@@ -42,3 +44,4 @@ class FieldResponse(FieldBase):
 
     id_field: int
     id_campus: int
+    sport: SportResponse

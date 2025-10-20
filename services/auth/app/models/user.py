@@ -27,9 +27,3 @@ class User(Base):
     status = Column(String(30), nullable=False, default="active")
     id_role = Column(Integer, ForeignKey("auth.rol.id_role"), nullable=False)
 
-    
-    campuses: Mapped[list["Campus"]] = relationship(
-        "booking.app.models.campus.Campus",  # ruta completa al modelo remoto
-        back_populates="manager",
-        lazy="selectin"
-    )

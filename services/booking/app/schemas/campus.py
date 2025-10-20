@@ -6,14 +6,14 @@ from datetime import time
 
 from pydantic import BaseModel, ConfigDict, Field as PydanticField
 
-from app.schemas.characteristic import (
+from .characteristic import (
     CharacteristicCreate,
     CharacteristicResponse,
-    CharacteristicUpdate
+    CharacteristicUpdate,
 )
-from app.schemas.field import FieldCreate, FieldResponse
-from app.schemas.image import ImageCreate, ImageResponse
-
+from .field import FieldCreate, FieldResponse
+from .image import ImageCreate, ImageResponse
+from .manager import ManagerResponse
 
 class CampusBase(BaseModel):
     name: str
@@ -55,6 +55,9 @@ class CampusResponse(CampusBase):
 
     id_campus: int
     id_business: int
+    id_manager: Optional[int] = None
     characteristic: CharacteristicResponse
     fields: List[FieldResponse]
     images: List[ImageResponse]
+    manager: Optional[ManagerResponse] = None
+
