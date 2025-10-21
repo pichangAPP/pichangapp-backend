@@ -1,5 +1,3 @@
-"""SQLAlchemy model for reservation schedules."""
-
 from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, Numeric, String
 from sqlalchemy.orm import relationship
 

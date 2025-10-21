@@ -4,8 +4,12 @@ from typing import List, Optional
 
 from datetime import time
 
-from pydantic import BaseModel, ConfigDict, Field as PydanticField
-
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field as PydanticField,
+    model_validator,
+)
 from .characteristic import (
     CharacteristicCreate,
     CharacteristicResponse,
@@ -24,9 +28,15 @@ class CampusBase(BaseModel):
     closetime: time
     status: str
     rating: float = PydanticField(..., ge=0, le=10)
-    count_fields: int
-    coords_x: float
-    coords_y: float
+    count_fields: int = PydanticField(..., ge=0)
+    coords_x: float = PydanticField(..., ge=-90, le=90)
+    coords_y: float = PydanticField(..., ge=-180, le=180)
+
+    @model_validator(mode="after")
+    def _validate_schedule(self) -> "CampusBase":
+        if self.opentime >= self.closetime:
+            raise ValueError("opentime must be earlier than closetime")
+        return self
 
 
 class CampusCreate(CampusBase):
@@ -44,11 +54,17 @@ class CampusUpdate(BaseModel):
     closetime: Optional[time] = None
     status: Optional[str] = None
     rating: Optional[float] = PydanticField(None, ge=0, le=10)
-    count_fields: Optional[int] = None
-    coords_x: Optional[float] = None
-    coords_y: Optional[float] = None
+    count_fields: Optional[int] = PydanticField(None, ge=0)
+    coords_x: Optional[float] = PydanticField(None, ge=-90, le=90)
+    coords_y: Optional[float] = PydanticField(None, ge=-180, le=180)
     characteristic: Optional[CharacteristicUpdate] = None
 
+    @model_validator(mode="after")
+    def _validate_schedule(self) -> "CampusUpdate":
+        if self.opentime is not None and self.closetime is not None:
+            if self.opentime >= self.closetime:
+                raise ValueError("opentime must be earlier than closetime")
+        return self
 
 class CampusResponse(CampusBase):
     model_config = ConfigDict(from_attributes=True)

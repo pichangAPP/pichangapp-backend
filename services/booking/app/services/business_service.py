@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from app.models import Business
 from app.repository import business_repository
 from app.schemas import BusinessCreate, BusinessResponse, BusinessUpdate, CampusResponse
-from app.services.campus_service import build_campus_entity
+from app.services.campus_service import build_campus_entity, validate_campus_fields
 from app.services.location_utils import haversine_distance
 
 
@@ -18,7 +18,7 @@ class BusinessService:
     def list_businesses(self) -> list[Business]:
         try:
             return business_repository.list_businesses(self.db)
-        except SQLAlchemyError as exc:  # pragma: no cover - defensive
+        except SQLAlchemyError as exc:  
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to list businesses",
@@ -29,11 +29,12 @@ class BusinessService:
     ) -> list[BusinessResponse]:
         try:
             businesses = business_repository.list_businesses(self.db)
-        except SQLAlchemyError as exc:  # pragma: no cover - defensive
+        except SQLAlchemyError as exc:  
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to list businesses",
             ) from exc
+        
 
         business_distances: list[tuple[float, BusinessResponse]] = []
         for business in businesses:
@@ -82,8 +83,10 @@ class BusinessService:
         try:
             business = Business(**business_in.model_dump(exclude={"campuses"}))
             for campus_in in business_in.campuses:
+                validate_campus_fields(self.db, campus_in)
                 business.campuses.append(build_campus_entity(campus_in))
-
+            
+            self._validate_business_entity(business)
             business_repository.create_business(self.db, business)
             self.db.commit()
             self.db.refresh(business)
@@ -99,11 +102,12 @@ class BusinessService:
     def update_business(self, business_id: int, business_in: BusinessUpdate) -> Business:
         business = self.get_business(business_id)
         update_data = business_in.model_dump(exclude_unset=True)
-        print("Update data:", update_data)
-        print("Business before update:", business)
 
         for field, value in update_data.items():
             setattr(business, field, value)
+
+        self._validate_business_entity(business)
+
         try:
             self.db.flush()
             self.db.commit()
@@ -127,3 +131,10 @@ class BusinessService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to delete business",
             ) from exc
+
+    def _validate_business_entity(self, business: Business) -> None:
+        if business.min_price is not None and float(business.min_price) < 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="min_price must be zero or greater",
+            )

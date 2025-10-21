@@ -3,9 +3,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 
 from app.core.config import settings
-
 bearer_scheme = HTTPBearer(auto_error=False)
-
 
 def get_current_user(
     credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
@@ -39,6 +37,5 @@ def get_current_user(
         ) from exc
 
     return payload
-
 
 __all__ = ["get_current_user"]

@@ -1,5 +1,3 @@
-"""SQLAlchemy model for reservation rents."""
-
 from sqlalchemy import (
     Column,
     DateTime,
@@ -8,15 +6,23 @@ from sqlalchemy import (
     Numeric,
     String,
     BigInteger,
+    Table,
     func,
 )
 from sqlalchemy.orm import relationship
+from typing import TYPE_CHECKING
 
 from app.core.database import Base
 
+Table(
+    "memberships",
+    Base.metadata,
+    Column("id_membership", Integer, primary_key=True),
+    schema="payment",
+    keep_existing=True, 
+)
 
 class Rent(Base):
-    """Represents a rent/booking for a schedule."""
 
     __tablename__ = "rent"
     __table_args__ = {"schema": "reservation"}
