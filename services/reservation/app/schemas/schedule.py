@@ -2,7 +2,7 @@ from datetime import datetime, time
 from decimal import Decimal
 from typing import Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 
 class ScheduleBase(BaseModel):
@@ -14,7 +14,7 @@ class ScheduleBase(BaseModel):
     id_field: int = Field(..., gt=0)
     id_user: int = Field(..., gt=0)
 
-    @validator("end_time")
+    @field_validator("end_time")
     def validate_time_range(cls, end_time: datetime, values: dict) -> datetime:
         start_time = values.get("start_time")
         if start_time and end_time <= start_time:
@@ -35,7 +35,7 @@ class ScheduleUpdate(BaseModel):
     id_field: Optional[int] = Field(None, gt=0)
     id_user: Optional[int] = Field(None, gt=0)
 
-    @validator("end_time")
+    @field_validator("end_time")
     def validate_time_range(cls, end_time: Optional[datetime], values: dict) -> Optional[datetime]:
         start_time = values.get("start_time")
         if end_time is not None and start_time is not None and end_time <= start_time:

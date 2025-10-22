@@ -7,7 +7,6 @@ from app.core.database import Base
 
 
 class User(Base):
-    """Represents a user from the authentication service."""
 
     __tablename__ = "users"
     __table_args__ = {"schema": "auth"}
@@ -28,5 +27,5 @@ class User(Base):
     status = Column(String(30), nullable=False, default="active")
     id_role = Column(Integer, ForeignKey("auth.rol.id_role"), nullable=False)
 
-    def __repr__(self) -> str:  # pragma: no cover - debugging helper
+    def __repr__(self) -> str:
         return f"<User(id_user={self.id_user}, email={self.email})>"

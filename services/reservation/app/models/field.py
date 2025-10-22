@@ -1,12 +1,9 @@
-"""SQLAlchemy model mapping to the booking.field table."""
-
 from sqlalchemy import BigInteger, Column, ForeignKey, Integer, Numeric, String, Text, Time
 
 from app.core.database import Base
 
 
 class Field(Base):
-    """Represents a sport field registered in the booking service."""
 
     __tablename__ = "field"
     __table_args__ = {"schema": "booking"}
