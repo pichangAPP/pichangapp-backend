@@ -6,6 +6,8 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from app.schemas.schedule import FieldSummary, UserSummary
+
 
 class RentBase(BaseModel):
     period: str = Field(..., max_length=20)
@@ -23,10 +25,22 @@ class RentBase(BaseModel):
     id_schedule: int
 
 
-class RentCreate(RentBase):
+class RentCreate(BaseModel):
     """Schema used when creating a new rent."""
 
-    pass
+    id_schedule: int = Field(..., gt=0)
+    id_payment: int = Field(..., gt=0)
+    status: str = Field(..., max_length=30)
+    period: Optional[str] = Field(None, max_length=20)
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    initialized: Optional[datetime] = None
+    finished: Optional[datetime] = None
+    minutes: Optional[Decimal] = None
+    mount: Optional[Decimal] = None
+    date_log: Optional[datetime] = None
+    date_create: Optional[datetime] = None
+    capacity: Optional[int] = Field(None, ge=0)
 
 
 class RentUpdate(BaseModel):
@@ -47,10 +61,27 @@ class RentUpdate(BaseModel):
     id_schedule: Optional[int]
 
 
+class ScheduleSummary(BaseModel):
+    """Schedule information included when returning rents."""
+
+    id_schedule: int
+    day_of_week: str
+    start_time: datetime
+    end_time: datetime
+    status: str
+    price: Decimal
+    field: FieldSummary
+    user: UserSummary
+
+    class Config:
+        orm_mode = True
+
+
 class RentResponse(RentBase):
     """Rent data returned to API clients."""
 
     id_rent: int
+    schedule: ScheduleSummary
 
     class Config:
         orm_mode = True
