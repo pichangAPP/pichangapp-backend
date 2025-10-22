@@ -1,11 +1,7 @@
-from typing import TYPE_CHECKING
 from sqlalchemy import Column, Integer, BigInteger, String, Text, DateTime, ForeignKey, func
+
 from app.core.database import Base
-from sqlalchemy.orm import relationship, Mapped
 
-
-if TYPE_CHECKING:  # pragma: no cover
-    from booking.app.models.campus import Campus
 
 class User(Base):
     __tablename__ = "users"

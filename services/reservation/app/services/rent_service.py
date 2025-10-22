@@ -1,5 +1,3 @@
-"""Business logic related to rents."""
-
 from typing import List, Optional
 
 from fastapi import HTTPException, status
@@ -11,7 +9,6 @@ from app.schemas.rent import RentCreate, RentUpdate
 
 
 class RentService:
-    """Encapsulates rent related operations."""
 
     def __init__(self, db: Session):
         self.db = db
@@ -22,7 +19,6 @@ class RentService:
         status_filter: Optional[str] = None,
         schedule_id: Optional[int] = None,
     ) -> List[Rent]:
-        """Return rents optionally filtered by status or schedule."""
 
         query = self.db.query(Rent)
 
@@ -34,7 +30,6 @@ class RentService:
         return query.order_by(Rent.start_time).all()
 
     def get_rent(self, rent_id: int) -> Rent:
-        """Retrieve a rent by its identifier."""
 
         rent = self.db.query(Rent).filter(Rent.id_rent == rent_id).first()
         if rent is None:
@@ -45,7 +40,6 @@ class RentService:
         return rent
 
     def _ensure_schedule_exists(self, schedule_id: int) -> None:
-        """Ensure the referenced schedule exists before creating a rent."""
 
         schedule_exists = (
             self.db.query(Schedule)
@@ -59,7 +53,6 @@ class RentService:
             )
 
     def create_rent(self, payload: RentCreate) -> Rent:
-        """Create a new rent instance."""
 
         self._ensure_schedule_exists(payload.id_schedule)
         rent = Rent(**payload.dict())

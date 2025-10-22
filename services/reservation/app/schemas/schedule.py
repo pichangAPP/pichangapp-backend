@@ -1,5 +1,3 @@
-"""Pydantic schemas for schedule resources."""
-
 from datetime import datetime
 from decimal import Decimal
 from typing import Optional
@@ -18,14 +16,10 @@ class ScheduleBase(BaseModel):
 
 
 class ScheduleCreate(ScheduleBase):
-    """Schema used when creating a new schedule."""
-
     pass
 
 
 class ScheduleUpdate(BaseModel):
-    """Schema used when updating an existing schedule."""
-
     day_of_week: Optional[str] = Field(None, max_length=30)
     start_time: Optional[datetime]
     end_time: Optional[datetime]
@@ -36,8 +30,6 @@ class ScheduleUpdate(BaseModel):
 
 
 class ScheduleResponse(ScheduleBase):
-    """Schedule data returned to API clients."""
-
     id_schedule: int
 
     class Config:

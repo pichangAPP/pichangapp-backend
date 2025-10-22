@@ -78,6 +78,7 @@ def _build_path(prefix: str, path: str) -> str:
         return f"{prefix}/{path}"
     return prefix
 
+#  Auth Service Proxies
 
 @app.api_route(
     "/api/pichangapp/v1/auth",
@@ -115,7 +116,7 @@ async def proxy_users(request: Request, path: str):
     target_path = _build_path("/api/pichangapp/v1/users", path)
     return await _proxy_request(request, "users", target_path)
 
-
+#  Booking Service Proxies
 @app.api_route(
     "/api/pichangapp/v1/booking",
     methods=SUPPORTED_METHODS,
