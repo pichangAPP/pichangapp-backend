@@ -1,6 +1,6 @@
 """API routes for managing schedules."""
 
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
@@ -27,6 +27,36 @@ def list_schedules(
         field_id=field_id,
         day_of_week=day_of_week,
         status_filter=status,
+    )
+    return schedules
+
+
+@router.get("/available", response_model=List[ScheduleResponse])
+def list_available_schedules(
+    *,
+    db: Session = Depends(get_db),
+    field_id: int = Query(..., description="Field identifier"),
+    day_of_week: Optional[str] = Query(None, description="Filter by day of week"),
+    status: Optional[str] = Query(
+        None,
+        description="Filter by schedule status before availability rules",
+    ),
+    exclude_rent_statuses: Optional[Sequence[str]] = Query(
+        ("cancelled",),
+        description=(
+            "Rent statuses that should not block the schedule availability. "
+            "Provide multiple values to exclude additional statuses."
+        ),
+    ),
+) -> List[ScheduleResponse]:
+    """Retrieve available schedules for a field applying rent-based constraints."""
+
+    service = ScheduleService(db)
+    schedules = service.list_available_schedules(
+        field_id=field_id,
+        day_of_week=day_of_week,
+        status_filter=status,
+        exclude_rent_statuses=exclude_rent_statuses,
     )
     return schedules
 

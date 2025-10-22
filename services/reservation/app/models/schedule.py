@@ -20,6 +20,8 @@ class Schedule(Base):
     id_user = Column(BigInteger, ForeignKey("auth.users.id_user"), nullable=False)
 
     rents = relationship("Rent", back_populates="schedule", cascade="all, delete-orphan")
+    field = relationship("Field", lazy="joined")
+    user = relationship("User", lazy="joined")
 
     def __repr__(self) -> str:  # pragma: no cover - debugging helper
         return (
