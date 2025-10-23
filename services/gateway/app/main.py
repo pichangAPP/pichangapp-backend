@@ -5,10 +5,15 @@ import httpx
 from fastapi import FastAPI, HTTPException, Request
 from starlette.responses import Response
 from dotenv import load_dotenv
+
+from app.core.error_handlers import register_exception_handlers
+
 load_dotenv()
 
 
 app = FastAPI(title="Pichangapp API Gateway")
+
+register_exception_handlers(app)
 
 
 SERVICE_URLS: Dict[str, str] = {
