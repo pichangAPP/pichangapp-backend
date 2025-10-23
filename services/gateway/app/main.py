@@ -139,3 +139,23 @@ async def proxy_booking_root(request: Request):
 async def proxy_booking(request: Request, path: str):
     target_path = _build_path("/api/pichangapp/v1/booking", path)
     return await _proxy_request(request, "booking", target_path)
+
+# Reservation Service Proxies
+
+@app.api_route(
+    "/api/pichangapp/v1/reservation",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_reservation_root(request: Request):
+    return await _proxy_request(request, "reservation", "/api/pichangapp/v1/reservation")
+
+
+@app.api_route(
+    "/api/pichangapp/v1/reservation/{path:path}",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_reservation(request: Request, path: str):
+    target_path = _build_path("/api/pichangapp/v1/reservation", path)
+    return await _proxy_request(request, "reservation", target_path)
