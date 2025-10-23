@@ -11,6 +11,8 @@ from app.models.schedule import Schedule
 from app.models.user import User
 from app.schemas.schedule import ScheduleCreate, ScheduleUpdate
 
+from app.repository import schedule_repository
+
 
 class ScheduleService:
 
@@ -18,24 +20,17 @@ class ScheduleService:
         self.db = db
 
     def _get_field(self, field_id: int) -> Field:
-        field = (
-            self.db.query(Field)
-            .filter(Field.id_field == field_id)
-            .first()
-        )
+        field = schedule_repository.get_field(self.db, field_id)
         if field is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Associated field not found",
             )
         return field
-
+    
     def _get_user(self, user_id: int) -> User:
-        user = (
-            self.db.query(User)
-            .filter(User.id_user == user_id)
-            .first()
-        )
+        user = schedule_repository.get_user(self.db, user_id)
+
         if user is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -72,32 +67,17 @@ class ScheduleService:
         status_filter: Optional[str] = None,
     ) -> List[Schedule]:
 
-        query = self.db.query(Schedule).options(
-            joinedload(Schedule.field),
-            joinedload(Schedule.user),
+        return schedule_repository.list_schedules(
+            self.db,
+            field_id=field_id,
+            day_of_week=day_of_week,
+            status_filter=status_filter,
         )
-
-        if field_id is not None:
-            query = query.filter(Schedule.id_field == field_id)
-        if day_of_week is not None:
-            query = query.filter(Schedule.day_of_week == day_of_week)
-        if status_filter is not None:
-            query = query.filter(Schedule.status == status_filter)
-
-        return query.order_by(Schedule.start_time).all()
 
     def get_schedule(self, schedule_id: int) -> Schedule:
 
-        schedule = (
-            self.db.query(Schedule)
-            .options(
-                joinedload(Schedule.field),
-                joinedload(Schedule.user),
-                joinedload(Schedule.rents),
-            )
-            .filter(Schedule.id_schedule == schedule_id)
-            .first()
-        )
+        schedule = schedule_repository.get_schedule(self.db, schedule_id)
+
         if schedule is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -115,16 +95,18 @@ class ScheduleService:
             end_time=payload.end_time,
         )
 
-        schedule = Schedule(**payload.dict())
-        self.db.add(schedule)
-        self.db.commit()
-        return self.get_schedule(schedule.id_schedule)
+        schedule = schedule_repository.create_schedule(
+            self.db, payload.model_dump()
+        )
+        return schedule_repository.get_schedule(
+            self.db, schedule.id_schedule
+        )
 
     def update_schedule(self, schedule_id: int, payload: ScheduleUpdate) -> Schedule:
 
         schedule = self.get_schedule(schedule_id)
 
-        update_data = payload.dict(exclude_unset=True)
+        update_data = payload.model_dump(exclude_unset=True)
 
         field = schedule.field if schedule.field is not None else self._get_field(schedule.id_field)
 
@@ -148,14 +130,13 @@ class ScheduleService:
         for attribute, value in update_data.items():
             setattr(schedule, attribute, value)
 
-        self.db.commit()
-        return self.get_schedule(schedule_id)
+        schedule_repository.save_schedule(self.db, schedule)
+        return schedule_repository.get_schedule(self.db, schedule_id)
 
     def delete_schedule(self, schedule_id: int) -> None:
 
         schedule = self.get_schedule(schedule_id)
-        self.db.delete(schedule)
-        self.db.commit()
+        schedule_repository.delete_schedule(self.db, schedule)
 
     def list_available_schedules(
         self,
@@ -168,33 +149,10 @@ class ScheduleService:
 
         self._get_field(field_id)
 
-        query = self.db.query(Schedule).options(
-            joinedload(Schedule.field),
-            joinedload(Schedule.user),
+        return schedule_repository.list_available_schedules(
+            self.db,
+            field_id=field_id,
+            day_of_week=day_of_week,
+            status_filter=status_filter,
+            exclude_rent_statuses=exclude_rent_statuses,
         )
-
-        query = query.filter(Schedule.id_field == field_id)
-
-        if day_of_week is not None:
-            query = query.filter(Schedule.day_of_week == day_of_week)
-        if status_filter is not None:
-            query = query.filter(Schedule.status == status_filter)
-
-        excluded_statuses = [
-            status_value
-            for status_value in (exclude_rent_statuses or ("cancelled",))
-            if status_value
-        ]
-
-        active_rent_exists = exists().where(
-            Rent.id_schedule == Schedule.id_schedule
-        )
-
-        if excluded_statuses:
-            active_rent_exists = active_rent_exists.where(
-                Rent.status.notin_(excluded_statuses)
-            )
-
-        query = query.filter(~active_rent_exists)
-
-        return query.order_by(Schedule.start_time).all()

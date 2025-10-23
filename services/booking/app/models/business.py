@@ -23,7 +23,6 @@ if TYPE_CHECKING:  # pragma: no cover
     from app.models.image import Image
 
 
-
 class Business(Base):
     __tablename__ = "business"
     __table_args__ = {"schema": "booking"}
