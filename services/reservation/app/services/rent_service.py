@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.models.rent import Rent
 from app.models.schedule import Schedule
+from app.repository import rent_repository, schedule_repository
 from app.schemas.rent import RentCreate, RentUpdate
 
 
@@ -25,29 +26,15 @@ class RentService:
         schedule_id: Optional[int] = None,
     ) -> List[Rent]:
 
-        query = self.db.query(Rent).options(
-            joinedload(Rent.schedule).joinedload(Schedule.field),
-            joinedload(Rent.schedule).joinedload(Schedule.user),
+        return rent_repository.list_rents(
+            self.db,
+            status_filter=status_filter,
+            schedule_id=schedule_id,
         )
-
-        if status_filter is not None:
-            query = query.filter(Rent.status == status_filter)
-        if schedule_id is not None:
-            query = query.filter(Rent.id_schedule == schedule_id)
-
-        return query.order_by(Rent.start_time).all()
 
     def get_rent(self, rent_id: int) -> Rent:
 
-        rent = (
-            self.db.query(Rent)
-            .options(
-                joinedload(Rent.schedule).joinedload(Schedule.field),
-                joinedload(Rent.schedule).joinedload(Schedule.user),
-            )
-            .filter(Rent.id_rent == rent_id)
-            .first()
-        )
+        rent = rent_repository.get_rent(self.db, rent_id)
         if rent is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -57,15 +44,7 @@ class RentService:
 
     def _get_schedule(self, schedule_id: int) -> Schedule:
 
-        schedule = (
-            self.db.query(Schedule)
-            .options(
-                joinedload(Schedule.field),
-                joinedload(Schedule.user),
-            )
-            .filter(Schedule.id_schedule == schedule_id)
-            .first()
-        )
+        schedule = schedule_repository.get_schedule(self.db, schedule_id)
         if schedule is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -80,23 +59,18 @@ class RentService:
         exclude_rent_id: Optional[int] = None,
     ) -> None:
 
-        query = self.db.query(Rent).filter(Rent.id_schedule == schedule_id)
-
-        if exclude_rent_id is not None:
-            query = query.filter(Rent.id_rent != exclude_rent_id)
-
         excluded_statuses = [
             status_value
             for status_value in self._EXCLUDED_RENT_STATUSES
             if status_value
         ]
 
-        if excluded_statuses:
-            lowered_statuses = [status_value.lower() for status_value in excluded_statuses]
-            query = query.filter(func.lower(Rent.status).notin_(lowered_statuses))
-
-        existing_rent = query.first()
-        if existing_rent is not None:
+        if rent_repository.schedule_has_active_rent(
+            self.db,
+            schedule_id,
+            excluded_statuses=excluded_statuses,
+            exclude_rent_id=exclude_rent_id,
+        ):
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="Schedule already has an active rent",
@@ -216,10 +190,8 @@ class RentService:
             schedule_changed=True,
         )
 
-        rent = Rent(**rent_data)
-        self.db.add(rent)
-        self.db.commit()
-        return self.get_rent(rent.id_rent)
+        rent = rent_repository.create_rent(self.db, rent_data)
+        return rent_repository.get_rent(self.db, rent.id_rent)
 
     def update_rent(self, rent_id: int, payload: RentUpdate) -> Rent:
         """Update an existing rent."""
@@ -249,12 +221,11 @@ class RentService:
         for field, value in update_data.items():
             setattr(rent, field, value)
 
-        self.db.commit()
-        return self.get_rent(rent_id)
+        rent_repository.save_rent(self.db, rent)
+        return rent_repository.get_rent(self.db, rent_id)
 
     def delete_rent(self, rent_id: int) -> None:
         """Delete a rent from the database."""
 
         rent = self.get_rent(rent_id)
-        self.db.delete(rent)
-        self.db.commit()
+        rent_repository.delete_rent(self.db, rent)
