@@ -140,7 +140,7 @@ class CampusService:
             self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to update campus",
+                detail=f"Failed to update campus {exc}",
             ) from exc
 
     def delete_campus(self, campus_id: int) -> None:

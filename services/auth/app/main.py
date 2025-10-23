@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 
 from app.api.v1 import auth_routes, user_routes
+from app.core.error_handlers import register_exception_handlers
 
 app = FastAPI(title="Auth Service")
+
+register_exception_handlers(app)
 
 # incluir rutas
 app.include_router(auth_routes.router, prefix="/api/pichangapp/v1/auth", tags=["auth"])

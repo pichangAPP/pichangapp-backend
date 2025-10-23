@@ -3,7 +3,8 @@ from decimal import Decimal, ROUND_HALF_UP
 from typing import Dict, List, Optional
 
 from fastapi import HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy import func
+from sqlalchemy.orm import Session, joinedload
 
 from app.models.rent import Rent
 from app.models.schedule import Schedule

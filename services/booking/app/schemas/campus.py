@@ -31,6 +31,7 @@ class CampusBase(BaseModel):
     count_fields: int = PydanticField(..., ge=0)
     coords_x: float = PydanticField(..., ge=-90, le=90)
     coords_y: float = PydanticField(..., ge=-180, le=180)
+    id_manager: Optional[int] = None
 
     @model_validator(mode="after")
     def _validate_schedule(self) -> "CampusBase":
@@ -58,6 +59,7 @@ class CampusUpdate(BaseModel):
     coords_x: Optional[float] = PydanticField(None, ge=-90, le=90)
     coords_y: Optional[float] = PydanticField(None, ge=-180, le=180)
     characteristic: Optional[CharacteristicUpdate] = None
+    id_manager: Optional[int] = None
 
     @model_validator(mode="after")
     def _validate_schedule(self) -> "CampusUpdate":
