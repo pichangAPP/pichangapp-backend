@@ -3,11 +3,17 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import BigInteger, DateTime, ForeignKey, Integer, String, Text, func
+from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, Integer, String, Table, Text, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.database import Base
-
+Table(
+    "rol",
+    Base.metadata,
+    Column("id_role", Integer, primary_key=True),
+    schema="auth",
+    keep_existing=True, 
+)
 
 class Manager(Base):
     __tablename__ = "users"
