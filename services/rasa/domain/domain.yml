@@ -43,7 +43,7 @@ slots:
     type: text
     influence_conversation: false
     mappings:
-      - type: custom
+      - type: controlled
   chat_theme:
     type: text
     influence_conversation: false
@@ -123,21 +123,20 @@ slots:
       - type: from_entity
         entity: skill_level
   feedback_rating:
-    type: categorical
+    type: float
     influence_conversation: false
-    values:
-      - thumbs_up
-      - thumbs_down
     mappings:
-      - type: from_llm
+      - type: from_text
   confirm_human_handoff:
-    type: categorical
+    type: bool
     influence_conversation: false
-    values:
-      - "Sí"
-      - "No"
     mappings:
-      - type: from_llm
+      - type: from_intent
+        intent: affirm
+        value: true
+      - type: from_intent
+        intent: deny
+        value: false
   example_questions:
     type: text
     influence_conversation: false
@@ -161,6 +160,7 @@ forms:
       - preferred_sport
       - preferred_date
       - preferred_start_time
+      - preferred_end_time
       - preferred_location
       - preferred_surface
   feedback_status_form:
