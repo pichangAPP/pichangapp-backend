@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 
 from app.api.v1 import router as v1_router
+from app.core.error_handlers import register_exception_handlers
 
 app = FastAPI(title="Booking Service")
+
+register_exception_handlers(app)
 
 app.include_router(
     v1_router,

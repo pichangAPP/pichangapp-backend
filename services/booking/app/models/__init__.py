@@ -5,7 +5,7 @@ from .field import Field
 from .image import Image
 from .modality import Modality
 from .sport import Sport
-
+from .manager import Manager
 __all__ = [
     "Business",
     "Campus",
@@ -14,4 +14,5 @@ __all__ = [
     "Image",
     "Modality",
     "Sport",
+    "Manager",
 ]

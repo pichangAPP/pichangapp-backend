@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from fastapi import HTTPException
+from fastapi import HTTPException,status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.models import Field
-from app.repository import field_repository
+from app.repository import field_repository, sport_repository
 from app.schemas import FieldCreate, FieldUpdate
 from app.services.campus_service import CampusService
 
@@ -36,8 +36,10 @@ class FieldService:
 
     def create_field(self, campus_id: int, field_in: FieldCreate) -> Field:
         campus = self.campus_service.get_campus(campus_id)
+        self._ensure_sport_exists(field_in.id_sport)
         field = Field(**field_in.model_dump())
         field.campus = campus
+        self._validate_field_entity(field)
         try:
             field_repository.create_field(self.db, field)
             self.db.commit()
@@ -53,8 +55,15 @@ class FieldService:
     def update_field(self, field_id: int, field_in: FieldUpdate) -> Field:
         field = self.get_field(field_id)
         update_data = field_in.model_dump(exclude_unset=True)
+
+        if "id_sport" in update_data and update_data["id_sport"] is not None:
+            self._ensure_sport_exists(update_data["id_sport"])
+
         for attr, value in update_data.items():
             setattr(field, attr, value)
+
+        self._validate_field_entity(field)
+
         try:
             self.db.flush()
             self.db.commit()
@@ -78,3 +87,32 @@ class FieldService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to delete field",
             ) from exc
+
+    def _ensure_sport_exists(self, sport_id: int) -> None:
+        if sport_repository.get_sport(self.db, sport_id) is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Sport {sport_id} not found",
+            )
+
+    def _validate_field_entity(self, field: Field) -> None:
+        if field.open_time >= field.close_time:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="open_time must be earlier than close_time",
+            )
+        if field.capacity <= 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="capacity must be greater than zero",
+            )
+        if float(field.price_per_hour) <= 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="price_per_hour must be greater than zero",
+            )
+        if float(field.minutes_wait) < 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="minutes_wait must be zero or greater",
+            )

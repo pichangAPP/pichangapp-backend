@@ -14,6 +14,22 @@ def list_campuses(business_id: int, db: Session = Depends(get_db)):
     return service.list_campuses(business_id)
 
 
+@router.get(
+    "/businesses/{business_id}/campuses/nearby",
+    response_model=list[CampusResponse],
+)
+def list_campuses_by_location(
+    business_id: int,
+    latitude: float,
+    longitude: float,
+    db: Session = Depends(get_db),
+):
+    service = CampusService(db)
+    return service.list_campuses_by_location(
+        business_id, latitude=latitude, longitude=longitude
+    )
+
+
 @router.post(
     "/businesses/{business_id}/campuses",
     response_model=CampusResponse,

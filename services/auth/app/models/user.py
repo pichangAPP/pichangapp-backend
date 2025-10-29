@@ -1,9 +1,11 @@
 from sqlalchemy import Column, Integer, BigInteger, String, Text, DateTime, ForeignKey, func
+
 from app.core.database import Base
+
 
 class User(Base):
     __tablename__ = "users"
-    __table_args__ = {"schema": "auth"}  # 👈 importante
+    __table_args__ = {"schema": "auth"}  #importante
 
     id_user = Column(BigInteger, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
@@ -20,3 +22,4 @@ class User(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     status = Column(String(30), nullable=False, default="active")
     id_role = Column(Integer, ForeignKey("auth.rol.id_role"), nullable=False)
+

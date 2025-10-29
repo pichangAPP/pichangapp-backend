@@ -1,0 +1,62 @@
+# =====================================
+# Rasa NLU + Core Configuration (Español)
+# =====================================
+
+recipe: default.v1
+language: es
+assistant_id: chato-bot
+
+pipeline:
+  # Tokenizador básico compatible con español
+  - name: WhitespaceTokenizer
+
+  # Características léxicas (prefijos, sufijos, etc.)
+  - name: LexicalSyntacticFeaturizer
+
+  # Bolsa de palabras para intenciones
+  - name: CountVectorsFeaturizer
+
+  # Características de caracteres (maneja errores tipográficos)
+  - name: CountVectorsFeaturizer
+    analyzer: char_wb
+    min_ngram: 1
+    max_ngram: 4
+
+  # Clasificador multitarea para intenciones y entidades
+  - name: DIETClassifier
+    epochs: 100
+    random_seed: 42
+    constrain_similarities: true # ✅ elimina warning y mejora separación de intenciones
+    embedding_dimension: 128 # 🔹 mejora la representación semántica
+    learning_rate: 0.001 # 🔹 evita sobreajuste en datasets pequeños
+
+  # Mapea sinónimos comunes (ej: “sí”, “afirmativo”, “claro”)
+  - name: EntitySynonymMapper
+
+  # Extrae entidades basadas en patrones regex (opcional)
+  - name: RegexEntityExtractor
+
+  # Selector de respuestas para FAQs
+  - name: ResponseSelector
+    epochs: 100
+    constrain_similarities: true # 🔹 mejora precisión en respuestas
+
+  # Clasificador de fallback (respuestas por defecto)
+  - name: FallbackClassifier
+    threshold: 0.3
+    ambiguity_threshold: 0.1
+
+policies:
+  # Memoriza ejemplos exactos vistos en entrenamiento
+  - name: MemoizationPolicy
+
+  # Reglas predefinidas (flows y forms)
+  - name: RulePolicy
+    enable_fallback_prediction: true
+    restrict_rules: true # 🔹 asegura que no se sobreescriban reglas
+
+  # Política neuronal de diálogo (entrena secuencias de conversación)
+  - name: TEDPolicy
+    max_history: 5
+    epochs: 100
+    constrain_similarities: true # ✅ para eliminar warning y mejorar consistencia

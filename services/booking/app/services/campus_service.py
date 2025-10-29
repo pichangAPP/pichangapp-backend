@@ -5,8 +5,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.models import Campus, Characteristic, Field, Image
-from app.repository import business_repository, campus_repository
+from app.repository import business_repository, campus_repository,sport_repository
 from app.schemas import CampusCreate, CampusUpdate
+from app.services.location_utils import haversine_distance
 
 
 def build_campus_entity(campus_in: CampusCreate) -> Campus:
@@ -21,7 +22,19 @@ def build_campus_entity(campus_in: CampusCreate) -> Campus:
         campus.images.append(Image(**image_in.model_dump()))
     return campus
 
-
+def validate_campus_fields(db: Session, campus_in: CampusCreate) -> None:
+    missing_sports = {
+        field_in.id_sport
+        for field_in in campus_in.fields
+        if sport_repository.get_sport(db, field_in.id_sport) is None
+    }
+    if missing_sports:
+        missing_list = ", ".join(str(sport_id) for sport_id in sorted(missing_sports))
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Sports not found for ids: {missing_list}",
+        )
+    
 class CampusService:
     def __init__(self, db: Session):
         self.db = db
@@ -43,6 +56,31 @@ class CampusService:
                 detail="Failed to list campuses",
             ) from exc
 
+    def list_campuses_by_location(
+        self, business_id: int, latitude: float, longitude: float
+    ) -> list[Campus]:
+        campuses = self.list_campuses(business_id)
+
+        campuses_with_distance: list[tuple[float, Campus]] = []
+        campuses_without_coordinates: list[Campus] = []
+
+        for campus in campuses:
+            if campus.coords_x is None or campus.coords_y is None:
+                campuses_without_coordinates.append(campus)
+                continue
+
+            distance = haversine_distance(
+                latitude, longitude, float(campus.coords_x), float(campus.coords_y)
+            )
+            campuses_with_distance.append((distance, campus))
+
+        campuses_with_distance.sort(key=lambda item: item[0])
+
+        ordered_campuses = [campus for _, campus in campuses_with_distance]
+        ordered_campuses.extend(campuses_without_coordinates)
+
+        return ordered_campuses
+
     def get_campus(self, campus_id: int) -> Campus:
         campus = campus_repository.get_campus(self.db, campus_id)
         if not campus:
@@ -59,8 +97,12 @@ class CampusService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Business {business_id} not found",
             )
+        
+        validate_campus_fields(self.db, campus_in)
         campus = build_campus_entity(campus_in)
         campus.business = business
+        self._validate_campus_entity(campus)
+
         try:
             campus_repository.create_campus(self.db, campus)
             self.db.commit()
@@ -75,9 +117,21 @@ class CampusService:
 
     def update_campus(self, campus_id: int, campus_in: CampusUpdate) -> Campus:
         campus = self.get_campus(campus_id)
+        print("Campus before update:", campus)
         update_data = campus_in.model_dump(exclude_unset=True)
+        characteristic_data = update_data.pop("characteristic", None)
+
         for field, value in update_data.items():
             setattr(campus, field, value)
+
+        if characteristic_data is not None:
+            if not campus.characteristic:
+                campus.characteristic = Characteristic(**characteristic_data)
+            else:
+                for field, value in characteristic_data.items():
+                    setattr(campus.characteristic, field, value)
+        
+        self._validate_campus_entity(campus)
         try:
             self.db.flush()
             self.db.commit()
@@ -87,7 +141,7 @@ class CampusService:
             self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to update campus",
+                detail=f"Failed to update campus {exc}",
             ) from exc
 
     def delete_campus(self, campus_id: int) -> None:
@@ -101,3 +155,20 @@ class CampusService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to delete campus",
             ) from exc
+    
+    def _validate_campus_entity(self, campus: Campus) -> None:
+        if campus.opentime >= campus.closetime:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="opentime must be earlier than closetime",
+            )
+        if campus.count_fields < 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="count_fields must be zero or positive",
+            )
+        if not (0 <= float(campus.rating) <= 10):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="rating must be between 0 and 10",
+            )

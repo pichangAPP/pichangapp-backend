@@ -4,14 +4,26 @@ from typing import Dict
 import httpx
 from fastapi import FastAPI, HTTPException, Request
 from starlette.responses import Response
+from dotenv import load_dotenv
+
+from app.core.error_handlers import register_exception_handlers
+
+load_dotenv()
 
 
 app = FastAPI(title="Pichangapp API Gateway")
 
+register_exception_handlers(app)
+
 
 SERVICE_URLS: Dict[str, str] = {
-    "auth": os.getenv("AUTH_SERVICE_URL", "http://auth-service:8000"),
-    "booking": os.getenv("BOOKING_SERVICE_URL", "http://booking-service:8001"),
+    "auth": os.getenv("AUTH_SERVICE_URL"),
+    "users": os.getenv("AUTH_SERVICE_URL"),  # Users are part of Auth service
+    "booking": os.getenv("BOOKING_SERVICE_URL"),
+    "reservation": os.getenv("RESERVATION_SERVICE_URL"),
+    "payment": os.getenv("PAYMENT_SERVICE_URL"),
+    "notification": os.getenv("NOTIFICATION_SERVICE_URL"),
+    "analytics": os.getenv("ANALYTICS_SERVICE_URL"),
 }
 
 FORWARDED_HEADERS = {"content-encoding", "transfer-encoding", "connection"}
@@ -23,11 +35,6 @@ SUPPORTED_METHODS = [
     "DELETE",
     "OPTIONS",
 ]
-
-
-@app.get("/health")
-async def health_check():
-    return {"status": "ok"}
 
 
 async def _proxy_request(request: Request, service_key: str, path: str) -> Response:
@@ -76,6 +83,7 @@ def _build_path(prefix: str, path: str) -> str:
         return f"{prefix}/{path}"
     return prefix
 
+#  Auth Service Proxies
 
 @app.api_route(
     "/api/pichangapp/v1/auth",
@@ -97,6 +105,24 @@ async def proxy_auth(request: Request, path: str):
 
 
 @app.api_route(
+    "/api/pichangapp/v1/users",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_users_root(request: Request):
+    return await _proxy_request(request, "users", "/api/pichangapp/v1/users")
+
+@app.api_route(
+    "/api/pichangapp/v1/users/{path:path}",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_users(request: Request, path: str):
+    target_path = _build_path("/api/pichangapp/v1/users", path)
+    return await _proxy_request(request, "users", target_path)
+
+#  Booking Service Proxies
+@app.api_route(
     "/api/pichangapp/v1/booking",
     methods=SUPPORTED_METHODS,
     include_in_schema=False,
@@ -113,3 +139,23 @@ async def proxy_booking_root(request: Request):
 async def proxy_booking(request: Request, path: str):
     target_path = _build_path("/api/pichangapp/v1/booking", path)
     return await _proxy_request(request, "booking", target_path)
+
+# Reservation Service Proxies
+
+@app.api_route(
+    "/api/pichangapp/v1/reservation",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_reservation_root(request: Request):
+    return await _proxy_request(request, "reservation", "/api/pichangapp/v1/reservation")
+
+
+@app.api_route(
+    "/api/pichangapp/v1/reservation/{path:path}",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_reservation(request: Request, path: str):
+    target_path = _build_path("/api/pichangapp/v1/reservation", path)
+    return await _proxy_request(request, "reservation", target_path)

@@ -1,0 +1,9 @@
+# Copia archivada desde Rasa Studio: se mantiene solo como referencia.
+flows:
+  pattern_search:
+    name: pattern_search
+    description: Flow for handling knowledge-based questions
+    steps:
+    - id: 0_action_trigger_search
+      next: END
+      action: action_trigger_search

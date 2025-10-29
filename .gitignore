@@ -66,3 +66,8 @@ logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
+
+# ---- Cache ----
+# Rasa cache
+.rasa/cache/
+.rasa/lock
