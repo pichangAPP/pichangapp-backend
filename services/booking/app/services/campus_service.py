@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+from collections import defaultdict
+from datetime import datetime, timezone
+from typing import Iterable
+
 from fastapi import HTTPException, status
+from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.models import Campus, Characteristic, Field, Image
-from app.repository import business_repository, campus_repository,sport_repository
-from app.schemas import CampusCreate, CampusUpdate
+from app.models import Campus, Characteristic, Field, Image, Schedule
+from app.repository import business_repository, campus_repository, sport_repository
+from app.schemas import CampusCreate, CampusScheduleResponse, CampusUpdate
 from app.services.location_utils import haversine_distance
 
 
@@ -49,7 +54,9 @@ class CampusService:
     def list_campuses(self, business_id: int) -> list[Campus]:
         self._ensure_business_exists(business_id)
         try:
-            return campus_repository.list_campuses_by_business(self.db, business_id)
+            campuses = campus_repository.list_campuses_by_business(self.db, business_id)
+            populate_available_schedules(self.db, campuses)
+            return campuses
         except SQLAlchemyError as exc:  # pragma: no cover - defensive
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -88,6 +95,7 @@ class CampusService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Campus {campus_id} not found",
             )
+        populate_available_schedules(self.db, [campus])
         return campus
 
     def create_campus(self, business_id: int, campus_in: CampusCreate) -> Campus:
@@ -172,3 +180,54 @@ class CampusService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="rating must be between 0 and 10",
             )
+
+
+def populate_available_schedules(db: Session, campuses: Iterable[Campus]) -> None:
+    campus_list = [campus for campus in campuses if campus is not None]
+    if not campus_list:
+        return
+
+    field_by_id: dict[int, Field] = {}
+    for campus in campus_list:
+        # Ensure the attribute exists even when there are no fields.
+        campus.available_schedules = []  # type: ignore[attr-defined]
+        for field in getattr(campus, "fields", []) or []:
+            field_by_id[field.id_field] = field
+
+    if not field_by_id:
+        return
+
+    now_utc = datetime.now(timezone.utc)
+
+    schedules = (
+        db.query(Schedule)
+        .filter(Schedule.id_field.in_(field_by_id.keys()))
+        .filter(Schedule.start_time >= now_utc)
+        .filter(func.lower(Schedule.status) == "available")
+        .order_by(Schedule.start_time)
+        .all()
+    )
+
+    schedules_by_campus: dict[int, list[CampusScheduleResponse]] = defaultdict(list)
+
+    for schedule in schedules:
+        field = field_by_id.get(schedule.id_field)
+        if field is None:
+            continue
+
+        schedule_response = CampusScheduleResponse(
+            id_schedule=schedule.id_schedule,
+            id_field=schedule.id_field,
+            field_name=field.field_name,
+            day_of_week=schedule.day_of_week,
+            start_time=schedule.start_time,
+            end_time=schedule.end_time,
+            price=schedule.price,
+            status=schedule.status,
+        )
+        schedules_by_campus[field.id_campus].append(schedule_response)
+
+    for campus in campus_list:
+        campus.available_schedules = schedules_by_campus.get(  # type: ignore[attr-defined]
+            campus.id_campus, []
+        )

@@ -24,6 +24,7 @@ SERVICE_URLS: Dict[str, str] = {
     "payment": os.getenv("PAYMENT_SERVICE_URL"),
     "notification": os.getenv("NOTIFICATION_SERVICE_URL"),
     "analytics": os.getenv("ANALYTICS_SERVICE_URL"),
+    "chatbot": os.getenv("CHATBOT_SERVICE_URL"),
 }
 
 FORWARDED_HEADERS = {"content-encoding", "transfer-encoding", "connection"}
@@ -159,3 +160,24 @@ async def proxy_reservation_root(request: Request):
 async def proxy_reservation(request: Request, path: str):
     target_path = _build_path("/api/pichangapp/v1/reservation", path)
     return await _proxy_request(request, "reservation", target_path)
+
+
+# Chatbot Service Proxies
+
+@app.api_route(
+    "/api/pichangapp/v1/chatbot",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_chatbot_root(request: Request):
+    return await _proxy_request(request, "chatbot", "/api/pichangapp/v1/chatbot")
+
+
+@app.api_route(
+    "/api/pichangapp/v1/chatbot/{path:path}",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_chatbot(request: Request, path: str):
+    target_path = _build_path("/api/pichangapp/v1/chatbot", path)
+    return await _proxy_request(request, "chatbot", target_path)
