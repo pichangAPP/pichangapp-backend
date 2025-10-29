@@ -18,6 +18,7 @@ from .characteristic import (
 from .field import FieldCreate, FieldResponse
 from .image import ImageCreate, ImageResponse
 from .manager import ManagerResponse
+from .schedule import CampusScheduleResponse
 
 class CampusBase(BaseModel):
     name: str
@@ -78,4 +79,5 @@ class CampusResponse(CampusBase):
     fields: List[FieldResponse]
     images: List[ImageResponse]
     manager: Optional[ManagerResponse] = None
+    available_schedules: List[CampusScheduleResponse] = PydanticField(default_factory=list)
 

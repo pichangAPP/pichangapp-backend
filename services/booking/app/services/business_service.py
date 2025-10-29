@@ -7,7 +7,11 @@ from sqlalchemy.orm import Session
 from app.models import Business
 from app.repository import business_repository
 from app.schemas import BusinessCreate, BusinessResponse, BusinessUpdate, CampusResponse
-from app.services.campus_service import build_campus_entity, validate_campus_fields
+from app.services.campus_service import (
+    build_campus_entity,
+    populate_available_schedules,
+    validate_campus_fields,
+)
 from app.services.location_utils import haversine_distance
 
 
@@ -29,15 +33,16 @@ class BusinessService:
     ) -> list[BusinessResponse]:
         try:
             businesses = business_repository.list_businesses(self.db)
-        except SQLAlchemyError as exc:  
+        except SQLAlchemyError as exc:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to list businesses",
             ) from exc
-        
+
 
         business_distances: list[tuple[float, BusinessResponse]] = []
         for business in businesses:
+            populate_available_schedules(self.db, business.campuses)
             campuses_with_coords = [
                 campus
                 for campus in business.campuses
@@ -77,6 +82,7 @@ class BusinessService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Business {business_id} not found",
             )
+        populate_available_schedules(self.db, business.campuses)
         return business
 
     def create_business(self, business_in: BusinessCreate) -> Business:
