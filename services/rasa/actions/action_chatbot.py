@@ -60,10 +60,10 @@ class ChatbotDatabase:
         url = os.getenv("CHATBOT_DATABASE_URL") or os.getenv("DATABASE_URL")
         if not url:
             host = os.getenv("POSTGRES_HOST", "localhost")
-            port = os.getenv("POSTGRES_PORT", "5432")
-            user = os.getenv("POSTGRES_USER", "postgres")
-            password = os.getenv("POSTGRES_PASSWORD", "postgres")
-            db_name = os.getenv("POSTGRES_DB", os.getenv("DB_NAME", "pichangapp"))
+            port = os.getenv("POSTGRES_PORT", "")
+            user = os.getenv("POSTGRES_USER", "")
+            password = os.getenv("POSTGRES_PASSWORD", "")
+            db_name = os.getenv("POSTGRES_DB", os.getenv("DB_NAME", ""))
             url = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}"
         self._database_url = url
         return url
@@ -75,10 +75,14 @@ class ChatbotDatabase:
             self._engine = create_engine(
                 database_url,
                 pool_pre_ping=True,
-                pool_size=5,
-                max_overflow=5,
+                pool_size=3,
+                max_overflow=2,
+                pool_recycle=1800,  # reinicia conexiones cada 30 min
+                pool_timeout=30,    # espera hasta 30s si hay timeout
+                connect_args={"keepalives": 1, "keepalives_idle": 60, "keepalives_interval": 30, "keepalives_count": 5},
                 future=True,
             )
+
         return self._engine
 
     @contextmanager
@@ -150,57 +154,42 @@ class ChatbotDatabase:
     # ------------------------------------------------------------------
     # Intents and logging
     # ------------------------------------------------------------------
-    def ensure_intent(
-        self,
-        intent_name: str,
-        example_phrases: Sequence[str],
-        response_template: str,
-    ) -> int:
+    def ensure_intent(self, intent_name: str, example_phrases: Sequence[str], response_template: str) -> int:
         with self.connection() as conn:
-            existing = conn.execute(
-                text(
-                    """
-                    SELECT id_intent
-                    FROM analytics.intents
-                    WHERE intent_name = :intent_name
-                    LIMIT 1
-                    """
-                ),
-                {"intent_name": intent_name},
-            ).scalar_one_or_none()
-
-            examples = "\n".join(example_phrases)
             payload = {
                 "intent_name": intent_name,
-                "examples": examples,
+                "examples": "\n".join(example_phrases),
                 "response_template": response_template,
+                "updated_at": datetime.now(),
             }
+            existing = conn.execute(
+                text("SELECT id_intent FROM analytics.intents WHERE intent_name = :intent_name LIMIT 1"),
+                {"intent_name": intent_name}
+            ).scalar_one_or_none()
 
             if existing:
                 conn.execute(
-                    text(
-                        """
+                    text("""
                         UPDATE analytics.intents
                         SET example_phrases = :examples,
-                            response_template = :response_template
-                        WHERE id_intent = :intent_id
-                        """
-                    ),
-                    {**payload, "intent_id": int(existing)},
+                            response_template = :response_template,
+                            updated_at = :updated_at
+                        WHERE id_intent = :id_intent
+                    """),
+                    {**payload, "id_intent": int(existing)}
                 )
                 return int(existing)
+            else:
+                created = conn.execute(
+                    text("""
+                        INSERT INTO analytics.intents (intent_name, example_phrases, response_template)
+                        VALUES (:intent_name, :examples, :response_template)
+                        RETURNING id_intent
+                    """),
+                    payload
+                ).scalar_one()
+                return int(created)
 
-            created = conn.execute(
-                text(
-                    """
-                    INSERT INTO analytics.intents (intent_name, example_phrases, response_template)
-                    VALUES (:intent_name, :examples, :response_template)
-                    RETURNING id_intent
-                    """
-                ),
-                payload,
-            ).scalar_one()
-            return int(created)
 
     def create_recommendation_log(
         self,
@@ -234,33 +223,51 @@ class ChatbotDatabase:
     def log_chatbot_message(
         self,
         session_id: int,
-        intent_id: int,
-        recommendation_id: int,
+        intent_id: Optional[int],
+        recommendation_id: Optional[int],
         user_message: str,
         bot_response: str,
         response_type: str,
+        sender_type: str = "bot",
     ) -> None:
+        """Registra cada intercambio entre usuario y bot."""
+
         with self.connection() as conn:
             conn.execute(
-                text(
-                    """
+                text("""
                     INSERT INTO analytics.chatbot_log (
-                        message, response_type, bot_response, intent_detected,
-                        sender_type, id_chatbot, id_intent, id_recommendation_log
+                        message,
+                        response_type,
+                        bot_response,
+                        intent_detected,
+                        sender_type,
+                        id_chatbot,
+                        id_intent,
+                        id_recommendation_log
                     )
-                    VALUES (:message, :response_type, :bot_response, :intent_id,
-                            'bot', :session_id, :intent_id, :recommendation_id)
-                    """
-                ),
+                    VALUES (
+                        :message,
+                        :response_type,
+                        :bot_response,
+                        :intent_detected,
+                        :sender_type,
+                        :id_chatbot,
+                        :id_intent,
+                        :id_recommendation_log
+                    )
+                """),
                 {
                     "message": user_message,
                     "response_type": response_type,
                     "bot_response": bot_response,
-                    "intent_id": intent_id,
-                    "session_id": session_id,
-                    "recommendation_id": recommendation_id,
+                    "intent_detected": intent_id or None,
+                    "sender_type": sender_type,
+                    "id_chatbot": session_id,
+                    "id_intent": intent_id or None,
+                    "id_recommendation_log": recommendation_id or None,
                 },
             )
+
 
     # ------------------------------------------------------------------
     # Query helpers
@@ -540,16 +547,19 @@ class ActionSubmitFieldRecommendationForm(Action):
                 end_dt,
                 top_choice.id_field,
             )
+
             intent_id = await run_in_thread(
                 db_client.ensure_intent,
                 "request_field_recommendation",
                 [
                     "Quiero alquilar una cancha",
                     "¿Qué cancha me recomiendas?",
-                    "Necesito reservar una cancha hoy",
+                    "Necesito reservar una cancha hoy"
                 ],
                 response_text,
             )
+
+            # registra el intercambio completo
             await run_in_thread(
                 db_client.log_chatbot_message,
                 session_id,
@@ -558,7 +568,9 @@ class ActionSubmitFieldRecommendationForm(Action):
                 user_message,
                 response_text,
                 "recommendation",
+                sender_type="bot",
             )
+
         except DatabaseError:
             LOGGER.warning("Could not persist recommendation log for session %s", session_id)
 

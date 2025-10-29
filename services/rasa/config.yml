@@ -26,27 +26,37 @@ pipeline:
   - name: DIETClassifier
     epochs: 100
     random_seed: 42
-    constrain_similarities: true
+    constrain_similarities: true # ✅ elimina warning y mejora separación de intenciones
+    embedding_dimension: 128 # 🔹 mejora la representación semántica
+    learning_rate: 0.001 # 🔹 evita sobreajuste en datasets pequeños
 
-  # Sinónimos (por ejemplo "sí" = "afirmativo")
+  # Mapea sinónimos comunes (ej: “sí”, “afirmativo”, “claro”)
   - name: EntitySynonymMapper
 
-  # Extrae entidades basadas en regex si las defines en rules.yml
+  # Extrae entidades basadas en patrones regex (opcional)
   - name: RegexEntityExtractor
 
-  # Selección de respuestas para preguntas frecuentes
+  # Selector de respuestas para FAQs
   - name: ResponseSelector
     epochs: 100
+    constrain_similarities: true # 🔹 mejora precisión en respuestas
 
-  # Maneja faltas de ortografía o confusiones menores
+  # Clasificador de fallback (respuestas por defecto)
   - name: FallbackClassifier
     threshold: 0.3
     ambiguity_threshold: 0.1
 
 policies:
-  # Políticas de diálogo (aprende de tus stories)
+  # Memoriza ejemplos exactos vistos en entrenamiento
   - name: MemoizationPolicy
+
+  # Reglas predefinidas (flows y forms)
   - name: RulePolicy
+    enable_fallback_prediction: true
+    restrict_rules: true # 🔹 asegura que no se sobreescriban reglas
+
+  # Política neuronal de diálogo (entrena secuencias de conversación)
   - name: TEDPolicy
     max_history: 5
     epochs: 100
+    constrain_similarities: true # ✅ para eliminar warning y mejorar consistencia
