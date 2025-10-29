@@ -6,3 +6,7 @@ requests==2.32.3
 psycopg2-binary==2.9.9
 SQLAlchemy==2.0.30
 spacy==3.6.1
+fastapi
+uvicorn[standard]
+httpx
+python-jose[cryptography]

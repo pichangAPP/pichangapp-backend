@@ -84,9 +84,3 @@ nlu:
       - mejor no
       - prefiero que no
       - no gracias
-  - intent: human_handoff
-    examples: |
-      - quiero hablar con una persona
-      - pásame con un agente
-      - necesito soporte humano
-      - conéctame con alguien del equipo

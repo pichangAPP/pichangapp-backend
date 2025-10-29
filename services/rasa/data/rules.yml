@@ -59,15 +59,6 @@ rules:
   - rule: iniciar consulta de feedback
     steps:
       - intent: ask_feedback_status
-      - action: feedback_status_form
-      - active_loop: feedback_status_form
-
-  - rule: enviar formulario de feedback
-    condition:
-      - active_loop: feedback_status_form
-    steps:
-      - action: feedback_status_form
-      - active_loop: null
       - action: action_check_feedback_status
 
   - rule: historial de recomendaciones
@@ -75,7 +66,3 @@ rules:
       - intent: show_previous_recommendations
       - action: action_show_recommendation_history
 
-  - rule: derivar a un agente humano
-    steps:
-      - intent: human_handoff
-      - action: utter_ask_confirm_human_handoff
