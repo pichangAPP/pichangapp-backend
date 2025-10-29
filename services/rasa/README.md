@@ -3,12 +3,14 @@
 Este servicio de Rasa convierte al bot en un concierge deportivo: responde preguntas frecuentes, recomienda canchas según preferencias y registra cada interacción en los esquemas `analytics` de la base de datos.
 
 ## 🚀 Capacidades principales
+
 - **Recomendaciones inteligentes**: consulta `booking.field`, `booking.sports` y `booking.campus` para sugerir canchas acordes al deporte, zona y superficie solicitada con un tono barrial y futbolero.
 - **Seguimiento analítico**: registra sesiones, intenciones y respuestas en `analytics.chatbot`, `analytics.chatbot_log`, `analytics.intents` y `analytics.recomendation_log`, actualizando métricas como confianza promedio y cantidad de detecciones.
 - **Feedback del usuario**: muestra los comentarios más recientes almacenados en `analytics.feedback` sin pedir datos extras al jugador.
 - **API segura**: expone un endpoint FastAPI que valida tokens Bearer emitidos por el servicio de Auth para enviar mensajes al bot.
 
 ## ⚙️ Configuración
+
 1. Crea un archivo `.env` en la raíz del proyecto (o exporta variables en el entorno) con las credenciales de Postgres y los metadatos del modelo:
    ```env
    CHATBOT_DATABASE_URL=postgresql+psycopg2://usuario:password@host:puerto/pichangapp
@@ -37,13 +39,15 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
    rasa shell --endpoints endpoints.yml
    ```
 6. Levanta el microservicio HTTP que protege el endpoint del bot:
+
    ```bash
-   uvicorn app.main:app --host 0.0.0.0 --port 8000
+   uvicorn app.main:app --host 0.0.0.0 --port 8006
    ```
 
    El gateway expone la ruta `/api/pichangapp/v1/chatbot/messages`, que requiere un token Bearer válido y reenvía los mensajes al servidor de Rasa.
 
 ## 🧪 Datos y dominio
+
 - **`data/nlu.yml`**: Intenciones y ejemplos en español.
 - **`data/stories.yml`**: Historias que ilustran formularios y validaciones basadas en credenciales.
 - **`data/rules.yml`**: Reglas que responden preguntas frecuentes y activan formularios.
