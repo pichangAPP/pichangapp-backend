@@ -12,6 +12,10 @@ def list_images_by_campus(db: Session, campus_id: int) -> List[Image]:
         db.query(Image).filter(Image.id_campus == campus_id).order_by(Image.id_image).all()
     )
 
+def list_images_by_field(db: Session, field_id: int) -> List[Image]:
+    return (
+        db.query(Image).filter(Image.id_field == field_id).order_by(Image.id_image).all()
+    )
 
 def get_image(db: Session, image_id: int) -> Optional[Image]:
     return db.query(Image).filter(Image.id_image == image_id).first()

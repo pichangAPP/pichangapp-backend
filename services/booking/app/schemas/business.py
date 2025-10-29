@@ -11,6 +11,7 @@ from pydantic import (
 )
 
 from app.schemas.campus import CampusCreate, CampusResponse
+from app.schemas.image import ImageResponse
 
 
 class BusinessBase(BaseModel):
@@ -101,3 +102,4 @@ class BusinessResponse(BusinessBase):
 
     id_business: int
     campuses: List[CampusResponse]
+    images: List[ImageResponse] = PydanticField(default_factory=list)

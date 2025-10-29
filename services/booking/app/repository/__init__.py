@@ -7,7 +7,13 @@ from .campus_repository import (
 )
 from .characteristic_repository import create_characteristic, get_characteristic
 from .field_repository import create_field, delete_field, get_field, list_fields_by_campus
-from .image_repository import create_image, delete_image, get_image, list_images_by_campus
+from .image_repository import (
+    create_image,
+    delete_image,
+    get_image,
+    list_images_by_campus,
+    list_images_by_field,
+)
 from .sport_repository import get_sport
 
 __all__ = [
@@ -29,5 +35,6 @@ __all__ = [
     "delete_image",
     "get_image",
     "list_images_by_campus",
+    "list_images_by_field"
     "get_sport"
 ]

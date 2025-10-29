@@ -2,17 +2,48 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
-from app.models import Business
+from app.models import Business, Campus, Field, Sport
 
 
 def list_businesses(db: Session) -> List[Business]:
-    return db.query(Business).all()
+    return (
+        db.query(Business)
+        .options(
+            selectinload(Business.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.fields)
+            .selectinload(Field.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.fields)
+            .selectinload(Field.sport)
+            .selectinload(Sport.modality),
+        )
+        .all()
+    )
 
 
 def get_business(db: Session, business_id: int) -> Optional[Business]:
-    return db.query(Business).filter(Business.id_business == business_id).first()
+    return (
+        db.query(Business)
+        .options(
+            selectinload(Business.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.fields)
+            .selectinload(Field.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.fields)
+            .selectinload(Field.sport)
+            .selectinload(Sport.modality),
+        )
+        .filter(Business.id_business == business_id)
+        .first()
+    )
 
 
 def create_business(db: Session, business: Business) -> Business:

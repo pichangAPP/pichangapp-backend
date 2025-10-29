@@ -41,7 +41,7 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
 6. Levanta el microservicio HTTP que protege el endpoint del bot:
 
    ```bash
-   uvicorn app.main:app --host 0.0.0.0 --port 8006
+   uvicorn app.main:app --port 8006 --reload
    ```
 
    El gateway expone la ruta `/api/pichangapp/v1/chatbot/messages`, que requiere un token Bearer válido y reenvía los mensajes al servidor de Rasa.
