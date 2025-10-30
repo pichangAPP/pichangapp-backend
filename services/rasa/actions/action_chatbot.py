@@ -68,6 +68,72 @@ def _parse_datetime(date_value: Optional[str], time_value: Optional[str]) -> dat
     return date_part
 
 
+def _extract_metadata(tracker: Tracker) -> Dict[str, Any]:
+    raw_metadata = tracker.latest_message.get("metadata")
+    return dict(raw_metadata) if isinstance(raw_metadata, dict) else {}
+
+
+def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
+    raw_role = metadata.get("user_role") or metadata.get("role")
+    if isinstance(raw_role, str):
+        lowered = raw_role.lower()
+        if lowered == "admin":
+            return "admin"
+        if lowered in {"player", "jugador"}:
+            return "player"
+
+    for key in ("id_role", "role_id"):
+        value = metadata.get(key)
+        try:
+            if value is None:
+                continue
+            return "admin" if int(value) == 2 else "player"
+        except (TypeError, ValueError):
+            continue
+
+    return None
+
+
+def _resolve_user_context(tracker: Tracker) -> Tuple[Dict[str, Any], Optional[int], str, List[EventType]]:
+    """Return the metadata, user identifier, role and slot events for the tracker."""
+
+    metadata = _extract_metadata(tracker)
+    events: List[EventType] = []
+
+    user_id: Optional[int] = None
+    slot_user_id = tracker.get_slot("user_id")
+    if slot_user_id is not None:
+        try:
+            user_id = int(str(slot_user_id).strip())
+        except (TypeError, ValueError):
+            user_id = None
+
+    if user_id is None:
+        fallback_id = metadata.get("user_id") or metadata.get("id_user")
+        if fallback_id is not None:
+            try:
+                user_id = int(str(fallback_id).strip())
+            except (TypeError, ValueError):
+                user_id = None
+            else:
+                events.append(SlotSet("user_id", str(user_id)))
+
+    role_slot = tracker.get_slot("user_role")
+    user_role: Optional[str] = None
+    if isinstance(role_slot, str):
+        user_role = "admin" if role_slot.lower() == "admin" else "player"
+
+    metadata_role = _normalize_role_from_metadata(metadata)
+    if metadata_role and metadata_role != user_role:
+        events.append(SlotSet("user_role", metadata_role))
+        user_role = metadata_role
+
+    if not user_role:
+        user_role = "player"
+
+    return metadata, user_id, user_role, events
+
+
 class ActionSubmitFieldRecommendationForm(Action):
     """Handle the submission of the field recommendation form."""
 
@@ -105,8 +171,14 @@ class ActionSubmitFieldRecommendationForm(Action):
                     "Parece que tu sesión no trae un usuario válido. "
                     "Prueba iniciando sesión otra vez y te ayudo con la reserva."
                 )
-            )
-            return []
+            else:
+                dispatcher.utter_message(
+                    text=(
+                        "No pude identificar tu usuario desde las credenciales. "
+                        "Vuelve a iniciar sesión y retomamos la búsqueda de canchas."
+                    ),
+                )
+            return events
 
         try:
             session_id = await run_in_thread(
@@ -122,7 +194,7 @@ class ActionSubmitFieldRecommendationForm(Action):
                     "Inténtalo de nuevo en unos minutos."
                 )
             )
-            return []
+            return events
 
         preferred_sport = tracker.get_slot("preferred_sport")
         preferred_surface = tracker.get_slot("preferred_surface")
@@ -146,7 +218,8 @@ class ActionSubmitFieldRecommendationForm(Action):
                     "Por favor, intenta de nuevo más tarde."
                 )
             )
-            return [SlotSet("chatbot_session_id", str(session_id))]
+            events.append(SlotSet("chatbot_session_id", str(session_id)))
+            return events
 
         if not recommendations:
             dispatcher.utter_message(
@@ -155,7 +228,8 @@ class ActionSubmitFieldRecommendationForm(Action):
                     "¿Te gustaría que revise otras zonas u horarios?"
                 )
             )
-            return [SlotSet("chatbot_session_id", str(session_id))]
+            events.append(SlotSet("chatbot_session_id", str(session_id)))
+            return events
 
         top_choice = recommendations[0]
         start_dt = _parse_datetime(preferred_date, preferred_start_time)
@@ -251,10 +325,12 @@ class ActionSubmitFieldRecommendationForm(Action):
         except DatabaseError:
             LOGGER.warning("Could not persist recommendation log for session %s", session_id)
 
-        events: List[EventType] = [
-            SlotSet("chatbot_session_id", str(session_id)),
-            SlotSet("preferred_end_time", preferred_end_time or end_dt.isoformat()),
-        ]
+        events.extend(
+            [
+                SlotSet("chatbot_session_id", str(session_id)),
+                SlotSet("preferred_end_time", preferred_end_time or end_dt.isoformat()),
+            ]
+        )
         return events
 
 
@@ -387,13 +463,13 @@ class ActionCheckFeedbackStatus(Action):
             dispatcher.utter_message(
                 text="No pude acceder al historial de feedback en este momento. Intenta nuevamente más tarde.",
             )
-            return []
+            return events
 
         if not feedback_entries:
             dispatcher.utter_message(
                 text="Aún no registras comentarios sobre tus reservas. Cuando dejes alguno, podré mostrártelo aquí.",
             )
-            return []
+            return events
 
         lines = []
         for entry in feedback_entries:
@@ -425,7 +501,7 @@ class ActionCheckFeedbackStatus(Action):
         dispatcher.utter_message(
             text=f"{header}\n" + "\n".join(lines)
         )
-        return []
+        return events
 
 
 class ActionCloseChatSession(Action):
