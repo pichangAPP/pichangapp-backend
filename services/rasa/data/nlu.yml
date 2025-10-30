@@ -21,6 +21,8 @@ nlu:
       - necesito ayuda
       - ¿cómo me ayudas?
       - muéstrame tus funciones
+      - ¿qué servicios cubres?
+      - necesito saber cómo me apoyas
   - intent: request_field_recommendation
     examples: |
       - quiero alquilar una cancha hoy
@@ -29,6 +31,7 @@ nlu:
       - buscamos un campo con [grass sintético](surface) para mañana a las [19:00](time)
       - ayúdame a encontrar una cancha en [Surco](location) para el [2024-06-15](date)
       - ¿dónde puedo jugar [pádel](sport) cerca de [San Isidro](location)?
+      - estoy buscando una cancha para mañana a las [20:00](time) en [Surquillo](location)
   - intent: ask_reservation_process
     examples: |
       - ¿cómo reservo una cancha?
@@ -71,6 +74,7 @@ nlu:
       - qué preguntas puedo hacerte
       - dame sugerencias de temas
       - enséñame el faq
+      - dame ejemplos de preguntas que entiendas
   - intent: affirm
     examples: |
       - sí
