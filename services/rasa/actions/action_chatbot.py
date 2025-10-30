@@ -6,7 +6,7 @@ import asyncio
 import logging
 from datetime import datetime, timedelta, timezone
 from functools import partial
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
@@ -23,6 +23,66 @@ async def run_in_thread(function: Any, *args: Any, **kwargs: Any) -> Any:
     loop = asyncio.get_running_loop()
     bound = partial(function, *args, **kwargs)
     return await loop.run_in_executor(None, bound)
+
+
+def _coerce_metadata(value: Any) -> Dict[str, Any]:
+    if isinstance(value, dict):
+        return dict(value)
+    return {}
+
+
+def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
+    raw_role = metadata.get("user_role") or metadata.get("role")
+    if isinstance(raw_role, str):
+        lowered = raw_role.strip().lower()
+        if lowered in {"admin", "player"}:
+            return lowered
+        try:
+            numeric = int(lowered)
+            if numeric == 2:
+                return "admin"
+            if numeric == 1:
+                return "player"
+        except ValueError:
+            pass
+    elif raw_role is not None:
+        try:
+            numeric = int(raw_role)
+            if numeric == 2:
+                return "admin"
+            if numeric == 1:
+                return "player"
+        except (TypeError, ValueError):
+            pass
+
+    role_id = metadata.get("id_role")
+    if role_id is not None:
+        try:
+            numeric = int(role_id)
+            if numeric == 2:
+                return "admin"
+            if numeric == 1:
+                return "player"
+        except (TypeError, ValueError):
+            return None
+
+    return metadata.get("default_role") if metadata.get("default_role") in {"admin", "player"} else None
+
+
+def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
+    for event in events:
+        if hasattr(event, "key") and getattr(event, "key") == slot_name:
+            return True
+        if hasattr(event, "name") and getattr(event, "name") == slot_name:
+            event_type = getattr(event, "event", None)
+            if event_type == "slot":
+                return True
+        if isinstance(event, dict):
+            event_type = event.get("event") or event.get("type")
+            slot_key = event.get("name") or event.get("slot")
+            if event_type == "slot" and slot_key == slot_name:
+                return True
+    return False
 
 
 def _coerce_datetime(value: Any) -> datetime:
@@ -87,6 +147,14 @@ class ActionSubmitFieldRecommendationForm(Action):
         role_slot = (tracker.get_slot("user_role") or "player").lower()
         user_role = "admin" if role_slot == "admin" else "player"
 
+        LOGGER.info(
+            "[ActionSubmitFieldRecommendationForm] incoming message=%s user_slot=%s role=%s metadata=%s",
+            user_message,
+            user_id_raw,
+            user_role,
+            latest_metadata,
+        )
+
         if not user_id_raw:
             dispatcher.utter_message(
                 text=(
@@ -114,7 +182,16 @@ class ActionSubmitFieldRecommendationForm(Action):
                 theme,
                 user_role,
             )
+            LOGGER.info(
+                "[ActionSubmitFieldRecommendationForm] ensured chat session id=%s for user_id=%s",
+                session_id,
+                user_id,
+            )
         except DatabaseError:
+            LOGGER.exception(
+                "[ActionSubmitFieldRecommendationForm] database error ensuring session for user_id=%s",
+                user_id,
+            )
             dispatcher.utter_message(
                 text=(
                     "En este momento no puedo conectarme a la base de datos para revisar las canchas. "
@@ -148,6 +225,11 @@ class ActionSubmitFieldRecommendationForm(Action):
             return [SlotSet("chatbot_session_id", str(session_id))]
 
         if not recommendations:
+            LOGGER.warning(
+                "[ActionSubmitFieldRecommendationForm] no recommendations found for session=%s user_id=%s",
+                session_id,
+                user_id,
+            )
             dispatcher.utter_message(
                 text=(
                     "No encontré canchas que coincidan con tus preferencias. "
@@ -205,6 +287,10 @@ class ActionSubmitFieldRecommendationForm(Action):
                 metadata=latest_metadata,
                 intent_confidence=None,
             )
+            LOGGER.debug(
+                "[ActionSubmitFieldRecommendationForm] logged user message for session=%s",
+                session_id,
+            )
 
             recommendation_id = await run_in_thread(
                 chatbot_service.create_recommendation_log,
@@ -214,6 +300,11 @@ class ActionSubmitFieldRecommendationForm(Action):
                 suggested_end=end_dt,
                 field_id=top_choice.id_field,
                 user_id=user_id,
+            )
+            LOGGER.info(
+                "[ActionSubmitFieldRecommendationForm] stored recommendation id=%s for session=%s",
+                recommendation_id,
+                session_id,
             )
 
             intent_data = tracker.latest_message.get("intent") or {}
@@ -231,6 +322,12 @@ class ActionSubmitFieldRecommendationForm(Action):
                 false_positive=False,
                 source_model=source_model,
             )
+            LOGGER.info(
+                "[ActionSubmitFieldRecommendationForm] intent ensured id=%s name=%s session=%s",
+                intent_id,
+                intent_name,
+                session_id,
+            )
 
             # registra el intercambio completo
             await run_in_thread(
@@ -246,9 +343,16 @@ class ActionSubmitFieldRecommendationForm(Action):
                 intent_confidence=confidence,
                 metadata={**latest_metadata, "detected_intent": intent_name},
             )
+            LOGGER.debug(
+                "[ActionSubmitFieldRecommendationForm] logged recommendation response for session=%s",
+                session_id,
+            )
 
         except DatabaseError:
-            LOGGER.warning("Could not persist recommendation log for session %s", session_id)
+            LOGGER.exception(
+                "[ActionSubmitFieldRecommendationForm] database error persisting analytics for session=%s",
+                session_id,
+            )
 
         events: List[EventType] = [
             SlotSet("chatbot_session_id", str(session_id)),
@@ -461,40 +565,121 @@ class ActionSessionStart(Action):
         domain: DomainDict,
     ) -> List[EventType]:
         events: List[EventType] = [SessionStarted()]
-        raw_metadata = tracker.latest_message.get("metadata")
-        metadata = dict(raw_metadata) if isinstance(raw_metadata, dict) else {}
+        metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+
+        LOGGER.info(
+            "[ActionSessionStart] conversation=%s metadata=%s slots=%s",
+            tracker.sender_id,
+            metadata,
+            tracker.current_slot_values(),
+        )
 
         user_identifier = metadata.get("user_id") or metadata.get("id_user")
+        user_id: Optional[int] = None
         if user_identifier is not None:
             try:
-                user_identifier = int(user_identifier)
+                user_id = int(user_identifier)
             except (TypeError, ValueError):
-                pass
-            events.append(SlotSet("user_id", str(user_identifier)))
+                events.append(SlotSet("user_id", str(user_identifier)))
+                user_id = None
+                LOGGER.warning(
+                    "[ActionSessionStart] invalid user identifier=%s for conversation=%s",
+                    user_identifier,
+                    tracker.sender_id,
+                )
+            else:
+                events.append(SlotSet("user_id", str(user_id)))
+                LOGGER.info(
+                    "[ActionSessionStart] user slot planned with id=%s for conversation=%s",
+                    user_id,
+                    tracker.sender_id,
+                )
 
-        role_value: Optional[str] = None
-        raw_role = metadata.get("user_role")
-        if isinstance(raw_role, str):
-            role_value = raw_role.lower()
-        else:
-            role_id = metadata.get("id_role")
-            try:
-                if role_id is not None and int(role_id) == 2:
-                    role_value = "admin"
-                elif role_id is not None:
-                    role_value = "player"
-            except (TypeError, ValueError):
-                role_value = None
-
+        role_value = _normalize_role_from_metadata(metadata)
+        assigned_role: Optional[str] = None
         if role_value:
             normalized = "admin" if role_value == "admin" else "player"
             events.append(SlotSet("user_role", normalized))
+            assigned_role = normalized
+            LOGGER.info(
+                "[ActionSessionStart] role from metadata=%s normalized=%s",
+                role_value,
+                normalized,
+            )
 
-        if not any(
-            isinstance(event, SlotSet) and event.key == "user_role"
-            for event in events
-        ):
+        if not _slot_already_planned(events, "user_role"):
             events.append(SlotSet("user_role", "player"))
+            if assigned_role is None:
+                assigned_role = "player"
+
+        theme = metadata.get("chat_theme") or metadata.get("theme")
+        if not theme:
+            theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
+
+        if assigned_role is None:
+            slot_role = tracker.get_slot("user_role")
+            assigned_role = slot_role if isinstance(slot_role, str) else None
+        if assigned_role is None:
+            assigned_role = "player"
+
+        LOGGER.info(
+            "[ActionSessionStart] resolved role=%s theme=%s user_id=%s",
+            assigned_role,
+            theme,
+            user_id,
+        )
+
+        if user_id is not None:
+            try:
+                session_id = await run_in_thread(
+                    chatbot_service.ensure_chat_session,
+                    user_id,
+                    theme,
+                    assigned_role,
+                )
+                LOGGER.info(
+                    "[ActionSessionStart] ensured session=%s for user_id=%s theme=%s role=%s",
+                    session_id,
+                    user_id,
+                    theme,
+                    assigned_role,
+                )
+            except DatabaseError:
+                LOGGER.exception(
+                    "[ActionSessionStart] database error ensuring chat session for user_id=%s",
+                    user_id,
+                )
+            else:
+                events.append(SlotSet("chat_theme", theme))
+                events.append(SlotSet("chatbot_session_id", str(session_id)))
+
+                try:
+                    await run_in_thread(
+                        chatbot_service.log_chatbot_message,
+                        session_id=session_id,
+                        intent_id=None,
+                        recommendation_id=None,
+                        message_text="",
+                        bot_response="",
+                        response_type="session_started",
+                        sender_type="system",
+                        user_id=user_id,
+                        intent_confidence=None,
+                        metadata={**metadata, "theme": theme},
+                    )
+                    LOGGER.debug(
+                        "[ActionSessionStart] logged session_started entry for session=%s",
+                        session_id,
+                    )
+                except DatabaseError:
+                    LOGGER.exception(
+                        "[ActionSessionStart] database error logging session_started for session=%s",
+                        session_id,
+                    )
 
         events.append(ActionExecuted("action_listen"))
+        LOGGER.debug(
+            "[ActionSessionStart] events planned=%s",
+            events,
+        )
         return events

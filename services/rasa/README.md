@@ -45,6 +45,21 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
 
    El gateway expone la ruta `/api/pichangapp/v1/chatbot/messages`, que requiere un token Bearer válido y reenvía los mensajes al servidor de Rasa.
 
+## 🪵 Depuración de persistencia
+
+- Las acciones personalizadas ahora emiten logs detallados (`INFO` y `DEBUG`) con los parámetros recibidos, el `session_id` generado y cada inserción en las tablas `analytics`. Asegúrate de ejecutar el servidor de acciones con el nivel de log apropiado:
+  ```bash
+  rasa run actions --cors "*" --logging-level INFO
+  ```
+- Si necesitas todavía más detalle, eleva el nivel a `DEBUG` o exporta `LOG_LEVEL=DEBUG` antes de levantar el contenedor. Así podrás ver en consola el flujo completo (apertura de sesión, inserción en `chatbot_log`, creación de `recomendation_log`, etc.) y validar rápidamente qué paso falta en la base de datos.
+
+## 🔐 Inicio de sesión y roles
+
+- El microservicio de FastAPI adjunta en el `metadata` de cada mensaje los campos `user_id`, `id_user`, `user_role` e `id_role`. La acción `action_session_start` valida estos valores, normaliza el rol (`admin` o `player`) y rellena los slots `user_id` y `user_role` antes de procesar la conversación. Cuando no se envía metadata (por ejemplo, con `rasa shell`), el bot asume el rol `player`.
+- Si el rol o el identificador del usuario no son válidos, el bot responde con un mensaje de reautenticación y detiene la recomendación. Esto evita que se creen registros huérfanos en `analytics.chatbot` y mantiene la trazabilidad de las conversaciones.
+- Cada inicio de sesión correcto crea o reactiva una sesión en `analytics.chatbot` y todas las respuestas del bot quedan registradas mediante `analytics.chatbot_log`, `analytics.intents` y `analytics.recomendation_log`.
+  - La acción `action_session_start` persiste inmediatamente el inicio de la conversación en `analytics.chatbot` y agrega una fila con `response_type = session_started` en `analytics.chatbot_log`, asegurando que los chats abiertos aparezcan en los tableros aun antes de que se generen recomendaciones.
+
 ## 🧪 Datos y dominio
 
 - **`data/nlu.yml`**: Intenciones y ejemplos en español.

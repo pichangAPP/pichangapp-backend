@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Sequence
@@ -15,6 +16,8 @@ from ..repositories.analytics_repository import (
     IntentRepository,
     RecommendationRepository,
 )
+
+LOGGER = logging.getLogger(__name__)
 
 
 class ChatbotAnalyticsService:
@@ -31,11 +34,29 @@ class ChatbotAnalyticsService:
     def ensure_chat_session(
         self, user_id: int, theme: str, user_role: Optional[str]
     ) -> int:
+        LOGGER.info(
+            "[ChatbotAnalyticsService] ensure_chat_session user_id=%s theme=%s role=%s",
+            user_id,
+            theme,
+            user_role,
+        )
         with get_connection() as connection:
             repository = ChatSessionRepository(connection)
-            return repository.ensure_session(user_id=user_id, theme=theme, user_role=user_role)
+            session_id = repository.ensure_session(
+                user_id=user_id, theme=theme, user_role=user_role
+            )
+            LOGGER.info(
+                "[ChatbotAnalyticsService] chat session ready id=%s for user_id=%s",
+                session_id,
+                user_id,
+            )
+            return session_id
 
     def close_chat_session(self, chatbot_id: int) -> None:
+        LOGGER.info(
+            "[ChatbotAnalyticsService] close_chat_session chatbot_id=%s",
+            chatbot_id,
+        )
         with get_connection() as connection:
             repository = ChatSessionRepository(connection)
             repository.close_session(chatbot_id)
@@ -60,6 +81,13 @@ class ChatbotAnalyticsService:
             for phrase in example_phrases
             if phrase and phrase.strip()
         }
+
+        LOGGER.info(
+            "[ChatbotAnalyticsService] ensure_intent name=%s detected=%s false_positive=%s",
+            intent_name,
+            detected,
+            false_positive,
+        )
 
         with get_connection() as connection:
             repository = IntentRepository(connection)
@@ -115,10 +143,15 @@ class ChatbotAnalyticsService:
                     last_detected=timestamp if detected else None,
                     updated_at=timestamp,
                 )
+                LOGGER.debug(
+                    "[ChatbotAnalyticsService] updated intent id=%s total_detected=%s",
+                    existing["id_intent"],
+                    total_detected,
+                )
                 return int(existing["id_intent"])
 
             examples_text = "\n".join(sorted(cleaned_examples))
-            return repository.create(
+            intent_id = repository.create(
                 intent_name=intent_name,
                 example_phrases=examples_text,
                 response_template=response_template,
@@ -130,6 +163,12 @@ class ChatbotAnalyticsService:
                 created_at=timestamp,
                 updated_at=timestamp,
             )
+            LOGGER.debug(
+                "[ChatbotAnalyticsService] created intent id=%s name=%s",
+                intent_id,
+                intent_name,
+            )
+            return intent_id
 
     # ------------------------------------------------------------------
     # Recommendation and log helpers
@@ -144,9 +183,15 @@ class ChatbotAnalyticsService:
         field_id: int,
         user_id: Optional[int],
     ) -> int:
+        LOGGER.info(
+            "[ChatbotAnalyticsService] create_recommendation_log field_id=%s user_id=%s status=%s",
+            field_id,
+            user_id,
+            status,
+        )
         with get_connection() as connection:
             repository = RecommendationRepository(connection)
-            return repository.create_log(
+            recommendation_id = repository.create_log(
                 status=status,
                 message=message,
                 suggested_start=suggested_start,
@@ -154,6 +199,11 @@ class ChatbotAnalyticsService:
                 field_id=field_id,
                 user_id=user_id,
             )
+            LOGGER.info(
+                "[ChatbotAnalyticsService] recommendation log created id=%s",
+                recommendation_id,
+            )
+            return recommendation_id
 
     def log_chatbot_message(
         self,
@@ -169,6 +219,12 @@ class ChatbotAnalyticsService:
         intent_confidence: Optional[float],
         metadata: Optional[Dict[str, Any]],
     ) -> None:
+        LOGGER.info(
+            "[ChatbotAnalyticsService] log_chatbot_message session_id=%s response_type=%s sender=%s",
+            session_id,
+            response_type,
+            sender_type,
+        )
         with get_connection() as connection:
             repository = ChatbotLogRepository(connection)
             repository.add_entry(
@@ -185,6 +241,11 @@ class ChatbotAnalyticsService:
             )
 
     def fetch_recommendation_history(self, session_id: int, limit: int) -> List[Dict[str, Any]]:
+        LOGGER.debug(
+            "[ChatbotAnalyticsService] fetch_recommendation_history session_id=%s limit=%s",
+            session_id,
+            limit,
+        )
         with get_connection() as connection:
             repository = RecommendationRepository(connection)
             return repository.fetch_history(session_id, limit)
@@ -197,6 +258,13 @@ class ChatbotAnalyticsService:
         location: Optional[str],
         limit: int,
     ) -> List[FieldRecommendation]:
+        LOGGER.debug(
+            "[ChatbotAnalyticsService] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s",
+            sport,
+            surface,
+            location,
+            limit,
+        )
         with get_connection() as connection:
             repository = RecommendationRepository(connection)
             return repository.fetch_field_recommendations(
@@ -207,6 +275,11 @@ class ChatbotAnalyticsService:
             )
 
     def fetch_feedback_for_user(self, user_id: int, limit: int) -> List[Dict[str, Any]]:
+        LOGGER.debug(
+            "[ChatbotAnalyticsService] fetch_feedback_for_user user_id=%s limit=%s",
+            user_id,
+            limit,
+        )
         with get_connection() as connection:
             repository = FeedbackRepository(connection)
             return repository.fetch_recent(user_id, limit)
