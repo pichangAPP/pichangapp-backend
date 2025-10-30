@@ -59,7 +59,6 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
 - Si el rol o el identificador del usuario no son válidos, el bot responde con un mensaje de reautenticación y detiene la recomendación. Esto evita que se creen registros huérfanos en `analytics.chatbot` y mantiene la trazabilidad de las conversaciones.
 - Cada inicio de sesión correcto crea o reactiva una sesión en `analytics.chatbot` y todas las respuestas del bot quedan registradas mediante `analytics.chatbot_log`, `analytics.intents` y `analytics.recomendation_log`.
   - La acción `action_session_start` persiste inmediatamente el inicio de la conversación en `analytics.chatbot` y agrega una fila con `response_type = session_started` en `analytics.chatbot_log`, asegurando que los chats abiertos aparezcan en los tableros aun antes de que se generen recomendaciones.
-- La regla `inicializar sesión con metadata` en `data/rules.yml` ejecuta `action_session_start` ni bien se abre un canal, de modo que `ChatSessionRepository` siempre crea o reactiva la sesión aunque el usuario no envíe un saludo inicial. Recuerda reentrenar el modelo (`rasa data validate` + `rasa train`) cuando ajustes `domain.yml`, `data/rules.yml` o `data/nlu.yml` para que el paquete cargado incluya la nueva configuración de slots e intenciones.
 
 ## 🧪 Datos y dominio
 
