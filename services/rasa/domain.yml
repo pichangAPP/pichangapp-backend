@@ -14,6 +14,7 @@ intents:
   - show_faqs
   - affirm
   - deny
+  - SetSlots  # payload usado por los botones de feedback
 
 entities:
   - sport
