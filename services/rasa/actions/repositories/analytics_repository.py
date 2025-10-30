@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from datetime import datetime
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
@@ -12,6 +13,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from ..infrastructure.database import DatabaseError
 from ..models import FieldRecommendation
+
+LOGGER = logging.getLogger(__name__)
 
 
 class ChatSessionRepository:
@@ -27,6 +30,12 @@ class ChatSessionRepository:
         theme: str,
         user_role: Optional[str],
     ) -> int:
+        LOGGER.info(
+            "[ChatSessionRepository] ensuring session for user_id=%s theme=%s role=%s",
+            user_id,
+            theme,
+            user_role,
+        )
         existing = self._connection.execute(
             text(
                 """
@@ -41,11 +50,16 @@ class ChatSessionRepository:
         ).scalar_one_or_none()
 
         if existing:
+            LOGGER.debug(
+                "[ChatSessionRepository] found existing session id=%s for user_id=%s",
+                existing,
+                user_id,
+            )
             params: Dict[str, Any] = {"chatbot_id": existing}
             update_sql = text(
                 """
                 UPDATE analytics.chatbot
-                SET status = 'active'
+                SET status = 'active', ended_at = NULL
                 WHERE id_chatbot = :chatbot_id
                 """
             )
@@ -56,11 +70,15 @@ class ChatSessionRepository:
                         text(
                             """
                             UPDATE analytics.chatbot
-                            SET status = 'active', user_role = :user_role
+                            SET status = 'active', ended_at = NULL, user_role = :user_role
                             WHERE id_chatbot = :chatbot_id
                             """
                         ),
                         {**params, "user_role": user_role},
+                    )
+                    LOGGER.debug(
+                        "[ChatSessionRepository] refreshed role for session id=%s",
+                        existing,
                     )
                     return int(existing)
                 except SQLAlchemyError as exc:
@@ -68,6 +86,10 @@ class ChatSessionRepository:
                         raise DatabaseError(str(exc)) from exc
 
             self._connection.execute(update_sql, params)
+            LOGGER.debug(
+                "[ChatSessionRepository] reactivated session id=%s",
+                existing,
+            )
             return int(existing)
 
         payload: Dict[str, Any] = {
@@ -76,8 +98,8 @@ class ChatSessionRepository:
             "user_id": user_id,
         }
 
-        columns = ["theme", "status", "id_user", "ended_at"]
-        values = [":theme", ":status", ":user_id", "now()"]
+        columns = ["theme", "status", "id_user"]
+        values = [":theme", ":status", ":user_id"]
 
         if user_role:
             columns.append("user_role")
@@ -94,21 +116,35 @@ class ChatSessionRepository:
 
         try:
             created = self._connection.execute(insert_sql, payload).scalar_one()
+            LOGGER.info(
+                "[ChatSessionRepository] created new session id=%s for user_id=%s",
+                created,
+                user_id,
+            )
             return int(created)
         except SQLAlchemyError as exc:
             if user_role and "user_role" in str(exc).lower():
                 fallback_sql = text(
                     """
-                    INSERT INTO analytics.chatbot (theme, status, id_user, ended_at)
-                    VALUES (:theme, :status, :user_id, now())
+                    INSERT INTO analytics.chatbot (theme, status, id_user)
+                    VALUES (:theme, :status, :user_id)
                     RETURNING id_chatbot
                     """
                 )
                 created = self._connection.execute(fallback_sql, payload).scalar_one()
+                LOGGER.warning(
+                    "[ChatSessionRepository] inserted session without role id=%s due to error=%s",
+                    created,
+                    exc,
+                )
                 return int(created)
             raise DatabaseError(str(exc)) from exc
 
     def close_session(self, chatbot_id: int) -> None:
+        LOGGER.info(
+            "[ChatSessionRepository] closing session id=%s",
+            chatbot_id,
+        )
         self._connection.execute(
             text(
                 """
@@ -128,6 +164,10 @@ class IntentRepository:
         self._connection = connection
 
     def fetch_by_name(self, intent_name: str) -> Optional[Dict[str, Any]]:
+        LOGGER.debug(
+            "[IntentRepository] fetch_by_name intent=%s",
+            intent_name,
+        )
         result = self._connection.execute(
             text(
                 """
@@ -165,6 +205,13 @@ class IntentRepository:
             "updated_at": updated_at,
             "id_intent": intent_id,
         }
+
+        LOGGER.info(
+            "[IntentRepository] update intent_id=%s total_detected=%s false_positives=%s",
+            intent_id,
+            total_detected,
+            false_positives,
+        )
 
         self._connection.execute(
             text(
@@ -210,6 +257,12 @@ class IntentRepository:
             "created_at": created_at,
             "updated_at": updated_at,
         }
+
+        LOGGER.info(
+            "[IntentRepository] create intent_name=%s detected=%s",
+            intent_name,
+            total_detected,
+        )
 
         created = self._connection.execute(
             text(
@@ -284,6 +337,13 @@ class RecommendationRepository:
             values.append(":user_id")
             base_params["user_id"] = user_id
 
+        LOGGER.info(
+            "[RecommendationRepository] create_log status=%s field_id=%s user_id=%s",
+            status,
+            field_id,
+            user_id,
+        )
+
         sql = text(
             f"""
             INSERT INTO analytics.recomendation_log ({', '.join(columns)})
@@ -294,6 +354,10 @@ class RecommendationRepository:
 
         try:
             created = self._connection.execute(sql, base_params).scalar_one()
+            LOGGER.info(
+                "[RecommendationRepository] created log id=%s",
+                created,
+            )
             return int(created)
         except SQLAlchemyError as exc:
             if user_id is not None and "id_user" in str(exc).lower():
@@ -307,10 +371,20 @@ class RecommendationRepository:
                     """
                 )
                 created = self._connection.execute(fallback_sql, base_params).scalar_one()
+                LOGGER.warning(
+                    "[RecommendationRepository] fallback insert without user for field_id=%s error=%s",
+                    field_id,
+                    exc,
+                )
                 return int(created)
             raise DatabaseError(str(exc)) from exc
 
     def fetch_history(self, session_id: int, limit: int) -> List[Dict[str, Any]]:
+        LOGGER.debug(
+            "[RecommendationRepository] fetch_history session_id=%s limit=%s",
+            session_id,
+            limit,
+        )
         result = self._connection.execute(
             text(
                 """
@@ -346,6 +420,13 @@ class RecommendationRepository:
         location: Optional[str],
         limit: int,
     ) -> List[FieldRecommendation]:
+        LOGGER.debug(
+            "[RecommendationRepository] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s",
+            sport,
+            surface,
+            location,
+            limit,
+        )
         result = self._connection.execute(
             text(
                 """
@@ -471,8 +552,21 @@ class ChatbotLogRepository:
             """
         )
 
+        LOGGER.info(
+            "[ChatbotLogRepository] add_entry session_id=%s response_type=%s sender=%s intent_id=%s recommendation_id=%s",
+            session_id,
+            response_type,
+            sender_type,
+            intent_id,
+            recommendation_id,
+        )
+
         try:
             self._connection.execute(sql, params)
+            LOGGER.debug(
+                "[ChatbotLogRepository] entry inserted for session_id=%s",
+                session_id,
+            )
         except SQLAlchemyError as exc:
             if any(
                 keyword in str(exc).lower()
@@ -503,6 +597,11 @@ class ChatbotLogRepository:
                     """
                 )
                 self._connection.execute(fallback_sql, base_values)
+                LOGGER.warning(
+                    "[ChatbotLogRepository] fallback insert without optional columns for session_id=%s error=%s",
+                    session_id,
+                    exc,
+                )
                 return
             raise DatabaseError(str(exc)) from exc
 
@@ -514,6 +613,11 @@ class FeedbackRepository:
         self._connection = connection
 
     def fetch_recent(self, user_id: int, limit: int) -> List[Dict[str, Any]]:
+        LOGGER.debug(
+            "[FeedbackRepository] fetch_recent user_id=%s limit=%s",
+            user_id,
+            limit,
+        )
         result = self._connection.execute(
             text(
                 """
