@@ -69,5 +69,5 @@ yarn-debug.log*
 
 # ---- Cache ----
 # Rasa cache
-.rasa/cache/
+.rasa/cache
 .rasa/lock

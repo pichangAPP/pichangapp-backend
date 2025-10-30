@@ -14,7 +14,7 @@ intents:
   - show_faqs
   - affirm
   - deny
-  - SetSlots  # payload usado por los botones de feedback
+  - SetSlots # payload usado por los botones de feedback
 
 entities:
   - sport
@@ -37,7 +37,7 @@ slots:
     influence_conversation: false
     initial_value: "player"
     mappings:
-      - type: custom
+      - type: controlled
   chatbot_session_id:
     type: text
     influence_conversation: false
@@ -159,7 +159,7 @@ responses:
           name: user_role
           value: admin
       text: "¡Hola! Soy Chato Bot. Estoy listo para ayudarle a gestionar las canchas y equipos de su empresa."
-    - text: "¡Qué fue, causa! Soy Chato Bot, tu pata para cuadrar la mejor cancha del barrio."
+    - text: "¡Qué fue, causa! Soy Chato Bot, te puedo ayudar para encontrar la mejor cancha."
     - text: "¡Hola! Aquí Chato Bot, listo para ayudarte a armar la pichanga como se debe."
   utter_goodbye:
     - condition:
