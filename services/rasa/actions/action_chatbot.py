@@ -6,7 +6,7 @@ import asyncio
 import logging
 from datetime import datetime, timedelta, timezone
 from functools import partial
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
@@ -147,19 +147,29 @@ class ActionSubmitFieldRecommendationForm(Action):
         domain: DomainDict,
     ) -> List[EventType]:
         user_message = tracker.latest_message.get("text") or ""
-        slot_user_id = tracker.get_slot("user_id")
-        metadata, user_id, user_role, context_events = _resolve_user_context(tracker)
-        events: List[EventType] = list(context_events)
+        raw_metadata = tracker.latest_message.get("metadata")
+        latest_metadata = dict(raw_metadata) if isinstance(raw_metadata, dict) else {}
+        user_id_raw = tracker.get_slot("user_id")
         theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
+        role_slot = (tracker.get_slot("user_role") or "player").lower()
+        user_role = "admin" if role_slot == "admin" else "player"
 
-        if user_id is None:
-            metadata_has_id = metadata.get("user_id") is not None or metadata.get("id_user") is not None
-            if slot_user_id or metadata_has_id:
-                dispatcher.utter_message(
-                    text=(
-                        "Parece que tu sesión no trae un usuario válido. "
-                        "Prueba iniciando sesión otra vez y te ayudo con la reserva."
-                    )
+        if not user_id_raw:
+            dispatcher.utter_message(
+                text=(
+                    "No pude identificar tu usuario desde las credenciales. "
+                    "Vuelve a iniciar sesión y retomamos la búsqueda de canchas."
+                ),
+            )
+            return []
+
+        try:
+            user_id = int(str(user_id_raw).strip())
+        except ValueError:
+            dispatcher.utter_message(
+                text=(
+                    "Parece que tu sesión no trae un usuario válido. "
+                    "Prueba iniciando sesión otra vez y te ayudo con la reserva."
                 )
             else:
                 dispatcher.utter_message(
@@ -267,7 +277,7 @@ class ActionSubmitFieldRecommendationForm(Action):
                 response_type="user_message",
                 sender_type="user",
                 user_id=user_id,
-                metadata=metadata,
+                metadata=latest_metadata,
                 intent_confidence=None,
             )
 
@@ -284,7 +294,7 @@ class ActionSubmitFieldRecommendationForm(Action):
             intent_data = tracker.latest_message.get("intent") or {}
             intent_name = intent_data.get("name") or "request_field_recommendation"
             confidence = intent_data.get("confidence")
-            source_model = metadata.get("model") or metadata.get("pipeline")
+            source_model = latest_metadata.get("model") or latest_metadata.get("pipeline")
 
             intent_id = await run_in_thread(
                 chatbot_service.ensure_intent,
@@ -309,7 +319,7 @@ class ActionSubmitFieldRecommendationForm(Action):
                 sender_type="bot",
                 user_id=user_id,
                 intent_confidence=confidence,
-                metadata={**metadata, "detected_intent": intent_name},
+                metadata={**latest_metadata, "detected_intent": intent_name},
             )
 
         except DatabaseError:
@@ -337,23 +347,26 @@ class ActionShowRecommendationHistory(Action):
         domain: DomainDict,
     ) -> List[EventType]:
         session_id = tracker.get_slot("chatbot_session_id")
-        slot_user_id = tracker.get_slot("user_id")
-        metadata, user_id, user_role, context_events = _resolve_user_context(tracker)
-        events: List[EventType] = list(context_events)
+        user_id_raw = tracker.get_slot("user_id")
+        role_slot = (tracker.get_slot("user_role") or "player").lower()
+        user_role = "admin" if role_slot == "admin" else "player"
+        events: List[EventType] = []
 
-        if user_id is None:
-            metadata_has_id = metadata.get("user_id") is not None or metadata.get("id_user") is not None
-            if slot_user_id or metadata_has_id:
-                dispatcher.utter_message(
-                    text="Necesito que vuelvas a iniciar sesión para identificarte correctamente.",
+        if not user_id_raw:
+            dispatcher.utter_message(
+                text=(
+                    "No encuentro tu usuario activo. Inicia sesión nuevamente para revisar tu historial."
                 )
-            else:
-                dispatcher.utter_message(
-                    text=(
-                        "No encuentro tu usuario activo. Inicia sesión nuevamente para revisar tu historial."
-                    )
-                )
-            return events
+            )
+            return []
+
+        try:
+            user_id = int(str(user_id_raw).strip())
+        except ValueError:
+            dispatcher.utter_message(
+                text="Necesito que vuelvas a iniciar sesión para identificarte correctamente."
+            )
+            return []
 
         if not session_id:
             try:
@@ -422,21 +435,23 @@ class ActionCheckFeedbackStatus(Action):
         tracker: Tracker,
         domain: DomainDict,
     ) -> List[EventType]:
-        slot_user_id = tracker.get_slot("user_id")
-        metadata, user_id, user_role, context_events = _resolve_user_context(tracker)
-        events: List[EventType] = list(context_events)
+        user_id_raw = tracker.get_slot("user_id")
+        role_slot = (tracker.get_slot("user_role") or "player").lower()
+        user_role = "admin" if role_slot == "admin" else "player"
 
-        if user_id is None:
-            metadata_has_id = metadata.get("user_id") is not None or metadata.get("id_user") is not None
-            if slot_user_id or metadata_has_id:
-                dispatcher.utter_message(
-                    text="Necesito que vuelvas a iniciar sesión para reconocer tu cuenta antes de mostrar el feedback.",
-                )
-            else:
-                dispatcher.utter_message(
-                    text="No pude validar tu sesión. Inicia sesión otra vez para revisar tus comentarios.",
-                )
-            return events
+        if not user_id_raw:
+            dispatcher.utter_message(
+                text="No pude validar tu sesión. Inicia sesión otra vez para revisar tus comentarios."
+            )
+            return []
+
+        try:
+            user_id = int(str(user_id_raw).strip())
+        except ValueError:
+            dispatcher.utter_message(
+                text="Necesito que vuelvas a iniciar sesión para reconocer tu cuenta antes de mostrar el feedback."
+            )
+            return []
 
         try:
             feedback_entries = await run_in_thread(
