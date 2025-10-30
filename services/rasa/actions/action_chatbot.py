@@ -24,6 +24,64 @@ async def run_in_thread(function: Any, *args: Any, **kwargs: Any) -> Any:
     bound = partial(function, *args, **kwargs)
     return await loop.run_in_executor(None, bound)
 
+def _coerce_metadata(value: Any) -> Dict[str, Any]:
+    if isinstance(value, dict):
+        return dict(value)
+    return {}
+
+
+def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
+    raw_role = metadata.get("user_role") or metadata.get("role")
+    if isinstance(raw_role, str):
+        lowered = raw_role.strip().lower()
+        if lowered in {"admin", "player"}:
+            return lowered
+        try:
+            numeric = int(lowered)
+            if numeric == 2:
+                return "admin"
+            if numeric == 1:
+                return "player"
+        except ValueError:
+            pass
+    elif raw_role is not None:
+        try:
+            numeric = int(raw_role)
+            if numeric == 2:
+                return "admin"
+            if numeric == 1:
+                return "player"
+        except (TypeError, ValueError):
+            pass
+
+    role_id = metadata.get("id_role")
+    if role_id is not None:
+        try:
+            numeric = int(role_id)
+            if numeric == 2:
+                return "admin"
+            if numeric == 1:
+                return "player"
+        except (TypeError, ValueError):
+            return None
+
+    return metadata.get("default_role") if metadata.get("default_role") in {"admin", "player"} else None
+
+
+def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
+    for event in events:
+        if hasattr(event, "key") and getattr(event, "key") == slot_name:
+            return True
+        if hasattr(event, "name") and getattr(event, "name") == slot_name:
+            event_type = getattr(event, "event", None)
+            if event_type == "slot":
+                return True
+        if isinstance(event, dict):
+            event_type = event.get("event") or event.get("type")
+            slot_key = event.get("name") or event.get("slot")
+            if event_type == "slot" and slot_key == slot_name:
+                return True
+    return False
 
 def _coerce_metadata(value: Any) -> Dict[str, Any]:
     if isinstance(value, dict):
