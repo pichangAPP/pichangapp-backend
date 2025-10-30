@@ -4,389 +4,19 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import os
-from contextlib import contextmanager
-from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from functools import partial
-from typing import Any, Dict, Iterable, List, Optional, Sequence
+from typing import Any, Dict, List, Optional, Tuple
 
-from dotenv import load_dotenv
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import EventType, SlotSet
+from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
-from sqlalchemy import Connection, create_engine, text
-from sqlalchemy.engine import Engine
-from sqlalchemy.exc import SQLAlchemyError
 
-load_dotenv()
+from .models import FieldRecommendation
+from .services.chatbot_service import DatabaseError, chatbot_service
 
 LOGGER = logging.getLogger(__name__)
-
-
-@dataclass
-class FieldRecommendation:
-    """Represents a field recommendation result."""
-
-    id_field: int
-    field_name: str
-    sport_name: str
-    campus_name: str
-    district: str
-    address: str
-    surface: str
-    capacity: int
-    price_per_hour: float
-    open_time: str
-    close_time: str
-
-
-class DatabaseError(RuntimeError):
-    """Raised when there is an issue talking to the analytics database."""
-
-
-class ChatbotDatabase:
-    """Helper around SQLAlchemy for chatbot analytics interactions."""
-
-    def __init__(self) -> None:
-        self._engine: Optional[Engine] = None
-        self._database_url: Optional[str] = None
-
-    def _build_url(self) -> str:
-        if self._database_url:
-            return self._database_url
-
-        url = os.getenv("CHATBOT_DATABASE_URL") or os.getenv("DATABASE_URL")
-        if not url:
-            host = os.getenv("POSTGRES_HOST", "localhost")
-            port = os.getenv("POSTGRES_PORT", "")
-            user = os.getenv("POSTGRES_USER", "")
-            password = os.getenv("POSTGRES_PASSWORD", "")
-            db_name = os.getenv("POSTGRES_DB", os.getenv("DB_NAME", ""))
-            url = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}"
-        self._database_url = url
-        return url
-
-    def _get_engine(self) -> Engine:
-        if self._engine is None:
-            database_url = self._build_url()
-            LOGGER.info("Connecting Rasa actions to %s", database_url)
-            self._engine = create_engine(
-                database_url,
-                pool_pre_ping=True,
-                pool_size=3,
-                max_overflow=2,
-                pool_recycle=1800,  # reinicia conexiones cada 30 min
-                pool_timeout=30,    # espera hasta 30s si hay timeout
-                connect_args={"keepalives": 1, "keepalives_idle": 60, "keepalives_interval": 30, "keepalives_count": 5},
-                future=True,
-            )
-
-        return self._engine
-
-    @contextmanager
-    def connection(self) -> Iterable[Connection]:
-        engine = self._get_engine()
-        try:
-            with engine.begin() as conn:
-                yield conn
-        except SQLAlchemyError as exc:  # pragma: no cover - defensive
-            LOGGER.exception("Database error: %s", exc)
-            raise DatabaseError(str(exc)) from exc
-
-    # ------------------------------------------------------------------
-    # Chat session helpers
-    # ------------------------------------------------------------------
-    def ensure_chat_session(self, user_id: int, theme: str) -> int:
-        with self.connection() as conn:
-            existing = conn.execute(
-                text(
-                    """
-                    SELECT id_chatbot
-                    FROM analytics.chatbot
-                    WHERE id_user = :user_id
-                    ORDER BY started_at DESC
-                    LIMIT 1
-                    """
-                ),
-                {"user_id": user_id},
-            ).scalar_one_or_none()
-
-            if existing:
-                conn.execute(
-                    text(
-                        """
-                        UPDATE analytics.chatbot
-                        SET status = 'active'
-                        WHERE id_chatbot = :chatbot_id
-                        """
-                    ),
-                    {"chatbot_id": existing},
-                )
-                return int(existing)
-
-            created = conn.execute(
-                text(
-                    """
-                    INSERT INTO analytics.chatbot (theme, status, id_user, ended_at)
-                    VALUES (:theme, 'active', :user_id, now())
-                    RETURNING id_chatbot
-                    """
-                ),
-                {"theme": theme, "user_id": user_id},
-            ).scalar_one()
-            return int(created)
-
-    def close_chat_session(self, chatbot_id: int) -> None:
-        with self.connection() as conn:
-            conn.execute(
-                text(
-                    """
-                    UPDATE analytics.chatbot
-                    SET ended_at = now(), status = 'closed'
-                    WHERE id_chatbot = :chatbot_id
-                    """
-                ),
-                {"chatbot_id": chatbot_id},
-            )
-
-    # ------------------------------------------------------------------
-    # Intents and logging
-    # ------------------------------------------------------------------
-    def ensure_intent(self, intent_name: str, example_phrases: Sequence[str], response_template: str) -> int:
-        with self.connection() as conn:
-            payload = {
-                "intent_name": intent_name,
-                "examples": "\n".join(example_phrases),
-                "response_template": response_template,
-                "updated_at": datetime.now(),
-            }
-            existing = conn.execute(
-                text("SELECT id_intent FROM analytics.intents WHERE intent_name = :intent_name LIMIT 1"),
-                {"intent_name": intent_name}
-            ).scalar_one_or_none()
-
-            if existing:
-                conn.execute(
-                    text("""
-                        UPDATE analytics.intents
-                        SET example_phrases = :examples,
-                            response_template = :response_template,
-                            updated_at = :updated_at
-                        WHERE id_intent = :id_intent
-                    """),
-                    {**payload, "id_intent": int(existing)}
-                )
-                return int(existing)
-            else:
-                created = conn.execute(
-                    text("""
-                        INSERT INTO analytics.intents (intent_name, example_phrases, response_template)
-                        VALUES (:intent_name, :examples, :response_template)
-                        RETURNING id_intent
-                    """),
-                    payload
-                ).scalar_one()
-                return int(created)
-
-
-    def create_recommendation_log(
-        self,
-        status: str,
-        message: str,
-        suggested_start: datetime,
-        suggested_end: datetime,
-        field_id: int,
-    ) -> int:
-        with self.connection() as conn:
-            created = conn.execute(
-                text(
-                    """
-                    INSERT INTO analytics.recomendation_log (
-                        status, message, suggested_time_start, suggested_time_end, id_field
-                    )
-                    VALUES (:status, :message, :start, :end, :field_id)
-                    RETURNING id_recommendation_log
-                    """
-                ),
-                {
-                    "status": status,
-                    "message": message,
-                    "start": suggested_start,
-                    "end": suggested_end,
-                    "field_id": field_id,
-                },
-            ).scalar_one()
-            return int(created)
-
-    def log_chatbot_message(
-        self,
-        session_id: int,
-        intent_id: Optional[int],
-        recommendation_id: Optional[int],
-        user_message: str,
-        bot_response: str,
-        response_type: str,
-        sender_type: str = "bot",
-    ) -> None:
-        """Registra cada intercambio entre usuario y bot."""
-
-        with self.connection() as conn:
-            conn.execute(
-                text("""
-                    INSERT INTO analytics.chatbot_log (
-                        message,
-                        response_type,
-                        bot_response,
-                        intent_detected,
-                        sender_type,
-                        id_chatbot,
-                        id_intent,
-                        id_recommendation_log
-                    )
-                    VALUES (
-                        :message,
-                        :response_type,
-                        :bot_response,
-                        :intent_detected,
-                        :sender_type,
-                        :id_chatbot,
-                        :id_intent,
-                        :id_recommendation_log
-                    )
-                """),
-                {
-                    "message": user_message,
-                    "response_type": response_type,
-                    "bot_response": bot_response,
-                    "intent_detected": intent_id or None,
-                    "sender_type": sender_type,
-                    "id_chatbot": session_id,
-                    "id_intent": intent_id or None,
-                    "id_recommendation_log": recommendation_id or None,
-                },
-            )
-
-
-    # ------------------------------------------------------------------
-    # Query helpers
-    # ------------------------------------------------------------------
-    def fetch_field_recommendations(
-        self,
-        sport: Optional[str],
-        surface: Optional[str],
-        location: Optional[str],
-        limit: int = 3,
-    ) -> List[FieldRecommendation]:
-        with self.connection() as conn:
-            result = conn.execute(
-                text(
-                    """
-                    SELECT
-                        f.id_field,
-                        f.field_name,
-                        f.surface,
-                        f.capacity,
-                        f.price_per_hour,
-                        f.open_time,
-                        f.close_time,
-                        s.sport_name,
-                        c.name AS campus_name,
-                        c.district,
-                        c.address
-                    FROM booking.field AS f
-                    JOIN booking.sports AS s ON f.id_sport = s.id_sport
-                    JOIN booking.campus AS c ON f.id_campus = c.id_campus
-                    WHERE (:sport IS NULL OR s.sport_name ILIKE :sport_like)
-                      AND (:surface IS NULL OR f.surface ILIKE :surface_like)
-                      AND (
-                        :location IS NULL
-                        OR c.district ILIKE :location_like
-                        OR c.address ILIKE :location_like
-                        OR c.name ILIKE :location_like
-                      )
-                    ORDER BY f.price_per_hour ASC, f.capacity DESC
-                    LIMIT :limit
-                    """
-                ),
-                {
-                    "sport": sport,
-                    "surface": surface,
-                    "location": location,
-                    "sport_like": f"%{sport}%" if sport else None,
-                    "surface_like": f"%{surface}%" if surface else None,
-                    "location_like": f"%{location}%" if location else None,
-                    "limit": limit,
-                },
-            )
-
-            recommendations: List[FieldRecommendation] = []
-            for row in result.mappings():
-                recommendations.append(
-                    FieldRecommendation(
-                        id_field=int(row["id_field"]),
-                        field_name=row["field_name"],
-                        sport_name=row["sport_name"],
-                        campus_name=row["campus_name"],
-                        district=row["district"],
-                        address=row["address"],
-                        surface=row["surface"],
-                        capacity=int(row["capacity"]),
-                        price_per_hour=float(row["price_per_hour"]),
-                        open_time=str(row["open_time"]),
-                        close_time=str(row["close_time"]),
-                    )
-                )
-            return recommendations
-
-    def fetch_recommendation_history(self, session_id: int, limit: int = 3) -> List[Dict[str, Any]]:
-        with self.connection() as conn:
-            result = conn.execute(
-                text(
-                    """
-                    SELECT
-                        r.timestamp,
-                        r.status,
-                        r.message,
-                        r.suggested_time_start,
-                        r.suggested_time_end,
-                        f.field_name,
-                        s.sport_name,
-                        c.name AS campus_name
-                    FROM analytics.chatbot_log AS cl
-                    JOIN analytics.recomendation_log AS r
-                        ON cl.id_recommendation_log = r.id_recommendation_log
-                    JOIN booking.field AS f ON r.id_field = f.id_field
-                    JOIN booking.sports AS s ON f.id_sport = s.id_sport
-                    JOIN booking.campus AS c ON f.id_campus = c.id_campus
-                    WHERE cl.id_chatbot = :session_id
-                    ORDER BY r.timestamp DESC
-                    LIMIT :limit
-                    """
-                ),
-                {"session_id": session_id, "limit": limit},
-            )
-            return [dict(row) for row in result.mappings()]
-
-    def fetch_feedback_for_user(self, user_id: int, limit: int = 3) -> List[Dict[str, Any]]:
-        with self.connection() as conn:
-            result = conn.execute(
-                text(
-                    """
-                    SELECT rating, comment, created_at, id_rent
-                    FROM analytics.feedback
-                    WHERE id_user = :user_id
-                    ORDER BY created_at DESC
-                    LIMIT :limit
-                    """
-                ),
-                {"user_id": user_id, "limit": limit},
-            )
-            return [dict(row) for row in result.mappings()]
-
-
-db_client = ChatbotDatabase()
 
 
 async def run_in_thread(function: Any, *args: Any, **kwargs: Any) -> Any:
@@ -438,6 +68,72 @@ def _parse_datetime(date_value: Optional[str], time_value: Optional[str]) -> dat
     return date_part
 
 
+def _extract_metadata(tracker: Tracker) -> Dict[str, Any]:
+    raw_metadata = tracker.latest_message.get("metadata")
+    return dict(raw_metadata) if isinstance(raw_metadata, dict) else {}
+
+
+def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
+    raw_role = metadata.get("user_role") or metadata.get("role")
+    if isinstance(raw_role, str):
+        lowered = raw_role.lower()
+        if lowered == "admin":
+            return "admin"
+        if lowered in {"player", "jugador"}:
+            return "player"
+
+    for key in ("id_role", "role_id"):
+        value = metadata.get(key)
+        try:
+            if value is None:
+                continue
+            return "admin" if int(value) == 2 else "player"
+        except (TypeError, ValueError):
+            continue
+
+    return None
+
+
+def _resolve_user_context(tracker: Tracker) -> Tuple[Dict[str, Any], Optional[int], str, List[EventType]]:
+    """Return the metadata, user identifier, role and slot events for the tracker."""
+
+    metadata = _extract_metadata(tracker)
+    events: List[EventType] = []
+
+    user_id: Optional[int] = None
+    slot_user_id = tracker.get_slot("user_id")
+    if slot_user_id is not None:
+        try:
+            user_id = int(str(slot_user_id).strip())
+        except (TypeError, ValueError):
+            user_id = None
+
+    if user_id is None:
+        fallback_id = metadata.get("user_id") or metadata.get("id_user")
+        if fallback_id is not None:
+            try:
+                user_id = int(str(fallback_id).strip())
+            except (TypeError, ValueError):
+                user_id = None
+            else:
+                events.append(SlotSet("user_id", str(user_id)))
+
+    role_slot = tracker.get_slot("user_role")
+    user_role: Optional[str] = None
+    if isinstance(role_slot, str):
+        user_role = "admin" if role_slot.lower() == "admin" else "player"
+
+    metadata_role = _normalize_role_from_metadata(metadata)
+    if metadata_role and metadata_role != user_role:
+        events.append(SlotSet("user_role", metadata_role))
+        user_role = metadata_role
+
+    if not user_role:
+        user_role = "player"
+
+    return metadata, user_id, user_role, events
+
+
 class ActionSubmitFieldRecommendationForm(Action):
     """Handle the submission of the field recommendation form."""
 
@@ -451,28 +147,36 @@ class ActionSubmitFieldRecommendationForm(Action):
         domain: DomainDict,
     ) -> List[EventType]:
         user_message = tracker.latest_message.get("text") or ""
-        user_id_raw = tracker.get_slot("user_id")
+        slot_user_id = tracker.get_slot("user_id")
+        metadata, user_id, user_role, context_events = _resolve_user_context(tracker)
+        events: List[EventType] = list(context_events)
         theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
 
-        if not user_id_raw:
-            dispatcher.utter_message(
-                text="Necesito tu número de usuario para continuar con la recomendación. ¿Podrías indicármelo?",
-            )
-            return []
-
-        try:
-            user_id = int(str(user_id_raw).strip())
-        except ValueError:
-            dispatcher.utter_message(
-                text=(
-                    "No pude reconocer ese identificador. Compárteme el ID numérico que usas en la aplicación "
-                    "para poder registrar la recomendación."
+        if user_id is None:
+            metadata_has_id = metadata.get("user_id") is not None or metadata.get("id_user") is not None
+            if slot_user_id or metadata_has_id:
+                dispatcher.utter_message(
+                    text=(
+                        "Parece que tu sesión no trae un usuario válido. "
+                        "Prueba iniciando sesión otra vez y te ayudo con la reserva."
+                    )
                 )
-            )
-            return []
+            else:
+                dispatcher.utter_message(
+                    text=(
+                        "No pude identificar tu usuario desde las credenciales. "
+                        "Vuelve a iniciar sesión y retomamos la búsqueda de canchas."
+                    ),
+                )
+            return events
 
         try:
-            session_id = await run_in_thread(db_client.ensure_chat_session, user_id, theme)
+            session_id = await run_in_thread(
+                chatbot_service.ensure_chat_session,
+                user_id,
+                theme,
+                user_role,
+            )
         except DatabaseError:
             dispatcher.utter_message(
                 text=(
@@ -480,7 +184,7 @@ class ActionSubmitFieldRecommendationForm(Action):
                     "Inténtalo de nuevo en unos minutos."
                 )
             )
-            return []
+            return events
 
         preferred_sport = tracker.get_slot("preferred_sport")
         preferred_surface = tracker.get_slot("preferred_surface")
@@ -491,10 +195,11 @@ class ActionSubmitFieldRecommendationForm(Action):
 
         try:
             recommendations: List[FieldRecommendation] = await run_in_thread(
-                db_client.fetch_field_recommendations,
-                preferred_sport,
-                preferred_surface,
-                preferred_location,
+                chatbot_service.fetch_field_recommendations,
+                sport=preferred_sport,
+                surface=preferred_surface,
+                location=preferred_location,
+                limit=3,
             )
         except DatabaseError:
             dispatcher.utter_message(
@@ -503,7 +208,8 @@ class ActionSubmitFieldRecommendationForm(Action):
                     "Por favor, intenta de nuevo más tarde."
                 )
             )
-            return [SlotSet("chatbot_session_id", str(session_id))]
+            events.append(SlotSet("chatbot_session_id", str(session_id)))
+            return events
 
         if not recommendations:
             dispatcher.utter_message(
@@ -512,7 +218,8 @@ class ActionSubmitFieldRecommendationForm(Action):
                     "¿Te gustaría que revise otras zonas u horarios?"
                 )
             )
-            return [SlotSet("chatbot_session_id", str(session_id))]
+            events.append(SlotSet("chatbot_session_id", str(session_id)))
+            return events
 
         top_choice = recommendations[0]
         start_dt = _parse_datetime(preferred_date, preferred_start_time)
@@ -523,61 +230,97 @@ class ActionSubmitFieldRecommendationForm(Action):
             except ValueError:
                 end_dt = start_dt + timedelta(hours=1)
 
-        summary_lines = []
+        summary_lines: List[str] = []
         for idx, rec in enumerate(recommendations, start=1):
-            summary_lines.append(
-                (
+            if user_role == "admin":
+                line = (
                     f"{idx}. {rec.field_name} en {rec.campus_name} ({rec.district}). "
-                    f"Deporte: {rec.sport_name}. Superficie: {rec.surface}. "
-                    f"Capacidad para {rec.capacity} personas. Precio referencial: S/ {rec.price_per_hour:.2f} por hora."
+                    f"Disciplina: {rec.sport_name}. Superficie: {rec.surface}. "
+                    f"Capacidad: {rec.capacity} jugadores. Tarifa referencial S/ {rec.price_per_hour:.2f} por hora."
                 )
-            )
+            else:
+                line = (
+                    f"{idx}. {rec.field_name} en {rec.campus_name} ({rec.district}). "
+                    f"Perfecta para tu pichanga de {rec.sport_name} en cancha {rec.surface}. "
+                    f"Entran {rec.capacity} patas y la hora está aprox. en S/ {rec.price_per_hour:.2f}."
+                )
+            summary_lines.append(line)
 
-        response_text = (
-            "Estas son las canchas que mejor encajan con lo que buscas:\n" + "\n".join(summary_lines)
-        )
+        if user_role == "admin":
+            intro = "Estas son las alternativas que mejor se ajustan a su equipo:"
+            closing = "Si requiere coordinar disponibilidad extra o apoyo con la gestión, avíseme."
+        else:
+            intro = "Mira estas canchitas que calzan con la pichanga que estás armando:"
+            closing = "¿Quieres que aseguremos alguna o que busque otra opción?"
+
+        response_text = f"{intro}\n" + "\n".join(summary_lines) + f"\n{closing}"
         dispatcher.utter_message(text=response_text)
 
         try:
-            recommendation_id = await run_in_thread(
-                db_client.create_recommendation_log,
-                "suggested",
-                summary_lines[0],
-                start_dt,
-                end_dt,
-                top_choice.id_field,
+            await run_in_thread(
+                chatbot_service.log_chatbot_message,
+                session_id=session_id,
+                intent_id=None,
+                recommendation_id=None,
+                message_text=user_message,
+                bot_response="",
+                response_type="user_message",
+                sender_type="user",
+                user_id=user_id,
+                metadata=metadata,
+                intent_confidence=None,
             )
 
+            recommendation_id = await run_in_thread(
+                chatbot_service.create_recommendation_log,
+                status="suggested",
+                message=summary_lines[0],
+                suggested_start=start_dt,
+                suggested_end=end_dt,
+                field_id=top_choice.id_field,
+                user_id=user_id,
+            )
+
+            intent_data = tracker.latest_message.get("intent") or {}
+            intent_name = intent_data.get("name") or "request_field_recommendation"
+            confidence = intent_data.get("confidence")
+            source_model = metadata.get("model") or metadata.get("pipeline")
+
             intent_id = await run_in_thread(
-                db_client.ensure_intent,
-                "request_field_recommendation",
-                [
-                    "Quiero alquilar una cancha",
-                    "¿Qué cancha me recomiendas?",
-                    "Necesito reservar una cancha hoy"
-                ],
-                response_text,
+                chatbot_service.ensure_intent,
+                intent_name=intent_name,
+                example_phrases=[user_message or intent_name],
+                response_template=response_text,
+                confidence=confidence,
+                detected=bool(intent_name),
+                false_positive=False,
+                source_model=source_model,
             )
 
             # registra el intercambio completo
             await run_in_thread(
-                db_client.log_chatbot_message,
-                session_id,
-                intent_id,
-                recommendation_id,
-                user_message,
-                response_text,
-                "recommendation",
+                chatbot_service.log_chatbot_message,
+                session_id=session_id,
+                intent_id=intent_id,
+                recommendation_id=recommendation_id,
+                message_text=response_text,
+                bot_response=response_text,
+                response_type="recommendation",
                 sender_type="bot",
+                user_id=user_id,
+                intent_confidence=confidence,
+                metadata={**metadata, "detected_intent": intent_name},
             )
 
         except DatabaseError:
             LOGGER.warning("Could not persist recommendation log for session %s", session_id)
 
-        events: List[EventType] = [
-            SlotSet("chatbot_session_id", str(session_id)),
-            SlotSet("preferred_end_time", preferred_end_time or end_dt.isoformat()),
-        ]
+        events.extend(
+            [
+                SlotSet("chatbot_session_id", str(session_id)),
+                SlotSet("preferred_end_time", preferred_end_time or end_dt.isoformat()),
+            ]
+        )
         return events
 
 
@@ -594,32 +337,45 @@ class ActionShowRecommendationHistory(Action):
         domain: DomainDict,
     ) -> List[EventType]:
         session_id = tracker.get_slot("chatbot_session_id")
-        user_id_raw = tracker.get_slot("user_id")
-        events: List[EventType] = []
+        slot_user_id = tracker.get_slot("user_id")
+        metadata, user_id, user_role, context_events = _resolve_user_context(tracker)
+        events: List[EventType] = list(context_events)
 
-        if not session_id and user_id_raw:
-            try:
-                user_id = int(str(user_id_raw).strip())
-                session_id = await run_in_thread(
-                    db_client.ensure_chat_session,
-                    user_id,
-                    tracker.get_slot("chat_theme") or "Reservas y alquileres",
+        if user_id is None:
+            metadata_has_id = metadata.get("user_id") is not None or metadata.get("id_user") is not None
+            if slot_user_id or metadata_has_id:
+                dispatcher.utter_message(
+                    text="Necesito que vuelvas a iniciar sesión para identificarte correctamente.",
                 )
-                events.append(SlotSet("chatbot_session_id", str(session_id)))
-            except (ValueError, DatabaseError):
-                session_id = None
-
-        if not session_id:
-            dispatcher.utter_message(
-                text=(
-                    "Aún no tengo registrada una sesión contigo. Solicita una recomendación "
-                    "para que pueda guardar un historial."
+            else:
+                dispatcher.utter_message(
+                    text=(
+                        "No encuentro tu usuario activo. Inicia sesión nuevamente para revisar tu historial."
+                    )
                 )
-            )
             return events
 
+        if not session_id:
+            try:
+                session_id = await run_in_thread(
+                    chatbot_service.ensure_chat_session,
+                    user_id,
+                    tracker.get_slot("chat_theme") or "Reservas y alquileres",
+                    user_role,
+                )
+                events.append(SlotSet("chatbot_session_id", str(session_id)))
+            except DatabaseError:
+                dispatcher.utter_message(
+                    text="No logré conectar con el historial en este momento. Intenta nuevamente en unos minutos."
+                )
+                return events
+
         try:
-            history = await run_in_thread(db_client.fetch_recommendation_history, int(session_id))
+            history = await run_in_thread(
+                chatbot_service.fetch_recommendation_history,
+                int(session_id),
+                3,
+            )
         except DatabaseError:
             dispatcher.utter_message(
                 text="No pude revisar el historial de recomendaciones en este momento. Intenta luego, por favor.",
@@ -643,8 +399,13 @@ class ActionShowRecommendationHistory(Action):
                 )
             )
 
+        if user_role == "admin":
+            header = "Aquí tiene el resumen de las recomendaciones más recientes:"
+        else:
+            header = "Te dejo un repaso de las canchitas que te sugerí últimamente:"
+
         dispatcher.utter_message(
-            text="Este es el resumen de tus últimas recomendaciones:\n" + "\n".join(lines)
+            text=f"{header}\n" + "\n".join(lines)
         )
         return events
 
@@ -661,50 +422,71 @@ class ActionCheckFeedbackStatus(Action):
         tracker: Tracker,
         domain: DomainDict,
     ) -> List[EventType]:
-        user_id_raw = tracker.get_slot("user_id")
-        if not user_id_raw:
-            dispatcher.utter_message(
-                text="Para revisar tu feedback necesito tu ID de usuario. ¿Podrías indicármelo?",
-            )
-            return []
+        slot_user_id = tracker.get_slot("user_id")
+        metadata, user_id, user_role, context_events = _resolve_user_context(tracker)
+        events: List[EventType] = list(context_events)
+
+        if user_id is None:
+            metadata_has_id = metadata.get("user_id") is not None or metadata.get("id_user") is not None
+            if slot_user_id or metadata_has_id:
+                dispatcher.utter_message(
+                    text="Necesito que vuelvas a iniciar sesión para reconocer tu cuenta antes de mostrar el feedback.",
+                )
+            else:
+                dispatcher.utter_message(
+                    text="No pude validar tu sesión. Inicia sesión otra vez para revisar tus comentarios.",
+                )
+            return events
 
         try:
-            user_id = int(str(user_id_raw).strip())
-        except ValueError:
-            dispatcher.utter_message(
-                text="El ID de usuario debe ser numérico. Intenta nuevamente, por favor.",
+            feedback_entries = await run_in_thread(
+                chatbot_service.fetch_feedback_for_user,
+                user_id,
+                3,
             )
-            return []
-
-        try:
-            feedback_entries = await run_in_thread(db_client.fetch_feedback_for_user, user_id)
         except DatabaseError:
             dispatcher.utter_message(
                 text="No pude acceder al historial de feedback en este momento. Intenta nuevamente más tarde.",
             )
-            return []
+            return events
 
         if not feedback_entries:
             dispatcher.utter_message(
                 text="Aún no registras comentarios sobre tus reservas. Cuando dejes alguno, podré mostrártelo aquí.",
             )
-            return []
+            return events
 
         lines = []
         for entry in feedback_entries:
             created_dt = _coerce_datetime(entry['created_at'])
             created_at = created_dt.strftime("%d/%m/%Y %H:%M")
-            lines.append(
-                (
-                    f"- Reserva {entry['id_rent']}: calificación {float(entry['rating']):.1f}/5. "
-                    f"Comentario: {entry['comment']} (enviado el {created_at})."
+            rating_raw = entry.get('rating')
+            rating = float(rating_raw) if rating_raw is not None else 0.0
+            comment = entry.get('comment') or "(sin comentario)"
+            if user_role == "admin":
+                lines.append(
+                    (
+                        f"- Reserva {entry['id_rent']}: calificación {rating:.1f}/5. "
+                        f"Comentario: {comment} (enviado el {created_at})."
+                    )
                 )
-            )
+            else:
+                lines.append(
+                    (
+                        f"- Partido {entry['id_rent']}: le diste {rating:.1f}/5 y dijiste \"{comment}\" "
+                        f"(el {created_at})."
+                    )
+                )
+
+        if user_role == "admin":
+            header = "Aquí tiene los comentarios más recientes que recibimos:"
+        else:
+            header = "Mira los comentarios que dejaste últimamente:"
 
         dispatcher.utter_message(
-            text="Estos son tus comentarios más recientes:\n" + "\n".join(lines)
+            text=f"{header}\n" + "\n".join(lines)
         )
-        return []
+        return events
 
 
 class ActionCloseChatSession(Action):
@@ -722,7 +504,59 @@ class ActionCloseChatSession(Action):
         session_id = tracker.get_slot("chatbot_session_id")
         if session_id:
             try:
-                await run_in_thread(db_client.close_chat_session, int(session_id))
+                await run_in_thread(chatbot_service.close_chat_session, int(session_id))
             except (ValueError, DatabaseError):
                 LOGGER.debug("Could not close session %s", session_id)
         return []
+
+
+class ActionSessionStart(Action):
+    """Populate session slots from metadata at the beginning of a conversation."""
+
+    def name(self) -> str:
+        return "action_session_start"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        events: List[EventType] = [SessionStarted()]
+        raw_metadata = tracker.latest_message.get("metadata")
+        metadata = dict(raw_metadata) if isinstance(raw_metadata, dict) else {}
+
+        user_identifier = metadata.get("user_id") or metadata.get("id_user")
+        if user_identifier is not None:
+            try:
+                user_identifier = int(user_identifier)
+            except (TypeError, ValueError):
+                pass
+            events.append(SlotSet("user_id", str(user_identifier)))
+
+        role_value: Optional[str] = None
+        raw_role = metadata.get("user_role")
+        if isinstance(raw_role, str):
+            role_value = raw_role.lower()
+        else:
+            role_id = metadata.get("id_role")
+            try:
+                if role_id is not None and int(role_id) == 2:
+                    role_value = "admin"
+                elif role_id is not None:
+                    role_value = "player"
+            except (TypeError, ValueError):
+                role_value = None
+
+        if role_value:
+            normalized = "admin" if role_value == "admin" else "player"
+            events.append(SlotSet("user_role", normalized))
+
+        if not any(
+            isinstance(event, SlotSet) and event.key == "user_role"
+            for event in events
+        ):
+            events.append(SlotSet("user_role", "player"))
+
+        events.append(ActionExecuted("action_listen"))
+        return events

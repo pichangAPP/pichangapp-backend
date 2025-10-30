@@ -3,15 +3,15 @@
 from .action_chatbot import (
     ActionCheckFeedbackStatus,
     ActionCloseChatSession,
+    ActionSessionStart,
     ActionShowRecommendationHistory,
     ActionSubmitFieldRecommendationForm,
 )
-from .action_human_handoff import ActionHumanHandoff
 
 __all__ = [
     "ActionCheckFeedbackStatus",
     "ActionCloseChatSession",
-    "ActionHumanHandoff",
+    "ActionSessionStart",
     "ActionShowRecommendationHistory",
     "ActionSubmitFieldRecommendationForm",
 ]
