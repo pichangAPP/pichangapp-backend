@@ -3,7 +3,6 @@
 Este servicio de Rasa convierte al bot en un concierge deportivo: responde preguntas frecuentes, recomienda canchas según preferencias y registra cada interacción en los esquemas `analytics` de la base de datos.
 
 ## 🚀 Capacidades principales
-
 - **Recomendaciones inteligentes**: consulta `booking.field`, `booking.sports` y `booking.campus` para sugerir canchas acordes al deporte, zona y superficie solicitada con un tono barrial y futbolero.
 - **Seguimiento analítico**: registra sesiones, intenciones y respuestas en `analytics.chatbot`, `analytics.chatbot_log`, `analytics.intents` y `analytics.recomendation_log`, actualizando métricas como confianza promedio y cantidad de detecciones.
 - **Feedback del usuario**: muestra los comentarios más recientes almacenados en `analytics.feedback` sin pedir datos extras al jugador.
