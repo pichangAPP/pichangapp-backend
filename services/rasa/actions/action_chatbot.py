@@ -69,36 +69,6 @@ def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
     return metadata.get("default_role") if metadata.get("default_role") in {"admin", "player"} else None
 
 
-def _slot_defined(slot_name: str, domain: DomainDict) -> bool:
-    """Return True if the slot exists in the loaded domain."""
-
-    if domain is None:
-        return False
-
-    # DomainDict is a Mapping[str, Any] in the action server.  Slots can be
-    # exposed either as a mapping (common in production servers) or a list of
-    # descriptor dictionaries (when the server serialises the domain).
-    if isinstance(domain, dict):
-        slots = domain.get("slots")
-        if isinstance(slots, dict):
-            return slot_name in slots
-        if isinstance(slots, list):
-            for slot in slots:
-                if isinstance(slot, dict):
-                    name = slot.get("name") or slot.get("slot_name")
-                    if name == slot_name:
-                        return True
-    else:  # pragma: no cover - fallback for Domain objects
-        try:
-            slots = getattr(domain, "slots")
-        except AttributeError:
-            slots = None
-        if isinstance(slots, dict):
-            return slot_name in slots
-
-    return False
-
-
 def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
     for event in events:
         if hasattr(event, "key") and getattr(event, "key") == slot_name:
@@ -626,17 +596,10 @@ class ActionSessionStart(Action):
                 )
 
         role_value = _normalize_role_from_metadata(metadata)
-        user_role_slot_supported = _slot_defined("user_role", domain)
         assigned_role: Optional[str] = None
         if role_value:
             normalized = "admin" if role_value == "admin" else "player"
-            if user_role_slot_supported:
-                events.append(SlotSet("user_role", normalized))
-            else:
-                LOGGER.warning(
-                    "[ActionSessionStart] domain for conversation=%s does not define slot 'user_role'",
-                    tracker.sender_id,
-                )
+            events.append(SlotSet("user_role", normalized))
             assigned_role = normalized
             LOGGER.info(
                 "[ActionSessionStart] role from metadata=%s normalized=%s",
@@ -644,12 +607,10 @@ class ActionSessionStart(Action):
                 normalized,
             )
 
-        if user_role_slot_supported and not _slot_already_planned(events, "user_role"):
+        if not _slot_already_planned(events, "user_role"):
             events.append(SlotSet("user_role", "player"))
             if assigned_role is None:
                 assigned_role = "player"
-        elif not user_role_slot_supported and assigned_role is None:
-            assigned_role = "player"
 
         theme = metadata.get("chat_theme") or metadata.get("theme")
         if not theme:
