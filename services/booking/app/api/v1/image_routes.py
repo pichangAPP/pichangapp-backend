@@ -24,6 +24,12 @@ def create_image(campus_id: int, image_in: ImageCreate, db: Session = Depends(ge
     return service.create_image(campus_id, image_in)
 
 
+@router.get("/fields/{field_id}/images", response_model=list[ImageResponse])
+def list_field_images(field_id: int, db: Session = Depends(get_db)):
+    service = ImageService(db)
+    return service.list_field_images(field_id)
+
+
 @router.get("/images/{image_id}", response_model=ImageResponse)
 def get_image(image_id: int, db: Session = Depends(get_db)):
     service = ImageService(db)

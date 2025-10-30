@@ -8,6 +8,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field as PydanticField,
+    field_validator,
     model_validator,
 )
 from .characteristic import (
@@ -77,7 +78,14 @@ class CampusResponse(CampusBase):
     id_manager: Optional[int] = None
     characteristic: CharacteristicResponse
     fields: List[FieldResponse]
-    images: List[ImageResponse]
+    images: List[ImageResponse] = PydanticField(default_factory=list)
     manager: Optional[ManagerResponse] = None
     available_schedules: List[CampusScheduleResponse] = PydanticField(default_factory=list)
+
+    @field_validator("images", mode="before")
+    @classmethod
+    def _only_campus_images(cls, value: list[object]) -> list[object]:
+        if isinstance(value, list):
+            return [image for image in value if getattr(image, "id_field", None) is None]
+        return value
 

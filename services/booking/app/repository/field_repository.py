@@ -10,7 +10,10 @@ from app.models import Field, Sport
 def list_fields_by_campus(db: Session, campus_id: int) -> List[Field]:
     return (
         db.query(Field)
-        .options(selectinload(Field.sport).selectinload(Sport.modality))
+        .options(
+            selectinload(Field.sport).selectinload(Sport.modality),
+            selectinload(Field.images),
+        )
         .filter(Field.id_campus == campus_id)
         .order_by(Field.id_field)
         .all()
@@ -19,7 +22,10 @@ def list_fields_by_campus(db: Session, campus_id: int) -> List[Field]:
 def get_field(db: Session, field_id: int) -> Optional[Field]:
     return (
         db.query(Field)
-        .options(selectinload(Field.sport).selectinload(Sport.modality))
+        .options(
+            selectinload(Field.sport).selectinload(Sport.modality),
+            selectinload(Field.images),
+        )
         .filter(Field.id_field == field_id)
         .first()
     )

@@ -11,13 +11,14 @@ class ImageBase(BaseModel):
     image_url: str
     state: str
     deleted: bool = False
-    type: str                     # "business" o "campus", "field"
+    type: str  # "business", "campus" o "field"
     category: Optional[str] = None  # Ejemplo: "campo", "logo", "estadio"
 
 
 class ImageCreate(ImageBase):
     id_campus: Optional[int] = None
     id_business: Optional[int] = None
+    id_field: Optional[int] = None
 
 
 class ImageUpdate(BaseModel):
@@ -29,6 +30,7 @@ class ImageUpdate(BaseModel):
     category: Optional[str] = None
     id_campus: Optional[int] = None
     id_business: Optional[int] = None
+    id_field: Optional[int] = None
 
 
 class ImageResponse(ImageBase):
@@ -37,5 +39,6 @@ class ImageResponse(ImageBase):
     id_image: int
     id_campus: Optional[int] = None
     id_business: Optional[int] = None
+    id_field: Optional[int] = None
     creation_date: datetime
     modification_date: datetime

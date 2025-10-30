@@ -11,6 +11,7 @@ from pydantic import (
     model_validator,
 )
 
+from app.schemas.image import ImageResponse
 from app.schemas.sport import SportResponse
 
 class FieldBase(BaseModel):
@@ -61,3 +62,5 @@ class FieldResponse(FieldBase):
     id_field: int
     id_campus: int
     sport: SportResponse
+    images: list[ImageResponse] = PydanticField(default_factory=list)
+
