@@ -16,7 +16,9 @@
 
 | Endpoint | Método | API | Función
 | --- | --- | --- | --- |
-| `/api/pichangapp/v1/reservation?field_id=1&day_of_week=Monday&status=reserved` | `GET` | `schedule_routes` | Obtiene todos los reservations, a su vez tiene parametros OPCIONALES para filtrar. |
+| `/api/pichangapp/v1/reservation?field_id=1&day_of_week=Monday&status=reserved` | `GET` | `schedule_routes` | Obtiene todos los horarios de base de datos, además de ofrecer filtros opcionales por parámetro. |
+
+> **Nota:** El parametro `field_id` es opcional y entero, `day_of_week` se refiere a un día de semana y `status` define a los estados de reservaciones a obtener.
 
 ### Response
 
@@ -52,9 +54,11 @@
 
 | Endpoint | Método | API | Función
 | --- | --- | --- | --- |
-| `/api/pichangapp/v1/reservation/time-slots?field_id=1&date=2025-10-31` | `GET` | `schedule_routes` | Obtiene todos los reservations, a su vez tiene parametros OPCIONALES para filtrar. |
+| `/api/pichangapp/v1/reservation/time-slots?field_id=1&date=2025-10-31` | `GET` | `schedule_routes` | Obtiene todos los horarios para la vista de reservación. |
 
-> **Nota:** El parametro `field_id` es obligatorio y entero, `date` es opcionales en la petición y acepta valores en formato ISO `YYYY-MM-DD`. Si no lo incluyes, el servicio utiliza la fecha actual.
+> **Nota:** El parametro `field_id` es obligatorio y entero, `date` es opcional en la petición y acepta valores en formato ISO `YYYY-MM-DD`. Si no lo incluyes, el servicio utiliza la fecha actual.
+
+### Response
 
 ```json
 [
