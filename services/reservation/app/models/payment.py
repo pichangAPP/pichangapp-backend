@@ -1,4 +1,4 @@
-"""SQLAlchemy models for the payment service."""
+"""SQLAlchemy model representing a payment record accessible to the reservation service."""
 
 from sqlalchemy import (
     BigInteger,
@@ -17,7 +17,7 @@ from app.core.database import Base
 
 
 class Payment(Base):
-    """Represents a payment attempt registered in the system."""
+    """Represents a payment registered in the payment service."""
 
     __tablename__ = "payment"
     __table_args__ = {"schema": "payment"}
@@ -39,9 +39,7 @@ class Payment(Base):
     status = Column(String(30), nullable=False)
     type = Column(String(30), nullable=False)
     paid_at = Column(
-        DateTime(timezone=True),
-        nullable=False,
-        server_default=func.now(),
+        DateTime(timezone=True), nullable=False, server_default=func.now()
     )
     memberships_id_membership = Column(
         Integer,

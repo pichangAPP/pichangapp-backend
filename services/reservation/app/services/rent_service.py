@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Dict, List, Optional
 
@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.models.rent import Rent
 from app.models.schedule import Schedule
-from app.repository import rent_repository, schedule_repository
+from app.repository import payment_repository, rent_repository, schedule_repository
 from app.schemas.rent import RentCreate, RentUpdate
 
 
@@ -138,6 +138,21 @@ class RentService:
                 detail="Schedule already has an active rent",
             )
 
+    def _validate_payment(self, payment_id: int) -> None:
+        payment = payment_repository.get_payment(self.db, payment_id)
+        if payment is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Associated payment not found",
+            )
+
+        status_value = (payment.status or "").lower()
+        if status_value != "paid":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Payment must be in paid status to link with the rent",
+            )
+
     @staticmethod
     def _calculate_minutes(*, start_time: datetime, end_time: datetime) -> Decimal:
 
@@ -245,12 +260,25 @@ class RentService:
         schedule = self._get_schedule(payload.id_schedule)
         self._ensure_schedule_available(schedule.id_schedule)
 
+        #  Ensure the rent inherits the schedule timing regardless of user input.
         rent_data = payload.dict(exclude_unset=True)
+        rent_data.pop("start_time", None)
+        rent_data.pop("end_time", None)
+
+        rent_data.setdefault(
+            "payment_deadline",
+            datetime.now(timezone.utc) + timedelta(minutes=5),
+        )
+
+
         self._apply_schedule_defaults(
             schedule=schedule,
             rent_data=rent_data,
             schedule_changed=True,
         )
+
+        if rent_data.get("id_payment") is not None:
+            self._validate_payment(int(rent_data["id_payment"]))
 
         rent = rent_repository.create_rent(self.db, rent_data)
         return rent_repository.get_rent(self.db, rent.id_rent)
@@ -279,6 +307,9 @@ class RentService:
             schedule_changed=schedule_changed,
             existing_rent=rent,
         )
+
+        if "id_payment" in update_data and update_data["id_payment"] is not None:
+            self._validate_payment(int(update_data["id_payment"]))
 
         for field, value in update_data.items():
             setattr(rent, field, value)
