@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+from datetime import date
 from typing import Optional, Iterable, Sequence
 
-from sqlalchemy import exists
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import exists, func
+from sqlalchemy.orm import Session, joinedload, load_only
 
 from app.models.schedule import Schedule
 from app.models.field import Field
@@ -101,6 +102,22 @@ def list_available_schedules(
     query = query.filter(~active_rent_exists)
 
     return query.order_by(Schedule.start_time).all()
+
+
+def list_schedules_by_date(
+    db: Session,
+    *,
+    field_id: int,
+    target_date: date,
+) -> list[Schedule]:
+    return (
+        db.query(Schedule)
+        .options(load_only(Schedule.start_time, Schedule.end_time, Schedule.status))
+        .filter(Schedule.id_field == field_id)
+        .filter(func.date(Schedule.start_time) == target_date)
+        .order_by(Schedule.start_time)
+        .all()
+    )
 
 
 def get_field(db: Session, field_id: int) -> Optional[Field]:
