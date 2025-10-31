@@ -13,8 +13,8 @@ class RentBase(BaseModel):
     period: str = Field(..., max_length=20)
     start_time: datetime
     end_time: datetime
-    initialized: datetime
-    finished: datetime
+    initialized: Optional[datetime]
+    finished: Optional[datetime]
     status: str = Field(..., max_length=30)
     minutes: Decimal
     mount: Decimal
