@@ -1,12 +1,18 @@
 """API routes for managing schedules."""
 
+from datetime import date
 from typing import List, Optional, Sequence
 
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
-from app.schemas.schedule import ScheduleCreate, ScheduleResponse, ScheduleUpdate
+from app.schemas.schedule import (
+    ScheduleCreate,
+    ScheduleResponse,
+    ScheduleTimeSlotResponse,
+    ScheduleUpdate,
+)
 from app.services.schedule_service import ScheduleService
 
 router = APIRouter(prefix="/schedules", tags=["schedules"])
@@ -27,6 +33,28 @@ def list_schedules(
         field_id=field_id,
         day_of_week=day_of_week,
         status_filter=status,
+    )
+    return schedules
+
+
+@router.get("/time-slots", response_model=List[ScheduleTimeSlotResponse])
+def list_schedule_time_slots(
+    *,
+    db: Session = Depends(get_db),
+    field_id: int = Query(..., description="Field identifier"),
+    date_value: Optional[date] = Query(
+        None,
+        alias="date",
+        description="Date to filter schedules. Defaults to the current date.",
+    ),
+) -> List[ScheduleTimeSlotResponse]:
+    """Retrieve schedule time slots for a field on a specific date."""
+
+    service = ScheduleService(db)
+    target_date = date_value or date.today()
+    schedules = service.list_schedules_by_date(
+        field_id=field_id,
+        target_date=target_date,
     )
     return schedules
 

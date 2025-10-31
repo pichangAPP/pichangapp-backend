@@ -1,12 +1,10 @@
-from datetime import datetime
+from datetime import date, datetime
 from typing import List, Optional, Sequence
 
 from fastapi import HTTPException, status
-from sqlalchemy import exists
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 
 from app.models.field import Field
-from app.models.rent import Rent
 from app.models.schedule import Schedule
 from app.models.user import User
 from app.schemas.schedule import ScheduleCreate, ScheduleUpdate
@@ -155,4 +153,18 @@ class ScheduleService:
             day_of_week=day_of_week,
             status_filter=status_filter,
             exclude_rent_statuses=exclude_rent_statuses,
+        )
+
+    def list_schedules_by_date(
+        self,
+        *,
+        field_id: int,
+        target_date: date,
+    ) -> List[Schedule]:
+        self._get_field(field_id)
+
+        return schedule_repository.list_schedules_by_date(
+            self.db,
+            field_id=field_id,
+            target_date=target_date,
         )
