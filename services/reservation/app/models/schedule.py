@@ -16,8 +16,10 @@ class Schedule(Base):
     end_time = Column(DateTime(timezone=True), nullable=False)
     status = Column(String(30), nullable=False)
     price = Column(Numeric(10, 2), nullable=False)
-    id_field = Column(BigInteger, ForeignKey("booking.field.id_field"), nullable=False)
-    id_user = Column(BigInteger, ForeignKey("auth.users.id_user"), nullable=False)
+    id_field = Column(
+        BigInteger, ForeignKey("booking.field.id_field"), nullable=True
+    )
+    id_user = Column(BigInteger, ForeignKey("auth.users.id_user"), nullable=True)
 
     rents = relationship("Rent", back_populates="schedule", cascade="all, delete-orphan")
     field = relationship("Field", lazy="joined")
