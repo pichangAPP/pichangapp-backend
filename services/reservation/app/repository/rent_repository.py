@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from typing import Dict, Iterable, Optional
-
+from typing import Dict, Iterable, Optional, Sequence, Set
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
@@ -82,3 +81,25 @@ def save_rent(db: Session, rent: Rent) -> Rent:
 def delete_rent(db: Session, rent: Rent) -> None:
     db.delete(rent)
     db.commit()
+
+def get_active_schedule_ids(
+    db: Session,
+    schedule_ids: Sequence[int],
+    *,
+    excluded_statuses: Optional[Sequence[str]] = None,
+) -> Set[int]:
+    if not schedule_ids:
+        return set()
+
+    query = db.query(Rent.id_schedule).filter(Rent.id_schedule.in_(schedule_ids))
+
+    filtered_statuses = [
+        status_value.lower()
+        for status_value in (excluded_statuses or ())
+        if status_value
+    ]
+
+    if filtered_statuses:
+        query = query.filter(func.lower(Rent.status).notin_(filtered_statuses))
+
+    return {row[0] for row in query.distinct()}

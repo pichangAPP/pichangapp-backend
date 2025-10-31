@@ -112,7 +112,15 @@ def list_schedules_by_date(
 ) -> list[Schedule]:
     return (
         db.query(Schedule)
-        .options(load_only(Schedule.start_time, Schedule.end_time, Schedule.status))
+        .options(
+            load_only(
+                Schedule.id_schedule,
+                Schedule.start_time,
+                Schedule.end_time,
+                Schedule.status,
+                Schedule.price
+            )
+        )
         .filter(Schedule.id_field == field_id)
         .filter(func.date(Schedule.start_time) == target_date)
         .order_by(Schedule.start_time)
