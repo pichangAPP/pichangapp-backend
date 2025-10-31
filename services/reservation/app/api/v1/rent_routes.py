@@ -26,6 +26,45 @@ def list_rents(
     return rents
 
 
+@router.get("/fields/{field_id}", response_model=List[RentResponse])
+def list_rents_by_field(
+    field_id: int,
+    *,
+    db: Session = Depends(get_db),
+    status: Optional[str] = Query(None, description="Filter rents by status"),
+) -> List[RentResponse]:
+    """Retrieve rents associated with a specific field."""
+
+    service = RentService(db)
+    return service.list_rents_by_field(field_id, status_filter=status)
+
+
+@router.get("/users/{user_id}", response_model=List[RentResponse])
+def list_rents_by_user(
+    user_id: int,
+    *,
+    db: Session = Depends(get_db),
+    status: Optional[str] = Query(None, description="Filter rents by status"),
+) -> List[RentResponse]:
+    """Retrieve rents associated with a specific user."""
+
+    service = RentService(db)
+    return service.list_rents_by_user(user_id, status_filter=status)
+
+
+@router.get("/users/{user_id}/history", response_model=List[RentResponse])
+def list_user_rent_history(
+    user_id: int,
+    *,
+    db: Session = Depends(get_db),
+    status: Optional[str] = Query(None, description="Filter rents by status"),
+) -> List[RentResponse]:
+    """Retrieve the rent history for a specific user ordered from newest to oldest."""
+
+    service = RentService(db)
+    return service.list_user_rent_history(user_id, status_filter=status)
+
+
 @router.get("/{rent_id}", response_model=RentResponse)
 def get_rent(rent_id: int, db: Session = Depends(get_db)) -> RentResponse:
     """Retrieve a rent by its identifier."""

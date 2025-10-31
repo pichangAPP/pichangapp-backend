@@ -19,6 +19,22 @@ class RentService:
     def __init__(self, db: Session):
         self.db = db
 
+    def _ensure_field_exists(self, field_id: int) -> None:
+        field = schedule_repository.get_field(self.db, field_id)
+        if field is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Associated field not found",
+            )
+
+    def _ensure_user_exists(self, user_id: int) -> None:
+        user = schedule_repository.get_user(self.db, user_id)
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Associated user not found",
+            )
+
     def list_rents(
         self,
         *,
@@ -30,6 +46,52 @@ class RentService:
             self.db,
             status_filter=status_filter,
             schedule_id=schedule_id,
+        )
+
+    def list_rents_by_field(
+        self,
+        field_id: int,
+        *,
+        status_filter: Optional[str] = None,
+    ) -> List[Rent]:
+
+        self._ensure_field_exists(field_id)
+
+        return rent_repository.list_rents(
+            self.db,
+            status_filter=status_filter,
+            field_id=field_id,
+        )
+
+    def list_rents_by_user(
+        self,
+        user_id: int,
+        *,
+        status_filter: Optional[str] = None,
+    ) -> List[Rent]:
+
+        self._ensure_user_exists(user_id)
+
+        return rent_repository.list_rents(
+            self.db,
+            status_filter=status_filter,
+            user_id=user_id,
+        )
+
+    def list_user_rent_history(
+        self,
+        user_id: int,
+        *,
+        status_filter: Optional[str] = None,
+    ) -> List[Rent]:
+
+        self._ensure_user_exists(user_id)
+
+        return rent_repository.list_rents(
+            self.db,
+            status_filter=status_filter,
+            user_id=user_id,
+            sort_desc=True,
         )
 
     def get_rent(self, rent_id: int) -> Rent:
