@@ -52,6 +52,12 @@ def get_engine() -> Engine:
             max_overflow=2,
             pool_recycle=1800,
             pool_timeout=30,
+            connect_args={
+                "keepalives": 1,
+                "keepalives_idle": 60,
+                "keepalives_interval": 30,
+                "keepalives_count": 5,
+            },
             future=True,
         )
     return _ENGINE

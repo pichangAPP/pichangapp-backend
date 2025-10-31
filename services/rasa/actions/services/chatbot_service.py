@@ -7,7 +7,7 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Sequence
 
-from ..infrastructure.database import DatabaseError, get_connection
+from app.core.database import DatabaseError, get_connection
 from ..models import FieldRecommendation
 from ..repositories.analytics_repository import (
     ChatSessionRepository,
