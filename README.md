@@ -109,3 +109,64 @@
   }
 ]
 ```
+
+| Endpoint | Método | API | Función |
+| --- | --- | --- | --- |
+| `/api/pichangapp/v1/schedules/` | `POST` | `schedule_routes` | Crear un nuevo horario. |
+| `/api/pichangapp/v1/schedules/` | `PUT` | `schedule_routes` | Actualizar el horario. |
+
+> **Nota:** El parametro `id_user` es opcional y entero,
+
+### Request
+
+```json
+{
+  "day_of_week": "Friday",
+  "start_time": "2025-10-31T20:00:00",
+  "end_time": "2025-10-31T21:00:00",
+  "status": "pending",
+  "price": 90.00,
+  "id_field": 1,
+  "id_user":5
+}
+
+```
+
+### Response
+
+```json
+{
+    "day_of_week": "Friday",
+    "start_time": "2025-10-31T20:00:00-05:00",
+    "end_time": "2025-10-31T21:00:00-05:00",
+    "status": "pending",
+    "price": "90.00",
+    "id_field": 1,
+    "id_user": 5,
+    "id_schedule": 14,
+    "field": {
+        "id_field": 1,
+        "field_name": "Cancha Principal de Fútbol 7",
+        "capacity": 14,
+        "surface": "Grass sintético",
+        "measurement": "60x40 m",
+        "price_per_hour": "90.00",
+        "status": "active",
+        "open_time": "07:00:00",
+        "close_time": "23:00:00",
+        "minutes_wait": "10.00",
+        "id_sport": 2,
+        "id_campus": 1
+    },
+    "user": {
+        "id_user": 5,
+        "name": "Leonel Alessandro",
+        "lastname": "Ortega Espinoza",
+        "email": "ortega1@gmail.com",
+        "phone": "922113925",
+        "imageurl": null,
+        "status": "active"
+    }
+}
+
+```
