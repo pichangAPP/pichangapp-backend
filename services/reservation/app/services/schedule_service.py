@@ -85,13 +85,19 @@ class ScheduleService:
 
     def create_schedule(self, payload: ScheduleCreate) -> Schedule:
 
-        field = self._get_field(payload.id_field)
-        self._get_user(payload.id_user)
-        self._validate_schedule_window(
-            field=field,
-            start_time=payload.start_time,
-            end_time=payload.end_time,
-        )
+        field: Optional[Field] = None
+        if payload.id_field is not None:
+            field = self._get_field(payload.id_field)
+
+        if payload.id_user is not None:
+            self._get_user(payload.id_user)
+
+        if field is not None:
+            self._validate_schedule_window(
+                field=field,
+                start_time=payload.start_time,
+                end_time=payload.end_time,
+            )
 
         schedule = schedule_repository.create_schedule(
             self.db, payload.model_dump()
@@ -106,24 +112,30 @@ class ScheduleService:
 
         update_data = payload.model_dump(exclude_unset=True)
 
-        field = schedule.field if schedule.field is not None else self._get_field(schedule.id_field)
+        field: Optional[Field] = schedule.field
+        if field is None and schedule.id_field is not None:
+            field = self._get_field(schedule.id_field)
 
-        if schedule.user is None:
+        if schedule.user is None and schedule.id_user is not None:
             self._get_user(schedule.id_user)
 
         if "id_field" in update_data:
-            field = self._get_field(update_data["id_field"])
+            field_id = update_data["id_field"]
+            field = self._get_field(field_id) if field_id is not None else None
         if "id_user" in update_data:
-            self._get_user(update_data["id_user"])
+            user_id = update_data["id_user"]
+            if user_id is not None:
+                self._get_user(user_id)
 
         start_time = update_data.get("start_time", schedule.start_time)
         end_time = update_data.get("end_time", schedule.end_time)
 
-        self._validate_schedule_window(
-            field=field,
-            start_time=start_time,
-            end_time=end_time,
-        )
+        if field is not None:
+            self._validate_schedule_window(
+                field=field,
+                start_time=start_time,
+                end_time=end_time,
+            )
 
         for attribute, value in update_data.items():
             setattr(schedule, attribute, value)
