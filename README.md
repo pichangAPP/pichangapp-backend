@@ -14,7 +14,7 @@
 
 ## Reservation Microservice Endpoints
 
-| Endpoint | Método | API | Función
+| Endpoint | Método | API | Función |
 | --- | --- | --- | --- |
 | `/api/pichangapp/v1/reservation?field_id=1&day_of_week=Monday&status=reserved` | `GET` | `schedule_routes` | Obtiene todos los horarios de base de datos, además de ofrecer filtros opcionales por parámetro. |
 
@@ -52,7 +52,7 @@
 ]
 ```
 
-| Endpoint | Método | API | Función
+| Endpoint | Método | API | Función |
 | --- | --- | --- | --- |
 | `/api/pichangapp/v1/reservation/time-slots?field_id=1&date=2025-10-31` | `GET` | `schedule_routes` | Obtiene todos los horarios para la vista de reservación. |
 
@@ -68,5 +68,44 @@
         "status": "available",
         "price": "85.00"
     }
+]
+```
+
+| Endpoint | Método | API | Función |
+| --- | --- | --- | --- |
+| `/api/pichangapp/v1/schedules/available?field_id=7&day_of_week=Friday` | `GET` | `schedule_routes` | Devuelve los horarios reservables filtrando conflictos con rentas activas. |
+| `/api/pichangapp/v1/schedules/{schedule_id}` | `GET` | `schedule_routes` | Devuelve un horario por su identificador. |
+
+> **Nota:** `field_id` (**obligatorio**), `day_of_week` (opcional), `status` (opcional): Permite filtrar por el estado original del horario antes de aplicar las reglas de disponibilidad. `exclude_rent_statuses` (opcional): Lista de estados de renta que no deberían bloquear un horario. Por defecto excluye `cancelled`, pero puedes añadir más estados repitiendo el parámetro (`&exclude_rent_statuses=cancelled&exclude_rent_statuses=refunded`).
+
+### Response
+
+```json
+[
+  {
+    "id_schedule": 42,
+    "day_of_week": "friday",
+    "start_time": "2024-05-17T18:00:00Z",
+    "end_time": "2024-05-17T19:00:00Z",
+    "status": "available",
+    "price": 120.0,
+    "id_field": 7,
+    "id_user": null,
+    "field": {
+      "id_field": 7,
+      "field_name": "Cancha Sintética A",
+      "capacity": 10,
+      "surface": "synthetic",
+      "measurement": "20x40",
+      "price_per_hour": 120.0,
+      "status": "active",
+      "open_time": "08:00:00",
+      "close_time": "23:00:00",
+      "minutes_wait": 15,
+      "id_sport": 1,
+      "id_campus": 3
+    },
+    "user": null
+  }
 ]
 ```
