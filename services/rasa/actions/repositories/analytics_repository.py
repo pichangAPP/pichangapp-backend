@@ -11,7 +11,7 @@ from sqlalchemy import text
 from sqlalchemy.engine import Connection
 from sqlalchemy.exc import SQLAlchemyError
 
-from ..infrastructure.database import DatabaseError
+from app.core.database import DatabaseError
 from ..models import FieldRecommendation
 
 LOGGER = logging.getLogger(__name__)
