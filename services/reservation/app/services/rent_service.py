@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Dict, List, Optional
 
@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.models.rent import Rent
 from app.models.schedule import Schedule
-from app.repository import rent_repository, schedule_repository
+from app.repository import payment_repository, rent_repository, schedule_repository
 from app.schemas.rent import RentCreate, RentUpdate
 
 
@@ -18,6 +18,22 @@ class RentService:
 
     def __init__(self, db: Session):
         self.db = db
+
+    def _ensure_field_exists(self, field_id: int) -> None:
+        field = schedule_repository.get_field(self.db, field_id)
+        if field is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Associated field not found",
+            )
+
+    def _ensure_user_exists(self, user_id: int) -> None:
+        user = schedule_repository.get_user(self.db, user_id)
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Associated user not found",
+            )
 
     def list_rents(
         self,
@@ -30,6 +46,52 @@ class RentService:
             self.db,
             status_filter=status_filter,
             schedule_id=schedule_id,
+        )
+
+    def list_rents_by_field(
+        self,
+        field_id: int,
+        *,
+        status_filter: Optional[str] = None,
+    ) -> List[Rent]:
+
+        self._ensure_field_exists(field_id)
+
+        return rent_repository.list_rents(
+            self.db,
+            status_filter=status_filter,
+            field_id=field_id,
+        )
+
+    def list_rents_by_user(
+        self,
+        user_id: int,
+        *,
+        status_filter: Optional[str] = None,
+    ) -> List[Rent]:
+
+        self._ensure_user_exists(user_id)
+
+        return rent_repository.list_rents(
+            self.db,
+            status_filter=status_filter,
+            user_id=user_id,
+        )
+
+    def list_user_rent_history(
+        self,
+        user_id: int,
+        *,
+        status_filter: Optional[str] = None,
+    ) -> List[Rent]:
+
+        self._ensure_user_exists(user_id)
+
+        return rent_repository.list_rents(
+            self.db,
+            status_filter=status_filter,
+            user_id=user_id,
+            sort_desc=True,
         )
 
     def get_rent(self, rent_id: int) -> Rent:
@@ -74,6 +136,21 @@ class RentService:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="Schedule already has an active rent",
+            )
+
+    def _validate_payment(self, payment_id: int) -> None:
+        payment = payment_repository.get_payment(self.db, payment_id)
+        if payment is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Associated payment not found",
+            )
+
+        status_value = (payment.status or "").lower()
+        if status_value != "paid":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Payment must be in paid status to link with the rent",
             )
 
     @staticmethod
@@ -184,11 +261,19 @@ class RentService:
         self._ensure_schedule_available(schedule.id_schedule)
 
         rent_data = payload.dict(exclude_unset=True)
+        rent_data.setdefault(
+            "payment_deadline",
+            datetime.now(timezone.utc) + timedelta(minutes=5),
+        )
+
         self._apply_schedule_defaults(
             schedule=schedule,
             rent_data=rent_data,
             schedule_changed=True,
         )
+
+        if rent_data.get("id_payment") is not None:
+            self._validate_payment(int(rent_data["id_payment"]))
 
         rent = rent_repository.create_rent(self.db, rent_data)
         return rent_repository.get_rent(self.db, rent.id_rent)
@@ -217,6 +302,9 @@ class RentService:
             schedule_changed=schedule_changed,
             existing_rent=rent,
         )
+
+        if "id_payment" in update_data and update_data["id_payment"] is not None:
+            self._validate_payment(int(update_data["id_payment"]))
 
         for field, value in update_data.items():
             setattr(rent, field, value)

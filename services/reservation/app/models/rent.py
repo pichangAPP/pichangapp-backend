@@ -8,6 +8,7 @@ from sqlalchemy import (
     BigInteger,
     Table,
     func,
+    text,
 )
 from sqlalchemy.orm import relationship
 from typing import TYPE_CHECKING
@@ -38,8 +39,15 @@ class Rent(Base):
     mount = Column(Numeric(10, 2), nullable=False)
     date_log = Column(DateTime(timezone=True), nullable=False)
     date_create = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    payment_deadline = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=text("CURRENT_TIMESTAMP + INTERVAL '5 minutes'"),
+    )
     capacity = Column(Integer, nullable=False)
-    id_payment = Column(BigInteger, ForeignKey("payment.payment.id_payment"), nullable=False)
+    id_payment = Column(
+        BigInteger, ForeignKey("payment.payment.id_payment"), nullable=True
+    )
     id_schedule = Column(BigInteger, ForeignKey("reservation.schedule.id_schedule"), nullable=False)
 
     schedule = relationship("Schedule", back_populates="rents")
