@@ -13,18 +13,30 @@ def list_rents(
     *,
     status_filter: Optional[str] = None,
     schedule_id: Optional[int] = None,
+    field_id: Optional[int] = None,
+    user_id: Optional[int] = None,
+    sort_desc: bool = False,
 ) -> list[Rent]:
     query = db.query(Rent).options(
         joinedload(Rent.schedule).joinedload(Schedule.field),
         joinedload(Rent.schedule).joinedload(Schedule.user),
     )
 
+    if field_id is not None or user_id is not None:
+        query = query.join(Rent.schedule)
+
     if status_filter is not None:
         query = query.filter(Rent.status == status_filter)
     if schedule_id is not None:
         query = query.filter(Rent.id_schedule == schedule_id)
+    if field_id is not None:
+        query = query.filter(Schedule.id_field == field_id)
+    if user_id is not None:
+        query = query.filter(Schedule.id_user == user_id)
 
-    return query.order_by(Rent.start_time).all()
+    order_clause = Rent.start_time.desc() if sort_desc else Rent.start_time
+
+    return query.order_by(order_clause).all()
 
 
 def get_rent(db: Session, rent_id: int) -> Optional[Rent]:
