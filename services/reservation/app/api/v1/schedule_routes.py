@@ -45,19 +45,22 @@ def list_schedule_time_slots(
     date_value: Optional[date] = Query(
         None,
         alias="date",
-        description="Date to filter schedules. Defaults to the current date.",
+        description=(
+            "Date to filter schedules in ISO format (YYYY-MM-DD). Defaults to the current "
+            "date. Example: /schedules/time-slots?field_id=1&date=2024-05-15"
+        ),
+        example="2024-05-15",
     ),
 ) -> List[ScheduleTimeSlotResponse]:
-    """Retrieve schedule time slots for a field on a specific date."""
+    """Retrieve one-hour time slots within the field schedule for the selected date."""
 
     service = ScheduleService(db)
     target_date = date_value or date.today()
-    schedules = service.list_schedules_by_date(
+    schedules = service.list_time_slots_by_date(
         field_id=field_id,
         target_date=target_date,
     )
     return schedules
-
 
 @router.get("/available", response_model=List[ScheduleResponse])
 def list_available_schedules(

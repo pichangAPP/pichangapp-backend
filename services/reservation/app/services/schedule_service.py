@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import List, Optional, Sequence
 
 from fastapi import HTTPException, status
@@ -9,8 +9,9 @@ from app.models.schedule import Schedule
 from app.models.user import User
 from app.schemas.schedule import ScheduleCreate, ScheduleUpdate
 
-from app.repository import schedule_repository
+from app.repository import rent_repository, schedule_repository
 
+_EXCLUDED_RENT_STATUSES = ("cancelled",)
 
 class ScheduleService:
 
@@ -96,7 +97,7 @@ class ScheduleService:
             self._validate_schedule_window(
                 field=field,
                 start_time=payload.start_time,
-                end_time=payload.end_time,
+                end_time=payload.end_time
             )
 
         schedule = schedule_repository.create_schedule(
@@ -167,16 +168,87 @@ class ScheduleService:
             exclude_rent_statuses=exclude_rent_statuses,
         )
 
-    def list_schedules_by_date(
+    def list_time_slots_by_date(
         self,
         *,
         field_id: int,
         target_date: date,
-    ) -> List[Schedule]:
-        self._get_field(field_id)
+    ) -> List[dict]:
+        field = self._get_field(field_id)
 
-        return schedule_repository.list_schedules_by_date(
+        open_time = datetime.combine(target_date, field.open_time)
+        close_time = datetime.combine(target_date, field.close_time)
+
+        if close_time <= open_time:
+            close_time += timedelta(days=1)
+
+        schedules = schedule_repository.list_schedules_by_date(
             self.db,
             field_id=field_id,
             target_date=target_date,
         )
+
+        def _as_naive(value: datetime) -> datetime:
+            return value.replace(tzinfo=None) if value.tzinfo is not None else value
+
+        open_time = _as_naive(open_time)
+        close_time = _as_naive(close_time)
+
+        schedule_ids = [
+            schedule.id_schedule for schedule in schedules if schedule.id_schedule is not None
+        ]
+
+        active_schedule_ids = rent_repository.get_active_schedule_ids(
+            self.db,
+            schedule_ids,
+            excluded_statuses=_EXCLUDED_RENT_STATUSES,
+        )
+
+        reserved_ranges = []
+        price_by_range = {}
+        for schedule in schedules:
+            start_time = _as_naive(schedule.start_time)
+            end_time = _as_naive(schedule.end_time)
+
+            if start_time >= end_time:
+                continue
+
+            status_value = (schedule.status or "").strip().lower()
+
+            if status_value and status_value != "available":
+                reserved_ranges.append((start_time, end_time))
+            elif schedule.id_schedule in active_schedule_ids:
+                reserved_ranges.append((start_time, end_time))
+            else:
+                price_value = getattr(schedule, "price", None)
+                if price_value is not None:
+                    price_by_range[(start_time, end_time)] = price_value
+
+        def _overlaps(slot_start: datetime, slot_end: datetime) -> bool:
+            return any(
+                slot_start < reserved_end and reserved_start < slot_end
+                for reserved_start, reserved_end in reserved_ranges
+            )
+
+        slot_duration = timedelta(hours=1)
+        slots: List[dict] = []
+        current_start = open_time
+
+        while current_start + slot_duration <= close_time:
+            current_end = current_start + slot_duration
+            if not _overlaps(current_start, current_end):
+                price_value = price_by_range.get(
+                    (current_start, current_end), field.price_per_hour
+                )
+                slots.append(
+                    {
+                        "start_time": current_start,
+                        "end_time": current_end,
+                        "status": "available",
+                        "price": price_value,
+                    }
+                )
+
+            current_start = current_end
+
+        return slots
