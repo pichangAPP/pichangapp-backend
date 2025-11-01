@@ -13,6 +13,7 @@
 | `/api/pichangapp/v1/users/{user_id}` | `PUT`  | `user_routes`   | Actualizar los datos MODIFICABLES de un usuario"   |
 
 ## Reservation Microservice Endpoints
+### Schedule
 
 | Endpoint | Método | API | Función |
 | --- | --- | --- | --- |
@@ -20,7 +21,7 @@
 
 > **Nota:** El parametro `field_id` es opcional y entero, `day_of_week` se refiere a un día de semana y `status` define a los estados de reservaciones a obtener.
 
-### Response
+#### Response
 
 ```json
 [
@@ -58,7 +59,7 @@
 
 > **Nota:** El parametro `field_id` es obligatorio y entero, `date` es opcional en la petición y acepta valores en formato ISO `YYYY-MM-DD`. Si no lo incluyes, el servicio utiliza la fecha actual.
 
-### Response
+#### Response
 
 ```json
 [
@@ -78,7 +79,7 @@
 
 > **Nota:** `field_id` (**obligatorio**), `day_of_week` (opcional), `status` (opcional): Permite filtrar por el estado original del horario antes de aplicar las reglas de disponibilidad. `exclude_rent_statuses` (opcional): Lista de estados de renta que no deberían bloquear un horario. Por defecto excluye `cancelled`, pero puedes añadir más estados repitiendo el parámetro (`&exclude_rent_statuses=cancelled&exclude_rent_statuses=refunded`).
 
-### Response
+#### Response
 
 ```json
 [
@@ -117,7 +118,7 @@
 
 > **Nota:** El parametro `id_user` es opcional y entero,
 
-### Request
+#### Request
 
 ```json
 {
@@ -132,7 +133,7 @@
 
 ```
 
-### Response
+#### Response
 
 ```json
 {
@@ -170,3 +171,5 @@
 }
 
 ```
+### Rents
+
