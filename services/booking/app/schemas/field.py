@@ -63,4 +63,5 @@ class FieldResponse(FieldBase):
     id_campus: int
     sport: SportResponse
     images: list[ImageResponse] = PydanticField(default_factory=list)
+    next_available_time_range: Optional[str] = None
 
