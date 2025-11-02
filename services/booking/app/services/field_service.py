@@ -1,10 +1,13 @@
 from __future__ import annotations
 
-from fastapi import HTTPException,status
+from datetime import datetime, timedelta, timezone
+
+from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
-from app.models import Field
+from app.models import Field, Schedule
 from app.repository import field_repository, sport_repository
 from app.schemas import FieldCreate, FieldUpdate
 from app.services.campus_service import CampusService
@@ -18,7 +21,9 @@ class FieldService:
     def list_fields(self, campus_id: int) -> list[Field]:
         self.campus_service.get_campus(campus_id)
         try:
-            return field_repository.list_fields_by_campus(self.db, campus_id)
+            fields = field_repository.list_fields_by_campus(self.db, campus_id)
+            self._populate_next_available_time_range(fields)
+            return fields
         except SQLAlchemyError as exc:  # pragma: no cover - defensive
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -32,6 +37,7 @@ class FieldService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Field {field_id} not found",
             )
+        self._populate_next_available_time_range([field])
         return field
 
     def create_field(self, campus_id: int, field_in: FieldCreate) -> Field:
@@ -116,3 +122,47 @@ class FieldService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="minutes_wait must be zero or greater",
             )
+
+    def _populate_next_available_time_range(self, fields: list[Field]) -> None:
+        field_list = [field for field in fields if field is not None]
+        if not field_list:
+            return
+
+        field_ids = [field.id_field for field in field_list]
+        now = datetime.now(timezone.utc)
+        start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_of_day = start_of_day + timedelta(days=1)
+
+        schedules = (
+            self.db.query(Schedule)
+            .filter(Schedule.id_field.in_(field_ids))
+            .filter(Schedule.start_time >= now)
+            .filter(Schedule.start_time >= start_of_day)
+            .filter(Schedule.start_time < end_of_day)
+            .filter(func.lower(Schedule.status) == "available")
+            .order_by(Schedule.start_time)
+            .all()
+        )
+
+        next_schedule_by_field: dict[int, Schedule] = {}
+        for schedule in schedules:
+            if schedule.id_field in next_schedule_by_field:
+                continue
+
+            duration = schedule.end_time - schedule.start_time
+            if duration != timedelta(hours=1):
+                continue
+
+            next_schedule_by_field[schedule.id_field] = schedule
+
+        for field in field_list:
+            schedule = next_schedule_by_field.get(field.id_field)
+            if schedule is None:
+                field.next_available_time_range = None  # type: ignore[attr-defined]
+                continue
+
+            formatted = (
+                f"{schedule.start_time.strftime('%Y%m%dT%H:%M')} - "
+                f"{schedule.end_time.strftime('%Y%m%dT%H:%M')}"
+            )
+            field.next_available_time_range = formatted  # type: ignore[attr-defined]
