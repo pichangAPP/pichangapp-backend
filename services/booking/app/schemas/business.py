@@ -12,6 +12,7 @@ from pydantic import (
 
 from app.schemas.campus import CampusCreate, CampusResponse
 from app.schemas.image import ImageResponse
+from app.schemas.manager import ManagerResponse
 
 
 class BusinessBase(BaseModel):
@@ -26,6 +27,7 @@ class BusinessBase(BaseModel):
     id_membership: int = PydanticField(..., gt=0)
     imageurl: Optional[str] = None
     min_price: Optional[float] = PydanticField(None, ge=0)
+    id_manager: Optional[int] = PydanticField(None, gt=0)
 
     @field_validator(
         "name",
@@ -70,6 +72,7 @@ class BusinessUpdate(BaseModel):
     id_membership: Optional[int] = PydanticField(None, gt=0)
     imageurl: Optional[str] = None
     min_price: Optional[float] = PydanticField(None, ge=0)
+    id_manager: Optional[int] = PydanticField(None, gt=0)
 
     @field_validator(
         "name",
@@ -103,3 +106,4 @@ class BusinessResponse(BusinessBase):
     id_business: int
     campuses: List[CampusResponse]
     images: List[ImageResponse] = PydanticField(default_factory=list)
+    manager: Optional[ManagerResponse] = None
