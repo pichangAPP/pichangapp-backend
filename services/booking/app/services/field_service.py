@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
-
+import math
 from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -129,40 +129,83 @@ class FieldService:
             return
 
         field_ids = [field.id_field for field in field_list]
-        now = datetime.now(timezone.utc)
+        now = datetime.now()
         start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_of_day = start_of_day + timedelta(days=1)
 
         schedules = (
             self.db.query(Schedule)
             .filter(Schedule.id_field.in_(field_ids))
-            .filter(Schedule.start_time >= now)
-            .filter(Schedule.start_time >= start_of_day)
-            .filter(Schedule.start_time < end_of_day)
-            .filter(func.lower(Schedule.status) == "available")
+            .filter(func.date(Schedule.start_time) == start_of_day.date())
             .order_by(Schedule.start_time)
             .all()
         )
 
-        next_schedule_by_field: dict[int, Schedule] = {}
+        def _as_naive(value: datetime) -> datetime:
+            return value.replace(tzinfo=None) if value.tzinfo is not None else value
+
+        busy_schedules: dict[int, list[tuple[datetime, datetime]]] = {}
         for schedule in schedules:
-            if schedule.id_field in next_schedule_by_field:
+            if schedule.status and schedule.status.lower() == "available":
+                # Defensive check in case new statuses are introduced later.
                 continue
+            start_time = _as_naive(schedule.start_time)
+            end_time = _as_naive(schedule.end_time)
+            busy_schedules.setdefault(schedule.id_field, []).append((start_time, end_time))
 
-            duration = schedule.end_time - schedule.start_time
-            if duration != timedelta(hours=1):
-                continue
+        for schedule_list in busy_schedules.values():
+            schedule_list.sort(key=lambda item: item[0])
 
-            next_schedule_by_field[schedule.id_field] = schedule
+        slot_duration = timedelta(hours=1)
 
         for field in field_list:
-            schedule = next_schedule_by_field.get(field.id_field)
-            if schedule is None:
+            field_busy = busy_schedules.get(field.id_field, [])
+
+            open_dt = start_of_day.replace(
+                hour=field.open_time.hour,
+                minute=field.open_time.minute,
+                second=field.open_time.second,
+                microsecond=0,
+            )
+            close_dt = start_of_day.replace(
+                hour=field.close_time.hour,
+                minute=field.close_time.minute,
+                second=field.close_time.second,
+                microsecond=0,
+            )
+
+            search_start = max(now, open_dt)
+
+            # Align the search start to the next slot boundary anchored at open_dt.
+            if search_start <= open_dt:
+                candidate_start = open_dt
+            else:
+                delta_seconds = (search_start - open_dt).total_seconds()
+                steps = math.ceil(delta_seconds / slot_duration.total_seconds())
+                candidate_start = open_dt + steps * slot_duration
+
+            next_available: tuple[datetime, datetime] | None = None
+
+            while candidate_start + slot_duration <= close_dt:
+                candidate_end = candidate_start + slot_duration
+
+                overlap = False
+                for busy_start, busy_end in field_busy:
+                    if busy_start < candidate_end and busy_end > candidate_start:
+                        overlap = True
+                        break
+
+                if not overlap:
+                    next_available = (candidate_start, candidate_end)
+                    break
+
+                candidate_start += slot_duration
+
+            if next_available is None:
                 field.next_available_time_range = None  # type: ignore[attr-defined]
                 continue
 
             formatted = (
-                f"{schedule.start_time.strftime('%Y%m%dT%H:%M')} - "
-                f"{schedule.end_time.strftime('%Y%m%dT%H:%M')}"
+                f"{next_available[0].strftime('%Y%m%dT%H:%M')} - "
+                f"{next_available[1].strftime('%Y%m%dT%H:%M')}"
             )
             field.next_available_time_range = formatted  # type: ignore[attr-defined]
