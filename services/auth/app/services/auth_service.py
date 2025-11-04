@@ -341,9 +341,7 @@ class AuthService:
     def _create_user_session(
         self, user_id: int, access_token: str, refresh_token: str
     ) -> UserSession:
-        active_sessions = session_repository.get_active_sessions(self.db, user_id)
-        for session in active_sessions:
-            session_repository.deactivate_session(self.db, session.id_session)
+        session_repository.delete_sessions_by_user(self.db, user_id)
 
         expires_at = None
         if settings.REFRESH_TOKEN_EXPIRE_MINUTES:
