@@ -9,6 +9,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base, engine
+from app.models.manager import Manager
 
 Table(
     "memberships",
@@ -42,6 +43,11 @@ class Business(Base):
     id_membership: Mapped[int] = mapped_column(
         Integer, ForeignKey("payment.memberships.id_membership"), nullable=False
     )
+    id_manager: Mapped[int | None] = mapped_column(
+        BigInteger,
+        ForeignKey("auth.users.id_user", ondelete="SET NULL"),
+        nullable=True,
+    )
 
     campuses: Mapped[list["Campus"]] = relationship(
         "Campus",
@@ -53,3 +59,4 @@ class Business(Base):
     images: Mapped[list["Image"]] = relationship(
         "Image", back_populates="business", cascade="all, delete-orphan", passive_deletes=True
     )
+    manager: Mapped[Manager | None] = relationship(Manager, lazy="joined")
