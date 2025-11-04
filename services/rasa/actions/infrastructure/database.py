@@ -11,12 +11,14 @@ from dotenv import load_dotenv
 from sqlalchemy import Connection, create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session, sessionmaker
 
 load_dotenv()
 
 LOGGER = logging.getLogger(__name__)
 
 _ENGINE: Engine | None = None
+_SESSION_FACTORY: Optional[sessionmaker] = None
 _DATABASE_URL: Optional[str] = None
 
 
@@ -76,4 +78,38 @@ def get_connection() -> Iterator[Connection]:
         raise DatabaseError(str(exc)) from exc
 
 
-__all__ = ["DatabaseError", "get_connection", "get_engine"]
+def _get_session_factory() -> sessionmaker:
+    global _SESSION_FACTORY
+    if _SESSION_FACTORY is None:
+        engine = get_engine()
+        _SESSION_FACTORY = sessionmaker(
+            bind=engine,
+            autoflush=False,
+            autocommit=False,
+            expire_on_commit=False,
+            future=True,
+        )
+    return _SESSION_FACTORY
+
+
+@contextmanager
+def get_session() -> Iterator[Session]:
+    """Provide a transactional scope for ORM interactions."""
+
+    session_factory = _get_session_factory()
+    session: Session = session_factory()
+    try:
+        yield session
+        session.commit()
+    except SQLAlchemyError as exc:
+        session.rollback()
+        LOGGER.exception("Database session error: %s", exc)
+        raise DatabaseError(str(exc)) from exc
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
+__all__ = ["DatabaseError", "get_connection", "get_engine", "get_session"]

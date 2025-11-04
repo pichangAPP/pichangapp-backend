@@ -13,6 +13,11 @@ from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 
+from .infrastructure.security import (
+    TokenDecodeError,
+    decode_access_token,
+    extract_role_from_claims,
+)
 from .models import FieldRecommendation
 from .services.chatbot_service import DatabaseError, chatbot_service
 
@@ -68,6 +73,62 @@ def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
     return metadata.get("default_role") if metadata.get("default_role") in {"admin", "player"} else None
 
 
+def _extract_token_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
+    candidates = [
+        metadata.get("token"),
+        metadata.get("access_token"),
+        metadata.get("auth_token"),
+        metadata.get("authorization"),
+        metadata.get("Authorization"),
+    ]
+    for candidate in candidates:
+        if isinstance(candidate, str) and candidate.strip():
+            return candidate
+
+    headers = metadata.get("headers")
+    if isinstance(headers, dict):
+        header_token = headers.get("Authorization") or headers.get("authorization")
+        if isinstance(header_token, str) and header_token.strip():
+            return header_token
+
+    return None
+
+
+def _enrich_metadata_with_token(metadata: Dict[str, Any]) -> Dict[str, Any]:
+    token = _extract_token_from_metadata(metadata)
+    if not token:
+        return metadata
+
+    try:
+        claims = decode_access_token(token)
+    except TokenDecodeError:
+        LOGGER.warning("[Token] Unable to decode token from metadata", exc_info=True)
+        return metadata
+
+    metadata.setdefault("token_claims", claims)
+
+    user_identifier = claims.get("id_user") or claims.get("sub")
+    if user_identifier is not None and "id_user" not in metadata:
+        try:
+            metadata["id_user"] = int(user_identifier)
+        except (TypeError, ValueError):
+            metadata["id_user"] = user_identifier
+
+    if "user_id" not in metadata and "id_user" in metadata:
+        metadata["user_id"] = metadata["id_user"]
+
+    if "id_role" not in metadata and "id_role" in claims:
+        metadata["id_role"] = claims["id_role"]
+
+    role_name = extract_role_from_claims(claims)
+    if role_name:
+        metadata.setdefault("role", role_name)
+        metadata.setdefault("user_role", role_name)
+        metadata.setdefault("default_role", role_name)
+
+    return metadata
+
+
 def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
     for event in events:
         if hasattr(event, "key") and getattr(event, "key") == slot_name:
@@ -82,50 +143,6 @@ def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
             if event_type == "slot" and slot_key == slot_name:
                 return True
     return False
-
-def _coerce_metadata(value: Any) -> Dict[str, Any]:
-    if isinstance(value, dict):
-        return dict(value)
-    return {}
-
-
-def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
-    raw_role = metadata.get("user_role") or metadata.get("role")
-    if isinstance(raw_role, str):
-        lowered = raw_role.strip().lower()
-        if lowered in {"admin", "player"}:
-            return lowered
-        try:
-            numeric = int(lowered)
-            if numeric == 2:
-                return "admin"
-            if numeric == 1:
-                return "player"
-        except ValueError:
-            pass
-    elif raw_role is not None:
-        try:
-            numeric = int(raw_role)
-            if numeric == 2:
-                return "admin"
-            if numeric == 1:
-                return "player"
-        except (TypeError, ValueError):
-            pass
-
-    role_id = metadata.get("id_role")
-    if role_id is not None:
-        try:
-            numeric = int(role_id)
-            if numeric == 2:
-                return "admin"
-            if numeric == 1:
-                return "player"
-        except (TypeError, ValueError):
-            return None
-
-    return metadata.get("default_role") if metadata.get("default_role") in {"admin", "player"} else None
-
 
 def _slot_defined(slot_name: str, domain: DomainDict) -> bool:
     """Return True if the slot exists in the loaded domain."""
@@ -687,6 +704,7 @@ class ActionSessionStart(Action):
     ) -> List[EventType]:
         events: List[EventType] = [SessionStarted()]
         metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+        metadata = _enrich_metadata_with_token(metadata)
 
         LOGGER.info(
             "[ActionSessionStart] conversation=%s metadata=%s slots=%s",
