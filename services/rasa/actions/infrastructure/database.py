@@ -73,7 +73,7 @@ def get_connection() -> Iterator[Connection]:
     try:
         with engine.begin() as connection:
             yield connection
-    except SQLAlchemyError as exc:  # pragma: no cover - defensive
+    except SQLAlchemyError as exc:  # defensive
         LOGGER.exception("Database error: %s", exc)
         raise DatabaseError(str(exc)) from exc
 

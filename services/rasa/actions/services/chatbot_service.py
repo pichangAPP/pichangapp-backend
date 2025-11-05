@@ -21,7 +21,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 class ChatbotAnalyticsService:
-    """Provides high level operations used by the custom actions."""
 
     def __init__(self, *, source_model: Optional[str] = None) -> None:
         self._source_model = source_model or os.getenv("RASA_SOURCE_MODEL")

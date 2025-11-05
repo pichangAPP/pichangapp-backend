@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import json
 from datetime import datetime, timedelta, timezone
 from functools import partial
 from typing import Any, Dict, Iterable, List, Optional
@@ -32,8 +33,43 @@ async def run_in_thread(function: Any, *args: Any, **kwargs: Any) -> Any:
 def _coerce_metadata(value: Any) -> Dict[str, Any]:
     if isinstance(value, dict):
         return dict(value)
+    if isinstance(value, str):
+        text = value.strip()
+        if text:
+            try:
+                parsed = json.loads(text)
+            except json.JSONDecodeError:
+                LOGGER.debug("[Metadata] Unable to decode metadata string as JSON")
+            else:
+                if isinstance(parsed, dict):
+                    return dict(parsed)
+
     return {}
 
+def _coerce_user_identifier(value: Any) -> Optional[int]:
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        stripped = value.strip()
+        if not stripped:
+            return None
+        if stripped.isdigit():
+            return int(stripped)
+        for separator in (":", "-", "_", "|"):
+            candidate = stripped.split(separator)[-1]
+            if candidate.isdigit():
+                return int(candidate)
+        # Fall back to coercing any numeric-like text
+        try:
+            return int(stripped)
+        except ValueError:
+            return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
 
 def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
     raw_role = metadata.get("user_role") or metadata.get("role")
@@ -90,6 +126,18 @@ def _extract_token_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
         header_token = headers.get("Authorization") or headers.get("authorization")
         if isinstance(header_token, str) and header_token.strip():
             return header_token
+
+    nested_candidates = [metadata.get("customData"), metadata.get("user"), metadata.get("auth")]
+    for container in nested_candidates:
+        if isinstance(container, dict):
+            nested_token = (
+                container.get("token")
+                or container.get("access_token")
+                or container.get("Authorization")
+                or container.get("authorization")
+            )
+            if isinstance(nested_token, str) and nested_token.strip():
+                return nested_token
 
     return None
 
@@ -714,13 +762,16 @@ class ActionSessionStart(Action):
         )
 
         user_identifier = metadata.get("user_id") or metadata.get("id_user")
+        if user_identifier is None:
+            nested_user = metadata.get("user")
+            if isinstance(nested_user, dict):
+                user_identifier = nested_user.get("id") or nested_user.get("id_user")
+
         user_id: Optional[int] = None
         if user_identifier is not None:
-            try:
-                user_id = int(user_identifier)
-            except (TypeError, ValueError):
+            user_id = _coerce_user_identifier(user_identifier)
+            if user_id is None:
                 events.append(SlotSet("user_id", str(user_identifier)))
-                user_id = None
                 LOGGER.warning(
                     "[ActionSessionStart] invalid user identifier=%s for conversation=%s",
                     user_identifier,
@@ -731,6 +782,18 @@ class ActionSessionStart(Action):
                 LOGGER.info(
                     "[ActionSessionStart] user slot planned with id=%s for conversation=%s",
                     user_id,
+                    tracker.sender_id,
+                )
+
+        if user_id is None:
+            sender_fallback = _coerce_user_identifier(tracker.sender_id)
+            if sender_fallback is not None and not _slot_already_planned(events, "user_id"):
+                user_id = sender_fallback
+                events.append(SlotSet("user_id", str(user_id)))
+                LOGGER.info(
+                    "[ActionSessionStart] derived user id=%s from sender_id=%s for conversation=%s",
+                    user_id,
+                    tracker.sender_id,
                     tracker.sender_id,
                 )
 
@@ -778,6 +841,8 @@ class ActionSessionStart(Action):
         )
 
         if user_id is not None:
+            metadata.setdefault("id_user", user_id)
+            metadata.setdefault("user_id", user_id)
             try:
                 session_id = await run_in_thread(
                     chatbot_service.ensure_chat_session,

@@ -444,7 +444,7 @@ class ChatbotLogRepository:
             intent_confidence=round(float(intent_confidence), 4)
             if intent_confidence is not None
             else None,
-            metadata=json.dumps(metadata, default=str) if metadata else None,
+            metadatajson=json.dumps(metadata, default=str) if metadata else None,
         )
         self._db.add(entry)
         try:

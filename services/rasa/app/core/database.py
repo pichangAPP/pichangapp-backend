@@ -9,6 +9,7 @@ from typing import Iterator, Optional
 from sqlalchemy import Connection, create_engine, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
 
@@ -16,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 _ENGINE: Engine | None = None
 _DATABASE_URL: str | None = None
-
+_SESSION_FACTORY: Optional[sessionmaker] = None
 
 class DatabaseError(RuntimeError):
     """Raised when the API cannot complete a database operation."""
