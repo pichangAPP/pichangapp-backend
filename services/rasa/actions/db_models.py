@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, time
 from typing import Optional
-
+import json
 from sqlalchemy import DateTime, ForeignKey, Integer, String, Text, Time, BigInteger, Numeric, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -110,6 +110,16 @@ class ChatbotLog(Base):
     recommendation: Mapped[Optional[RecommendationLog]] = relationship(
         "RecommendationLog", back_populates="chatbot_logs"
     )
+
+    @property
+    def metadata_dict(self) -> Optional[dict]:
+        """Returns parsed metadata JSON."""
+        if not self.metadata_json:
+            return None
+        try:
+            return json.loads(self.metadata_json)
+        except json.JSONDecodeError:
+            return {"_error": "invalid_json"}
 
 
 class Feedback(Base):

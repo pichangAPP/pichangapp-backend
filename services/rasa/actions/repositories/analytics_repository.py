@@ -22,7 +22,7 @@ from ..db_models import (
     RecommendationLog,
     Sport,
 )
-from ...app.core.database import DatabaseError
+from ..infrastructure.database import DatabaseError
 from ..models import FieldRecommendation
 
 LOGGER = logging.getLogger(__name__)
@@ -422,7 +422,8 @@ class ChatbotLogRepository:
         user_id: Optional[int],
         intent_confidence: Optional[float],
         metadata: Optional[Dict[str, Any]],
-    ) -> None:
+    ) -> ChatbotLog:
+        """Insert a new chatbot log entry."""
         LOGGER.info(
             "[ChatbotLogRepository] add_entry session_id=%s response_type=%s sender=%s intent_id=%s recommendation_id=%s",
             session_id,
@@ -444,12 +445,15 @@ class ChatbotLogRepository:
             intent_confidence=round(float(intent_confidence), 4)
             if intent_confidence is not None
             else None,
-            metadatajson=json.dumps(metadata, default=str) if metadata else None,
+            metadata_json=json.dumps(metadata, default=str) if metadata else None,
         )
         self._db.add(entry)
         try:
             self._db.flush()
+            LOGGER.info("[ChatbotLogRepository] entry inserted id=%s", entry.id_chatbot_log)
+            return entry
         except SQLAlchemyError as exc:
+            LOGGER.error("[ChatbotLogRepository] DB error: %s", exc)
             raise DatabaseError(str(exc)) from exc
 
 
