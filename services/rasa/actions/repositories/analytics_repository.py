@@ -22,7 +22,7 @@ from ..db_models import (
     RecommendationLog,
     Sport,
 )
-from ..infrastructure.database import DatabaseError
+from ...app.core.database import DatabaseError
 from ..models import FieldRecommendation
 
 LOGGER = logging.getLogger(__name__)
@@ -444,7 +444,7 @@ class ChatbotLogRepository:
             intent_confidence=round(float(intent_confidence), 4)
             if intent_confidence is not None
             else None,
-            metadata=json.dumps(metadata, default=str) if metadata else None,
+            metadata_json=json.dumps(metadata, default=str) if metadata else None,
         )
         self._db.add(entry)
         try:
