@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import json
 from datetime import datetime, timedelta, timezone
 from functools import partial
 from typing import Any, Dict, Iterable, List, Optional
@@ -43,8 +44,33 @@ def _coerce_metadata(value: Any) -> Dict[str, Any]:
             else:
                 if isinstance(parsed, dict):
                     return dict(parsed)
+
     return {}
 
+def _coerce_user_identifier(value: Any) -> Optional[int]:
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        stripped = value.strip()
+        if not stripped:
+            return None
+        if stripped.isdigit():
+            return int(stripped)
+        for separator in (":", "-", "_", "|"):
+            candidate = stripped.split(separator)[-1]
+            if candidate.isdigit():
+                return int(candidate)
+        # Fall back to coercing any numeric-like text
+        try:
+            return int(stripped)
+        except ValueError:
+            return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
 
 def _coerce_user_identifier(value: Any) -> Optional[int]:
     if value is None:
@@ -445,8 +471,8 @@ class ActionSubmitFieldRecommendationForm(Action):
             else:
                 line = (
                     f"{idx}. {rec.field_name} en {rec.campus_name} ({rec.district}). "
-                    f"Perfecta para tu pichanga de {rec.sport_name} en cancha {rec.surface}. "
-                    f"Entran {rec.capacity} patas y la hora está aprox. en S/ {rec.price_per_hour:.2f}."
+                    f"Ideal para tu partido de {rec.sport_name} en superficie {rec.surface}. "
+                    f"Tiene espacio para {rec.capacity} jugadores y la hora está alrededor de S/ {rec.price_per_hour:.2f}."
                 )
             summary_lines.append(line)
 
@@ -454,8 +480,8 @@ class ActionSubmitFieldRecommendationForm(Action):
             intro = "Estas son las alternativas que mejor se ajustan a su equipo:"
             closing = "Si requiere coordinar disponibilidad extra o apoyo con la gestión, avíseme."
         else:
-            intro = "Mira estas canchitas que calzan con la pichanga que estás armando:"
-            closing = "¿Quieres que aseguremos alguna o que busque otra opción?"
+            intro = "Aquí tienes opciones que se ajustan a lo que buscas para tu partido:"
+            closing = "Si quieres que reserve alguna opción o busque algo distinto, solo dime."
 
         response_text = f"{intro}\n" + "\n".join(summary_lines) + f"\n{closing}"
         dispatcher.utter_message(text=response_text)
@@ -629,7 +655,7 @@ class ActionShowRecommendationHistory(Action):
         if user_role == "admin":
             header = "Aquí tiene el resumen de las recomendaciones más recientes:"
         else:
-            header = "Te dejo un repaso de las canchitas que te sugerí últimamente:"
+            header = "Te dejo un resumen de las canchas que te sugerí últimamente:"
 
         dispatcher.utter_message(
             text=f"{header}\n" + "\n".join(lines)

@@ -17,8 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 _ENGINE: Engine | None = None
 _DATABASE_URL: str | None = None
-_SESSION_FACTORY: sessionmaker | None = None
-
+_SESSION_FACTORY: Optional[sessionmaker] = None
 
 class DatabaseError(RuntimeError):
     """Raised when the API cannot complete a database operation."""

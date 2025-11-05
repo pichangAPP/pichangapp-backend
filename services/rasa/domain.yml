@@ -159,16 +159,16 @@ responses:
           name: user_role
           value: admin
       text: "¡Hola! Soy Chato Bot. Estoy listo para ayudarle a gestionar las canchas y equipos de su empresa."
-    - text: "¡Qué fue, causa! Soy Chato Bot, te puedo ayudar para encontrar la mejor cancha."
-    - text: "¡Hola! Aquí Chato Bot, listo para ayudarte a armar la pichanga como se debe."
+    - text: "¡Hola! Soy Chato Bot y estoy listo para ayudarte a encontrar la mejor cancha para tu partido."
+    - text: "¡Hola! Chato Bot por aquí; cuéntame qué necesitas y buscamos la opción ideal para tu juego."
   utter_goodbye:
     - condition:
         - type: slot
           name: user_role
           value: admin
       text: "Ha sido un gusto ayudarle. Si necesita otra gestión, aquí estaré."
-    - text: "¡Listo, causa! Que tu pichanga salga con todo."
-    - text: "¡Nos vemos! Cuando quieras armamos otra cancha bravaza."
+    - text: "¡Perfecto! Que disfrutes tu partido. Cuando necesites otra reserva, aquí estaré."
+    - text: "¡Hasta luego! Vuelve cuando quieras coordinar una nueva cancha."
   utter_what_can_you_do:
     - text: |
         Puedo darte una mano con:
@@ -235,14 +235,14 @@ responses:
     - text: "Apreciamos tu feedback. Trabajaremos para ofrecerte un mejor servicio."
     - text: "Gracias por avisarnos. Tu comentario nos ayuda a mejorar."
   utter_default_fallback:
-    - text: "No estoy seguro de haber entendido. ¿Podrías reformular tu mensaje o darme más detalles?"
+    - text: "No estoy seguro de haber entendido. ¿Podrías reformular tu mensaje o darme más detalles? Por ahora no puedo transferirte con un agente humano, pero puedo seguir buscando opciones contigo."
   utter_no_relevant_answer_found:
     - text: "Lo siento, por ahora no tengo una respuesta para eso. ¿Quieres intentarlo con otra pregunta?"
       metadata:
         rephrase: True
   utter_welcome:
     - text: |
-        ¡Bienvenido! Soy {agent_name} 👋, el bot pichanguero que te ayuda a cuadrar canchas.
+        ¡Bienvenido! Soy {agent_name} 👋, tu asistente virtual para coordinar canchas deportivas.
 
         Puedes empezar con preguntas como:
         {example_questions}

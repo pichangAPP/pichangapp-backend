@@ -104,6 +104,7 @@ class ChatbotLog(Base):
     intent_confidence: Mapped[Optional[float]] = mapped_column(Numeric(6, 4), nullable=True)
     metadata_json: Mapped[Optional[str]] = mapped_column("metadata", Text, nullable=True)
 
+
     chatbot: Mapped[Chatbot] = relationship("Chatbot", back_populates="logs")
     intent: Mapped[Optional[Intent]] = relationship("Intent", back_populates="logs")
     recommendation: Mapped[Optional[RecommendationLog]] = relationship(
