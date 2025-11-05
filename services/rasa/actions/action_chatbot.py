@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import json
 from datetime import datetime, timedelta, timezone
@@ -14,7 +15,7 @@ from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 
-from .infrastructure.security import (
+from ..app.core.security import (
     TokenDecodeError,
     decode_access_token,
     extract_role_from_claims,
@@ -70,6 +71,32 @@ def _coerce_user_identifier(value: Any) -> Optional[int]:
         return int(value)
     except (TypeError, ValueError):
         return None
+
+def _coerce_user_identifier(value: Any) -> Optional[int]:
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        stripped = value.strip()
+        if not stripped:
+            return None
+        if stripped.isdigit():
+            return int(stripped)
+        for separator in (":", "-", "_", "|"):
+            candidate = stripped.split(separator)[-1]
+            if candidate.isdigit():
+                return int(candidate)
+        # Fall back to coercing any numeric-like text
+        try:
+            return int(stripped)
+        except ValueError:
+            return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
 
 def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
     raw_role = metadata.get("user_role") or metadata.get("role")

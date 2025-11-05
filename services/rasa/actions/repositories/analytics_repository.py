@@ -22,7 +22,7 @@ from ..db_models import (
     RecommendationLog,
     Sport,
 )
-from ..infrastructure.database import DatabaseError
+from ...app.core.database import DatabaseError
 from ..models import FieldRecommendation
 
 LOGGER = logging.getLogger(__name__)
