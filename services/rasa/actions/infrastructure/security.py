@@ -3,18 +3,13 @@
 from __future__ import annotations
 
 import logging
-import os
 from typing import Any, Dict
 
-from dotenv import load_dotenv
 from jose import JWTError, jwt
 
+from .config import settings
+
 LOGGER = logging.getLogger(__name__)
-
-load_dotenv()
-
-_SECRET_KEY = os.getenv("SECRET_KEY")
-_ALGORITHM = os.getenv("ALGORITHM", "HS256")
 
 
 class TokenDecodeError(RuntimeError):
@@ -27,16 +22,17 @@ def decode_access_token(token: str) -> Dict[str, Any]:
     if not token:
         raise TokenDecodeError("Token must not be empty")
 
-    if not _SECRET_KEY:
-        raise TokenDecodeError("Missing SECRET_KEY environment variable")
-
     normalized = token.strip()
     if normalized.lower().startswith("bearer "):
         normalized = normalized[7:].strip()
 
     try:
-        payload = jwt.decode(normalized, _SECRET_KEY, algorithms=[_ALGORITHM])
-        LOGGER.debug("Decoded token payload keys: %%s", list(payload.keys()))
+        payload = jwt.decode(
+            normalized,
+            settings.SECRET_KEY,
+            algorithms=[settings.ALGORITHM],
+        )
+        LOGGER.debug("Decoded token payload keys: %s", list(payload.keys()))
         return payload
     except JWTError as exc:  # pragma: no cover - logging side effects
         LOGGER.exception("Failed to decode JWT: %s", exc)

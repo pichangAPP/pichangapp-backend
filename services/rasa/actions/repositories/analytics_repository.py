@@ -422,7 +422,7 @@ class ChatbotLogRepository:
         user_id: Optional[int],
         intent_confidence: Optional[float],
         metadata: Optional[Dict[str, Any]],
-    ) -> ChatbotLog:
+        ) -> ChatbotLog:
         """Insert a new chatbot log entry."""
         LOGGER.info(
             "[ChatbotLogRepository] add_entry session_id=%s response_type=%s sender=%s intent_id=%s recommendation_id=%s",
@@ -432,19 +432,24 @@ class ChatbotLogRepository:
             intent_id,
             recommendation_id,
         )
+        message_value = "" if message_text is None else str(message_text)
+        bot_response_value = "" if bot_response is None else str(bot_response)
+        rounded_confidence = (
+            round(float(intent_confidence), 4)
+            if intent_confidence is not None
+            else None
+        )
         entry = ChatbotLog(
             id_chatbot=session_id,
             id_intent=intent_id,
             id_recommendation_log=recommendation_id,
-            message=message_text,
-            bot_response=bot_response,
+            message=message_value,
+            bot_response=bot_response_value,
             response_type=response_type,
             sender_type=sender_type,
             id_user=user_id,
             intent_detected=intent_id,
-            intent_confidence=round(float(intent_confidence), 4)
-            if intent_confidence is not None
-            else None,
+            intent_confidence=rounded_confidence,
             metadata_json=json.dumps(metadata, default=str) if metadata else None,
         )
         self._db.add(entry)

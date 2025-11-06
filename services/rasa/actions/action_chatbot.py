@@ -459,25 +459,15 @@ class ActionSubmitFieldRecommendationForm(Action):
         response_text = f"{intro}\n" + "\n".join(summary_lines) + f"\n{closing}"
         dispatcher.utter_message(text=response_text)
 
-        try:
-            await run_in_thread(
-                chatbot_service.log_chatbot_message,
-                session_id=session_id,
-                intent_id=None,
-                recommendation_id=None,
-                message_text=user_message,
-                bot_response="",
-                response_type="user_message",
-                sender_type="user",
-                user_id=user_id,
-                metadata=latest_metadata,
-                intent_confidence=None,
-            )
-            LOGGER.debug(
-                "[ActionSubmitFieldRecommendationForm] logged user message for session=%s",
-                session_id,
-            )
+        recommendation_id: Optional[int] = None
+        intent_id: Optional[int] = None
 
+        intent_data = tracker.latest_message.get("intent") or {}
+        intent_name = intent_data.get("name") or "request_field_recommendation"
+        confidence = intent_data.get("confidence")
+        source_model = latest_metadata.get("model") or latest_metadata.get("pipeline")
+
+        try:
             recommendation_id = await run_in_thread(
                 chatbot_service.create_recommendation_log,
                 status="suggested",
@@ -492,12 +482,13 @@ class ActionSubmitFieldRecommendationForm(Action):
                 recommendation_id,
                 session_id,
             )
+        except DatabaseError:
+            LOGGER.exception(
+                "[ActionSubmitFieldRecommendationForm] database error creating recommendation log for session=%s",
+                session_id,
+            )
 
-            intent_data = tracker.latest_message.get("intent") or {}
-            intent_name = intent_data.get("name") or "request_field_recommendation"
-            confidence = intent_data.get("confidence")
-            source_model = latest_metadata.get("model") or latest_metadata.get("pipeline")
-
+        try:
             intent_id = await run_in_thread(
                 chatbot_service.ensure_intent,
                 intent_name=intent_name,
@@ -514,29 +505,37 @@ class ActionSubmitFieldRecommendationForm(Action):
                 intent_name,
                 session_id,
             )
+        except DatabaseError:
+            LOGGER.exception(
+                "[ActionSubmitFieldRecommendationForm] database error ensuring intent for session=%s",
+                session_id,
+            )
 
-            # registra el intercambio completo
+        try:
             await run_in_thread(
                 chatbot_service.log_chatbot_message,
                 session_id=session_id,
                 intent_id=intent_id,
                 recommendation_id=recommendation_id,
-                message_text=response_text,
+                message_text=user_message,
                 bot_response=response_text,
                 response_type="recommendation",
                 sender_type="bot",
                 user_id=user_id,
                 intent_confidence=confidence,
-                metadata={**latest_metadata, "detected_intent": intent_name},
+                metadata={
+                    **latest_metadata,
+                    "detected_intent": intent_name,
+                    "user_message": user_message,
+                },
             )
             LOGGER.debug(
                 "[ActionSubmitFieldRecommendationForm] logged recommendation response for session=%s",
                 session_id,
             )
-
         except DatabaseError:
             LOGGER.exception(
-                "[ActionSubmitFieldRecommendationForm] database error persisting analytics for session=%s",
+                "[ActionSubmitFieldRecommendationForm] database error logging exchange for session=%s",
                 session_id,
             )
 
