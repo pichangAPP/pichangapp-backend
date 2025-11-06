@@ -85,6 +85,16 @@ class BusinessService:
         populate_available_schedules(self.db, business.campuses)
         return business
 
+    def get_business_by_manager(self, manager_id: int) -> Business:
+        business = business_repository.get_business_by_manager(self.db, manager_id)
+        if not business:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Business for manager {manager_id} not found",
+            )
+        populate_available_schedules(self.db, business.campuses)
+        return business
+
     def create_business(self, business_in: BusinessCreate) -> Business:
         try:
             business = Business(**business_in.model_dump(exclude={"campuses"}))
