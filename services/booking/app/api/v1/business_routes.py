@@ -29,6 +29,10 @@ def list_businesses_by_location(
     service = BusinessService(db)
     return service.list_businesses_by_location(latitude=latitude, longitude=longitude)
 
+@router.get("/managers/{manager_id}", response_model=BusinessResponse)
+def get_business_by_manager(manager_id: int, db: Session = Depends(get_db)):
+    service = BusinessService(db)
+    return service.get_business_by_manager(manager_id)
 
 @router.get("/{business_id}", response_model=BusinessResponse)
 def get_business(business_id: int, db: Session = Depends(get_db)):

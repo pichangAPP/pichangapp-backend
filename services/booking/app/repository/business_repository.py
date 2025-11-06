@@ -47,6 +47,26 @@ def get_business(db: Session, business_id: int) -> Optional[Business]:
         .first()
     )
 
+def get_business_by_manager(db: Session, manager_id: int) -> Optional[Business]:
+    return (
+        db.query(Business)
+        .options(
+            joinedload(Business.manager),
+            selectinload(Business.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.fields)
+            .selectinload(Field.images),
+            selectinload(Business.campuses)
+            .selectinload(Campus.fields)
+            .selectinload(Field.sport)
+            .selectinload(Sport.modality),
+        )
+        .filter(Business.id_manager == manager_id)
+        .first()
+    )
+
 
 def create_business(db: Session, business: Business) -> Business:
     db.add(business)
