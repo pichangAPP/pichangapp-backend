@@ -26,6 +26,10 @@ tracker_store:
   username: ${POSTGRES_USER}
   password: ${POSTGRES_PASSWORD}
   driver: "psycopg2"
+  login_timeout: 10
+  pool_size: 10
+  pool_pre_ping: true
+  max_overflow: 5
 #tracker_store:
 #    type: mongod
 #    url: <url to your mongo instance, e.g. mongodb://localhost:27017>
