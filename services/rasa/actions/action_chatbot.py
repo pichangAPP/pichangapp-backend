@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import json
 from datetime import datetime, timedelta, timezone
 from functools import partial
 from typing import Any, Dict, Iterable, List, Optional
@@ -13,6 +14,11 @@ from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 
+from .infrastructure.security import (
+    TokenDecodeError,
+    decode_access_token,
+    extract_role_from_claims,
+)
 from .models import FieldRecommendation
 from .services.chatbot_service import DatabaseError, chatbot_service
 
@@ -27,8 +33,43 @@ async def run_in_thread(function: Any, *args: Any, **kwargs: Any) -> Any:
 def _coerce_metadata(value: Any) -> Dict[str, Any]:
     if isinstance(value, dict):
         return dict(value)
+    if isinstance(value, str):
+        text = value.strip()
+        if text:
+            try:
+                parsed = json.loads(text)
+            except json.JSONDecodeError:
+                LOGGER.debug("[Metadata] Unable to decode metadata string as JSON")
+            else:
+                if isinstance(parsed, dict):
+                    return dict(parsed)
+
     return {}
 
+def _coerce_user_identifier(value: Any) -> Optional[int]:
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, str):
+        stripped = value.strip()
+        if not stripped:
+            return None
+        if stripped.isdigit():
+            return int(stripped)
+        for separator in (":", "-", "_", "|"):
+            candidate = stripped.split(separator)[-1]
+            if candidate.isdigit():
+                return int(candidate)
+        # Fall back to coercing any numeric-like text
+        try:
+            return int(stripped)
+        except ValueError:
+            return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
 
 def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
     raw_role = metadata.get("user_role") or metadata.get("role")
@@ -66,6 +107,74 @@ def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
             return None
 
     return metadata.get("default_role") if metadata.get("default_role") in {"admin", "player"} else None
+
+
+def _extract_token_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
+    candidates = [
+        metadata.get("token"),
+        metadata.get("access_token"),
+        metadata.get("auth_token"),
+        metadata.get("authorization"),
+        metadata.get("Authorization"),
+    ]
+    for candidate in candidates:
+        if isinstance(candidate, str) and candidate.strip():
+            return candidate
+
+    headers = metadata.get("headers")
+    if isinstance(headers, dict):
+        header_token = headers.get("Authorization") or headers.get("authorization")
+        if isinstance(header_token, str) and header_token.strip():
+            return header_token
+
+    nested_candidates = [metadata.get("customData"), metadata.get("user"), metadata.get("auth")]
+    for container in nested_candidates:
+        if isinstance(container, dict):
+            nested_token = (
+                container.get("token")
+                or container.get("access_token")
+                or container.get("Authorization")
+                or container.get("authorization")
+            )
+            if isinstance(nested_token, str) and nested_token.strip():
+                return nested_token
+
+    return None
+
+
+def _enrich_metadata_with_token(metadata: Dict[str, Any]) -> Dict[str, Any]:
+    token = _extract_token_from_metadata(metadata)
+    if not token:
+        return metadata
+
+    try:
+        claims = decode_access_token(token)
+    except TokenDecodeError:
+        LOGGER.warning("[Token] Unable to decode token from metadata", exc_info=True)
+        return metadata
+
+    metadata.setdefault("token_claims", claims)
+
+    user_identifier = claims.get("id_user") or claims.get("sub")
+    if user_identifier is not None and "id_user" not in metadata:
+        try:
+            metadata["id_user"] = int(user_identifier)
+        except (TypeError, ValueError):
+            metadata["id_user"] = user_identifier
+
+    if "user_id" not in metadata and "id_user" in metadata:
+        metadata["user_id"] = metadata["id_user"]
+
+    if "id_role" not in metadata and "id_role" in claims:
+        metadata["id_role"] = claims["id_role"]
+
+    role_name = extract_role_from_claims(claims)
+    if role_name:
+        metadata.setdefault("role", role_name)
+        metadata.setdefault("user_role", role_name)
+        metadata.setdefault("default_role", role_name)
+
+    return metadata
 
 
 def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
@@ -82,50 +191,6 @@ def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
             if event_type == "slot" and slot_key == slot_name:
                 return True
     return False
-
-def _coerce_metadata(value: Any) -> Dict[str, Any]:
-    if isinstance(value, dict):
-        return dict(value)
-    return {}
-
-
-def _normalize_role_from_metadata(metadata: Dict[str, Any]) -> Optional[str]:
-    raw_role = metadata.get("user_role") or metadata.get("role")
-    if isinstance(raw_role, str):
-        lowered = raw_role.strip().lower()
-        if lowered in {"admin", "player"}:
-            return lowered
-        try:
-            numeric = int(lowered)
-            if numeric == 2:
-                return "admin"
-            if numeric == 1:
-                return "player"
-        except ValueError:
-            pass
-    elif raw_role is not None:
-        try:
-            numeric = int(raw_role)
-            if numeric == 2:
-                return "admin"
-            if numeric == 1:
-                return "player"
-        except (TypeError, ValueError):
-            pass
-
-    role_id = metadata.get("id_role")
-    if role_id is not None:
-        try:
-            numeric = int(role_id)
-            if numeric == 2:
-                return "admin"
-            if numeric == 1:
-                return "player"
-        except (TypeError, ValueError):
-            return None
-
-    return metadata.get("default_role") if metadata.get("default_role") in {"admin", "player"} else None
-
 
 def _slot_defined(slot_name: str, domain: DomainDict) -> bool:
     """Return True if the slot exists in the loaded domain."""
@@ -379,8 +444,8 @@ class ActionSubmitFieldRecommendationForm(Action):
             else:
                 line = (
                     f"{idx}. {rec.field_name} en {rec.campus_name} ({rec.district}). "
-                    f"Perfecta para tu pichanga de {rec.sport_name} en cancha {rec.surface}. "
-                    f"Entran {rec.capacity} patas y la hora está aprox. en S/ {rec.price_per_hour:.2f}."
+                    f"Ideal para tu partido de {rec.sport_name} en superficie {rec.surface}. "
+                    f"Tiene espacio para {rec.capacity} jugadores y la hora está alrededor de S/ {rec.price_per_hour:.2f}."
                 )
             summary_lines.append(line)
 
@@ -388,8 +453,8 @@ class ActionSubmitFieldRecommendationForm(Action):
             intro = "Estas son las alternativas que mejor se ajustan a su equipo:"
             closing = "Si requiere coordinar disponibilidad extra o apoyo con la gestión, avíseme."
         else:
-            intro = "Mira estas canchitas que calzan con la pichanga que estás armando:"
-            closing = "¿Quieres que aseguremos alguna o que busque otra opción?"
+            intro = "Aquí tienes opciones que se ajustan a lo que buscas para tu partido:"
+            closing = "Si quieres que reserve alguna opción o busque algo distinto, solo dime."
 
         response_text = f"{intro}\n" + "\n".join(summary_lines) + f"\n{closing}"
         dispatcher.utter_message(text=response_text)
@@ -563,7 +628,7 @@ class ActionShowRecommendationHistory(Action):
         if user_role == "admin":
             header = "Aquí tiene el resumen de las recomendaciones más recientes:"
         else:
-            header = "Te dejo un repaso de las canchitas que te sugerí últimamente:"
+            header = "Te dejo un resumen de las canchas que te sugerí últimamente:"
 
         dispatcher.utter_message(
             text=f"{header}\n" + "\n".join(lines)
@@ -687,6 +752,7 @@ class ActionSessionStart(Action):
     ) -> List[EventType]:
         events: List[EventType] = [SessionStarted()]
         metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+        metadata = _enrich_metadata_with_token(metadata)
 
         LOGGER.info(
             "[ActionSessionStart] conversation=%s metadata=%s slots=%s",
@@ -696,13 +762,16 @@ class ActionSessionStart(Action):
         )
 
         user_identifier = metadata.get("user_id") or metadata.get("id_user")
+        if user_identifier is None:
+            nested_user = metadata.get("user")
+            if isinstance(nested_user, dict):
+                user_identifier = nested_user.get("id") or nested_user.get("id_user")
+
         user_id: Optional[int] = None
         if user_identifier is not None:
-            try:
-                user_id = int(user_identifier)
-            except (TypeError, ValueError):
+            user_id = _coerce_user_identifier(user_identifier)
+            if user_id is None:
                 events.append(SlotSet("user_id", str(user_identifier)))
-                user_id = None
                 LOGGER.warning(
                     "[ActionSessionStart] invalid user identifier=%s for conversation=%s",
                     user_identifier,
@@ -713,6 +782,18 @@ class ActionSessionStart(Action):
                 LOGGER.info(
                     "[ActionSessionStart] user slot planned with id=%s for conversation=%s",
                     user_id,
+                    tracker.sender_id,
+                )
+
+        if user_id is None:
+            sender_fallback = _coerce_user_identifier(tracker.sender_id)
+            if sender_fallback is not None and not _slot_already_planned(events, "user_id"):
+                user_id = sender_fallback
+                events.append(SlotSet("user_id", str(user_id)))
+                LOGGER.info(
+                    "[ActionSessionStart] derived user id=%s from sender_id=%s for conversation=%s",
+                    user_id,
+                    tracker.sender_id,
                     tracker.sender_id,
                 )
 
@@ -760,6 +841,8 @@ class ActionSessionStart(Action):
         )
 
         if user_id is not None:
+            metadata.setdefault("id_user", user_id)
+            metadata.setdefault("user_id", user_id)
             try:
                 session_id = await run_in_thread(
                     chatbot_service.ensure_chat_session,
