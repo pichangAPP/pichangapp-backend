@@ -1,4 +1,4 @@
-"""Lightweight database helpers for the chatbot service API."""
+"""Database helpers shared between the chatbot API and Rasa actions."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ from typing import Iterator, Optional
 from sqlalchemy import Connection, create_engine, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
 
@@ -16,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 _ENGINE: Engine | None = None
 _DATABASE_URL: str | None = None
-
+_SESSION_FACTORY: Optional[sessionmaker] = None
 
 class DatabaseError(RuntimeError):
     """Raised when the API cannot complete a database operation."""
@@ -52,6 +53,12 @@ def get_engine() -> Engine:
             max_overflow=2,
             pool_recycle=1800,
             pool_timeout=30,
+            connect_args={
+                "keepalives": 1,
+                "keepalives_idle": 60,
+                "keepalives_interval": 30,
+                "keepalives_count": 5,
+            },
             future=True,
         )
     return _ENGINE
@@ -68,6 +75,40 @@ def get_connection() -> Iterator[Connection]:
         raise DatabaseError(str(exc)) from exc
 
 
+def _get_session_factory() -> sessionmaker:
+    global _SESSION_FACTORY
+    if _SESSION_FACTORY is None:
+        engine = get_engine()
+        _SESSION_FACTORY = sessionmaker(
+            bind=engine,
+            autoflush=False,
+            autocommit=False,
+            expire_on_commit=False,
+            future=True,
+        )
+    return _SESSION_FACTORY
+
+
+@contextmanager
+def get_session() -> Iterator[Session]:
+    """Provide a transactional scope for ORM interactions."""
+
+    session_factory = _get_session_factory()
+    session: Session = session_factory()
+    try:
+        yield session
+        session.commit()
+    except SQLAlchemyError as exc:
+        session.rollback()
+        LOGGER.exception("Database session error: %s", exc)
+        raise DatabaseError(str(exc)) from exc
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
 def fetch_user_role(user_id: int) -> Optional[int]:
     """Return the role identifier stored for the given user."""
 
@@ -80,4 +121,10 @@ def fetch_user_role(user_id: int) -> Optional[int]:
         return int(value) if value is not None else None
 
 
-__all__ = ["DatabaseError", "fetch_user_role", "get_connection", "get_engine"]
+__all__ = [
+    "DatabaseError",
+    "fetch_user_role",
+    "get_connection",
+    "get_engine",
+    "get_session",
+]

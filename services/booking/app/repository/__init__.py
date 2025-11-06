@@ -1,4 +1,10 @@
-from .business_repository import create_business, delete_business, get_business, list_businesses
+from .business_repository import (
+    create_business,
+    delete_business,
+    get_business,
+    get_business_by_manager,
+    list_businesses,
+)
 from .campus_repository import (
     create_campus,
     delete_campus,
@@ -20,6 +26,7 @@ __all__ = [
     "create_business",
     "delete_business",
     "get_business",
+    "get_business_by_manager",
     "list_businesses",
     "create_campus",
     "delete_campus",
@@ -35,6 +42,6 @@ __all__ = [
     "delete_image",
     "get_image",
     "list_images_by_campus",
-    "list_images_by_field"
-    "get_sport"
+    "list_images_by_field",
+    "get_sport",
 ]

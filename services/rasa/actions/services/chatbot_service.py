@@ -7,7 +7,7 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Sequence
 
-from ..infrastructure.database import DatabaseError, get_connection
+from ..infrastructure.database import DatabaseError, get_session
 from ..models import FieldRecommendation
 from ..repositories.analytics_repository import (
     ChatSessionRepository,
@@ -21,7 +21,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 class ChatbotAnalyticsService:
-    """Provides high level operations used by the custom actions."""
 
     def __init__(self, *, source_model: Optional[str] = None) -> None:
         self._source_model = source_model or os.getenv("RASA_SOURCE_MODEL")
@@ -40,8 +39,8 @@ class ChatbotAnalyticsService:
             theme,
             user_role,
         )
-        with get_connection() as connection:
-            repository = ChatSessionRepository(connection)
+        with get_session() as session:
+            repository = ChatSessionRepository(session)
             session_id = repository.ensure_session(
                 user_id=user_id, theme=theme, user_role=user_role
             )
@@ -57,8 +56,8 @@ class ChatbotAnalyticsService:
             "[ChatbotAnalyticsService] close_chat_session chatbot_id=%s",
             chatbot_id,
         )
-        with get_connection() as connection:
-            repository = ChatSessionRepository(connection)
+        with get_session() as session:
+            repository = ChatSessionRepository(session)
             repository.close_session(chatbot_id)
 
     # ------------------------------------------------------------------
@@ -89,8 +88,8 @@ class ChatbotAnalyticsService:
             false_positive,
         )
 
-        with get_connection() as connection:
-            repository = IntentRepository(connection)
+        with get_session() as session:
+            repository = IntentRepository(session)
             existing = repository.fetch_by_name(intent_name)
 
             normalized_confidence = None
@@ -189,8 +188,8 @@ class ChatbotAnalyticsService:
             user_id,
             status,
         )
-        with get_connection() as connection:
-            repository = RecommendationRepository(connection)
+        with get_session() as session:
+            repository = RecommendationRepository(session)
             recommendation_id = repository.create_log(
                 status=status,
                 message=message,
@@ -225,8 +224,8 @@ class ChatbotAnalyticsService:
             response_type,
             sender_type,
         )
-        with get_connection() as connection:
-            repository = ChatbotLogRepository(connection)
+        with get_session() as session:
+            repository = ChatbotLogRepository(session)
             repository.add_entry(
                 session_id=session_id,
                 intent_id=intent_id,
@@ -246,8 +245,8 @@ class ChatbotAnalyticsService:
             session_id,
             limit,
         )
-        with get_connection() as connection:
-            repository = RecommendationRepository(connection)
+        with get_session() as session:
+            repository = RecommendationRepository(session)
             return repository.fetch_history(session_id, limit)
 
     def fetch_field_recommendations(
@@ -265,8 +264,8 @@ class ChatbotAnalyticsService:
             location,
             limit,
         )
-        with get_connection() as connection:
-            repository = RecommendationRepository(connection)
+        with get_session() as session:
+            repository = RecommendationRepository(session)
             return repository.fetch_field_recommendations(
                 sport=sport,
                 surface=surface,
@@ -280,8 +279,8 @@ class ChatbotAnalyticsService:
             user_id,
             limit,
         )
-        with get_connection() as connection:
-            repository = FeedbackRepository(connection)
+        with get_session() as session:
+            repository = FeedbackRepository(session)
             return repository.fetch_recent(user_id, limit)
 
 
