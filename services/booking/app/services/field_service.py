@@ -7,8 +7,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
-from app.models import Field, Schedule
-from app.repository import field_repository, sport_repository
+from app.models import Field, Image, Schedule
+from app.repository import field_repository, image_repository, sport_repository
 from app.schemas import FieldCreate, FieldUpdate
 from app.services.campus_service import CampusService
 
@@ -61,12 +61,16 @@ class FieldService:
     def update_field(self, field_id: int, field_in: FieldUpdate) -> Field:
         field = self.get_field(field_id)
         update_data = field_in.model_dump(exclude_unset=True)
+        images_data = update_data.pop("images", None)
 
         if "id_sport" in update_data and update_data["id_sport"] is not None:
             self._ensure_sport_exists(update_data["id_sport"])
 
         for attr, value in update_data.items():
             setattr(field, attr, value)
+
+        if images_data is not None:
+            self._sync_field_images(field, images_data)
 
         self._validate_field_entity(field)
 
@@ -81,6 +85,49 @@ class FieldService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to update field",
             ) from exc
+
+    def _sync_field_images(
+        self, field: Field, images_data: list[dict[str, object]]
+    ) -> None:
+        existing_images_by_id = {
+            image.id_image: image for image in field.images if image.id_image is not None
+        }
+        incoming_ids: set[int] = set()
+
+        for image_data in images_data:
+            id_field = image_data.get("id_field")
+            if id_field != field.id_field:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Image field id must match the field being updated",
+                )
+
+            image_id = image_data.get("id_image")
+            if image_id is not None:
+                image = existing_images_by_id.get(image_id)
+                if image is None:
+                    raise HTTPException(
+                        status_code=status.HTTP_404_NOT_FOUND,
+                        detail=f"Image {image_id} not found for field {field.id_field}",
+                    )
+                incoming_ids.add(image_id)
+                updated_fields = {
+                    key: value
+                    for key, value in image_data.items()
+                    if key != "id_image"
+                }
+                for attr, value in updated_fields.items():
+                    setattr(image, attr, value)
+            else:
+                new_image_data = {
+                    key: value for key, value in image_data.items() if key != "id_image"
+                }
+                field.images.append(Image(**new_image_data))
+
+        for image in list(field.images):
+            if image.id_image is not None and image.id_image not in incoming_ids:
+                field.images.remove(image)
+                image_repository.delete_image(self.db, image)
 
     def delete_field(self, field_id: int) -> None:
         field = self.get_field(field_id)

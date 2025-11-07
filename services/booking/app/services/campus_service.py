@@ -10,7 +10,12 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.models import Campus, Characteristic, Field, Image, Schedule
-from app.repository import business_repository, campus_repository, sport_repository
+from app.repository import (
+    business_repository,
+    campus_repository,
+    image_repository,
+    sport_repository,
+)
 from app.schemas import CampusCreate, CampusScheduleResponse, CampusUpdate
 from app.services.location_utils import haversine_distance
 
@@ -127,6 +132,7 @@ class CampusService:
         campus = self.get_campus(campus_id)
         print("Campus before update:", campus)
         update_data = campus_in.model_dump(exclude_unset=True)
+        images_data = update_data.pop("images", None)
         characteristic_data = update_data.pop("characteristic", None)
 
         for field, value in update_data.items():
@@ -138,7 +144,10 @@ class CampusService:
             else:
                 for field, value in characteristic_data.items():
                     setattr(campus.characteristic, field, value)
-        
+
+        if images_data is not None:
+            self._sync_campus_images(campus, images_data)
+
         self._validate_campus_entity(campus)
         try:
             self.db.flush()
@@ -151,6 +160,58 @@ class CampusService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Failed to update campus {exc}",
             ) from exc
+
+    def _sync_campus_images(
+        self, campus: Campus, images_data: list[dict[str, object]]
+    ) -> None:
+        campus_images = [image for image in campus.images if image.id_field is None]
+        existing_images_by_id = {
+            image.id_image: image
+            for image in campus_images
+            if image.id_image is not None
+        }
+        incoming_ids: set[int] = set()
+
+        for image_data in images_data:
+            id_campus = image_data.get("id_campus")
+            id_field = image_data.get("id_field")
+            if id_campus != campus.id_campus:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Image campus id must match the campus being updated",
+                )
+            if id_field is not None:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Campus images cannot reference a field",
+                )
+
+            image_id = image_data.get("id_image")
+            if image_id is not None:
+                image = existing_images_by_id.get(image_id)
+                if image is None:
+                    raise HTTPException(
+                        status_code=status.HTTP_404_NOT_FOUND,
+                        detail=f"Image {image_id} not found for campus {campus.id_campus}",
+                    )
+                incoming_ids.add(image_id)
+                updated_fields = {
+                    key: value
+                    for key, value in image_data.items()
+                    if key != "id_image"
+                }
+                for attr, value in updated_fields.items():
+                    setattr(image, attr, value)
+            else:
+                new_image_data = {
+                    key: value for key, value in image_data.items() if key != "id_image"
+                }
+                campus.images.append(Image(**new_image_data))
+
+        for image in list(campus_images):
+            if image.id_image is not None and image.id_image not in incoming_ids:
+                campus.images.remove(image)
+                image_repository.delete_image(self.db, image)
 
     def delete_campus(self, campus_id: int) -> None:
         campus = self.get_campus(campus_id)
