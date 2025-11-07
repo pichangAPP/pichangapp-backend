@@ -11,7 +11,7 @@ from pydantic import (
     model_validator,
 )
 
-from app.schemas.image import ImageResponse
+from app.schemas.image import ImageResponse, ImageUpdate
 from app.schemas.sport import SportResponse
 
 class FieldBase(BaseModel):
@@ -47,6 +47,7 @@ class FieldUpdate(BaseModel):
     close_time: Optional[time] = None
     minutes_wait: Optional[float] = PydanticField(None, ge=0)
     id_sport: Optional[int] = PydanticField(None, gt=0)
+    images: Optional[list[ImageUpdate]] = None
 
     @model_validator(mode="after")
     def _validate_schedule(self) -> "FieldUpdate":
