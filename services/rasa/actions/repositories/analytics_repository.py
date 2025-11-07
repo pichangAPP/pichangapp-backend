@@ -439,6 +439,10 @@ class ChatbotLogRepository:
             if intent_confidence is not None
             else None
         )
+        if message_value or bot_response_value:
+            intent_detected_flag: Optional[int] = 1 if intent_id is not None else 0
+        else:
+            intent_detected_flag = None
         entry = ChatbotLog(
             id_chatbot=session_id,
             id_intent=intent_id,
@@ -448,7 +452,7 @@ class ChatbotLogRepository:
             response_type=response_type,
             sender_type=sender_type,
             id_user=user_id,
-            intent_detected=intent_id,
+            intent_detected=intent_detected_flag,
             intent_confidence=rounded_confidence,
             metadata_json=json.dumps(metadata, default=str) if metadata else None,
         )

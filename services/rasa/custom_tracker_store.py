@@ -61,7 +61,7 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
 
         self._max_retries = max(1, int(max_retries))
         self._retry_delay = max(0.1, float(retry_delay))
-        self._last_event_timestamp: Dict[str, float] = {}
+        self._last_event_index: Dict[str, int] = {}
         self._pending_user_events: Dict[str, Dict[str, Any]] = {}
 
         super().__init__(
@@ -141,26 +141,24 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
             )
             return
 
-        last_timestamp = self._last_event_timestamp.get(sender_id, 0.0)
-        new_last_timestamp = last_timestamp
+        last_index = self._last_event_index.get(sender_id, -1)
+        new_last_index = last_index
 
-        for event in tracker.events:
-            timestamp = getattr(event, "timestamp", None)
-            if timestamp is None:
-                continue
-            if timestamp <= last_timestamp:
+        for index, event in enumerate(tracker.events):
+            if index <= last_index:
                 continue
             if isinstance(event, SessionStarted):
-                new_last_timestamp = max(new_last_timestamp, float(timestamp))
+                self._pending_user_events.pop(sender_id, None)
+                new_last_index = max(new_last_index, index)
                 continue
             if isinstance(event, UserUttered):
                 self._capture_user_event(sender_id, event, session_id, user_id)
             elif isinstance(event, BotUttered):
                 self._persist_exchange(sender_id, tracker, event, session_id, user_id)
-            new_last_timestamp = max(new_last_timestamp, float(timestamp))
+            new_last_index = max(new_last_index, index)
 
-        if new_last_timestamp > last_timestamp:
-            self._last_event_timestamp[sender_id] = new_last_timestamp
+        if new_last_index > last_index:
+            self._last_event_index[sender_id] = new_last_index
 
     def _capture_user_event(
         self, sender_id: str, event: UserUttered, session_id: int, user_id: int
@@ -252,10 +250,12 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
         confidence: Optional[float] = None
         source_model: Optional[str] = None
         intent_examples = []
+        intent_detected_name: Optional[str] = None
 
         if pending_user:
             message_text = pending_user.get("text") or ""
             intent_name = pending_user.get("intent_name")
+            intent_detected_name = intent_name
             confidence = pending_user.get("confidence")
             source_model = pending_user.get("source_model")
             metadata_to_store.setdefault("user_event_metadata", pending_user.get("metadata"))
@@ -285,6 +285,7 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
                 )
                 if analytics_section.get("intent_name") and not intent_name:
                     intent_name = analytics_section.get("intent_name")
+                    intent_detected_name = intent_name
                 if analytics_section.get("intent_confidence") and confidence is None:
                     confidence = analytics_section.get("intent_confidence")
                 if analytics_section.get("source_model") and not source_model:
@@ -355,6 +356,13 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
                     sender_id,
                 )
 
+        if intent_detected_name and not metadata_to_store.get("intent_name"):
+            metadata_to_store["intent_name"] = intent_detected_name
+        if confidence is not None and "intent_confidence" not in metadata_to_store:
+            metadata_to_store["intent_confidence"] = confidence
+        if intent_id is not None and "intent_id" not in metadata_to_store:
+            metadata_to_store["intent_id"] = intent_id
+
         try:
             chatbot_service.log_chatbot_message(
                 session_id=session_id,
@@ -363,7 +371,7 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
                 message_text=message_text,
                 bot_response=response_text,
                 response_type=response_type,
-                sender_type="bot" if bot_event is not None else "user",
+                sender_type="user" if pending_user else "bot",
                 user_id=user_id,
                 intent_confidence=confidence,
                 metadata=metadata_to_store,
