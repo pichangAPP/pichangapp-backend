@@ -22,16 +22,29 @@ class RevenueEntry(BaseModel):
     period_start: datetime = Field(..., description="Start of the aggregated period.")
     period_end: datetime = Field(..., description="End of the aggregated period.")
     total_amount: Decimal = Field(..., ge=Decimal("0"), description="Total revenue amount.")
-    currency: str = Field(..., max_length=30, description="Currency code for the aggregated payments.")
+    rent_count: int = Field(..., ge=0, description="Number of rents contributing to the total amount.")
 
 
-class RevenueSummaryResponse(BaseModel):
-    """Response model containing revenue grouped by different periods."""
+class CampusRevenueSummary(BaseModel):
+    """Aggregated revenue grouped by campus."""
 
-    date_range: DateRange
+    campus_id: int = Field(..., description="Identifier of the campus.")
+    campus_name: str = Field(..., max_length=300, description="Display name of the campus.")
     daily: List[RevenueEntry]
     weekly: List[RevenueEntry]
     monthly: List[RevenueEntry]
 
 
-__all__ = ["DateRange", "RevenueEntry", "RevenueSummaryResponse"]
+class RevenueSummaryResponse(BaseModel):
+    """Response model containing revenue grouped by campus and period."""
+
+    date_range: DateRange
+    campuses: List[CampusRevenueSummary]
+
+
+__all__ = [
+    "CampusRevenueSummary",
+    "DateRange",
+    "RevenueEntry",
+    "RevenueSummaryResponse",
+]

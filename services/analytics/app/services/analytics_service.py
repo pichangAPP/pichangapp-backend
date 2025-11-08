@@ -3,13 +3,18 @@
 from __future__ import annotations
 
 from datetime import date, datetime, time, timedelta, timezone
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.repository import AnalyticsRepositoryError, fetch_revenue_summary
-from app.schemas.analytics import DateRange, RevenueEntry, RevenueSummaryResponse
+from app.schemas.analytics import (
+    CampusRevenueSummary,
+    DateRange,
+    RevenueEntry,
+    RevenueSummaryResponse,
+)
 
 DEFAULT_DAY_WINDOW = 30
 
@@ -46,7 +51,6 @@ class AnalyticsService:
         *,
         start_date: Optional[date],
         end_date: Optional[date],
-        currency: Optional[str],
         status: Optional[str],
     ) -> RevenueSummaryResponse:
         today = datetime.now(timezone.utc).date()
@@ -68,7 +72,6 @@ class AnalyticsService:
                 self._db,
                 start_at=start_at,
                 end_at=end_at,
-                currency=currency,
                 status=status,
             )
         except AnalyticsRepositoryError as exc:  # pragma: no cover - defensive programming
@@ -77,30 +80,48 @@ class AnalyticsService:
                 detail="Unable to compute revenue summary",
             ) from exc
 
+        campuses = self._build_campus_summaries(summary_data)
+
         return RevenueSummaryResponse(
             date_range=DateRange(start=start_at, end=end_at),
-            daily=self._build_entries(summary_data["daily"], "day"),
-            weekly=self._build_entries(summary_data["weekly"], "week"),
-            monthly=self._build_entries(summary_data["monthly"], "month"),
+            campuses=campuses,
         )
 
-    def _build_entries(
+    def _build_campus_summaries(
         self,
-        rows: List[dict],
-        interval: str,
-    ) -> List[RevenueEntry]:
-        entries: List[RevenueEntry] = []
-        for row in rows:
-            period_start = _ensure_timezone(row["period_start"])
-            entries.append(
-                RevenueEntry(
-                    period_start=period_start,
-                    period_end=_calculate_period_end(period_start, interval),
-                    total_amount=row["total_amount"],
-                    currency=row["currency"],
-                )
-            )
-        return entries
+        summary_data: Dict[str, List[dict]],
+    ) -> List[CampusRevenueSummary]:
+        campuses: Dict[int, CampusRevenueSummary] = {}
+        for interval_name, rows in summary_data.items():
+            for row in rows:
+                campus_id = int(row["campus_id"])
+                campus = campuses.get(campus_id)
+                if campus is None:
+                    campus = CampusRevenueSummary(
+                        campus_id=campus_id,
+                        campus_name=row["campus_name"],
+                        daily=[],
+                        weekly=[],
+                        monthly=[],
+                    )
+                    campuses[campus_id] = campus
+
+                entry = self._build_entry(row, interval_name)
+                getattr(campus, interval_name).append(entry)
+
+        return sorted(
+            campuses.values(),
+            key=lambda campus: campus.campus_name.lower(),
+        )
+
+    def _build_entry(self, row: dict, interval: str) -> RevenueEntry:
+        period_start = _ensure_timezone(row["period_start"])
+        return RevenueEntry(
+            period_start=period_start,
+            period_end=_calculate_period_end(period_start, interval),
+            total_amount=row["total_amount"],
+            rent_count=int(row["rent_count"]),
+        )
 
 
 __all__ = ["AnalyticsService"]

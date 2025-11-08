@@ -1,7 +1,5 @@
 """Database helpers for analytics queries."""
-
 from __future__ import annotations
-
 from datetime import datetime
 from decimal import Decimal
 from typing import Dict, Iterable, List, Optional
@@ -23,7 +21,6 @@ def _execute_grouped_query(
     start_at: datetime,
     end_at: datetime,
     interval: str,
-    currency: Optional[str],
     status: Optional[str],
 ) -> Iterable[Dict[str, object]]:
     if interval not in ALLOWED_INTERVALS:
@@ -32,16 +29,20 @@ def _execute_grouped_query(
     query = text(
         f"""
         SELECT
-            date_trunc('{interval}', paid_at) AS period_start,
-            currency,
-            SUM(amount) AS total_amount
-        FROM payment.payment
-        WHERE paid_at >= :start_at
-          AND paid_at < :end_at
-          AND (:status IS NULL OR status = :status)
-          AND (:currency IS NULL OR currency = :currency)
-        GROUP BY period_start, currency
-        ORDER BY period_start ASC, currency ASC
+            campus.id_campus AS campus_id,
+            campus.name AS campus_name,
+            date_trunc('{interval}', rent.date_log) AS period_start,
+            SUM(rent.mount) AS total_amount,
+            COUNT(rent.id_rent) AS rent_count
+        FROM reservation.rent AS rent
+        JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
+        JOIN booking.field AS field ON field.id_field = schedule.id_field
+        JOIN booking.campus AS campus ON campus.id_campus = field.id_campus
+        WHERE rent.date_log >= :start_at
+          AND rent.date_log < :end_at
+          AND (:status IS NULL OR rent.status = :status)
+        GROUP BY campus.id_campus, campus.name, period_start
+        ORDER BY campus.name ASC, period_start ASC
         """
     )
 
@@ -52,7 +53,6 @@ def _execute_grouped_query(
                 "start_at": start_at,
                 "end_at": end_at,
                 "status": status,
-                "currency": currency,
             },
         )
     except SQLAlchemyError as exc:  # pragma: no cover - defensive programming
@@ -60,9 +60,11 @@ def _execute_grouped_query(
 
     for row in result:
         yield {
+            "campus_id": row.campus_id,
+            "campus_name": row.campus_name,
             "period_start": row.period_start,
-            "currency": row.currency,
             "total_amount": row.total_amount,
+            "rent_count": row.rent_count,
         }
 
 
@@ -72,7 +74,6 @@ def fetch_revenue_grouped_totals(
     start_at: datetime,
     end_at: datetime,
     interval: str,
-    currency: Optional[str] = None,
     status: Optional[str] = None,
 ) -> List[Dict[str, object]]:
     """Return revenue totals grouped by the requested interval."""
@@ -83,7 +84,6 @@ def fetch_revenue_grouped_totals(
             start_at=start_at,
             end_at=end_at,
             interval=interval,
-            currency=currency,
             status=status,
         )
     )
@@ -100,9 +100,11 @@ def fetch_revenue_grouped_totals(
             normalized_amount = Decimal(str(amount))
         normalized.append(
             {
+                "campus_id": row["campus_id"],
+                "campus_name": row["campus_name"],
                 "period_start": row["period_start"],
-                "currency": row["currency"],
                 "total_amount": normalized_amount,
+                "rent_count": int(row["rent_count"]),
             }
         )
     return normalized
@@ -113,7 +115,6 @@ def fetch_revenue_summary(
     *,
     start_at: datetime,
     end_at: datetime,
-    currency: Optional[str] = None,
     status: Optional[str] = None,
 ) -> Dict[str, List[Dict[str, object]]]:
     """Return revenue totals grouped by day, week and month."""
@@ -124,7 +125,6 @@ def fetch_revenue_summary(
             start_at=start_at,
             end_at=end_at,
             interval="day",
-            currency=currency,
             status=status,
         ),
         "weekly": fetch_revenue_grouped_totals(
@@ -132,7 +132,6 @@ def fetch_revenue_summary(
             start_at=start_at,
             end_at=end_at,
             interval="week",
-            currency=currency,
             status=status,
         ),
         "monthly": fetch_revenue_grouped_totals(
@@ -140,7 +139,6 @@ def fetch_revenue_summary(
             start_at=start_at,
             end_at=end_at,
             interval="month",
-            currency=currency,
             status=status,
         ),
     }
