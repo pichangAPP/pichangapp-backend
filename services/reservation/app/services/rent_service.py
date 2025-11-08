@@ -48,6 +48,19 @@ class RentService:
             schedule_id=schedule_id,
         )
 
+    def list_rents_by_campus(
+        self,
+        campus_id: int,
+        *,
+        status_filter: Optional[str] = None,
+    ) -> List[Rent]:
+
+        return rent_repository.list_rents(
+            self.db,
+            status_filter=status_filter,
+            campus_id=campus_id,
+        )
+
     def list_rents_by_field(
         self,
         field_id: int,
