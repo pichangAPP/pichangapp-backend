@@ -22,6 +22,7 @@ class ImageCreate(ImageBase):
 
 
 class ImageUpdate(BaseModel):
+    id_image: Optional[int] = None
     name_image: Optional[str] = None
     image_url: Optional[str] = None
     state: Optional[str] = None

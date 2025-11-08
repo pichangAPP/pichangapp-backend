@@ -17,7 +17,7 @@ from .characteristic import (
     CharacteristicUpdate,
 )
 from .field import FieldCreate, FieldResponse
-from .image import ImageCreate, ImageResponse
+from .image import ImageCreate, ImageResponse, ImageUpdate
 from .manager import ManagerResponse
 from .schedule import CampusScheduleResponse
 
@@ -62,6 +62,7 @@ class CampusUpdate(BaseModel):
     coords_y: Optional[float] = PydanticField(None, ge=-180, le=180)
     characteristic: Optional[CharacteristicUpdate] = None
     id_manager: Optional[int] = None
+    images: Optional[List[ImageUpdate]] = None
 
     @model_validator(mode="after")
     def _validate_schedule(self) -> "CampusUpdate":

@@ -7,8 +7,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
-from app.models import Field, Schedule
-from app.repository import field_repository, sport_repository
+from app.models import Field, Image, Schedule
+from app.repository import field_repository, image_repository, sport_repository
 from app.schemas import FieldCreate, FieldUpdate
 from app.services.campus_service import CampusService
 
@@ -43,14 +43,21 @@ class FieldService:
     def create_field(self, campus_id: int, field_in: FieldCreate) -> Field:
         campus = self.campus_service.get_campus(campus_id)
         self._ensure_sport_exists(field_in.id_sport)
-        field = Field(**field_in.model_dump())
+        field_data = field_in.model_dump(exclude={"images"})
+        images_data = list(field_in.images or [])
+        field = Field(**field_data)
         field.campus = campus
         self._validate_field_entity(field)
         try:
             field_repository.create_field(self.db, field)
+            if images_data:
+                self._add_images_to_new_field(field, images_data)
             self.db.commit()
             self.db.refresh(field)
             return field
+        except HTTPException as exc:
+            self.db.rollback()
+            raise exc
         except SQLAlchemyError as exc:
             self.db.rollback()
             raise HTTPException(
@@ -61,12 +68,16 @@ class FieldService:
     def update_field(self, field_id: int, field_in: FieldUpdate) -> Field:
         field = self.get_field(field_id)
         update_data = field_in.model_dump(exclude_unset=True)
+        images_data = update_data.pop("images", None)
 
         if "id_sport" in update_data and update_data["id_sport"] is not None:
             self._ensure_sport_exists(update_data["id_sport"])
 
         for attr, value in update_data.items():
             setattr(field, attr, value)
+
+        if images_data is not None:
+            self._sync_field_images(field, images_data)
 
         self._validate_field_entity(field)
 
@@ -81,6 +92,86 @@ class FieldService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to update field",
             ) from exc
+
+    def _sync_field_images(
+        self, field: Field, images_data: list[dict[str, object]]
+    ) -> None:
+        existing_images_by_id = {
+            image.id_image: image for image in field.images if image.id_image is not None
+        }
+        incoming_ids: set[int] = set()
+
+        for image_data in images_data:
+            id_field = image_data.get("id_field")
+            if id_field != field.id_field:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Image field id must match the field being updated",
+                )
+
+            image_id = image_data.get("id_image")
+            if image_id is not None:
+                image = existing_images_by_id.get(image_id)
+                if image is None:
+                    raise HTTPException(
+                        status_code=status.HTTP_404_NOT_FOUND,
+                        detail=f"Image {image_id} not found for field {field.id_field}",
+                    )
+                incoming_ids.add(image_id)
+                updated_fields = {
+                    key: value
+                    for key, value in image_data.items()
+                    if key != "id_image"
+                }
+                for attr, value in updated_fields.items():
+                    setattr(image, attr, value)
+            else:
+                new_image_data = {
+                    key: value for key, value in image_data.items() if key != "id_image"
+                }
+                field.images.append(Image(**new_image_data))
+
+        for image in list(field.images):
+            if image.id_image is not None and image.id_image not in incoming_ids:
+                field.images.remove(image)
+                image_repository.delete_image(self.db, image)
+
+    def _add_images_to_new_field(
+        self, field: Field, images_data: list[object]
+    ) -> None:
+        for image_in in images_data:
+            image_payload = (
+                image_in.model_dump()
+                if hasattr(image_in, "model_dump")
+                else dict(image_in)
+            )
+            validated_payload = self._validate_new_field_image(field, image_payload)
+            validated_payload["id_field"] = field.id_field
+            validated_payload["id_campus"] = field.id_campus
+            field.images.append(Image(**validated_payload))
+
+    def _validate_new_field_image(
+        self, field: Field, image_data: dict[str, object]
+    ) -> dict[str, object]:
+        id_field = image_data.get("id_field")
+        if id_field is not None and id_field != field.id_field:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Image field id must match the field being created",
+            )
+        id_campus = image_data.get("id_campus")
+        if id_campus is not None and id_campus != field.id_campus:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Image campus id must match the parent campus",
+            )
+        image_type = image_data.get("type")
+        if image_type != "field":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Field images must have type 'field'",
+            )
+        return image_data
 
     def delete_field(self, field_id: int) -> None:
         field = self.get_field(field_id)
