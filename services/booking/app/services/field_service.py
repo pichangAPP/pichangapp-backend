@@ -43,14 +43,21 @@ class FieldService:
     def create_field(self, campus_id: int, field_in: FieldCreate) -> Field:
         campus = self.campus_service.get_campus(campus_id)
         self._ensure_sport_exists(field_in.id_sport)
-        field = Field(**field_in.model_dump())
+        field_data = field_in.model_dump(exclude={"images"})
+        images_data = list(field_in.images or [])
+        field = Field(**field_data)
         field.campus = campus
         self._validate_field_entity(field)
         try:
             field_repository.create_field(self.db, field)
+            if images_data:
+                self._add_images_to_new_field(field, images_data)
             self.db.commit()
             self.db.refresh(field)
             return field
+        except HTTPException as exc:
+            self.db.rollback()
+            raise exc
         except SQLAlchemyError as exc:
             self.db.rollback()
             raise HTTPException(
@@ -128,6 +135,43 @@ class FieldService:
             if image.id_image is not None and image.id_image not in incoming_ids:
                 field.images.remove(image)
                 image_repository.delete_image(self.db, image)
+
+    def _add_images_to_new_field(
+        self, field: Field, images_data: list[object]
+    ) -> None:
+        for image_in in images_data:
+            image_payload = (
+                image_in.model_dump()
+                if hasattr(image_in, "model_dump")
+                else dict(image_in)
+            )
+            validated_payload = self._validate_new_field_image(field, image_payload)
+            validated_payload["id_field"] = field.id_field
+            validated_payload["id_campus"] = field.id_campus
+            field.images.append(Image(**validated_payload))
+
+    def _validate_new_field_image(
+        self, field: Field, image_data: dict[str, object]
+    ) -> dict[str, object]:
+        id_field = image_data.get("id_field")
+        if id_field is not None and id_field != field.id_field:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Image field id must match the field being created",
+            )
+        id_campus = image_data.get("id_campus")
+        if id_campus is not None and id_campus != field.id_campus:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Image campus id must match the parent campus",
+            )
+        image_type = image_data.get("type")
+        if image_type != "field":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Field images must have type 'field'",
+            )
+        return image_data
 
     def delete_field(self, field_id: int) -> None:
         field = self.get_field(field_id)
