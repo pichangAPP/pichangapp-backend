@@ -52,6 +52,19 @@ def list_rents_by_user(
     return service.list_rents_by_user(user_id, status_filter=status)
 
 
+@router.get("/campus/{campus_id}", response_model=List[RentResponse])
+def list_rents_by_campus(
+    campus_id: int,
+    *,
+    db: Session = Depends(get_db),
+    status: Optional[str] = Query(None, description="Filter rents by status"),
+) -> List[RentResponse]:
+    """Retrieve rents associated with a specific campus."""
+
+    service = RentService(db)
+    return service.list_rents_by_campus(campus_id, status_filter=status)
+
+
 @router.get("/users/{user_id}/history", response_model=List[RentResponse])
 def list_user_rent_history(
     user_id: int,

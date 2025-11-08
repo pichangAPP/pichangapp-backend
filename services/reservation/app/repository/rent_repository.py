@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from typing import Dict, Iterable, Optional, Sequence, Set
+
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
+from app.models.field import Field
 from app.models.rent import Rent
 from app.models.schedule import Schedule
 
@@ -16,14 +18,17 @@ def list_rents(
     field_id: Optional[int] = None,
     user_id: Optional[int] = None,
     sort_desc: bool = False,
+    campus_id: Optional[int] = None,
 ) -> list[Rent]:
     query = db.query(Rent).options(
         joinedload(Rent.schedule).joinedload(Schedule.field),
         joinedload(Rent.schedule).joinedload(Schedule.user),
     )
 
-    if field_id is not None or user_id is not None:
+    if field_id is not None or user_id is not None or campus_id is not None:
         query = query.join(Rent.schedule)
+    if campus_id is not None:
+        query = query.join(Schedule.field)
 
     if status_filter is not None:
         query = query.filter(Rent.status == status_filter)
@@ -33,6 +38,8 @@ def list_rents(
         query = query.filter(Schedule.id_field == field_id)
     if user_id is not None:
         query = query.filter(Schedule.id_user == user_id)
+    if campus_id is not None:
+        query = query.filter(Field.id_campus == campus_id)
 
     order_clause = Rent.start_time.desc() if sort_desc else Rent.start_time
 
