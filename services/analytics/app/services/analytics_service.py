@@ -3,16 +3,28 @@
 from __future__ import annotations
 
 from datetime import date, datetime, time, timedelta, timezone
+from decimal import Decimal
 from typing import Dict, List, Optional
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.repository import AnalyticsRepositoryError, fetch_revenue_summary
+from app.repository import (
+    AnalyticsRepositoryError,
+    fetch_campus_daily_income,
+    fetch_campus_daily_rent_traffic,
+    fetch_campus_income_total,
+    fetch_campus_overview,
+    fetch_revenue_summary,
+)
 from app.schemas.analytics import (
     CampusRevenueSummary,
+    CampusRevenueMetricsResponse,
     DateRange,
+    FieldAvailability,
+    IncomePoint,
     RevenueEntry,
+    RentTrafficPoint,
     RevenueSummaryResponse,
 )
 
@@ -87,6 +99,127 @@ class AnalyticsService:
             campuses=campuses,
         )
 
+    def get_campus_revenue_metrics(self, campus_id: int) -> CampusRevenueMetricsResponse:
+        """Return detailed revenue metrics for the specified campus."""
+
+        now = datetime.now(timezone.utc)
+        today = now.date()
+        start_of_today = datetime.combine(today, time.min, tzinfo=timezone.utc)
+        start_of_tomorrow = start_of_today + timedelta(days=1)
+
+        week_start_date = today - timedelta(days=today.weekday())
+        week_start = datetime.combine(week_start_date, time.min, tzinfo=timezone.utc)
+        week_end = week_start + timedelta(days=7)
+
+        month_start_date = today.replace(day=1)
+        if month_start_date.month == 12:
+            month_end_date = date(month_start_date.year + 1, 1, 1)
+        else:
+            month_end_date = date(month_start_date.year, month_start_date.month + 1, 1)
+        month_start = datetime.combine(month_start_date, time.min, tzinfo=timezone.utc)
+        month_end = datetime.combine(month_end_date, time.min, tzinfo=timezone.utc)
+
+        seven_day_start = start_of_today - timedelta(days=6)
+        seven_day_end = start_of_tomorrow
+
+        week_range_end = min(week_end, start_of_tomorrow)
+        month_range_end = min(month_end, start_of_tomorrow)
+
+        try:
+            campus_overview = fetch_campus_overview(self._db, campus_id=campus_id)
+        except AnalyticsRepositoryError as exc:  # pragma: no cover - defensive programming
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Unable to obtain campus information",
+            ) from exc
+
+        if campus_overview is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Campus not found",
+            )
+
+        try:
+            today_total = fetch_campus_income_total(
+                self._db,
+                campus_id=campus_id,
+                start_at=start_of_today,
+                end_at=start_of_tomorrow,
+            )
+            week_total = fetch_campus_income_total(
+                self._db,
+                campus_id=campus_id,
+                start_at=week_start,
+                end_at=week_range_end,
+            )
+            month_total = fetch_campus_income_total(
+                self._db,
+                campus_id=campus_id,
+                start_at=month_start,
+                end_at=month_range_end,
+            )
+
+            weekly_daily_income_rows = fetch_campus_daily_income(
+                self._db,
+                campus_id=campus_id,
+                start_at=week_start,
+                end_at=week_range_end,
+            )
+            monthly_daily_income_rows = fetch_campus_daily_income(
+                self._db,
+                campus_id=campus_id,
+                start_at=month_start,
+                end_at=month_range_end,
+            )
+
+            seven_day_traffic_rows = fetch_campus_daily_rent_traffic(
+                self._db,
+                campus_id=campus_id,
+                start_at=seven_day_start,
+                end_at=seven_day_end,
+            )
+        except AnalyticsRepositoryError as exc:  # pragma: no cover - defensive programming
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Unable to compute campus revenue metrics",
+            ) from exc
+
+        week_end_inclusive = (week_range_end - timedelta(days=1)).date()
+        month_end_inclusive = (month_range_end - timedelta(days=1)).date()
+
+        weekly_daily_income = self._build_daily_income_series(
+            start_date=week_start_date,
+            end_date=week_end_inclusive,
+            rows=weekly_daily_income_rows,
+        )
+        monthly_daily_income = self._build_daily_income_series(
+            start_date=month_start_date,
+            end_date=month_end_inclusive,
+            rows=monthly_daily_income_rows,
+        )
+        seven_day_traffic = self._build_daily_traffic_series(
+            start_date=seven_day_start.date(),
+            days=7,
+            rows=seven_day_traffic_rows,
+        )
+
+        fields = FieldAvailability(
+            available=int(campus_overview["available_fields"]),
+            total=int(campus_overview["total_fields"]),
+        )
+
+        return CampusRevenueMetricsResponse(
+            campus_id=campus_overview["campus_id"],
+            campus_name=campus_overview["campus_name"],
+            today_income_total=self._normalize_decimal(today_total),
+            weekly_income_total=self._normalize_decimal(week_total),
+            monthly_income_total=self._normalize_decimal(month_total),
+            weekly_daily_income=weekly_daily_income,
+            monthly_daily_income=monthly_daily_income,
+            last_seven_days_rent_traffic=seven_day_traffic,
+            fields=fields,
+        )
+
     def _build_campus_summaries(
         self,
         summary_data: Dict[str, List[dict]],
@@ -122,6 +255,64 @@ class AnalyticsService:
             total_amount=row["total_amount"],
             rent_count=int(row["rent_count"]),
         )
+
+    def _build_daily_income_series(
+        self,
+        *,
+        start_date: date,
+        end_date: date,
+        rows: List[Dict[str, object]],
+    ) -> List[IncomePoint]:
+        lookup: Dict[date, Decimal] = {}
+        for row in rows:
+            period_start = _ensure_timezone(row["period_start"])
+            lookup[period_start.date()] = self._normalize_decimal(row["total_amount"])
+
+        series: List[IncomePoint] = []
+        current_day = start_date
+        while current_day <= end_date:
+            amount = lookup.get(current_day, Decimal("0"))
+            series.append(IncomePoint(date=current_day, total_amount=amount))
+            current_day += timedelta(days=1)
+        return series
+
+    def _build_daily_traffic_series(
+        self,
+        *,
+        start_date: date,
+        days: int,
+        rows: List[Dict[str, object]],
+    ) -> List[RentTrafficPoint]:
+        lookup: Dict[date, int] = {}
+        for row in rows:
+            period_start = _ensure_timezone(row["period_start"])
+            lookup[period_start.date()] = int(row["rent_count"])
+
+        weekday_names = [
+            "lunes",
+            "martes",
+            "miercoles",
+            "jueves",
+            "viernes",
+            "sabado",
+            "domingo",
+        ]
+
+        series: List[RentTrafficPoint] = []
+        for offset in range(days):
+            day = start_date + timedelta(days=offset)
+            rent_count = lookup.get(day, 0)
+            weekday = weekday_names[day.weekday() % len(weekday_names)]
+            series.append(
+                RentTrafficPoint(date=day, weekday=weekday, rent_count=rent_count)
+            )
+        return series
+
+    @staticmethod
+    def _normalize_decimal(value: Decimal) -> Decimal:
+        if isinstance(value, Decimal):
+            return value
+        return Decimal(str(value)) if value is not None else Decimal("0")
 
 
 __all__ = ["AnalyticsService"]
