@@ -1,11 +1,13 @@
+import asyncio
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Dict, List, Optional
 
-from fastapi import HTTPException, status
+from fastapi import BackgroundTasks, HTTPException, status
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
+from app.core.database import SessionLocal
 from app.models.rent import Rent
 from app.models.schedule import Schedule
 from app.repository import payment_repository, rent_repository, schedule_repository
@@ -15,6 +17,8 @@ from app.schemas.rent import RentCreate, RentUpdate
 class RentService:
 
     _EXCLUDED_RENT_STATUSES = ("cancelled",)
+    _FIELD_STATUS_ACTIVE = "active"
+    _FIELD_STATUS_OCCUPIED = "occupied"
 
     def __init__(self, db: Session):
         self.db = db
@@ -268,7 +272,12 @@ class RentService:
             else:
                 rent_data["period"] = self._format_period(minutes)
 
-    def create_rent(self, payload: RentCreate) -> Rent:
+    def create_rent(
+        self,
+        payload: RentCreate,
+        *,
+        background_tasks: Optional[BackgroundTasks] = None,
+    ) -> Rent:
 
         schedule = self._get_schedule(payload.id_schedule)
         self._ensure_schedule_available(schedule.id_schedule)
@@ -294,12 +303,29 @@ class RentService:
             self._validate_payment(int(rent_data["id_payment"]))
 
         rent = rent_repository.create_rent(self.db, rent_data)
+        self._refresh_field_status(self.db, schedule.id_field)
+
+        if background_tasks is not None:
+            background_tasks.add_task(
+                self._reset_field_status_after_time,
+                schedule.id_field,
+                rent.end_time,
+            )
+
         return rent_repository.get_rent(self.db, rent.id_rent)
 
-    def update_rent(self, rent_id: int, payload: RentUpdate) -> Rent:
+    def update_rent(
+        self,
+        rent_id: int,
+        payload: RentUpdate,
+        *,
+        background_tasks: Optional[BackgroundTasks] = None,
+    ) -> Rent:
         """Update an existing rent."""
 
         rent = self.get_rent(rent_id)
+        original_schedule = rent.schedule or self._get_schedule(rent.id_schedule)
+        original_field_id = original_schedule.id_field if original_schedule else None
 
         update_data = payload.dict(exclude_unset=True)
 
@@ -328,10 +354,84 @@ class RentService:
             setattr(rent, field, value)
 
         rent_repository.save_rent(self.db, rent)
-        return rent_repository.get_rent(self.db, rent_id)
+        updated_rent = rent_repository.get_rent(self.db, rent_id)
+
+        self._refresh_field_status(self.db, original_field_id)
+
+        new_field_id = (
+            updated_rent.schedule.id_field if updated_rent.schedule is not None else None
+        )
+        if new_field_id != original_field_id:
+            self._refresh_field_status(self.db, new_field_id)
+
+        if background_tasks is not None:
+            background_tasks.add_task(
+                self._reset_field_status_after_time,
+                new_field_id,
+                updated_rent.end_time,
+            )
+
+        return updated_rent
 
     def delete_rent(self, rent_id: int) -> None:
         """Delete a rent from the database."""
 
         rent = self.get_rent(rent_id)
+        field_id = rent.schedule.id_field if rent.schedule is not None else None
         rent_repository.delete_rent(self.db, rent)
+        self._refresh_field_status(self.db, field_id)
+
+    @staticmethod
+    def _refresh_field_status(db: Session, field_id: Optional[int]) -> None:
+        if field_id is None:
+            return
+
+        field = schedule_repository.get_field(db, field_id)
+        if field is None:
+            return
+
+        has_pending_rent = rent_repository.field_has_pending_rent(
+            db,
+            field_id,
+            excluded_statuses=RentService._EXCLUDED_RENT_STATUSES,
+        )
+
+        target_status = (
+            RentService._FIELD_STATUS_OCCUPIED
+            if has_pending_rent
+            else RentService._FIELD_STATUS_ACTIVE
+        )
+
+        current_status = (field.status or "").strip().lower()
+        if current_status == target_status:
+            return
+
+        field.status = target_status
+        db.add(field)
+        db.commit()
+        db.refresh(field)
+
+    @staticmethod
+    async def _reset_field_status_after_time(
+        field_id: Optional[int],
+        end_time: Optional[datetime],
+    ) -> None:
+        if field_id is None or end_time is None:
+            return
+
+        if end_time.tzinfo is None:
+            target_end = end_time.replace(tzinfo=timezone.utc)
+            now = datetime.now(timezone.utc)
+        else:
+            target_end = end_time
+            now = datetime.now(target_end.tzinfo)
+
+        delay = (target_end - now).total_seconds()
+        if delay > 0:
+            await asyncio.sleep(delay)
+
+        db = SessionLocal()
+        try:
+            RentService._refresh_field_status(db, field_id)
+        finally:
+            db.close()

@@ -101,6 +101,31 @@ def delete_rent(db: Session, rent: Rent) -> None:
     db.delete(rent)
     db.commit()
 
+
+def field_has_pending_rent(
+    db: Session,
+    field_id: int,
+    *,
+    excluded_statuses: Iterable[str] = (),
+) -> bool:
+    query = (
+        db.query(Rent.id_rent)
+        .join(Schedule)
+        .filter(Schedule.id_field == field_id)
+        .filter(Rent.end_time > func.now())
+    )
+
+    filtered_statuses = [
+        status_value.lower()
+        for status_value in excluded_statuses
+        if status_value
+    ]
+
+    if filtered_statuses:
+        query = query.filter(func.lower(Rent.status).notin_(filtered_statuses))
+
+    return query.first() is not None
+
 def get_active_schedule_ids(
     db: Session,
     schedule_ids: Sequence[int],

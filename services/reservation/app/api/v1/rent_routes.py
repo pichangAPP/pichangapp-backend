@@ -2,7 +2,7 @@
 
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, BackgroundTasks, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
@@ -87,23 +87,32 @@ def get_rent(rent_id: int, db: Session = Depends(get_db)) -> RentResponse:
 
 
 @router.post("/", response_model=RentResponse, status_code=status.HTTP_201_CREATED)
-def create_rent(payload: RentCreate, db: Session = Depends(get_db)) -> RentResponse:
+def create_rent(
+    payload: RentCreate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+) -> RentResponse:
     """Create a new rent."""
 
     service = RentService(db)
-    return service.create_rent(payload)
+    return service.create_rent(payload, background_tasks=background_tasks)
 
 
 @router.put("/{rent_id}", response_model=RentResponse)
 def update_rent(
     rent_id: int,
     payload: RentUpdate,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
 ) -> RentResponse:
     """Update an existing rent."""
 
     service = RentService(db)
-    return service.update_rent(rent_id, payload)
+    return service.update_rent(
+        rent_id,
+        payload,
+        background_tasks=background_tasks,
+    )
 
 
 @router.delete("/{rent_id}", status_code=status.HTTP_204_NO_CONTENT)
