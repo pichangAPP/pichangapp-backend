@@ -272,7 +272,7 @@ class AnalyticsService:
         current_day = start_date
         while current_day <= end_date:
             amount = lookup.get(current_day, Decimal("0"))
-            series.append(IncomePoint(date=current_day, total_amount=amount))
+            series.append(IncomePoint(record_date=current_day, total_amount=amount))
             current_day += timedelta(days=1)
         return series
 
@@ -304,7 +304,7 @@ class AnalyticsService:
             rent_count = lookup.get(day, 0)
             weekday = weekday_names[day.weekday() % len(weekday_names)]
             series.append(
-                RentTrafficPoint(date=day, weekday=weekday, rent_count=rent_count)
+                RentTrafficPoint(record_date=day, weekday=weekday, rent_count=rent_count)
             )
         return series
 

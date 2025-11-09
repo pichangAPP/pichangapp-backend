@@ -45,7 +45,7 @@ class RevenueSummaryResponse(BaseModel):
 class IncomePoint(BaseModel):
     """Represents an income value for a specific day."""
 
-    date: date = Field(..., description="Date of the aggregated income.")
+    record_date: date = Field(..., description="Date of the aggregated income.")
     total_amount: Decimal = Field(
         ..., ge=Decimal("0"), description="Total income generated on the given day."
     )
@@ -54,7 +54,7 @@ class IncomePoint(BaseModel):
 class RentTrafficPoint(BaseModel):
     """Represents the number of rents registered for a specific day."""
 
-    date: date = Field(..., description="Date corresponding to the rent activity.")
+    record_date: date = Field(..., description="Date corresponding to the rent activity.")
     weekday: str = Field(..., description="Weekday name for the date.")
     rent_count: int = Field(..., ge=0, description="Total number of rents recorded on the date.")
 

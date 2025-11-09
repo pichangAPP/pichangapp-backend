@@ -303,14 +303,20 @@ def fetch_campus_overview(
             campus.id_campus AS campus_id,
             campus.name AS campus_name,
             COUNT(field.id_field) AS total_fields,
-            COALESCE(SUM(CASE WHEN LOWER(field.status) = 'available' THEN 1 ELSE 0 END), 0)
-                AS available_fields
+            CASE
+                WHEN COUNT(field.id_field) = 0 THEN 0  -- No fields at all
+                WHEN SUM(CASE WHEN LOWER(field.status) != 'active' THEN 1 ELSE 0 END) = 0
+                    THEN COUNT(field.id_field)  -- All are available
+                ELSE
+                    SUM(CASE WHEN LOWER(field.status) = 'active' THEN 1 ELSE 0 END)
+            END AS available_fields
         FROM booking.campus AS campus
         LEFT JOIN booking.field AS field ON field.id_campus = campus.id_campus
         WHERE campus.id_campus = :campus_id
         GROUP BY campus.id_campus, campus.name
         """
     )
+
 
     try:
         result = db.execute(query, {"campus_id": campus_id})
