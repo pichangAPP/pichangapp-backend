@@ -18,7 +18,7 @@ action_endpoint:
 # https://rasa.com/docs/rasa-pro/production/tracker-stores
 
 tracker_store:
-  type: SQL
+  type: services.rasa.custom_tracker_store.ResilientSQLTrackerStore
   dialect: "postgresql"
   url: ${POSTGRES_HOST}
   port: ${POSTGRES_PORT}
@@ -26,10 +26,18 @@ tracker_store:
   username: ${POSTGRES_USER}
   password: ${POSTGRES_PASSWORD}
   driver: "psycopg2"
-  login_timeout: 10
-  pool_size: 10
-  pool_pre_ping: true
-  max_overflow: 5
+  login_db: ${POSTGRES_DB}
+  engine_kwargs:
+    pool_pre_ping: true
+    pool_recycle: 900
+    pool_size: 5
+    max_overflow: 5
+    pool_timeout: 30
+    connect_args:
+      keepalives: 1
+      keepalives_idle: 60
+      keepalives_interval: 30
+      keepalives_count: 5
 #tracker_store:
 #    type: mongod
 #    url: <url to your mongo instance, e.g. mongodb://localhost:27017>
