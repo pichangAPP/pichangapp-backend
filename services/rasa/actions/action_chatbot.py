@@ -457,27 +457,22 @@ class ActionSubmitFieldRecommendationForm(Action):
             closing = "Si quieres que reserve alguna opción o busque algo distinto, solo dime."
 
         response_text = f"{intro}\n" + "\n".join(summary_lines) + f"\n{closing}"
-        dispatcher.utter_message(text=response_text)
+        analytics_payload: Dict[str, Any] = {
+            "response_type": "recommendation",
+            "suggested_start": start_dt.isoformat(),
+            "suggested_end": end_dt.isoformat(),
+            "recommended_field_id": top_choice.id_field,
+            "candidate_recommendations": [rec.field_name for rec in recommendations],
+        }
+
+        recommendation_id: Optional[int] = None
+
+        intent_data = tracker.latest_message.get("intent") or {}
+        intent_name = intent_data.get("name") or "request_field_recommendation"
+        confidence = intent_data.get("confidence")
+        source_model = latest_metadata.get("model") or latest_metadata.get("pipeline")
 
         try:
-            await run_in_thread(
-                chatbot_service.log_chatbot_message,
-                session_id=session_id,
-                intent_id=None,
-                recommendation_id=None,
-                message_text=user_message,
-                bot_response="",
-                response_type="user_message",
-                sender_type="user",
-                user_id=user_id,
-                metadata=latest_metadata,
-                intent_confidence=None,
-            )
-            LOGGER.debug(
-                "[ActionSubmitFieldRecommendationForm] logged user message for session=%s",
-                session_id,
-            )
-
             recommendation_id = await run_in_thread(
                 chatbot_service.create_recommendation_log,
                 status="suggested",
@@ -492,53 +487,32 @@ class ActionSubmitFieldRecommendationForm(Action):
                 recommendation_id,
                 session_id,
             )
-
-            intent_data = tracker.latest_message.get("intent") or {}
-            intent_name = intent_data.get("name") or "request_field_recommendation"
-            confidence = intent_data.get("confidence")
-            source_model = latest_metadata.get("model") or latest_metadata.get("pipeline")
-
-            intent_id = await run_in_thread(
-                chatbot_service.ensure_intent,
-                intent_name=intent_name,
-                example_phrases=[user_message or intent_name],
-                response_template=response_text,
-                confidence=confidence,
-                detected=bool(intent_name),
-                false_positive=False,
-                source_model=source_model,
-            )
-            LOGGER.info(
-                "[ActionSubmitFieldRecommendationForm] intent ensured id=%s name=%s session=%s",
-                intent_id,
-                intent_name,
-                session_id,
-            )
-
-            # registra el intercambio completo
-            await run_in_thread(
-                chatbot_service.log_chatbot_message,
-                session_id=session_id,
-                intent_id=intent_id,
-                recommendation_id=recommendation_id,
-                message_text=response_text,
-                bot_response=response_text,
-                response_type="recommendation",
-                sender_type="bot",
-                user_id=user_id,
-                intent_confidence=confidence,
-                metadata={**latest_metadata, "detected_intent": intent_name},
-            )
-            LOGGER.debug(
-                "[ActionSubmitFieldRecommendationForm] logged recommendation response for session=%s",
-                session_id,
-            )
-
         except DatabaseError:
             LOGGER.exception(
-                "[ActionSubmitFieldRecommendationForm] database error persisting analytics for session=%s",
+                "[ActionSubmitFieldRecommendationForm] database error creating recommendation log for session=%s",
                 session_id,
             )
+
+        analytics_payload.update(
+            {
+                "recommendation_id": recommendation_id,
+                "intent_name": intent_name,
+                "intent_confidence": confidence,
+                "source_model": source_model,
+                "user_message": user_message,
+                "intent_examples": (
+                    [user_message]
+                    if user_message
+                    else ([intent_name] if intent_name else [])
+                ),
+                "response_template": response_text,
+            }
+        )
+
+        dispatcher.utter_message(
+            text=response_text,
+            metadata={"analytics": analytics_payload},
+        )
 
         events: List[EventType] = [
             SlotSet("chatbot_session_id", str(session_id)),
