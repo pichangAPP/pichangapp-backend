@@ -7,7 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
-from app.models import Field, Image, Schedule
+from app.models import Field, Image, Schedule, Sport
 from app.repository import field_repository, image_repository, sport_repository
 from app.schemas import FieldCreate, FieldUpdate
 from app.services.campus_service import CampusService
@@ -70,11 +70,16 @@ class FieldService:
         update_data = field_in.model_dump(exclude_unset=True)
         images_data = update_data.pop("images", None)
 
+        sport: Sport | None = None
+
         if "id_sport" in update_data and update_data["id_sport"] is not None:
-            self._ensure_sport_exists(update_data["id_sport"])
+            sport = self._ensure_sport_exists(update_data["id_sport"])
 
         for attr, value in update_data.items():
             setattr(field, attr, value)
+
+        if sport is not None:
+            field.sport = sport
 
         if images_data is not None:
             self._sync_field_images(field, images_data)
@@ -185,12 +190,14 @@ class FieldService:
                 detail="Failed to delete field",
             ) from exc
 
-    def _ensure_sport_exists(self, sport_id: int) -> None:
-        if sport_repository.get_sport(self.db, sport_id) is None:
+    def _ensure_sport_exists(self, sport_id: int) -> Sport:
+        sport = sport_repository.get_sport(self.db, sport_id)
+        if sport is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Sport {sport_id} not found",
             )
+        return sport
 
     def _validate_field_entity(self, field: Field) -> None:
         if field.open_time >= field.close_time:
