@@ -12,6 +12,7 @@ from app.schemas.schedule import ScheduleCreate, ScheduleUpdate
 from app.repository import rent_repository, schedule_repository
 
 _EXCLUDED_RENT_STATUSES = ("cancelled",)
+_RESERVED_SCHEDULE_STATUSES = ("reserved",)
 
 class ScheduleService:
 
@@ -58,6 +59,44 @@ class ScheduleService:
                 ),
             )
 
+    def _ensure_field_not_reserved(
+        self,
+        *,
+        field_id: int,
+        start_time: datetime,
+        end_time: datetime,
+        exclude_schedule_id: Optional[int] = None,
+    ) -> None:
+        has_reserved_schedule = schedule_repository.field_has_schedule_in_range(
+            self.db,
+            field_id=field_id,
+            start_time=start_time,
+            end_time=end_time,
+            status_filter=_RESERVED_SCHEDULE_STATUSES,
+            exclude_schedule_id=exclude_schedule_id,
+        )
+
+        if has_reserved_schedule:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Field already has a reserved schedule in this time range",
+            )
+
+        has_active_rent = rent_repository.field_has_active_rent_in_range(
+            self.db,
+            field_id=field_id,
+            start_time=start_time,
+            end_time=end_time,
+            excluded_statuses=_EXCLUDED_RENT_STATUSES,
+            exclude_schedule_id=exclude_schedule_id,
+        )
+
+        if has_active_rent:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Field already has an active rent in this time range",
+            )
+
     def list_schedules(
         self,
         *,
@@ -99,6 +138,11 @@ class ScheduleService:
                 start_time=payload.start_time,
                 end_time=payload.end_time
             )
+            self._ensure_field_not_reserved(
+                field_id=field.id_field,
+                start_time=payload.start_time,
+                end_time=payload.end_time,
+            )
 
         schedule = schedule_repository.create_schedule(
             self.db, payload.model_dump()
@@ -136,6 +180,12 @@ class ScheduleService:
                 field=field,
                 start_time=start_time,
                 end_time=end_time,
+            )
+            self._ensure_field_not_reserved(
+                field_id=field.id_field,
+                start_time=start_time,
+                end_time=end_time,
+                exclude_schedule_id=schedule_id,
             )
 
         for attribute, value in update_data.items():
