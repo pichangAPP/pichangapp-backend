@@ -1,6 +1,6 @@
 """ORM model that exposes booking campus information to the reservation service."""
 
-from sqlalchemy import BigInteger, Column, ForeignKey, String, Text
+from sqlalchemy import BigInteger, Integer, Column, ForeignKey, String, Text
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base

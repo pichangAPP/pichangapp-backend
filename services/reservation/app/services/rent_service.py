@@ -392,7 +392,8 @@ class RentService:
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
         if persisted_rent is not None:
             self._notify_rent_creation(persisted_rent)
-        return persisted_rent
+            return persisted_rent
+    
         self._refresh_field_status(self.db, schedule.id_field)
 
         if background_tasks is not None:

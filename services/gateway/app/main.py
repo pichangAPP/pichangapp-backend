@@ -20,8 +20,8 @@ SERVICE_URLS: Dict[str, str] = {
     "auth": os.getenv("AUTH_SERVICE_URL", "http://localhost:8000"),
     "users": os.getenv("AUTH_SERVICE_URL", "http://localhost:8000"),  # Users are part of Auth service
     "booking": os.getenv("BOOKING_SERVICE_URL", "http://localhost:8001"),
-    "reservation": os.getenv("RESERVATION_SERVICE_URL", "http://localhost:8003"),
-    "payment": os.getenv("PAYMENT_SERVICE_URL", "http://localhost:8002"),
+    "reservation": os.getenv("RESERVATION_SERVICE_URL", "http://localhost:8002"),
+    "payment": os.getenv("PAYMENT_SERVICE_URL", "http://localhost:8003"),
     "notification": os.getenv("NOTIFICATION_SERVICE_URL", "http://localhost:8004"),
     "analytics": os.getenv("ANALYTICS_SERVICE_URL", "http://localhost:8005"),
     "chatbot": os.getenv("CHATBOT_SERVICE_URL", "http://localhost:8006"),

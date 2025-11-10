@@ -10,6 +10,7 @@ from app.models.campus import Campus
 from app.models.field import Field
 from app.models.rent import Rent
 from app.models.user import User
+from app.models.schedule import Schedule
 
 
 def get_schedule(db: Session, schedule_id: int) -> Optional[Schedule]:
