@@ -12,7 +12,7 @@ from app.services.rent_service import RentService
 router = APIRouter(prefix="/rents", tags=["rents"])
 
 
-@router.get("/", response_model=List[RentResponse])
+@router.get("", response_model=List[RentResponse])
 def list_rents(
     *,
     db: Session = Depends(get_db),
@@ -86,7 +86,7 @@ def get_rent(rent_id: int, db: Session = Depends(get_db)) -> RentResponse:
     return service.get_rent(rent_id)
 
 
-@router.post("/", response_model=RentResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=RentResponse, status_code=status.HTTP_201_CREATED)
 def create_rent(
     payload: RentCreate,
     background_tasks: BackgroundTasks,
