@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 import os
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, time as time_of_day
 from typing import Any, Callable, Dict, List, Optional, Sequence, TypeVar
 
 from ..infrastructure.database import DatabaseError, get_session
@@ -329,13 +329,21 @@ class ChatbotAnalyticsService:
         surface: Optional[str],
         location: Optional[str],
         limit: int,
+        min_price: Optional[float] = None,
+        max_price: Optional[float] = None,
+        target_time: Optional[time_of_day] = None,
+        prioritize_price: bool = False,
     ) -> List[FieldRecommendation]:
         LOGGER.debug(
-            "[ChatbotAnalyticsService] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s",
+            "[ChatbotAnalyticsService] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s min_price=%s max_price=%s target_time=%s price_first=%s",
             sport,
             surface,
             location,
             limit,
+            min_price,
+            max_price,
+            target_time,
+            prioritize_price,
         )
         def _operation() -> List[FieldRecommendation]:
             with get_session() as session:
@@ -345,6 +353,10 @@ class ChatbotAnalyticsService:
                     surface=surface,
                     location=location,
                     limit=limit,
+                    min_price=min_price,
+                    max_price=max_price,
+                    target_time=target_time,
+                    prioritize_price=prioritize_price,
                 )
 
         return self._execute_with_retries(

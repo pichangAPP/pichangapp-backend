@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import asyncio
-import logging
 import json
-from datetime import datetime, timedelta, timezone
+import logging
+import re
+from datetime import datetime, timedelta, timezone, time as time_of_day
 from functools import partial
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
@@ -270,6 +271,385 @@ def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
                 return True
     return False
 
+def _extract_entity_values(tracker: Tracker, entity_name: str) -> List[str]:
+    latest_message = tracker.latest_message or {}
+    entities = latest_message.get("entities") or []
+    values: List[str] = []
+    for entity in entities:
+        if entity.get("entity") == entity_name and entity.get("value"):
+            text = str(entity["value"]).strip()
+            if text:
+                values.append(text)
+    return values
+
+_TIME_FORMATS: Tuple[str, ...] = (
+    "%H:%M",
+    "%H.%M",
+    "%Hh%M",
+    "%H%M",
+    "%H",
+    "%I:%M%p",
+    "%I.%M%p",
+    "%Ih%M%p",
+    "%I%p",
+    "%I %p",
+)
+
+_DATE_FORMATS: Tuple[str, ...] = (
+    "%Y-%m-%d",
+    "%d/%m/%Y",
+    "%Y/%m/%d",
+    "%d-%m-%Y",
+    "%d.%m.%Y",
+)
+
+_PRICE_CONTEXT_KEYWORDS = (
+    "s/",
+    "s/.",
+    "soles",
+    "presup",
+    "precio",
+    "cost",
+    "econ",
+    "barat",
+    "lucas",
+    "budget",
+)
+
+_PRICE_PRIORITY_KEYWORDS = ("econom", "econó", "barat", "ahorro")
+
+_BUDGET_RANGE_PATTERNS: Tuple[re.Pattern[str], ...] = (
+    re.compile(r"entre\s*(\d+(?:[.,]\d+)?)\s*(?:y|e|a|-)\s*(\d+(?:[.,]\d+)?)", re.IGNORECASE),
+    re.compile(r"(?:de|desde)\s*(\d+(?:[.,]\d+)?)\s*(?:a|-)\s*(\d+(?:[.,]\d+)?)\s*(?:soles?|s\/\.?|s\/|\$)?", re.IGNORECASE),
+    re.compile(r"(?:s\/\.?|s\/|\$)\s*(\d+(?:[.,]\d+)?)\s*-\s*(\d+(?:[.,]\d+)?)", re.IGNORECASE),
+)
+_BUDGET_MAX_PATTERN = re.compile(
+    r"(?:hasta|máximo|maximo|tope|menos de|menor a|presupuesto(?:\s+de)?|budget(?:\s+de)?|precio(?:\s+tope)?)\s*(\d+(?:[.,]\d+)?)",
+    re.IGNORECASE,
+)
+_BUDGET_MIN_PATTERN = re.compile(
+    r"(?:desde|mínimo|minimo|más de|mas de|mayor a|superior a)\s*(\d+(?:[.,]\d+)?)",
+    re.IGNORECASE,
+)
+_BUDGET_GENERIC_PATTERN = re.compile(r"(?:s\/\.?|s\/|\$)\s*(\d+(?:[.,]\d+)?)", re.IGNORECASE)
+_BUDGET_SOL_PATTERN = re.compile(r"(\d+(?:[.,]\d+)?)\s*(?:soles|lucas)", re.IGNORECASE)
+
+
+def _extract_time_components(time_value: Optional[str]) -> Optional[Tuple[int, int]]:
+    if not time_value:
+        return None
+    raw = str(time_value).strip()
+    if not raw:
+        return None
+    normalized = raw.lower()
+    replacements = {
+        "a. m.": "am",
+        "p. m.": "pm",
+        "a.m.": "am",
+        "p.m.": "pm",
+        " hrs": "h",
+        " hr": "h",
+        " horas": "h",
+        " hora": "h",
+    }
+    for source, target in replacements.items():
+        normalized = normalized.replace(source, target)
+    normalized = normalized.replace("hs", "h")
+    variants = {
+        normalized,
+        normalized.replace(".", ":"),
+        normalized.replace(" ", ""),
+        normalized.replace(".", "").replace(" ", ""),
+    }
+    digits_only = re.sub(r"[^\d]", "", normalized)
+    if len(digits_only) >= 3 and len(digits_only) <= 4:
+        variants.add(f"{digits_only[:-2]}:{digits_only[-2:]}")
+    elif digits_only:
+        variants.add(digits_only)
+
+    for candidate in variants:
+        for fmt in _TIME_FORMATS:
+            try:
+                parsed = datetime.strptime(candidate, fmt)
+            except ValueError:
+                continue
+            return parsed.hour, parsed.minute
+    LOGGER.debug("[TimeParser] Unable to parse time_value=%s", time_value)
+    return None
+
+
+def _coerce_time_value(time_value: Optional[str]) -> Optional[time_of_day]:
+    components = _extract_time_components(time_value)
+    if not components:
+        return None
+    hour, minute = components
+    try:
+        return time_of_day(hour=hour, minute=minute)
+    except ValueError:
+        return None
+
+
+def _mentions_price_context(text: str) -> bool:
+    lowered = text.lower()
+    return any(keyword in lowered for keyword in _PRICE_CONTEXT_KEYWORDS)
+
+
+def _detect_price_focus(text: Optional[str]) -> bool:
+    if not text:
+        return False
+    lowered = text.lower()
+    return any(keyword in lowered for keyword in _PRICE_PRIORITY_KEYWORDS)
+
+
+def _budget_string_to_float(value: str) -> Optional[float]:
+    normalized = value.replace(",", ".")
+    try:
+        return float(normalized)
+    except ValueError:
+        return None
+
+
+def _parse_budget_from_text(text: Optional[str], *, force: bool = False) -> Tuple[Optional[float], Optional[float]]:
+    if not text:
+        return (None, None)
+    candidate = str(text).strip()
+    if not candidate:
+        return (None, None)
+    lowered = candidate.lower()
+    if not force and not _mentions_price_context(lowered):
+        return (None, None)
+
+    for pattern in _BUDGET_RANGE_PATTERNS:
+        match = pattern.search(candidate)
+        if match:
+            low = _budget_string_to_float(match.group(1))
+            high = _budget_string_to_float(match.group(2))
+            if low is None or high is None:
+                continue
+            return (min(low, high), max(low, high))
+
+    match = _BUDGET_MAX_PATTERN.search(candidate)
+    if match:
+        value = _budget_string_to_float(match.group(1))
+        return (None, value)
+
+    match = _BUDGET_MIN_PATTERN.search(candidate)
+    if match:
+        value = _budget_string_to_float(match.group(1))
+        return (value, None)
+
+    match = _BUDGET_GENERIC_PATTERN.search(candidate)
+    if match:
+        value = _budget_string_to_float(match.group(1))
+        return (None, value)
+
+    match = _BUDGET_SOL_PATTERN.search(candidate)
+    if match:
+        value = _budget_string_to_float(match.group(1))
+        return (None, value)
+
+    return (None, None)
+
+
+def _format_budget_range(min_price: Optional[float], max_price: Optional[float]) -> Optional[str]:
+    if min_price is not None and max_price is not None:
+        return f"con presupuesto entre S/ {min_price:.2f} y S/ {max_price:.2f}"
+    if max_price is not None:
+        return f"con presupuesto hasta S/ {max_price:.2f}"
+    if min_price is not None:
+        return f"con presupuesto desde S/ {min_price:.2f}"
+    return None
+
+
+def _extract_budget_preferences(tracker: Tracker) -> Tuple[Optional[float], Optional[float], bool]:
+    latest_message = tracker.latest_message or {}
+    metadata = _coerce_metadata(latest_message.get("metadata"))
+    message_text = latest_message.get("text") or ""
+    price_focus = _detect_price_focus(message_text)
+
+    candidate_texts: List[Tuple[str, bool]] = []
+    slot_budget = tracker.get_slot("preferred_budget")
+    if slot_budget:
+        candidate_texts.append((str(slot_budget), True))
+
+    metadata_budget = metadata.get("budget") or metadata.get("preferred_budget")
+    if metadata_budget:
+        candidate_texts.append((str(metadata_budget), True))
+
+    entities = latest_message.get("entities") or []
+    for entity in entities:
+        if entity.get("entity") == "budget" and entity.get("value"):
+            candidate_texts.append((str(entity["value"]), True))
+
+    if message_text and (_mentions_price_context(message_text) or price_focus):
+        candidate_texts.append((message_text, False))
+
+    min_price: Optional[float] = None
+    max_price: Optional[float] = None
+    for text_value, force in candidate_texts:
+        low, high = _parse_budget_from_text(text_value, force=force)
+        if low is not None:
+            min_price = low if min_price is None else max(min_price, low)
+        if high is not None:
+            max_price = high if max_price is None else min(max_price, high)
+
+    return min_price, max_price, price_focus
+
+
+def _time_to_string(value: Optional[time_of_day]) -> Optional[str]:
+    return value.strftime("%H:%M") if value else None
+
+
+def _serialize_filter_payload(
+    *,
+    sport: Optional[str],
+    surface: Optional[str],
+    location: Optional[str],
+    min_price: Optional[float],
+    max_price: Optional[float],
+    target_time: Optional[time_of_day],
+    prioritize_price: bool,
+) -> Dict[str, Any]:
+    return {
+        "sport": sport,
+        "surface": surface,
+        "location": location,
+        "min_price": min_price,
+        "max_price": max_price,
+        "target_time": _time_to_string(target_time),
+        "price_priority": prioritize_price,
+    }
+
+
+def _describe_relaxations(
+    drops: Set[str],
+    *,
+    sport: Optional[str],
+    surface: Optional[str],
+    location: Optional[str],
+    min_price: Optional[float],
+    max_price: Optional[float],
+    target_time: Optional[time_of_day],
+) -> List[str]:
+    notes: List[str] = []
+    if "budget" in drops and (min_price is not None or max_price is not None):
+        notes.append("No había canchas exactas en ese presupuesto, así que amplié un poco el rango.")
+    if "time" in drops and target_time is not None:
+        notes.append("No vi disponibilidad en ese horario puntual; te muestro opciones cercanas.")
+    if "location" in drops and location:
+        notes.append(f"Amplié la búsqueda fuera de {location} para darte alternativas.")
+    if "surface" in drops and surface:
+        notes.append("Incluí otras superficies similares para que no te quedes sin cancha.")
+    if "sport" in drops and sport:
+        notes.append(f"No encontré {sport} disponible, así que sumé canchas populares que podrías adaptar.")
+    return notes
+
+
+async def _fetch_recommendations_with_relaxation(
+    *,
+    sport: Optional[str],
+    surface: Optional[str],
+    location: Optional[str],
+    min_price: Optional[float],
+    max_price: Optional[float],
+    target_time: Optional[time_of_day],
+    prioritize_price: bool,
+    limit: int,
+) -> Tuple[List[FieldRecommendation], Dict[str, Any], List[str], str]:
+    requests = [
+        ("exact_match", set()),
+        ("relaxed_budget", {"budget"}),
+        ("relaxed_time", {"budget", "time"}),
+        ("relaxed_location", {"budget", "time", "location"}),
+        ("relaxed_surface", {"budget", "time", "location", "surface"}),
+        ("generic_popular", {"budget", "time", "location", "surface", "sport"}),
+    ]
+    for label, drops in requests:
+        params_sport = None if "sport" in drops else sport
+        params_surface = None if "surface" in drops else surface
+        params_location = None if "location" in drops else location
+        params_min_price = None if "budget" in drops else min_price
+        params_max_price = None if "budget" in drops else max_price
+        params_time = None if "time" in drops else target_time
+        # Keep prioritizing price even if ranges were expanded so the user still gets opciones económicas.
+        params_prioritize_price = prioritize_price
+        recommendations: List[FieldRecommendation] = await run_in_thread(
+            chatbot_service.fetch_field_recommendations,
+            sport=params_sport,
+            surface=params_surface,
+            location=params_location,
+            limit=limit,
+            min_price=params_min_price,
+            max_price=params_max_price,
+            target_time=params_time,
+            prioritize_price=params_prioritize_price,
+        )
+        if recommendations:
+            applied_filters = _serialize_filter_payload(
+                sport=params_sport,
+                surface=params_surface,
+                location=params_location,
+                min_price=params_min_price,
+                max_price=params_max_price,
+                target_time=params_time,
+                prioritize_price=params_prioritize_price,
+            )
+            notes = _describe_relaxations(
+                drops,
+                sport=sport,
+                surface=surface,
+                location=location,
+                min_price=min_price,
+                max_price=max_price,
+                target_time=target_time,
+            )
+            return recommendations, applied_filters, notes, label
+
+    fallback_filters = _serialize_filter_payload(
+        sport=sport,
+        surface=surface,
+        location=location,
+        min_price=min_price,
+        max_price=max_price,
+        target_time=target_time,
+        prioritize_price=prioritize_price,
+    )
+    return [], fallback_filters, [], "no_results"
+
+
+async def _persist_recommendation_logs(
+    *,
+    user_id: int,
+    recommendations: List[FieldRecommendation],
+    summaries: List[str],
+    start_dt: datetime,
+    end_dt: datetime,
+) -> Tuple[Optional[int], List[int]]:
+    stored_ids: List[int] = []
+    primary_id: Optional[int] = None
+    for idx, (rec, message_text) in enumerate(zip(recommendations, summaries)):
+        status = "suggested" if idx == 0 else "suggested_alternative"
+        try:
+            rec_id = await run_in_thread(
+                chatbot_service.create_recommendation_log,
+                status=status,
+                message=message_text,
+                suggested_start=start_dt,
+                suggested_end=end_dt,
+                field_id=rec.id_field,
+                user_id=user_id,
+            )
+        except DatabaseError:
+            LOGGER.exception(
+                "[ActionSubmitFieldRecommendationForm] database error creating recommendation log for field_id=%s",
+                rec.id_field,
+            )
+            continue
+        stored_ids.append(rec_id)
+        if idx == 0:
+            primary_id = rec_id
+    return primary_id, stored_ids
+
 
 def _coerce_datetime(value: Any) -> datetime:
     if isinstance(value, datetime):
@@ -287,31 +667,178 @@ def _coerce_datetime(value: Any) -> datetime:
 
 
 def _parse_datetime(date_value: Optional[str], time_value: Optional[str]) -> datetime:
+    base = datetime.now(timezone.utc)
     if date_value:
-        try:
-            date_part = datetime.fromisoformat(date_value)
-        except ValueError:
-            date_part = datetime.strptime(date_value, "%Y-%m-%d")
+        raw = str(date_value).strip()
+        if raw:
+            lowered = raw.lower()
+            if lowered in {"hoy", "today"}:
+                date_part = base
+            elif lowered in {"mañana", "manana"}:
+                date_part = base + timedelta(days=1)
+            elif lowered in {"pasado mañana", "pasado manana"}:
+                date_part = base + timedelta(days=2)
+            else:
+                parsed: Optional[datetime] = None
+                try:
+                    parsed = datetime.fromisoformat(raw)
+                except ValueError:
+                    for fmt in _DATE_FORMATS:
+                        try:
+                            parsed = datetime.strptime(raw, fmt)
+                        except ValueError:
+                            continue
+                        else:
+                            break
+                if parsed is None:
+                    LOGGER.debug("[TimeParser] Using current date because date_value=%s is invalid", date_value)
+                    parsed = base
+                if parsed.tzinfo is None:
+                    parsed = parsed.replace(tzinfo=timezone.utc)
+                date_part = parsed
+        else:
+            date_part = base
     else:
-        date_part = datetime.now(timezone.utc)
+        date_part = base
 
     if date_part.tzinfo is None:
         date_part = date_part.replace(tzinfo=timezone.utc)
 
     if time_value:
-        try:
-            time_part = datetime.fromisoformat(time_value)
-        except ValueError:
-            time_part = datetime.strptime(time_value, "%H:%M")
-        if time_part.tzinfo:
-            date_part = date_part.astimezone(time_part.tzinfo)
+        time_components = _extract_time_components(time_value)
+        if time_components is None:
+            LOGGER.debug("[TimeParser] Falling back to existing hour for time_value=%s", time_value)
+            return date_part
+        hour, minute = time_components
         date_part = date_part.replace(
-            hour=time_part.hour,
-            minute=time_part.minute,
+            hour=hour,
+            minute=minute,
             second=0,
             microsecond=0,
         )
     return date_part
+
+async def _record_intent_and_log(
+    *,
+    tracker: Tracker,
+    session_id: Optional[int | str],
+    user_id: Optional[int | str],
+    response_text: str,
+    response_type: str,
+    recommendation_id: Optional[int] = None,
+    message_metadata: Optional[Dict[str, Any]] = None,
+) -> None:
+    """Persist intent statistics and log the combined user/bot message."""
+
+    latest_message = tracker.latest_message or {}
+    user_message = latest_message.get("text") or ""
+    base_metadata = _coerce_metadata(latest_message.get("metadata"))
+    metadata: Dict[str, Any] = dict(base_metadata)
+    if message_metadata:
+        metadata.update(message_metadata)
+
+    intent_data = latest_message.get("intent") or {}
+    intent_name = intent_data.get("name") or "nlu_fallback"
+    confidence = intent_data.get("confidence")
+    detected = bool(intent_name) and intent_name != "nlu_fallback"
+    false_positive = not detected
+
+    example_phrases = [user_message] if user_message else []
+    if not example_phrases:
+        example_phrases.append(intent_name)
+
+    intent_id: Optional[int] = None
+    try:
+        intent_id = await run_in_thread(
+            chatbot_service.ensure_intent,
+            intent_name=intent_name,
+            example_phrases=example_phrases,
+            response_template=response_text,
+            confidence=confidence,
+            detected=detected,
+            false_positive=false_positive,
+            source_model=metadata.get("model") or metadata.get("pipeline"),
+        )
+    except DatabaseError:
+        LOGGER.exception(
+            "[Analytics] Unable to persist intent=%s for conversation=%s",
+            intent_name,
+            tracker.sender_id,
+        )
+
+    session_value = _coerce_user_identifier(session_id) if session_id is not None else None
+    user_value = _coerce_user_identifier(user_id) if user_id is not None else None
+
+    slot_session = tracker.get_slot("chatbot_session_id")
+    if session_value is None and slot_session:
+        session_value = _coerce_user_identifier(slot_session)
+
+    slot_user = tracker.get_slot("user_id")
+    if user_value is None and slot_user:
+        user_value = _coerce_user_identifier(slot_user)
+
+    if user_value is None:
+        metadata_user = metadata.get("user_id") or metadata.get("id_user")
+        user_value = _coerce_user_identifier(metadata_user)
+
+    if session_value is None:
+        metadata_session = metadata.get("chatbot_session_id")
+        session_value = _coerce_user_identifier(metadata_session)
+
+    if session_value is None and user_value is not None:
+        theme = tracker.get_slot("chat_theme") or metadata.get("chat_theme") or "Reservas y alquileres"
+        role_source = tracker.get_slot("user_role") or metadata.get("user_role") or metadata.get("role")
+        role_name = "admin" if isinstance(role_source, str) and role_source.lower() == "admin" else "player"
+        try:
+            session_value = await run_in_thread(
+                chatbot_service.ensure_chat_session,
+                int(user_value),
+                theme,
+                role_name,
+            )
+            LOGGER.info(
+                "[Analytics] ensured session_id=%s on the fly for sender=%s",
+                session_value,
+                tracker.sender_id,
+            )
+        except DatabaseError:
+            LOGGER.exception(
+                "[Analytics] unable to ensure session for user_id=%s while logging",
+                user_value,
+            )
+
+    if session_value is None:
+        LOGGER.debug(
+            "[Analytics] Skipping chatbot log because session_id is missing for sender=%s",
+            tracker.sender_id,
+        )
+        return
+
+    metadata.setdefault("slots_snapshot", tracker.current_slot_values())
+    if user_value is not None:
+        metadata.setdefault("user_id", int(user_value))
+        metadata.setdefault("id_user", int(user_value))
+    metadata.setdefault("chatbot_session_id", session_value)
+
+    try:
+        await run_in_thread(
+            chatbot_service.log_chatbot_message,
+            session_id=session_value,
+            intent_id=intent_id,
+            recommendation_id=recommendation_id,
+            message_text=user_message,
+            bot_response=response_text,
+            response_type=response_type,
+            sender_type="bot",
+            user_id=user_value,
+            intent_confidence=confidence,
+            metadata=metadata,
+        )
+    except DatabaseError:
+        LOGGER.exception(
+            "[Analytics] Failed to log chatbot message for session_id=%s",
+            session_value,
+        )
 
 class ActionSubmitFieldRecommendationForm(Action):
     """Handle the submission of the field recommendation form."""
@@ -342,22 +869,34 @@ class ActionSubmitFieldRecommendationForm(Action):
         )
 
         if not user_id_raw:
-            dispatcher.utter_message(
-                text=(
-                    "No pude identificar tu usuario desde las credenciales. "
-                    "Vuelve a iniciar sesión y retomamos la búsqueda de canchas."
-                ),
+            response_text = (
+                "No pude identificar tu usuario desde las credenciales. "
+                "Vuelve a iniciar sesión y retomamos la búsqueda de canchas."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=None,
+                user_id=None,
+                response_text=response_text,
+                response_type="recommendation_error",
             )
             return []
 
         try:
             user_id = int(str(user_id_raw).strip())
         except ValueError:
-            dispatcher.utter_message(
-                text=(
-                    "Parece que tu sesión no trae un usuario válido. "
-                    "Prueba iniciando sesión otra vez y te ayudo con la reserva."
-                )
+            response_text = (
+                "Parece que tu sesión no trae un usuario válido. "
+                "Prueba iniciando sesión otra vez y te ayudo con la reserva."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=None,
+                user_id=None,
+                response_text=response_text,
+                response_type="recommendation_error",
             )
             return []
 
@@ -378,11 +917,17 @@ class ActionSubmitFieldRecommendationForm(Action):
                 "[ActionSubmitFieldRecommendationForm] database error ensuring session for user_id=%s",
                 user_id,
             )
-            dispatcher.utter_message(
-                text=(
-                    "En este momento no puedo conectarme a la base de datos para revisar las canchas. "
-                    "Inténtalo de nuevo en unos minutos."
-                )
+            response_text = (
+                "En este momento no puedo conectarme a la base de datos para revisar las canchas. "
+                "Inténtalo de nuevo en unos minutos."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=None,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="recommendation_error",
             )
             return []
 
@@ -392,21 +937,48 @@ class ActionSubmitFieldRecommendationForm(Action):
         preferred_date = tracker.get_slot("preferred_date")
         preferred_start_time = tracker.get_slot("preferred_start_time")
         preferred_end_time = tracker.get_slot("preferred_end_time")
+        min_budget, max_budget, price_focus = _extract_budget_preferences(tracker)
+        target_time = _coerce_time_value(preferred_start_time)
+        prioritize_price = price_focus or min_budget is not None or max_budget is not None
+
+        requested_filters = _serialize_filter_payload(
+            sport=preferred_sport,
+            surface=preferred_surface,
+            location=preferred_location,
+            min_price=min_budget,
+            max_price=max_budget,
+            target_time=target_time,
+            prioritize_price=prioritize_price,
+        )
 
         try:
-            recommendations: List[FieldRecommendation] = await run_in_thread(
-                chatbot_service.fetch_field_recommendations,
+            (
+                recommendations,
+                applied_filters,
+                relaxation_notes,
+                search_strategy,
+            ) = await _fetch_recommendations_with_relaxation(
                 sport=preferred_sport,
                 surface=preferred_surface,
                 location=preferred_location,
+                min_price=min_budget,
+                max_price=max_budget,
+                target_time=target_time,
+                prioritize_price=prioritize_price,
                 limit=3,
             )
         except DatabaseError:
-            dispatcher.utter_message(
-                text=(
-                    "No pude consultar las canchas disponibles en este momento. "
-                    "Por favor, intenta de nuevo más tarde."
-                )
+            error_text = (
+                "No pude consultar las canchas disponibles en este momento. "
+                "Por favor, intenta de nuevo más tarde."
+            )
+            dispatcher.utter_message(text=error_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=error_text,
+                response_type="recommendation_error",
             )
             return [SlotSet("chatbot_session_id", str(session_id))]
 
@@ -416,11 +988,17 @@ class ActionSubmitFieldRecommendationForm(Action):
                 session_id,
                 user_id,
             )
-            dispatcher.utter_message(
-                text=(
-                    "No encontré canchas que coincidan con tus preferencias. "
-                    "¿Te gustaría que revise otras zonas u horarios?"
-                )
+            not_found_text = (
+                "No encontré canchas disponibles ni ampliando la búsqueda. "
+                "¿Te gustaría que revise con otros horarios, zonas o deportes?"
+            )
+            dispatcher.utter_message(text=not_found_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=not_found_text,
+                response_type="recommendation_empty",
             )
             return [SlotSet("chatbot_session_id", str(session_id))]
 
@@ -456,62 +1034,79 @@ class ActionSubmitFieldRecommendationForm(Action):
             intro = "Aquí tienes opciones que se ajustan a lo que buscas para tu partido:"
             closing = "Si quieres que reserve alguna opción o busque algo distinto, solo dime."
 
-        response_text = f"{intro}\n" + "\n".join(summary_lines) + f"\n{closing}"
-        analytics_payload: Dict[str, Any] = {
-            "response_type": "recommendation",
-            "suggested_start": start_dt.isoformat(),
-            "suggested_end": end_dt.isoformat(),
-            "recommended_field_id": top_choice.id_field,
-            "candidate_recommendations": [rec.field_name for rec in recommendations],
-        }
+        filter_fragments: List[str] = []
+        location_used = applied_filters.get("location")
+        if location_used:
+            filter_fragments.append(f"en {location_used}")
+        target_time_str = applied_filters.get("target_time")
+        if target_time_str:
+            filter_fragments.append(f"para alrededor de las {target_time_str}")
+        budget_phrase = _format_budget_range(
+            applied_filters.get("min_price"),
+            applied_filters.get("max_price"),
+        )
+        if budget_phrase:
+            filter_fragments.append(budget_phrase)
+        elif prioritize_price:
+            filter_fragments.append("las opciones más económicas disponibles")
+        filters_sentence = ""
+        if filter_fragments:
+            filters_sentence = " Consideré " + ", ".join(filter_fragments) + "."
+        notes_sentence = ""
+        if relaxation_notes:
+            notes_sentence = " " + " ".join(relaxation_notes)
 
-        recommendation_id: Optional[int] = None
+        response_text = f"{intro}{filters_sentence}{notes_sentence}\n" + "\n".join(summary_lines) + f"\n{closing}"
+        recommendation_id, recommendation_ids = await _persist_recommendation_logs(
+            user_id=user_id,
+            recommendations=recommendations,
+            summaries=summary_lines,
+            start_dt=start_dt,
+            end_dt=end_dt,
+        )
 
         intent_data = tracker.latest_message.get("intent") or {}
         intent_name = intent_data.get("name") or "request_field_recommendation"
         confidence = intent_data.get("confidence")
         source_model = latest_metadata.get("model") or latest_metadata.get("pipeline")
 
-        try:
-            recommendation_id = await run_in_thread(
-                chatbot_service.create_recommendation_log,
-                status="suggested",
-                message=summary_lines[0],
-                suggested_start=start_dt,
-                suggested_end=end_dt,
-                field_id=top_choice.id_field,
-                user_id=user_id,
-            )
-            LOGGER.info(
-                "[ActionSubmitFieldRecommendationForm] stored recommendation id=%s for session=%s",
-                recommendation_id,
-                session_id,
-            )
-        except DatabaseError:
-            LOGGER.exception(
-                "[ActionSubmitFieldRecommendationForm] database error creating recommendation log for session=%s",
-                session_id,
-            )
+        analytics_payload: Dict[str, Any] = {
+            "response_type": "recommendation",
+            "suggested_start": start_dt.isoformat(),
+            "suggested_end": end_dt.isoformat(),
+            "recommended_field_id": top_choice.id_field,
+            "candidate_recommendations": [rec.field_name for rec in recommendations],
+            "filters": {
+                "requested": requested_filters,
+                "applied": applied_filters,
+            },
+            "filter_summary": filter_fragments,
+            "relaxation_notes": relaxation_notes,
+            "search_strategy": search_strategy,
+            "recommendation_id": recommendation_id,
+            "recommendation_ids": recommendation_ids,
+            "intent_name": intent_name,
+            "intent_confidence": confidence,
+            "source_model": source_model,
+            "user_message": user_message,
+            "intent_examples": (
+                [user_message]
+                if user_message
+                else ([intent_name] if intent_name else [])
+            ),
+            "response_template": response_text,
+        }
 
-        analytics_payload.update(
-            {
-                "recommendation_id": recommendation_id,
-                "intent_name": intent_name,
-                "intent_confidence": confidence,
-                "source_model": source_model,
-                "user_message": user_message,
-                "intent_examples": (
-                    [user_message]
-                    if user_message
-                    else ([intent_name] if intent_name else [])
-                ),
-                "response_template": response_text,
-            }
-        )
-
-        dispatcher.utter_message(
-            text=response_text,
-            metadata={"analytics": analytics_payload},
+        response_metadata = {"analytics": analytics_payload}
+        dispatcher.utter_message(text=response_text, metadata=response_metadata)
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="recommendation",
+            recommendation_id=recommendation_id,
+            message_metadata=response_metadata,
         )
 
         events: List[EventType] = [
@@ -519,6 +1114,208 @@ class ActionSubmitFieldRecommendationForm(Action):
             SlotSet("preferred_end_time", preferred_end_time or end_dt.isoformat()),
         ]
         return events
+
+
+class ActionProvideAdminManagementTips(Action):
+    """Provide operational recommendations for admin users managing fields."""
+
+    def name(self) -> str:
+        return "action_provide_admin_management_tips"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        events: List[EventType] = []
+        latest_message = tracker.latest_message or {}
+        theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
+        user_role = (tracker.get_slot("user_role") or "player").lower()
+        user_id_raw = tracker.get_slot("user_id")
+        session_id = tracker.get_slot("chatbot_session_id")
+        metadata = _coerce_metadata(latest_message.get("metadata"))
+
+        user_id: Optional[int] = None
+        if user_id_raw:
+            try:
+                user_id = int(str(user_id_raw).strip())
+            except ValueError:
+                user_id = None
+        if user_id is None:
+            user_id = _coerce_user_identifier(metadata.get("user_id") or metadata.get("id_user"))
+
+        if user_role != "admin":
+            response_text = (
+                "Estas recomendaciones operativas están disponibles para administradores. "
+                "Inicia sesión con un perfil de gestión o indícame si buscas canchas para jugar."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="admin_recommendation_denied",
+            )
+            return events
+
+        if user_id is None:
+            response_text = (
+                "No pude validar tu usuario administrador. Vuelve a iniciar sesión para revisar tus sedes."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="admin_recommendation_error",
+            )
+            return events
+
+        if not session_id:
+            try:
+                ensured = await run_in_thread(
+                    chatbot_service.ensure_chat_session,
+                    user_id,
+                    theme,
+                    "admin",
+                )
+            except DatabaseError:
+                LOGGER.exception(
+                    "[ActionProvideAdminManagementTips] database error ensuring session for admin user_id=%s",
+                    user_id,
+                )
+            else:
+                session_id = str(ensured)
+                events.append(SlotSet("chatbot_session_id", session_id))
+
+        preferred_location = tracker.get_slot("preferred_location")
+        entity_locations = _extract_entity_values(tracker, "location")
+        location_focus = preferred_location or (entity_locations[0] if entity_locations else None)
+        preferred_sport = tracker.get_slot("preferred_sport")
+        sport_entities = _extract_entity_values(tracker, "sport")
+        sport_focus = preferred_sport or (sport_entities[0] if sport_entities else None)
+        start_time = tracker.get_slot("preferred_start_time")
+        target_time = _coerce_time_value(start_time)
+        min_budget, max_budget, price_focus = _extract_budget_preferences(tracker)
+
+        tips: List[str] = []
+        tips.append(
+            "Revisa el dashboard de analytics para detectar conversaciones sin recomendación y activa seguimientos automáticos."
+        )
+        if location_focus:
+            tips.append(
+                f"Activa campañas hiperlocales y referidos en {location_focus} para recuperar las horas valle."
+            )
+        if target_time:
+            tips.append(
+                f"Publica paquetes con precio dinámico alrededor de las {target_time.strftime('%H:%M')} para equilibrar la demanda."
+            )
+        if price_focus or min_budget is not None or max_budget is not None:
+            tips.append(
+                "Configura promociones escalonadas (2x1, créditos de lealtad) para los presupuestos que los jugadores mencionan con más frecuencia."
+            )
+        if sport_focus:
+            tips.append(
+                f"Reserva bloques exclusivos para {sport_focus} y comunícate con tus clientes recurrentes para anticipar disponibilidad."
+            )
+        tips.append(
+            "Cruza feedback reciente con las canchas menos rentables y programa mantenimiento o upgrades que mejoren la experiencia."
+        )
+        tips.append(
+            "Automatiza recordatorios de pago y libera espacios inactivos con 15 minutos de anticipación para maximizar ocupación."
+        )
+
+        response_text = "Estas son algunas recomendaciones para optimizar la operación de tus sedes:\n"
+        response_text += "\n".join(f"- {tip}" for tip in tips)
+
+        analytics_payload = {
+            "response_type": "admin_recommendation",
+            "tips_count": len(tips),
+            "context": {
+                "location": location_focus,
+                "sport": sport_focus,
+                "target_time": target_time.strftime("%H:%M") if target_time else None,
+                "min_budget": min_budget,
+                "max_budget": max_budget,
+            },
+        }
+        response_metadata = {"analytics": analytics_payload}
+        dispatcher.utter_message(text=response_text, metadata=response_metadata)
+
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="admin_recommendation",
+            message_metadata=response_metadata,
+        )
+        return events
+
+
+class ActionHandleFeedbackRating(Action):
+    """Respond to quick feedback button inputs."""
+
+    def name(self) -> str:
+        return "action_handle_feedback_rating"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        rating_raw = tracker.get_slot("feedback_rating")
+        normalized = str(rating_raw).strip().lower() if rating_raw else ""
+
+        if normalized in {"thumbs_up", "positivo", "positive", "like"}:
+            response_text = "¡Gracias por el comentario positivo! Seguiremos mejorando para ti."
+            response_type = "feedback_positive"
+        elif normalized in {"thumbs_down", "negativo", "negative", "dislike"}:
+            response_text = "Gracias por avisarnos. Tu comentario nos ayuda a mejorar."
+            response_type = "feedback_negative"
+        else:
+            response_text = "Gracias por tu tiempo. Si quieres dejar más detalles, cuéntame qué ocurrió en tu reserva."
+            response_type = "feedback_unknown"
+
+        dispatcher.utter_message(text=response_text)
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=tracker.get_slot("chatbot_session_id"),
+            user_id=tracker.get_slot("user_id"),
+            response_text=response_text,
+            response_type=response_type,
+        )
+        return []
+
+
+class ActionLogFieldRecommendationRequest(Action):
+    """Log the initial user utterance before launching the recommendation form."""
+
+    def name(self) -> str:
+        return "action_log_field_recommendation_request"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        session_id = tracker.get_slot("chatbot_session_id")
+        user_id = tracker.get_slot("user_id")
+        response_text = "Iniciando formulario de recomendación."
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="recommendation_request_log",
+            message_metadata={"stage": "form_start"},
+        )
+        return []
 
 
 class ActionShowRecommendationHistory(Action):
@@ -540,33 +1337,54 @@ class ActionShowRecommendationHistory(Action):
         events: List[EventType] = []
 
         if not user_id_raw:
-            dispatcher.utter_message(
-                text=(
-                    "No encuentro tu usuario activo. Inicia sesión nuevamente para revisar tu historial."
-                )
+            response_text = (
+                "No encuentro tu usuario activo. Inicia sesión nuevamente para revisar tu historial."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="history_error",
             )
             return []
 
         try:
             user_id = int(str(user_id_raw).strip())
         except ValueError:
-            dispatcher.utter_message(
-                text="Necesito que vuelvas a iniciar sesión para identificarte correctamente."
+            response_text = "Necesito que vuelvas a iniciar sesión para identificarte correctamente."
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="history_error",
             )
             return []
 
         if not session_id:
             try:
-                session_id = await run_in_thread(
+                new_session_id = await run_in_thread(
                     chatbot_service.ensure_chat_session,
                     user_id,
                     tracker.get_slot("chat_theme") or "Reservas y alquileres",
                     user_role,
                 )
-                events.append(SlotSet("chatbot_session_id", str(session_id)))
+                session_id = str(new_session_id)
+                events.append(SlotSet("chatbot_session_id", session_id))
             except DatabaseError:
-                dispatcher.utter_message(
-                    text="No logré conectar con el historial en este momento. Intenta nuevamente en unos minutos."
+                error_text = (
+                    "No logré conectar con el historial en este momento. Intenta nuevamente en unos minutos."
+                )
+                dispatcher.utter_message(text=error_text)
+                await _record_intent_and_log(
+                    tracker=tracker,
+                    session_id=None,
+                    user_id=user_id,
+                    response_text=error_text,
+                    response_type="history_error",
                 )
                 return events
 
@@ -577,20 +1395,36 @@ class ActionShowRecommendationHistory(Action):
                 3,
             )
         except DatabaseError:
-            dispatcher.utter_message(
-                text="No pude revisar el historial de recomendaciones en este momento. Intenta luego, por favor.",
+            error_text = (
+                "No pude revisar el historial de recomendaciones en este momento. Intenta luego, por favor."
+            )
+            dispatcher.utter_message(text=error_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=error_text,
+                response_type="history_error",
             )
             return events
 
         if not history:
-            dispatcher.utter_message(
-                text="Todavía no he generado recomendaciones en esta conversación. Cuando tenga alguna, te las resumiré aquí.",
+            empty_text = (
+                "Todavía no he generado recomendaciones en esta conversación. Cuando tenga alguna, te las resumiré aquí."
+            )
+            dispatcher.utter_message(text=empty_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=empty_text,
+                response_type="history_empty",
             )
             return events
 
         lines = []
         for record in history:
-            suggested_dt = _coerce_datetime(record['suggested_time_start'])
+            suggested_dt = _coerce_datetime(record["suggested_time_start"])
             suggested_start = suggested_dt.strftime("%d/%m %H:%M")
             lines.append(
                 (
@@ -604,8 +1438,15 @@ class ActionShowRecommendationHistory(Action):
         else:
             header = "Te dejo un resumen de las canchas que te sugerí últimamente:"
 
-        dispatcher.utter_message(
-            text=f"{header}\n" + "\n".join(lines)
+        response_text = f"{header}\n" + "\n".join(lines)
+        dispatcher.utter_message(text=response_text)
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="history",
+            message_metadata={"history": history},
         )
         return events
 
@@ -625,20 +1466,61 @@ class ActionCheckFeedbackStatus(Action):
         user_id_raw = tracker.get_slot("user_id")
         role_slot = (tracker.get_slot("user_role") or "player").lower()
         user_role = "admin" if role_slot == "admin" else "player"
+        session_id = tracker.get_slot("chatbot_session_id")
+        theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
 
         if not user_id_raw:
-            dispatcher.utter_message(
-                text="No pude validar tu sesión. Inicia sesión otra vez para revisar tus comentarios."
+            response_text = "No pude validar tu sesión. Inicia sesión otra vez para revisar tus comentarios."
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="feedback_error",
             )
             return []
 
         try:
             user_id = int(str(user_id_raw).strip())
         except ValueError:
-            dispatcher.utter_message(
-                text="Necesito que vuelvas a iniciar sesión para reconocer tu cuenta antes de mostrar el feedback."
+            response_text = (
+                "Necesito que vuelvas a iniciar sesión para reconocer tu cuenta antes de mostrar el feedback."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="feedback_error",
             )
             return []
+
+        events: List[EventType] = []
+        if not session_id:
+            try:
+                new_session_id = await run_in_thread(
+                    chatbot_service.ensure_chat_session,
+                    user_id,
+                    theme,
+                    user_role,
+                )
+                session_id = str(new_session_id)
+                events.append(SlotSet("chatbot_session_id", session_id))
+            except DatabaseError:
+                error_text = (
+                    "No logré conectar con tu sesión en este momento. Intenta nuevamente en unos minutos."
+                )
+                dispatcher.utter_message(text=error_text)
+                await _record_intent_and_log(
+                    tracker=tracker,
+                    session_id=None,
+                    user_id=user_id,
+                    response_text=error_text,
+                    response_type="feedback_error",
+                )
+                return events
 
         try:
             feedback_entries = await run_in_thread(
@@ -647,24 +1529,40 @@ class ActionCheckFeedbackStatus(Action):
                 3,
             )
         except DatabaseError:
-            dispatcher.utter_message(
-                text="No pude acceder al historial de feedback en este momento. Intenta nuevamente más tarde.",
+            error_text = (
+                "No pude acceder al historial de feedback en este momento. Intenta nuevamente más tarde."
             )
-            return []
+            dispatcher.utter_message(text=error_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=error_text,
+                response_type="feedback_error",
+            )
+            return events
 
         if not feedback_entries:
-            dispatcher.utter_message(
-                text="Aún no registras comentarios sobre tus reservas. Cuando dejes alguno, podré mostrártelo aquí.",
+            empty_text = (
+                "Aún no registras comentarios sobre tus reservas. Cuando dejes alguno, podré mostrártelo aquí."
             )
-            return []
+            dispatcher.utter_message(text=empty_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=empty_text,
+                response_type="feedback_empty",
+            )
+            return events
 
         lines = []
         for entry in feedback_entries:
-            created_dt = _coerce_datetime(entry['created_at'])
+            created_dt = _coerce_datetime(entry["created_at"])
             created_at = created_dt.strftime("%d/%m/%Y %H:%M")
-            rating_raw = entry.get('rating')
+            rating_raw = entry.get("rating")
             rating = float(rating_raw) if rating_raw is not None else 0.0
-            comment = entry.get('comment') or "(sin comentario)"
+            comment = entry.get("comment") or "(sin comentario)"
             if user_role == "admin":
                 lines.append(
                     (
@@ -685,10 +1583,17 @@ class ActionCheckFeedbackStatus(Action):
         else:
             header = "Mira los comentarios que dejaste últimamente:"
 
-        dispatcher.utter_message(
-            text=f"{header}\n" + "\n".join(lines)
+        response_text = f"{header}\n" + "\n".join(lines)
+        dispatcher.utter_message(text=response_text)
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="feedback",
+            message_metadata={"feedback_entries": feedback_entries},
         )
-        return []
+        return events
 
 
 class ActionCloseChatSession(Action):
@@ -704,11 +1609,20 @@ class ActionCloseChatSession(Action):
         domain: DomainDict,
     ) -> List[EventType]:
         session_id = tracker.get_slot("chatbot_session_id")
+        user_id = tracker.get_slot("user_id")
+        response_text = "Sesión cerrada"
         if session_id:
             try:
                 await run_in_thread(chatbot_service.close_chat_session, int(session_id))
             except (ValueError, DatabaseError):
                 LOGGER.debug("Could not close session %s", session_id)
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="session_closed",
+        )
         return []
 
 
@@ -840,14 +1754,16 @@ class ActionSessionStart(Action):
                 events.append(SlotSet("chat_theme", theme))
                 events.append(SlotSet("chatbot_session_id", str(session_id)))
 
+                initial_user_text = tracker.latest_message.get("text") or ""
+
                 try:
                     await run_in_thread(
                         chatbot_service.log_chatbot_message,
                         session_id=session_id,
                         intent_id=None,
                         recommendation_id=None,
-                        message_text="",
-                        bot_response="",
+                        message_text=initial_user_text,
+                        bot_response="session_started",
                         response_type="session_started",
                         sender_type="system",
                         user_id=user_id,

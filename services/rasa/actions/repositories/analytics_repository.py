@@ -4,11 +4,11 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timezone, time as time_of_day
 from decimal import Decimal
 from typing import Any, Dict, List, Optional
 
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -341,13 +341,21 @@ class RecommendationRepository:
         surface: Optional[str],
         location: Optional[str],
         limit: int,
+        min_price: Optional[float],
+        max_price: Optional[float],
+        target_time: Optional[time_of_day],
+        prioritize_price: bool,
     ) -> List[FieldRecommendation]:
         LOGGER.debug(
-            "[RecommendationRepository] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s",
+            "[RecommendationRepository] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s min_price=%s max_price=%s target_time=%s prioritize_price=%s",
             sport,
             surface,
             location,
             limit,
+            min_price,
+            max_price,
+            target_time,
+            prioritize_price,
         )
         try:
             stmt = (
@@ -378,7 +386,21 @@ class RecommendationRepository:
                     | (Campus.address.ilike(pattern))
                     | (Campus.name.ilike(pattern))
                 )
-            stmt = stmt.order_by(Field.price_per_hour.asc(), Field.capacity.desc()).limit(limit)
+            if min_price is not None:
+                stmt = stmt.where(Field.price_per_hour >= min_price)
+            if max_price is not None:
+                stmt = stmt.where(Field.price_per_hour <= max_price)
+            if target_time is not None:
+                stmt = stmt.where(
+                    or_(Field.open_time.is_(None), Field.open_time <= target_time)
+                ).where(
+                    or_(Field.close_time.is_(None), Field.close_time >= target_time)
+                )
+            if prioritize_price:
+                order_columns = (Field.price_per_hour.asc(), Field.capacity.desc())
+            else:
+                order_columns = (Field.capacity.desc(), Field.price_per_hour.asc())
+            stmt = stmt.order_by(*order_columns).limit(limit)
             rows = self._db.execute(stmt).all()
         except SQLAlchemyError as exc:
             raise DatabaseError(str(exc)) from exc

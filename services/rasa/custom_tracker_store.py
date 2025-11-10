@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import time
 from contextlib import contextmanager
@@ -76,7 +77,7 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
         if engine is not None:
             try:
                 engine.dispose()
-            except Exception:  # pragma: no cover - best effort cleanup
+            except Exception:  #best effort cleanup
                 LOGGER.debug("Failed disposing tracker store engine", exc_info=True)
 
     @contextmanager
@@ -103,17 +104,19 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
                 time.sleep(min(self._retry_delay * attempt, 5.0))
                 attempt += 1
 
-    def save(
-        self, tracker: DialogueStateTracker, timeout: Optional[int] = None
-    ) -> None:
-        super().save(tracker, timeout=timeout)
+    async def save(self, tracker: DialogueStateTracker) -> None:
+        await super().save(tracker)
         try:
-            self._mirror_events_into_analytics(tracker)
-        except Exception:  # pragma: no cover - defensive logging
-            LOGGER.exception(
-                "[TrackerStore] Failed to mirror events for sender_id=%s",
-                tracker.sender_id,
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            await loop.run_in_executor(
+                None, self._mirror_events_into_analytics, tracker
             )
+        else:
+            self._mirror_events_into_analytics(tracker)
 
     # ------------------------------------------------------------------
     # Analytics mirroring helpers

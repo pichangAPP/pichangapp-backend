@@ -32,6 +32,77 @@ nlu:
       - ayúdame a encontrar una cancha en [Surco](location) para el [2024-06-15](date)
       - ¿dónde puedo jugar [pádel](sport) cerca de [San Isidro](location)?
       - estoy buscando una cancha para mañana a las [20:00](time) en [Surquillo](location)
+      - ¿Puedes sugerirme canchas económicas en [Villa El Salvador](location) para las [21:00](time)?
+      - Necesito recomendaciones para jugar [basket](sport) en [San Borja](location) este fin de semana.
+      - Dame opciones con presupuesto de [S/60](budget) cerca de [San Miguel](location).
+      - Quiero jugar el [2024-07-10](date) a las [18:30](time) en una cancha de [grass](surface).
+      - ¿Hay alguna cancha cubierta disponible en [La Molina](location) sobre las [19:30](time)?
+      - Recomiéndame algo barato entre [S/40](budget) y [S/80](budget) en [Los Olivos](location).
+      - Busco campo para [fulbito](sport) este viernes a las [20:00](time) en [Chorrillos](location).
+      - ¿Qué canchas tienes libres en [Comas](location) alrededor de las [17:00](time)?
+      - Sugiere canchas para 7 vs 7 en [San Juan de Lurigancho](location) para el [2024-06-30](date).
+      - Necesito una cancha techada en [Pueblo Libre](location) por la tarde.
+      - Quiero ver las opciones más baratas en el sur para jugar [voley](sport).
+      - Muéstrame canchas disponibles con presupuesto máximo [80 soles](budget) cerca de [Magdalena](location).
+      - Estamos libres desde las [16:00](time), ¿qué lugares recomiendas en [San Sebastián](location)?
+      - ¿Alguna cancha para [pádel](sport) que no pase de [S/120](budget)?
+      - Necesito reservar hoy mismo en [Villa María del Triunfo](location), ¿qué opciones hay?
+      - Necesito reservar hoy mismo en [Villa El Salvador](location), ¿qué opciones hay?
+      - Oye bot, quiero una cancha YA, ¿me ayudas?
+      - Ayuda, necesito cancha para hoy sin muchos datos.
+      - No sé cómo funciona esto pero requiero un campo libre esta noche.
+      - ¿Puedes buscar algo para mi equipo? Estamos listos y solo queremos un lugar.
+      - Soy nuevo aquí, dime dónde puedo ir a jugar ahora mismo.
+      - ¿Qué canchas 11 vs 11 tienes en [Ate](location) para el [sábado](date) en la noche?
+      - Recomiéndame un sintético barato cerca de [Independencia](location) para las [23:00](time).
+      - Me alcanza solo hasta [S/50](budget), ¿dónde puedo jugar mañana?
+      - ¿Hay canchas con vestuarios en [Callao](location) el [2024-08-05](date)?
+      - Necesito opciones en la zona norte entre [S/70](budget) y [S/100](budget).
+      - Busco algo disponible “lo antes posible” en [San Juan de Miraflores](location).
+      - Tenemos 2 horas libres desde las [14:00](time); sugiere alguna cancha techada.
+      - Dime dónde jugar [futsal](sport) con superficie lisa cerca de [Breña](location).
+      - Quiero un campo con pasto natural para el domingo a las [10:00](time).
+      - ¿Qué recomiendas si llueve en [Barranco](location) esta noche?
+      - Dame ideas para canchas económicas donde acepten pagos en efectivo.
+      - Necesitamos cancha cerca del tren eléctrico, ¿qué sedes propones?
+      - Requiero un espacio para entrenamiento personal esta tarde.
+      - ¿Dónde podemos jugar con presupuesto libre pero buena iluminación?
+      - Prioriza canchas con estacionamiento en [Lince](location).
+      - Recomendaciones rápidas por favor, no tengo preferencia de distrito.
+      - Necesito la cancha más cercana disponible entre [20:30](time) y [22:00](time).
+      - ¿Alguna sede con lockers para guardar mochilas?
+      - Queremos canchas que abran desde las [06:00](time) en [Rímac](location).
+      - ¿Qué opciones hay cerca al aeropuerto para hoy a las [18:00](time)?
+      - Muéstrame sedes que admitan reservas largas de dos horas.
+      - ¿Puedes sugerir canchas al sur chico con césped artificial nuevo?
+      - Recomiéndame algo en [Jesús María](location) con duchas y buena iluminación.
+      - Dame alternativas en [Cercado de Lima](location) mañana al medio día.
+      - Necesito cancha donde acepten reservas corporativas, ¿qué me das?
+      - ¿Qué opciones express tienes si llegamos sin reserva previa?
+      - Mándame tus tres mejores canchas para grupos de 10 personas.
+      - Enséñame algo para [flag football](sport) o similar este sábado.
+      - Queremos la opción más económica aunque no sea en mi distrito.
+      - Necesito disponibilidad flexible entre [18:00](time) y [21:00](time).
+      - ¿Cuál es la mejor sede para torneos relámpago esta semana?
+      - Busco cancha techada con cafetería adjunta.
+
+  - intent: request_admin_recommendation
+    examples: |
+      - Soy administrador, dame recomendaciones para gestionar mejor mis canchas.
+      - ¿Cómo optimizo la operación de mis sedes?
+      - Necesito sugerencias para mejorar la ocupación en [Miraflores](location).
+      - Recomiéndame acciones para atraer más jugadores en horas valle.
+      - ¿Qué estrategias puedo aplicar con los precios nocturnos?
+      - Como admin, ¿cómo priorizo mantenimiento y promos?
+      - Dime tips para gestionar equipos y reservas de mis campos.
+      - Necesito ideas para fidelizar clientes corporativos desde la app.
+      - ¿Qué hago para balancear disponibilidad entre [San Isidro](location) y [Magdalena](location)?
+      - Dame consejos basados en analytics para mejorar la experiencia del jugador.
+  - intent: SetSlots
+    examples: |
+      - /SetSlots
+      - /SetSlots{"feedback_rating":"thumbs_up"}
+      - /SetSlots{"feedback_rating":"thumbs_down"}
   - intent: ask_reservation_process
     examples: |
       - ¿cómo reservo una cancha?

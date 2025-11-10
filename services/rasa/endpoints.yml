@@ -18,7 +18,7 @@ action_endpoint:
 # https://rasa.com/docs/rasa-pro/production/tracker-stores
 
 tracker_store:
-  type: services.rasa.custom_tracker_store.ResilientSQLTrackerStore
+  type: custom_tracker_store.ResilientSQLTrackerStore
   dialect: "postgresql"
   url: ${POSTGRES_HOST}
   port: ${POSTGRES_PORT}

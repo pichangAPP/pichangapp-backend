@@ -15,6 +15,8 @@ intents:
   - affirm
   - deny
   - SetSlots # payload usado por los botones de feedback
+  - nlu_fallback
+  - request_admin_recommendation
 
 entities:
   - sport
@@ -31,7 +33,7 @@ slots:
     type: text
     influence_conversation: false
     mappings:
-      - type: custom
+      - type: controlled
   user_role:
     type: text
     influence_conversation: false
@@ -48,7 +50,7 @@ slots:
     influence_conversation: false
     initial_value: "Reservas y alquileres"
     mappings:
-      - type: custom
+      - type: controlled
   preferred_sport:
     type: text
     influence_conversation: false
@@ -122,7 +124,7 @@ slots:
       - type: from_entity
         entity: skill_level
   feedback_rating:
-    type: float
+    type: text
     influence_conversation: false
     mappings:
       - type: from_text
@@ -253,10 +255,13 @@ responses:
 
 actions:
   - action_session_start
+  - action_log_field_recommendation_request
   - action_submit_field_recommendation_form
   - action_show_recommendation_history
   - action_check_feedback_status
   - action_close_chat_session
+  - action_provide_admin_management_tips
+  - action_handle_feedback_rating
 
 session_config:
   session_expiration_time: 60
