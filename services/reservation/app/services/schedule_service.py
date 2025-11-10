@@ -41,15 +41,24 @@ class ScheduleService:
     def _validate_schedule_window(
         self, *, field: Field, start_time: datetime, end_time: datetime
     ) -> None:
+        # Verifica que el fin sea después del inicio
         if end_time <= start_time:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="end_time must be after start_time",
             )
 
+        # Si el día cambia, no permitir (por defecto)
+        if end_time.date() != start_time.date():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Schedules cannot cross over to the next day",
+            )
+
         start_time_value = start_time.time()
         end_time_value = end_time.time()
 
+        # Validar dentro del horario de apertura/cierre
         if start_time_value < field.open_time or end_time_value > field.close_time:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -58,6 +67,7 @@ class ScheduleService:
                     f" ({field.open_time} - {field.close_time})"
                 ),
             )
+
 
     def _ensure_field_not_reserved(
         self,
