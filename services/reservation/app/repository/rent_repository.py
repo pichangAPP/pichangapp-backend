@@ -6,6 +6,7 @@ from typing import Dict, Iterable, Optional, Sequence, Set
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
+from app.models.campus import Campus
 from app.models.field import Field
 from app.models.rent import Rent
 from app.models.schedule import Schedule
@@ -22,7 +23,10 @@ def list_rents(
     campus_id: Optional[int] = None,
 ) -> list[Rent]:
     query = db.query(Rent).options(
-        joinedload(Rent.schedule).joinedload(Schedule.field),
+        joinedload(Rent.schedule)
+        .joinedload(Schedule.field)
+        .joinedload(Field.campus)
+        .joinedload(Campus.manager),
         joinedload(Rent.schedule).joinedload(Schedule.user),
     )
 
@@ -51,7 +55,10 @@ def get_rent(db: Session, rent_id: int) -> Optional[Rent]:
     return (
         db.query(Rent)
         .options(
-            joinedload(Rent.schedule).joinedload(Schedule.field),
+            joinedload(Rent.schedule)
+            .joinedload(Schedule.field)
+            .joinedload(Field.campus)
+            .joinedload(Campus.manager),
             joinedload(Rent.schedule).joinedload(Schedule.user),
         )
         .filter(Rent.id_rent == rent_id)
