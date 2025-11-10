@@ -17,14 +17,14 @@ register_exception_handlers(app)
 
 
 SERVICE_URLS: Dict[str, str] = {
-    "auth": os.getenv("AUTH_SERVICE_URL"),
-    "users": os.getenv("AUTH_SERVICE_URL"),  # Users are part of Auth service
-    "booking": os.getenv("BOOKING_SERVICE_URL"),
-    "reservation": os.getenv("RESERVATION_SERVICE_URL"),
-    "payment": os.getenv("PAYMENT_SERVICE_URL"),
-    "notification": os.getenv("NOTIFICATION_SERVICE_URL"),
-    "analytics": os.getenv("ANALYTICS_SERVICE_URL"),
-    "chatbot": os.getenv("CHATBOT_SERVICE_URL"),
+    "auth": os.getenv("AUTH_SERVICE_URL", "http://localhost:8000"),
+    "users": os.getenv("AUTH_SERVICE_URL", "http://localhost:8000"),  # Users are part of Auth service
+    "booking": os.getenv("BOOKING_SERVICE_URL", "http://localhost:8001"),
+    "reservation": os.getenv("RESERVATION_SERVICE_URL", "http://localhost:8002"),
+    "payment": os.getenv("PAYMENT_SERVICE_URL", "http://localhost:8003"),
+    "notification": os.getenv("NOTIFICATION_SERVICE_URL", "http://localhost:8004"),
+    "analytics": os.getenv("ANALYTICS_SERVICE_URL", "http://localhost:8005"),
+    "chatbot": os.getenv("CHATBOT_SERVICE_URL", "http://localhost:8006"),
 }
 
 FORWARDED_HEADERS = {"content-encoding", "transfer-encoding", "connection"}
@@ -160,6 +160,27 @@ async def proxy_reservation_root(request: Request):
 async def proxy_reservation(request: Request, path: str):
     target_path = _build_path("/api/pichangapp/v1/reservation", path)
     return await _proxy_request(request, "reservation", target_path)
+
+
+# Notification Service Proxies
+
+@app.api_route(
+    "/api/pichangapp/v1/notification",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_notification_root(request: Request):
+    return await _proxy_request(request, "notification", "/api/pichangapp/v1/notification")
+
+
+@app.api_route(
+    "/api/pichangapp/v1/notification/{path:path}",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_notification(request: Request, path: str):
+    target_path = _build_path("/api/pichangapp/v1/notification", path)
+    return await _proxy_request(request, "notification", target_path)
 
 
 # Chatbot Service Proxies

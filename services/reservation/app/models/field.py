@@ -1,4 +1,5 @@
 from sqlalchemy import BigInteger, Column, ForeignKey, Integer, Numeric, String, Text, Time
+from sqlalchemy.orm import relationship
 
 from app.core.database import Base
 
@@ -24,6 +25,8 @@ class Field(Base):
         ForeignKey("booking.campus.id_campus", ondelete="CASCADE"),
         nullable=False,
     )
+
+    campus = relationship("Campus", lazy="joined")
 
     def __repr__(self) -> str:  # pragma: no cover - debugging helper
         return f"<Field(id_field={self.id_field}, name={self.field_name})>"

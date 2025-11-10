@@ -1,17 +1,21 @@
 import asyncio
 from datetime import datetime, timedelta, timezone
+import logging
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Dict, List, Optional
 
 from fastapi import BackgroundTasks, HTTPException, status
 from sqlalchemy import func
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
 from app.models.rent import Rent
 from app.models.schedule import Schedule
 from app.repository import payment_repository, rent_repository, schedule_repository
 from app.schemas.rent import RentCreate, RentUpdate
+from app.services.notification_client import NotificationClient
+
+logger = logging.getLogger(__name__)
 
 
 class RentService:
@@ -20,8 +24,90 @@ class RentService:
     _FIELD_STATUS_ACTIVE = "active"
     _FIELD_STATUS_OCCUPIED = "occupied"
 
-    def __init__(self, db: Session):
+    def __init__(
+        self,
+        db: Session,
+        *,
+        notification_client: Optional[NotificationClient] = None,
+    ):
         self.db = db
+        self._notification_client = notification_client or NotificationClient()
+
+    @staticmethod
+    def _datetime_to_iso(value: Optional[datetime]) -> Optional[str]:
+        if value is None:
+            return None
+        return value.isoformat()
+
+    @staticmethod
+    def _decimal_to_str(value: Optional[Decimal]) -> Optional[str]:
+        if value is None:
+            return None
+        return format(value, "f")
+
+    def _build_notification_payload(self, rent: Rent) -> Optional[Dict[str, object]]:
+        schedule = rent.schedule
+        if schedule is None or schedule.user is None or schedule.field is None:
+            logger.info(
+                "Skipping notification payload creation for rent %s due to incomplete relationships",
+                rent.id_rent,
+            )
+            return None
+
+        field = schedule.field
+        campus = field.campus
+        if campus is None:
+            logger.info(
+                "Skipping notification payload creation for rent %s because campus information is missing",
+                rent.id_rent,
+            )
+            return None
+
+        user = schedule.user
+
+        campus_payload = {
+            "id_campus": campus.id_campus,
+            "name": campus.name,
+            "address": campus.address,
+            "district": campus.district,
+        }
+
+        manager = campus.manager
+        manager_payload = None
+        if manager is not None and manager.email:
+            manager_payload = {
+                "name": manager.name,
+                "lastname": manager.lastname,
+                "email": manager.email,
+            }
+
+        return {
+            "rent": {
+                "rent_id": rent.id_rent,
+                "schedule_day": schedule.day_of_week,
+                "start_time": self._datetime_to_iso(rent.start_time),
+                "end_time": self._datetime_to_iso(rent.end_time),
+                "status": rent.status,
+                "period": rent.period,
+                "mount": self._decimal_to_str(rent.mount),
+                "payment_deadline": self._datetime_to_iso(rent.payment_deadline),
+                "field_name": field.field_name,
+                "campus": campus_payload,
+            },
+            "user": {
+                "name": user.name,
+                "lastname": user.lastname,
+                "email": user.email,
+            },
+            "manager": manager_payload,
+        }
+
+    def _notify_rent_creation(self, rent: Rent) -> None:
+        payload = self._build_notification_payload(rent)
+        if payload is None:
+            return
+        logger.info("Dispatching rent notification for rent %s", rent.id_rent)
+        self._notification_client.send_rent_email(payload)
 
     def _ensure_field_exists(self, field_id: int) -> None:
         field = schedule_repository.get_field(self.db, field_id)
@@ -303,6 +389,11 @@ class RentService:
             self._validate_payment(int(rent_data["id_payment"]))
 
         rent = rent_repository.create_rent(self.db, rent_data)
+        persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
+        if persisted_rent is not None:
+            self._notify_rent_creation(persisted_rent)
+            return persisted_rent
+    
         self._refresh_field_status(self.db, schedule.id_field)
 
         if background_tasks is not None:
