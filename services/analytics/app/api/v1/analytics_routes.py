@@ -9,7 +9,10 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
-from app.schemas.analytics import RevenueSummaryResponse
+from app.schemas.analytics import (
+    CampusRevenueMetricsResponse,
+    RevenueSummaryResponse,
+)
 from app.services.analytics_service import AnalyticsService
 
 router = APIRouter(prefix="/analytics", tags=["analytics"])
@@ -44,6 +47,20 @@ def get_revenue_summary(
         end_date=end_date,
         status=status,
     )
+
+
+@router.get(
+    "/campuses/{campus_id}/revenue-metrics",
+    response_model=CampusRevenueMetricsResponse,
+)
+def get_campus_revenue_metrics(
+    campus_id: int,
+    db: Session = Depends(get_db),
+) -> CampusRevenueMetricsResponse:
+    """Return detailed revenue metrics for the specified campus."""
+
+    service = AnalyticsService(db)
+    return service.get_campus_revenue_metrics(campus_id=campus_id)
 
 
 __all__ = ["router"]

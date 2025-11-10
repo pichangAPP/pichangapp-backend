@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from typing import Optional, Iterable, Sequence
 
 from sqlalchemy import exists, func
@@ -9,7 +9,6 @@ from sqlalchemy.orm import Session, joinedload, load_only
 from app.models.campus import Campus
 from app.models.field import Field
 from app.models.rent import Rent
-from app.models.schedule import Schedule
 from app.models.user import User
 
 
@@ -47,7 +46,8 @@ def list_schedules(
     if status_filter is not None:
         query = query.filter(Schedule.status == status_filter)
 
-    return query.order_by(Schedule.start_time).all()
+    return query.order_by(Schedule.start_time.desc(), Schedule.end_time.desc()).all()
+
 
 def create_schedule(db: Session, schedule_data: dict) -> Schedule:
     schedule = Schedule(**schedule_data)
@@ -67,6 +67,39 @@ def save_schedule(db: Session, schedule: Schedule) -> Schedule:
 def delete_schedule(db: Session, schedule: Schedule) -> None:
     db.delete(schedule)
     db.commit()
+
+
+def field_has_schedule_in_range(
+    db: Session,
+    *,
+    field_id: int,
+    start_time: datetime,
+    end_time: datetime,
+    status_filter: Optional[Sequence[str]] = None,
+    exclude_schedule_id: Optional[int] = None,
+) -> bool:
+    """Return ``True`` when a field has schedules in the requested range."""
+
+    query = (
+        db.query(Schedule.id_schedule)
+        .filter(Schedule.id_field == field_id)
+        .filter(Schedule.start_time < end_time)
+        .filter(Schedule.end_time > start_time)
+    )
+
+    if exclude_schedule_id is not None:
+        query = query.filter(Schedule.id_schedule != exclude_schedule_id)
+
+    normalized_statuses = [
+        status_value.strip().lower()
+        for status_value in (status_filter or ())
+        if status_value and status_value.strip()
+    ]
+
+    if normalized_statuses:
+        query = query.filter(func.lower(Schedule.status).in_(normalized_statuses))
+
+    return query.first() is not None
 
 def list_available_schedules(
     db: Session,

@@ -25,3 +25,11 @@ class Campus(Base):
 
 
 __all__ = ["Campus"]
+
+class Sport(Base):
+    __tablename__ = "sports"
+    __table_args__ = {"schema": "booking"}
+
+    id_sport = Column(Integer, primary_key=True, index=True)
+
+__all__ = ["Campus","Sport"]

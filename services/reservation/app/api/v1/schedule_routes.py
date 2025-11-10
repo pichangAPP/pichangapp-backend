@@ -18,7 +18,7 @@ from app.services.schedule_service import ScheduleService
 router = APIRouter(prefix="/schedules", tags=["schedules"])
 
 
-@router.get("/", response_model=List[ScheduleResponse])
+@router.get("", response_model=List[ScheduleResponse])
 def list_schedules(
     *,
     db: Session = Depends(get_db),
@@ -100,7 +100,7 @@ def get_schedule(schedule_id: int, db: Session = Depends(get_db)) -> ScheduleRes
     return service.get_schedule(schedule_id)
 
 
-@router.post("/", response_model=ScheduleResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=ScheduleResponse, status_code=status.HTTP_201_CREATED)
 def create_schedule(
     payload: ScheduleCreate,
     db: Session = Depends(get_db),

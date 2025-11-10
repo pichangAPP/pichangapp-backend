@@ -58,6 +58,7 @@ class FieldSummary(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class UserSummary(BaseModel):
@@ -71,6 +72,7 @@ class UserSummary(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class ScheduleResponse(ScheduleBase):
@@ -80,6 +82,7 @@ class ScheduleResponse(ScheduleBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class ScheduleTimeSlotResponse(BaseModel):
@@ -90,3 +93,4 @@ class ScheduleTimeSlotResponse(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
