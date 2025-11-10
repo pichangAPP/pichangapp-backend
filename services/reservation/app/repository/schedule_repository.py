@@ -6,7 +6,7 @@ from typing import Optional, Iterable, Sequence
 from sqlalchemy import exists, func
 from sqlalchemy.orm import Session, joinedload, load_only
 
-from app.models.schedule import Schedule
+from app.models.campus import Campus
 from app.models.field import Field
 from app.models.rent import Rent
 from app.models.schedule import Schedule
@@ -17,7 +17,9 @@ def get_schedule(db: Session, schedule_id: int) -> Optional[Schedule]:
     return (
         db.query(Schedule)
         .options(
-            joinedload(Schedule.field),
+            joinedload(Schedule.field)
+            .joinedload(Field.campus)
+            .joinedload(Campus.manager),
             joinedload(Schedule.user),
         )
         .filter(Schedule.id_schedule == schedule_id)
@@ -32,7 +34,9 @@ def list_schedules(
     status_filter: Optional[str] = None,
 ) -> list[Schedule]:
     query = db.query(Schedule).options(
-        joinedload(Schedule.field),
+        joinedload(Schedule.field)
+        .joinedload(Field.campus)
+        .joinedload(Campus.manager),
         joinedload(Schedule.user),
     )
 
@@ -73,7 +77,9 @@ def list_available_schedules(
     exclude_rent_statuses: Optional[Sequence[str]] = None,
 ) -> list[Schedule]:
     query = db.query(Schedule).options(
-        joinedload(Schedule.field),
+        joinedload(Schedule.field)
+        .joinedload(Field.campus)
+        .joinedload(Campus.manager),
         joinedload(Schedule.user),
     )
 

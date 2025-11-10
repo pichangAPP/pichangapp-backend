@@ -1,5 +1,4 @@
-"""Centralized exception handlers for the Notification service."""
-from __future__ import annotations
+"""Shared exception handlers for the notification service."""
 
 import logging
 from collections.abc import Iterable
