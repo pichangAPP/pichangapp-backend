@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Dict, Iterable, Optional, Sequence, Set
 
 from sqlalchemy import func
@@ -118,6 +119,38 @@ def field_has_pending_rent(
     filtered_statuses = [
         status_value.lower()
         for status_value in excluded_statuses
+        if status_value
+    ]
+
+    if filtered_statuses:
+        query = query.filter(func.lower(Rent.status).notin_(filtered_statuses))
+
+    return query.first() is not None
+
+
+def field_has_active_rent_in_range(
+    db: Session,
+    *,
+    field_id: int,
+    start_time: datetime,
+    end_time: datetime,
+    excluded_statuses: Optional[Sequence[str]] = None,
+    exclude_schedule_id: Optional[int] = None,
+) -> bool:
+    query = (
+        db.query(Rent.id_rent)
+        .join(Schedule)
+        .filter(Schedule.id_field == field_id)
+        .filter(Rent.start_time < end_time)
+        .filter(Rent.end_time > start_time)
+    )
+
+    if exclude_schedule_id is not None:
+        query = query.filter(Rent.id_schedule != exclude_schedule_id)
+
+    filtered_statuses = [
+        status_value.lower()
+        for status_value in (excluded_statuses or ())
         if status_value
     ]
 
