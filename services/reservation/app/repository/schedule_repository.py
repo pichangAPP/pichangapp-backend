@@ -43,7 +43,8 @@ def list_schedules(
     if status_filter is not None:
         query = query.filter(Schedule.status == status_filter)
 
-    return query.order_by(Schedule.start_time).all()
+    return query.order_by(Schedule.start_time.desc(), Schedule.end_time.desc()).all()
+
 
 def create_schedule(db: Session, schedule_data: dict) -> Schedule:
     schedule = Schedule(**schedule_data)
