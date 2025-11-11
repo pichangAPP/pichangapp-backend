@@ -12,7 +12,13 @@ from .campus_repository import (
     list_campuses_by_business,
 )
 from .characteristic_repository import create_characteristic, get_characteristic
-from .field_repository import create_field, delete_field, get_field, list_fields_by_campus
+from .field_repository import (
+    create_field,
+    delete_field,
+    field_has_upcoming_reservations,
+    get_field,
+    list_fields_by_campus,
+)
 from .image_repository import (
     create_image,
     delete_image,
@@ -36,6 +42,7 @@ __all__ = [
     "get_characteristic",
     "create_field",
     "delete_field",
+    "field_has_upcoming_reservations",
     "get_field",
     "list_fields_by_campus",
     "create_image",
