@@ -50,6 +50,7 @@ class FieldService:
         self._validate_field_entity(field)
         try:
             field_repository.create_field(self.db, field)
+            self._update_campus_field_count(campus, delta=1)
             if images_data:
                 self._add_images_to_new_field(field, images_data)
             self.db.commit()
@@ -180,7 +181,28 @@ class FieldService:
 
     def delete_field(self, field_id: int) -> None:
         field = self.get_field(field_id)
+
+        if (field.status or "").lower() == "occupied":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot delete a field while its status is 'occupied'",
+            )
+
+        today_utc = datetime.now(timezone.utc).date()
+        if field_repository.field_has_upcoming_reservations(
+            self.db, field.id_field, reference_date=today_utc
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=(
+                    "Cannot delete a field with reserved or pending schedules today or later"
+                ),
+            )
+
+        campus = self.campus_service.get_campus(field.id_campus)
+
         try:
+            self._update_campus_field_count(campus, delta=-1)
             field_repository.delete_field(self.db, field)
             self.db.commit()
         except SQLAlchemyError as exc:
@@ -189,6 +211,15 @@ class FieldService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to delete field",
             ) from exc
+
+    def _update_campus_field_count(self, campus, *, delta: int) -> None:
+        current_value = int(campus.count_fields or 0)
+        new_value = current_value + delta
+        if new_value < 0:
+            new_value = 0
+        campus.count_fields = new_value
+        self.db.flush([campus])
+
 
     def _ensure_sport_exists(self, sport_id: int) -> Sport:
         sport = sport_repository.get_sport(self.db, sport_id)

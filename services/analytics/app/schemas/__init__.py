@@ -1,5 +1,7 @@
 """Pydantic schemas for the analytics service."""
 
+from app.schemas.feedback import FeedbackBase, FeedbackCreate, FeedbackResponse
+
 from app.schemas.analytics import (
     CampusRevenueSummary,
     DateRange,
@@ -8,6 +10,9 @@ from app.schemas.analytics import (
 )
 
 __all__ = [
+    "FeedbackBase",
+    "FeedbackCreate",
+    "FeedbackResponse",
     "CampusRevenueSummary",
     "DateRange",
     "RevenueEntry",
