@@ -182,6 +182,25 @@ async def proxy_notification(request: Request, path: str):
     target_path = _build_path("/api/pichangapp/v1/notification", path)
     return await _proxy_request(request, "notification", target_path)
 
+# Analytics Service Proxies
+
+@app.api_route(
+    "/api/pichangapp/v1/analytics",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_analytics_root(request: Request):
+    return await _proxy_request(request, "analytics", "/api/pichangapp/v1/analytics")
+
+
+@app.api_route(
+    "/api/pichangapp/v1/analytics/{path:path}",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_analytics(request: Request, path: str):
+    target_path = _build_path("/api/pichangapp/v1/analytics", path)
+    return await _proxy_request(request, "analytics", target_path)
 
 # Chatbot Service Proxies
 
