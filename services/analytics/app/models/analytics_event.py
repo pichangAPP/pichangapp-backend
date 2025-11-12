@@ -20,8 +20,8 @@ class AnalyticsEvent(Base):
         index=True,
     )
     action = Column(Text, nullable=False)
-    metadata = Column(JSONB, nullable=False)
-    timestamp = Column(DateTime(timezone=True), nullable=False)
+    metadata_json = Column("metadata",JSONB, nullable=False)
+    timestamp = Column( DateTime(timezone=True), nullable=False)
     id_rent = Column(
         BigInteger,
         ForeignKey("reservation.rent.id_rent"),
