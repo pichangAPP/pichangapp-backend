@@ -12,7 +12,7 @@ from app.schemas.schedule import ScheduleCreate, ScheduleUpdate
 from app.repository import rent_repository, schedule_repository
 
 _EXCLUDED_RENT_STATUSES = ("cancelled",)
-_RESERVED_SCHEDULE_STATUSES = ("reserved",)
+_CONFLICT_SCHEDULE_EXCLUDED_STATUSES = ("cancelled",)
 
 class ScheduleService:
 
@@ -77,21 +77,20 @@ class ScheduleService:
         end_time: datetime,
         exclude_schedule_id: Optional[int] = None,
     ) -> None:
-        has_reserved_schedule = schedule_repository.field_has_schedule_in_range(
+        has_conflicting_schedule = schedule_repository.field_has_schedule_in_range(
             self.db,
             field_id=field_id,
             start_time=start_time,
             end_time=end_time,
-            status_filter=_RESERVED_SCHEDULE_STATUSES,
             exclude_schedule_id=exclude_schedule_id,
+            exclude_statuses=_CONFLICT_SCHEDULE_EXCLUDED_STATUSES,
         )
 
-        if has_reserved_schedule:
+        if has_conflicting_schedule:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail="Field already has a reserved schedule in this time range",
+                detail="Field already has a schedule in this time range",
             )
-
         has_active_rent = rent_repository.field_has_active_rent_in_range(
             self.db,
             field_id=field_id,

@@ -78,6 +78,7 @@ def field_has_schedule_in_range(
     end_time: datetime,
     status_filter: Optional[Sequence[str]] = None,
     exclude_schedule_id: Optional[int] = None,
+    exclude_statuses: Optional[Sequence[str]] = None,
 ) -> bool:
     """Return ``True`` when a field has schedules in the requested range."""
 
@@ -99,6 +100,15 @@ def field_has_schedule_in_range(
 
     if normalized_statuses:
         query = query.filter(func.lower(Schedule.status).in_(normalized_statuses))
+
+    normalized_excluded = [
+        status_value.strip().lower()
+        for status_value in (exclude_statuses or ())
+        if status_value and status_value.strip()
+    ]
+
+    if normalized_excluded:
+        query = query.filter(~func.lower(Schedule.status).in_(normalized_excluded))
 
     return query.first() is not None
 

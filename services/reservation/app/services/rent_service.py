@@ -389,6 +389,8 @@ class RentService:
             self._validate_payment(int(rent_data["id_payment"]))
 
         rent = rent_repository.create_rent(self.db, rent_data)
+        schedule.status = "reserved"
+        schedule_repository.save_schedule(self.db, schedule)
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
         if persisted_rent is not None:
             self._notify_rent_creation(persisted_rent)
