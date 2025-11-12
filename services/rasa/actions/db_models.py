@@ -24,8 +24,8 @@ class Chatbot(Base):
         DateTime(timezone=True), server_default=func.now(), nullable=False
     )
     ended_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
-    theme: Mapped[str] = mapped_column(String(100), nullable=False)
-    status: Mapped[str] = mapped_column(String(30), nullable=False, default="active")
+    theme: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(200), nullable=False, default="active")
     id_user: Mapped[int] = mapped_column(BigInteger, nullable=False)
 
     logs: Mapped[list["ChatbotLog"]] = relationship(
@@ -63,7 +63,7 @@ class RecommendationLog(Base):
     id_recommendation_log: Mapped[int] = mapped_column(
         Integer, primary_key=True, autoincrement=True
     )
-    status: Mapped[str] = mapped_column(String(50), nullable=False)
+    status: Mapped[str] = mapped_column(String(200), nullable=False)
     message: Mapped[str] = mapped_column(Text, nullable=False)
     suggested_time_start: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     suggested_time_end: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
@@ -86,7 +86,7 @@ class ChatbotLog(Base):
 
     id_chatbot_log: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     message: Mapped[str] = mapped_column(Text, nullable=False, default="")
-    response_type: Mapped[str] = mapped_column(String(50), nullable=False)
+    response_type: Mapped[str] = mapped_column(String(200), nullable=False)
     bot_response: Mapped[str] = mapped_column(Text, nullable=False, default="")
     intent_detected: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     sender_type: Mapped[str] = mapped_column(String(30), nullable=False)
@@ -179,9 +179,12 @@ class Campus(Base):
 
     id_campus: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
     district: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     address: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
-
+    rating: Mapped[float] = mapped_column(Numeric(3, 1), nullable=False)
+    opentime: Mapped[time] = mapped_column(Time, nullable=False)
+    closetime: Mapped[time] = mapped_column(Time, nullable=False)
     fields: Mapped[list[Field]] = relationship("Field", back_populates="campus")
 
 

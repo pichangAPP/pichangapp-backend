@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -20,6 +21,7 @@ class FieldRecommendation:
     price_per_hour: float
     open_time: str
     close_time: str
+    rating: Optional[float] = None
 
 
 __all__ = ["FieldRecommendation"]
