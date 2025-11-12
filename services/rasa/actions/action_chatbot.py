@@ -6,6 +6,7 @@ import asyncio
 import json
 import logging
 import re
+import unicodedata
 from datetime import datetime, timedelta, timezone, time as time_of_day
 from functools import partial
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
@@ -282,6 +283,346 @@ def _extract_entity_values(tracker: Tracker, entity_name: str) -> List[str]:
                 values.append(text)
     return values
 
+def _normalize_plain_text(text: Optional[str]) -> str:
+    if not text:
+        return ""
+    normalized = unicodedata.normalize("NFD", text)
+    normalized = normalized.encode("ascii", "ignore").decode("utf-8")
+    return normalized.lower()
+
+_DAY_KEYWORDS: Dict[str, int] = {
+    "hoy": 0,
+    "esta noche": 0,
+    "esta tarde": 0,
+    "manana": 1,
+    "mañana": 1,
+    "pasado manana": 2,
+    "fin de semana": 2,
+}
+
+_DAYPART_HINTS: Dict[str, str] = {
+    "madrugada": "06:00",
+    "temprano": "08:00",
+    "manana": "09:00",
+    "mañana": "09:00",
+    "medio dia": "12:00",
+    "mediodia": "12:00",
+    "tarde": "17:00",
+    "noche": "20:00",
+}
+
+def _clean_location(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return None
+    cleaned = re.sub(r"[^\w\s]", " ", value, flags=re.UNICODE)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return cleaned if cleaned else None
+
+def _infer_date_from_text(text: str) -> Optional[str]:
+    normalized = _normalize_plain_text(text)
+    if not normalized:
+        return None
+    base_date = datetime.now(timezone.utc).date()
+    for keyword, offset in _DAY_KEYWORDS.items():
+        if keyword in normalized:
+            return (base_date + timedelta(days=offset)).isoformat()
+    return None
+
+def _infer_time_from_text(text: str) -> Optional[str]:
+    normalized = _normalize_plain_text(text)
+    if not normalized:
+        return None
+    for keyword, time_hint in _DAYPART_HINTS.items():
+        if keyword in normalized:
+            return time_hint
+    return None
+
+def _guess_preferences_from_context(tracker: Tracker) -> Dict[str, Optional[str]]:
+    latest_message = tracker.latest_message or {}
+    metadata = _coerce_metadata(latest_message.get("metadata"))
+    message_text = latest_message.get("text") or ""
+
+    def _from_metadata(keys: Tuple[str, ...]) -> Optional[str]:
+        for key in keys:
+            value = metadata.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+        return None
+
+    preferences: Dict[str, Optional[str]] = {}
+    provided: Set[str] = set()
+    location_values = _extract_entity_values(tracker, "location")
+    location_source = None
+    location_value = tracker.get_slot("preferred_location")
+    if _is_noise_answer(location_value):
+        location_value = None
+    else:
+        location_source = "slot"
+    if not location_value and location_values:
+        candidate = location_values[0]
+        if not _is_noise_answer(candidate):
+            location_value = candidate
+            location_source = "entity"
+    if not location_value:
+        meta_location = _from_metadata(("location", "preferred_location", "district"))
+        if not _is_noise_answer(meta_location):
+            location_value = meta_location
+            location_source = "metadata"
+    clean_location = _clean_location(location_value) if location_value else None
+    if clean_location:
+        preferences["preferred_location"] = clean_location
+        if location_source in {"entity", "metadata"}:
+            provided.add("preferred_location")
+    sport_values = _extract_entity_values(tracker, "sport")
+    sport_source = None
+    sport_value = tracker.get_slot("preferred_sport")
+    if _is_noise_answer(sport_value):
+        sport_value = None
+    else:
+        sport_source = "slot"
+    if not sport_value and sport_values:
+        candidate = sport_values[0]
+        if not _is_noise_answer(candidate):
+            sport_value = candidate
+            sport_source = "entity"
+    if not sport_value:
+        meta_sport = _from_metadata(("sport", "preferred_sport"))
+        if not _is_noise_answer(meta_sport):
+            sport_value = meta_sport
+            sport_source = "metadata"
+    preferences["preferred_sport"] = sport_value
+    if sport_value and sport_source in {"entity", "metadata"}:
+        provided.add("preferred_sport")
+
+    surface_values = _extract_entity_values(tracker, "surface")
+    surface_source = None
+    surface_value = tracker.get_slot("preferred_surface")
+    if _is_noise_answer(surface_value):
+        surface_value = None
+    else:
+        surface_source = "slot"
+    if not surface_value and surface_values:
+        candidate = surface_values[0]
+        if not _is_noise_answer(candidate):
+            surface_value = candidate
+            surface_source = "entity"
+    if not surface_value:
+        meta_surface = _from_metadata(("surface", "preferred_surface"))
+        if not _is_noise_answer(meta_surface):
+            surface_value = meta_surface
+            surface_source = "metadata"
+    cleaned_surface = _clean_surface(surface_value) if surface_value else None
+    if cleaned_surface:
+        preferences["preferred_surface"] = cleaned_surface
+        if surface_source in {"entity", "metadata"}:
+            provided.add("preferred_surface")
+    date_values = _extract_entity_values(tracker, "date")
+    date_source = None
+    date_value = tracker.get_slot("preferred_date")
+    if _is_noise_answer(date_value):
+        date_value = None
+    else:
+        date_source = "slot"
+    if not date_value and date_values:
+        candidate = date_values[0]
+        if not _is_noise_answer(candidate):
+            date_value = candidate
+            date_source = "entity"
+    if not date_value:
+        meta_date = _from_metadata(("preferred_date", "date"))
+        if not _is_noise_answer(meta_date):
+            date_value = meta_date
+            date_source = "metadata"
+    inferred_date = date_value or _infer_date_from_text(message_text)
+    if inferred_date:
+        preferences["preferred_date"] = inferred_date
+        if date_source in {"entity", "metadata"}:
+            provided.add("preferred_date")
+    time_values = _extract_entity_values(tracker, "time")
+    time_source = None
+    time_value = tracker.get_slot("preferred_start_time")
+    if _is_noise_answer(time_value):
+        time_value = None
+    else:
+        time_source = "slot"
+    if not time_value and time_values:
+        candidate = time_values[0]
+        if not _is_noise_answer(candidate):
+            time_value = candidate
+            time_source = "entity"
+    if not time_value:
+        meta_time = _from_metadata(("preferred_start_time", "time"))
+        if not _is_noise_answer(meta_time):
+            time_value = meta_time
+            time_source = "metadata"
+    inferred_time = time_value or _infer_time_from_text(message_text)
+    if inferred_time:
+        preferences["preferred_start_time"] = inferred_time
+        if time_source in {"entity", "metadata"}:
+            provided.add("preferred_start_time")
+    preferences["preferred_end_time"] = (
+        tracker.get_slot("preferred_end_time")
+        or _from_metadata(("preferred_end_time",))
+    )
+    if not preferences["preferred_end_time"] and preferences["preferred_start_time"]:
+        components = _extract_time_components(preferences["preferred_start_time"])
+        if components:
+            hour, minute = components
+            end_dt = datetime.now(timezone.utc).replace(
+                hour=hour,
+                minute=minute,
+                second=0,
+                microsecond=0,
+            ) + timedelta(hours=1)
+            preferences["preferred_end_time"] = end_dt.strftime("%H:%M")
+
+    preferences["preferred_budget"] = (
+        tracker.get_slot("preferred_budget") or _from_metadata(("preferred_budget", "budget"))
+    )
+    if preferences.get("preferred_budget") and _from_metadata(("preferred_budget", "budget")):
+        provided.add("preferred_budget")
+    preferences["_provided"] = provided
+    return preferences
+
+def _build_preference_summary(preferences: Dict[str, Optional[str]]) -> Optional[str]:
+    fragments: List[str] = []
+    provided: Set[str] = preferences.get("_provided", set())  # type: ignore[arg-type]
+    location = preferences.get("preferred_location")
+    date_value = _format_short_date(preferences.get("preferred_date")) if "preferred_date" in provided else None
+    start_time = _format_short_time(preferences.get("preferred_start_time")) if "preferred_start_time" in provided else None
+    surface = _clean_surface(preferences.get("preferred_surface")) if "preferred_surface" in provided else None
+    sport = preferences.get("preferred_sport") if "preferred_sport" in provided else None
+
+    if location:
+        fragments.append(f"en {location}")
+    if date_value:
+        fragments.append(f"para {date_value}")
+    if start_time:
+        fragments.append(f"cerca de las {start_time}")
+    if surface:
+        fragments.append(f"en superficie {surface}")
+    if sport:
+        fragments.append(f"para {sport}")
+
+    if not fragments:
+        return None
+
+    message = "Perfecto, reviso opciones " + ", ".join(fragments) + "."
+    missing_slots = [
+        label
+        for key, label in [
+            ("preferred_date", "la fecha"),
+            ("preferred_start_time", "el horario"),
+            ("preferred_surface", "la superficie"),
+            ("preferred_sport", "el deporte"),
+        ]
+        if not preferences.get(key)
+    ]
+    if missing_slots:
+        message += " Si tienes detalles extra sobre " + " o ".join(missing_slots) + ", cuéntamelo."
+    return message
+
+def _format_short_date(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(value)
+        return parsed.strftime("%d/%m")
+    except ValueError:
+        digits = re.sub(r"\D", "", value)
+        if len(digits) in {6, 8}:
+            return f"{digits[-2:]}/{digits[-4:-2]}"
+        return None
+
+def _format_short_time(value: Optional[str]) -> Optional[str]:
+    if not value:
+        return None
+    components = _extract_time_components(value)
+    if components is None:
+        return None
+    hour, minute = components
+    return f"{hour:02d}:{minute:02d}"
+
+def _clean_surface(surface: Optional[str]) -> Optional[str]:
+    if not surface:
+        return None
+    normalized = surface.strip().lower()
+    allowed_keywords = {
+        "grass",
+        "grass natural",
+        "natural",
+        "sintetico",
+        "sintético",
+        "sintético premium",
+        "artificial",
+        "losa",
+        "pasto",
+        "pasto natural",
+        "pasto sintetico",
+        "pasto sintético",
+    }
+    if normalized in allowed_keywords:
+        return surface.strip()
+    if any(keyword in normalized for keyword in ("grass", "synthetic", "sintet", "artificial", "losa", "pasto")):
+        return surface.strip()
+    return None
+
+def _apply_default_preferences(preferences: Dict[str, Optional[str]], metadata: Dict[str, Any]) -> Dict[str, Optional[str]]:
+    now = datetime.now(timezone.utc)
+    if not preferences.get("preferred_date"):
+        preferences["preferred_date"] = now.date().isoformat()
+    if not preferences.get("preferred_start_time"):
+        rounded = now + timedelta(minutes=30)
+        preferences["preferred_start_time"] = rounded.strftime("%H:%M")
+    if not preferences.get("preferred_end_time") and preferences.get("preferred_start_time"):
+        components = _extract_time_components(preferences["preferred_start_time"])
+        if components:
+            hour, minute = components
+            end_dt = now.replace(hour=hour, minute=minute, second=0, microsecond=0) + timedelta(hours=1)
+            preferences["preferred_end_time"] = end_dt.strftime("%H:%M")
+    if not preferences.get("preferred_location"):
+        default_location = metadata.get("district") or metadata.get("location") or metadata.get("preferred_location")
+        if isinstance(default_location, str) and default_location.strip():
+            preferences["preferred_location"] = default_location.strip()
+    return preferences
+
+_NOISE_KEYWORDS = {
+    "ninguno",
+    "ninguna",
+    "ningun",
+    "nadie",
+    "cualquiera",
+    "lo que sea",
+    "como quieras",
+    "no importa",
+    "da igual",
+    "me da igual",
+    "no se",
+    "nose",
+    "adios",
+    "adiós",
+    "bye",
+    "salir",
+    "cancelar",
+    "ningún dato",
+    "ya fue",
+    "olvida",
+    "olvidalo",
+}
+
+def _is_noise_answer(value: Optional[str]) -> bool:
+    if value is None:
+        return True
+    normalized = _normalize_plain_text(value)
+    if not normalized:
+        return True
+    normalized = normalized.strip()
+    if not normalized:
+        return True
+    if normalized in _NOISE_KEYWORDS:
+        return True
+    return False
+
 _TIME_FORMATS: Tuple[str, ...] = (
     "%H:%M",
     "%H.%M",
@@ -401,6 +742,28 @@ def _detect_price_focus(text: Optional[str]) -> bool:
     return any(keyword in lowered for keyword in _PRICE_PRIORITY_KEYWORDS)
 
 
+_RATING_PRIORITY_KEYWORDS = (
+    "mejor valorad",
+    "mejores valorad",
+    "mejor calificada",
+    "mejores calificadas",
+    "mejor puntuada",
+    "mejores puntuadas",
+    "mejor reseña",
+    "mejores reseñas",
+    "rating",
+    "puntaje",
+    "top",
+)
+
+
+def _detect_rating_focus(text: Optional[str]) -> bool:
+    if not text:
+        return False
+    lowered = text.lower()
+    return any(keyword in lowered for keyword in _RATING_PRIORITY_KEYWORDS)
+
+
 def _budget_string_to_float(value: str) -> Optional[float]:
     normalized = value.replace(",", ".")
     try:
@@ -509,6 +872,7 @@ def _serialize_filter_payload(
     max_price: Optional[float],
     target_time: Optional[time_of_day],
     prioritize_price: bool,
+    prioritize_rating: bool,
 ) -> Dict[str, Any]:
     return {
         "sport": sport,
@@ -518,6 +882,7 @@ def _serialize_filter_payload(
         "max_price": max_price,
         "target_time": _time_to_string(target_time),
         "price_priority": prioritize_price,
+        "rating_priority": prioritize_rating,
     }
 
 
@@ -554,15 +919,17 @@ async def _fetch_recommendations_with_relaxation(
     max_price: Optional[float],
     target_time: Optional[time_of_day],
     prioritize_price: bool,
+    prioritize_rating: bool,
     limit: int,
 ) -> Tuple[List[FieldRecommendation], Dict[str, Any], List[str], str]:
     requests = [
         ("exact_match", set()),
         ("relaxed_budget", {"budget"}),
         ("relaxed_time", {"budget", "time"}),
-        ("relaxed_location", {"budget", "time", "location"}),
-        ("relaxed_surface", {"budget", "time", "location", "surface"}),
-        ("generic_popular", {"budget", "time", "location", "surface", "sport"}),
+        ("relaxed_surface", {"budget", "time", "surface"}),
+        ("location_focus", {"budget", "time", "surface", "sport"}),
+        ("relaxed_location", {"budget", "time", "surface", "sport", "location"}),
+        ("generic_popular", {"budget", "time", "surface", "sport", "location", "price_priority"}),
     ]
     for label, drops in requests:
         params_sport = None if "sport" in drops else sport
@@ -572,7 +939,8 @@ async def _fetch_recommendations_with_relaxation(
         params_max_price = None if "budget" in drops else max_price
         params_time = None if "time" in drops else target_time
         # Keep prioritizing price even if ranges were expanded so the user still gets opciones económicas.
-        params_prioritize_price = prioritize_price
+        params_prioritize_price = False if "price_priority" in drops else prioritize_price
+        params_prioritize_rating = prioritize_rating
         recommendations: List[FieldRecommendation] = await run_in_thread(
             chatbot_service.fetch_field_recommendations,
             sport=params_sport,
@@ -583,6 +951,7 @@ async def _fetch_recommendations_with_relaxation(
             max_price=params_max_price,
             target_time=params_time,
             prioritize_price=params_prioritize_price,
+            prioritize_rating=params_prioritize_rating,
         )
         if recommendations:
             applied_filters = _serialize_filter_payload(
@@ -593,6 +962,7 @@ async def _fetch_recommendations_with_relaxation(
                 max_price=params_max_price,
                 target_time=params_time,
                 prioritize_price=params_prioritize_price,
+                prioritize_rating=params_prioritize_rating,
             )
             notes = _describe_relaxations(
                 drops,
@@ -613,6 +983,7 @@ async def _fetch_recommendations_with_relaxation(
         max_price=max_price,
         target_time=target_time,
         prioritize_price=prioritize_price,
+        prioritize_rating=prioritize_rating,
     )
     return [], fallback_filters, [], "no_results"
 
@@ -931,15 +1302,53 @@ class ActionSubmitFieldRecommendationForm(Action):
             )
             return []
 
-        preferred_sport = tracker.get_slot("preferred_sport")
-        preferred_surface = tracker.get_slot("preferred_surface")
-        preferred_location = tracker.get_slot("preferred_location")
-        preferred_date = tracker.get_slot("preferred_date")
-        preferred_start_time = tracker.get_slot("preferred_start_time")
-        preferred_end_time = tracker.get_slot("preferred_end_time")
+        preferences = {
+            "preferred_sport": tracker.get_slot("preferred_sport"),
+            "preferred_surface": tracker.get_slot("preferred_surface"),
+            "preferred_location": tracker.get_slot("preferred_location"),
+            "preferred_date": tracker.get_slot("preferred_date"),
+            "preferred_start_time": tracker.get_slot("preferred_start_time"),
+            "preferred_end_time": tracker.get_slot("preferred_end_time"),
+            "preferred_budget": tracker.get_slot("preferred_budget"),
+        }
+        inferred_preferences = _guess_preferences_from_context(tracker)
+        inference_events: List[EventType] = []
+        inference_notes: List[str] = []
+        inference_templates = {
+            "preferred_location": "Asumí {value} como zona porque la mencionaste.",
+            "preferred_date": "Tomé {value} como fecha solicitada.",
+            "preferred_start_time": "Consideré {value} como horario estimado.",
+            "preferred_surface": "Usé la superficie {value} que describiste.",
+            "preferred_sport": "Entendí que buscas jugar {value}.",
+        }
+        for slot_name, template in inference_templates.items():
+            if not preferences.get(slot_name) and inferred_preferences.get(slot_name):
+                value = inferred_preferences[slot_name]
+                preferences[slot_name] = value
+                inference_events.append(SlotSet(slot_name, value))
+                inference_notes.append(template.format(value=value))
+        if not preferences.get("preferred_end_time") and inferred_preferences.get("preferred_end_time"):
+            preferences["preferred_end_time"] = inferred_preferences["preferred_end_time"]
+            inference_events.append(SlotSet("preferred_end_time", preferences["preferred_end_time"]))
+
+        preferences = _apply_default_preferences(preferences, latest_metadata)
+        for slot_name in ("preferred_date", "preferred_start_time", "preferred_end_time"):
+            if not tracker.get_slot(slot_name) and preferences.get(slot_name):
+                inference_events.append(SlotSet(slot_name, preferences[slot_name]))
+
+        preferred_sport = preferences["preferred_sport"]
+        preferred_surface = preferences["preferred_surface"]
+        preferred_location = preferences["preferred_location"]
+        preferred_date = preferences["preferred_date"]
+        preferred_start_time = preferences["preferred_start_time"]
+        preferred_end_time = preferences["preferred_end_time"]
         min_budget, max_budget, price_focus = _extract_budget_preferences(tracker)
         target_time = _coerce_time_value(preferred_start_time)
         prioritize_price = price_focus or min_budget is not None or max_budget is not None
+        rating_focus = _detect_rating_focus(user_message) or _detect_rating_focus(
+            latest_metadata.get("query") if isinstance(latest_metadata.get("query"), str) else None
+        )
+        prioritize_rating = rating_focus
 
         requested_filters = _serialize_filter_payload(
             sport=preferred_sport,
@@ -949,6 +1358,7 @@ class ActionSubmitFieldRecommendationForm(Action):
             max_price=max_budget,
             target_time=target_time,
             prioritize_price=prioritize_price,
+            prioritize_rating=prioritize_rating,
         )
 
         try:
@@ -965,6 +1375,7 @@ class ActionSubmitFieldRecommendationForm(Action):
                 max_price=max_budget,
                 target_time=target_time,
                 prioritize_price=prioritize_price,
+                prioritize_rating=prioritize_rating,
                 limit=3,
             )
         except DatabaseError:
@@ -983,24 +1394,55 @@ class ActionSubmitFieldRecommendationForm(Action):
             return [SlotSet("chatbot_session_id", str(session_id))]
 
         if not recommendations:
-            LOGGER.warning(
-                "[ActionSubmitFieldRecommendationForm] no recommendations found for session=%s user_id=%s",
-                session_id,
-                user_id,
-            )
-            not_found_text = (
-                "No encontré canchas disponibles ni ampliando la búsqueda. "
-                "¿Te gustaría que revise con otros horarios, zonas o deportes?"
-            )
-            dispatcher.utter_message(text=not_found_text)
-            await _record_intent_and_log(
-                tracker=tracker,
-                session_id=session_id,
-                user_id=user_id,
-                response_text=not_found_text,
-                response_type="recommendation_empty",
-            )
-            return [SlotSet("chatbot_session_id", str(session_id))]
+            try:
+                general_recommendations: List[FieldRecommendation] = await run_in_thread(
+                    chatbot_service.fetch_field_recommendations,
+                    sport=None,
+                    surface=None,
+                    location=None,
+                    limit=3,
+                    min_price=None,
+                    max_price=None,
+                    target_time=None,
+                    prioritize_price=prioritize_price,
+                    prioritize_rating=prioritize_rating,
+                )
+            except DatabaseError:
+                general_recommendations = []
+
+            if general_recommendations:
+                recommendations = general_recommendations
+                applied_filters = _serialize_filter_payload(
+                    sport=None,
+                    surface=None,
+                    location=None,
+                    min_price=None,
+                    max_price=None,
+                    target_time=None,
+                    prioritize_price=prioritize_price,
+                    prioritize_rating=prioritize_rating,
+                )
+                relaxation_notes.append("Mostré sugerencias generales para que no te quedes sin opciones.")
+                search_strategy = "global_backup"
+            else:
+                LOGGER.warning(
+                    "[ActionSubmitFieldRecommendationForm] no recommendations found for session=%s user_id=%s",
+                    session_id,
+                    user_id,
+                )
+                not_found_text = (
+                    "No encontré canchas disponibles ni ampliando la búsqueda. "
+                    "¿Te gustaría que revise con otros horarios, zonas o deportes?"
+                )
+                dispatcher.utter_message(text=not_found_text)
+                await _record_intent_and_log(
+                    tracker=tracker,
+                    session_id=session_id,
+                    user_id=user_id,
+                    response_text=not_found_text,
+                    response_type="recommendation_empty",
+                )
+                return [SlotSet("chatbot_session_id", str(session_id))]
 
         top_choice = recommendations[0]
         start_dt = _parse_datetime(preferred_date, preferred_start_time)
@@ -1013,18 +1455,32 @@ class ActionSubmitFieldRecommendationForm(Action):
 
         summary_lines: List[str] = []
         for idx, rec in enumerate(recommendations, start=1):
+            price_text = f"S/ {rec.price_per_hour:.2f}"
+            rating_text = ""
+            if rec.rating is not None:
+                rating_text = f" Calificación {rec.rating:.1f}/5."
+            hours_text = ""
+            open_short = rec.open_time[:5] if rec.open_time else ""
+            close_short = rec.close_time[:5] if rec.close_time else ""
+            if open_short and close_short:
+                hours_text = f" Horario {open_short}-{close_short}."
+            elif open_short:
+                hours_text = f" Abre desde {open_short}."
+            elif close_short:
+                hours_text = f" Cierra alrededor de {close_short}."
+            surface_label = rec.surface or "superficie mixta"
             if user_role == "admin":
                 line = (
-                    f"{idx}. {rec.field_name} en {rec.campus_name} ({rec.district}). "
-                    f"Disciplina: {rec.sport_name}. Superficie: {rec.surface}. "
-                    f"Capacidad: {rec.capacity} jugadores. Tarifa referencial S/ {rec.price_per_hour:.2f} por hora."
+                    f"- {rec.field_name} · {rec.campus_name} ({rec.district}) · "
+                    f"{rec.sport_name} / {surface_label} · capacidad {rec.capacity} · {price_text}/h."
                 )
             else:
                 line = (
-                    f"{idx}. {rec.field_name} en {rec.campus_name} ({rec.district}). "
-                    f"Ideal para tu partido de {rec.sport_name} en superficie {rec.surface}. "
-                    f"Tiene espacio para {rec.capacity} jugadores y la hora está alrededor de S/ {rec.price_per_hour:.2f}."
+                    f"- {rec.field_name} en {rec.campus_name} ({rec.district}). "
+                    f"{rec.sport_name} en {surface_label}, espacio para {rec.capacity} y tarifa aproximada {price_text}."
                 )
+            if rating_text or hours_text:
+                line = f"{line}{rating_text}{hours_text}"
             summary_lines.append(line)
 
         if user_role == "admin":
@@ -1049,14 +1505,23 @@ class ActionSubmitFieldRecommendationForm(Action):
             filter_fragments.append(budget_phrase)
         elif prioritize_price:
             filter_fragments.append("las opciones más económicas disponibles")
+        if applied_filters.get("rating_priority"):
+            filter_fragments.append("las mejor valoradas disponibles")
         filters_sentence = ""
         if filter_fragments:
             filters_sentence = " Consideré " + ", ".join(filter_fragments) + "."
         notes_sentence = ""
         if relaxation_notes:
             notes_sentence = " " + " ".join(relaxation_notes)
+        inference_sentence = ""
+        if inference_notes:
+            inference_sentence = " " + " ".join(inference_notes)
 
-        response_text = f"{intro}{filters_sentence}{notes_sentence}\n" + "\n".join(summary_lines) + f"\n{closing}"
+        response_text = (
+            f"{intro}{filters_sentence}{notes_sentence}{inference_sentence}\n"
+            + "\n".join(summary_lines)
+            + f"\n{closing}"
+        )
         recommendation_id, recommendation_ids = await _persist_recommendation_logs(
             user_id=user_id,
             recommendations=recommendations,
@@ -1070,18 +1535,37 @@ class ActionSubmitFieldRecommendationForm(Action):
         confidence = intent_data.get("confidence")
         source_model = latest_metadata.get("model") or latest_metadata.get("pipeline")
 
+        recommendation_payload = [
+            {
+                "id_field": rec.id_field,
+                "field_name": rec.field_name,
+                "campus_name": rec.campus_name,
+                "district": rec.district,
+                "address": rec.address,
+                "surface": rec.surface,
+                "capacity": rec.capacity,
+                "price_per_hour": rec.price_per_hour,
+                "open_time": rec.open_time,
+                "close_time": rec.close_time,
+                "rating": rec.rating,
+                "summary": summary,
+            }
+            for rec, summary in zip(recommendations, summary_lines)
+        ]
+
         analytics_payload: Dict[str, Any] = {
             "response_type": "recommendation",
             "suggested_start": start_dt.isoformat(),
             "suggested_end": end_dt.isoformat(),
             "recommended_field_id": top_choice.id_field,
-            "candidate_recommendations": [rec.field_name for rec in recommendations],
+            "candidate_recommendations": recommendation_payload,
             "filters": {
                 "requested": requested_filters,
                 "applied": applied_filters,
             },
             "filter_summary": filter_fragments,
             "relaxation_notes": relaxation_notes,
+            "inference_notes": inference_notes,
             "search_strategy": search_strategy,
             "recommendation_id": recommendation_id,
             "recommendation_ids": recommendation_ids,
@@ -1097,8 +1581,15 @@ class ActionSubmitFieldRecommendationForm(Action):
             "response_template": response_text,
         }
 
-        response_metadata = {"analytics": analytics_payload}
-        dispatcher.utter_message(text=response_text, metadata=response_metadata)
+        response_metadata = {
+            "analytics": analytics_payload,
+            "fields": recommendation_payload,
+        }
+        dispatcher.utter_message(
+            text=response_text,
+            metadata=response_metadata,
+            json_message={"fields": recommendation_payload},
+        )
         await _record_intent_and_log(
             tracker=tracker,
             session_id=session_id,
@@ -1109,7 +1600,7 @@ class ActionSubmitFieldRecommendationForm(Action):
             message_metadata=response_metadata,
         )
 
-        events: List[EventType] = [
+        events: List[EventType] = inference_events + [
             SlotSet("chatbot_session_id", str(session_id)),
             SlotSet("preferred_end_time", preferred_end_time or end_dt.isoformat()),
         ]
@@ -1242,7 +1733,10 @@ class ActionProvideAdminManagementTips(Action):
                 "max_budget": max_budget,
             },
         }
-        response_metadata = {"analytics": analytics_payload}
+        response_metadata = {
+            "analytics": analytics_payload,
+            "recommendations": [],
+        }
         dispatcher.utter_message(text=response_text, metadata=response_metadata)
 
         await _record_intent_and_log(
@@ -1306,16 +1800,44 @@ class ActionLogFieldRecommendationRequest(Action):
     ) -> List[EventType]:
         session_id = tracker.get_slot("chatbot_session_id")
         user_id = tracker.get_slot("user_id")
-        response_text = "Iniciando formulario de recomendación."
+
+        reset_slots = [
+            "preferred_sport",
+            "preferred_surface",
+            "preferred_location",
+            "preferred_date",
+            "preferred_start_time",
+            "preferred_end_time",
+            "preferred_budget",
+        ]
+        reset_events: List[EventType] = [SlotSet(slot_name, None) for slot_name in reset_slots]
+
+        inferred_preferences = _guess_preferences_from_context(tracker)
+        inferred_preferences = _apply_default_preferences(
+            inferred_preferences,
+            _coerce_metadata(tracker.latest_message.get("metadata")),
+        )
+
+        slot_events: List[EventType] = []
+        for slot_name, value in inferred_preferences.items():
+            if slot_name.startswith("preferred_") and value:
+                slot_events.append(SlotSet(slot_name, value))
+
+        summary_text = _build_preference_summary(inferred_preferences)
+        response_text = summary_text or "Perfecto, dime los detalles y voy filtrando opciones para ti."
+        dispatcher.utter_message(text=response_text)
+
         await _record_intent_and_log(
             tracker=tracker,
             session_id=session_id,
             user_id=user_id,
             response_text=response_text,
             response_type="recommendation_request_log",
-            message_metadata={"stage": "form_start"},
+            message_metadata={"stage": "form_start", "preferences": inferred_preferences},
         )
-        return []
+        return reset_events + slot_events
+
+
 
 
 class ActionShowRecommendationHistory(Action):

@@ -333,9 +333,10 @@ class ChatbotAnalyticsService:
         max_price: Optional[float] = None,
         target_time: Optional[time_of_day] = None,
         prioritize_price: bool = False,
+        prioritize_rating: bool = False,
     ) -> List[FieldRecommendation]:
         LOGGER.debug(
-            "[ChatbotAnalyticsService] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s min_price=%s max_price=%s target_time=%s price_first=%s",
+            "[ChatbotAnalyticsService] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s min_price=%s max_price=%s target_time=%s price_first=%s rating_first=%s",
             sport,
             surface,
             location,
@@ -344,6 +345,7 @@ class ChatbotAnalyticsService:
             max_price,
             target_time,
             prioritize_price,
+            prioritize_rating,
         )
         def _operation() -> List[FieldRecommendation]:
             with get_session() as session:
@@ -357,6 +359,7 @@ class ChatbotAnalyticsService:
                     max_price=max_price,
                     target_time=target_time,
                     prioritize_price=prioritize_price,
+                    prioritize_rating=prioritize_rating,
                 )
 
         return self._execute_with_retries(

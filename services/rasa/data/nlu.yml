@@ -53,6 +53,26 @@ nlu:
       - No sé cómo funciona esto pero requiero un campo libre esta noche.
       - ¿Puedes buscar algo para mi equipo? Estamos listos y solo queremos un lugar.
       - Soy nuevo aquí, dime dónde puedo ir a jugar ahora mismo.
+      - Necesito cancha disponible en [Chorrillos](location) mañana por la [tarde](time).
+      - ¿Qué opciones top tienes en [San Isidro](location) este [viernes](date) a las [19:30](time)?
+      - Consígueme una sede techada cerca de [Callao](location) que cierre tarde.
+      - Tenemos un partido express esta noche en [La Molina](location), recomiéndame algo.
+      - Muéstrame canchas con vestuarios en [San Borja](location) a primera hora del [sábado](date).
+      - Dame tus mejores sugerencias en [Ate](location) para un grupo de 10 a las [21:00](time).
+      - Estamos libres solo “después de las [15:00](time)”, ¿qué hay en [Breña](location)?
+      - Quiero algo económico en [Miraflores](location) pero con buena calificación.
+      - Prioriza canchas cerca al tren en [Villa María del Triunfo](location) para este [domingo](date).
+      - Busco un campo con iluminación premium sobre las [22:00](time) en [Los Olivos](location).
+      - Recomiéndame algo en [Chorrillos](location) con césped sintético.
+      - Quiero las mejor valoradas en [Miraflores](location), ¿cuáles son?
+      - Busco cancha techada en [Los Olivos](location) abierta hasta tarde.
+      - Dime dónde jugar en [San Miguel](location) con horario de [20:00](time).
+      - ¿Qué campos tienen rating alto cerca de [Barranco](location)?
+      - Necesito cancha en [Comas](location) para después de las [17:00](time).
+      - Enséñame opciones con reseñas top en [San Isidro](location).
+      - Prioriza canchas con buena calificación aunque no sean baratas.
+      - Muéstrame opciones con horario amplio entre [18:00](time) y [22:00](time).
+      - Quiero ver sedes con mejores reseñas y estacionamiento en [La Molina](location).
       - ¿Qué canchas 11 vs 11 tienes en [Ate](location) para el [sábado](date) en la noche?
       - Recomiéndame un sintético barato cerca de [Independencia](location) para las [23:00](time).
       - Me alcanza solo hasta [S/50](budget), ¿dónde puedo jugar mañana?

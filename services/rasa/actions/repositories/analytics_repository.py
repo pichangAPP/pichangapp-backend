@@ -4,11 +4,12 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from datetime import datetime, timezone, time as time_of_day
 from decimal import Decimal
 from typing import Any, Dict, List, Optional
 
-from sqlalchemy import or_, select
+from sqlalchemy import case, func, or_, select, literal
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
@@ -43,6 +44,11 @@ def _format_time(value: Optional[datetime | Any]) -> str:
         return value.strftime("%H:%M:%S")
     except AttributeError:
         return str(value)
+
+def _clean_location_string(value: str) -> str:
+    cleaned = re.sub(r"[^\w\s]", " ", value, flags=re.UNICODE)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return cleaned
 
 
 class ChatSessionRepository:
@@ -345,9 +351,10 @@ class RecommendationRepository:
         max_price: Optional[float],
         target_time: Optional[time_of_day],
         prioritize_price: bool,
+        prioritize_rating: bool,
     ) -> List[FieldRecommendation]:
         LOGGER.debug(
-            "[RecommendationRepository] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s min_price=%s max_price=%s target_time=%s prioritize_price=%s",
+            "[RecommendationRepository] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s min_price=%s max_price=%s target_time=%s prioritize_price=%s prioritize_rating=%s",
             sport,
             surface,
             location,
@@ -356,7 +363,9 @@ class RecommendationRepository:
             max_price,
             target_time,
             prioritize_price,
+            prioritize_rating,
         )
+        campus_has_rating = hasattr(Campus, "rating")
         try:
             stmt = (
                 select(
@@ -371,6 +380,7 @@ class RecommendationRepository:
                     Campus.name.label("campus_name"),
                     Campus.district,
                     Campus.address,
+                    *( [Campus.rating] if campus_has_rating else [] ),
                 )
                 .join(Sport, Field.id_sport == Sport.id_sport)
                 .join(Campus, Field.id_campus == Campus.id_campus)
@@ -379,13 +389,27 @@ class RecommendationRepository:
                 stmt = stmt.where(Sport.sport_name.ilike(f"%{sport}%"))
             if surface:
                 stmt = stmt.where(Field.surface.ilike(f"%{surface}%"))
+            location_priority = None
             if location:
-                pattern = f"%{location}%"
-                stmt = stmt.where(
-                    (Campus.district.ilike(pattern))
-                    | (Campus.address.ilike(pattern))
-                    | (Campus.name.ilike(pattern))
-                )
+                stripped = _clean_location_string(location)
+                if stripped:
+                    lowered = stripped.lower()
+                    pattern = f"%{lowered}%"
+                    trimmed_district = func.lower(func.trim(func.coalesce(Campus.district, literal(""))))
+                    trimmed_name = func.lower(func.trim(func.coalesce(Campus.name, literal(""))))
+                    trimmed_address = func.lower(func.trim(func.coalesce(Campus.address, literal(""))))
+                    district_exact = trimmed_district == lowered
+                    district_partial = trimmed_district.like(pattern)
+                    name_match = trimmed_name.like(pattern)
+                    address_match = trimmed_address.like(pattern)
+                    stmt = stmt.where(district_partial | name_match | address_match)
+                    location_priority = case(
+                        (district_exact, 0),
+                        (district_partial, 1),
+                        (name_match, 2),
+                        (address_match, 3),
+                        else_=4,
+                    )
             if min_price is not None:
                 stmt = stmt.where(Field.price_per_hour >= min_price)
             if max_price is not None:
@@ -396,10 +420,15 @@ class RecommendationRepository:
                 ).where(
                     or_(Field.close_time.is_(None), Field.close_time >= target_time)
                 )
+            order_columns: List[Any] = []
+            if location_priority is not None:
+                order_columns.append(location_priority.asc())
+            if prioritize_rating and campus_has_rating:
+                order_columns.append(Campus.rating.desc().nullslast())
             if prioritize_price:
-                order_columns = (Field.price_per_hour.asc(), Field.capacity.desc())
-            else:
-                order_columns = (Field.capacity.desc(), Field.price_per_hour.asc())
+                order_columns.append(Field.price_per_hour.asc())
+            if not order_columns:
+                order_columns = [Field.capacity.desc(), Field.price_per_hour.asc()]
             stmt = stmt.order_by(*order_columns).limit(limit)
             rows = self._db.execute(stmt).all()
         except SQLAlchemyError as exc:
@@ -407,19 +436,21 @@ class RecommendationRepository:
 
         recommendations: List[FieldRecommendation] = []
         for row in rows:
+            row_dict = row._mapping if hasattr(row, "_mapping") else row
             recommendations.append(
                 FieldRecommendation(
-                    id_field=int(row.id_field),
-                    field_name=row.field_name,
-                    sport_name=row.sport_name,
-                    campus_name=row.campus_name,
-                    district=row.district or "",
-                    address=row.address or "",
-                    surface=row.surface or "",
-                    capacity=int(row.capacity) if row.capacity is not None else 0,
-                    price_per_hour=_normalize_decimal(row.price_per_hour) or 0.0,
-                    open_time=_format_time(row.open_time),
-                    close_time=_format_time(row.close_time),
+                    id_field=int(row_dict["id_field"]),
+                    field_name=row_dict["field_name"],
+                    sport_name=row_dict["sport_name"],
+                    campus_name=row_dict["campus_name"],
+                    district=row_dict.get("district") or "",
+                    address=row_dict.get("address") or "",
+                    surface=row_dict.get("surface") or "",
+                    capacity=int(row_dict["capacity"]) if row_dict.get("capacity") is not None else 0,
+                    price_per_hour=_normalize_decimal(row_dict.get("price_per_hour")) or 0.0,
+                    open_time=_format_time(row_dict.get("open_time")),
+                    close_time=_format_time(row_dict.get("close_time")),
+                    rating=_normalize_decimal(row_dict.get("rating")) if campus_has_rating else None,
                 )
             )
         return recommendations

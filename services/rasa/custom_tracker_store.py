@@ -1,4 +1,4 @@
-"""Custom tracker store with resilient Postgres connectivity and analytics mirroring."""
+"""Async-friendly tracker store that mirrors events into analytics."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import logging
 import time
 from contextlib import contextmanager
 from datetime import datetime
-from typing import Any, Dict, Generator, Optional
+from typing import Any, Dict, Optional
 
 from rasa.core.tracker_store import SQLTrackerStore
 from rasa.shared.core.events import BotUttered, SessionStarted, UserUttered
@@ -36,15 +36,15 @@ def _coerce_int(value: Any) -> Optional[int]:
 
 
 class ResilientSQLTrackerStore(SQLTrackerStore):
-    """SQL tracker store that retries transient errors and mirrors chats into analytics."""
+    """Extends the default SQL tracker store with analytics mirroring."""
 
     def __init__(
         self,
         domain,
         event_broker=None,
+        engine_kwargs: Optional[Dict[str, Any]] = None,
         max_retries: int = 3,
         retry_delay: float = 1.0,
-        engine_kwargs: Optional[Dict[str, Any]] = None,
         **kwargs: Any,
     ) -> None:
         prepared_kwargs = dict(engine_kwargs or {})
@@ -55,15 +55,15 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
         connect_args.setdefault("keepalives_count", 5)
         prepared_kwargs["connect_args"] = connect_args
         prepared_kwargs.setdefault("pool_pre_ping", True)
-        prepared_kwargs.setdefault("pool_recycle", 900)
+        prepared_kwargs.setdefault("pool_recycle", 600)
         prepared_kwargs.setdefault("pool_timeout", 30)
         prepared_kwargs.setdefault("pool_size", 5)
         prepared_kwargs.setdefault("max_overflow", 5)
 
-        self._max_retries = max(1, int(max_retries))
-        self._retry_delay = max(0.1, float(retry_delay))
         self._last_event_index: Dict[str, int] = {}
         self._pending_user_events: Dict[str, Dict[str, Any]] = {}
+        self._max_retries = max(1, int(max_retries))
+        self._retry_delay = max(0.1, float(retry_delay))
 
         super().__init__(
             domain,
@@ -77,11 +77,11 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
         if engine is not None:
             try:
                 engine.dispose()
-            except Exception:  #best effort cleanup
+            except Exception:
                 LOGGER.debug("Failed disposing tracker store engine", exc_info=True)
 
     @contextmanager
-    def session_scope(self) -> Generator[Any, None, None]:
+    def session_scope(self):
         attempt = 1
         while True:
             try:
@@ -113,7 +113,9 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
 
         if loop and loop.is_running():
             await loop.run_in_executor(
-                None, self._mirror_events_into_analytics, tracker
+                None,
+                self._mirror_events_into_analytics,
+                tracker,
             )
         else:
             self._mirror_events_into_analytics(tracker)
@@ -134,8 +136,6 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
         theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
         role = tracker.get_slot("user_role") or "player"
 
-        # Ensure we have a session in analytics just in case the slot was hydrated
-        # from a stale tracker without persisting the row.
         try:
             chatbot_service.ensure_chat_session(user_id, theme, role)
         except DatabaseError:
@@ -167,7 +167,6 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
         self, sender_id: str, event: UserUttered, session_id: int, user_id: int
     ) -> None:
         if sender_id in self._pending_user_events:
-            # Persist the previous message without a bot response to avoid data loss.
             pending = self._pending_user_events.pop(sender_id)
             self._persist_exchange(
                 sender_id,
@@ -214,177 +213,39 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
         if pending_user is None:
             pending_user = self._pending_user_events.pop(sender_id, None)
         else:
-            # Ensure we remove the payload if it matches the in-memory cache
             cached = self._pending_user_events.get(sender_id)
             if cached is pending_user:
                 self._pending_user_events.pop(sender_id, None)
 
-        if session_id is None and pending_user:
-            session_id = _coerce_int(pending_user.get("session_id"))
-        if user_id is None and pending_user:
-            user_id = _coerce_int(pending_user.get("user_id"))
-
-        if session_id is None or user_id is None:
-            # Try to derive the identifiers from cached payload when called
-            # from the pending-user flush path.
-            if tracker is not None:
-                session_id = _coerce_int(tracker.get_slot("chatbot_session_id"))
-                user_id = _coerce_int(tracker.get_slot("user_id"))
-            if session_id is None or user_id is None:
-                return
-
-        if bot_event is not None:
-            metadata = dict(getattr(bot_event, "metadata", {}) or {})
-        else:
-            metadata = {}
-
-        analytics_meta = metadata.get("analytics")
-        skip_logging = False
-        if isinstance(analytics_meta, dict):
-            metadata_to_store = dict(analytics_meta)
-            skip_logging = bool(analytics_meta.get("skip") or analytics_meta.get("logged_by_action"))
-        else:
-            metadata_to_store = {}
-        if skip_logging:
+        if not pending_user and not bot_event:
             return
 
-        message_text = ""
-        intent_name: Optional[str] = None
-        confidence: Optional[float] = None
-        source_model: Optional[str] = None
-        intent_examples = []
-        intent_detected_name: Optional[str] = None
+        message_text = pending_user["text"] if pending_user else ""
+        intent_name = pending_user.get("intent_name") if pending_user else None
+        confidence = pending_user.get("confidence") if pending_user else None
+        metadata = pending_user.get("metadata") if pending_user else {}
 
-        if pending_user:
-            message_text = pending_user.get("text") or ""
-            intent_name = pending_user.get("intent_name")
-            intent_detected_name = intent_name
-            confidence = pending_user.get("confidence")
-            source_model = pending_user.get("source_model")
-            metadata_to_store.setdefault("user_event_metadata", pending_user.get("metadata"))
-            if pending_user.get("intent_ranking"):
-                metadata_to_store.setdefault(
-                    "intent_ranking", pending_user.get("intent_ranking")
-                )
-            if pending_user.get("input_channel"):
-                metadata_to_store.setdefault(
-                    "input_channel", pending_user.get("input_channel")
-                )
-            intent_examples = [message_text] if message_text else []
-
-        response_text = ""
-        response_template_text: Optional[str] = None
-        response_type = "user_message"
-        recommendation_id: Optional[int] = None
-
-        if bot_event is not None:
-            response_text = getattr(bot_event, "text", "") or ""
-            metadata_to_store.setdefault("bot_event_metadata", metadata)
-            analytics_section = metadata.get("analytics")
-            if isinstance(analytics_section, dict):
-                recommendation_id = analytics_section.get("recommendation_id")
-                response_type = (
-                    analytics_section.get("response_type") or "bot_response"
-                )
-                if analytics_section.get("intent_name") and not intent_name:
-                    intent_name = analytics_section.get("intent_name")
-                    intent_detected_name = intent_name
-                if analytics_section.get("intent_confidence") and confidence is None:
-                    confidence = analytics_section.get("intent_confidence")
-                if analytics_section.get("source_model") and not source_model:
-                    source_model = analytics_section.get("source_model")
-                if analytics_section.get("user_message") and not message_text:
-                    message_text = analytics_section.get("user_message")
-                if analytics_section.get("intent_examples"):
-                    intent_examples.extend(analytics_section.get("intent_examples"))
-                response_template_text = analytics_section.get("response_template")
-            else:
-                response_type = metadata.get("utter_action") or "bot_response"
-                response_template_text = response_text or response_type
-        else:
-            response_template_text = message_text or intent_name
-
-        metadata_to_store.setdefault("tracker_sender_id", sender_id)
-        event_timestamp_value: Optional[float] = None
-        if bot_event is not None:
-            raw_timestamp = getattr(bot_event, "timestamp", None)
-            if raw_timestamp is not None:
-                event_timestamp_value = float(raw_timestamp)
-        if event_timestamp_value is None and pending_user:
-            pending_ts = pending_user.get("timestamp")
-            if pending_ts is not None:
-                event_timestamp_value = float(pending_ts)
-        if event_timestamp_value is None:
-            event_timestamp_value = float(time.time())
-
-        metadata_to_store.setdefault(
-            "event_timestamp",
-            datetime.utcfromtimestamp(event_timestamp_value).isoformat(),
-        )
-        if pending_user and pending_user.get("timestamp") is not None:
-            metadata_to_store.setdefault(
-                "user_event_timestamp",
-                datetime.utcfromtimestamp(pending_user["timestamp"]).isoformat(),
-            )
-
-        metadata_to_store = {
-            key: value
-            for key, value in metadata_to_store.items()
-            if value is not None
-        }
-
-        if not intent_examples and intent_name:
-            intent_examples = [intent_name]
-
-        intent_id: Optional[int] = None
-        if intent_name:
-            try:
-                intent_id = chatbot_service.ensure_intent(
-                    intent_name=intent_name,
-                    example_phrases=[phrase for phrase in intent_examples if phrase],
-                    response_template=
-                    response_template_text
-                    if response_template_text
-                    else response_text
-                    or intent_name,
-                    confidence=confidence,
-                    detected=bool(response_text or message_text),
-                    false_positive=False,
-                    source_model=source_model,
-                )
-            except DatabaseError:
-                LOGGER.exception(
-                    "[TrackerStore] Failed ensuring intent=%s for sender_id=%s",
-                    intent_name,
-                    sender_id,
-                )
-
-        if intent_detected_name and not metadata_to_store.get("intent_name"):
-            metadata_to_store["intent_name"] = intent_detected_name
-        if confidence is not None and "intent_confidence" not in metadata_to_store:
-            metadata_to_store["intent_confidence"] = confidence
-        if intent_id is not None and "intent_id" not in metadata_to_store:
-            metadata_to_store["intent_id"] = intent_id
+        bot_response = ""
+        response_type = "user"
+        if bot_event:
+            bot_response = bot_event.text or ""
+            response_type = bot_event.metadata.get("response_type", "bot") if bot_event.metadata else "bot"
 
         try:
             chatbot_service.log_chatbot_message(
-                session_id=session_id,
-                intent_id=intent_id,
-                recommendation_id=recommendation_id,
+                session_id=session_id or 0,
+                intent_id=None,
+                recommendation_id=None,
                 message_text=message_text,
-                bot_response=response_text,
+                bot_response=bot_response,
                 response_type=response_type,
-                sender_type="user" if pending_user else "bot",
+                sender_type="user" if bot_event is None else "bot",
                 user_id=user_id,
                 intent_confidence=confidence,
-                metadata=metadata_to_store,
+                metadata={**metadata, "intent_name": intent_name},
             )
         except DatabaseError:
             LOGGER.exception(
-                "[TrackerStore] Failed logging exchange for sender_id=%s session_id=%s",
+                "[TrackerStore] Failed to mirror exchange for sender_id=%s",
                 sender_id,
-                session_id,
             )
-
-
-__all__ = ["ResilientSQLTrackerStore"]
