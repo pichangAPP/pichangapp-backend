@@ -29,6 +29,7 @@ from app.schemas.analytics import (
 )
 
 DEFAULT_DAY_WINDOW = 30
+LOCAL_TIMEZONE = timezone(timedelta(hours=-5))
 
 
 def _ensure_timezone(value: datetime) -> datetime:
@@ -65,7 +66,7 @@ class AnalyticsService:
         end_date: Optional[date],
         status: Optional[str],
     ) -> RevenueSummaryResponse:
-        today = datetime.now(timezone.utc).date()
+        today = datetime.now(LOCAL_TIMEZONE).date()
         if end_date is None:
             end_date = today
         if start_date is None:
@@ -76,8 +77,8 @@ class AnalyticsService:
                 detail="start_date must be on or before end_date",
             )
 
-        start_at = datetime.combine(start_date, time.min, tzinfo=timezone.utc)
-        end_at = datetime.combine(end_date + timedelta(days=1), time.min, tzinfo=timezone.utc)
+        start_at = datetime.combine(start_date, time.min, tzinfo=LOCAL_TIMEZONE)
+        end_at = datetime.combine(end_date + timedelta(days=1), time.min, tzinfo=LOCAL_TIMEZONE)
 
         try:
             summary_data = fetch_revenue_summary(
@@ -102,22 +103,18 @@ class AnalyticsService:
     def get_campus_revenue_metrics(self, campus_id: int) -> CampusRevenueMetricsResponse:
         """Return detailed revenue metrics for the specified campus."""
 
-        now = datetime.now(timezone.utc)
+        now = datetime.now(LOCAL_TIMEZONE)
         today = now.date()
-        start_of_today = datetime.combine(today, time.min, tzinfo=timezone.utc)
+        start_of_today = datetime.combine(today, time.min, tzinfo=LOCAL_TIMEZONE)
         start_of_tomorrow = start_of_today + timedelta(days=1)
 
         week_start_date = today - timedelta(days=today.weekday())
-        week_start = datetime.combine(week_start_date, time.min, tzinfo=timezone.utc)
+        week_start = datetime.combine(week_start_date, time.min, tzinfo=LOCAL_TIMEZONE)
         week_end = week_start + timedelta(days=7)
 
-        month_start_date = today.replace(day=1)
-        if month_start_date.month == 12:
-            month_end_date = date(month_start_date.year + 1, 1, 1)
-        else:
-            month_end_date = date(month_start_date.year, month_start_date.month + 1, 1)
-        month_start = datetime.combine(month_start_date, time.min, tzinfo=timezone.utc)
-        month_end = datetime.combine(month_end_date, time.min, tzinfo=timezone.utc)
+        month_start = datetime(2025, 11, 1, 0, 0, tzinfo=LOCAL_TIMEZONE)
+        month_start_date = month_start.date()
+        month_end = _calculate_period_end(month_start, "month")
 
         seven_day_start = start_of_today - timedelta(days=6)
         seven_day_end = start_of_tomorrow
