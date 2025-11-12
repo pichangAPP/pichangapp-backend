@@ -15,6 +15,7 @@ from app.repository import (
     fetch_campus_daily_rent_traffic,
     fetch_campus_income_total,
     fetch_campus_overview,
+    fetch_campus_top_clients,
     fetch_revenue_summary,
 )
 from app.schemas.analytics import (
@@ -26,6 +27,8 @@ from app.schemas.analytics import (
     RevenueEntry,
     RentTrafficPoint,
     RevenueSummaryResponse,
+    CampusFrequentClientsResponse,
+    FrequentClient,
 )
 
 DEFAULT_DAY_WINDOW = 30
@@ -217,6 +220,53 @@ class AnalyticsService:
             fields=fields,
         )
 
+    def get_campus_frequent_clients(
+        self,
+        campus_id: int,
+        limit: int,
+    ) -> CampusFrequentClientsResponse:
+        """Return the most frequent clients for the specified campus."""
+
+        if limit < 1 or limit > 100:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="limit must be between 1 and 100",
+            )
+
+        try:
+            campus_overview = fetch_campus_overview(self._db, campus_id=campus_id)
+        except AnalyticsRepositoryError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Unable to obtain campus information",
+            ) from exc
+
+        if campus_overview is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Campus not found",
+            )
+
+        try:
+            client_rows = fetch_campus_top_clients(
+                self._db,
+                campus_id=campus_id,
+                limit=limit,
+            )
+        except AnalyticsRepositoryError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Unable to compute frequent clients",
+            ) from exc
+
+        frequent_clients = self._build_frequent_clients(client_rows)
+
+        return CampusFrequentClientsResponse(
+            campus_id=campus_overview["campus_id"],
+            campus_name=campus_overview["campus_name"],
+            frequent_clients=frequent_clients,
+        )
+
     def _build_campus_summaries(
         self,
         summary_data: Dict[str, List[dict]],
@@ -272,6 +322,37 @@ class AnalyticsService:
             series.append(IncomePoint(record_date=current_day, total_amount=amount))
             current_day += timedelta(days=1)
         return series
+
+    def _build_frequent_clients(
+        self,
+        rows: List[Dict[str, object]],
+    ) -> List[FrequentClient]:
+        clients: List[FrequentClient] = []
+        for row in rows:
+            clients.append(
+                FrequentClient(
+                    name=self._format_client_full_name(row.get("name"), row.get("lastname")),
+                    email=row["email"],
+                    phone=row["phone"],
+                    image_url=row.get("image_url"),
+                    city=row.get("city"),
+                    district=row.get("district"),
+                    rent_count=int(row["rent_count"]),
+                )
+            )
+        return clients
+
+    @staticmethod
+    def _format_client_full_name(
+        first_name: Optional[str],
+        last_name: Optional[str],
+    ) -> str:
+        parts = []
+        if first_name:
+            parts.append(first_name.strip())
+        if last_name:
+            parts.append(last_name.strip())
+        return " ".join(parts) if parts else ""
 
     def _build_daily_traffic_series(
         self,

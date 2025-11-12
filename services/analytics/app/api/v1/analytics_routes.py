@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
 from app.schemas.analytics import (
+    CampusFrequentClientsResponse,
     CampusRevenueMetricsResponse,
     RevenueSummaryResponse,
 )
@@ -46,7 +47,7 @@ def get_revenue_summary(
         start_date=start_date,
         end_date=end_date,
         status=status,
-    )
+)
 
 
 @router.get(
@@ -61,6 +62,26 @@ def get_campus_revenue_metrics(
 
     service = AnalyticsService(db)
     return service.get_campus_revenue_metrics(campus_id=campus_id)
+
+
+@router.get(
+    "/campuses/{campus_id}/top-clients",
+    response_model=CampusFrequentClientsResponse,
+)
+def get_campus_frequent_clients(
+    campus_id: int,
+    limit: int = Query(
+        10,
+        ge=1,
+        le=100,
+        description="Maximum number of clients to return.",
+    ),
+    db: Session = Depends(get_db),
+) -> CampusFrequentClientsResponse:
+    """Return the most recurrent clients associated with the campus."""
+
+    service = AnalyticsService(db)
+    return service.get_campus_frequent_clients(campus_id=campus_id, limit=limit)
 
 
 __all__ = ["router"]
