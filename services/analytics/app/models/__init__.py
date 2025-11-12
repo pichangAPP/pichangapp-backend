@@ -2,5 +2,6 @@
 
 from app.models.analytics_event import AnalyticsEvent
 from app.models.kpi_log import KpiLog
+from app.models.feedback import Feedback
 
-__all__ = ["AnalyticsEvent", "KpiLog"]
+__all__ = ["AnalyticsEvent", "KpiLog", "Feedback"]
