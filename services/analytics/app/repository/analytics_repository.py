@@ -335,12 +335,80 @@ def fetch_campus_overview(
     }
 
 
+def fetch_campus_top_clients(
+    db: Session,
+    *,
+    campus_id: int,
+    limit: int,
+) -> List[Dict[str, object]]:
+    """Return the most frequent clients for the specified campus."""
+
+    query = text(
+        """
+        SELECT
+            usr.id_user,
+            usr.name,
+            usr.lastname,
+            usr.email,
+            usr.phone,
+            usr.imageurl,
+            usr.city,
+            usr.district,
+            COUNT(rent.id_rent) AS rent_count
+        FROM reservation.rent AS rent
+        JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
+        JOIN booking.field AS field ON field.id_field = schedule.id_field
+        JOIN auth.users AS usr ON usr.id_user = schedule.id_user
+        WHERE field.id_campus = :campus_id
+          AND LOWER(rent.status) NOT IN ('available', 'pending', 'cancelled')
+        GROUP BY
+            usr.id_user,
+            usr.name,
+            usr.lastname,
+            usr.email,
+            usr.phone,
+            usr.imageurl,
+            usr.city,
+            usr.district
+        ORDER BY rent_count DESC, usr.name ASC, usr.lastname ASC
+        LIMIT :limit
+        """
+    )
+
+    try:
+        result = db.execute(
+            query,
+            {"campus_id": campus_id, "limit": limit},
+        )
+    except SQLAlchemyError as exc:  # pragma: no cover - defensive programming
+        raise AnalyticsRepositoryError(str(exc)) from exc
+
+    entries: List[Dict[str, object]] = []
+    for row in result:
+        entries.append(
+            {
+                "id_user": row.id_user,
+                "name": row.name,
+                "lastname": row.lastname,
+                "email": row.email,
+                "phone": row.phone,
+                "image_url": row.imageurl,
+                "city": row.city,
+                "district": row.district,
+                "rent_count": int(row.rent_count),
+            }
+        )
+
+    return entries
+
+
 __all__ = [
     "AnalyticsRepositoryError",
     "fetch_campus_daily_income",
     "fetch_campus_daily_rent_traffic",
     "fetch_campus_income_total",
     "fetch_campus_overview",
+    "fetch_campus_top_clients",
     "fetch_revenue_grouped_totals",
     "fetch_revenue_summary",
 ]

@@ -6,6 +6,7 @@ from app.repository.analytics_repository import (
     fetch_campus_daily_rent_traffic,
     fetch_campus_income_total,
     fetch_campus_overview,
+    fetch_campus_top_clients,
     fetch_revenue_grouped_totals,
     fetch_revenue_summary,
 )
@@ -37,6 +38,7 @@ __all__ = [
     "fetch_campus_daily_rent_traffic",
     "fetch_campus_income_total",
     "fetch_campus_overview",
+    "fetch_campus_top_clients",
     "fetch_revenue_grouped_totals",
     "fetch_revenue_summary",
 ]

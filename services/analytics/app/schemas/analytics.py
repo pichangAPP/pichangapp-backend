@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 from decimal import Decimal
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -92,6 +92,30 @@ class CampusRevenueMetricsResponse(BaseModel):
     fields: FieldAvailability = Field(..., description="Field availability summary for the campus.")
 
 
+class FrequentClient(BaseModel):
+    """Profile of a client ordered by rent frequency."""
+
+    name: str = Field(..., description="Full name of the client.")
+    email: str = Field(..., description="Email address associated with the client.")
+    phone: str = Field(..., description="Phone number associated with the client.")
+    image_url: Optional[str] = Field(
+        None, description="Optional avatar or profile image URL for the client."
+    )
+    city: Optional[str] = Field(None, description="City associated with the client.")
+    district: Optional[str] = Field(None, description="District associated with the client.")
+    rent_count: int = Field(..., ge=0, description="Number of rents associated with the client.")
+
+
+class CampusFrequentClientsResponse(BaseModel):
+    """Frequent clients for a given campus."""
+
+    campus_id: int = Field(..., description="Identifier of the campus.")
+    campus_name: str = Field(..., max_length=300, description="Display name of the campus.")
+    frequent_clients: List[FrequentClient] = Field(
+        ..., description="List of frequent clients ordered by rent count."
+    )
+
+
 __all__ = [
     "CampusRevenueSummary",
     "CampusRevenueMetricsResponse",
@@ -101,4 +125,6 @@ __all__ = [
     "RevenueEntry",
     "RentTrafficPoint",
     "RevenueSummaryResponse",
+    "FrequentClient",
+    "CampusFrequentClientsResponse",
 ]
