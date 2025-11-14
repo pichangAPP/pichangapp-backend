@@ -9,17 +9,20 @@ rules:
   - rule: saludar al usuario
     steps:
       - intent: greet
+      - action: action_ensure_user_role
       - action: utter_hello
 
   - rule: despedirse del usuario
     steps:
       - intent: goodbye
+      - action: action_ensure_user_role
       - action: action_close_chat_session
       - action: utter_goodbye
 
   - rule: explicar capacidades
     steps:
       - intent: help
+      - action: action_ensure_user_role
       - action: utter_what_can_you_do
 
   - rule: mostrar preguntas frecuentes
@@ -48,6 +51,9 @@ rules:
       - action: utter_pricing_info
 
   - rule: atender solicitud de recomendación
+    condition:
+      - slot_was_set:
+          - user_role: "player"
     steps:
       - intent: request_field_recommendation
       - action: action_log_field_recommendation_request
@@ -69,9 +75,28 @@ rules:
       - action: utter_default_fallback
 
   - rule: recomendaciones para administradores
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
     steps:
       - intent: request_admin_recommendation
       - action: action_provide_admin_management_tips
+
+  - rule: solicitudes de clientes frecuentes para administradores
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+    steps:
+      - intent: request_admin_top_clients
+      - action: action_provide_admin_campus_top_clients
+
+  - rule: alertas de demanda para administradores
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+    steps:
+      - intent: request_admin_demand_alerts
+      - action: action_provide_admin_demand_alerts
 
   - rule: confirmar solicitud
     steps:

@@ -25,6 +25,7 @@ class Settings:
     POSTGRES_SSL_CERT: str | None = os.getenv("POSTGRES_SSL_CERT")
     POSTGRES_SSL_KEY: str | None = os.getenv("POSTGRES_SSL_KEY")
     POSTGRES_APPLICATION_NAME: str | None = os.getenv("POSTGRES_APPLICATION_NAME")
+    ANALYTICS_SERVICE_URL: str = os.getenv("ANALYTICS_SERVICE_URL", "http://localhost:8005/api/pichangapp/v1")
 
 
 @lru_cache()

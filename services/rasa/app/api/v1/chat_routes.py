@@ -85,6 +85,7 @@ async def send_message(
             "id_user": user_id,
             "user_role": user_role,
             "id_role": 2 if user_role == "admin" else 1,
+            "token": current_user.get("token"),
         }
     )
     metadata.setdefault("model", settings.RASA_DEFAULT_SOURCE_MODEL)

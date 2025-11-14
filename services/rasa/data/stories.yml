@@ -8,12 +8,16 @@ stories:
 
   - story: recomendar cancha completada
     steps:
+      - slot_was_set:
+          - user_role: "player"
       - intent: request_field_recommendation
       - action: action_log_field_recommendation_request
       - action: action_submit_field_recommendation_form
 
   - story: recomendar cancha con presupuesto y horario
     steps:
+      - slot_was_set:
+          - user_role: "player"
       - intent: request_field_recommendation
         entities:
           - sport: "fulbito"
@@ -25,17 +29,30 @@ stories:
 
   - story: administrador solicita recomendaciones de gestión
     steps:
+      - slot_was_set:
+          - user_role: "admin"
       - intent: request_admin_recommendation
       - action: action_provide_admin_management_tips
 
+  - story: administrador solicita clientes frecuentes
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_top_clients
+      - action: action_provide_admin_campus_top_clients
+
   - story: recomendacion rapida sin datos
     steps:
+      - slot_was_set:
+          - user_role: "player"
       - intent: request_field_recommendation
       - action: action_log_field_recommendation_request
       - action: action_submit_field_recommendation_form
 
   - story: recomendar cancha mejor valorada
     steps:
+      - slot_was_set:
+          - user_role: "player"
       - intent: request_field_recommendation
         entities:
           - location: "Miraflores"
