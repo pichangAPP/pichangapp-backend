@@ -17,6 +17,7 @@ intents:
   - SetSlots # payload usado por los botones de feedback
   - nlu_fallback
   - request_admin_recommendation
+  - request_admin_top_clients
 
 entities:
   - sport
@@ -41,6 +42,16 @@ slots:
     mappings:
       - type: controlled
   chatbot_session_id:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: controlled
+  managed_campus_id:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: controlled
+  managed_campus_name:
     type: text
     influence_conversation: false
     mappings:
@@ -126,24 +137,53 @@ responses:
         - type: slot
           name: user_role
           value: admin
-      text: "¡Hola! Soy Chato Bot. Estoy listo para ayudarle a gestionar las canchas y equipos de su empresa."
-    - text: "¡Hola! Soy Chato Bot y estoy listo para ayudarte a encontrar la mejor cancha para tu partido."
+      text: "Estimado administrador, estoy listo para coordinar la operación de sus sedes. ¿Qué área desea revisar hoy?"
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "¡Hola! Soy Chato Bot y estoy listo para ayudarte a encontrar la mejor cancha para tu partido."
+    - text: "¡Habla! me llamo Chato, tu asistente virtual para coordinar pichangas. ¿En qué te ayudo?"
     - text: "¡Hola! Chato Bot por aquí; cuéntame qué necesitas y buscamos la opción ideal para tu juego."
   utter_goodbye:
     - condition:
         - type: slot
           name: user_role
           value: admin
-      text: "Ha sido un gusto ayudarle. Si necesita otra gestión, aquí estaré."
-    - text: "¡Perfecto! Que disfrutes tu partido. Cuando necesites otra reserva, aquí estaré."
+      text: "Ha sido un gusto asistirle con sus sedes. Si desea retomar la gestión, estaré atento a sus indicaciones."
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "¡Perfecto! Que disfrutes tu partido. Cuando necesites otra reserva, aquí estaré."
     - text: "¡Hasta luego! Vuelve cuando quieras coordinar una nueva cancha."
   utter_what_can_you_do:
+    - condition:
+        - type: slot
+          name: user_role
+          value: admin
+      text: |
+        No estoy aquí para reservar por usted, sino para apoyar la gestión. Puedo:
+        - Indicarle quiénes rentan más frecuentemente sus espacios.
+        - Traer información de feedback o métricas relevantes.
+        - Sugerir acciones para balancear ocupación y precios.
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: |
+        Puedo ayudarte con todo lo necesario para tu juego:
+        - Recomendarte canchas según barrio, horario y deporte.
+        - Contarte cómo reservar, reprogramar o cancelar sin complicaciones.
+        - Mostrarte tu historial de sugerencias y los comentarios que dejaste.
+        - Avisarte sobre promos o detalles importantes de las sedes.
     - text: |
         Puedo darte una mano con:
         - Recomendarte canchas según el barrio, horario y deporte que buscas.
         - Contarte cómo reservar, reprogramar o cancelar sin complicaciones.
         - Mostrarte tu historial de sugerencias y los comentarios que dejaste.
         - Avisarte sobre promos o detalles importantes de las sedes.
+        - Si eres administrador, puedo contarte quiénes rentan más frecuentemente tus espacios.
       metadata:
         rephrase: True
   utter_ask_field_recommendation_form_preferred_sport:
@@ -209,12 +249,36 @@ responses:
       metadata:
         rephrase: True
   utter_welcome:
+    - condition:
+        - type: slot
+          name: user_role
+          value: admin
+      text: |
+        Bienvenido. Soy {agent_name} 👋, su asistente para monitorear sedes y operaciones.
+        ¿Desea revisar métricas, clientes frecuentes o sugerencias?
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: |
+        ¡Hola! Soy {agent_name} 👋, tu asistente virtual para coordinar canchas deportivas.
+        ¿Qué tal si empezamos buscando la cancha ideal para tu próximo partido?
     - text: |
         ¡Bienvenido! Soy {agent_name} 👋, tu asistente virtual para coordinar canchas deportivas.
 
         Puedes empezar con preguntas como:
         {example_questions}
   utter_help:
+    - condition:
+        - type: slot
+          name: user_role
+          value: admin
+      text: "¿Necesita recopilar indicadores o clientes habituales para su campus? Estoy aquí para apoyarle con la gestión."
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "¿Qué necesitas? Aquí estoy para ayudarte con las canchas"
     - text: "¿Qué necesitas? Aquí estoy para ayudarte con la cancha o la gestión."
       metadata:
         rephrase: True
@@ -227,7 +291,10 @@ actions:
   - action_check_feedback_status
   - action_close_chat_session
   - action_provide_admin_management_tips
+  - action_provide_admin_demand_alerts
+  - action_provide_admin_campus_top_clients
   - action_handle_feedback_rating
+  - action_ensure_user_role
 
 session_config:
   session_expiration_time: 60

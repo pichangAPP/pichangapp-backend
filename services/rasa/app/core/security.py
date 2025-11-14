@@ -89,6 +89,7 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         ) from exc
 
+    payload["token"] = token
     return payload
 
 

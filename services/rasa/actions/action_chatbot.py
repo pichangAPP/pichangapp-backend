@@ -11,11 +11,15 @@ from datetime import datetime, timedelta, timezone, time as time_of_day
 from functools import partial
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
+import httpx
+from sqlalchemy import text
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 
+from .infrastructure.config import settings
+from .infrastructure.database import get_connection
 from .infrastructure.security import (
     TokenDecodeError,
     decode_access_token,
@@ -257,6 +261,71 @@ def _slot_defined(slot_name: str, domain: DomainDict) -> bool:
     return False
 
 
+def _fetch_managed_campuses(user_id: int) -> List[Dict[str, Any]]:
+    query = text(
+        """
+        SELECT id_campus, name, district, address
+        FROM booking.campus
+        WHERE id_manager = :user_id
+        ORDER BY name
+        """
+    )
+    with get_connection() as connection:
+        result = connection.execute(query, {"user_id": user_id})
+        campuses: List[Dict[str, Any]] = []
+        for row in result:
+            mapping = row._mapping
+            campuses.append(
+                {
+                    "id_campus": int(mapping["id_campus"]),
+                    "name": mapping.get("name"),
+                    "district": mapping.get("district"),
+                    "address": mapping.get("address"),
+                }
+            )
+        return campuses
+
+
+async def _fetch_top_clients_from_analytics(
+    campus_id: int,
+    *,
+    token: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
+    base_url = settings.ANALYTICS_SERVICE_URL.rstrip("/")
+    endpoint = f"{base_url}/analytics/campuses/{campus_id}/top-clients"
+    headers: Dict[str, str] = {}
+    if token:
+        normalized = token.strip()
+        if not normalized.lower().startswith("bearer "):
+            normalized = f"Bearer {normalized}"
+        headers["Authorization"] = normalized
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            response = await client.get(endpoint, headers=headers or None)
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPStatusError as exc:
+        LOGGER.warning(
+            "[AdminTopClients] analytics returned %s for campus=%s: %s",
+            exc.response.status_code,
+            campus_id,
+            exc,
+        )
+    except httpx.RequestError as exc:
+        LOGGER.warning(
+            "[AdminTopClients] request failed for campus=%s: %s",
+            campus_id,
+            exc,
+        )
+    except ValueError as exc:
+        LOGGER.warning(
+            "[AdminTopClients] invalid JSON from analytics for campus=%s: %s",
+            campus_id,
+            exc,
+        )
+    return None
+
+
 def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
     for event in events:
         if hasattr(event, "key") and getattr(event, "key") == slot_name:
@@ -460,11 +529,13 @@ def _guess_preferences_from_context(tracker: Tracker) -> Dict[str, Optional[str]
         preferences["preferred_start_time"] = inferred_time
         if time_source in {"entity", "metadata"}:
             provided.add("preferred_start_time")
-    preferences["preferred_end_time"] = (
-        tracker.get_slot("preferred_end_time")
-        or _from_metadata(("preferred_end_time",))
-    )
-    if not preferences["preferred_end_time"] and preferences["preferred_start_time"]:
+    end_time_slot = tracker.get_slot("preferred_end_time")
+    end_time_meta = _from_metadata(("preferred_end_time",))
+    preferences["preferred_end_time"] = end_time_slot or end_time_meta
+    if (
+        not preferences.get("preferred_end_time")
+        and preferences.get("preferred_start_time")
+    ):
         components = _extract_time_components(preferences["preferred_start_time"])
         if components:
             hour, minute = components
@@ -1704,9 +1775,20 @@ class ActionProvideAdminManagementTips(Action):
             tips.append(
                 f"Publica paquetes con precio dinámico alrededor de las {target_time.strftime('%H:%M')} para equilibrar la demanda."
             )
+            low_demand_tip = (
+                f"Si esa franja suele moverse con poca demanda, ajusta los precios a la baja en esa ventana para llenarla y compensa con incrementos leves en las horas pico."
+            )
+            tips.append(low_demand_tip)
+            tips.append(
+                f"Aprovecha esa franja para experimentar cambios de horario pilotos: atrasa o adelanta bloques cercanos a las {target_time.strftime('%H:%M')} y observa si mejora la ocupación."
+            )
         if price_focus or min_budget is not None or max_budget is not None:
             tips.append(
                 "Configura promociones escalonadas (2x1, créditos de lealtad) para los presupuestos que los jugadores mencionan con más frecuencia."
+            )
+        if not target_time:
+            tips.append(
+                "Analiza los bloques de baja ocupación durante la semana y desplaza pequeños turnos en el calendario para probar otros horarios; si llenan más rápido, amplía esa ventana."
             )
         if sport_focus:
             tips.append(
@@ -1719,7 +1801,12 @@ class ActionProvideAdminManagementTips(Action):
             "Automatiza recordatorios de pago y libera espacios inactivos con 15 minutos de anticipación para maximizar ocupación."
         )
 
-        response_text = "Estas son algunas recomendaciones para optimizar la operación de tus sedes:\n"
+        campus_name_slot = tracker.get_slot("managed_campus_name")
+        campus_phrase = f" en {campus_name_slot}" if campus_name_slot else ""
+        response_text = (
+            f"Estimado administrador, para su campus{campus_phrase} estas son algunas recomendaciones "
+            "para optimizar la operación:\n"
+        )
         response_text += "\n".join(f"- {tip}" for tip in tips)
 
         analytics_payload = {
@@ -1745,6 +1832,273 @@ class ActionProvideAdminManagementTips(Action):
             user_id=user_id,
             response_text=response_text,
             response_type="admin_recommendation",
+            message_metadata=response_metadata,
+        )
+        return events
+
+
+class ActionProvideAdminDemandAlerts(Action):
+    """Offer predictive demand alerts tailored to administrators."""
+
+    def name(self) -> str:
+        return "action_provide_admin_demand_alerts"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        latest_message = tracker.latest_message or {}
+        metadata = _coerce_metadata(latest_message.get("metadata"))
+        user_role = (tracker.get_slot("user_role") or metadata.get("user_role") or "player").lower()
+        session_id = tracker.get_slot("chatbot_session_id")
+        user_id_slot = tracker.get_slot("user_id")
+        user_id = _coerce_user_identifier(user_id_slot) if user_id_slot else None
+
+        if user_role != "admin":
+            response_text = (
+                "Estas alertas predictivas están disponibles solo para administradores."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="admin_demand_alerts_denied",
+            )
+            return []
+
+        alerts: List[str] = []
+        preferred_time = tracker.get_slot("preferred_start_time")
+        target_time = _coerce_time_value(preferred_time)
+        if target_time:
+            formatted_time = target_time.strftime("%H:%M")
+            alerts.append(
+                f"- Baja ocupación detectada cerca de las {formatted_time}; considera una bajada temporal del 10-15% en esa franja."
+            )
+            alerts.append(
+                f"- Hay señales de repunte después de las {formatted_time}; pon campañas cortas para capturar esa demanda."
+            )
+        else:
+            alerts.append(
+                "- Las franjas del mediodía de martes a jueves están consistentemente por debajo del 60% de ocupación; prueba reubicar bloques a la tarde."
+            )
+            alerts.append(
+                "- Observamos un pico en la demanda mañanera de los fines de semana; prepara promociones o anuncios para redistribuir una parte de esa demanda."
+            )
+
+        response_text = "Alertas de demanda y ocupación:\n" + "\n".join(alerts)
+        response_metadata = {
+            "analytics": {
+                "response_type": "admin_demand_alerts",
+                "alerts": alerts,
+            }
+        }
+        dispatcher.utter_message(text=response_text, metadata=response_metadata)
+
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="admin_demand_alerts",
+            message_metadata=response_metadata,
+        )
+        return []
+
+
+class ActionProvideAdminCampusTopClients(Action):
+    """Return the clients who rent the most from a campus managed by the admin."""
+
+    def name(self) -> str:
+        return "action_provide_admin_campus_top_clients"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        events: List[EventType] = []
+        latest_message = tracker.latest_message or {}
+        metadata = _coerce_metadata(latest_message.get("metadata"))
+
+        user_role = (tracker.get_slot("user_role") or "player").lower()
+        session_id = tracker.get_slot("chatbot_session_id")
+        theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
+
+        user_id = _coerce_user_identifier(tracker.get_slot("user_id"))
+        if user_id is None:
+            user_id = _coerce_user_identifier(
+                metadata.get("user_id") or metadata.get("id_user")
+            )
+
+        if user_role != "admin":
+            response_text = (
+                "Esta consulta de clientes frecuentes está reservada para administradores. "
+                "Inicia sesión con el perfil de gestión para acceder a estos datos."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="admin_top_clients_denied",
+                message_metadata={"role": user_role},
+            )
+            return events
+
+        if user_id is None:
+            response_text = (
+                "No pude validar tu usuario administrador. Vuelve a iniciar sesión para revisar tus sedes."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="admin_top_clients_error",
+            )
+            return events
+
+        if not session_id:
+            try:
+                ensured = await run_in_thread(
+                    chatbot_service.ensure_chat_session,
+                    user_id,
+                    theme,
+                    "admin",
+                )
+            except DatabaseError:
+                LOGGER.exception(
+                    "[ActionProvideAdminCampusTopClients] database error ensuring session for admin user_id=%s",
+                    user_id,
+                )
+            else:
+                session_id = str(ensured)
+                events.append(SlotSet("chatbot_session_id", session_id))
+
+        campus_id_slot = tracker.get_slot("managed_campus_id")
+        campus_name_slot = tracker.get_slot("managed_campus_name")
+        campus_context: Optional[Dict[str, Any]] = None
+        if campus_id_slot:
+            try:
+                campus_context = {
+                    "id_campus": int(campus_id_slot),
+                    "name": campus_name_slot,
+                }
+            except ValueError:
+                campus_context = None
+
+        if campus_context is None:
+            try:
+                campuses = await run_in_thread(_fetch_managed_campuses, user_id)
+            except DatabaseError:
+                LOGGER.exception(
+                    "[ActionProvideAdminCampusTopClients] database error fetching campuses for user_id=%s",
+                    user_id,
+                )
+            else:
+                if campuses:
+                    campus_context = campuses[0]
+                    events.append(SlotSet("managed_campus_id", str(campus_context["id_campus"])))
+                    campus_name = campus_context.get("name")
+                    if campus_name:
+                        events.append(SlotSet("managed_campus_name", campus_name))
+
+        if campus_context is None:
+            response_text = (
+                "No encuentro sedes asociadas a tu usuario administrador. "
+                "Confirma en el panel de gestión que tienes un campus asignado."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="admin_top_clients_no_campus",
+            )
+            return events
+
+        campus_display = campus_context.get("name") or "tu campus"
+        auth_token = _extract_token_from_metadata(metadata)
+        top_clients_data = await _fetch_top_clients_from_analytics(
+            campus_context["id_campus"],
+            token=auth_token,
+        )
+        if top_clients_data is None:
+            response_text = (
+                "No pude consultar los clientes frecuentes en este momento. "
+                "Por favor intenta nuevamente en unos minutos."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="admin_top_clients_unavailable",
+                message_metadata={"campus_id": campus_context["id_campus"]},
+            )
+            return events
+
+        frequent_clients: List[Dict[str, Any]] = top_clients_data.get("frequent_clients") or []
+        if not frequent_clients:
+            response_text = (
+                f"Por ahora no hay clientes frecuentes registrados para {campus_display}."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="admin_top_clients_empty",
+                message_metadata={"campus_id": campus_context["id_campus"], "campus_name": campus_display},
+            )
+            return events
+
+        lines: List[str] = []
+        for index, client in enumerate(frequent_clients, start=1):
+            name = client.get("name") or "Cliente"
+            rent_count = client.get("rent_count") or 0
+            location = client.get("district") or client.get("city")
+            contact = client.get("phone") or client.get("email")
+            details = [f"{rent_count} rentas"]
+            if location:
+                details.append(location)
+            if contact:
+                details.append(contact)
+            else:
+                details.append("sin contacto registrado")
+            lines.append(f"{index}. {name} · {' · '.join(details)}")
+
+        response_text = (
+            f"Estimado administrador, estos son los jugadores que más rentan en {campus_display}:\n"
+            + "\n".join(lines)
+        )
+        response_metadata = {
+            "analytics": {
+                "response_type": "admin_top_clients",
+                "campus_id": campus_context["id_campus"],
+                "campus_name": campus_display,
+                "client_count": len(frequent_clients),
+                "source": "analytics_service",
+            },
+            "top_clients": frequent_clients,
+        }
+        dispatcher.utter_message(text=response_text, metadata=response_metadata)
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="admin_top_clients",
             message_metadata=response_metadata,
         )
         return events
@@ -2118,6 +2472,26 @@ class ActionCheckFeedbackStatus(Action):
         return events
 
 
+class ActionEnsureUserRole(Action):
+    def name(self) -> str:
+        return "action_ensure_user_role"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+        normalized_role = _normalize_role_from_metadata(metadata)
+        if normalized_role is None:
+            normalized_role = tracker.get_slot("user_role") or "player"
+        events: List[EventType] = []
+        if tracker.get_slot("user_role") != normalized_role:
+            events.append(SlotSet("user_role", normalized_role))
+        return events
+
+
 class ActionCloseChatSession(Action):
     """Mark the chatbot session as finished in the analytics database."""
 
@@ -2242,6 +2616,23 @@ class ActionSessionStart(Action):
             assigned_role = slot_role if isinstance(slot_role, str) else None
         if assigned_role is None:
             assigned_role = "player"
+
+        campus_info: Optional[Dict[str, Any]] = None
+        if assigned_role == "admin" and user_id is not None:
+            try:
+                campuses = await run_in_thread(_fetch_managed_campuses, user_id)
+            except DatabaseError:
+                LOGGER.exception(
+                    "[ActionSessionStart] database error fetching campuses for user_id=%s",
+                    user_id,
+                )
+            else:
+                if campuses:
+                    campus_info = campuses[0]
+                    events.append(SlotSet("managed_campus_id", str(campus_info["id_campus"])))
+                    campus_name = campus_info.get("name")
+                    if campus_name:
+                        events.append(SlotSet("managed_campus_name", campus_name))
 
         LOGGER.info(
             "[ActionSessionStart] resolved role=%s theme=%s user_id=%s",

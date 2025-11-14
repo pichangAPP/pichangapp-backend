@@ -8,6 +8,27 @@ nlu:
       - buenas tardes
       - qué tal
       - hola pichangapp
+      - habla chato
+      - oye bot
+      - buenas noches
+      - saludos
+      - qué hay de nuevo
+      - qué hubo
+      - en que estas
+      - buenas
+      - chato
+      - hey
+      - necesite un favor
+      - buenas tardes, ¿qué puedes hacer?
+      - necesito ayuda con una cancha
+      - hola, escucha una consulta
+      - holi
+      - qué onda
+      - qué pasa
+      - hole
+      - despierta
+      - oye chato
+      - saludos bot
   - intent: goodbye
     examples: |
       - gracias, nos vemos
@@ -15,6 +36,23 @@ nlu:
       - hasta luego
       - hablamos luego
       - eso es todo, gracias
+      - nos vemos pronto
+      - hasta la próxima
+      - adiós
+      - cierra el chat
+      - hasta otra
+      - me despido
+      - despues hablamos
+      - muchas gracias, adiós
+      - nos vemos
+      - cuídate
+      - hasta pronto
+      - apagate
+      - gracias, te contacto luego
+      - quedó todo claro, me retiro
+      - gracias por la ayuda, adiós
+      - chau chau
+      - bye
   - intent: help
     examples: |
       - ¿qué puedes hacer?
@@ -23,6 +61,23 @@ nlu:
       - muéstrame tus funciones
       - ¿qué servicios cubres?
       - necesito saber cómo me apoyas
+      - ¿qué puedes ofrecerme?
+      - explícame tus capacidades
+      - dime en qué me puedes asistir
+      - necesito un favor
+      - auxilio
+      - no entiendo cómo usar esto
+      - ¿me ayudas?
+      - auxílame
+      - para que sirves
+      - ayudame con algo
+      - necesito ayuda con otra cosa
+      - ¿puedes orientarme para seguir?
+      - explícame qué preguntas puedo hacerte
+      - dime qué temas manejas
+      - necesito soporte
+      - ¿cómo funciona esto?
+      - ¿qué tipo de ayuda ofreces?
   - intent: request_field_recommendation
     examples: |
       - quiero alquilar una cancha hoy
@@ -38,6 +93,10 @@ nlu:
       - Quiero jugar el [2024-07-10](date) a las [18:30](time) en una cancha de [grass](surface).
       - ¿Hay alguna cancha cubierta disponible en [La Molina](location) sobre las [19:30](time)?
       - Recomiéndame algo barato entre [S/40](budget) y [S/80](budget) en [Los Olivos](location).
+      - ¿Qué canchas con iluminación tienes en [Miraflores](location)?
+      - Necesito una cancha con espacio para 8 jugadores y parrilla.
+      - Ayúdame a programar una reserva para mañana a la tarde.
+      - ¿Hay disponibilidad para [futsal](sport) este sábado?
       - Busco campo para [fulbito](sport) este viernes a las [20:00](time) en [Chorrillos](location).
       - ¿Qué canchas tienes libres en [Comas](location) alrededor de las [17:00](time)?
       - Sugiere canchas para 7 vs 7 en [San Juan de Lurigancho](location) para el [2024-06-30](date).
@@ -118,6 +177,26 @@ nlu:
       - Necesito ideas para fidelizar clientes corporativos desde la app.
       - ¿Qué hago para balancear disponibilidad entre [San Isidro](location) y [Magdalena](location)?
       - Dame consejos basados en analytics para mejorar la experiencia del jugador.
+      - Necesito ideas de precios dinámicos para franjas de baja demanda.
+      - Recuérdame cómo ajustar tarifas según la ocupación que veo en mis cuadros.
+      - ¿Qué horario debería mover para conseguir más reservas en la noche?
+      - Dame sugerencias de estrategia de precios segmentados por horario.
+      - ¿Puedes recomendarme cambios puntuales en la grilla de horarios?
+      - Quiero prototipar ajustes de precio y horario en los bloques poco llenos.
+      - ¿Cómo puedo redistribuir horarios para llenar mejor la semana?
+      - ¿Qué combinación de promociones y horarios me recomiendas?
+  - intent: request_admin_top_clients
+    examples: |
+      - Muéstrame quiénes rentan más frecuentemente las canchas que administro.
+      - Dame los clientes que más reservas han hecho en mi campus.
+      - ¿Quiénes son los jugadores top que alquilan mis espacios?
+      - Necesito la lista de los que más rentan los campos de mi sede.
+      - ¿Puedes decirme cuáles son los clientes frecuentes de mi campus?
+      - Quiero saber quiénes usan más seguido los espacios bajo mi gestión.
+      - Dame un ranking de los usuarios que más alquilan en mis canchas.
+      - ¿Quiénes son los clientes VIP que más reservan en mis sedes?
+      - Muéstrame los usuarios con mayor número de reservas en mis canchas.
+      - Necesito identificar a los clientes más activos en mis campos deportivos.
   - intent: SetSlots
     examples: |
       - /SetSlots
@@ -135,30 +214,138 @@ nlu:
       - ¿puedo modificar la hora de mi cancha?
       - necesito mover mi reserva para otro día
       - ¿cómo edito mi reserva?
+      - dime el proceso para cambiar una reserva
+      - ¿es posible modificar una reserva ya hecha?
+      - ¿cómo hago para cambiar mi reserva?
+      - necesito ayuda para modificar una reserva
+      - ¿puedo cambiar los detalles de mi reserva?
+      - ¿cómo puedo editar mi reserva?
+      - quiero saber cómo modificar una reserva
+      - ¿qué hago para cambiar mi reserva?
+      - necesito instrucciones para editar una reserva
+      - ¿puedes ayudarme a cambiar mi reserva?
+      - ¿cómo procedo para modificar una reserva?
+      - dime cómo cambiar mi reserva
+      - ¿qué pasos sigo para editar una reserva?
+      - necesito guía para modificar una reserva
+      - ¿puedes indicarme cómo cambiar mi reserva?
+      - reserva cambio
+      - cambiar reserva
+      - modificar mi reserva
+      - editar reserva
   - intent: ask_cancellation_policy
     examples: |
       - ¿puedo cancelar la reserva?
       - dime la política de cancelaciones
       - ¿qué pasa si cancelo?
       - ¿con cuánta anticipación puedo anular?
+      - explícame las reglas para cancelar una reserva
+      - necesito saber la política de cancelación
+      - ¿cómo funciona la cancelación de reservas?
+      - ¿qué debo saber sobre cancelar una reserva?
+      - ¿cuáles son las condiciones para cancelar una reserva?
+      - ¿puedes informarme sobre la política de cancelación?
+      - quiero conocer las reglas de cancelación
+      - ¿qué implica cancelar una reserva?
+      - necesito detalles sobre la política de cancelación
+      - ¿cómo es el proceso de cancelación?
+      - dime las condiciones para anular una reserva
+      - explícame cómo cancelar una reserva
+      - ¿qué debo hacer para cancelar una reserva?
+      - necesito información sobre la cancelación de reservas
+      - ¿puedes explicarme la política de cancelación?
+      - quiero saber cómo cancelar una reserva
+      - dime el proceso para anular una reserva
+      - explícame las condiciones para cancelar una reserva
+      - ¿cómo puedo cancelar una reserva?
+      - necesito guía sobre la política de cancelación
+      - ¿qué pasos sigo para cancelar una reserva?
+      - ¿puedes darme información sobre la cancelación de reservas?
+      - quiero conocer la política de cancelación
+      - dime cómo funciona la cancelación de reservas
+      - explícame el proceso para cancelar una reserva
+      - ¿qué hago si quiero cancelar una reserva?
   - intent: ask_pricing_info
     examples: |
       - ¿cuánto cuesta la cancha?
       - dame precios por hora
       - ¿hay promociones disponibles?
       - necesito saber la tarifa para hoy
+      - explícame las tarifas según horario
+      - ¿qué precios manejan?
+      - ¿cuáles son los costos de alquiler?
+      - ¿tienen descuentos especiales?
+      - ¿puedes darme información sobre los precios?
+      - quiero conocer las tarifas vigentes
+      - dime los costos por hora
+      - explícame las promociones actuales
+      - ¿qué ofertas tienen para reservas?
+      - necesito detalles sobre los precios
+      - ¿cómo varían las tarifas según el día?
+      - ¿qué descuentos aplican en ciertos horarios?
+      - ¿puedes informarme sobre los costos de alquiler?
+      - quiero saber las tarifas por hora
+      - dime las promociones vigentes
+      - explícame los precios según el horario
+      - ¿qué costos manejan para reservas?
+      - ¿cuáles son las ofertas disponibles?
+      - necesito información sobre las tarifas
+      - ¿cómo funcionan los descuentos por horario?
+      - ¿qué precios tienen para hoy?
+      - dime los costos vigentes
+      - explícame las ofertas actuales
+      - ¿qué tarifas aplican según el día?
+      - necesito detalles sobre los precios de alquiler
+      - ¿puedes darme información sobre las promociones?
+      - quiero conocer los costos por hora
+      - dime las tarifas vigentes
+      - hablame de precios y promociones
+      - explícame las tarifas y descuentos
+      - cual es la cancha más barata
+      - ¿dónde encuentro mejores precios?
   - intent: show_previous_recommendations
     examples: |
       - recuérdame las canchas que me sugeriste
       - muéstrame mi historial de recomendaciones
       - ¿qué opciones me diste antes?
       - quiero ver recomendaciones pasadas
+      - enséñame las canchas que recomendaste anteriormente
+      - ¿puedes mostrarme mis sugerencias previas?
+      - necesito revisar las recomendaciones anteriores
+      - ¿qué canchas me sugeriste la última vez?
+      - muéstrame las opciones que me diste antes
+      - recuérdame las sugerencias pasadas
+      - quiero ver mi historial de recomendaciones
+      - enséñame las canchas recomendadas anteriormente
+      - ¿puedes mostrarme mis recomendaciones previas?
+      - necesito revisar las sugerencias anteriores
+      - ¿qué opciones me diste la última vez?
+      - muéstrame las recomendaciones que me diste antes
+      - recuérdame las canchas sugeridas previamente
+      - quiero ver las recomendaciones pasadas
+      - enséñame las opciones que recomendaste anteriormente
+      - ¿puedes mostrarme mis sugerencias previas de canchas?
+      - necesito revisar las recomendaciones anteriores de canchas
+      - ¿qué canchas me sugeriste la última vez que hablamos?
+      - muéstrame las opciones de canchas que me diste antes
+      - recuérdame las sugerencias de canchas pasadas
+      - quiero ver mi historial de recomendaciones de canchas
+      - enséñame las canchas recomendadas anteriormente por ti
+      - ¿puedes mostrarme mis recomendaciones previas de canchas?
   - intent: ask_feedback_status
     examples: |
       - ¿registraste mi feedback?
       - quiero ver mis comentarios
       - muéstrame las calificaciones que dejé
       - revisa mis opiniones
+      - necesito ver el feedback que di
+      - ¿puedes mostrarme mis valoraciones?
+      - quiero revisar mis comentarios anteriores
+      - muéstrame las calificaciones previas que hice
+      - revisa las opiniones que dejé
+      - necesito ver el feedback que proporcioné
+      - ¿puedes mostrarme mis valoraciones anteriores?
+      - quiero ver mis comentarios pasados
   - intent: show_faqs
     examples: |
       - muéstrame las preguntas frecuentes
@@ -166,6 +353,21 @@ nlu:
       - dame sugerencias de temas
       - enséñame el faq
       - dame ejemplos de preguntas que entiendas
+      - ¿qué tipo de preguntas respondes?
+      - muéstrame las dudas comunes
+      - quiero ver las preguntas frecuentes
+      - explícame qué temas manejas
+      - dame ejemplos de consultas
+      - ¿qué preguntas sueles recibir?
+      - muéstrame las dudas habituales
+      - quiero ver el faq completo
+      - explícame los temas que cubres
+      - dame ejemplos de preguntas comunes
+      - ¿qué tipo de consultas atiendes?
+      - muéstrame las preguntas más frecuentes
+      - quiero ver las dudas comunes que manejas
+      - explícame qué preguntas puedo hacerte
+      - dame ejemplos de temas frecuentes
   - intent: affirm
     examples: |
       - sí
@@ -173,9 +375,40 @@ nlu:
       - por supuesto
       - dale
       - de acuerdo
+      - obvio
+      - seguro
+      - vale
+      - afirmativo
+      - correcto
+      - claro que sí
+      - desde luego
+      - confirmo
+      - perfecto
+      - sin duda
+      - exacto
+      - así es
+
   - intent: deny
     examples: |
       - no
       - mejor no
       - prefiero que no
       - no gracias
+      - negativo
+      - de ninguna manera
+      - en nada
+      - para nada
+      - ni pensarlo
+      - nada
+      - de ningún modo
+      - no quiero
+      - no es necesario
+      - no deseo
+      - no me interesa
+      - no por ahora
+      - no en este momento
+      - no lo creo
+      - no estoy seguro
+      - no me parece
+      - no estoy interesado
+      - no es así
