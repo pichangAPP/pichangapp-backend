@@ -1,6 +1,6 @@
 -r ../../requirements.base.txt
 passlib[bcrypt]
-bcrypt
+bcrypt<4 # pasar a <4 cuando se actualice passlib
 python-jose[cryptography]
 
 # Cuando empieces a usar reservation, aquí agregas lo específico

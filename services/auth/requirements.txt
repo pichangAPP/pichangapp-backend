@@ -11,7 +11,9 @@
 -r ../../requirements.base.txt
 
 passlib[bcrypt]
-bcrypt
+# bcrypt 4.0 dropped the behavior passlib relies on for truncating inputs,
+# so keep using a 3.x release until upstream adjusts.
+bcrypt<4
 python-jose[cryptography]
 
 # Cliente HTTP (útil para comunicación entre microservicios)

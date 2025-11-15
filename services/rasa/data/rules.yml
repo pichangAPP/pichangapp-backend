@@ -40,6 +40,11 @@ rules:
       - intent: ask_modify_reservation
       - action: utter_modify_reservation
 
+  - rule: ayudar a reprogramar una reserva
+    steps:
+      - intent: ask_reprogram_reservation
+      - action: action_reprogram_reservation
+
   - rule: explicar políticas de cancelación
     steps:
       - intent: ask_cancellation_policy
