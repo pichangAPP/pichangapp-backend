@@ -233,6 +233,23 @@ nlu:
       - cambiar reserva
       - modificar mi reserva
       - editar reserva
+  - intent: ask_reprogram_reservation
+    examples: |
+      - quiero reprogramar mi reserva a otra hora
+      - necesito mover mi cancha para un día distinto
+      - ¿qué hago si quiero reprogramar la cancha de las 8?
+      - dime cómo reprogramar la reserva que ya tengo
+      - necesito reprogramar una reserva y saber si está libre
+      - ¿puedo reprogramar la cancha y qué debo hacer?
+      - reprogramar reserva
+      - cambiar horario de reserva
+      - ¿es posible reprogramar la reserva y necesito hablar con el admin?
+      - dime si puedo reprogramar mi reserva mañana por la tarde
+      - necesito confirmar con el administrador antes de reprogramar
+      - quiero replantear la reserva para otro día
+      - ¿cómo reprogramo mi renta si necesito otro horario?
+      - reprogramar mi cancha por favor
+      - ¿puedo reprogramar y quién me lo confirma?
   - intent: ask_cancellation_policy
     examples: |
       - ¿puedo cancelar la reserva?

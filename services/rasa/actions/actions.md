@@ -6,6 +6,7 @@ Aquí viven las acciones personalizadas que amplían las capacidades del bot. Ú
 - `action_chatbot.py`
   - `ActionSubmitFieldRecommendationForm`: valida los datos capturados en el formulario, consulta las canchas disponibles en `booking.field` y registra la recomendación en los esquemas `analytics.*`.
   - `ActionShowRecommendationHistory`: resume las últimas sugerencias del usuario leyendo los logs del chatbot.
+  - `ActionReprogramReservation`: consulta el historial de rentas del usuario, destaca la reserva actual y chequea la agenda para explicar si ese horario se puede reprogramar, siempre recordando que debe validarlo el administrador y devolviendo la renta en `messages.custom`.
   - `ActionCheckFeedbackStatus`: consulta los comentarios registrados en `analytics.feedback` para un usuario.
   - `ActionCloseChatSession`: marca la conversación como cerrada en `analytics.chatbot`.
   - `ActionSessionStart`: inicializa la sesión con la información del usuario y su rol proveniente del token.

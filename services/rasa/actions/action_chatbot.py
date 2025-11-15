@@ -7,7 +7,7 @@ import json
 import logging
 import re
 import unicodedata
-from datetime import datetime, timedelta, timezone, time as time_of_day
+from datetime import date, datetime, timedelta, timezone, time as time_of_day
 from functools import partial
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
@@ -324,6 +324,269 @@ async def _fetch_top_clients_from_analytics(
             exc,
         )
     return None
+
+
+def _build_reservation_headers(token: Optional[str]) -> Optional[Dict[str, str]]:
+    if not token:
+        return None
+    normalized = token.strip()
+    if not normalized:
+        return None
+    if not normalized.lower().startswith("bearer "):
+        normalized = f"Bearer {normalized}"
+    return {"Authorization": normalized}
+
+
+async def _fetch_user_rent_history(
+    user_id: int,
+    *,
+    token: Optional[str] = None,
+) -> List[Dict[str, Any]]:
+    base_url = settings.RESERVATION_SERVICE_URL.rstrip("/")
+    endpoint = f"{base_url}/rents/users/{user_id}/history"
+    headers = _build_reservation_headers(token)
+    try:
+        async with httpx.AsyncClient(timeout=8.0) as client:
+            response = await client.get(endpoint, headers=headers or None)
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPStatusError as exc:
+        LOGGER.warning(
+            "[ReservationHistory] status=%s user=%s: %s",
+            exc.response.status_code,
+            user_id,
+            exc,
+        )
+    except httpx.RequestError as exc:
+        LOGGER.warning(
+            "[ReservationHistory] request failed for user=%s: %s", user_id, exc
+        )
+    except ValueError as exc:
+        LOGGER.warning(
+            "[ReservationHistory] invalid JSON for user=%s: %s", user_id, exc
+        )
+    return []
+
+
+async def _fetch_schedule_time_slots(
+    field_id: int,
+    target_date: date,
+    *,
+    token: Optional[str] = None,
+) -> List[Dict[str, Any]]:
+    base_url = settings.RESERVATION_SERVICE_URL.rstrip("/")
+    endpoint = f"{base_url}/schedules/time-slots"
+    headers = _build_reservation_headers(token)
+    params = {"field_id": field_id, "date": target_date.isoformat()}
+    try:
+        async with httpx.AsyncClient(timeout=8.0) as client:
+            response = await client.get(endpoint, headers=headers or None, params=params)
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPStatusError as exc:
+        LOGGER.warning(
+            "[ScheduleSlots] status=%s field=%s date=%s: %s",
+            exc.response.status_code,
+            field_id,
+            target_date,
+            exc,
+        )
+    except httpx.RequestError as exc:
+        LOGGER.warning(
+            "[ScheduleSlots] request failed for field=%s date=%s: %s",
+            field_id,
+            target_date,
+            exc,
+        )
+    except ValueError as exc:
+        LOGGER.warning(
+            "[ScheduleSlots] invalid JSON for field=%s date=%s: %s",
+            field_id,
+            target_date,
+            exc,
+        )
+    return []
+
+
+def _parse_datetime_value(value: Any) -> Optional[datetime]:
+    if isinstance(value, datetime):
+        return value
+    if not isinstance(value, str):
+        return None
+    normalized = value.strip()
+    if not normalized:
+        return None
+    if normalized.endswith("Z"):
+        normalized = f"{normalized[:-1]}+00:00"
+    if " " in normalized and "T" not in normalized:
+        normalized = normalized.replace(" ", "T")
+    try:
+        return datetime.fromisoformat(normalized)
+    except ValueError:
+        return None
+
+
+def _parse_date_value(value: Optional[str]) -> Optional[date]:
+    if not value:
+        return None
+    normalized = value.strip()
+    if not normalized:
+        return None
+    if "T" in normalized:
+        normalized = normalized.split("T")[0]
+    try:
+        return date.fromisoformat(normalized)
+    except ValueError:
+        return None
+
+
+def _parse_time_value(value: Optional[str]) -> Optional[time_of_day]:
+    if not value:
+        return None
+    normalized = value.strip()
+    if not normalized:
+        return None
+    if normalized.endswith("Z"):
+        normalized = normalized[:-1]
+    if " " in normalized and "T" not in normalized:
+        normalized = normalized.replace(" ", "T")
+    try:
+        return time_of_day.fromisoformat(normalized)
+    except ValueError:
+        try:
+            dt = datetime.fromisoformat(normalized)
+        except ValueError:
+            return None
+        return dt.time()
+
+
+def _ensure_datetime_timezone(value: Optional[datetime]) -> Optional[datetime]:
+    if value is None:
+        return None
+    if value.tzinfo is None:
+        return value.replace(tzinfo=timezone.utc)
+    return value
+
+
+def _rent_start_time(rent: Dict[str, Any]) -> Optional[datetime]:
+    start = _parse_datetime_value(rent.get("start_time"))
+    if start is not None:
+        return _ensure_datetime_timezone(start)
+    schedule = rent.get("schedule") or {}
+    return _ensure_datetime_timezone(_parse_datetime_value(schedule.get("start_time")))
+
+
+def _rent_end_time(rent: Dict[str, Any]) -> Optional[datetime]:
+    end = _parse_datetime_value(rent.get("end_time"))
+    if end is not None:
+        return _ensure_datetime_timezone(end)
+    schedule = rent.get("schedule") or {}
+    return _ensure_datetime_timezone(_parse_datetime_value(schedule.get("end_time")))
+
+
+def _normalize_reservation_status(status: Any) -> str:
+    if status is None:
+        return ""
+    if isinstance(status, str):
+        return status.strip().lower()
+    return str(status).strip().lower()
+
+
+def _select_target_rent(
+    history: List[Dict[str, Any]],
+    requested_date: Optional[date],
+    requested_time: Optional[time_of_day],
+) -> Tuple[Optional[Dict[str, Any]], str]:
+    annotated: List[Tuple[Dict[str, Any], Optional[datetime]]] = []
+    for rent in history:
+        if _normalize_reservation_status(rent.get("status")) != "reserved":
+            continue
+        annotated.append((rent, _rent_start_time(rent)))
+    if not annotated:
+        return None, ""
+
+    def _start_key(item: Tuple[Dict[str, Any], Optional[datetime]]) -> datetime:
+        start = item[1]
+        return start or datetime.max.replace(tzinfo=timezone.utc)
+
+    def _first(items: List[Tuple[Dict[str, Any], Optional[datetime]]]) -> Dict[str, Any]:
+        selected = sorted(items, key=_start_key)[0]
+        return selected[0]
+
+    if requested_date and requested_time:
+        matches = [
+            item
+            for item in annotated
+            if item[1]
+            and item[1].date() == requested_date
+            and item[1].time() == requested_time
+        ]
+        if matches:
+            reason = (
+                f"Identifiqué la reserva del {requested_date.strftime('%d/%m/%Y')} "
+                f"a las {requested_time.strftime('%H:%M')}."
+            )
+            return _first(matches), reason
+
+    if requested_time:
+        matches = [
+            item for item in annotated if item[1] and item[1].time() == requested_time
+        ]
+        if matches:
+            reason = (
+                f"Identifiqué la reserva que empieza a las {requested_time.strftime('%H:%M')}."
+            )
+            return _first(matches), reason
+
+    if requested_date:
+        matches = [
+            item for item in annotated if item[1] and item[1].date() == requested_date
+        ]
+        if matches:
+            reason = f"Filtré por el {requested_date.strftime('%d/%m/%Y')}."
+            return _first(matches), reason
+
+    now = datetime.now(timezone.utc)
+    future = [item for item in annotated if item[1] and item[1] >= now]
+    if future:
+        reason = "Tomé la reserva más próxima en la agenda."
+        return _first(future), reason
+
+    reason = "Tomé la última reserva registrada."
+    last_choice = sorted(annotated, key=_start_key, reverse=True)[0][0]
+    return last_choice, reason
+
+
+def _match_slot_status(
+    slots: List[Dict[str, Any]],
+    target_start: Optional[datetime],
+) -> Optional[str]:
+    if not slots or target_start is None:
+        return None
+    target = _ensure_datetime_timezone(target_start)
+    for slot in slots:
+        slot_start = _parse_datetime_value(slot.get("start_time"))
+        slot_start = _ensure_datetime_timezone(slot_start)
+        if slot_start == target:
+            status_value = slot.get("status")
+            if isinstance(status_value, str):
+                return status_value.strip()
+            return str(status_value) if status_value is not None else None
+    return None
+
+
+def _describe_slot_availability(status: Optional[str]) -> str:
+    if not status:
+        return "No pude confirmar la disponibilidad exacta en la agenda de esa cancha."
+    normalized = status.strip().lower()
+    if normalized in {"available", "libre", "disponible", "open", "free"}:
+        return "El horario aparece libre en el calendario, pero el administrador debe confirmarlo."
+    if normalized in {"reserved", "ocupado", "booked", "occupied", "taken"}:
+        return "En el horario que mencionas la cancha está ocupada según el calendario."
+    return (
+        f"El calendario reporta el estado \"{status}\" para ese horario, "
+        "así que deberías verificarlo con el administrador."
+    )
 
 
 def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
@@ -2325,6 +2588,151 @@ class ActionShowRecommendationHistory(Action):
             message_metadata={"history": history},
         )
         return events
+
+
+class ActionReprogramReservation(Action):
+    """Guide players through reprogramming their next reserved rent."""
+
+    def name(self) -> str:
+        return "action_reprogram_reservation"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        latest_message = tracker.latest_message or {}
+        metadata = _coerce_metadata(latest_message.get("metadata"))
+        session_id = tracker.get_slot("chatbot_session_id")
+        user_token = _extract_token_from_metadata(metadata)
+
+        user_id = None
+        user_id_slot = tracker.get_slot("user_id")
+        if user_id_slot:
+            try:
+                user_id = int(str(user_id_slot).strip())
+            except ValueError:
+                user_id = None
+        if user_id is None:
+            user_id = _coerce_user_identifier(metadata.get("user_id") or metadata.get("id_user"))
+
+        if user_id is None:
+            response_text = (
+                "No logro identificar tu cuenta. Inicia sesión nuevamente para revisar la reserva."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="reprogram_error",
+            )
+            return []
+
+        date_values = _extract_entity_values(tracker, "date")
+        time_values = _extract_entity_values(tracker, "time")
+        requested_date = _parse_date_value(date_values[0]) if date_values else None
+        requested_time = _parse_time_value(time_values[0]) if time_values else None
+
+        history = await _fetch_user_rent_history(user_id, token=user_token)
+        if not history:
+            response_text = (
+                "No encuentro reservas activas en tu historial. "
+                "Revisa la app y dime cuál quieres reprogramar."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="reprogram_error",
+            )
+            return []
+
+        target_rent, selection_reason = _select_target_rent(
+            history, requested_date, requested_time
+        )
+        if target_rent is None:
+            response_text = (
+                "No pude identificar una reserva en estado reservado. "
+                "Indícame la fecha o el horario exacto para buscarla."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="reprogram_error",
+            )
+            return []
+
+        start_dt = _rent_start_time(target_rent)
+        end_dt = _rent_end_time(target_rent)
+        schedule = target_rent.get("schedule") or {}
+        field_info = schedule.get("field") or {}
+        field_name = field_info.get("field_name") or "esa cancha"
+        field_id = field_info.get("id_field")
+        field_identifier: Optional[int] = None
+        if field_id is not None:
+            try:
+                field_identifier = int(field_id)
+            except (TypeError, ValueError):
+                field_identifier = None
+
+        availability_note = "No pude verificar la agenda de esa cancha."
+        slot_status = None
+        if field_identifier and start_dt:
+            slots = await _fetch_schedule_time_slots(
+                field_identifier, start_dt.date(), token=user_token
+            )
+            slot_status = _match_slot_status(slots, start_dt)
+            availability_note = _describe_slot_availability(slot_status)
+
+        date_label = (
+            start_dt.strftime("%d/%m/%Y")
+            if start_dt
+            else requested_date.strftime("%d/%m/%Y")
+            if requested_date
+            else "la fecha indicada"
+        )
+        start_label = start_dt.strftime("%H:%M") if start_dt else target_rent.get("start_time") or ""
+        end_label = end_dt.strftime("%H:%M") if end_dt else target_rent.get("end_time") or ""
+        rent_id = target_rent.get("id_rent") or "tu renta"
+
+        reason_note = selection_reason or ""
+        response_parts = [
+            (
+                f"Tu renta #{rent_id} en {field_name} el {date_label} de "
+                f"{start_label} a {end_label} puede reprogramarse, pero debes consultarle al administrador."
+            ),
+        ]
+        if reason_note:
+            response_parts.append(reason_note)
+        response_parts.append(availability_note)
+        response_text = " ".join(part for part in response_parts if part)
+
+        response_metadata = {
+            "rent_id": rent_id,
+            "availability": slot_status,
+        }
+        dispatcher.utter_message(
+            text=response_text,
+            metadata=response_metadata,
+            custom={"rent": target_rent},
+        )
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="reprogram_request",
+            message_metadata=response_metadata,
+        )
+        return []
 
 
 class ActionCheckFeedbackStatus(Action):

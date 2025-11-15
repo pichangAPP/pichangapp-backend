@@ -7,6 +7,7 @@ intents:
   - request_field_recommendation
   - ask_reservation_process
   - ask_modify_reservation
+  - ask_reprogram_reservation
   - ask_cancellation_policy
   - ask_pricing_info
   - show_previous_recommendations
@@ -288,6 +289,7 @@ actions:
   - action_log_field_recommendation_request
   - action_submit_field_recommendation_form
   - action_show_recommendation_history
+  - action_reprogram_reservation
   - action_check_feedback_status
   - action_close_chat_session
   - action_provide_admin_management_tips

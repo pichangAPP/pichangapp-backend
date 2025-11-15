@@ -3,6 +3,7 @@
 from .action_chatbot import (
     ActionCheckFeedbackStatus,
     ActionCloseChatSession,
+    ActionReprogramReservation,
     ActionSessionStart,
     ActionShowRecommendationHistory,
     ActionSubmitFieldRecommendationForm,
@@ -11,6 +12,7 @@ from .action_chatbot import (
 __all__ = [
     "ActionCheckFeedbackStatus",
     "ActionCloseChatSession",
+    "ActionReprogramReservation",
     "ActionSessionStart",
     "ActionShowRecommendationHistory",
     "ActionSubmitFieldRecommendationForm",
