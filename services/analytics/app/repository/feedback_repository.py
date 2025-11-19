@@ -25,12 +25,22 @@ class FeedbackRepositoryError(RuntimeError):
     """Raised when feedback operations cannot be completed."""
 
 
+def _extract_sql_error(exc: SQLAlchemyError) -> str:
+    cause = getattr(exc, "__cause__", None)
+    if cause:
+        return str(cause)
+    return str(exc)
+
+
 def create_feedback(db: Session, feedback: Feedback) -> Feedback:
     try:
         db.add(feedback)
         db.flush([feedback])
     except SQLAlchemyError as exc:  # pragma: no cover - defensive
-        raise FeedbackRepositoryError("Failed to persist feedback") from exc
+        detail = _extract_sql_error(exc)
+        raise FeedbackRepositoryError(
+            f"Failed to persist feedback ({detail})"
+        ) from exc
     return feedback
 
 
@@ -39,7 +49,10 @@ def delete_feedback(db: Session, feedback: Feedback) -> None:
         db.delete(feedback)
         db.flush([feedback])
     except SQLAlchemyError as exc:  # pragma: no cover - defensive
-        raise FeedbackRepositoryError("Failed to delete feedback") from exc
+        detail = _extract_sql_error(exc)
+        raise FeedbackRepositoryError(
+            f"Failed to delete feedback ({detail})"
+        ) from exc
 
 
 def get_feedback(db: Session, feedback_id: int) -> Optional[Feedback]:
