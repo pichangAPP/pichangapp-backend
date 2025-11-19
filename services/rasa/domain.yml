@@ -15,6 +15,7 @@ intents:
   - request_field_recommendation
   - request_admin_recommendation
   - request_admin_top_clients
+  - request_admin_field_usage
   - request_admin_demand_alerts
 
   # Consultas informativas
@@ -289,6 +290,17 @@ slots:
     influence_conversation: true
     mappings:
       - type: custom
+
+  managed_campus_id:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: controlled
+  managed_campus_name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: controlled
 
   # Slot para id de sesión del chatbot
   chatbot_session_id:
@@ -843,6 +855,7 @@ actions:
 
   # Acciones de administrador
   - action_provide_admin_management_tips
+  - action_provide_admin_field_usage
   - action_provide_admin_campus_top_clients
   - action_provide_admin_demand_alerts
 

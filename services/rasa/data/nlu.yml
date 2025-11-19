@@ -1018,6 +1018,37 @@ nlu:
       - Dime cuáles clientes deberían recibir promociones VIP
       - Muéstrame los usuarios frecuentes del estadio de concreto
       - Dame el ranking de los equipos nocturnos
+  - intent: request_admin_field_usage
+    examples: |
+      - Quiero saber qué campos usan más en mis campus
+      - ¿Cuáles son los campos con más renta este mes?
+      - Muéstrame el ranking de campos más usados por cada sede
+      - Necesito ver qué campos tienen mayor demanda ahora
+      - ¿Qué cancha es la más ocupada este mes?
+      - Dame el campo favorito en cada campus que administro
+      - ¿Cuáles son los campos con más reservas repetidas?
+      - Necesito el top de campos por cantidad de alquileres
+      - Dime qué campos están más llenos por campus
+      - ¿Me puedes decir los campos que más usan mis equipos?
+      - Quiero ver qué canchas son las más populares
+      - Las canchas mas usadas de este mes
+      - Qué campos tienen más reservas en mis sedes
+      - Dime cuáles son los campos con mayor ocupación
+      - Muéstrame el uso de cada campo en mis campus
+      - Necesito saber qué campos son los favoritos de los usuarios
+      - Cuáles son los campos que más rentan en mis sedes
+      - Dame un reporte de uso por campo en cada sede
+      - Quiero ver el ranking de campos por sede
+      - ¿Qué campos tienen más reservas recurrentes?
+      - Dime cuáles son los campos más solicitados
+      - Muéstrame los campos con mayor número de alquileres
+      - Necesito ver qué campos tienen mejor ocupación
+      - Cuáles son los campos top en mis campus
+      - Dame el listado de campos más usados por mis clientes
+      - Quiero saber qué campos son los preferidos en mis sedes
+      - ¿Qué campos tienen más demanda en mis canchas?
+      - Dime cuáles son los campos con más reservas este mes
+      - Muéstrame el ranking de campos más alquilados
   - intent: request_admin_demand_alerts
     examples: |
       - Necesito alertas cuando falte gente en ciertas franjas.

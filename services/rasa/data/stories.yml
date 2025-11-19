@@ -144,6 +144,15 @@ stories:
       - action: action_close_chat_session
       - action: utter_goodbye
 
+  - story: administrador consulta campos más usados
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_field_usage
+      - action: action_provide_admin_field_usage
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
   - story: jugador pregunta promociones
     steps:
       - slot_was_set:
@@ -154,6 +163,11 @@ stories:
   - story: administrador sin rol definido solicita recomendación
     steps:
       - intent: request_admin_recommendation
+      - action: action_ensure_user_role
+
+  - story: administrador sin rol definido solicita uso de campos
+    steps:
+      - intent: request_admin_field_usage
       - action: action_ensure_user_role
 
   - story: proceso de reserva explicado

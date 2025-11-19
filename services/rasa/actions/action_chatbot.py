@@ -320,9 +320,43 @@ async def _fetch_top_clients_from_analytics(
             campus_id,
             exc,
         )
+    return None
+
+
+async def _fetch_field_usage_from_analytics(
+    campus_id: int,
+    *,
+    token: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
+    base_url = settings.ANALYTICS_SERVICE_URL.rstrip("/")
+    endpoint = f"{base_url}/analytics/campuses/{campus_id}/top-fields"
+    headers: Dict[str, str] = {}
+    if token:
+        normalized = token.strip()
+        if not normalized.lower().startswith("bearer "):
+            normalized = f"Bearer {normalized}"
+        headers["Authorization"] = normalized
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            response = await client.get(endpoint, headers=headers or None)
+            response.raise_for_status()
+            return response.json()
+    except httpx.HTTPStatusError as exc:
+        LOGGER.warning(
+            "[AdminFieldUsage] analytics returned %s for campus=%s: %s",
+            exc.response.status_code,
+            campus_id,
+            exc,
+        )
+    except httpx.RequestError as exc:
+        LOGGER.warning(
+            "[AdminFieldUsage] request failed for campus=%s: %s",
+            campus_id,
+            exc,
+        )
     except ValueError as exc:
         LOGGER.warning(
-            "[AdminTopClients] invalid JSON from analytics for campus=%s: %s",
+            "[AdminFieldUsage] invalid JSON from analytics for campus=%s: %s",
             campus_id,
             exc,
         )
@@ -2610,21 +2644,25 @@ class ActionProvideAdminCampusTopClients(Action):
             except ValueError:
                 campus_context = None
 
-        if campus_context is None:
-            try:
-                campuses = await run_in_thread(_fetch_managed_campuses, user_id)
-            except DatabaseError:
-                LOGGER.exception(
-                    "[ActionProvideAdminCampusTopClients] database error fetching campuses for user_id=%s",
-                    user_id,
-                )
-            else:
-                if campuses:
-                    campus_context = campuses[0]
-                    events.append(SlotSet("managed_campus_id", str(campus_context["id_campus"])))
-                    campus_name = campus_context.get("name")
-                    if campus_name:
-                        events.append(SlotSet("managed_campus_name", campus_name))
+        campuses = []
+        try:
+            campuses = await run_in_thread(_fetch_managed_campuses, user_id)
+        except DatabaseError:
+            LOGGER.exception(
+                "[ActionProvideAdminCampusTopClients] database error fetching campuses for user_id=%s",
+                user_id,
+            )
+            campuses = []
+
+        if not campuses and campus_context:
+            campuses = [campus_context]
+
+        if campuses:
+            primary = campuses[0]
+            events.append(SlotSet("managed_campus_id", str(primary["id_campus"])))
+            campus_name = primary.get("name")
+            if campus_name:
+                events.append(SlotSet("managed_campus_name", campus_name))
 
         if campus_context is None:
             response_text = (
@@ -2641,32 +2679,26 @@ class ActionProvideAdminCampusTopClients(Action):
             )
             return events
 
-        campus_display = campus_context.get("name") or "tu campus"
         auth_token = _extract_token_from_metadata(metadata)
-        top_clients_data = await _fetch_top_clients_from_analytics(
-            campus_context["id_campus"],
-            token=auth_token,
-        )
-        if top_clients_data is None:
-            response_text = (
-                "No pude consultar los clientes frecuentes en este momento. "
-                "Por favor intenta nuevamente en unos minutos."
+        campus_results: List[Dict[str, Any]] = []
+        for campus in campuses:
+            top_clients_data = await _fetch_top_clients_from_analytics(
+                campus["id_campus"],
+                token=auth_token,
             )
-            dispatcher.utter_message(text=response_text)
-            await _record_intent_and_log(
-                tracker=tracker,
-                session_id=session_id,
-                user_id=user_id,
-                response_text=response_text,
-                response_type="admin_top_clients_unavailable",
-                message_metadata={"campus_id": campus_context["id_campus"]},
+            frequent_clients: List[Dict[str, Any]] = []
+            if top_clients_data:
+                frequent_clients = top_clients_data.get("frequent_clients") or []
+            campus_results.append(
+                {
+                    "campus": campus,
+                    "clients": frequent_clients,
+                }
             )
-            return events
 
-        frequent_clients: List[Dict[str, Any]] = top_clients_data.get("frequent_clients") or []
-        if not frequent_clients:
+        if not campus_results:
             response_text = (
-                f"Por ahora no hay clientes frecuentes registrados para {campus_display}."
+                "Por ahora no hay clientes frecuentes registrados para tus sedes."
             )
             dispatcher.utter_message(text=response_text)
             await _record_intent_and_log(
@@ -2675,38 +2707,56 @@ class ActionProvideAdminCampusTopClients(Action):
                 user_id=user_id,
                 response_text=response_text,
                 response_type="admin_top_clients_empty",
-                message_metadata={"campus_id": campus_context["id_campus"], "campus_name": campus_display},
             )
             return events
 
-        lines: List[str] = []
-        for index, client in enumerate(frequent_clients, start=1):
-            name = client.get("name") or "Cliente"
-            rent_count = client.get("rent_count") or 0
-            location = client.get("district") or client.get("city")
-            contact = client.get("phone") or client.get("email")
-            details = [f"{rent_count} rentas"]
-            if location:
-                details.append(location)
-            if contact:
-                details.append(contact)
+        sections: List[str] = []
+        metadata_clients: List[Dict[str, Any]] = []
+        for result in campus_results:
+            campus = result["campus"]
+            campus_display = campus.get("name") or campus.get("district") or "esa sede"
+            lines: List[str] = []
+            if result["clients"]:
+                for index, client in enumerate(result["clients"], start=1):
+                    name = client.get("name") or "Cliente"
+                    rent_count = client.get("rent_count") or 0
+                    location = client.get("district") or client.get("city")
+                    contact = client.get("phone") or client.get("email")
+                    details = [f"{rent_count} rentas"]
+                    if location:
+                        details.append(location)
+                    if contact:
+                        details.append(contact)
+                    else:
+                        details.append("sin contacto registrado")
+                    lines.append(f"{index}. {name} · {' · '.join(details)}")
             else:
-                details.append("sin contacto registrado")
-            lines.append(f"{index}. {name} · {' · '.join(details)}")
+                lines.append("No hay clientes frecuentes registrados por ahora.")
+            sections.append(
+                f"Campus {campus_display} ({len(result['clients'])} clientes frecuentes):\n"
+                + "\n".join(lines)
+            )
+            metadata_clients.append(
+                {
+                    "campus_id": campus["id_campus"],
+                    "campus_name": campus_display,
+                    "client_count": len(result["clients"]),
+                    "clients": result["clients"],
+                }
+            )
 
         response_text = (
-            f"Estimado administrador, estos son los jugadores que más rentan en {campus_display}:\n"
-            + "\n".join(lines)
+            "Estimado administrador, aquí está el resumen consolidado de clientes frecuentes en tus campus:\n"
+            + "\n\n".join(sections)
+            + "\n\nSi querés, puedo profundizar en uno de ellos o preparar un reporte detallado."
         )
         response_metadata = {
             "analytics": {
                 "response_type": "admin_top_clients",
-                "campus_id": campus_context["id_campus"],
-                "campus_name": campus_display,
-                "client_count": len(frequent_clients),
+                "campus_count": len(campus_results),
                 "source": "analytics_service",
             },
-            "top_clients": frequent_clients,
+            "top_clients": metadata_clients,
         }
         dispatcher.utter_message(text=response_text, metadata=response_metadata)
         await _record_intent_and_log(
@@ -2715,6 +2765,155 @@ class ActionProvideAdminCampusTopClients(Action):
             user_id=user_id,
             response_text=response_text,
             response_type="admin_top_clients",
+            message_metadata=response_metadata,
+        )
+        return events
+
+
+class ActionProvideAdminFieldUsage(Action):
+    """Return the most used fields for the campuses managed by this admin."""
+
+    def name(self) -> str:
+        return "action_provide_admin_field_usage"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        events: List[EventType] = []
+        latest_message = tracker.latest_message or {}
+        metadata = _coerce_metadata(latest_message.get("metadata"))
+
+        user_role = (tracker.get_slot("user_role") or "player").lower()
+        session_id = tracker.get_slot("chatbot_session_id")
+        theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
+
+        user_id = _coerce_user_identifier(tracker.get_slot("user_id"))
+        if user_id is None:
+            user_id = _coerce_user_identifier(
+                metadata.get("user_id") or metadata.get("id_user")
+            )
+
+        if user_role != "admin":
+            response_text = (
+                "Este informe está reservado para administradores. "
+                "Inicia sesión con tu perfil de gestión para acceder a estos datos."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="admin_field_usage_denied",
+            )
+            return events
+
+        if user_id is None:
+            response_text = (
+                "No identifiqué tu cuenta de administrador. Vuelve a iniciar sesión y lo revisamos."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="admin_field_usage_error",
+            )
+            return events
+
+        if not session_id:
+            try:
+                ensured = await run_in_thread(
+                    chatbot_service.ensure_chat_session,
+                    user_id,
+                    theme,
+                    "admin",
+                )
+            except DatabaseError:
+                LOGGER.exception(
+                    "[ActionProvideAdminFieldUsage] database error ensuring session for admin user_id=%s",
+                    user_id,
+                )
+            else:
+                session_id = str(ensured)
+                events.append(SlotSet("chatbot_session_id", session_id))
+
+        try:
+            campuses = await run_in_thread(_fetch_managed_campuses, user_id)
+        except DatabaseError:
+            LOGGER.exception(
+                "[ActionProvideAdminFieldUsage] database error fetching campuses for user_id=%s",
+                user_id,
+            )
+            campuses = []
+
+        if not campuses:
+            response_text = (
+                "No encontré sedes asociadas a tu usuario. Confirma que estás gestionando alguna sede."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="admin_field_usage_no_campus",
+            )
+            return events
+
+        result_sections: List[str] = []
+        metadata_sections: List[Dict[str, Any]] = []
+        auth_token = _extract_token_from_metadata(metadata)
+        for campus in campuses:
+            usage_data = await _fetch_field_usage_from_analytics(
+                campus["id_campus"],
+                token=auth_token,
+            )
+            fields = usage_data.get("top_fields") if usage_data else []
+            section_lines: List[str] = []
+            if fields:
+                for index, field in enumerate(fields, start=1):
+                    section_lines.append(
+                        f"{index}. {field.get('field_name')} · {field.get('usage_count')} rentas"
+                    )
+            else:
+                section_lines.append("No hay datos de uso para este campus en el mes actual.")
+            campus_display = campus.get("name") or campus.get("district") or "esa sede"
+            result_sections.append(
+                f"Campus {campus_display} ({len(fields)} campos registrados):\n"
+                + "\n".join(section_lines)
+            )
+            metadata_sections.append(
+                {
+                    "campus_id": campus["id_campus"],
+                    "campus_name": campus_display,
+                    "fields": fields or [],
+                }
+            )
+
+        response_text = (
+            "Estimado administrador, estos son los campos más usados en tus campus este mes:\n"
+            + "\n\n".join(result_sections)
+            + "\n\nSi querés puedo enviar este resumen por mail o profundizar uno en particular."
+        )
+        response_metadata = {
+            "analytics": {
+                "response_type": "admin_field_usage",
+                "campus_count": len(campuses),
+            },
+            "field_usage": metadata_sections,
+        }
+        dispatcher.utter_message(text=response_text, metadata=response_metadata)
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="admin_field_usage",
             message_metadata=response_metadata,
         )
         return events

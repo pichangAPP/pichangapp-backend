@@ -10,7 +10,7 @@ from app.core.security import get_current_user
 from app.schemas import FeedbackCreate, FeedbackResponse
 from app.services import FeedbackService
 
-router = APIRouter(prefix="/feedback", tags=["feedback"])
+router = APIRouter(prefix="/analytics/feedback", tags=["feedback"])
 
 
 def _extract_user_id(claims: Dict[str, object]) -> int:

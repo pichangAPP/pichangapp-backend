@@ -29,6 +29,8 @@ from app.schemas.analytics import (
     RevenueSummaryResponse,
     CampusFrequentClientsResponse,
     FrequentClient,
+    FieldUsage,
+    CampusFieldUsageResponse,
 )
 
 DEFAULT_DAY_WINDOW = 30
@@ -218,6 +220,61 @@ class AnalyticsService:
             monthly_daily_income=monthly_daily_income,
             last_seven_days_rent_traffic=seven_day_traffic,
             fields=fields,
+        )
+
+    def get_campus_top_fields(
+        self,
+        *,
+        campus_id: int,
+        limit: int,
+    ) -> CampusFieldUsageResponse:
+        """Return the most-used fields for the current month."""
+
+        now = datetime.now(LOCAL_TIMEZONE)
+        month_start = datetime(now.year, now.month, 1, tzinfo=LOCAL_TIMEZONE)
+        month_end = _calculate_period_end(month_start, "month")
+
+        try:
+            field_rows = fetch_campus_top_fields(
+                self._db,
+                campus_id=campus_id,
+                start_at=month_start,
+                end_at=month_end,
+                limit=limit,
+            )
+        except AnalyticsRepositoryError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Unable to fetch field usage",
+            ) from exc
+
+        try:
+            campus_overview = fetch_campus_overview(self._db, campus_id=campus_id)
+        except AnalyticsRepositoryError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Unable to retrieve campus info",
+            ) from exc
+
+        if campus_overview is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Campus not found",
+            )
+
+        top_fields = [
+            FieldUsage(
+                field_id=row["field_id"],
+                field_name=row["field_name"],
+                usage_count=row["usage_count"],
+            )
+            for row in field_rows
+        ]
+
+        return CampusFieldUsageResponse(
+            campus_id=campus_overview["campus_id"],
+            campus_name=campus_overview["campus_name"],
+            top_fields=top_fields,
         )
 
     def get_campus_frequent_clients(

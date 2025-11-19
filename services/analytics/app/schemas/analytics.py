@@ -116,6 +116,24 @@ class CampusFrequentClientsResponse(BaseModel):
     )
 
 
+class FieldUsage(BaseModel):
+    """Top usage info for a field."""
+
+    field_id: int = Field(..., description="Identifier of the field.")
+    field_name: str = Field(..., description="Name of the field.")
+    usage_count: int = Field(..., ge=0, description="Number of rents for the field this month.")
+
+
+class CampusFieldUsageResponse(BaseModel):
+    """Most used fields for a campus during the current month."""
+
+    campus_id: int = Field(..., description="Identifier of the campus.")
+    campus_name: str = Field(..., description="Display name of the campus.")
+    top_fields: List[FieldUsage] = Field(
+        ..., description="Top used fields for the campus ordered by usage count."
+    )
+
+
 __all__ = [
     "CampusRevenueSummary",
     "CampusRevenueMetricsResponse",
@@ -127,4 +145,6 @@ __all__ = [
     "RevenueSummaryResponse",
     "FrequentClient",
     "CampusFrequentClientsResponse",
+    "FieldUsage",
+    "CampusFieldUsageResponse",
 ]

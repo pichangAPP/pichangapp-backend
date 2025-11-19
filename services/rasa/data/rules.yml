@@ -157,6 +157,16 @@ rules:
       - action: action_close_chat_session
       - action: utter_goodbye
 
+  - rule: admin requests field usage
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+    steps:
+      - intent: request_admin_field_usage
+      - action: action_provide_admin_field_usage
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
   - rule: admin requests without role (alerts)
     condition:
       - slot_was_set:
@@ -179,6 +189,14 @@ rules:
           - user_role: null
     steps:
       - intent: request_admin_top_clients
+      - action: action_ensure_user_role
+
+  - rule: admin requests without role (field usage)
+    condition:
+      - slot_was_set:
+          - user_role: null
+    steps:
+      - intent: request_admin_field_usage
       - action: action_ensure_user_role
 
   - rule: player requests recommendation

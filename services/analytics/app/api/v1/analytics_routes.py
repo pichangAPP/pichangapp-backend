@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
 from app.schemas.analytics import (
+    CampusFieldUsageResponse,
     CampusFrequentClientsResponse,
     CampusRevenueMetricsResponse,
     RevenueSummaryResponse,
@@ -82,6 +83,26 @@ def get_campus_frequent_clients(
 
     service = AnalyticsService(db)
     return service.get_campus_frequent_clients(campus_id=campus_id, limit=limit)
+
+
+@router.get(
+    "/campuses/{campus_id}/top-fields",
+    response_model=CampusFieldUsageResponse,
+)
+def get_campus_top_fields(
+    campus_id: int,
+    limit: int = Query(
+        5,
+        ge=1,
+        le=100,
+        description="Maximum number of fields to return.",
+    ),
+    db: Session = Depends(get_db),
+) -> CampusFieldUsageResponse:
+    """Return the most frequently used fields for the campus this month."""
+
+    service = AnalyticsService(db)
+    return service.get_campus_top_fields(campus_id=campus_id, limit=limit)
 
 
 __all__ = ["router"]
