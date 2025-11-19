@@ -5,13 +5,17 @@ from __future__ import annotations
 import logging
 from datetime import datetime
 from decimal import Decimal
+from io import BytesIO
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Sequence
+from urllib.parse import quote
 
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound, select_autoescape
 
+import qrcode
+
 from app.core.config import settings
-from app.models import EmailContent
+from app.models import EmailAttachment, EmailContent
 from app.repository import EmailRepository
 from app.schemas import NotificationRequest
 
@@ -78,6 +82,7 @@ class EmailService:
         html_template: str,
         text_template: str,
         context: Dict[str, Any],
+        attachments: Sequence[EmailAttachment] | None = None,
     ) -> EmailContent:
         html_body = self._render_template(html_template, context)
         text_body = self._render_template(text_template, context)
@@ -86,6 +91,24 @@ class EmailService:
             recipients=[recipient],
             html_body=html_body,
             text_body=text_body,
+            attachments=tuple(attachments or ()),
+        )
+
+    @staticmethod
+    def _build_qr_attachment(recipient: str, subject: str) -> EmailAttachment:
+        mailto_link = f"mailto:{recipient}?subject={quote(subject)}"
+        qr = qrcode.QRCode(box_size=10, border=4)
+        qr.add_data(mailto_link)
+        qr.make(fit=True)
+        image = qr.make_image(fill_color="black", back_color="white")
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        safe_recipient = recipient.replace("@", "_at_").replace("/", "_")
+        filename = f"qr-{safe_recipient}.png"
+        return EmailAttachment(
+            filename=filename,
+            content_type="image/png",
+            data=buffer.getvalue(),
         )
 
     def send_rent_notification(self, payload: NotificationRequest) -> None:
@@ -93,12 +116,14 @@ class EmailService:
 
         context = self._build_common_context(payload)
 
+        user_qr = self._build_qr_attachment(payload.user.email, settings.USER_RECEIPT_SUBJECT)
         user_email = self._build_email(
             subject=settings.USER_RECEIPT_SUBJECT,
             recipient=payload.user.email,
             html_template="user_receipt.html",
             text_template="user_receipt.txt",
             context=context,
+            attachments=[user_qr],
         )
         self._repository.send_email(user_email)
         logger.info(
@@ -117,12 +142,17 @@ class EmailService:
         manager_context = dict(context)
         manager_context["recipient"] = payload.manager
 
+        manager_qr = self._build_qr_attachment(
+            payload.manager.email,
+            settings.MANAGER_CONFIRMATION_SUBJECT,
+        )
         manager_email = self._build_email(
             subject=settings.MANAGER_CONFIRMATION_SUBJECT,
             recipient=payload.manager.email,
             html_template="manager_confirmation.html",
             text_template="manager_confirmation.txt",
             context=manager_context,
+            attachments=[manager_qr],
         )
         self._repository.send_email(manager_email)
         logger.info(
