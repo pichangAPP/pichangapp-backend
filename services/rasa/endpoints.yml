@@ -13,6 +13,10 @@
 action_endpoint:
   actions_module: "actions"
 
+rest:
+  request_timeout: 120
+  response_timeout: 120
+
 # Tracker store which is used to store the conversations.
 # By default the conversations are stored in memory.
 # https://rasa.com/docs/rasa-pro/production/tracker-stores

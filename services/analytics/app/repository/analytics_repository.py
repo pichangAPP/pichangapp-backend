@@ -402,6 +402,57 @@ def fetch_campus_top_clients(
     return entries
 
 
+def fetch_campus_top_fields(
+    db: Session,
+    *,
+    campus_id: int,
+    start_at: datetime,
+    end_at: datetime,
+    limit: int,
+) -> List[Dict[str, object]]:
+    query = text(
+        """
+        SELECT
+            field.id_field,
+            field.name AS field_name,
+            COUNT(rent.id_rent) AS usage_count
+        FROM reservation.rent AS rent
+        JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
+        JOIN booking.field AS field ON field.id_field = schedule.id_field
+        WHERE field.id_campus = :campus_id
+          AND rent.date_log >= :start_at
+          AND rent.date_log < :end_at
+          AND LOWER(rent.status) NOT IN ('available', 'pending', 'cancelled')
+        GROUP BY field.id_field, field.name
+        ORDER BY usage_count DESC, field.name ASC
+        LIMIT :limit
+        """
+    )
+    try:
+        result = db.execute(
+            query,
+            {
+                "campus_id": campus_id,
+                "start_at": start_at,
+                "end_at": end_at,
+                "limit": limit,
+            },
+        )
+    except SQLAlchemyError as exc:
+        raise AnalyticsRepositoryError(str(exc)) from exc
+
+    entries: List[Dict[str, object]] = []
+    for row in result:
+        entries.append(
+            {
+                "field_id": row.id_field,
+                "field_name": row.field_name,
+                "usage_count": int(row.usage_count),
+            }
+        )
+    return entries
+
+
 __all__ = [
     "AnalyticsRepositoryError",
     "fetch_campus_daily_income",

@@ -1,52 +1,296 @@
 version: "3.1"
 
+# ===============================================
+# INTENCIONES
+# ===============================================
 intents:
+  # Intenciones básicas
   - greet
   - goodbye
-  - help
-  - request_field_recommendation
-  - ask_reservation_process
-  - ask_modify_reservation
-  - ask_reprogram_reservation
-  - ask_cancellation_policy
-  - ask_pricing_info
-  - show_previous_recommendations
-  - ask_feedback_status
-  - show_faqs
   - affirm
   - deny
-  - SetSlots # payload usado por los botones de feedback
-  - nlu_fallback
+  - help
+
+  # Intenciones principales del negocio
+  - request_field_recommendation
   - request_admin_recommendation
   - request_admin_top_clients
+  - request_admin_field_usage
+  - request_admin_demand_alerts
 
+  # Consultas informativas
+  - ask_reservation_process
+  - ask_modify_reservation
+  - ask_cancellation_policy
+  - ask_reprogram_reservation
+  - ask_pricing_info
+  - show_faqs
+
+  # Funcionalidades de seguimiento
+  - show_previous_recommendations
+  - ask_feedback_status
+
+  # Feedback del usuario
+  - give_positive_feedback
+  - give_negative_feedback
+
+  # Intent para capturar información del usuario
+  - inform
+
+  # Intent especial para setear slots
+  - SetSlots
+
+  # Intent de fallback
+  - nlu_fallback
+
+# ===============================================
+# ENTIDADES
+# ===============================================
 entities:
   - sport
   - location
-  - surface
-  - date
   - time
+  - date
   - budget
-  - skill_level
-  - user_id
+  - surface
+  - rating
+  - amenities
+  - num_players
+  - field_size
+  - urgency_level
+  - recurrence
 
+# ===============================================
+# SLOTS - Almacenamiento de información
+# ===============================================
 slots:
+  # --- Slot para el rol del usuario ---
+  user_role:
+    type: categorical
+    values:
+      - player
+      - admin
+    influence_conversation: true
+    mappings:
+      - type: custom
+
+  # --- Slots para recomendación de canchas ---
+  sport:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: sport
+      - type: from_intent
+        intent: inform
+        value: last_entity_value
+
+  location:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: location
+      - type: from_intent
+        intent: inform
+        value: last_entity_value
+
+  time:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: time
+      - type: from_intent
+        intent: inform
+        value: last_entity_value
+
+  date:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: date
+      - type: from_intent
+        intent: inform
+        value: last_entity_value
+
+  budget:
+    type: float
+    min_value: 0
+    max_value: 1000
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: budget
+      - type: from_intent
+        intent: inform
+        value: last_entity_value
+
+  surface:
+    type: categorical
+    values:
+      - Grass mixto (natural + sintético)
+      - Grass sintético
+      - Grass sintético premium
+      - Grass natural
+      - Losa de cemento
+      - Losa deportiva
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: surface
+
+  rating:
+    type: float
+    min_value: 0
+    max_value: 5
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: rating
+
+  num_players:
+    type: float
+    min_value: 2
+    max_value: 22
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: num_players
+
+  field_size:
+    type: categorical
+    values:
+      - pequeña
+      - mediana
+      - grande
+      - completa
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: field_size
+
+  urgency_level:
+    type: categorical
+    values:
+      - urgente
+      - normal
+      - flexible
+    influence_conversation: true
+    mappings:
+      - type: custom
+
+  # --- Slots de control de conversación ---
+  requested_slot:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para guardar recomendaciones previas
+  last_recommendations:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para nombre del usuario
+  user_name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para ID del usuario
   user_id:
     type: text
     influence_conversation: false
     mappings:
-      - type: controlled
-  user_role:
-    type: text
-    influence_conversation: false
-    initial_value: "player"
-    mappings:
-      - type: controlled
-  chatbot_session_id:
-    type: text
+      - type: custom
+
+  # Slot para preferencias guardadas
+  user_preferences:
+    type: any
     influence_conversation: false
     mappings:
-      - type: controlled
+      - type: custom
+
+  # Slot para historial de feedback
+  feedback_history:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para contador de interacciones
+  interaction_count:
+    type: float
+    min_value: 0
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para indicar si es usuario recurrente
+  is_returning_user:
+    type: bool
+    influence_conversation: true
+    mappings:
+      - type: custom
+
+  # Slot para amenidades requeridas
+  amenities:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: amenities
+
+  # Slot para tracking de formulario abandonado
+  form_abandoned:
+    type: bool
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para contexto de última acción
+  last_action_context:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para indicar si mostró precios
+  showed_pricing:
+    type: bool
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para seguimiento de FAQs vistas
+  faqs_viewed:
+    type: list
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para idioma preferido (futuro)
+  preferred_language:
+    type: categorical
+    values:
+      - es
+      - en
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  # Slot para tema del chat
+  chat_theme:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: custom
+
   managed_campus_id:
     type: text
     influence_conversation: false
@@ -57,95 +301,89 @@ slots:
     influence_conversation: false
     mappings:
       - type: controlled
-  chat_theme:
-    type: text
-    influence_conversation: false
-    initial_value: "Reservas y alquileres"
-    mappings:
-      - type: controlled
-  preferred_sport:
+
+  # Slot para id de sesión del chatbot
+  chatbot_session_id:
     type: text
     influence_conversation: false
     mappings:
-      - type: from_entity
-        entity: sport
+      - type: custom
+
+  # Slots para preferencias inferidas de recomendación
   preferred_location:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: location
+      - type: custom
+
   preferred_surface:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: surface
+      - type: custom
+
+  preferred_sport:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: custom
+
   preferred_date:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: date
+      - type: custom
+
   preferred_start_time:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: time
+      - type: custom
+
   preferred_end_time:
     type: text
-    influence_conversation: false
+    influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: time
-  preferred_budget:
-    type: text
-    influence_conversation: false
-    mappings:
-      - type: from_entity
-        entity: budget
-  preferred_skill_level:
-    type: text
-    influence_conversation: false
-    mappings:
-      - type: from_entity
-        entity: skill_level
-  feedback_rating:
-    type: text
-    influence_conversation: false
-    mappings:
-      - type: from_text
-  example_questions:
-    type: text
-    influence_conversation: false
-    initial_value: |
-      - ¿Qué puedes hacer?
-      - Muéstrame mis recomendaciones anteriores
-      - ¿Hay alguna promo para hoy?
-    mappings:
-      - type: controlled
-  agent_name:
-    type: text
-    influence_conversation: false
-    initial_value: "Chato Bot"
-    mappings:
-      - type: controlled
+      - type: custom
 
+  preferred_budget:
+    type: float
+    influence_conversation: true
+    mappings:
+      - type: custom
+
+# ===============================================
+# FORMS - Formularios para recopilar información
+# ===============================================
+forms:
+  field_recommendation_form:
+    required_slots:
+      - location
+      - sport
+      - time
+      - date
+
+# ===============================================
+# RESPONSES - Respuestas del bot
+# ===============================================
 responses:
+  # --- Saludos y despedidas ---
   utter_hello:
     - condition:
         - type: slot
           name: user_role
           value: admin
-      text: "Estimado administrador, estoy listo para coordinar la operación de sus sedes. ¿Qué área desea revisar hoy?"
+      text: "Estimado administrador, estoy listo para coordinar la operación de sus sedes. ¿Qué área desea revisar hoy o qué reporte quiere ver?"
     - condition:
         - type: slot
           name: user_role
           value: player
       text: "¡Hola! Soy Chato Bot y estoy listo para ayudarte a encontrar la mejor cancha para tu partido."
     - text: "¡Habla! me llamo Chato, tu asistente virtual para coordinar pichangas. ¿En qué te ayudo?"
-    - text: "¡Hola! Chato Bot por aquí; cuéntame qué necesitas y buscamos la opción ideal para tu juego."
+    - text: "¡Hola! Aquí para ayudarte a encontrar la cancha ideal 🏃"
+    - text: "¡Saludos! Dime qué necesitas y te consigo la mejor cancha 🎯"
+    - text: "¡Bienvenido! Estoy aquí para que encuentres donde jugar 🏀"
+
   utter_goodbye:
     - condition:
         - type: slot
@@ -158,15 +396,21 @@ responses:
           value: player
       text: "¡Perfecto! Que disfrutes tu partido. Cuando necesites otra reserva, aquí estaré."
     - text: "¡Hasta luego! Vuelve cuando quieras coordinar una nueva cancha."
+
+  utter_already_greeted:
+    - text: "Ya nos saludamos 😊 ¿En qué más puedo ayudarte?"
+    - text: "¡Ya estamos conversando! ¿Qué necesitas?"
+
+  # --- Ayuda ---
   utter_what_can_you_do:
     - condition:
         - type: slot
           name: user_role
           value: admin
       text: |
-        No estoy aquí para reservar por usted, sino para apoyar la gestión. Puedo:
-        - Indicarle quiénes rentan más frecuentemente sus espacios.
-        - Traer información de feedback o métricas relevantes.
+        Estoy aquí para apoyar con gestión. Puedo:
+        - Indicarle quiénes rentan frecuentemente sus espacios.
+        - Traer información de métricas ocupación y alquiler.
         - Sugerir acciones para balancear ocupación y precios.
     - condition:
         - type: slot
@@ -187,117 +431,464 @@ responses:
         - Si eres administrador, puedo contarte quiénes rentan más frecuentemente tus espacios.
       metadata:
         rephrase: True
-  utter_ask_field_recommendation_form_preferred_sport:
-    - text: "¿Qué deporte deseas jugar?"
-  utter_ask_field_recommendation_form_preferred_date:
-    - text: "¿Para qué fecha necesitas la cancha? (formato AAAA-MM-DD)"
-  utter_ask_field_recommendation_form_preferred_start_time:
-    - text: "¿A qué hora te gustaría empezar? (por ejemplo 19:00)"
-  utter_ask_field_recommendation_form_preferred_location:
-    - text: "¿En qué distrito o zona prefieres jugar?"
-  utter_ask_field_recommendation_form_preferred_surface:
-    - text: "¿Tienes preferencia por alguna superficie (sintético, grass, etc.)?"
-  utter_reservation_process:
-    - text: |
-        Para reservar una cancha solo debes:
-        1. Elegir el deporte y la sede que prefieras.
-        2. Seleccionar fecha y horario disponibles.
-        3. Confirmar la reserva y realizar el pago desde la app.
-        Si necesitas ayuda en algún paso, ¡dímelo!
-  utter_modify_reservation:
-    - text: |
-        Puedes modificar tu reserva desde la sección "Mis reservas" eligiendo una nueva fecha u hora disponible.
-        Si la reserva ya está muy cerca, es posible que necesites apoyo del equipo de soporte.
-  utter_cancellation_policy:
-    - text: |
-        Las cancelaciones se permiten hasta 24 horas antes del horario reservado.
-        Si cancelas dentro de ese plazo, el saldo queda como crédito para tu siguiente reserva.
-        Fuera de ese tiempo, contáctanos para revisar tu caso.
-  utter_pricing_info:
-    - text: |
-        El precio de cada cancha depende del deporte, la sede y la franja horaria.
-        Cuando busques opciones te mostraré el costo por hora y promociones disponibles.
-  utter_top_faqs:
-    - text: |
-        Puedes preguntarme sobre:
 
-        - 📅 ¿Cómo reservo una cancha desde la app?
-        - 🔁 ¿Qué hago si necesito cambiar o cancelar?
-        - 💸 ¿Cuánto está la hora en determinada sede?
-        - ⭐ ¿Cómo dejo feedback de mis partidos?
-        - 🏟️ ¿Qué sedes tienen promos o disponibilidad especial?
-      metadata:
-        rephrase: True
-  utter_ask_feedback_rating:
-    - text: "¿Cómo calificarías tu experiencia?"
-      buttons:
-        - title: "👍 Excelente"
-          payload: "/SetSlots(feedback_rating=thumbs_up)"
-        - title: "👎 Podría mejorar"
-          payload: "/SetSlots(feedback_rating=thumbs_down)"
-  utter_thankyou_positive:
-    - text: "¡Gracias por el comentario positivo! Seguiremos mejorando para ti."
-    - text: "¡Genial! Nos alegra saber que disfrutaste el servicio."
-    - text: "¡Muchas gracias! Tus buenos comentarios nos motivan a seguir creciendo."
-  utter_thankyou_negative:
-    - text: "Gracias por tu sinceridad. Revisaremos cómo mejorar tu próxima experiencia."
-    - text: "Apreciamos tu feedback. Trabajaremos para ofrecerte un mejor servicio."
-    - text: "Gracias por avisarnos. Tu comentario nos ayuda a mejorar."
-  utter_default_fallback:
-    - text: "No estoy seguro de haber entendido. ¿Podrías reformular tu mensaje o darme más detalles? Por ahora no puedo transferirte con un agente humano, pero puedo seguir buscando opciones contigo."
-  utter_no_relevant_answer_found:
-    - text: "Lo siento, por ahora no tengo una respuesta para eso. ¿Quieres intentarlo con otra pregunta?"
-      metadata:
-        rephrase: True
-  utter_welcome:
-    - condition:
-        - type: slot
-          name: user_role
-          value: admin
-      text: |
-        Bienvenido. Soy {agent_name} 👋, su asistente para monitorear sedes y operaciones.
-        ¿Desea revisar métricas, clientes frecuentes o sugerencias?
-    - condition:
-        - type: slot
-          name: user_role
-          value: player
-      text: |
-        ¡Hola! Soy {agent_name} 👋, tu asistente virtual para coordinar canchas deportivas.
-        ¿Qué tal si empezamos buscando la cancha ideal para tu próximo partido?
-    - text: |
-        ¡Bienvenido! Soy {agent_name} 👋, tu asistente virtual para coordinar canchas deportivas.
-
-        Puedes empezar con preguntas como:
-        {example_questions}
   utter_help:
     - condition:
         - type: slot
           name: user_role
           value: admin
-      text: "¿Necesita recopilar indicadores o clientes habituales para su campus? Estoy aquí para apoyarle con la gestión."
+      text: "¿Necesitás que revise algo? Estoy para ayudarte con la gestión."
     - condition:
         - type: slot
           name: user_role
           value: player
-      text: "¿Qué necesitas? Aquí estoy para ayudarte con las canchas"
-    - text: "¿Qué necesitas? Aquí estoy para ayudarte con la cancha o la gestión."
-      metadata:
-        rephrase: True
+      text: "¿Querés que siga buscando otra cancha, presupuesto o horario? Te acompaño en lo que necesites para armar el partido."
+    - text: "¿Hay algo más en lo que pueda ayudarte?"
+    - text: "¿Necesitas ayuda con algo más?"
+    - text: "¿Qué más puedo hacer por ti?"
+    - text: "Estoy aquí para lo que necesites 😊"
+    - text: "¿Alguna otra duda?"
 
+  utter_admin_only_flow:
+    - text: "Ese flujo está reservado para administradores. Si querés buscar cancha, avísame que eres player o hacé login desde una cuenta admin."
+    - text: "Estoy en modo administrador y no puedo ejecutar recomendaciones de jugador para este perfil."
+
+  utter_player_only_flow:
+    - text: "Esa funcionalidad es exclusiva para administradores. Si necesitás ayuda de player, decime qué cancha querés y sigo ahí."
+    - text: "Para proteger la experiencia, los consejos de admins solo los reciben cuentas con rol admin, así que sigo ayudando como player."
+
+  utter_anything_else:
+    - condition:
+        - type: slot
+          name: user_role
+          value: admin
+      text: "¿Querés que revisemos otra cosa o coordinemos alguna operación adicional?"
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "¿Te gustaría buscar otra cancha o necesitas algo más?"
+    - text: "¿Hay algo más que pueda hacer por ti?"
+    - text: "¿Necesitas ayuda con otra cosa?"
+    - text: "¿Quieres que te ayude con algo más?"
+
+  utter_can_help_more:
+    - condition:
+        - type: slot
+          name: user_role
+          value: admin
+      text: "¿Desea que revise otro indicador o coordine una operación adicional?"
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "Entiendo. ¿Hay algo más en lo que pueda asistirte?"
+    - text: "No hay problema. ¿Puedo ayudarte con otra cosa?"
+    - text: "Está bien. ¿Necesitas información sobre algo más?"
+
+  # --- Preguntas del formulario ---
+  utter_ask_location:
+    - text: "¿En qué distrito quieres jugar?"
+      buttons:
+        - title: "Villa El Salvador"
+          payload: '/inform{"location":"Villa El Salvador"}'
+        - title: "Chorrillos"
+          payload: '/inform{"location":"Chorrillos"}'
+        - title: "Surco"
+          payload: '/inform{"location":"Surco"}'
+        - title: "San Isidro"
+          payload: '/inform{"location":"San Isidro"}'
+    - text: "¿Cuál es tu zona preferida?"
+      buttons:
+        - title: "Villa El Salvador"
+          payload: '/inform{"location":"Villa El Salvador"}'
+        - title: "Chorrillos"
+          payload: '/inform{"location":"Chorrillos"}'
+        - title: "Surco"
+          payload: '/inform{"location":"Surco"}'
+        - title: "San Isidro"
+          payload: '/inform{"location":"San Isidro"}'
+        - title: "Otra zona"
+          payload: '/inform{"location":"otra"}'
+    - text: "¿Por qué distrito te queda mejor?"
+    - text: "¿Dónde prefieres jugar?"
+    - text: "Indícame el distrito o zona donde buscas cancha"
+
+  utter_ask_sport:
+    - text: "¿Qué deporte vas a practicar?"
+      buttons:
+        - title: "⚽ Fulbito"
+          payload: '/inform{"sport":"football"}'
+        - title: "🎾 Tenis"
+          payload: '/inform{"sport":"tennis"}'
+        - title: "🏀 Basket"
+          payload: '/inform{"sport":"basketball"}'
+        - title: "🏐 Voley"
+          payload: '/inform{"sport":"voleyball"}'
+    - text: "¿Qué deporte quieres jugar?"
+      buttons:
+        - title: "⚽ Fútbol"
+          payload: '/inform{"sport":"football"}'
+        - title: "🎾 Tenis"
+          payload: '/inform{"sport":"tennis"}'
+        - title: "🏀 Basket"
+          payload: '/inform{"sport":"basketball"}'
+        - title: "Otro"
+          payload: '/inform{"sport":"otro"}'
+    - text: "¿Para qué deporte necesitas la cancha?"
+    - text: "Dime qué deporte van a practicar"
+
+  utter_ask_time:
+    - text: "¿A qué hora quieres jugar? (ejemplo: 20:00)"
+    - text: "¿Qué horario prefieres? (formato 24h: 19:00)"
+    - text: "¿A qué hora te gustaría reservar?"
+    - text: "Indícame la hora aproximada (ejemplo: 18:00)"
+    - text: "¿Qué hora te viene bien? (ej: 20:30)"
+
+  utter_ask_date:
+    - text: "¿Para qué día necesitas la cancha? (ejemplo: 2025-11-20, 'hoy' o 'mañana')"
+
+  utter_ask_budget:
+    - text: "¿Cuál es tu presupuesto aproximado? (en soles)"
+    - text: "¿Hasta cuánto estás dispuesto a pagar por hora?"
+    - text: "¿Tienes un presupuesto en mente?"
+
+  utter_ask_surface:
+    - text: "¿Qué tipo de superficie prefieres?"
+      buttons:
+        - title: "Grass sintético"
+          payload: '/inform{"surface":"grass sintético"}'
+        - title: "Grass natural"
+          payload: '/inform{"surface":"grass natural"}'
+        - title: "Losa de cemento"
+          payload: '/inform{"surface":"losa de cemento"}'
+        - title: "Me da igual"
+          payload: "/affirm"
+
+  # --- Información ---
+  utter_reservation_process:
+    - text: |
+        📋 Para reservar una cancha:
+
+        1️⃣ Dime tus preferencias (ubicación, deporte, horario)
+        2️⃣ Te mostraré las mejores opciones disponibles
+        3️⃣ Elige la que más te guste
+        4️⃣ Confirma tu reserva en la app
+
+        ¿Quieres que te ayude a buscar ahora?
+    - text: |
+        🎯 El proceso es súper simple:
+
+        • Me dices qué, dónde y cuándo quieres jugar
+        • Te muestro las opciones disponibles con precios
+        • Seleccionas tu favorita
+        • Confirmas en la app y listo!
+
+        ¿Empezamos?
+
+  utter_modify_reservation:
+    - text: |
+        Para modificar una reserva existente:
+
+        📱 Ingresa a la app de PichangApp
+        📋 Ve a la sección "Mis Reservas"
+        ✏️ Selecciona la reserva que quieres modificar
+        🔄 Elige nueva fecha/hora según disponibilidad
+        ✅ Consulta con el administrador de la cancha
+
+        Nota: Las modificaciones están sujetas a disponibilidad y políticas de cada cancha.
+    - text: |
+        🔄 Para cambiar tu reserva:
+
+        1. Entra a la app
+        2. Toca "Mis Reservas"
+        3. Selecciona la que quieres cambiar
+        4. Consulta con el administrador de la cancha
+
+        ⚠️ Hazlo con al menos 6 horas de anticipación.
+
+  utter_cancellation_policy:
+    - text: |
+        📜 Política de Cancelación:
+
+        ✅ Cancelación gratuita: hasta 24h antes
+        ⚠️ Entre 24h-6h antes: cargo del 50%
+        ❌ Menos de 6h antes: cargo del 100%
+
+        💡 Para cancelar:
+        • Ingresa a la app
+        • Ve a "Mis Reservas"
+        • Selecciona la reserva
+        • Toca "Cancelar"
+
+        El reembolso (si aplica) se procesa en 3-5 días hábiles.
+    - text: |
+        🚫 Reglas de Cancelación:
+
+        📅 +24 horas antes → 100% reembolso
+        ⏰ 6-24 horas antes → 50% reembolso
+        ⚡ -6 horas antes → Sin reembolso
+
+        Las cancelaciones se hacen desde "Mis Reservas" en la app.
+
+  utter_pricing_info:
+    - text: |
+        💰 Información de Precios:
+
+        Los precios varían según:
+        📍 Ubicación (distrito)
+        ⚽ Tipo de cancha y deporte
+        🕐 Horario (mañana, tarde, noche)
+        📅 Día de la semana
+        🏟️ Instalaciones y servicios
+
+        💡 Rango general:
+        • Fulbito: S/50 - S/120 por hora
+        • Pádel: S/60 - S/150 por hora
+        • Basket/Voley: S/40 - S/100 por hora
+
+        Dime qué buscas y te muestro opciones con precios exactos.
+    - text: |
+        💵 Los precios dependen de varios factores:
+
+        🌆 Zona (distritos premium son más caros)
+        🌙 Horario (noche suele ser más caro)
+        📆 Día (fines de semana tienen tarifas especiales)
+        ⭐ Calidad de instalaciones
+
+        ¿Quieres que busque opciones en tu presupuesto?
+
+  utter_top_faqs:
+    - text: |
+        ❓ Preguntas Frecuentes:
+
+        • ¿Cómo reservo una cancha?
+        • ¿Puedo cancelar mi reserva?
+        • ¿Cuánto cuesta alquilar?
+        • ¿Hay descuentos o promociones?
+        • ¿Qué métodos de pago aceptan?
+        • ¿Las canchas tienen estacionamiento?
+        • ¿Prestan balones o equipamiento?
+        • ¿Hay vestuarios y duchas?
+
+        ¿Sobre cuál quieres saber más?
+    - text: |
+        🔍 Dudas Comunes:
+
+        1. Proceso de reserva
+        2. Formas de pago
+        3. Políticas de cancelación
+        4. Modificación de reservas
+        5. Precios y promociones
+        6. Servicios incluidos
+
+        Pregúntame sobre cualquiera de estos temas.
+
+  # --- Fallback ---
+  utter_default_fallback:
+    - text: "Disculpa, no entendí bien. ¿Podrías reformularlo?"
+    - text: "No estoy seguro de entender. ¿Puedes explicarlo de otra forma?"
+    - text: "Perdona, no capté eso. ¿Podrías decirlo diferente?"
+    - text: "No entendí bien. ¿Me lo puedes decir de otra manera?"
+    - text: "Mmm, no comprendí. Intenta con otras palabras por favor 🤔"
+
+  utter_ask_rephrase:
+    - text: "Lo siento, no capté eso. ¿Podrías decirlo de otra manera?"
+    - text: "No entendí bien. ¿Puedes reformular tu pregunta?"
+
+  # --- Feedback ---
+  utter_ask_for_feedback:
+    - text: "¿Qué te pareció mi ayuda? Califícame del 1 al 5"
+      buttons:
+        - title: "1"
+          payload: '/give_negative_feedback{"rating":"1"}}'
+        - title: "2"
+          payload: '/give_negative_feedback{"rating":"2"}}'
+        - title: "3"
+          payload: '/give_negative_feedback{"rating":"3"}}'
+        - title: "4"
+          payload: '/give_positive_feedback{"rating":"4"}}'
+        - title: "5"
+          payload: '/give_positive_feedback{"rating":"5"}}'
+    - text: "¿Te fue útil mi ayuda? Déjame una valoración ⭐"
+
+  utter_thanks_for_feedback:
+    - text: "¡Gracias por tu feedback! Me ayuda a mejorar 🙏"
+    - text: "¡Muchas gracias por tu opinión! La tengo en cuenta 😊"
+    - text: "¡Gracias! Tu feedback es muy valioso ⭐"
+    - text: "¡Genial! Gracias por tomarte el tiempo de calificarme 🎯"
+
+  utter_sorry_for_experience:
+    - text: "Lamento no haber cumplido tus expectativas 😔 ¿Qué puedo mejorar?"
+    - text: "Disculpa si no te ayudé como esperabas. Cuéntame qué puedo hacer mejor."
+    - text: "Lo siento mucho. ¿Hay algo específico que no funcionó bien?"
+
+  # --- Confirmaciones y continuidad ---
+  utter_are_you_still_there:
+    - condition:
+        - type: slot
+          name: user_role
+          value: admin
+      text: "¿Sigues ahí? ¿Necesitas más tiempo o querés que vuelva a revisar las métricas?"
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "¿Sigues ahí? ¿Necesitas más tiempo?"
+    - text: "Hola, ¿continuamos con la búsqueda?"
+    - text: "¿Sigues buscando cancha?"
+
+  # --- Mensajes informativos adicionales ---
+  utter_processing:
+    - condition:
+        - type: slot
+          name: user_role
+          value: admin
+      text: "Un momento, reviso las mejores métricas... 🔍"
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "Un momento, estoy buscando las mejores opciones... 🔍"
+    - text: "Déjame revisar las canchas disponibles... ⏳"
+    - text: "Buscando canchas que coincidan con tus preferencias... 🎯"
+
+  utter_no_results:
+    - text: "No encontré canchas con esos criterios. ¿Quieres modificar algún parámetro?"
+    - text: "No hay disponibilidad para esa fecha/hora. ¿Probamos con otra?"
+    - text: "Hmm, no hay opciones disponibles. ¿Cambiamos la ubicación o el horario?"
+
+  utter_recommend_alternatives:
+    - condition:
+        - type: slot
+          name: user_role
+          value: admin
+      text: "¿Querés ver otras sedes o analizar horarios alternativos?"
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "¿Te gustaría ver opciones en zonas cercanas?"
+    - text: "Puedo mostrarte alternativas en horarios similares."
+    - text: "¿Qué tal si revisamos otras fechas disponibles?"
+
+  utter_saved_preferences:
+    - text: "He guardado tus preferencias para próximas búsquedas 💾"
+    - text: "Preferencias guardadas. La próxima vez será más rápido ✅"
+
+  utter_welcome_back:
+    - text: "¡Hola de nuevo! ¿Buscamos cancha como la última vez?"
+    - text: "¡Bienvenido otra vez! ¿Mismas preferencias que antes?"
+
+  utter_first_time:
+    - text: "¡Bienvenido a PichangApp! Es tu primera vez, déjame ayudarte 🎯"
+    - text: "¡Hola! Veo que es tu primera búsqueda. Te guiaré paso a paso 😊"
+
+  # --- Mensajes para diferentes deportes ---
+  utter_fulbito_tips:
+    - text: "⚽ Tip: Las canchas de fulbito son más económicas entre semana y en horarios de mañana."
+
+  utter_padel_tips:
+    - text: "🎾 Tip: El pádel suele ser más caro pero muchas canchas ofrecen descuentos por reservas recurrentes."
+
+  utter_basket_tips:
+    - text: "🏀 Tip: Algunas canchas de basket incluyen balones y vestuarios sin costo extra."
+
+  utter_admin_menu:
+    - text: |
+        📊 Panel de Administrador:
+
+        • Ver clientes frecuentes
+        • Alertas de demanda
+        • Consejos de gestión
+        • Análisis de ocupación
+        • Tendencias de reserva
+
+        ¿Qué deseas consultar?
+
+  # --- Validaciones y errores ---
+  utter_invalid_time:
+    - text: "Ese horario no parece válido. Usa formato 24h (ejemplo: 19:00)"
+    - text: "Por favor ingresa una hora válida (00:00 a 23:59)"
+
+  utter_invalid_date:
+    - text: "Fecha no válida. Intenta con 'hoy', 'mañana' o formato DD/MM/YYYY"
+    - text: "No reconozco esa fecha. ¿Puedes probar con otro formato?"
+
+  utter_invalid_budget:
+    - text: "El presupuesto debe ser un número positivo en soles"
+    - text: "Por favor ingresa un presupuesto válido (ejemplo: 80)"
+
+  utter_past_date:
+    - text: "Esa fecha ya pasó. ¿Quieres una fecha futura?"
+    - text: "No puedo reservar en el pasado 😅 Dame una fecha futura."
+
+  # --- Promociones y ofertas ---
+  utter_show_promotions:
+    - text: |
+        🎉 Promociones Activas:
+
+        • Lunes a Viernes 10am-5pm: -20%
+        • Reserva 3 canchas o más: -15%
+        • Cliente nuevo: primera reserva -10%
+
+        ¿Te interesa alguna?
+
+  utter_discount_applied:
+    - text: "¡Genial! Aplicamos el descuento a tu búsqueda 💰"
+
+# ===============================================
+# ACTIONS - Acciones personalizadas
+# ===============================================
 actions:
+  # Acciones de sesión
   - action_session_start
+  - action_ensure_user_role
+  - action_close_chat_session
+
+  # Acciones de recomendación
   - action_log_field_recommendation_request
   - action_submit_field_recommendation_form
   - action_show_recommendation_history
+  - action_log_urgent_request
   - action_reprogram_reservation
-  - action_check_feedback_status
-  - action_close_chat_session
-  - action_provide_admin_management_tips
-  - action_provide_admin_demand_alerts
-  - action_provide_admin_campus_top_clients
-  - action_handle_feedback_rating
-  - action_ensure_user_role
 
+  # Acciones de administrador
+  - action_provide_admin_management_tips
+  - action_provide_admin_field_usage
+  - action_provide_admin_campus_top_clients
+  - action_provide_admin_demand_alerts
+
+  # Acciones de feedback
+  - action_check_feedback_status
+  - action_handle_feedback_rating
+
+  # Acciones de formulario
+  - validate_field_recommendation_form
+  - action_deactivate_loop
+
+  # Acciones de utilidad
+  - action_default_fallback
+  - action_reset_slots
+  - action_check_inactivity
+  - action_log_conversation_start
+  - action_log_conversation_end
+  - action_log_abandonment
+  - action_log_user_intent
+
+  # Acciones de validación
+  - action_validate_time
+  - action_validate_date
+  - action_validate_budget
+
+  # Acciones de personalización
+  - action_load_user_preferences
+  - action_save_user_preferences
+  - action_check_returning_user
+
+# ===============================================
+# SESSION CONFIG
+# ===============================================
 session_config:
-  session_expiration_time: 60
+  session_expiration_time: 60 # minutos
   carry_over_slots_to_new_session: true

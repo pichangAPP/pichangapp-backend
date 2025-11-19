@@ -1,2 +1,3 @@
 -r ../../requirements.base.txt
-httpx
+
+# Usa este archivo solo para agregar lo que no está en requirements.base.txt

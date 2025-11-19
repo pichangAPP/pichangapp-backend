@@ -369,9 +369,10 @@ class RecommendationRepository:
         try:
             stmt = (
                 select(
-                    Field.id_field,
-                    Field.field_name,
-                    Field.surface,
+                Field.id_field,
+                Field.field_name,
+                Field.measurement,
+                Field.surface,
                     Field.capacity,
                     Field.price_per_hour,
                     Field.open_time,
@@ -451,6 +452,7 @@ class RecommendationRepository:
                     open_time=_format_time(row_dict.get("open_time")),
                     close_time=_format_time(row_dict.get("close_time")),
                     rating=_normalize_decimal(row_dict.get("rating")) if campus_has_rating else None,
+                    measurement=row_dict.get("measurement") or "",
                 )
             )
         return recommendations
@@ -461,6 +463,35 @@ class ChatbotLogRepository:
 
     def __init__(self, db: Session) -> None:
         self._db = db
+
+    def _find_duplicate(
+        self,
+        *,
+        session_id: int,
+        message_text: str,
+        bot_response: str,
+        response_type: str,
+        sender_type: str,
+    ) -> Optional[ChatbotLog]:
+        if not message_text and not bot_response:
+            return None
+        try:
+            stmt = (
+                select(ChatbotLog)
+                .where(
+                    ChatbotLog.id_chatbot == session_id,
+                    ChatbotLog.message == message_text,
+                    ChatbotLog.bot_response == bot_response,
+                    ChatbotLog.response_type == response_type,
+                    ChatbotLog.sender_type == sender_type,
+                )
+                .order_by(ChatbotLog.timestamp.desc())
+                .limit(1)
+            )
+            return self._db.execute(stmt).scalars().first()
+        except SQLAlchemyError as exc:
+            LOGGER.error("[ChatbotLogRepository] duplicate check error: %s", exc)
+            return None
 
     def add_entry(
         self,
@@ -496,6 +527,21 @@ class ChatbotLogRepository:
             intent_detected_flag: Optional[int] = 1 if intent_id is not None else 0
         else:
             intent_detected_flag = None
+        duplicate = self._find_duplicate(
+            session_id=session_id,
+            message_text=message_value,
+            bot_response=bot_response_value,
+            response_type=response_type,
+            sender_type=sender_type,
+        )
+        if duplicate:
+            LOGGER.debug(
+                "[ChatbotLogRepository] skipping duplicate log entry for session_id=%s response_type=%s",
+                session_id,
+                response_type,
+            )
+            return duplicate
+
         entry = ChatbotLog(
             id_chatbot=session_id,
             id_intent=intent_id,

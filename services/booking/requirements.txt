@@ -1,6 +1,3 @@
 -r ../../requirements.base.txt
-passlib[bcrypt]
-bcrypt<4 # pasar a <4 cuando se actualice passlib
-python-jose[cryptography]
 
-# Cuando empieces a usar reservation, aquí agregas lo específico
+# Agrega aquí dependencias propias del booking cuando las necesites
