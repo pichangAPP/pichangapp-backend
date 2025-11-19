@@ -9,4 +9,6 @@ Gracias por reservar con Pichangapp. Estos son los datos de tu reserva:
 - Monto pagado: S/ {{ amount_display }}
 - Fecha límite de pago: {{ payment_deadline_display }}
 
+Adjuntamos un código QR para que puedas volver a este correo cuando lo necesites.
+
 ¡Te esperamos!
