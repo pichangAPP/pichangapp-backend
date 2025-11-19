@@ -17,7 +17,7 @@ python-jose[cryptography]
 httpx
 jinja2
 firebase-admin
-
+qrcode[pil]==7.4.2
 # Herramientas de prueba compartidas
 pytest
 pytest-asyncio
