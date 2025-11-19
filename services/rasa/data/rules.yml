@@ -1,120 +1,263 @@
 version: "3.1"
 
 rules:
-  - rule: inicializar sesión con metadata
+  - rule: initialize session
     conversation_start: true
     steps:
       - action: action_session_start
 
-  - rule: saludar al usuario
+  - rule: enforce user role at start
+    conversation_start: true
+    wait_for_user_input: false
+    steps:
+      - action: action_ensure_user_role
+
+  - rule: greet user and ensure role
     steps:
       - intent: greet
       - action: action_ensure_user_role
       - action: utter_hello
 
-  - rule: despedirse del usuario
+  - rule: say goodbye
     steps:
       - intent: goodbye
       - action: action_ensure_user_role
       - action: action_close_chat_session
       - action: utter_goodbye
 
-  - rule: explicar capacidades
+  - rule: help intent outside form
+    condition:
+      - active_loop: null
     steps:
       - intent: help
       - action: action_ensure_user_role
       - action: utter_what_can_you_do
 
-  - rule: mostrar preguntas frecuentes
+  - rule: help during form
+    condition:
+      - active_loop: field_recommendation_form
     steps:
-      - intent: show_faqs
-      - action: utter_top_faqs
+      - intent: help
+      - action: action_deactivate_loop
+      - action: utter_what_can_you_do
 
-  - rule: explicar proceso de reserva
+  - rule: admin-only flow guard
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
     steps:
-      - intent: ask_reservation_process
-      - action: utter_reservation_process
+      - intent: request_field_recommendation
+      - action: utter_player_only_flow
 
-  - rule: explicar cómo modificar reservas
-    steps:
-      - intent: ask_modify_reservation
-      - action: utter_modify_reservation
-
-  - rule: ayudar a reprogramar una reserva
-    steps:
-      - intent: ask_reprogram_reservation
-      - action: action_reprogram_reservation
-
-  - rule: explicar políticas de cancelación
-    steps:
-      - intent: ask_cancellation_policy
-      - action: utter_cancellation_policy
-
-  - rule: informar precios
-    steps:
-      - intent: ask_pricing_info
-      - action: utter_pricing_info
-
-  - rule: atender solicitud de recomendación
+  - rule: player-only flow guard
     condition:
       - slot_was_set:
           - user_role: "player"
     steps:
-      - intent: request_field_recommendation
-      - action: action_log_field_recommendation_request
-      - action: action_submit_field_recommendation_form
+      - intent: request_admin_recommendation
+      - action: utter_admin_only_flow
 
-  - rule: iniciar consulta de feedback
+  - rule: show faqs
     steps:
-      - intent: ask_feedback_status
-      - action: action_check_feedback_status
+      - intent: show_faqs
+      - action: utter_top_faqs
 
-  - rule: historial de recomendaciones
+  - rule: ask reservation process
+    steps:
+      - intent: ask_reservation_process
+      - action: action_log_user_intent
+      - action: utter_reservation_process
+
+  - rule: ask how to modify reservation
+    steps:
+      - intent: ask_modify_reservation
+      - action: action_log_user_intent
+      - action: utter_modify_reservation
+
+  - rule: ask cancellation policy
+    steps:
+      - intent: ask_cancellation_policy
+      - action: action_log_user_intent
+      - action: utter_cancellation_policy
+
+  - rule: ask for pricing info outside forms
+    condition:
+      - active_loop: null
+    steps:
+      - intent: ask_pricing_info
+      - action: utter_pricing_info
+
+  - rule: ask pricing info during form
+    condition:
+      - active_loop: field_recommendation_form
+    steps:
+      - intent: ask_pricing_info
+      - action: action_deactivate_loop
+      - action: utter_pricing_info
+
+  - rule: reprogram reservation
+    steps:
+      - intent: ask_reprogram_reservation
+      - action: action_reprogram_reservation
+      - action: utter_anything_else
+
+  - rule: show recommendation history
     steps:
       - intent: show_previous_recommendations
       - action: action_show_recommendation_history
 
-  - rule: pedir aclaración cuando no se entiende
+  - rule: ask feedback status
     steps:
-      - intent: nlu_fallback
-      - action: utter_default_fallback
+      - intent: ask_feedback_status
+      - action: action_check_feedback_status
 
-  - rule: recomendaciones para administradores
-    condition:
-      - slot_was_set:
-          - user_role: "admin"
+  - rule: handle SetSlots rating
     steps:
-      - intent: request_admin_recommendation
-      - action: action_provide_admin_management_tips
+      - intent: SetSlots
+      - action: action_handle_feedback_rating
 
-  - rule: solicitudes de clientes frecuentes para administradores
-    condition:
-      - slot_was_set:
-          - user_role: "admin"
+  - rule: thank positive feedback
     steps:
-      - intent: request_admin_top_clients
-      - action: action_provide_admin_campus_top_clients
+      - intent: give_positive_feedback
+      - action: utter_thanks_for_feedback
 
-  - rule: alertas de demanda para administradores
+  - rule: react to negative feedback
+    steps:
+      - intent: give_negative_feedback
+      - action: utter_sorry_for_experience
+      - action: utter_what_can_you_do
+
+  - rule: admin requests alerts (player filtered)
     condition:
       - slot_was_set:
           - user_role: "admin"
     steps:
       - intent: request_admin_demand_alerts
       - action: action_provide_admin_demand_alerts
-
-  - rule: confirmar solicitud
-    steps:
-      - intent: affirm
-      - action: utter_help
-
-  - rule: finalizar tras negativa
-    steps:
-      - intent: deny
+      - action: action_close_chat_session
       - action: utter_goodbye
 
-  - rule: gestionar feedback
+  - rule: admin requests management tips
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
     steps:
-      - intent: SetSlots
-      - action: action_handle_feedback_rating
+      - intent: request_admin_recommendation
+      - action: action_provide_admin_management_tips
+      - action: action_close_chat_session
+      - action: utter_goodbye
 
+  - rule: admin requests top clients
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+    steps:
+      - intent: request_admin_top_clients
+      - action: action_provide_admin_campus_top_clients
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
+  - rule: admin requests without role (alerts)
+    condition:
+      - slot_was_set:
+          - user_role: null
+    steps:
+      - intent: request_admin_demand_alerts
+      - action: action_ensure_user_role
+
+  - rule: admin requests without role (management)
+    condition:
+      - slot_was_set:
+          - user_role: null
+    steps:
+      - intent: request_admin_recommendation
+      - action: action_ensure_user_role
+
+  - rule: admin requests without role (clients)
+    condition:
+      - slot_was_set:
+          - user_role: null
+    steps:
+      - intent: request_admin_top_clients
+      - action: action_ensure_user_role
+
+  - rule: player requests recommendation
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: request_field_recommendation
+      - action: action_log_field_recommendation_request
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_submit_field_recommendation_form
+
+  - rule: request recommendation without role
+    condition:
+      - slot_was_set:
+          - user_role: null
+    steps:
+      - intent: request_field_recommendation
+      - action: action_ensure_user_role
+
+  - rule: submit completed form
+    condition:
+      - active_loop: field_recommendation_form
+    steps:
+      - action: field_recommendation_form
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: action_submit_field_recommendation_form
+
+  - rule: deny inside form
+    condition:
+      - active_loop: field_recommendation_form
+    steps:
+      - intent: deny
+      - action: action_deactivate_loop
+      - action: action_reset_slots
+      - action: action_log_abandonment
+      - action: utter_help
+
+  - rule: fallback inside form
+    condition:
+      - active_loop: field_recommendation_form
+    steps:
+      - intent: nlu_fallback
+      - action: utter_default_fallback
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+
+  - rule: fallback outside forms
+    condition:
+      - active_loop: null
+    steps:
+      - intent: nlu_fallback
+      - action: utter_default_fallback
+      - action: utter_what_can_you_do
+
+  - rule: positive confirmation after recommendation
+    condition:
+      - active_loop: null
+    steps:
+      - action: action_submit_field_recommendation_form
+      - intent: affirm
+      - action: utter_thanks_for_feedback
+      - action: utter_anything_else
+
+  - rule: negative confirmation after recommendation
+    condition:
+      - active_loop: null
+    steps:
+      - action: action_submit_field_recommendation_form
+      - intent: deny
+      - action: utter_can_help_more
+      - action: utter_what_can_you_do

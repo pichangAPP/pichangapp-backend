@@ -27,7 +27,7 @@ class Settings:
         or os.getenv("RASA_MODEL_NAME")
         or "rasa-pro"
     )
-    REQUEST_TIMEOUT: float = float(os.getenv("CHATBOT_REQUEST_TIMEOUT", "10"))
+    REQUEST_TIMEOUT: float = float(os.getenv("CHATBOT_REQUEST_TIMEOUT", "60"))
 
 
 @lru_cache()

@@ -39,7 +39,6 @@ pipeline:
 
     # Arquitectura del modelo
     embedding_dimension: 20
-    number_of_transformer_layers: 2
     transformer_size: 256
 
     # Dropout para prevenir overfitting
@@ -92,9 +91,7 @@ policies:
     constrain_similarities: true
     model_confidence: softmax
 
-    # Arquitectura del transformer
-    number_of_transformer_layers: 2
-    transformer_size: 256
+    # Arquitectura del transformer (se usan los valores por defecto para los tamaños)
     embedding_dimension: 20
 
     # Regularización

@@ -151,6 +151,7 @@ class Field(Base):
     close_time: Mapped[Optional[time]] = mapped_column(Time, nullable=True)
     id_sport: Mapped[int] = mapped_column(Integer, ForeignKey("booking.sports.id_sport"), nullable=False)
     id_campus: Mapped[int] = mapped_column(Integer, ForeignKey("booking.campus.id_campus"), nullable=False)
+    measurement: Mapped[str] = mapped_column(Text, nullable=False)
 
     sport: Mapped["Sport"] = relationship("Sport", back_populates="fields")
     campus: Mapped["Campus"] = relationship("Campus", back_populates="fields")

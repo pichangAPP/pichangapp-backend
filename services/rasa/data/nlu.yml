@@ -29,36 +29,300 @@ nlu:
       - despierta
       - oye chato
       - saludos bot
+      - presente
+      - aquí
+      - ya llegué
+      - pe causa qué tal
+      - oe bro
+      - qué pasa hermano
+      - qué tal causa
+      - qué hubo pues
+      - buenas buenas
+      - muy buenas
+      - buenas noches bot
+      - hola de nuevo
+      - hola otra vez
+      - volví
+      - regresé
+      - ya estoy aquí
+      - aquí de vuelta
+      - hola amigo
+      - qué tal amigo
+      - pe loco
+      - habla pe
+      - qué fue
+      - qué pasó
+      - cómo va
+      - cómo estamos
+      - qué más
+      - qué dice
+      - aló
+      - alo
+      - oiga
+      - disculpa
+      - hola buen día
+      - muy buenos días
+      - buen inicio de semana
+      - feliz lunes
+      - feliz fin de semana
+      - buen sábado
+      - buen domingo
+      - holaaaa
+      - holiwis
+      - qiubo
+      - quihubo
+      - qué onda pe
+      - cómo andas
+      - cómo te va
+      - todo tranquilo
+      - hola qué haces
+      - estás ahí
+      - me escuchas
+      - bot presente
+      - bot ayúdame
   - intent: goodbye
     examples: |
-      - gracias, nos vemos
       - chao
-      - hasta luego
-      - hablamos luego
-      - eso es todo, gracias
-      - nos vemos pronto
-      - hasta la próxima
       - adiós
-      - cierra el chat
+      - hasta luego
+      - hasta la próxima
+      - hasta pronto
+      - nos vemos
+      - bye
+      - chau
+      - chau chau
+      - nos vemos luego
+      - hablamos después
       - hasta otra
       - me despido
-      - despues hablamos
+      - ya me voy
+      - eso es todo
+      - gracias, nos vemos
+      - eso es todo, gracias
       - muchas gracias, adiós
-      - nos vemos
       - cuídate
-      - hasta pronto
-      - apagate
-      - gracias, te contacto luego
+      - que estés bien
+      - te escribo luego
+      - después hablamos
       - quedó todo claro, me retiro
       - gracias por la ayuda, adiós
-      - chau chau
-      - bye
+      - apágate
+      - cierra el chat
+      - sal
+      - terminar
+      - salir
+      - cerrar
+      - finalizar
+      - fin
+      - hasta aquí nomás
+      - ya está
+      - listo, chao
+      - perfecto, nos vemos
+      - ok, adiós
+      - gracias, chau
+      - muchas gracias y adiós
+      - te dejo
+      - me tengo que ir
+      - tengo que irme
+      - me retiro
+      - hasta mañana
+      - hasta el próximo partido
+      - nos vemos en la cancha
+      - chao bot
+      - adiós bot
+      - bye bot
+      - hasta siempre
+      - fue un gusto
+      - gracias por todo
+      - agradecido
+      - excelente servicio, chao
+      - todo claro, me voy
+      - ya quedamos
+      - suficiente por hoy
+      - eso sería todo
+      - nada más
+      - eso es todo por ahora
+      - regreso luego
+      - vuelvo después
+      - te hablo luego
+      - nos estamos viendo
+      - ahí nos vemos
+      - cuidate mucho
+      - suerte
+      - bendiciones
+      - alamos
+      - chaufa
+
+  - intent: affirm
+    examples: |
+      - sí
+      - si
+      - claro
+      - por supuesto
+      - dale
+      - de acuerdo
+      - obvio
+      - seguro
+      - vale
+      - ok
+      - okay
+      - afirmativo
+      - correcto
+      - exacto
+      - así es
+      - confirmo
+      - perfecto
+      - sin duda
+      - claro que sí
+      - desde luego
+      - definitivamente
+      - totalmente
+      - por supuesto que sí
+      - ya po
+      - ya pues
+      - dale nomás
+      - jala
+      - sale
+      - sí claro
+      - sí definitivamente
+      - absolutamente
+      - efectivamente
+      - por supuestísimo
+      - eso mismo
+      - justo eso
+      - así es hermano
+      - tal cual
+      - efectivo
+      - confirmado
+      - está bien
+      - todo bien
+      - me parece bien
+      - acepto
+      - de una
+      - de frente
+      - sí pe
+      - ya pe causa
+      - asu mare sí
+      - obvio pues
+      - clarito
+      - segurísimo
+      - sip
+      - sipi
+      - eso es
+      - eso mero
+      - eso es lo que quiero
+      - perfecto eso
+      - genial
+      - excelente
+      - buenísimo
+      - bacán
+      - chévere
+      - bien ahí
+      - bien bien
+      - dale sí
+      - vamos
+      - vamos con eso
+      - adelante
+      - procede
+      - continúa
+      - sigue
+      - va
+      - va va
+      - yep
+      - yeah
+      - yes
+      - símon
+      - simón
+      - sisas
+
+  - intent: deny
+    examples: |
+      - no
+      - nop
+      - nope
+      - mejor no
+      - prefiero que no
+      - no gracias
+      - negativo
+      - de ninguna manera
+      - para nada
+      - ni pensarlo
+      - nada
+      - de ningún modo
+      - no quiero
+      - no es necesario
+      - no deseo
+      - no me interesa
+      - no por ahora
+      - no en este momento
+      - no lo creo
+      - no estoy seguro
+      - no me parece
+      - no estoy interesado
+      - no es así
+      - no es eso
+      - incorrecto
+      - falso
+      - no no no
+      - nanai
+      - nones
+      - nel
+      - negativo total
+      - jamás
+      - nunca
+      - ni loco
+      - ni muerto
+      - ni en sueños
+      - ni a palos
+      - de ninguna forma
+      - imposible
+      - no puede ser
+      - no me convence
+      - no me cuadra
+      - no me late
+      - no me tinca
+      - no me gusta
+      - no es lo que busco
+      - no es lo que quiero
+      - busco otra cosa
+      - prefiero otra opción
+      - esa no
+      - ese no
+      - ninguno de esos
+      - ninguna de esas
+      - mejor otra cosa
+      - me muestras otras
+      - no me sirve
+      - no me funciona
+      - no calza
+      - no encaja
+      - descartado
+      - rechazado
+      - cancelar
+      - olvídalo
+      - déjalo
+      - no importa
+      - no hace falta
+      - innecesario
+      - tampoco
+      - ni eso
+      - ninguno
+      - nada que ver
+      - nada
+      - ya no
+      - ya basta
+      - suficiente
+      - no lo hagas
+
   - intent: help
     examples: |
-      - ¿qué puedes hacer?
+      - ayuda
+      - ayúdame
       - necesito ayuda
+      - ¿qué puedes hacer?
       - ¿cómo me ayudas?
       - muéstrame tus funciones
+      - ¿qué servicios tienes?
       - ¿qué servicios cubres?
       - necesito saber cómo me apoyas
       - ¿qué puedes ofrecerme?
@@ -69,102 +333,623 @@ nlu:
       - no entiendo cómo usar esto
       - ¿me ayudas?
       - auxílame
-      - para que sirves
-      - ayudame con algo
+      - para qué sirves
+      - ayúdame con algo
       - necesito ayuda con otra cosa
-      - ¿puedes orientarme para seguir?
-      - explícame qué preguntas puedo hacerte
+      - ¿puedes orientarme?
       - dime qué temas manejas
       - necesito soporte
       - ¿cómo funciona esto?
       - ¿qué tipo de ayuda ofreces?
+      - no sé qué hacer
+      - estoy perdido
+      - guíame
+      - no entiendo
+      - instrucciones
+      - manual
+      - tutorial
+      - ayuda por favor
+      - necesito orientación
+      - estoy confundido
+      - no sé cómo seguir
+      - qué hago ahora
+      - cómo procedo
+      - cuál es el proceso
+      - explícame paso a paso
+      - dime cómo funciona
+      - no me queda claro
+      - podrías explicarme
+      - información
+      - dame información
+      - necesito más datos
+      - detalla
+      - especifica
+      - aclara
+      - ejemplos
+      - dame ejemplos
+      - muéstrame ejemplos
+      - cómo te uso
+      - cómo funciona el bot
+      - qué preguntas respondes
+      - sobre qué temas puedo preguntar
+      - de qué puedo hablar contigo
+      - ¿qué onda con la app?
+      - no sé cómo usar esto, chato
+      - explícamelo como si fuera mi pata
+      - necesito que me lo digas clarito
+      - ¿puedo hacer eso desde el celular?
+
   - intent: request_field_recommendation
     examples: |
-      - quiero alquilar una cancha hoy
-      - necesito una cancha de [fulbito](sport) esta noche
-      - ¿qué cancha me recomiendas para jugar [fútbol](sport) en [Miraflores](location)?
-      - buscamos un campo con [grass sintético](surface) para mañana a las [19:00](time)
-      - ayúdame a encontrar una cancha en [Surco](location) para el [2024-06-15](date)
-      - ¿dónde puedo jugar [pádel](sport) cerca de [San Isidro](location)?
-      - estoy buscando una cancha para mañana a las [20:00](time) en [Surquillo](location)
-      - ¿Puedes sugerirme canchas económicas en [Villa El Salvador](location) para las [21:00](time)?
-      - Necesito recomendaciones para jugar [basket](sport) en [San Borja](location) este fin de semana.
-      - Dame opciones con presupuesto de [S/60](budget) cerca de [San Miguel](location).
-      - Quiero jugar el [2024-07-10](date) a las [18:30](time) en una cancha de [grass](surface).
-      - ¿Hay alguna cancha cubierta disponible en [La Molina](location) sobre las [19:30](time)?
-      - Recomiéndame algo barato entre [S/40](budget) y [S/80](budget) en [Los Olivos](location).
-      - ¿Qué canchas con iluminación tienes en [Miraflores](location)?
-      - Necesito una cancha con espacio para 8 jugadores y parrilla.
-      - Ayúdame a programar una reserva para mañana a la tarde.
-      - ¿Hay disponibilidad para [futsal](sport) este sábado?
-      - Busco campo para [fulbito](sport) este viernes a las [20:00](time) en [Chorrillos](location).
-      - ¿Qué canchas tienes libres en [Comas](location) alrededor de las [17:00](time)?
-      - Sugiere canchas para 7 vs 7 en [San Juan de Lurigancho](location) para el [2024-06-30](date).
-      - Necesito una cancha techada en [Pueblo Libre](location) por la tarde.
-      - Quiero ver las opciones más baratas en el sur para jugar [voley](sport).
-      - Muéstrame canchas disponibles con presupuesto máximo [80 soles](budget) cerca de [Magdalena](location).
-      - Estamos libres desde las [16:00](time), ¿qué lugares recomiendas en [San Sebastián](location)?
-      - ¿Alguna cancha para [pádel](sport) que no pase de [S/120](budget)?
-      - Necesito reservar hoy mismo en [Villa María del Triunfo](location), ¿qué opciones hay?
-      - Necesito reservar hoy mismo en [Villa El Salvador](location), ¿qué opciones hay?
-      - Oye bot, quiero una cancha YA, ¿me ayudas?
-      - Ayuda, necesito cancha para hoy sin muchos datos.
-      - No sé cómo funciona esto pero requiero un campo libre esta noche.
-      - ¿Puedes buscar algo para mi equipo? Estamos listos y solo queremos un lugar.
-      - Soy nuevo aquí, dime dónde puedo ir a jugar ahora mismo.
-      - Necesito cancha disponible en [Chorrillos](location) mañana por la [tarde](time).
-      - ¿Qué opciones top tienes en [San Isidro](location) este [viernes](date) a las [19:30](time)?
-      - Consígueme una sede techada cerca de [Callao](location) que cierre tarde.
-      - Tenemos un partido express esta noche en [La Molina](location), recomiéndame algo.
-      - Muéstrame canchas con vestuarios en [San Borja](location) a primera hora del [sábado](date).
-      - Dame tus mejores sugerencias en [Ate](location) para un grupo de 10 a las [21:00](time).
-      - Estamos libres solo “después de las [15:00](time)”, ¿qué hay en [Breña](location)?
-      - Quiero algo económico en [Miraflores](location) pero con buena calificación.
-      - Prioriza canchas cerca al tren en [Villa María del Triunfo](location) para este [domingo](date).
-      - Busco un campo con iluminación premium sobre las [22:00](time) en [Los Olivos](location).
-      - Recomiéndame algo en [Chorrillos](location) con césped sintético.
-      - Quiero las mejor valoradas en [Miraflores](location), ¿cuáles son?
-      - Busco cancha techada en [Los Olivos](location) abierta hasta tarde.
-      - Dime dónde jugar en [San Miguel](location) con horario de [20:00](time).
-      - ¿Qué campos tienen rating alto cerca de [Barranco](location)?
-      - Necesito cancha en [Comas](location) para después de las [17:00](time).
-      - Enséñame opciones con reseñas top en [San Isidro](location).
-      - Prioriza canchas con buena calificación aunque no sean baratas.
-      - Muéstrame opciones con horario amplio entre [18:00](time) y [22:00](time).
-      - Quiero ver sedes con mejores reseñas y estacionamiento en [La Molina](location).
-      - ¿Qué canchas 11 vs 11 tienes en [Ate](location) para el [sábado](date) en la noche?
-      - Recomiéndame un sintético barato cerca de [Independencia](location) para las [23:00](time).
-      - Me alcanza solo hasta [S/50](budget), ¿dónde puedo jugar mañana?
-      - ¿Hay canchas con vestuarios en [Callao](location) el [2024-08-05](date)?
-      - Necesito opciones en la zona norte entre [S/70](budget) y [S/100](budget).
-      - Busco algo disponible “lo antes posible” en [San Juan de Miraflores](location).
-      - Tenemos 2 horas libres desde las [14:00](time); sugiere alguna cancha techada.
-      - Dime dónde jugar [futsal](sport) con superficie lisa cerca de [Breña](location).
-      - Quiero un campo con pasto natural para el domingo a las [10:00](time).
-      - ¿Qué recomiendas si llueve en [Barranco](location) esta noche?
-      - Dame ideas para canchas económicas donde acepten pagos en efectivo.
-      - Necesitamos cancha cerca del tren eléctrico, ¿qué sedes propones?
-      - Requiero un espacio para entrenamiento personal esta tarde.
-      - ¿Dónde podemos jugar con presupuesto libre pero buena iluminación?
-      - Prioriza canchas con estacionamiento en [Lince](location).
-      - Recomendaciones rápidas por favor, no tengo preferencia de distrito.
-      - Necesito la cancha más cercana disponible entre [20:30](time) y [22:00](time).
-      - ¿Alguna sede con lockers para guardar mochilas?
-      - Queremos canchas que abran desde las [06:00](time) en [Rímac](location).
-      - ¿Qué opciones hay cerca al aeropuerto para hoy a las [18:00](time)?
-      - Muéstrame sedes que admitan reservas largas de dos horas.
-      - ¿Puedes sugerir canchas al sur chico con césped artificial nuevo?
-      - Recomiéndame algo en [Jesús María](location) con duchas y buena iluminación.
-      - Dame alternativas en [Cercado de Lima](location) mañana al medio día.
-      - Necesito cancha donde acepten reservas corporativas, ¿qué me das?
-      - ¿Qué opciones express tienes si llegamos sin reserva previa?
-      - Mándame tus tres mejores canchas para grupos de 10 personas.
-      - Enséñame algo para [flag football](sport) o similar este sábado.
-      - Queremos la opción más económica aunque no sea en mi distrito.
-      - Necesito disponibilidad flexible entre [18:00](time) y [21:00](time).
-      - ¿Cuál es la mejor sede para torneos relámpago esta semana?
-      - Busco cancha techada con cafetería adjunta.
-
+      - quiero alquilar una cancha
+      - necesito una cancha
+      - busco una cancha
+      - ayúdame a encontrar una cancha
+      - recomiéndame una cancha
+      - dónde puedo jugar
+      - dónde hay canchas
+      - quiero jugar
+      - quiero reservar
+      - necesito reservar
+      - busco donde jugar
+      - busco dónde jugar
+      - dónde juego
+      - dónde encuentro canchas
+      - búscame una cancha
+      - encuéntrame una cancha
+      - necesito arrendar
+      - quiero arrendar
+      - alquilar cancha
+      - rentar cancha
+      - reservar cancha
+      - quiero una cancha de [fulbito](sport)
+      - necesito una cancha de [fútbol](sport)
+      - busco cancha de [pádel](sport)
+      - dónde puedo jugar [basket](sport)
+      - quiero jugar [voley](sport)
+      - necesito [fulbito](sport)
+      - para jugar [fútbol](sport)
+      - cancha de [tenis](sport)
+      - necesito [pádel](sport)
+      - busco [basket](sport)
+      - quiero jugar [football](sport)
+      - dame opciones de [basketball](sport)
+      - necesito cancha para [voleyball](sport)
+      - necesito reservar de [tennis](sport)
+      - ¿hay [football](sport) esta noche?
+      - ¿me recomiendas [basketball](sport) en la zona?
+      - busco [voleyball](sport) para la barra
+      - [fulbito](sport) por favor
+      - dame opciones de [fútbol](sport)
+      - recomiéndame [pádel](sport)
+      - [voley](sport) necesito
+      - quiero hacer deporte, específicamente [fulbito](sport)
+      - voy a jugar [fútbol](sport)
+      - tengo un partido de [basket](sport)
+      - queremos jugar [voley](sport)
+      - buscamos [pádel](sport)
+      - necesitamos [fulbito](sport)
+      - cancha en [Villa El Salvador](location)
+      - busco juego cerca de [Chorrillos](location)
+      - necesito opciones en [San Isidro](location)
+      - cancha en [Miraflores](location)
+      - ¿hay algo disponible en [Villa El Salvador](location)?
+      - quiero cancha cerca de [Chorrillos](location)
+      - dame opciones en [Surco](location)
+      - yo me quedo cerca del VES, ¿algo por ahí?
+      - algo en [Surco](location)
+      - cerca de [La Molina](location)
+      - por [Barranco](location)
+      - zona de [Chorrillos](location)
+      - en [San Borja](location)
+      - por [San Miguel](location)
+      - zona [Los Olivos](location)
+      - cerca a [Ate](location)
+      - por el lado de [Jesús María](location)
+      - en la zona de [Lince](location)
+      - cerca al [Callao](location)
+      - por [Pueblo Libre](location)
+      - en [Magdalena](location)
+      - [Surquillo](location) algo
+      - necesito en [Breña](location)
+      - busco por [San Juan de Lurigancho](location)
+      - [La Victoria](location) por favor
+      - zona [Comas](location)
+      - cerca de mi casa en [Villa El Salvador](location)
+      - trabajo en [San Isidro](location), algo cerca
+      - vivo en [Miraflores](location)
+      - estoy en [Surco](location)
+      - me queda [La Molina](location)
+      - alrededor de [San Borja](location)
+      - alrededores de [Barranco](location)
+      - distrito de [Chorrillos](location)
+      - en el distrito [San Miguel](location)
+      - necesito cancha con [Grass sintético](surface)
+      - quiero jugar en [Grass natural](surface)
+      - prefiero [Grass sintético premium](surface)
+      - también puedo usar [Grass mixto](surface) natural y sintético
+      - busco cancha con [Losa de cemento](surface)
+      - dame una opción con [Losa deportiva](surface)
+      - para las [20:00](time)
+      - a las [19:30](time)
+      - sobre las [21:00](time)
+      - después de las [18:00](time)
+      - antes de las [22:00](time)
+      - tipo [8pm](time)
+      - como a las [7:30pm](time)
+      - alrededor de las [19:00](time)
+      - más o menos a las [20:30](time)
+      - entre las [19:00](time) y [21:00](time)
+      - de [18:00](time) a [20:00](time)
+      - desde las [19:00](time)
+      - hasta las [22:00](time)
+      - en la noche a las [20:00](time)
+      - en la tarde tipo [17:00](time)
+      - temprano como a las [15:00](time)
+      - al mediodía [12:00](time)
+      - en la mañana [10:00](time)
+      - para hoy
+      - para mañana
+      - este sábado
+      - el [viernes](date)
+      - para el [2024-11-20](date)
+      - el próximo fin de semana
+      - este fin de semana
+      - el domingo
+      - el lunes
+      - el martes que viene
+      - para el miércoles
+      - este jueves
+      - pasado mañana
+      - dentro de 3 días
+      - para la próxima semana
+      - el [15/11/2024](date)
+      - el [20-11-2024](date)
+      - para el día [25](date)
+      - en dos días
+      - en una semana
+      - el mes que viene
+      - para diciembre
+      - fin de año
+      - con presupuesto de [S/60](budget)
+      - hasta [80 soles](budget)
+      - máximo [S/100](budget)
+      - algo barato
+      - lo más económico
+      - precio bajo
+      - precio accesible
+      - necesito cancha en [Villa El Salvador](location)
+      - quiero jugar en [Villa El Salvador](location)
+      - ¿me puedes recomendar canchas en [Villa El Salvador](location)?
+      - estoy buscando una cancha en [Villa El Salvador](location) con [losa de cemento](surface)
+      - ¿dónde encuentro canchas de [losa de cemento](surface) en [Villa El Salvador](location)?
+      - necesito cancha en [Villa El Salvador](location) con [losa de cemento](surface) a las [20:00](time) por [S/200](budget) de [futbol](sport)
+      - [Chorrillos](location) con [grass sintético](surface) y presupuesto de [S/200](budget)
+      - Quiero reservar una cancha en [Villa El Salvador](location) de [fútbol](sport) y la prefiero de [losa](surface)
+      - precio módico
+      - que no sea caro
+      - baratito
+      - low cost
+      - promociones
+      - descuentos
+      - que cueste como [S/70](budget)
+      - alrededor de [S/90](budget)
+      - entre [S/50](budget) y [S/80](budget)
+      - no más de [S/100](budget)
+      - menos de [S/120](budget)
+      - con plata justa
+      - sin vacilar mucho
+      - no quiero gastar un montón
+      - algo que me deje pa' la cena
+      - que quede dentro del presupuesto del equipo
+      - plan barato para juntazos
+      - con descuento para patas
+      - un precio bacán para la barra
+      - pa' que no nos quiten mucho
+      - que sea barato pero bueno
+      - con costo cómodo
+      - pa' que alcance para la gaseosa
+      - que me deje para cañita
+      - que no pase de [S/70](budget)
+      - si hay promo de noche
+      - con cupón
+      - con descuento de corporativos
+      - con precio especial de fin de semana
+      - con tarifa de última hora
+      - mi presupuesto es [S/75](budget)
+      - tengo [S/80](budget)
+      - cuento con [S/100](budget)
+      - puedo pagar hasta [S/90](budget)
+      - con [grass sintético](surface)
+      - de [césped natural](surface)
+      - cancha de [cemento](surface)
+      - piso de [parquet](surface)
+      - superficie [grass sintético](surface)
+      - que tenga [grass natural](surface)
+      - con piso de [madera](surface)
+      - [sintético](surface) preferible
+      - mejor si es [grass natural](surface)
+      - sólo [cemento](surface)
+      - nada de [cemento](surface)
+      - no quiero [cemento](surface)
+      - necesito una cancha de [fulbito](sport) en [Miraflores](location)
+      - quiero jugar [fútbol](sport) para las [20:00](time)
+      - busco [pádel](sport) con presupuesto de [S/80](budget)
+      - cancha de [basket](sport) en [La Molina](location)
+      - [voley](sport) para mañana
+      - [fulbito](sport) en [Surco](location)
+      - algo en [San Isidro](location) para las [19:00](time)
+      - [pádel](sport) este sábado
+      - cancha barata de [fútbol](sport)
+      - [basket](sport) con [grass sintético](surface)
+      - necesito [fulbito](sport) en [Miraflores](location) para las [20:00](time)
+      - quiero [fútbol](sport) en [Surco](location) mañana
+      - busco [pádel](sport) cerca de [San Isidro](location) con presupuesto de [S/80](budget)
+      - recomiendame [pádel](sport) cerca de [San Isidro](location) con presupuesto de [S/80](budget)
+      - cancha de [basket](sport) para hoy a las [19:00](time) en [La Molina](location)
+      - [voley](sport) en [San Borja](location) tipo [18:00](time)
+      - [fulbito](sport) para el sábado en [Barranco](location)
+      - [fútbol](sport) con [grass sintético](surface) en [Chorrillos](location)
+      - [pádel](sport) este viernes a las [20:00](time)
+      - [basket](sport) económico en [Jesús María](location)
+      - necesito [fulbito](sport) en [Miraflores](location) para las [20:00](time) este sábado
+      - quiero [fútbol](sport) en [Surco](location) mañana a las [19:00](time) económico
+      - busco [pádel](sport) en [San Isidro](location) para el viernes hasta [S/100](budget)
+      - recomiendame [fútbol](sport) en [Surco](location) mañana a las [19:00](time) económico
+      - [voley](sport) con [grass sintético](surface) en [San Borja](location) para las [18:00](time)
+      - cancha de [basket](sport) barata en [La Molina](location) para hoy
+      - [fulbito](sport) en [Barranco](location) para mañana en la noche con [grass natural](surface)
+      - quiero una cancha en [Surco](location) entre las [15:00](time) y las [16:00](time)
+      - busco cancha para las [9](time)
+      - ¿hay cancha a las [3](time)?
+      - entre las [3](time) y las [4](time)
+      - para las [10](time)
+      - haber dime dónde puedo jugar
+      - oye necesito reservar
+      - ¿cuál cancha me recomiendas?
+      - ayúdame a encontrar cancha pues
+      - dale recomiéndame algo
+      - quiero hacer una reserva
+      - buscamos donde jugar
+      - a ver, necesitamos un sitio
+      - necesito cancha YA
+      - quiero cancha disponible
+      - tenemos un partido
+      - vamos a jugar
+      - queremos pichanguear
+      - vamos a hacer deporte
+      - necesitamos donde hacer la pichanga
+      - dónde armamos el partido
+      - dónde echamos el partido
+      - dónde hacemos la cascarita
+      - necesito donde echar cascarita
+      - queremos jugar un rato
+      - necesitamos un espacio
+      - buscamos un lugar
+      - dame opciones de canchas
+      - qué canchas tienes
+      - muéstrame canchas
+      - enséñame opciones
+      - a ver qué hay
+      - qué tienes disponible
+      - qué me ofreces
+      - qué me recomiendas
+      - sugiéreme algo
+      - causa, dónde hay canchas?
+      - pe, necesito cancha
+      - hermano ayúdame a buscar
+      - compadre, busco cancha
+      - pe causa para jugar
+      - brother necesito cancha
+      - pata búscame cancha
+      - loco necesito reservar
+      - flaco ayúdame
+      - choche dame opciones
+      - compare busco cancha
+      - socio necesito cancha
+      - oe loco dónde juego
+      - asu mare necesito cancha
+      - pe loco búscame algo
+      - causa ayuda pues
+      - pe brother recomiéndame
+      - habla pe necesito cancha
+      - qué fue causa dónde hay canchas
+      - oe pe ayúdame a buscar
+      - nesecito una cancha
+      - kiero jugar
+      - aver donde puedo jugar
+      - nesesito reservar
+      - kiero reservar cancha
+      - ay canchas disponibles
+      - dond puedo jugar
+      - cancha para orita
+      - quero una cancha
+      - nesesito alquilar
+      - busko cancha
+      - resrvar cancha
+      - reserbar
+      - alkilar
+      - reserva de cancha
+      - nececito urgente
+      - ¿qué opciones tienes?
+      - ¿qué canchas hay?
+      - muéstrame las canchas
+      - ¿puedes buscar canchas?
+      - dame opciones
+      - enséñame las canchas
+      - cuáles hay
+      - cuáles tienes
+      - qué hay disponible
+      - qué está libre
+      - hay algo libre
+      - tienes algo
+      - hay canchas
+      - hay disponibilidad
+      - qué me puedes ofrecer
+      - qué opciones tengo
+      - cuántas opciones hay
+      - veamos qué hay
+      - para esta noche
+      - para el fin de semana
+      - entre semana
+      - para el lunes
+      - para pasado mañana
+      - hoy en la tarde
+      - hoy en la noche
+      - mañana en la mañana
+      - mañana temprano
+      - mañana al mediodía
+      - esta tarde
+      - ahorita en la tarde
+      - más tarde
+      - en un rato
+      - dentro de unas horas
+      - para después
+      - para luego
+      - para más tardecito
+      - noche del viernes
+      - tarde del sábado
+      - mañana del domingo
+      - lunes por la tarde
+      - martes en la noche
+      - media semana
+      - mitad de semana
+      - con estacionamiento
+      - con vestuarios
+      - con duchas
+      - techada
+      - cubierta
+      - con iluminación
+      - abierta hasta tarde
+      - que abra temprano
+      - cerca del metro
+      - cerca al tren
+      - con tribuna
+      - con graderías
+      - con cafetería
+      - con agua
+      - con baño
+      - con casilleros
+      - segura
+      - vigilada
+      - cerrada
+      - privada
+      - techado
+      - techo
+      - bajo techo
+      - al aire libre
+      - cancha abierta
+      - con sombra
+      - con techo de lona
+      - iluminada
+      - con reflectores
+      - bien iluminada
+      - que tenga luz
+      - con buena iluminación
+      - estacionamiento gratis
+      - parking incluido
+      - donde estacionar
+      - con parqueo
+      - que tenga donde dejar el carro
+      - vestuarios limpios
+      - duchas con agua caliente
+      - camerinos
+      - vestidores
+      - con implementos
+      - que presten balones
+      - que den pelotas
+      - con arco
+      - con red
+      - con tablero
+      - con aro
+      - necesito urgente
+      - algo rápido
+      - lo antes posible
+      - para ahora
+      - disponible ya
+      - urgente por favor
+      - es urgente
+      - lo necesito ya
+      - ahorita
+      - para ahorita mismo
+      - de emergencia
+      - última hora
+      - recién me avisan
+      - improvisado
+      - de imprevisto
+      - salió de la nada
+      - sorpresa
+      - que esté libre
+      - que esté disponible
+      - disponibilidad inmediata
+      - para hoy mismo
+      - hoy día
+      - en este momento
+      - disponible ahora
+      - para 10 personas
+      - para mi equipo
+      - somos 8
+      - partido de 11 vs 11
+      - somos 6
+      - un grupo de 12
+      - equipos de 7
+      - fulbito 7
+      - fútbol 11
+      - mini fútbol
+      - cancha pequeña
+      - cancha mediana
+      - cancha grande
+      - cancha completa
+      - media cancha
+      - un cuarto de cancha
+      - para pocas personas
+      - para mucha gente
+      - grupo grande
+      - varios amigos
+      - con los patas
+      - con el equipo
+      - con la barra
+      - con los compas
+      - somos harta gente
+      - somos varios
+      - somos full
+      - necesito cancha pa' la pichanga con los pata de mi bloque
+      - vamos a salir del trabajo y queremos cancha cerrada
+      - la reu es en Miraflores, armame algo ahí
+      - nos vemos a las 9 y queremos cancha prendida
+      - que tenga buen ambiente y música
+      - no queremos la cancha llena de gente rara
+      - algo donde haya cerveza cerca
+      - que el paradero esté a una cuadra
+      - con buena iluminación porque jugamos del barrio
+      - la barra quiere cancha techada para no mojarnos
+      - me avisan de una y tengo que bloquear horario
+      - somos los de la U y queremos cancha en San Miguel
+      - el equipo de la oficina quiere cancha para entrenar
+      - la jefe quiere cancha para el team building
+      - buscamos cancha para la despedida de soltero del pata
+      - necesitamos cancha para la cascarita de los domingos
+      - con precio bacán para los colegas
+      - que acepten Yape o Plin para pagar rápido
+      - si hay promo de noche la tomamos
+      - quiero reservar pa' mis compas que son todo barrio
+      - la idea es salir y luego ir por un pique
+      - que no sea muy caro porque vamos a invitar a todos
+      - necesitamos cancha cerca de la casa de mi hermana
+      - uno de los patas llega tarde, que la cancha esté iluminada
+      - que la cancha tenga tribunas para la barra
+      - quiero cancha con sombra para el calor
+      - que el lugar tenga vallas para colgar las camisetas
+      - que haya lugar para dejar los bolsos
+      - con sonido para que todo suene bacán
+      - que el espacio tenga mesita para dejar las cosas
+      - que la cancha tenga agua caliente para ducharse
+      - que sea segura porque llevamos a la jeva
+      - la idea es llegar con el equipo de toda la vida
+      - que el lugar esté prendido y no sea fome
+      - con buenos casilleros para los uniformes
+      - con espacio para hacer el calentamiento
+      - un punto de encuentro para armar el equipo
+      - cancha que tenga parqueo para los carros de los patas
+      - un lugar donde la barra se sienta en casa
+      - que el administrador sea buena onda con los compas
+      - que se pueda estacionar cerca porque venimos en auto
+      - que el horario sea flexible para los que trabajan de noche
+      - que la cancha sea accesible en mototaxi y colectivo
+      - que tengan parrilla cerca para terminar con unas salchipapas
+      - estamos armando una pichanga y necesitamos cancha
+      - la barra quiere cascarita esta noche
+      - con los patas estamos buscando cancha de fulbito
+      - necesito un campo para mis compas del barrio
+      - queríamos jugar una cascarita luego del trabajo
+      - quiero reservar pa' la pichanga del viernes
+      - algo bacán para que lleguen todos del barrio
+      - un lugar chévere pa' la reu con los patas
+      - la idea es jugar una cascarita y luego tomar algo
+      - un espacio prendido pa' los de la U
+      - algo que sea de nuestra zona en Lima
+      - buscamos cancha pa' la vuelta del cole
+      - algo para pichanguear con la familia
+      - necesito una cancha pa' mi flota de amigos
+      - la idea es hacer una y se arma el full team
+      - que quede cerca del paradero
+      - que se pueda llegar en mototaxi
+      - queremos algo cerca del mercado
+      - la cancha tiene que tener buen ambiente
+      - buscamos cancha para la pata que llega tarde
+      - que haya bebidas cerca
+      - una cancha donde ya saben que somos buena gente
+      - pa' darle la sorpresa al equipo
+      - para que el jefe se anime y reserve
+      - la barra quiere algo con onda
+      - un sitio donde se sientan los compas
+      - queremos cancha pa' la celebración del equipo
+      - que la cancha tenga buena vibra
+      - un campo top para llegar con la barra
+      - algo que esté prendido y no sea fome
+      - para un campeonato
+      - para un torneo
+      - para práctica
+      - entrenamiento
+      - para entrenar
+      - práctica de equipo
+      - partido amistoso
+      - pichanga
+      - cascarita
+      - partido oficial
+      - semifinal
+      - final
+      - para un evento
+      - cumpleaños
+      - celebración
+      - despedida
+      - reunión
+      - confraternidad
+      - integración
+      - team building
+      - la mejor cancha
+      - la más recomendada
+      - cuál es la mejor
+      - la más popular
+      - la más visitada
+      - dónde juegan todos
+      - la top
+      - la de moda
+      - la nueva
+      - canchas nuevas
+      - recién inauguradas
+      - modernas
+      - renovadas
+      - remodeladas
+      - las mejores instalaciones
+      - primera categoría
+      - de lujo
+      - premium
+      - vip
+      - profesional
+      - nivel pro
+      - categoría A
+      - para reservar semanalmente
+      - todos los viernes
+      - cada sábado
+      - abono
+      - paquete de horas
+      - para ir seguido
+      - para ir siempre
+      - nuestra cancha fija
+      - donde siempre jugamos
+      - la de siempre
+      - reserva recurrente
+      - mismo día cada semana
+      - misma hora cada semana
+      - necesito 2 canchas
+      - dos canchas juntas
+      - canchas al lado
+      - canchas seguidas
+      - para dos partidos
+      - varios horarios
+      - diferentes horarios
+      - en distintos momentos
   - intent: request_admin_recommendation
     examples: |
       - Soy administrador, dame recomendaciones para gestionar mejor mis canchas.
@@ -185,6 +970,24 @@ nlu:
       - Quiero prototipar ajustes de precio y horario en los bloques poco llenos.
       - ¿Cómo puedo redistribuir horarios para llenar mejor la semana?
       - ¿Qué combinación de promociones y horarios me recomiendas?
+      - Ayúdame a organizar los precios de la semana que viene para evitar canchas vacías
+      - Necesito saber qué horarios están pegando para meter promos
+      - ¿Qué hago para que los campos de Surco estén más llenos?
+      - Quiero un reporte rápido de ocupación nocturna y qué ajustar
+      - Dame ideas para que no queden canchas libres el domingo
+      - Cuáles son los horarios industriales para derivar promoción
+      - Dime cómo mover la oferta para que los equipos amateur no se vayan a otra app
+      - Necesito recomendaciones de mantenimiento según la demanda
+      - Cómo puedo hacer pricing dinámico en temporada alta
+      - Quiero ideas de promociones para la franja de 5 a 7 pm
+      - Dímelo con números para compartir en la junta
+      - Sé mi consejero para ajustar disponibilidad y precio de los campos
+      - Sugiéreme qué bloquear para un torneo privado
+      - Necesito un plan semanal para rotar canchas y evitar desgaste
+      - ¿Qué tan seguido debería hacer promociones para mantener llenos los campos?
+      - Quiero ver qué horarios valen más para rentas corporativas
+      - Recuérdame qué combos valen la pena en temporada de lluvias
+      - ¿Cómo puedo mantener las canchas abiertas hasta tarde sin perder plata?
   - intent: request_admin_top_clients
     examples: |
       - Muéstrame quiénes rentan más frecuentemente las canchas que administro.
@@ -197,6 +1000,46 @@ nlu:
       - ¿Quiénes son los clientes VIP que más reservan en mis sedes?
       - Muéstrame los usuarios con mayor número de reservas en mis canchas.
       - Necesito identificar a los clientes más activos en mis campos deportivos.
+      - Déjame ver qué usuarios se repiten cada sábado
+      - Necesito la lista de los equipos que me dejan más plata al mes
+      - Quiero saber quiénes pagan más seguido en San Isidro y Miraflores
+      - ¿Quiénes son los que reservan con la barra semana a semana?
+      - Dime quiénes hacen más reservas para luego ofrecerles algo VIP
+      - ¿Cuáles son los usuarios corporativos que más alquilan?
+      - Dame los nombres de los managers que repiten la cancha
+      - Quiero saber los top 5 que me llenan los horarios muertos
+      - Muéstrame quiénes agendan con más anticipación
+      - ¿Quiénes pagan con transfer y más de un bloque?
+      - Qué usuarios tienen el mejor score de asistencia
+      - Dame los datos de los que se anotan a todos mis torneos
+      - Quiénes me dejan buenas reseñas y vuelven a reservar
+      - Necesito saber quiénes me cancelan menos y reservarlos primero
+      - Quiénes son los que me traen más gente para el campeonato
+      - Dime cuáles clientes deberían recibir promociones VIP
+      - Muéstrame los usuarios frecuentes del estadio de concreto
+      - Dame el ranking de los equipos nocturnos
+  - intent: request_admin_demand_alerts
+    examples: |
+      - Necesito alertas cuando falte gente en ciertas franjas.
+      - Avísame si hay poca ocupación el lunes por la noche.
+      - Quiero saber cuando una cancha peligra de quedarse vacía.
+      - Manténme al tanto si un horario está casi lleno.
+      - Dime si alguna cancha tiene demanda inesperada.
+      - Necesito una alerta cuando mi campus llegue al 90 %.
+      - Recuérdame cuando la franja de la tarde esté libre demasiado.
+      - ¿Puedes avisarme si el sábado tiene menos reservas?
+      - ¿Qué horarios están flojos para meter nuevas promos?
+      - Quiero saber cuando la demanda supera mi capacidad.
+      - Mantente alerta con los pedidos de última hora.
+      - Dímelo si el turno nocturno se cae y hay espacio.
+      - Necesito notificaciones de ocupación comparada por distrito.
+      - Avísame cuando los jugadores empiezan a buscar pocas horas.
+      - Dime si el fin de semana se ve flojo para armar eventos.
+      - Alertame si el lunes queda sin reservas.
+      - Quiero saber cuándo la demanda supera los campos disponibles.
+      - Cóbreme al toque sobre las franjas de entrenamiento vacías.
+      - Dímelo en tiempo real para mover la oferta.
+      - Que me avise si hay más de tres cancelaciones seguidas.
   - intent: SetSlots
     examples: |
       - /SetSlots
@@ -204,35 +1047,103 @@ nlu:
       - /SetSlots{"feedback_rating":"thumbs_down"}
   - intent: ask_reservation_process
     examples: |
-      - ¿cómo reservo una cancha?
-      - explícame el proceso de reserva
-      - ¿cuáles son los pasos para reservar?
-      - necesito saber cómo confirmar una reserva
+      - ¿cómo reservo?
+      - ¿cómo hago una reserva?
+      - proceso de reserva
+      - pasos para reservar
+      - explica el proceso de reserva
+      - cómo funciona la reserva
+      - necesito saber cómo reservar
+      - instrucciones para reservar
+      - guía de reserva
+      - tutorial de reserva
+      - cómo se reserva
+      - qué tengo que hacer para reservar
+      - cuál es el procedimiento
+      - cómo es el proceso
+      - qué pasos sigo para reservar
+      - cómo procedo a reservar
+      - dime cómo reservar
+      - explícame cómo reservo
+      - nunca he reservado
+      - es mi primera vez
+      - primera reserva
+      - soy nuevo
+      - no sé cómo funciona
+      - ayúdame a reservar
+      - quiero saber el proceso
+      - necesito instrucciones
+      - guíame en la reserva
+      - acompáñame en el proceso
+      - paso a paso
+      - detalla el proceso
+      - cómo completo la reserva
+      - cómo confirmo
+      - cómo aseguro mi cancha
+      - qué hago después de elegir
+      - tengo que pagar ahora
+      - cuándo pago
+      - cómo pago
+      - formas de pago
+      - métodos de pago
+      - puedo pagar con tarjeta
+      - aceptan efectivo
+      - transferencia bancaria
+      - yape
+      - plin
+      - billetera digital
+      - necesito sacar la reserva en la app
+      - cómo saco una reservita con los patas
+      - quiero asegurar la cancha ya
+      - dime si se puede reservar por WhatsApp
+      - te paso las fechas y armas la reserva
+      - quiero bloquear la cancha pa' mañana
+      - ¿puedo usar mi cuenta para reservar?
+      - dime qué debo hacer para asegurar el horario
+      - quiero reservar rápido mientras se arman los compas
   - intent: ask_modify_reservation
     examples: |
+      - ¿cómo modifico mi reserva?
       - quiero cambiar mi reserva
-      - ¿puedo modificar la hora de mi cancha?
-      - necesito mover mi reserva para otro día
-      - ¿cómo edito mi reserva?
-      - dime el proceso para cambiar una reserva
-      - ¿es posible modificar una reserva ya hecha?
-      - ¿cómo hago para cambiar mi reserva?
-      - necesito ayuda para modificar una reserva
-      - ¿puedo cambiar los detalles de mi reserva?
-      - ¿cómo puedo editar mi reserva?
-      - quiero saber cómo modificar una reserva
-      - ¿qué hago para cambiar mi reserva?
-      - necesito instrucciones para editar una reserva
-      - ¿puedes ayudarme a cambiar mi reserva?
-      - ¿cómo procedo para modificar una reserva?
-      - dime cómo cambiar mi reserva
-      - ¿qué pasos sigo para editar una reserva?
-      - necesito guía para modificar una reserva
-      - ¿puedes indicarme cómo cambiar mi reserva?
-      - reserva cambio
+      - necesito modificar
+      - ¿puedo cambiar la hora?
+      - ¿puedo cambiar el día?
       - cambiar reserva
-      - modificar mi reserva
       - editar reserva
+      - actualizar reserva
+      - modificar mi reserva
+      - alterar reserva
+      - ajustar reserva
+      - corregir reserva
+      - me equivoqué en la reserva
+      - reservé mal
+      - quiero otra hora
+      - quiero otro día
+      - prefiero otra cancha
+      - cambio de fecha
+      - cambio de horario
+      - reprogramar
+      - cambiar de día
+      - cambiar de hora
+      - mover la reserva
+      - pasar para otro día
+      - cambiar para mañana
+      - mejor otro horario
+      - a otra hora mejor
+      - puedo mover mi reserva
+      - se puede cambiar
+      - es posible modificar
+      - hay opción de cambio
+      - quiero hacer cambios
+      - necesito hacer ajustes
+      - debo modificar algo
+      - tengo que cambiar
+      - surgió un imprevisto
+      - no puedo a esa hora
+      - no puedo ese día
+      - salió algo
+      - tengo un compromiso
+      - se cruzó con otra cosa
   - intent: ask_reprogram_reservation
     examples: |
       - quiero reprogramar mi reserva a otra hora
@@ -250,6 +1161,7 @@ nlu:
       - ¿cómo reprogramo mi renta si necesito otro horario?
       - reprogramar mi cancha por favor
       - ¿puedo reprogramar y quién me lo confirma?
+
   - intent: ask_cancellation_policy
     examples: |
       - ¿puedo cancelar la reserva?
@@ -282,8 +1194,121 @@ nlu:
       - dime cómo funciona la cancelación de reservas
       - explícame el proceso para cancelar una reserva
       - ¿qué hago si quiero cancelar una reserva?
+      - ¿puedo cancelar?
+      - política de cancelación
+      - ¿qué pasa si cancelo?
+      - ¿cómo cancelo?
+      - reglas de cancelación
+      - ¿hay multa por cancelar?
+      - ¿puedo anular mi reserva?
+      - condiciones de cancelación
+      - ¿hasta cuándo puedo cancelar?
+      - necesito cancelar
+      - quiero cancelar
+      - cancelar reserva
+      - anular reserva
+      - eliminar reserva
+      - borrar reserva
+      - dar de baja
+      - quitar mi reserva
+      - deshacer reserva
+      - revertir reserva
+      - me devuelven el dinero
+      - hay reembolso
+      - me reintegran
+      - recupero mi pago
+      - pierdo mi dinero
+      - qué pierdo si cancelo
+      - penalidad
+      - cargo por cancelación
+      - tarifa de cancelación
+      - costo de cancelar
+      - cuánto me cobran por cancelar
+      - hay plazo para cancelar
+      - tiempo límite
+      - fecha límite
+      - con cuánta anticipación
+      - cuánto antes debo avisar
+      - puedo cancelar el mismo día
+      - puedo cancelar horas antes
+      - cancelación de último minuto
+      - no voy a poder ir
+      - no podré asistir
+      - tengo que cancelar
+      - debo cancelar
+      - me surgió algo
+      - imprevisto
+      - emergencia
+      - no puedo ir
+      - no llegaré
   - intent: ask_pricing_info
     examples: |
+      - ¿cuánto cuesta?
+      - precios
+      - tarifas
+      - costos
+      - ¿qué precio tiene?
+      - dame los precios
+      - información de precios
+      - ¿hay promociones?
+      - ¿hay descuentos?
+      - ofertas
+      - precio por hora
+      - ¿cuál es la cancha más barata?
+      - dónde es más económico
+      - cuánto sale
+      - cuánto cobran
+      - cuánto vale
+      - cuál es el costo
+      - cuál es la tarifa
+      - valor por hora
+      - costo por hora
+      - precio completo
+      - precio total
+      - cuánto pagaría
+      - cuánto sería
+      - a cuánto sale
+      - cuánto me costaría
+      - tabla de precios
+      - lista de precios
+      - precios actualizados
+      - precios vigentes
+      - cuánto está
+      - a cómo está
+      - rango de precios
+      - desde cuánto
+      - hasta cuánto
+      - precio mínimo
+      - precio máximo
+      - más barato
+      - más caro
+      - económico
+      - accesible
+      - ofertas del día
+      - ofertas de la semana
+      - descuentos especiales
+      - precio especial
+      - tarifa especial
+      - promoción actual
+      - promos
+      - hay promo
+      - cupones
+      - código de descuento
+      - rebaja
+      - 2x1
+      - paquetes
+      - combos
+      - abonos
+      - membresía
+      - suscripción
+      - plan mensual
+      - precio por mes
+      - precio estudiante
+      - descuento corporativo
+      - precio grupal
+      - tarifa nocturna
+      - precio fin de semana
+      - precio entre semana
       - ¿cuánto cuesta la cancha?
       - dame precios por hora
       - ¿hay promociones disponibles?
@@ -320,8 +1345,52 @@ nlu:
       - explícame las tarifas y descuentos
       - cual es la cancha más barata
       - ¿dónde encuentro mejores precios?
+      - cuánto vale para cascarita en la noche
+      - qué precio me das si somos 10 patas
+      - cuánto me sale una cancha en S/ para esta fecha
+      - me dices el precio en soles para el sábado
+      - cuánto cobran en San Miguel
+      - cuéntame el costo de la cancha de sintético
+      - ¿cuánto me sale si pago con Yape?
+      - dime si tienen precio de locura para mí equipo
+      - cuánto cuesta reservar con poquito tiempo
+      - qué tanto hay que pagar para bloquear la cancha ya
+
   - intent: show_previous_recommendations
     examples: |
+      - muéstrame mi historial
+      - recomendaciones anteriores
+      - ¿qué me sugeriste antes?
+      - canchas que me recomendaste
+      - mis recomendaciones pasadas
+      - ver historial
+      - historial de búsquedas
+      - búsquedas anteriores
+      - lo que busqué antes
+      - búsquedas previas
+      - última búsqueda
+      - búsqueda anterior
+      - mi último pedido
+      - mi última consulta
+      - qué busqué la vez pasada
+      - recordar mi búsqueda
+      - recuperar búsqueda
+      - volver a ver
+      - mostrar de nuevo
+      - las de antes
+      - las anteriores
+      - las que me diste
+      - las que me mostraste
+      - opciones previas
+      - sugerencias pasadas
+      - mis reservas
+      - reservas anteriores
+      - historial de reservas
+      - mis canchas
+      - dónde he jugado
+      - dónde jugué antes
+      - cancha habitual
+      - mi cancha favorita
       - recuérdame las canchas que me sugeriste
       - muéstrame mi historial de recomendaciones
       - ¿qué opciones me diste antes?
@@ -349,8 +1418,45 @@ nlu:
       - quiero ver mi historial de recomendaciones de canchas
       - enséñame las canchas recomendadas anteriormente por ti
       - ¿puedes mostrarme mis recomendaciones previas de canchas?
+
   - intent: ask_feedback_status
     examples: |
+      - mis comentarios
+      - mi feedback
+      - ¿registraste mi opinión?
+      - mis calificaciones
+      - mis valoraciones
+      - mis reviews
+      - mis reseñas
+      - qué opiné
+      - qué califiqué
+      - mis puntuaciones
+      - mis ratings
+      - feedback anterior
+      - comentarios previos
+      - opiniones pasadas
+      - quiero dejar feedback
+      - quiero opinar
+      - quiero calificar
+      - quiero valorar
+      - dar mi opinión
+      - compartir experiencia
+      - contar mi experiencia
+      - cómo estuvo
+      - qué tal estuvo
+      - estuvo bien
+      - estuvo mal
+      - me gustó
+      - no me gustó
+      - excelente servicio
+      - mal servicio
+      - buena cancha
+      - mala cancha
+      - queja
+      - reclamo
+      - sugerencia
+      - recomendación
+      - felicitaciones
       - ¿registraste mi feedback?
       - quiero ver mis comentarios
       - muéstrame las calificaciones que dejé
@@ -363,8 +1469,33 @@ nlu:
       - necesito ver el feedback que proporcioné
       - ¿puedes mostrarme mis valoraciones anteriores?
       - quiero ver mis comentarios pasados
+
   - intent: show_faqs
     examples: |
+      - preguntas frecuentes
+      - faq
+      - dudas comunes
+      - ¿qué preguntas puedo hacer?
+      - temas que manejas
+      - ayuda general
+      - información general
+      - dudas frecuentes
+      - consultas comunes
+      - preguntas típicas
+      - qué suelen preguntar
+      - información básica
+      - lo básico
+      - quiero saber más
+      - cuéntame más
+      - más información
+      - toda la información
+      - datos generales
+      - overview
+      - resumen
+      - qué necesito saber
+      - qué debo saber
+      - antes de reservar
+      - info importante
       - muéstrame las preguntas frecuentes
       - qué preguntas puedo hacerte
       - dame sugerencias de temas
@@ -385,47 +1516,48 @@ nlu:
       - quiero ver las dudas comunes que manejas
       - explícame qué preguntas puedo hacerte
       - dame ejemplos de temas frecuentes
-  - intent: affirm
-    examples: |
-      - sí
-      - claro
-      - por supuesto
-      - dale
-      - de acuerdo
-      - obvio
-      - seguro
-      - vale
-      - afirmativo
-      - correcto
-      - claro que sí
-      - desde luego
-      - confirmo
-      - perfecto
-      - sin duda
-      - exacto
-      - así es
 
-  - intent: deny
+  - intent: give_positive_feedback
     examples: |
-      - no
-      - mejor no
-      - prefiero que no
-      - no gracias
-      - negativo
-      - de ninguna manera
-      - en nada
-      - para nada
-      - ni pensarlo
-      - nada
-      - de ningún modo
-      - no quiero
-      - no es necesario
-      - no deseo
-      - no me interesa
-      - no por ahora
-      - no en este momento
-      - no lo creo
-      - no estoy seguro
-      - no me parece
-      - no estoy interesado
-      - no es así
+      - gracias
+      - excelente ayuda
+      - muy útil
+      - mil gracias
+      - buen servicio
+      - me ayudaste un montón
+      - te doy 5 estrellas
+      - quedé agradecido
+      - quedé contento
+      - qué bacán
+
+  - intent: give_negative_feedback
+    examples: |
+      - no me ayudó
+      - no fue útil
+      - mala experiencia
+      - no entendí nada
+      - no estoy satisfecho
+      - es confuso
+      - debería mejorar
+      - me dejaste sin respuesta
+      - esperaba más
+      - no me dio lo que necesitaba
+
+  - intent: inform
+    examples: |
+      - mi deporte es football
+      - quiero jugar basketball
+      - soy del distrito San Isidro
+      - prefiero Grass sintético
+      - tengo un presupuesto de S/ 80
+      - necesito cancha para el viernes
+      - jugamos con 10 patas
+      - necesito una cancha techada
+      - el horario que quiero es 20:00
+      - puedo usar la cancha el sábado en la tarde
+      - [hoy](date)
+      - [mañana](date)
+      - [el próximo jueves](date)
+      - [el próximo sábado](date)
+      - [09:00](time)
+      - a las [08:30](time)

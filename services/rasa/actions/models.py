@@ -22,6 +22,7 @@ class FieldRecommendation:
     open_time: str
     close_time: str
     rating: Optional[float] = None
+    measurement: Optional[str] = None
 
 
 __all__ = ["FieldRecommendation"]

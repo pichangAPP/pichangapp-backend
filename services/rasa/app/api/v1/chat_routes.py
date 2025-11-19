@@ -2,16 +2,30 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from datetime import datetime
+from typing import Any, Dict, List
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
+from actions.db_models import Chatbot, ChatbotLog
 from app.clients.rasa_client import RasaClient
 from app.core.config import settings
-from app.core.database import DatabaseError, fetch_user_role
-from app.core.security import get_current_user
-from app.schemas.chat import ChatMessageRequest, ChatMessageResponse, ChatbotMessage
+from app.core.database import DatabaseError, fetch_user_role, get_session
+from app.core.security import (
+    extract_role_from_claims,
+    get_current_user,
+)
+from app.schemas.chat import (
+    ChatHistoryMessage,
+    ChatHistoryResponse,
+    ChatHistorySession,
+    ChatMessageRequest,
+    ChatMessageResponse,
+    ChatbotMessage,
+)
 
 router = APIRouter()
 
@@ -19,6 +33,17 @@ _rasa_client = RasaClient(
     settings.RASA_SERVER_URL,
     timeout=settings.REQUEST_TIMEOUT,
 )
+
+
+def _resolve_user_id(payload: Dict[str, Any]) -> int:
+    user_identifier = payload.get("sub") or payload.get("id")
+    if user_identifier is None:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido")
+
+    try:
+        return int(user_identifier)
+    except (TypeError, ValueError) as exc:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido") from exc
 
 
 def _normalize_role(payload: Dict[str, Any], user_id: int) -> str:
@@ -64,14 +89,7 @@ async def send_message(
     request: ChatMessageRequest,
     current_user: Dict[str, Any] = Depends(get_current_user),
 ) -> ChatMessageResponse:
-    user_identifier = current_user.get("sub") or current_user.get("id")
-    if user_identifier is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido")
-
-    try:
-        user_id = int(user_identifier)
-    except (TypeError, ValueError) as exc:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido") from exc
+    user_id = _resolve_user_id(current_user)
 
     user_role = _normalize_role(current_user, user_id)
     conversation_id = request.conversation_id or f"user-{user_id}"
@@ -109,6 +127,80 @@ async def send_message(
 
     messages = [_coerce_message(item) for item in rasa_messages]
     return ChatMessageResponse(conversation_id=conversation_id, messages=messages)
+
+
+def _serialize_messages(logs: List[ChatbotLog]) -> List[ChatHistoryMessage]:
+    sorted_logs = sorted(logs, key=lambda item: item.timestamp or datetime.min)
+    serialized: List[ChatHistoryMessage] = []
+    for log in sorted_logs:
+        serialized.append(
+            ChatHistoryMessage(
+                message=log.message or "",
+                bot_response=log.bot_response or "",
+                response_type=log.response_type or "",
+                sender_type=log.sender_type or "",
+                timestamp=log.timestamp or datetime.min,
+                intent_confidence=float(log.intent_confidence)
+                if log.intent_confidence is not None
+                else None,
+                metadata=log.metadata_dict,
+            )
+        )
+    return serialized
+
+
+def _fetch_user_conversations(user_id: int) -> List[ChatHistorySession]:
+    with get_session() as session:
+        stmt = (
+            select(Chatbot)
+            .options(selectinload(Chatbot.logs))
+            .where(Chatbot.id_user == user_id)
+            .order_by(Chatbot.started_at.desc())
+        )
+        results = session.execute(stmt).scalars().all()
+
+    history: List[ChatHistorySession] = []
+    for chat in results:
+        history.append(
+            ChatHistorySession(
+                session_id=chat.id_chatbot,
+                theme=chat.theme,
+                status=chat.status,
+                started_at=chat.started_at,
+                ended_at=chat.ended_at,
+                messages=_serialize_messages(chat.logs or []),
+            )
+        )
+    return history
+
+
+@router.get(
+    "/users/{user_id}/history",
+    response_model=ChatHistoryResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def get_user_history(
+    user_id: int,
+    current_user: Dict[str, Any] = Depends(get_current_user),
+) -> ChatHistoryResponse:
+    requestor_id = _resolve_user_id(current_user)
+    role_name = extract_role_from_claims(current_user)
+    is_admin = role_name == "admin"
+    if not is_admin and requestor_id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="No tienes permisos para ver esta conversación",
+        )
+
+    try:
+        sessions = _fetch_user_conversations(user_id)
+    except DatabaseError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="No se pudo obtener el historial del chat",
+        ) from exc
+
+    return ChatHistoryResponse(user_id=user_id, sessions=sessions)
 
 
 __all__ = ["router"]

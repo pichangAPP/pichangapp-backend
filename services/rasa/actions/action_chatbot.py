@@ -9,14 +9,15 @@ import re
 import unicodedata
 from datetime import date, datetime, timedelta, timezone, time as time_of_day
 from functools import partial
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Set, Text, Tuple
 
 import httpx
 from sqlalchemy import text
-from rasa_sdk import Action, Tracker
+from rasa_sdk import Action, FormValidationAction, Tracker
 from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
+from zoneinfo import ZoneInfo
 
 from .infrastructure.config import settings
 from .infrastructure.database import get_connection
@@ -29,6 +30,8 @@ from .models import FieldRecommendation
 from .services.chatbot_service import DatabaseError, chatbot_service
 
 LOGGER = logging.getLogger(__name__)
+
+LIMA_TZ = ZoneInfo("America/Lima")
 
 
 async def run_in_thread(function: Any, *args: Any, **kwargs: Any) -> Any:
@@ -589,21 +592,6 @@ def _describe_slot_availability(status: Optional[str]) -> str:
     )
 
 
-def _slot_already_planned(events: Iterable[EventType], slot_name: str) -> bool:
-    for event in events:
-        if hasattr(event, "key") and getattr(event, "key") == slot_name:
-            return True
-        if hasattr(event, "name") and getattr(event, "name") == slot_name:
-            event_type = getattr(event, "event", None)
-            if event_type == "slot":
-                return True
-        if isinstance(event, dict):
-            event_type = event.get("event") or event.get("type")
-            slot_key = event.get("name") or event.get("slot")
-            if event_type == "slot" and slot_key == slot_name:
-                return True
-    return False
-
 def _extract_entity_values(tracker: Tracker, entity_name: str) -> List[str]:
     latest_message = tracker.latest_message or {}
     entities = latest_message.get("entities") or []
@@ -621,6 +609,154 @@ def _normalize_plain_text(text: Optional[str]) -> str:
     normalized = unicodedata.normalize("NFD", text)
     normalized = normalized.encode("ascii", "ignore").decode("utf-8")
     return normalized.lower()
+
+
+_LOCATION_ALIASES: Dict[str, Set[str]] = {
+    "Villa El Salvador": {"villa el salvador", "villaelsalvador", "ves", "villa el salv", "villa el salvado"},
+    "Chorrillos": {"chorrillos"},
+    "Surco": {"surco"},
+    "San Isidro": {"san isidro", "sanisdro", "san iisdro", "san isidro lima"},
+}
+
+_SPORT_ALIASES: Dict[str, Set[str]] = {
+    "football": {
+        "football",
+        "futbol",
+        "futbolito",
+        "fútbol",
+        "fulbito",
+        "cascarita",
+        "pichanga",
+        "jugar pelota",
+        "jugar fútbol",
+        "jugar futbol",
+    },
+    "basketball": {
+        "basketball",
+        "basquet",
+        "baloncesto",
+        "basket",
+        "jugar basket",
+        "jugar basquet",
+    },
+    "voleyball": {
+        "voleyball",
+        "voley",
+        "voleibol",
+        "voleybol",
+        "jugar voley",
+        "jugar voleibol",
+    },
+    "tennis": {"tennis", "tenis", "jugar tenis"},
+}
+
+_SURFACE_ALIASES: Dict[str, Set[str]] = {
+    "Grass mixto (natural + sintético)": {
+        "grass mixto",
+        "mixto natural sintetico",
+        "mixta",
+        "mixto",
+    },
+    "Grass sintético": {
+        "grass sintetico",
+        "grass sintetico premium",
+        "sintetico",
+        "sintético",
+        "synthetic",
+        "cesped sintetico",
+        "cesped sintetico premium",
+        "pasto sintetico",
+        "césped sintético",
+        "pasto sintético",
+    },
+    "Grass natural": {
+        "grass natural",
+        "natural",
+        "pasto natural",
+        "cesped natural",
+        "césped natural",
+    },
+    "Grass sintético premium": {
+        "grass sintético premium",
+        "grass sintetico premium",
+        "premium",
+        "sintético premium",
+        "sintetico premium",
+        "synthetic premium",
+    },
+    "Losa de cemento": {"losa de cemento", "cemento", "cemento pulido"},
+    "Losa deportiva": {"losa deportiva", "cemento deportivo"},
+}
+
+_FIELD_SIZE_THRESHOLDS = (900.0, 1500.0)
+
+
+def _map_by_alias(value: Optional[str], alias_map: Dict[str, Set[str]]) -> Optional[str]:
+    if not value:
+        return None
+    normalized = _normalize_plain_text(value)
+    if not normalized:
+        return value.strip()
+    for canonical, aliases in alias_map.items():
+        for alias in aliases:
+            if alias in normalized:
+                return canonical
+        if canonical.lower() in normalized:
+            return canonical
+    cleaned = value.strip()
+    return cleaned if cleaned else None
+
+
+def _normalize_location(value: Optional[str]) -> Optional[str]:
+    return _map_by_alias(value, _LOCATION_ALIASES)
+
+
+def _normalize_sport(value: Optional[str]) -> Optional[str]:
+    return _map_by_alias(value, _SPORT_ALIASES)
+
+
+def _clean_surface(surface: Optional[str]) -> Optional[str]:
+    return _map_by_alias(surface, _SURFACE_ALIASES)
+
+
+def _parse_measurement_area(measurement: Optional[str]) -> Optional[float]:
+    if not measurement:
+        return None
+    normalized = measurement.lower().replace("m", "").replace("metros", "")
+    normalized = normalized.replace(" ", "")
+    parts = re.split(r"[x×]", normalized)
+    if len(parts) < 2:
+        return None
+    try:
+        width = float(parts[0].replace(",", "."))
+        height = float(parts[1].replace(",", "."))
+    except ValueError:
+        return None
+    if width <= 0 or height <= 0:
+        return None
+    return width * height
+
+
+def _field_size_label(measurement: Optional[str]) -> Optional[str]:
+    area = _parse_measurement_area(measurement)
+    if area is None:
+        return None
+    small_threshold, medium_threshold = _FIELD_SIZE_THRESHOLDS
+    if area < small_threshold:
+        return "pequeña"
+    if area <= medium_threshold:
+        return "mediana"
+    return "grande"
+
+
+def _describe_field_size(measurement: Optional[str]) -> Optional[str]:
+    label = _field_size_label(measurement)
+    if not label:
+        return None
+    clean_measurement = measurement.strip() if measurement else ""
+    if clean_measurement:
+        return f"Tamaño {label} ({clean_measurement})"
+    return f"Tamaño {label}"
 
 _DAY_KEYWORDS: Dict[str, int] = {
     "hoy": 0,
@@ -643,12 +779,14 @@ _DAYPART_HINTS: Dict[str, str] = {
     "noche": "20:00",
 }
 
-def _clean_location(value: Optional[str]) -> Optional[str]:
-    if not value:
-        return None
-    cleaned = re.sub(r"[^\w\s]", " ", value, flags=re.UNICODE)
-    cleaned = re.sub(r"\s+", " ", cleaned).strip()
-    return cleaned if cleaned else None
+_TIME_RANGE_PATTERN = re.compile(
+    r"entre\s+(\d{1,2}(?::\d{2})?)\s*(?:y|a|al?)\s*(\d{1,2}(?::\d{2})?)",
+    re.IGNORECASE,
+)
+_TIME_WITH_KEYWORD_PATTERN = re.compile(
+    r"(?:a|para|al?)\s+(?:las?\s*)?(\d{1,2}(?::\d{2})?)(?:\s*(am|pm))?",
+    re.IGNORECASE,
+)
 
 def _infer_date_from_text(text: str) -> Optional[str]:
     normalized = _normalize_plain_text(text)
@@ -664,10 +802,43 @@ def _infer_time_from_text(text: str) -> Optional[str]:
     normalized = _normalize_plain_text(text)
     if not normalized:
         return None
+    range_match = _TIME_RANGE_PATTERN.search(normalized)
+    if range_match:
+        start_token = range_match.group(1)
+        parsed = _parse_time_token(start_token)
+        if parsed:
+            return parsed
+    keyword_match = _TIME_WITH_KEYWORD_PATTERN.search(normalized)
+    if keyword_match:
+        token = keyword_match.group(1)
+        suffix = keyword_match.group(2) or ""
+        parsed = _parse_time_token(token + (" " + suffix if suffix else ""))
+        if parsed:
+            return parsed
     for keyword, time_hint in _DAYPART_HINTS.items():
         if keyword in normalized:
             return time_hint
     return None
+
+
+def _parse_time_token(token: str) -> Optional[str]:
+    normalized = token.strip()
+    if not normalized:
+        return None
+    components = _extract_time_components(normalized)
+    if not components:
+        return None
+    hour, minute = components
+    normalized_lower = normalized.lower()
+    if "am" in normalized_lower or "a.m." in normalized_lower:
+        hour = hour % 12
+    elif "pm" in normalized_lower or "p.m." in normalized_lower:
+        hour = hour % 12 + 12
+    else:
+        now = datetime.now(LIMA_TZ)
+        if hour < 12 and now.hour >= 12:
+            hour += 12
+    return f"{hour:02d}:{minute:02d}"
 
 def _guess_preferences_from_context(tracker: Tracker) -> Dict[str, Optional[str]]:
     latest_message = tracker.latest_message or {}
@@ -700,9 +871,9 @@ def _guess_preferences_from_context(tracker: Tracker) -> Dict[str, Optional[str]
         if not _is_noise_answer(meta_location):
             location_value = meta_location
             location_source = "metadata"
-    clean_location = _clean_location(location_value) if location_value else None
-    if clean_location:
-        preferences["preferred_location"] = clean_location
+    normalized_location = _normalize_location(location_value)
+    if normalized_location:
+        preferences["preferred_location"] = normalized_location
         if location_source in {"entity", "metadata"}:
             provided.add("preferred_location")
     sport_values = _extract_entity_values(tracker, "sport")
@@ -722,7 +893,11 @@ def _guess_preferences_from_context(tracker: Tracker) -> Dict[str, Optional[str]
         if not _is_noise_answer(meta_sport):
             sport_value = meta_sport
             sport_source = "metadata"
-    preferences["preferred_sport"] = sport_value
+    normalized_sport = _normalize_sport(sport_value)
+    if normalized_sport:
+        preferences["preferred_sport"] = normalized_sport
+    else:
+        preferences["preferred_sport"] = sport_value
     if sport_value and sport_source in {"entity", "metadata"}:
         provided.add("preferred_sport")
 
@@ -824,6 +999,7 @@ def _build_preference_summary(preferences: Dict[str, Optional[str]]) -> Optional
     location = preferences.get("preferred_location")
     date_value = _format_short_date(preferences.get("preferred_date")) if "preferred_date" in provided else None
     start_time = _format_short_time(preferences.get("preferred_start_time")) if "preferred_start_time" in provided else None
+    end_time = _format_short_time(preferences.get("preferred_end_time")) if "preferred_end_time" in provided else None
     surface = _clean_surface(preferences.get("preferred_surface")) if "preferred_surface" in provided else None
     sport = preferences.get("preferred_sport") if "preferred_sport" in provided else None
 
@@ -832,7 +1008,10 @@ def _build_preference_summary(preferences: Dict[str, Optional[str]]) -> Optional
     if date_value:
         fragments.append(f"para {date_value}")
     if start_time:
-        fragments.append(f"cerca de las {start_time}")
+        if end_time and end_time != start_time:
+            fragments.append(f"entre las {start_time} y las {end_time}")
+        else:
+            fragments.append(f"cerca de las {start_time}")
     if surface:
         fragments.append(f"en superficie {surface}")
     if sport:
@@ -902,7 +1081,7 @@ def _clean_surface(surface: Optional[str]) -> Optional[str]:
     return None
 
 def _apply_default_preferences(preferences: Dict[str, Optional[str]], metadata: Dict[str, Any]) -> Dict[str, Optional[str]]:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(LIMA_TZ)
     if not preferences.get("preferred_date"):
         preferences["preferred_date"] = now.date().isoformat()
     if not preferences.get("preferred_start_time"):
@@ -1255,7 +1434,7 @@ async def _fetch_recommendations_with_relaxation(
     prioritize_price: bool,
     prioritize_rating: bool,
     limit: int,
-) -> Tuple[List[FieldRecommendation], Dict[str, Any], List[str], str]:
+) -> Tuple[List[FieldRecommendation], Dict[str, Any], List[str], str, Set[str]]:
     requests = [
         ("exact_match", set()),
         ("relaxed_budget", {"budget"}),
@@ -1307,7 +1486,7 @@ async def _fetch_recommendations_with_relaxation(
                 max_price=max_price,
                 target_time=target_time,
             )
-            return recommendations, applied_filters, notes, label
+            return recommendations, applied_filters, notes, label, drops
 
     fallback_filters = _serialize_filter_payload(
         sport=sport,
@@ -1319,7 +1498,7 @@ async def _fetch_recommendations_with_relaxation(
         prioritize_price=prioritize_price,
         prioritize_rating=prioritize_rating,
     )
-    return [], fallback_filters, [], "no_results"
+    return [], fallback_filters, [], "no_results", set()
 
 
 async def _persist_recommendation_logs(
@@ -1545,6 +1724,112 @@ async def _record_intent_and_log(
             session_value,
         )
 
+
+class ActionLogUserIntent(Action):
+    """Ensure every handled intent is persisted in analytics."""
+
+    def name(self) -> str:
+        return "action_log_user_intent"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+        normalized_role = _normalize_role_from_metadata(metadata)
+        events: List[EventType] = []
+        if normalized_role and tracker.get_slot("user_role") != normalized_role:
+            events.append(SlotSet("user_role", normalized_role))
+
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=tracker.get_slot("chatbot_session_id"),
+            user_id=tracker.get_slot("user_id"),
+            response_text="",
+            response_type="intent_log",
+        )
+        return events
+
+class ValidateFieldRecommendationForm(FormValidationAction):
+    """Validate the slots collected by the field recommendation form."""
+
+    def name(self) -> str:
+        return "validate_field_recommendation_form"
+
+    async def required_slots(
+        self,
+        domain_slots: List[Text],
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[Text]:
+        base_slots: List[Text] = ["location", "sport", "time", "date"]
+        if tracker.active_loop_name != "field_recommendation_form":
+            return base_slots
+
+        provided = [
+            slot
+            for slot in base_slots
+            if tracker.get_slot(slot) not in (None, "", [], {})
+        ]
+        return base_slots if not provided else []
+
+    async def validate_location(
+        self,
+        slot_value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        normalized = slot_value.strip() if isinstance(slot_value, str) else slot_value
+        return {
+            "location": normalized,
+            "preferred_location": normalized,
+        }
+
+    async def validate_time(
+        self,
+        slot_value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        normalized = slot_value.strip() if isinstance(slot_value, str) else slot_value
+        return {
+            "time": normalized,
+            "preferred_start_time": normalized,
+        }
+
+    async def validate_sport(
+        self,
+        slot_value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        return {"sport": slot_value}
+
+    async def validate_time(
+        self,
+        slot_value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        return {"time": slot_value}
+
+    async def validate_date(
+        self,
+        slot_value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        return {"date": slot_value}
+
+
 class ActionSubmitFieldRecommendationForm(Action):
     """Handle the submission of the field recommendation form."""
 
@@ -1557,6 +1842,10 @@ class ActionSubmitFieldRecommendationForm(Action):
         tracker: Tracker,
         domain: DomainDict,
     ) -> List[EventType]:
+        LOGGER.debug(
+            "[ActionSubmitFieldRecommendationForm] slots before processing: %s",
+            tracker.current_slot_values(),
+        )
         user_message = tracker.latest_message.get("text") or ""
         raw_metadata = tracker.latest_message.get("metadata")
         latest_metadata = dict(raw_metadata) if isinstance(raw_metadata, dict) else {}
@@ -1645,6 +1934,22 @@ class ActionSubmitFieldRecommendationForm(Action):
             "preferred_end_time": tracker.get_slot("preferred_end_time"),
             "preferred_budget": tracker.get_slot("preferred_budget"),
         }
+        for slot_name, preferred_key in [
+            ("location", "preferred_location"),
+            ("sport", "preferred_sport"),
+            ("surface", "preferred_surface"),
+            ("date", "preferred_date"),
+            ("time", "preferred_start_time"),
+            ("budget", "preferred_budget"),
+        ]:
+            slot_value = tracker.get_slot(slot_name)
+            if slot_value:
+                preferences[preferred_key] = slot_value
+        if not preferences["preferred_location"]:
+            location_slot = tracker.get_slot("location")
+            if isinstance(location_slot, str) and location_slot.strip():
+                preferences["preferred_location"] = location_slot.strip()
+        initial_preferences = dict(preferences)
         inferred_preferences = _guess_preferences_from_context(tracker)
         inference_events: List[EventType] = []
         inference_notes: List[str] = []
@@ -1664,6 +1969,14 @@ class ActionSubmitFieldRecommendationForm(Action):
         if not preferences.get("preferred_end_time") and inferred_preferences.get("preferred_end_time"):
             preferences["preferred_end_time"] = inferred_preferences["preferred_end_time"]
             inference_events.append(SlotSet("preferred_end_time", preferences["preferred_end_time"]))
+
+        requested_location_value = tracker.get_slot("location") or preferences["preferred_location"]
+        requested_surface_value = (
+            tracker.get_slot("surface") or preferences["preferred_surface"]
+        )
+        requested_time_value = tracker.get_slot("time") or preferences["preferred_start_time"]
+        user_requested_location = bool(requested_location_value)
+        user_requested_time = bool(requested_time_value)
 
         preferences = _apply_default_preferences(preferences, latest_metadata)
         for slot_name in ("preferred_date", "preferred_start_time", "preferred_end_time"):
@@ -1701,6 +2014,7 @@ class ActionSubmitFieldRecommendationForm(Action):
                 applied_filters,
                 relaxation_notes,
                 search_strategy,
+                relaxation_drops,
             ) = await _fetch_recommendations_with_relaxation(
                 sport=preferred_sport,
                 surface=preferred_surface,
@@ -1778,6 +2092,19 @@ class ActionSubmitFieldRecommendationForm(Action):
                 )
                 return [SlotSet("chatbot_session_id", str(session_id))]
 
+        budget_filtered = []
+        if max_budget is not None:
+            budget_filtered = [
+                rec for rec in recommendations if rec.price_per_hour <= max_budget
+            ]
+            if budget_filtered:
+                recommendations = budget_filtered
+                relaxation_notes = [
+                    note
+                    for note in relaxation_notes
+                    if not note.startswith("No había canchas exactas en ese presupuesto")
+                ]
+
         top_choice = recommendations[0]
         start_dt = _parse_datetime(preferred_date, preferred_start_time)
         end_dt = start_dt + timedelta(hours=1)
@@ -1813,6 +2140,9 @@ class ActionSubmitFieldRecommendationForm(Action):
                     f"- {rec.field_name} en {rec.campus_name} ({rec.district}). "
                     f"{rec.sport_name} en {surface_label}, espacio para {rec.capacity} y tarifa aproximada {price_text}."
                 )
+            size_info = _describe_field_size(rec.measurement)
+            if size_info:
+                line = f"{line} {size_info}."
             if rating_text or hours_text:
                 line = f"{line}{rating_text}{hours_text}"
             summary_lines.append(line)
@@ -1826,10 +2156,12 @@ class ActionSubmitFieldRecommendationForm(Action):
 
         filter_fragments: List[str] = []
         location_used = applied_filters.get("location")
+        location_relaxed = "location" in relaxation_drops
+        found_location = location_used or top_choice.district
         if location_used:
             filter_fragments.append(f"en {location_used}")
         target_time_str = applied_filters.get("target_time")
-        if target_time_str:
+        if target_time_str and user_requested_time:
             filter_fragments.append(f"para alrededor de las {target_time_str}")
         budget_phrase = _format_budget_range(
             applied_filters.get("min_price"),
@@ -1851,11 +2183,30 @@ class ActionSubmitFieldRecommendationForm(Action):
         if inference_notes:
             inference_sentence = " " + " ".join(inference_notes)
 
-        response_text = (
-            f"{intro}{filters_sentence}{notes_sentence}{inference_sentence}\n"
-            + "\n".join(summary_lines)
-            + f"\n{closing}"
-        )
+        location_note: Optional[str] = None
+        if (
+            user_requested_location
+            and requested_location_value
+            and location_relaxed
+            and found_location
+            and requested_location_value.strip().lower()
+            != location_used.strip().lower()
+        ):
+            surface_label = requested_surface_value or "esa superficie"
+            location_note = (
+                f"Perfecto, reviso opciones en {requested_location_value} con {surface_label}. "
+                f"No encontré {surface_label} en {requested_location_value} pero sí en {found_location}."
+            )
+        context_intro = location_note or intro
+        base_intro = f"{context_intro}{filters_sentence}{notes_sentence}{inference_sentence}"
+        if user_role == "admin":
+            response_text = (
+                f"{base_intro}\n"
+                + "\n".join(summary_lines)
+                + f"\n{closing}"
+            )
+        else:
+            response_text = base_intro
         recommendation_id, recommendation_ids = await _persist_recommendation_logs(
             user_id=user_id,
             recommendations=recommendations,
@@ -1882,6 +2233,8 @@ class ActionSubmitFieldRecommendationForm(Action):
                 "open_time": rec.open_time,
                 "close_time": rec.close_time,
                 "rating": rec.rating,
+                "measurement": rec.measurement,
+                "size_category": _field_size_label(rec.measurement),
                 "summary": summary,
             }
             for rec, summary in zip(recommendations, summary_lines)
@@ -2415,6 +2768,9 @@ class ActionLogFieldRecommendationRequest(Action):
         tracker: Tracker,
         domain: DomainDict,
     ) -> List[EventType]:
+        if tracker.active_loop_name == "field_recommendation_form":
+            return []
+
         session_id = tracker.get_slot("chatbot_session_id")
         user_id = tracker.get_slot("user_id")
 
@@ -2439,6 +2795,17 @@ class ActionLogFieldRecommendationRequest(Action):
         for slot_name, value in inferred_preferences.items():
             if slot_name.startswith("preferred_") and value:
                 slot_events.append(SlotSet(slot_name, value))
+        entity_locations = _extract_entity_values(tracker, "location")
+        resolved_location = tracker.get_slot("location")
+        if not resolved_location and entity_locations:
+            resolved_location = entity_locations[0]
+        if resolved_location:
+            inferred_preferences["preferred_location"] = resolved_location
+            slot_events.append(SlotSet("preferred_location", resolved_location))
+        surface_slot = tracker.get_slot("surface")
+        if surface_slot:
+            inferred_preferences["preferred_surface"] = surface_slot
+            slot_events.append(SlotSet("preferred_surface", surface_slot))
 
         summary_text = _build_preference_summary(inferred_preferences)
         response_text = summary_text or "Perfecto, dime los detalles y voy filtrando opciones para ti."

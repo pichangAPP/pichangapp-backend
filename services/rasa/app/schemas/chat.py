@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
@@ -31,8 +32,35 @@ class ChatMessageResponse(BaseModel):
     messages: List[ChatbotMessage]
 
 
+class ChatHistoryMessage(BaseModel):
+    message: str
+    bot_response: str
+    response_type: str
+    sender_type: str
+    timestamp: datetime
+    intent_confidence: Optional[float] = None
+    metadata: Optional[Dict[str, Any]] = None
+
+
+class ChatHistorySession(BaseModel):
+    session_id: int
+    theme: str
+    status: str
+    started_at: datetime
+    ended_at: Optional[datetime] = None
+    messages: List[ChatHistoryMessage]
+
+
+class ChatHistoryResponse(BaseModel):
+    user_id: int
+    sessions: List[ChatHistorySession]
+
+
 __all__ = [
     "ChatMessageRequest",
     "ChatMessageResponse",
     "ChatbotMessage",
+    "ChatHistoryMessage",
+    "ChatHistorySession",
+    "ChatHistoryResponse",
 ]
