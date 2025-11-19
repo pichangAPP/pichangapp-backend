@@ -16,7 +16,9 @@ class Feedback(Base):
     rating = Column(Numeric(3, 1), nullable=True)
     comment = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
-    id_user = Column(BigInteger, ForeignKey("analytics.users.id_user"), nullable=False)
+    # Feedback relates to the user defined in the auth schema, so the
+    # foreign key must target ``auth.users`` instead of ``analytics.users``.
+    id_user = Column(BigInteger, ForeignKey("auth.users.id_user"), nullable=False)
     id_rent = Column(BigInteger, ForeignKey("reservation.rent.id_rent"), nullable=False)
 
 
