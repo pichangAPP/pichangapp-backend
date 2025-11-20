@@ -2,16 +2,22 @@
 
 from __future__ import annotations
 
+import base64
 import logging
+import re
 from datetime import datetime
 from decimal import Decimal
+from io import BytesIO
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Sequence
 
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound, select_autoescape
 
+import qrcode
+from PIL import Image, ImageDraw, ImageFont
+
 from app.core.config import settings
-from app.models import EmailContent
+from app.models import EmailAttachment, EmailContent
 from app.repository import EmailRepository
 from app.schemas import NotificationRequest
 
@@ -78,6 +84,7 @@ class EmailService:
         html_template: str,
         text_template: str,
         context: Dict[str, Any],
+        attachments: Sequence[EmailAttachment] | None = None,
     ) -> EmailContent:
         html_body = self._render_template(html_template, context)
         text_body = self._render_template(text_template, context)
@@ -86,19 +93,105 @@ class EmailService:
             recipients=[recipient],
             html_body=html_body,
             text_body=text_body,
+            attachments=tuple(attachments or ()),
+        )
+
+    @staticmethod
+    def _build_attachment_data_uri(attachment: EmailAttachment) -> str:
+        encoded = base64.b64encode(attachment.data).decode("ascii")
+        return f"{attachment.content_type};base64,{encoded}"
+
+    @staticmethod
+    def _build_qr_attachment(target: str, filename_hint: str) -> EmailAttachment:
+        qr = qrcode.QRCode(box_size=10, border=4)
+        qr.add_data(f"data:{target}")
+        qr.make(fit=True)
+        image = qr.make_image(fill_color="black", back_color="white")
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        safe_hint = re.sub(r"[^A-Za-z0-9_-]", "_", filename_hint)
+        filename = f"qr-{safe_hint}.png"
+        return EmailAttachment(
+            filename=filename,
+            content_type="image/png",
+            data=buffer.getvalue(),
+        )
+
+    def _build_reservation_pass(self, payload: NotificationRequest) -> EmailAttachment:
+        rent = payload.rent
+        campus = rent.campus
+        user = payload.user
+
+        width, height = 900, 640
+        background = "#f8fafc"
+        accent = "#2563eb"
+        text_color = "#0f172a"
+
+        image = Image.new("RGB", (width, height), background)
+        draw = ImageDraw.Draw(image)
+        header_font = ImageFont.load_default()
+        body_font = ImageFont.load_default()
+
+        padding = 40
+        draw.rectangle([0, 0, width, 140], fill=accent)
+        draw.text((padding, 40), "Pichangapp", fill="#ffffff", font=header_font)
+        draw.text(
+            (padding, 80),
+            f"Comprobante de reserva #{rent.rent_id}",
+            fill="#ffffff",
+            font=header_font,
+        )
+
+        y = 180
+        line_spacing = 34
+
+        details = [
+            ("Titular", f"{user.name} {user.lastname}"),
+            ("Correo", user.email),
+            ("Campus", campus.name),
+            ("Dirección", f"{campus.address}, {campus.district}"),
+            ("Campo", rent.field_name),
+            ("Horario", f"{self._format_datetime(rent.start_time)} - {self._format_datetime(rent.end_time)}"),
+            ("Periodo", rent.period),
+            ("Estado", rent.status.upper()),
+            ("Monto pagado", f"S/ {self._format_decimal(rent.mount)}"),
+            ("Límite de pago", self._format_datetime(rent.payment_deadline)),
+        ]
+
+        for label, value in details:
+            draw.text((padding, y), f"{label}:", fill=text_color, font=body_font)
+            draw.text((padding + 220, y), value, fill=text_color, font=body_font)
+            y += line_spacing
+
+        footer_text = "Presenta esta imagen en recepción para validar tu reserva."
+        draw.text((padding, height - 80), footer_text, fill=text_color, font=body_font)
+
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        return EmailAttachment(
+            filename=f"reserva-{rent.rent_id}.png",
+            content_type="image/png",
+            data=buffer.getvalue(),
         )
 
     def send_rent_notification(self, payload: NotificationRequest) -> None:
         """Send the rent confirmation emails for manager and user."""
 
         context = self._build_common_context(payload)
+        reservation_pass = self._build_reservation_pass(payload)
+        pass_data_uri = self._build_attachment_data_uri(reservation_pass)
 
+        user_qr = self._build_qr_attachment(
+            pass_data_uri,
+            f"reserva-{payload.rent.rent_id}-usuario",
+        )
         user_email = self._build_email(
             subject=settings.USER_RECEIPT_SUBJECT,
             recipient=payload.user.email,
             html_template="user_receipt.html",
             text_template="user_receipt.txt",
             context=context,
+            attachments=[reservation_pass, user_qr],
         )
         self._repository.send_email(user_email)
         logger.info(
@@ -117,12 +210,17 @@ class EmailService:
         manager_context = dict(context)
         manager_context["recipient"] = payload.manager
 
+        manager_qr = self._build_qr_attachment(
+            pass_data_uri,
+            f"reserva-{payload.rent.rent_id}-administrador",
+        )
         manager_email = self._build_email(
             subject=settings.MANAGER_CONFIRMATION_SUBJECT,
             recipient=payload.manager.email,
             html_template="manager_confirmation.html",
             text_template="manager_confirmation.txt",
             context=manager_context,
+            attachments=[reservation_pass, manager_qr],
         )
         self._repository.send_email(manager_email)
         logger.info(
