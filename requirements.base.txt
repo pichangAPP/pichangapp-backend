@@ -16,8 +16,8 @@ python-jose[cryptography]
 # Clientes HTTP, plantillas y servicios auxiliares
 httpx
 jinja2
-firebase-admin
-
+firebase-admin  
+qrcode[pil]==7.4.2
 # Herramientas de prueba compartidas
 pytest
 pytest-asyncio

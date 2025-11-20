@@ -384,6 +384,11 @@ nlu:
       - quiero alquilar una cancha
       - necesito una cancha
       - busco una cancha
+      - busco un espacio deportivo
+      - recomiéndame espacios deportivos
+      - necesito un espacio para jugar
+      - muéstrame espacios deportivos disponibles
+      - tienen espacios para hacer deporte
       - ayúdame a encontrar una cancha
       - recomiéndame una cancha
       - dónde puedo jugar
@@ -952,6 +957,11 @@ nlu:
       - en distintos momentos
   - intent: request_admin_recommendation
     examples: |
+      - Cómo optimizo la operación de mis espacios deportivos
+      - Qué hago para que mis espacios deportivos tengan más reservas
+      - Necesito ideas para mover mis espacios en horas valle
+      - Cómo activo promos para los espacios que administro
+      - Recomiéndame estrategias para mis espacios
       - Soy administrador, dame recomendaciones para gestionar mejor mis canchas.
       - ¿Cómo optimizo la operación de mis sedes?
       - Necesito sugerencias para mejorar la ocupación en [Miraflores](location).
@@ -990,6 +1000,11 @@ nlu:
       - ¿Cómo puedo mantener las canchas abiertas hasta tarde sin perder plata?
   - intent: request_admin_top_clients
     examples: |
+      - Quiénes son los clientes que más reservan mis espacios deportivos
+      - Muéstrame los top que usan mis espacios
+      - Dame el ranking de clientes de mis espacios
+      - Quién reserva más seguido mis espacios
+      - Qué usuarios son VIP en mis espacios deportivos
       - Muéstrame quiénes rentan más frecuentemente las canchas que administro.
       - Dame los clientes que más reservas han hecho en mi campus.
       - ¿Quiénes son los jugadores top que alquilan mis espacios?
@@ -1020,6 +1035,11 @@ nlu:
       - Dame el ranking de los equipos nocturnos
   - intent: request_admin_field_usage
     examples: |
+      - Cuáles de mis espacios deportivos se usan más
+      - Qué espacios deportivos son los más reservados
+      - Muéstrame el uso de mis espacios
+      - Ranking de mis espacios deportivos
+      - Qué espacios están más llenos
       - Quiero saber qué campos usan más en mis campus
       - ¿Cuáles son los campos con más renta este mes?
       - Muéstrame el ranking de campos más usados por cada sede
@@ -1051,6 +1071,11 @@ nlu:
       - Muéstrame el ranking de campos más alquilados
   - intent: request_admin_demand_alerts
     examples: |
+      - Avísame si un espacio deportivo está quedando vacío
+      - Necesito alertas para mis espacios deportivos con poca demanda
+      - Quiero saber si un espacio se está llenando demasiado
+      - Envíame alertas sobre ocupación de espacios
+      - Avísame cuando un espacio deportivo tenga baja ocupación
       - Necesito alertas cuando falte gente en ciertas franjas.
       - Avísame si hay poca ocupación el lunes por la noche.
       - Quiero saber cuando una cancha peligra de quedarse vacía.
@@ -1592,3 +1617,10 @@ nlu:
       - [el próximo sábado](date)
       - [09:00](time)
       - a las [08:30](time)
+
+  - synonym: cancha
+    examples: |
+      - espacios deportivos
+      - espacios
+      - espacio deportivo
+      - espacio
