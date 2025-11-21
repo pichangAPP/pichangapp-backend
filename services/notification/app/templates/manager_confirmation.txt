@@ -11,4 +11,7 @@ Detalles de la reserva:
 
 Dirección del campus: {{ campus.address }}, {{ campus.district }}
 
+Adjuntamos un pase en imagen con el código de la reserva y un QR que abre ese pase desde tu
+teléfono.
+
 Gracias por usar Pichangapp.

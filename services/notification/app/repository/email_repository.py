@@ -39,6 +39,15 @@ class EmailRepository:
         message.set_content(text_body)
         message.add_alternative(email.html_body, subtype="html")
 
+        for attachment in email.attachments:
+            maintype, subtype = attachment.content_type.split("/", 1)
+            message.add_attachment(
+                attachment.data,
+                maintype=maintype,
+                subtype=subtype,
+                filename=attachment.filename,
+            )
+
         return message
 
     def _login(self, client: smtplib.SMTP) -> None:
