@@ -1,33 +1,19 @@
-FROM python:3.13-slim AS builder
+# syntax=docker/dockerfile:1.4
+
+ARG SHARED_VENV_IMAGE=pichangapp-shared-venv:latest
+FROM ${SHARED_VENV_IMAGE} AS base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_NO_CACHE_DIR=off
+    PIP_NO_CACHE_DIR=on \
+    VENV_PATH=/opt/venv \
+    PATH="${VENV_PATH}/bin:${PATH}"
 
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install --no-install-recommends -y build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt ./
-RUN pip install --upgrade pip \
-    && pip wheel --wheel-dir /wheels -r requirements.txt
-
-FROM python:3.13-slim
-
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_NO_CACHE_DIR=on
-
-WORKDIR /app
-
-COPY --from=builder /wheels /wheels
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir /wheels/* \
-    && rm -rf /wheels
+COPY requirements.txt ./requirements.txt
+RUN ${VENV_PATH}/bin/pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
 
