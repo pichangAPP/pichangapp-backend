@@ -14,6 +14,8 @@ from typing import Any, Dict, Optional, Sequence
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound, select_autoescape
 
 import qrcode
+from qrcode import constants
+from qrcode.exceptions import DataOverflowError
 from PIL import Image, ImageDraw, ImageFont
 
 from app.core.config import settings
@@ -103,13 +105,32 @@ class EmailService:
 
     @staticmethod
     def _build_qr_attachment(target: str, filename_hint: str) -> EmailAttachment:
-        qr = qrcode.QRCode(box_size=10, border=4)
-        qr.add_data(f"data:{target}")
-        qr.make(fit=True)
+        safe_hint = re.sub(r"[^A-Za-z0-9_-]", "_", filename_hint)
+        qr = qrcode.QRCode(
+            version=None,
+            error_correction=constants.ERROR_CORRECT_M,
+            box_size=10,
+            border=4,
+        )
+
+        try:
+            qr.add_data(target)
+            qr.make(fit=True)
+        except (DataOverflowError, ValueError) as exc:  # pragma: no cover - defensive
+            logger.error("Error generando el QR %s: %s", safe_hint, exc)
+            fallback_qr = qrcode.QRCode(
+                version=1,
+                error_correction=constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            fallback_qr.add_data("RESERVA PICHANGAPP")
+            fallback_qr.make(fit=True)
+            qr = fallback_qr
+
         image = qr.make_image(fill_color="black", back_color="white")
         buffer = BytesIO()
         image.save(buffer, format="PNG")
-        safe_hint = re.sub(r"[^A-Za-z0-9_-]", "_", filename_hint)
         filename = f"qr-{safe_hint}.png"
         return EmailAttachment(
             filename=filename,
@@ -174,15 +195,43 @@ class EmailService:
             data=buffer.getvalue(),
         )
 
+    @staticmethod
+    def _build_pass_link(payload: NotificationRequest) -> str:
+        """Return a concise link or token to recover the reservation pass.
+
+        If ``RESERVATION_PASS_URL_TEMPLATE`` is configured, it can include placeholders
+        compatible with ``str.format`` such as ``{rent_id}``, ``{schedule_day}``, and
+        ``{user_email}``. When not configured, fall back to an internal token so the QR
+        content remains small and still identifies the reservation.
+        """
+
+        template = getattr(settings, "RESERVATION_PASS_URL_TEMPLATE", "")
+        if template:
+            try:
+                return template.format(
+                    rent_id=payload.rent.rent_id,
+                    schedule_day=payload.rent.schedule_day,
+                    user_email=payload.user.email,
+                )
+            except KeyError as exc:  # pragma: no cover - defensive logging only
+                logger.warning(
+                    "Plantilla RESERVATION_PASS_URL_TEMPLATE inválida: %s", exc
+                )
+
+        # Fallback: compact token with the most relevant identifiers.
+        return (
+            f"pichangapp:reserva:{payload.rent.rent_id}:{payload.rent.schedule_day}"  # noqa: E501
+        )
+
     def send_rent_notification(self, payload: NotificationRequest) -> None:
         """Send the rent confirmation emails for manager and user."""
 
         context = self._build_common_context(payload)
         reservation_pass = self._build_reservation_pass(payload)
-        pass_data_uri = self._build_attachment_data_uri(reservation_pass)
+        pass_link = self._build_pass_link(payload)
 
         user_qr = self._build_qr_attachment(
-            pass_data_uri,
+            pass_link,
             f"reserva-{payload.rent.rent_id}-usuario",
         )
         user_email = self._build_email(
@@ -211,7 +260,7 @@ class EmailService:
         manager_context["recipient"] = payload.manager
 
         manager_qr = self._build_qr_attachment(
-            pass_data_uri,
+            pass_link,
             f"reserva-{payload.rent.rent_id}-administrador",
         )
         manager_email = self._build_email(

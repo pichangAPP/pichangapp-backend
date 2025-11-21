@@ -38,6 +38,11 @@ class Settings:
         "Comprobante de tu reserva",
     )
 
+    # Optional template to build a public URL for the reservation pass. Supports
+    # str.format placeholders such as {rent_id}, {schedule_day}, and
+    # {user_email}. When empty, the QR will fall back to a compact token.
+    RESERVATION_PASS_URL_TEMPLATE: str = os.getenv("RESERVATION_PASS_URL_TEMPLATE", "")
+
 
 @lru_cache()
 def get_settings() -> Settings:
