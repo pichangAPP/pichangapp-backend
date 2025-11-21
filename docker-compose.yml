@@ -1,0 +1,139 @@
+version: "3.9"
+
+x-shared-venv-image: &shared-venv-image pichangapp-shared-venv:latest
+x-common-env: &common-env
+  DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:fabri005@68.211.112.98:5432/pichangapp_dev}
+
+services:
+  shared-venv:
+    image: *shared-venv-image
+    build:
+      context: .
+      dockerfile: services/shared-venv/Dockerfile
+    command: ["/bin/true"]
+
+  auth:
+    image: pichangapp-auth:latest
+    build:
+      context: ./services/auth
+      args:
+        SHARED_VENV_IMAGE: *shared-venv-image
+    depends_on:
+      - shared-venv
+    environment:
+      <<: *common-env
+    ports:
+      - "8000:8000"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  booking:
+    image: pichangapp-booking:latest
+    build:
+      context: ./services/booking
+      args:
+        SHARED_VENV_IMAGE: *shared-venv-image
+    depends_on:
+      - shared-venv
+    environment:
+      <<: *common-env
+    ports:
+      - "8001:8001"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+
+  reservation:
+    image: pichangapp-reservation:latest
+    build:
+      context: ./services/reservation
+      args:
+        SHARED_VENV_IMAGE: *shared-venv-image
+    depends_on:
+      - shared-venv
+    environment:
+      <<: *common-env
+    ports:
+      - "8002:8002"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8002"]
+
+  notification:
+    image: pichangapp-notification:latest
+    build:
+      context: ./services/notification
+      args:
+        SHARED_VENV_IMAGE: *shared-venv-image
+    depends_on:
+      - shared-venv
+    environment:
+      <<: *common-env
+    ports:
+      - "8004:8004"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004"]
+
+  analytics:
+    image: pichangapp-analytics:latest
+    build:
+      context: ./services/analytics
+      args:
+        SHARED_VENV_IMAGE: *shared-venv-image
+    depends_on:
+      - shared-venv
+    environment:
+      <<: *common-env
+    ports:
+      - "8005:8005"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8005"]
+
+  rasa:
+    image: pichangapp-rasa:latest
+    build:
+      context: ./services/rasa
+    environment:
+      <<: *common-env
+    ports:
+      - "8006:8006"
+      - "5055:5055"
+
+  gateway:
+    image: pichangapp-gateway:latest
+    build:
+      context: ./services/gateway
+      args:
+        SHARED_VENV_IMAGE: *shared-venv-image
+    depends_on:
+      - auth
+      - booking
+      - reservation
+      - notification
+      - analytics
+      - rasa
+    environment:
+      AUTH_SERVICE_URL: http://auth:8000
+      BOOKING_SERVICE_URL: http://booking:8001
+      RESERVATION_SERVICE_URL: http://reservation:8002
+      PAYMENT_SERVICE_URL: http://payment:8003
+      NOTIFICATION_SERVICE_URL: http://notification:8004
+      ANALYTICS_SERVICE_URL: http://analytics:8005
+      CHATBOT_SERVICE_URL: http://rasa:8006
+    ports:
+      - "9000:9000"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9000"]
+
+  # Placeholder if payment service is enabled later using the shared venv image
+  payment:
+    image: pichangapp-payment:latest
+    build:
+      context: ./services/payment
+      args:
+        SHARED_VENV_IMAGE: *shared-venv-image
+    depends_on:
+      - shared-venv
+    environment:
+      <<: *common-env
+    ports:
+      - "8003:8003"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003"]
+    profiles:
+      - payment
+
+networks:
+  default:
+    name: pichangapp-network
