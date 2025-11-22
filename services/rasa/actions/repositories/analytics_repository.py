@@ -51,6 +51,34 @@ def _clean_location_string(value: str) -> str:
     return cleaned
 
 
+def _sport_search_patterns(value: str) -> List[str]:
+    """Return a list of patterns to match sport aliases."""
+    lowered = value.strip().lower()
+    patterns = {value}
+    if any(alias in lowered for alias in ("futbol", "fútbol", "fulbito", "football", "soccer")):
+        patterns.update({"futbol", "fútbol", "fulbito", "football", "soccer"})
+    if "basket" in lowered or "basquet" in lowered or "básquet" in lowered or "baloncesto" in lowered:
+        patterns.update({"basket", "basketball", "basquet", "básquet", "basquetbol", "baloncesto"})
+    if any(alias in lowered for alias in ("voley", "voleibol", "volley", "volleyball", "voleyball")):
+        patterns.update({"voley", "voleibol", "volley", "volleyball", "voleyball"})
+    if "tenis" in lowered or "tennis" in lowered:
+        patterns.update({"tenis", "tennis"})
+    if "padel" in lowered or "pádel" in lowered:
+        patterns.update({"padel", "pádel"})
+    return list(patterns)
+
+
+def _surface_search_patterns(value: str) -> List[str]:
+    """Return a list of patterns to match surface aliases."""
+    lowered = value.strip().lower()
+    patterns = {value}
+    if "losa" in lowered or "cemento" in lowered:
+        patterns.update({"losa", "losa deportiva", "losa de cemento", "cemento"})
+    if "grass" in lowered or "césped" in lowered or "cesped" in lowered or "sintetico" in lowered or "sintético" in lowered:
+        patterns.update({"grass", "césped", "cesped", "grass sintético", "grass sintetico", "sintetico", "sintético"})
+    return list(patterns)
+
+
 class ChatSessionRepository:
     """Persistence helpers for the analytics.chatbot table."""
 
@@ -387,9 +415,19 @@ class RecommendationRepository:
                 .join(Campus, Field.id_campus == Campus.id_campus)
             )
             if sport:
-                stmt = stmt.where(Sport.sport_name.ilike(f"%{sport}%"))
+                sport_patterns = _sport_search_patterns(sport)
+                stmt = stmt.where(
+                    or_(
+                        *[Sport.sport_name.ilike(f"%{pattern}%") for pattern in sport_patterns]
+                    )
+                )
             if surface:
-                stmt = stmt.where(Field.surface.ilike(f"%{surface}%"))
+                surface_patterns = _surface_search_patterns(surface)
+                stmt = stmt.where(
+                    or_(
+                        *[Field.surface.ilike(f"%{pattern}%") for pattern in surface_patterns]
+                    )
+                )
             location_priority = None
             if location:
                 stripped = _clean_location_string(location)

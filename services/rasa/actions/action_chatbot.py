@@ -302,24 +302,43 @@ async def _fetch_top_clients_from_analytics(
         if not normalized.lower().startswith("bearer "):
             normalized = f"Bearer {normalized}"
         headers["Authorization"] = normalized
-    try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
-            response = await client.get(endpoint, headers=headers or None)
-            response.raise_for_status()
-            return response.json()
-    except httpx.HTTPStatusError as exc:
-        LOGGER.warning(
-            "[AdminTopClients] analytics returned %s for campus=%s: %s",
-            exc.response.status_code,
-            campus_id,
-            exc,
-        )
-    except httpx.RequestError as exc:
-        LOGGER.warning(
-            "[AdminTopClients] request failed for campus=%s: %s",
-            campus_id,
-            exc,
-        )
+    for attempt in range(2):
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                response = await client.get(endpoint, headers=headers or None)
+                response.raise_for_status()
+                return response.json()
+        except httpx.HTTPStatusError as exc:
+            LOGGER.warning(
+                "[AdminTopClients] analytics returned %s for campus=%s attempt=%s: %s",
+                exc.response.status_code,
+                campus_id,
+                attempt + 1,
+                exc,
+            )
+            if exc.response.status_code >= 500 and attempt == 0:
+                await asyncio.sleep(0.5)
+                continue
+        except httpx.RequestError as exc:
+            LOGGER.warning(
+                "[AdminTopClients] request failed for campus=%s attempt=%s: %s",
+                campus_id,
+                attempt + 1,
+                exc,
+            )
+            if attempt == 0:
+                await asyncio.sleep(0.5)
+                continue
+        except ValueError as exc:
+            LOGGER.warning(
+                "[AdminTopClients] invalid JSON for campus=%s attempt=%s: %s",
+                campus_id,
+                attempt + 1,
+                exc,
+            )
+            if attempt == 0:
+                await asyncio.sleep(0.25)
+                continue
     return None
 
 
@@ -336,30 +355,43 @@ async def _fetch_field_usage_from_analytics(
         if not normalized.lower().startswith("bearer "):
             normalized = f"Bearer {normalized}"
         headers["Authorization"] = normalized
-    try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
-            response = await client.get(endpoint, headers=headers or None)
-            response.raise_for_status()
-            return response.json()
-    except httpx.HTTPStatusError as exc:
-        LOGGER.warning(
-            "[AdminFieldUsage] analytics returned %s for campus=%s: %s",
-            exc.response.status_code,
-            campus_id,
-            exc,
-        )
-    except httpx.RequestError as exc:
-        LOGGER.warning(
-            "[AdminFieldUsage] request failed for campus=%s: %s",
-            campus_id,
-            exc,
-        )
-    except ValueError as exc:
-        LOGGER.warning(
-            "[AdminFieldUsage] invalid JSON from analytics for campus=%s: %s",
-            campus_id,
-            exc,
-        )
+    for attempt in range(2):
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                response = await client.get(endpoint, headers=headers or None)
+                response.raise_for_status()
+                return response.json()
+        except httpx.HTTPStatusError as exc:
+            LOGGER.warning(
+                "[AdminFieldUsage] analytics returned %s for campus=%s attempt=%s: %s",
+                exc.response.status_code,
+                campus_id,
+                attempt + 1,
+                exc,
+            )
+            if exc.response.status_code >= 500 and attempt == 0:
+                await asyncio.sleep(0.5)
+                continue
+        except httpx.RequestError as exc:
+            LOGGER.warning(
+                "[AdminFieldUsage] request failed for campus=%s attempt=%s: %s",
+                campus_id,
+                attempt + 1,
+                exc,
+            )
+            if attempt == 0:
+                await asyncio.sleep(0.5)
+                continue
+        except ValueError as exc:
+            LOGGER.warning(
+                "[AdminFieldUsage] invalid JSON from analytics for campus=%s attempt=%s: %s",
+                campus_id,
+                attempt + 1,
+                exc,
+            )
+            if attempt == 0:
+                await asyncio.sleep(0.25)
+                continue
     return None
 
 
@@ -378,29 +410,42 @@ async def _fetch_user_rent_history(
     user_id: int,
     *,
     token: Optional[str] = None,
+    status: Optional[str] = None,
 ) -> List[Dict[str, Any]]:
     base_url = settings.RESERVATION_SERVICE_URL.rstrip("/")
     endpoint = f"{base_url}/rents/users/{user_id}/history"
     headers = _build_reservation_headers(token)
+    params: Dict[str, Any] = {}
+    if status:
+        params["status"] = status
     try:
         async with httpx.AsyncClient(timeout=8.0) as client:
-            response = await client.get(endpoint, headers=headers or None)
+            response = await client.get(
+                endpoint, headers=headers or None, params=params or None
+            )
             response.raise_for_status()
             return response.json()
     except httpx.HTTPStatusError as exc:
         LOGGER.warning(
-            "[ReservationHistory] status=%s user=%s: %s",
+            "[ReservationHistory] status=%s user=%s status_filter=%s: %s",
             exc.response.status_code,
             user_id,
+            status,
             exc,
         )
     except httpx.RequestError as exc:
         LOGGER.warning(
-            "[ReservationHistory] request failed for user=%s: %s", user_id, exc
+            "[ReservationHistory] request failed for user=%s status_filter=%s: %s",
+            user_id,
+            status,
+            exc,
         )
     except ValueError as exc:
         LOGGER.warning(
-            "[ReservationHistory] invalid JSON for user=%s: %s", user_id, exc
+            "[ReservationHistory] invalid JSON for user=%s status_filter=%s: %s",
+            user_id,
+            status,
+            exc,
         )
     return []
 
@@ -1433,6 +1478,59 @@ def _serialize_filter_payload(
     }
 
 
+def _normalize_sport_preference(value: Optional[str]) -> Optional[str]:
+    """Map common sport aliases to the canonical label stored in DB."""
+    if not value or not isinstance(value, str):
+        return value
+    lowered = value.strip().lower()
+    alias_map = {
+        "futbol": "football",
+        "fútbol": "football",
+        "fulbito": "football",
+        "soccer": "football",
+        "basket": "basketball",
+        "basketball": "basketball",
+        "basquet": "basketball",
+        "básquet": "basketball",
+        "basquetbol": "basketball",
+        "baloncesto": "basketball",
+        "voley": "volleyball",
+        "voleibol": "volleyball",
+        "volley": "volleyball",
+        "volleyball": "volleyball",
+        "voleyball": "volleyball",
+        "tenis": "tennis",
+        "tennis": "tennis",
+        "padel": "padel",
+        "pádel": "padel",
+    }
+    if lowered in alias_map:
+        return alias_map[lowered]
+    if "futbol" in lowered or "fútbol" in lowered or "fulbito" in lowered or "fuchibol" in lowered:
+        return "football"
+    if "basket" in lowered or "basquet" in lowered or "básquet" in lowered or "básket" in lowered or "baloncesto" in lowered:
+        return "basketball"
+    if "voley" in lowered or "voleibol" in lowered or "volley" in lowered:
+        return "volleyball"
+    if "tenis" in lowered or "tennis" in lowered:
+        return "tennis"
+    if "padel" in lowered or "pádel" in lowered:
+        return "padel"
+    return value.strip()
+
+
+def _normalize_surface_preference(value: Optional[str]) -> Optional[str]:
+    """Broaden surface phrases to match stored labels (e.g., losa de cemento -> losa)."""
+    if not value or not isinstance(value, str):
+        return value
+    lowered = value.strip().lower()
+    if "losa de cemento" in lowered or "cemento" in lowered or "losa deportiva" in lowered:
+        return "losa"
+    if "losa" in lowered:
+        return "losa"
+    return value.strip()
+
+
 def _describe_relaxations(
     drops: Set[str],
     *,
@@ -1478,7 +1576,10 @@ async def _fetch_recommendations_with_relaxation(
         ("relaxed_location", {"budget", "time", "surface", "sport", "location"}),
         ("generic_popular", {"budget", "time", "surface", "sport", "location", "price_priority"}),
     ]
+    sport_is_required = bool(sport and str(sport).strip())
     for label, drops in requests:
+        if sport_is_required and "sport" in drops:
+            continue
         params_sport = None if "sport" in drops else sport
         params_surface = None if "surface" in drops else surface
         params_location = None if "location" in drops else location
@@ -2030,10 +2131,12 @@ class ActionSubmitFieldRecommendationForm(Action):
             latest_metadata.get("query") if isinstance(latest_metadata.get("query"), str) else None
         )
         prioritize_rating = rating_focus
+        sport_for_query = _normalize_sport_preference(preferred_sport)
+        surface_for_query = _normalize_surface_preference(preferred_surface)
 
         requested_filters = _serialize_filter_payload(
-            sport=preferred_sport,
-            surface=preferred_surface,
+            sport=sport_for_query,
+            surface=surface_for_query,
             location=preferred_location,
             min_price=min_budget,
             max_price=max_budget,
@@ -2050,8 +2153,8 @@ class ActionSubmitFieldRecommendationForm(Action):
                 search_strategy,
                 relaxation_drops,
             ) = await _fetch_recommendations_with_relaxation(
-                sport=preferred_sport,
-                surface=preferred_surface,
+                sport=sport_for_query,
+                surface=surface_for_query,
                 location=preferred_location,
                 min_price=min_budget,
                 max_price=max_budget,
@@ -2076,6 +2179,22 @@ class ActionSubmitFieldRecommendationForm(Action):
             return [SlotSet("chatbot_session_id", str(session_id))]
 
         if not recommendations:
+            if preferred_sport:
+                location_hint = f" en {preferred_location}" if preferred_location else ""
+                not_found_text = (
+                    f"No encontré canchas de {preferred_sport}{location_hint} con los filtros que me diste. "
+                    "¿Quieres que pruebe con otra zona u horario?"
+                )
+                dispatcher.utter_message(text=not_found_text)
+                await _record_intent_and_log(
+                    tracker=tracker,
+                    session_id=session_id,
+                    user_id=user_id,
+                    response_text=not_found_text,
+                    response_type="recommendation_empty",
+                )
+                return inference_events + [SlotSet("chatbot_session_id", str(session_id))]
+
             try:
                 general_recommendations: List[FieldRecommendation] = await run_in_thread(
                     chatbot_service.fetch_field_recommendations,
@@ -3202,7 +3321,15 @@ class ActionReprogramReservation(Action):
         requested_date = _parse_date_value(date_values[0]) if date_values else None
         requested_time = _parse_time_value(time_values[0]) if time_values else None
 
-        history = await _fetch_user_rent_history(user_id, token=user_token)
+        history = await _fetch_user_rent_history(
+            user_id, token=user_token, status="reserved"
+        )
+        if not history:
+            # Retry once in case the reservation service is still loading the history.
+            await asyncio.sleep(0.35)
+            history = await _fetch_user_rent_history(
+                user_id, token=user_token, status="reserved"
+            )
         if not history:
             response_text = (
                 "No encuentro reservas activas en tu historial. "

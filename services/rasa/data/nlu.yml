@@ -599,7 +599,11 @@ nlu:
       - [basket](sport) económico en [Jesús María](location)
       - necesito [fulbito](sport) en [Miraflores](location) para las [20:00](time) este sábado
       - quiero [fútbol](sport) en [Surco](location) mañana a las [19:00](time) económico
-      - busco [pádel](sport) en [San Isidro](location) para el viernes hasta [S/100](budget)
+      - quiero una cancha de [futbol](sport) en [villa el salvador](location) con [losa de cemento](surface) para las [20:00](time) por [S/200](budget)
+      - dame una cancha de [fulbito](sport) en [villa el salvador](location) con [losa de cemento](surface) para las [8](time) por [S/200](budget)
+      - dame un espacio deportivo de [fulbito](sport) en [villa el salvador](location) con [losa de cemento](surface). tengo [S/90](budget)
+      - quiero un espacio deportivo de [fulbito](sport) en [villa el salvador](location) con [losa de cemento](surface). tengo [90](budget) soles
+      - busco [tennis](sport) en [San Isidro](location) para el viernes hasta [S/100](budget)
       - recomiendame [fútbol](sport) en [Surco](location) mañana a las [19:00](time) económico
       - [voley](sport) con [grass sintético](surface) en [San Borja](location) para las [18:00](time)
       - cancha de [basket](sport) barata en [La Molina](location) para hoy
@@ -609,6 +613,14 @@ nlu:
       - ¿hay cancha a las [3](time)?
       - entre las [3](time) y las [4](time)
       - para las [10](time)
+      - solo muéstrame canchas de [fútbol](sport) en [Villa El Salvador](location) con [losa de cemento](surface) para las [20:00](time) por [S/200](budget)
+      - necesito únicamente [fulbito](sport) en [Villa El Salvador](location) con [losa de cemento](surface) tipo [20:00](time) y presupuesto de [S/200](budget)
+      - quiero ver opciones de [fulbito](sport) en [Villa El Salvador](location) con [losa de cemento](surface) alrededor de las [20:00](time) por unos [S/200](budget)
+      - búscame [fútbol](sport) en [Villa El Salvador](location) sobre [losa de cemento](surface) para las [20:00](time) pagando hasta [S/200](budget)
+      - solo canchas de [fulbito](sport) en [Villa El Salvador](location) con [losa de cemento](surface) para las [20:00](time) presupuesto [S/200](budget)
+      - cancha de [basket](sport) techada en [La Molina](location) con [losa deportiva](surface) a las [19:00](time) por máximo [S/80](budget)
+      - una de [voley](sport) en [San Borja](location) con [grass sintético](surface) para las [18:00](time) por [S/70](budget)
+      - campo de [pádel](sport) en [Miraflores](location) con [grass sintético](surface) para las [21:00](time) hasta [S/120](budget)
       - haber dime dónde puedo jugar
       - oye necesito reservar
       - ¿cuál cancha me recomiendas?

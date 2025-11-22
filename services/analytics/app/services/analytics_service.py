@@ -16,6 +16,7 @@ from app.repository import (
     fetch_campus_income_total,
     fetch_campus_overview,
     fetch_campus_top_clients,
+    fetch_campus_top_fields,
     fetch_revenue_summary,
 )
 from app.schemas.analytics import (

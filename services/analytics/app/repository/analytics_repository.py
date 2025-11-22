@@ -414,7 +414,7 @@ def fetch_campus_top_fields(
         """
         SELECT
             field.id_field,
-            field.name AS field_name,
+            field.field_name AS field_name,
             COUNT(rent.id_rent) AS usage_count
         FROM reservation.rent AS rent
         JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
@@ -423,8 +423,8 @@ def fetch_campus_top_fields(
           AND rent.date_log >= :start_at
           AND rent.date_log < :end_at
           AND LOWER(rent.status) NOT IN ('available', 'pending', 'cancelled')
-        GROUP BY field.id_field, field.name
-        ORDER BY usage_count DESC, field.name ASC
+        GROUP BY field.id_field, field.field_name
+        ORDER BY usage_count DESC, field.field_name ASC
         LIMIT :limit
         """
     )
@@ -460,6 +460,7 @@ __all__ = [
     "fetch_campus_income_total",
     "fetch_campus_overview",
     "fetch_campus_top_clients",
+    "fetch_campus_top_fields",
     "fetch_revenue_grouped_totals",
     "fetch_revenue_summary",
 ]
