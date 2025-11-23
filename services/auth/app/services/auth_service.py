@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import secrets
-from typing import Dict, Tuple
+from typing import Any, Dict, Tuple
 
 from fastapi import HTTPException, status
 from jose import JWTError, jwt
@@ -82,9 +82,16 @@ class AuthService:
 
         audit_log_repository.create_audit_log(self.db, audit_entry)
 
-        access_token = self._create_access_token({"sub": str(new_user.id_user), "email": new_user.email})
+        token_claims = {
+            "sub": str(new_user.id_user),
+            "email": new_user.email,
+            "id_user": new_user.id_user,
+            **self._build_role_claims(new_user.id_role),
+        }
 
-        refresh_token = self._create_refresh_token({"sub": str(new_user.id_user), "email": new_user.email})
+        access_token = self._create_access_token(token_claims)
+
+        refresh_token = self._create_refresh_token(token_claims)
 
         self._create_user_session(new_user.id_user, access_token, refresh_token)
 
@@ -119,8 +126,15 @@ class AuthService:
                 detail="Invalid email or password",
             )
 
-        access_token = self._create_access_token({"sub": str(user.id_user), "email": user.email})
-        refresh_token = self._create_refresh_token({"sub": str(user.id_user), "email": user.email})
+        token_claims = {
+            "sub": str(user.id_user),
+            "email": user.email,
+            "id_user": user.id_user,
+            **self._build_role_claims(user.id_role),
+        }
+
+        access_token = self._create_access_token(token_claims)
+        refresh_token = self._create_refresh_token(token_claims)
 
         audit_entry = AuditLog(
             id_user=user.id_user,
@@ -229,8 +243,15 @@ class AuthService:
             )
             audit_log_repository.create_audit_log(self.db, audit_entry)
 
-        access_token = self._create_access_token({"sub": str(user.id_user), "email": user.email})
-        refresh_token = self._create_refresh_token({"sub": str(user.id_user), "email": user.email})
+        token_claims = {
+            "sub": str(user.id_user),
+            "email": user.email,
+            "id_user": user.id_user,
+            **self._build_role_claims(user.id_role),
+        }
+
+        access_token = self._create_access_token(token_claims)
+        refresh_token = self._create_refresh_token(token_claims)
 
         audit_entry = AuditLog(
             id_user=user.id_user,
@@ -289,18 +310,29 @@ class AuthService:
                 detail="User not found",
             )
 
-        access_token = self._create_access_token({"sub": str(user.id_user), "email": user.email})
-        new_refresh_token = self._create_refresh_token({"sub": str(user.id_user), "email": user.email})
+        token_claims = {
+            "sub": str(user.id_user),
+            "email": user.email,
+            "id_user": user.id_user,
+            **self._build_role_claims(user.id_role),
+        }
+
+        access_token = self._create_access_token(token_claims)
+        new_refresh_token = self._create_refresh_token(token_claims)
 
         return access_token, new_refresh_token, user
 
-    def _create_access_token(self, data: Dict[str, str]) -> str:
+    @staticmethod
+    def _build_role_claims(role_id: int) -> Dict[str, Any]:
+        return {"id_role": role_id}
+
+    def _create_access_token(self, data: Dict[str, Any]) -> str:
         to_encode = data.copy()
         expire = datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
         to_encode.update({"exp": expire, "type": "access"})
         return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
-    def _create_refresh_token(self, data: Dict[str, str]) -> str:
+    def _create_refresh_token(self, data: Dict[str, Any]) -> str:
         to_encode = data.copy()
         expire = datetime.utcnow() + timedelta(minutes=settings.REFRESH_TOKEN_EXPIRE_MINUTES)
         to_encode.update({"exp": expire, "type": "refresh"})
@@ -309,9 +341,7 @@ class AuthService:
     def _create_user_session(
         self, user_id: int, access_token: str, refresh_token: str
     ) -> UserSession:
-        active_sessions = session_repository.get_active_sessions(self.db, user_id)
-        for session in active_sessions:
-            session_repository.deactivate_session(self.db, session.id_session)
+        session_repository.delete_sessions_by_user(self.db, user_id)
 
         expires_at = None
         if settings.REFRESH_TOKEN_EXPIRE_MINUTES:

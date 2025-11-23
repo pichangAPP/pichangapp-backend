@@ -1,62 +1,111 @@
-# =====================================
-# Rasa NLU + Core Configuration (Español)
-# =====================================
+version: "3.1"
 
 recipe: default.v1
-language: es
-assistant_id: chato-bot
 
+language: es
+
+# ===============================================
+# PIPELINE - Procesamiento de Lenguaje Natural
+# ===============================================
 pipeline:
-  # Tokenizador básico compatible con español
+  # Tokenización básica para español
   - name: WhitespaceTokenizer
 
-  # Características léxicas (prefijos, sufijos, etc.)
+  # Características de expresiones regulares (tiempo, fechas, etc.)
+  - name: RegexFeaturizer
+
+  # Características léxicas y sintácticas (incluye lookup tables)
   - name: LexicalSyntacticFeaturizer
 
-  # Bolsa de palabras para intenciones
+  # Vectorización de palabras completas
   - name: CountVectorsFeaturizer
+    analyzer: word
+    min_ngram: 1
+    max_ngram: 2
 
-  # Características de caracteres (maneja errores tipográficos)
+  # Vectorización de caracteres (útil para errores de tipeo)
   - name: CountVectorsFeaturizer
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
 
-  # Clasificador multitarea para intenciones y entidades
+  # Clasificador principal DIET (Dual Intent Entity Transformer)
+  # Es el corazón del NLU - clasifica intenciones y extrae entidades
   - name: DIETClassifier
-    epochs: 100
-    random_seed: 42
-    constrain_similarities: true # ✅ elimina warning y mejora separación de intenciones
-    embedding_dimension: 128 # 🔹 mejora la representación semántica
-    learning_rate: 0.001 # 🔹 evita sobreajuste en datasets pequeños
+    epochs: 200 # Incrementar si tienes más datos
+    constrain_similarities: true
+    model_confidence: softmax
+    entity_recognition: true
 
-  # Mapea sinónimos comunes (ej: “sí”, “afirmativo”, “claro”)
+    # Arquitectura del modelo
+    embedding_dimension: 20
+    transformer_size: 256
+
+    # Dropout para prevenir overfitting
+    drop_rate: 0.2
+    drop_rate_attention: 0.2
+
+    # Usar masked language model para mejor comprensión contextual
+    use_masked_language_model: true
+
+    # Balanceo de clases si tienes intenciones desbalanceadas
+    # batch_strategy: "balanced"
+
+    # Learning rate
+    learning_rate: 0.001
+
+  # Mapeo de sinónimos a valores canónicos
   - name: EntitySynonymMapper
 
-  # Extrae entidades basadas en patrones regex (opcional)
-  - name: RegexEntityExtractor
-
-  # Selector de respuestas para FAQs
+  # Response Selector para responder FAQs directamente
   - name: ResponseSelector
     epochs: 100
-    constrain_similarities: true # 🔹 mejora precisión en respuestas
+    retrieval_intent: faq
+    constrain_similarities: true
 
-  # Clasificador de fallback (respuestas por defecto)
+  # Clasificador de fallback para baja confianza
   - name: FallbackClassifier
-    threshold: 0.3
-    ambiguity_threshold: 0.1
+    threshold: 0.7 # Confianza mínima para aceptar predicción
+    ambiguity_threshold: 0.1 # Diferencia mínima entre top 2 intenciones
 
+# ===============================================
+# POLICIES - Predicción de siguiente acción
+# ===============================================
 policies:
-  # Memoriza ejemplos exactos vistos en entrenamiento
+  # Memorización de patrones exactos (muy útil para reglas)
   - name: MemoizationPolicy
+    max_history: 5 # Cuántos turnos recordar
 
-  # Reglas predefinidas (flows y forms)
+  # Política basada en reglas (determinística)
   - name: RulePolicy
+    core_fallback_threshold: 0.4
+    core_fallback_action_name: "action_default_fallback"
     enable_fallback_prediction: true
-    restrict_rules: true # 🔹 asegura que no se sobreescriban reglas
+    restrict_rules: true # Las reglas solo se aplican cuando coinciden exactamente
 
-  # Política neuronal de diálogo (entrena secuencias de conversación)
+  # TED Policy - Transformer Embedding Dialogue
+  # La política más potente para conversaciones complejas
   - name: TEDPolicy
     max_history: 5
-    epochs: 100
-    constrain_similarities: true # ✅ para eliminar warning y mejorar consistencia
+    epochs: 200
+    constrain_similarities: true
+    model_confidence: softmax
+
+    # Arquitectura del transformer (se usan los valores por defecto para los tamaños)
+    embedding_dimension: 20
+
+    # Regularización
+    drop_rate: 0.2
+    drop_rate_attention: 0.2
+
+    # Learning rate
+    learning_rate: 0.001
+
+    # Prevenir predicciones de loops infinitos
+    # use_max_loop_count: true
+    # max_loop_count: 3
+
+# ===============================================
+# CONFIGURACIONES ADICIONALES
+# ===============================================
+assistant_id: chato-bot

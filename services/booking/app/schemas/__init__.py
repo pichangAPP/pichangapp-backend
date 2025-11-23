@@ -8,6 +8,7 @@ from .characteristic import (
 from .field import FieldCreate, FieldResponse, FieldUpdate
 from .image import ImageCreate, ImageResponse, ImageUpdate
 from .manager import ManagerResponse
+from .schedule import CampusScheduleResponse
 from .sport import ModalityResponse, SportCreate, SportResponse, SportUpdate
 
 __all__ = [
@@ -27,6 +28,7 @@ __all__ = [
     "ImageResponse",
     "ImageUpdate",
     "ManagerResponse",
+    "CampusScheduleResponse",
     "ModalityResponse",
     "SportCreate",
     "SportResponse",

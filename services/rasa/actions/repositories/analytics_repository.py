@@ -1,0 +1,651 @@
+"""Repositories that encapsulate database access for analytics tables."""
+
+from __future__ import annotations
+
+import json
+import logging
+import re
+from datetime import datetime, timezone, time as time_of_day
+from decimal import Decimal
+from typing import Any, Dict, List, Optional
+
+from sqlalchemy import case, func, or_, select, literal
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
+
+from ..db_models import (
+    Campus,
+    Chatbot,
+    ChatbotLog,
+    Feedback,
+    Field,
+    Intent,
+    RecommendationLog,
+    Sport,
+)
+from ..infrastructure.database import DatabaseError
+from ..models import FieldRecommendation
+
+LOGGER = logging.getLogger(__name__)
+
+
+def _normalize_decimal(value: Optional[Decimal | float]) -> Optional[float]:
+    if value is None:
+        return None
+    if isinstance(value, Decimal):
+        return float(value)
+    return float(value)
+
+
+def _format_time(value: Optional[datetime | Any]) -> str:
+    if value is None:
+        return ""
+    try:
+        return value.strftime("%H:%M:%S")
+    except AttributeError:
+        return str(value)
+
+def _clean_location_string(value: str) -> str:
+    cleaned = re.sub(r"[^\w\s]", " ", value, flags=re.UNICODE)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    return cleaned
+
+
+def _sport_search_patterns(value: str) -> List[str]:
+    """Return a list of patterns to match sport aliases."""
+    lowered = value.strip().lower()
+    patterns = {value}
+    if any(alias in lowered for alias in ("futbol", "fútbol", "fulbito", "football", "soccer")):
+        patterns.update({"futbol", "fútbol", "fulbito", "football", "soccer"})
+    if "basket" in lowered or "basquet" in lowered or "básquet" in lowered or "baloncesto" in lowered:
+        patterns.update({"basket", "basketball", "basquet", "básquet", "basquetbol", "baloncesto"})
+    if any(alias in lowered for alias in ("voley", "voleibol", "volley", "volleyball", "voleyball")):
+        patterns.update({"voley", "voleibol", "volley", "volleyball", "voleyball"})
+    if "tenis" in lowered or "tennis" in lowered:
+        patterns.update({"tenis", "tennis"})
+    if "padel" in lowered or "pádel" in lowered:
+        patterns.update({"padel", "pádel"})
+    return list(patterns)
+
+
+def _surface_search_patterns(value: str) -> List[str]:
+    """Return a list of patterns to match surface aliases."""
+    lowered = value.strip().lower()
+    patterns = {value}
+    if "losa" in lowered or "cemento" in lowered:
+        patterns.update({"losa", "losa deportiva", "losa de cemento", "cemento"})
+    if "grass" in lowered or "césped" in lowered or "cesped" in lowered or "sintetico" in lowered or "sintético" in lowered:
+        patterns.update({"grass", "césped", "cesped", "grass sintético", "grass sintetico", "sintetico", "sintético"})
+    return list(patterns)
+
+
+class ChatSessionRepository:
+    """Persistence helpers for the analytics.chatbot table."""
+
+    def __init__(self, db: Session) -> None:
+        self._db = db
+
+    def ensure_session(
+        self,
+        *,
+        user_id: int,
+        theme: str,
+        user_role: Optional[str] = None,
+    ) -> int:
+        del user_role  # Role is no longer persisted in analytics.chatbot
+        LOGGER.info(
+            "[ChatSessionRepository] ensuring session for user_id=%s theme=%s",
+            user_id,
+            theme,
+        )
+        try:
+            stmt = (
+                select(Chatbot)
+                .where(Chatbot.id_user == user_id)
+                .order_by(Chatbot.started_at.desc())
+                .limit(1)
+            )
+            existing = self._db.execute(stmt).scalars().first()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+        if existing:
+            existing.status = "active"
+            existing.ended_at = None
+            try:
+                self._db.flush()
+            except SQLAlchemyError as exc:
+                raise DatabaseError(str(exc)) from exc
+            LOGGER.debug(
+                "[ChatSessionRepository] reactivated session id=%s for user_id=%s",
+                existing.id_chatbot,
+                user_id,
+            )
+            return int(existing.id_chatbot)
+
+        chat_session = Chatbot(theme=theme, status="active", id_user=user_id)
+        self._db.add(chat_session)
+        try:
+            self._db.flush()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+        LOGGER.info(
+            "[ChatSessionRepository] created new session id=%s for user_id=%s",
+            chat_session.id_chatbot,
+            user_id,
+        )
+        return int(chat_session.id_chatbot)
+
+    def close_session(self, chatbot_id: int) -> None:
+        LOGGER.info(
+            "[ChatSessionRepository] closing session id=%s",
+            chatbot_id,
+        )
+        try:
+            session = self._db.get(Chatbot, chatbot_id)
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+        if session is None:
+            LOGGER.warning(
+                "[ChatSessionRepository] attempted to close missing session id=%s",
+                chatbot_id,
+            )
+            return
+
+        session.ended_at = datetime.now(timezone.utc)
+        session.status = "closed"
+        try:
+            self._db.flush()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+
+class IntentRepository:
+    """Persistence helpers for analytics.intents."""
+
+    def __init__(self, db: Session) -> None:
+        self._db = db
+
+    def fetch_by_name(self, intent_name: str) -> Optional[Dict[str, Any]]:
+        LOGGER.debug(
+            "[IntentRepository] fetch_by_name intent=%s",
+            intent_name,
+        )
+        try:
+            stmt = select(Intent).where(Intent.intent_name == intent_name).limit(1)
+            intent = self._db.execute(stmt).scalars().first()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+        if not intent:
+            return None
+
+        return {
+            "id_intent": intent.id_intent,
+            "intent_name": intent.intent_name,
+            "example_phrases": intent.example_phrases,
+            "response_template": intent.response_template,
+            "confidence_avg": _normalize_decimal(intent.confidence_avg),
+            "total_detected": intent.total_detected,
+            "false_positives": intent.false_positives,
+            "source_model": intent.source_model,
+            "last_detected": intent.last_detected,
+            "created_at": intent.created_at,
+            "updated_at": intent.updated_at,
+        }
+
+    def update(
+        self,
+        *,
+        intent_id: int,
+        example_phrases: str,
+        response_template: str,
+        confidence_avg: Optional[float],
+        total_detected: int,
+        false_positives: int,
+        source_model: str,
+        last_detected: Optional[datetime],
+        updated_at: datetime,
+    ) -> None:
+        LOGGER.info(
+            "[IntentRepository] update intent_id=%s total_detected=%s false_positives=%s",
+            intent_id,
+            total_detected,
+            false_positives,
+        )
+        try:
+            intent = self._db.get(Intent, intent_id)
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+        if intent is None:
+            raise DatabaseError(f"Intent with id {intent_id} not found")
+
+        intent.example_phrases = example_phrases
+        intent.response_template = response_template
+        intent.confidence_avg = confidence_avg
+        intent.total_detected = total_detected
+        intent.false_positives = false_positives
+        intent.source_model = source_model
+        if last_detected is not None:
+            intent.last_detected = last_detected
+        intent.updated_at = updated_at
+
+        try:
+            self._db.flush()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+    def create(
+        self,
+        *,
+        intent_name: str,
+        example_phrases: str,
+        response_template: str,
+        confidence_avg: float,
+        total_detected: int,
+        false_positives: int,
+        source_model: str,
+        last_detected: Optional[datetime],
+        created_at: datetime,
+        updated_at: datetime,
+    ) -> int:
+        LOGGER.info(
+            "[IntentRepository] create intent_name=%s detected=%s",
+            intent_name,
+            total_detected,
+        )
+        intent = Intent(
+            intent_name=intent_name,
+            example_phrases=example_phrases,
+            response_template=response_template,
+            confidence_avg=confidence_avg,
+            total_detected=total_detected,
+            false_positives=false_positives,
+            source_model=source_model,
+            last_detected=last_detected,
+            created_at=created_at,
+            updated_at=updated_at,
+        )
+        self._db.add(intent)
+        try:
+            self._db.flush()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+        return int(intent.id_intent)
+
+
+class RecommendationRepository:
+    """Persistence helpers for recomendation_log and related lookups."""
+
+    def __init__(self, db: Session) -> None:
+        self._db = db
+
+    def create_log(
+        self,
+        *,
+        status: str,
+        message: str,
+        suggested_start: datetime,
+        suggested_end: datetime,
+        field_id: int,
+        user_id: Optional[int],
+    ) -> int:
+        LOGGER.info(
+            "[RecommendationRepository] create_log status=%s field_id=%s user_id=%s",
+            status,
+            field_id,
+            user_id,
+        )
+        recommendation = RecommendationLog(
+            status=status,
+            message=message,
+            suggested_time_start=suggested_start,
+            suggested_time_end=suggested_end,
+            id_field=field_id,
+            id_user=user_id,
+        )
+        self._db.add(recommendation)
+        try:
+            self._db.flush()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+        LOGGER.info(
+            "[RecommendationRepository] created log id=%s",
+            recommendation.id_recommendation_log,
+        )
+        return int(recommendation.id_recommendation_log)
+
+    def fetch_history(self, session_id: int, limit: int) -> List[Dict[str, Any]]:
+        LOGGER.debug(
+            "[RecommendationRepository] fetch_history session_id=%s limit=%s",
+            session_id,
+            limit,
+        )
+        try:
+            stmt = (
+                select(
+                    RecommendationLog.timestamp,
+                    RecommendationLog.status,
+                    RecommendationLog.message,
+                    RecommendationLog.suggested_time_start,
+                    RecommendationLog.suggested_time_end,
+                    Field.field_name,
+                    Sport.sport_name,
+                    Campus.name.label("campus_name"),
+                )
+                .join(
+                    ChatbotLog,
+                    ChatbotLog.id_recommendation_log
+                    == RecommendationLog.id_recommendation_log,
+                )
+                .join(Field, RecommendationLog.id_field == Field.id_field)
+                .join(Sport, Field.id_sport == Sport.id_sport)
+                .join(Campus, Field.id_campus == Campus.id_campus)
+                .where(ChatbotLog.id_chatbot == session_id)
+                .order_by(RecommendationLog.timestamp.desc())
+                .limit(limit)
+            )
+            result = self._db.execute(stmt).all()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+        history: List[Dict[str, Any]] = []
+        for row in result:
+            history.append(
+                {
+                    "timestamp": row.timestamp,
+                    "status": row.status,
+                    "message": row.message,
+                    "suggested_time_start": row.suggested_time_start,
+                    "suggested_time_end": row.suggested_time_end,
+                    "field_name": row.field_name,
+                    "sport_name": row.sport_name,
+                    "campus_name": row.campus_name,
+                }
+            )
+        return history
+
+    def fetch_field_recommendations(
+        self,
+        *,
+        sport: Optional[str],
+        surface: Optional[str],
+        location: Optional[str],
+        limit: int,
+        min_price: Optional[float],
+        max_price: Optional[float],
+        target_time: Optional[time_of_day],
+        prioritize_price: bool,
+        prioritize_rating: bool,
+    ) -> List[FieldRecommendation]:
+        LOGGER.debug(
+            "[RecommendationRepository] fetch_field_recommendations sport=%s surface=%s location=%s limit=%s min_price=%s max_price=%s target_time=%s prioritize_price=%s prioritize_rating=%s",
+            sport,
+            surface,
+            location,
+            limit,
+            min_price,
+            max_price,
+            target_time,
+            prioritize_price,
+            prioritize_rating,
+        )
+        campus_has_rating = hasattr(Campus, "rating")
+        try:
+            stmt = (
+                select(
+                Field.id_field,
+                Field.field_name,
+                Field.measurement,
+                Field.surface,
+                    Field.capacity,
+                    Field.price_per_hour,
+                    Field.open_time,
+                    Field.close_time,
+                    Sport.sport_name,
+                    Campus.name.label("campus_name"),
+                    Campus.district,
+                    Campus.address,
+                    *( [Campus.rating] if campus_has_rating else [] ),
+                )
+                .join(Sport, Field.id_sport == Sport.id_sport)
+                .join(Campus, Field.id_campus == Campus.id_campus)
+            )
+            if sport:
+                sport_patterns = _sport_search_patterns(sport)
+                stmt = stmt.where(
+                    or_(
+                        *[Sport.sport_name.ilike(f"%{pattern}%") for pattern in sport_patterns]
+                    )
+                )
+            if surface:
+                surface_patterns = _surface_search_patterns(surface)
+                stmt = stmt.where(
+                    or_(
+                        *[Field.surface.ilike(f"%{pattern}%") for pattern in surface_patterns]
+                    )
+                )
+            location_priority = None
+            if location:
+                stripped = _clean_location_string(location)
+                if stripped:
+                    lowered = stripped.lower()
+                    pattern = f"%{lowered}%"
+                    trimmed_district = func.lower(func.trim(func.coalesce(Campus.district, literal(""))))
+                    trimmed_name = func.lower(func.trim(func.coalesce(Campus.name, literal(""))))
+                    trimmed_address = func.lower(func.trim(func.coalesce(Campus.address, literal(""))))
+                    district_exact = trimmed_district == lowered
+                    district_partial = trimmed_district.like(pattern)
+                    name_match = trimmed_name.like(pattern)
+                    address_match = trimmed_address.like(pattern)
+                    stmt = stmt.where(district_partial | name_match | address_match)
+                    location_priority = case(
+                        (district_exact, 0),
+                        (district_partial, 1),
+                        (name_match, 2),
+                        (address_match, 3),
+                        else_=4,
+                    )
+            if min_price is not None:
+                stmt = stmt.where(Field.price_per_hour >= min_price)
+            if max_price is not None:
+                stmt = stmt.where(Field.price_per_hour <= max_price)
+            if target_time is not None:
+                stmt = stmt.where(
+                    or_(Field.open_time.is_(None), Field.open_time <= target_time)
+                ).where(
+                    or_(Field.close_time.is_(None), Field.close_time >= target_time)
+                )
+            order_columns: List[Any] = []
+            if location_priority is not None:
+                order_columns.append(location_priority.asc())
+            if prioritize_rating and campus_has_rating:
+                order_columns.append(Campus.rating.desc().nullslast())
+            if prioritize_price:
+                order_columns.append(Field.price_per_hour.asc())
+            if not order_columns:
+                order_columns = [Field.capacity.desc(), Field.price_per_hour.asc()]
+            stmt = stmt.order_by(*order_columns).limit(limit)
+            rows = self._db.execute(stmt).all()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+        recommendations: List[FieldRecommendation] = []
+        for row in rows:
+            row_dict = row._mapping if hasattr(row, "_mapping") else row
+            recommendations.append(
+                FieldRecommendation(
+                    id_field=int(row_dict["id_field"]),
+                    field_name=row_dict["field_name"],
+                    sport_name=row_dict["sport_name"],
+                    campus_name=row_dict["campus_name"],
+                    district=row_dict.get("district") or "",
+                    address=row_dict.get("address") or "",
+                    surface=row_dict.get("surface") or "",
+                    capacity=int(row_dict["capacity"]) if row_dict.get("capacity") is not None else 0,
+                    price_per_hour=_normalize_decimal(row_dict.get("price_per_hour")) or 0.0,
+                    open_time=_format_time(row_dict.get("open_time")),
+                    close_time=_format_time(row_dict.get("close_time")),
+                    rating=_normalize_decimal(row_dict.get("rating")) if campus_has_rating else None,
+                    measurement=row_dict.get("measurement") or "",
+                )
+            )
+        return recommendations
+
+
+class ChatbotLogRepository:
+    """Persistence helpers for analytics.chatbot_log."""
+
+    def __init__(self, db: Session) -> None:
+        self._db = db
+
+    def _find_duplicate(
+        self,
+        *,
+        session_id: int,
+        message_text: str,
+        bot_response: str,
+        response_type: str,
+        sender_type: str,
+    ) -> Optional[ChatbotLog]:
+        if not message_text and not bot_response:
+            return None
+        try:
+            stmt = (
+                select(ChatbotLog)
+                .where(
+                    ChatbotLog.id_chatbot == session_id,
+                    ChatbotLog.message == message_text,
+                    ChatbotLog.bot_response == bot_response,
+                    ChatbotLog.response_type == response_type,
+                    ChatbotLog.sender_type == sender_type,
+                )
+                .order_by(ChatbotLog.timestamp.desc())
+                .limit(1)
+            )
+            return self._db.execute(stmt).scalars().first()
+        except SQLAlchemyError as exc:
+            LOGGER.error("[ChatbotLogRepository] duplicate check error: %s", exc)
+            return None
+
+    def add_entry(
+        self,
+        *,
+        session_id: int,
+        intent_id: Optional[int],
+        recommendation_id: Optional[int],
+        message_text: str,
+        bot_response: str,
+        response_type: str,
+        sender_type: str,
+        user_id: Optional[int],
+        intent_confidence: Optional[float],
+        metadata: Optional[Dict[str, Any]],
+        ) -> ChatbotLog:
+        """Insert a new chatbot log entry."""
+        LOGGER.info(
+            "[ChatbotLogRepository] add_entry session_id=%s response_type=%s sender=%s intent_id=%s recommendation_id=%s",
+            session_id,
+            response_type,
+            sender_type,
+            intent_id,
+            recommendation_id,
+        )
+        message_value = "" if message_text is None else str(message_text)
+        bot_response_value = "" if bot_response is None else str(bot_response)
+        rounded_confidence = (
+            round(float(intent_confidence), 4)
+            if intent_confidence is not None
+            else None
+        )
+        if message_value or bot_response_value:
+            intent_detected_flag: Optional[int] = 1 if intent_id is not None else 0
+        else:
+            intent_detected_flag = None
+        duplicate = self._find_duplicate(
+            session_id=session_id,
+            message_text=message_value,
+            bot_response=bot_response_value,
+            response_type=response_type,
+            sender_type=sender_type,
+        )
+        if duplicate:
+            LOGGER.debug(
+                "[ChatbotLogRepository] skipping duplicate log entry for session_id=%s response_type=%s",
+                session_id,
+                response_type,
+            )
+            return duplicate
+
+        entry = ChatbotLog(
+            id_chatbot=session_id,
+            id_intent=intent_id,
+            id_recommendation_log=recommendation_id,
+            message=message_value,
+            bot_response=bot_response_value,
+            response_type=response_type,
+            sender_type=sender_type,
+            id_user=user_id,
+            intent_detected=intent_detected_flag,
+            intent_confidence=rounded_confidence,
+            metadata_json=json.dumps(metadata, default=str) if metadata else None,
+        )
+        self._db.add(entry)
+        try:
+            self._db.flush()
+            LOGGER.info("[ChatbotLogRepository] entry inserted id=%s", entry.id_chatbot_log)
+            return entry
+        except SQLAlchemyError as exc:
+            LOGGER.error("[ChatbotLogRepository] DB error: %s", exc)
+            raise DatabaseError(str(exc)) from exc
+
+
+class FeedbackRepository:
+    """Persistence helpers for analytics.feedback."""
+
+    def __init__(self, db: Session) -> None:
+        self._db = db
+
+    def fetch_recent(self, user_id: int, limit: int) -> List[Dict[str, Any]]:
+        LOGGER.debug(
+            "[FeedbackRepository] fetch_recent user_id=%s limit=%s",
+            user_id,
+            limit,
+        )
+        try:
+            stmt = (
+                select(
+                    Feedback.rating,
+                    Feedback.comment,
+                    Feedback.created_at,
+                    Feedback.id_rent,
+                )
+                .where(Feedback.id_user == user_id)
+                .order_by(Feedback.created_at.desc())
+                .limit(limit)
+            )
+            rows = self._db.execute(stmt).all()
+        except SQLAlchemyError as exc:
+            raise DatabaseError(str(exc)) from exc
+
+        return [
+            {
+                "rating": row.rating,
+                "comment": row.comment,
+                "created_at": row.created_at,
+                "id_rent": row.id_rent,
+            }
+            for row in rows
+        ]
+
+
+__all__ = [
+    "ChatSessionRepository",
+    "IntentRepository",
+    "RecommendationRepository",
+    "ChatbotLogRepository",
+    "FeedbackRepository",
+]

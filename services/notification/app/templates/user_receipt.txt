@@ -1,0 +1,15 @@
+Hola {{ user.name }} {{ user.lastname }},
+
+Gracias por reservar con Pichangapp. Estos son los datos de tu reserva:
+- Campus: {{ campus.name }}
+- Dirección: {{ campus.address }}, {{ campus.district }}
+- Campo: {{ field_name }}
+- Horario: {{ date_range }}
+- Estado de la reserva: {{ rent.status | upper }}
+- Monto pagado: S/ {{ amount_display }}
+- Fecha límite de pago: {{ payment_deadline_display }}
+
+Adjuntamos un pase en imagen con tu código de reserva y un QR que lo abre desde tu
+celular al escanearlo.
+
+¡Te esperamos!

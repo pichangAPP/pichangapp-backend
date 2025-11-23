@@ -13,12 +13,16 @@
 action_endpoint:
   actions_module: "actions"
 
+rest:
+  request_timeout: 120
+  response_timeout: 120
+
 # Tracker store which is used to store the conversations.
 # By default the conversations are stored in memory.
 # https://rasa.com/docs/rasa-pro/production/tracker-stores
 
 tracker_store:
-  type: SQL
+  type: custom_tracker_store.ResilientSQLTrackerStore
   dialect: "postgresql"
   url: ${POSTGRES_HOST}
   port: ${POSTGRES_PORT}
@@ -26,6 +30,18 @@ tracker_store:
   username: ${POSTGRES_USER}
   password: ${POSTGRES_PASSWORD}
   driver: "psycopg2"
+  login_db: ${POSTGRES_DB}
+  engine_kwargs:
+    pool_pre_ping: true
+    pool_recycle: 600
+    pool_size: 5
+    max_overflow: 5
+    pool_timeout: 30
+    connect_args:
+      keepalives: 1
+      keepalives_idle: 120
+      keepalives_interval: 30
+      keepalives_count: 5
 #tracker_store:
 #    type: mongod
 #    url: <url to your mongo instance, e.g. mongodb://localhost:27017>

@@ -18,6 +18,13 @@ class Settings:
     FIREBASE_CREDENTIALS_PATH: str = os.getenv("FIREBASE_CREDENTIALS_PATH", "")
     FIREBASE_PROJECT_ID: str = os.getenv("FIREBASE_PROJECT_ID", "")
     DEFAULT_SOCIAL_ROLE_ID: int = int(os.getenv("DEFAULT_SOCIAL_ROLE_ID", "1"))
+    NOTIFICATION_SERVICE_URL: str = os.getenv(
+        "NOTIFICATION_SERVICE_URL",
+        "http://localhost:8004",
+    )
+    NOTIFICATION_SERVICE_TIMEOUT: float = float(
+        os.getenv("NOTIFICATION_SERVICE_TIMEOUT", "10")
+    )
 
 
 @lru_cache()

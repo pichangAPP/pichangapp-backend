@@ -11,6 +11,7 @@ from app.models.business import Business
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.campus import Campus
+    from app.models.field import Field
 
 
 class Image(Base):
@@ -26,13 +27,17 @@ class Image(Base):
     modification_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
     state: Mapped[str] = mapped_column(String(30), nullable=False, default="active")
     deleted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    id_campus: Mapped[int] = mapped_column(
-        BigInteger, ForeignKey("booking.campus.id_campus", ondelete="CASCADE"), nullable=False
+    id_campus: Mapped[Optional[int]] = mapped_column(
+        BigInteger, ForeignKey("booking.campus.id_campus", ondelete="CASCADE"), nullable=True
     )
     id_business: Mapped[Optional[int]] = mapped_column(
         BigInteger, ForeignKey("booking.business.id_business", ondelete="CASCADE"), nullable=True
     )
+    id_field: Mapped[Optional[int]] = mapped_column(
+        BigInteger, ForeignKey("booking.field.id_field", ondelete="CASCADE"), nullable=True
+    )
 
-    campus: Mapped["Campus"] = relationship("Campus", back_populates="images")
+    campus: Mapped[Optional["Campus"]] = relationship("Campus", back_populates="images")
     business: Mapped[Optional["Business"]] = relationship("Business", back_populates="images")
+    field: Mapped[Optional["Field"]] = relationship("Field", back_populates="images")
 

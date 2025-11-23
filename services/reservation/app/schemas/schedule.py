@@ -11,8 +11,8 @@ class ScheduleBase(BaseModel):
     end_time: datetime
     status: str = Field(..., max_length=30)
     price: Decimal = Field(..., ge=0)
-    id_field: int = Field(..., gt=0)
-    id_user: int = Field(..., gt=0)
+    id_field: Optional[int] = Field(None, gt=0)
+    id_user: Optional[int] = Field(None, gt=0)
 
     @field_validator("end_time")
     def validate_time_range(cls, end_time: datetime, info: ValidationInfo) -> datetime:
@@ -58,6 +58,7 @@ class FieldSummary(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class UserSummary(BaseModel):
@@ -71,12 +72,25 @@ class UserSummary(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class ScheduleResponse(ScheduleBase):
     id_schedule: int
-    field: FieldSummary
-    user: UserSummary
+    field: Optional[FieldSummary] = None
+    user: Optional[UserSummary] = None
 
     class Config:
         orm_mode = True
+        from_attributes = True
+
+
+class ScheduleTimeSlotResponse(BaseModel):
+    start_time: datetime
+    end_time: datetime
+    status: str
+    price: Decimal
+
+    class Config:
+        orm_mode = True
+        from_attributes = True

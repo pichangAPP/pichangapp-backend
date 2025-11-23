@@ -1,3 +1,4 @@
 -r ../../requirements.base.txt
 
-# Cuando empieces a usar reservation, aquí agregas lo específico
+# Agrega aquí dependencias propias del notification si las necesitas
+qrcode[pil]==7.4.2

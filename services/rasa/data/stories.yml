@@ -1,53 +1,195 @@
 version: "3.1"
 
 stories:
-  - story: handoff confirmado
+  - story: saludo y recomendación completa
     steps:
-      - intent: human_handoff
-      - action: utter_ask_confirm_human_handoff
-      - intent: affirm
-      - action: action_human_handoff
-      - action: utter_transferring_to_human
-
-  - story: handoff cancelado
-    steps:
-      - intent: human_handoff
-      - action: utter_ask_confirm_human_handoff
-      - intent: deny
-      - action: utter_human_handoff_cancelled
-
-  - story: mostrar feedback positivo
-    steps:
-      - intent: ask_feedback_status
-      - action: feedback_status_form
-      - active_loop: feedback_status_form
+      - intent: greet
+      - action: action_ensure_user_role
+      - action: utter_hello
       - slot_was_set:
-          - user_id: "123"
-      - slot_was_set:
-          - requested_slot: null
-      - action: feedback_status_form
-      - active_loop: null
-      - action: action_check_feedback_status
-
-  - story: recomendar cancha completada
-    steps:
+          - user_role: "player"
       - intent: request_field_recommendation
+        entities:
+          - sport: "fulbito"
+          - location: "Miraflores"
+          - time: "20:00"
+      - action: action_log_field_recommendation_request
       - action: field_recommendation_form
       - active_loop: field_recommendation_form
       - slot_was_set:
-          - user_id: "456"
-      - slot_was_set:
-          - preferred_sport: "fútbol"
-      - slot_was_set:
-          - preferred_date: "2024-06-15"
-      - slot_was_set:
-          - preferred_start_time: "19:00"
-      - slot_was_set:
-          - preferred_location: "Miraflores"
-      - slot_was_set:
-          - preferred_surface: "grass sintético"
-      - slot_was_set:
           - requested_slot: null
-      - action: field_recommendation_form
       - active_loop: null
       - action: action_submit_field_recommendation_form
+      - intent: affirm
+      - action: utter_thanks_for_feedback
+      - action: utter_anything_else
+      - intent: goodbye
+      - action: action_ensure_user_role
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
+  - story: refine recommendation with inform
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: request_field_recommendation
+      - action: action_log_field_recommendation_request
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - intent: inform
+        entities:
+          - date: "mañana"
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_submit_field_recommendation_form
+      - intent: affirm
+      - action: utter_thanks_for_feedback
+      - action: utter_anything_else
+  - story: formulario paso a paso con ayuda intermedia
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: request_field_recommendation
+      - action: action_log_field_recommendation_request
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - slot_was_set:
+          - requested_slot: location
+      - intent: help
+      - action: action_deactivate_loop
+      - active_loop: null
+      - action: utter_what_can_you_do
+      - intent: request_field_recommendation
+      - action: action_log_field_recommendation_request
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_submit_field_recommendation_form
+      - intent: goodbye
+      - action: action_ensure_user_role
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
+  - story: doble fallback dentro del formulario
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: request_field_recommendation
+      - action: action_log_field_recommendation_request
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - intent: nlu_fallback
+      - action: utter_default_fallback
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - intent: nlu_fallback
+      - action: utter_default_fallback
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+
+  - story: consulta de precios y retorno al formulario
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: request_field_recommendation
+      - action: action_log_field_recommendation_request
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - intent: ask_pricing_info
+      - action: action_deactivate_loop
+      - active_loop: null
+      - action: utter_pricing_info
+      - intent: request_field_recommendation
+      - action: action_log_field_recommendation_request
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: action_submit_field_recommendation_form
+      - intent: goodbye
+      - action: action_ensure_user_role
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
+  - story: administrador pide alertas urgentes
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_demand_alerts
+      - action: action_provide_admin_demand_alerts
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
+  - story: administrador consulta recomendaciones de gestión
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_recommendation
+      - action: action_provide_admin_management_tips
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
+  - story: administrador consulta clientes frecuentes
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_top_clients
+      - action: action_provide_admin_campus_top_clients
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
+  - story: administrador consulta campos más usados
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_field_usage
+      - action: action_provide_admin_field_usage
+      - action: action_close_chat_session
+      - action: utter_goodbye
+
+  - story: jugador pregunta promociones
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: show_promotions
+      - action: action_ensure_user_role
+      - action: utter_show_promotions
+  - story: administrador sin rol definido solicita recomendación
+    steps:
+      - intent: request_admin_recommendation
+      - action: action_ensure_user_role
+
+  - story: administrador sin rol definido solicita uso de campos
+    steps:
+      - intent: request_admin_field_usage
+      - action: action_ensure_user_role
+
+  - story: proceso de reserva explicado
+    steps:
+      - intent: ask_reservation_process
+      - action: action_log_user_intent
+      - action: utter_reservation_process
+
+  - story: usuario pregunta cómo modificar su reserva
+    steps:
+      - intent: ask_modify_reservation
+      - action: action_log_user_intent
+      - action: utter_modify_reservation
+
+  - story: usuario pregunta políticas de cancelación
+    steps:
+      - intent: ask_cancellation_policy
+      - action: action_log_user_intent
+      - action: utter_cancellation_policy
+
+  - story: reprogramar reserva con respuesta de acción
+    steps:
+      - intent: ask_reprogram_reservation
+      - action: action_reprogram_reservation
+      - action: utter_anything_else

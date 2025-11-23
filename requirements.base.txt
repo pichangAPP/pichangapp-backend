@@ -7,3 +7,17 @@ python-dotenv
 alembic
 pydantic
 pydantic[email]
+
+# Seguridad, autenticación y utilidades transversales
+passlib[bcrypt]
+bcrypt<4 # pasar a <4 cuando se actualice passlib
+python-jose[cryptography]
+
+# Clientes HTTP, plantillas y servicios auxiliares
+httpx
+jinja2
+firebase-admin  
+qrcode[pil]==7.4.2
+# Herramientas de prueba compartidas
+pytest
+pytest-asyncio

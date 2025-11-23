@@ -1,0 +1,17 @@
+Hola {{ recipient.name }} {{ recipient.lastname }},
+
+Se confirmó una nueva reserva en el campus {{ campus.name }}.
+
+Detalles de la reserva:
+- Campo: {{ field_name }}
+- Horario: {{ date_range }}
+- Estado: {{ rent.status | upper }}
+- Monto pagado: S/ {{ amount_display }}
+- Usuario que reservó: {{ user.name }} {{ user.lastname }} ({{ user.email }})
+
+Dirección del campus: {{ campus.address }}, {{ campus.district }}
+
+Adjuntamos un pase en imagen con el código de la reserva y un QR que abre ese pase desde tu
+teléfono.
+
+Gracias por usar Pichangapp.

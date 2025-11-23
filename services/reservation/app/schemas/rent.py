@@ -13,15 +13,16 @@ class RentBase(BaseModel):
     period: str = Field(..., max_length=20)
     start_time: datetime
     end_time: datetime
-    initialized: datetime
-    finished: datetime
+    initialized: Optional[datetime]
+    finished: Optional[datetime]
     status: str = Field(..., max_length=30)
     minutes: Decimal
     mount: Decimal
     date_log: datetime
     date_create: Optional[datetime] = None
+    payment_deadline: datetime
     capacity: int
-    id_payment: int
+    id_payment: Optional[int] = None
     id_schedule: int
 
 
@@ -29,7 +30,7 @@ class RentCreate(BaseModel):
     """Schema used when creating a new rent."""
 
     id_schedule: int = Field(..., gt=0)
-    id_payment: int = Field(..., gt=0)
+    id_payment: Optional[int] = Field(None, gt=0)
     status: str = Field(..., max_length=30)
     period: Optional[str] = Field(None, max_length=20)
     start_time: Optional[datetime] = None
@@ -56,6 +57,7 @@ class RentUpdate(BaseModel):
     mount: Optional[Decimal]
     date_log: Optional[datetime]
     date_create: Optional[datetime]
+    payment_deadline: Optional[datetime]
     capacity: Optional[int]
     id_payment: Optional[int]
     id_schedule: Optional[int]
@@ -75,6 +77,7 @@ class ScheduleSummary(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class RentResponse(RentBase):
@@ -85,3 +88,4 @@ class RentResponse(RentBase):
 
     class Config:
         orm_mode = True
+        from_attributes = True

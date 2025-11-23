@@ -6,6 +6,7 @@ from .image import Image
 from .modality import Modality
 from .sport import Sport
 from .manager import Manager
+from .schedule import Schedule
 __all__ = [
     "Business",
     "Campus",
@@ -15,4 +16,5 @@ __all__ = [
     "Modality",
     "Sport",
     "Manager",
+    "Schedule",
 ]

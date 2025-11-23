@@ -1,0 +1,3 @@
+-r ../../requirements.base.txt
+
+# Agrega aquí dependencias que solo usa este servicio cuando sea necesario

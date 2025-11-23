@@ -14,6 +14,7 @@ from app.core.database import Base
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.campus import Campus
     from app.models.sport import Sport
+    from app.models.image import Image
 
 
 class Field(Base):
@@ -37,3 +38,6 @@ class Field(Base):
 
     campus: Mapped["Campus"] = relationship("Campus", back_populates="fields")
     sport: Mapped["Sport"] = relationship("Sport", back_populates="fields")
+    images: Mapped[list["Image"]] = relationship(
+        "Image", back_populates="field", cascade="all, delete-orphan", passive_deletes=True
+    )
