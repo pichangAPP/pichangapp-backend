@@ -1,8 +1,11 @@
 #!/bin/bash
 set -euo pipefail
 
+LOG_LEVEL=${LOG_LEVEL:-ERROR}
+LOG_LEVEL_LOWER=$(echo "${LOG_LEVEL}" | tr '[:upper:]' '[:lower:]')
+
 # 1) Levantar el action server
-/venv/bin/rasa run actions --cors "*" --port 5055 &
+/venv/bin/rasa run actions --cors "*" --port 5055 --log-level "${LOG_LEVEL}" &
 ACTIONS_PID=$!
 
 # 2) Levantar Rasa (API principal) y esperar a que esté listo en el 5005
@@ -27,4 +30,4 @@ sys.exit(1)
 PY
 
 # 3) Iniciar la API FastAPI (puerto 8006) cuando Rasa ya está arriba
-exec /venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8006
+exec /venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8006 --log-level "${LOG_LEVEL_LOWER}"

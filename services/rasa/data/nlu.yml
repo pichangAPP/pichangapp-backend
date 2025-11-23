@@ -1063,6 +1063,14 @@ nlu:
       - Dime qué campos están más llenos por campus
       - ¿Me puedes decir los campos que más usan mis equipos?
       - Quiero ver qué canchas son las más populares
+      - Dame el top de canchas más utilizadas este mes
+      - Qué canchas se ocupan más seguido en mis sedes
+      - Muéstrame los espacios con mayor uso en cada campus
+      - Quiero el ranking de campos según número de reservas
+      - ¿Cuáles campos lideran en ocupación ahora mismo?
+      - Necesito saber qué canchas se llenan primero
+      - Qué campos tienen más bloques vendidos este mes
+      - Enséñame los campos con mayor demanda en Villa El Salvador y Chorrillos
       - Las canchas mas usadas de este mes
       - Qué campos tienen más reservas en mis sedes
       - Dime cuáles son los campos con mayor ocupación
@@ -1229,6 +1237,14 @@ nlu:
       - ¿cómo reprogramo mi renta si necesito otro horario?
       - reprogramar mi cancha por favor
       - ¿puedo reprogramar y quién me lo confirma?
+      - mueve mi reserva de hoy para mañana
+      - cambia la hora de mi cancha para más tarde
+      - quiero pasar mi reserva del sábado al domingo
+      - necesito cambiar el turno de las 7pm a las 9pm
+      - podemos correr la reserva una hora más
+      - reagenda mi cancha para otro día
+      - quiero posponer mi reserva, ¿qué hago?
+      - necesito modificar la fecha de mi renta
 
   - intent: ask_cancellation_policy
     examples: |

@@ -2,6 +2,8 @@
 
 FROM python:3.11-slim AS builder
 
+ARG PIP_VERSION=24.0
+
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
@@ -17,10 +19,12 @@ RUN apt-get update \
 COPY requirements.txt ./requirements.txt
 
 RUN python -m venv ${VENV_PATH} \
-    && ${VENV_PATH}/bin/pip install --upgrade pip \
-    && ${VENV_PATH}/bin/pip wheel --wheel-dir /wheels -r requirements.txt
+    && ${VENV_PATH}/bin/pip install --no-cache-dir --upgrade "pip==${PIP_VERSION}" \
+    && PIP_USE_DEPRECATED=legacy-resolver ${VENV_PATH}/bin/pip wheel --no-cache-dir --prefer-binary --wheel-dir /wheels -r requirements.txt
 
 FROM python:3.11-slim
+
+ARG PIP_VERSION=24.0
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -37,8 +41,8 @@ RUN apt-get update \
 
 COPY --from=builder /wheels /wheels
 RUN python -m venv ${VENV_PATH} \
-    && ${VENV_PATH}/bin/pip install --upgrade pip \
-    && ${VENV_PATH}/bin/pip install --no-cache-dir /wheels/* \
+    && ${VENV_PATH}/bin/pip install --no-cache-dir --upgrade "pip==${PIP_VERSION}" \
+    && PIP_USE_DEPRECATED=legacy-resolver ${VENV_PATH}/bin/pip install --no-cache-dir --prefer-binary /wheels/* \
     && rm -rf /wheels
 
 COPY . .
