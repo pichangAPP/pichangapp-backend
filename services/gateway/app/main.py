@@ -50,6 +50,8 @@ async def _proxy_request(request: Request, service_key: str, path: str) -> Respo
     except Exception:  # defensive, body reading rarely fails
         body = b""
 
+    # Forward the request with minimal shaping: keep method/query/body,
+    # strip hop-by-hop headers, and mirror the upstream status/body/headers.
     try:
         async with httpx.AsyncClient(timeout=httpx.Timeout(15.0, read=120.0)) as client:
             response = await client.request(

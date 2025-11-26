@@ -1756,6 +1756,8 @@ async def _record_intent_and_log(
     if message_metadata:
         metadata.update(message_metadata)
 
+    # NLU detected: intent name, confidence and whether
+    # it is a fallback. This lets analytics distinguish false positives
     intent_data = latest_message.get("intent") or {}
     intent_name = intent_data.get("name") or "nlu_fallback"
     confidence = intent_data.get("confidence")

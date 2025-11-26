@@ -1,10 +1,23 @@
 version: "3.9"
 
-x-shared-venv-image: &shared-venv-image pichangapp-shared-venv:latest
+x-shared-venv-image: &shared-venv-image fabrizziocastro/pichangapp-containers:shared-venv
 x-common-env: &common-env
   DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:fabri005@68.211.112.98:5432/pichangapp_dev}
 
 services:
+  postgres:
+    image: fabrizziocastro/pichangapp-containers:postgres-17
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fabri005
+      POSTGRES_DB: pichangapp_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - pichangapp-network
   shared-venv:
     image: *shared-venv-image
     build:
@@ -13,7 +26,7 @@ services:
     command: ["/bin/true"]
 
   auth:
-    image: pichangapp-auth:latest
+    image: fabrizziocastro/pichangapp-containers:auth
     build:
       context: ./services/auth
       args:
@@ -27,7 +40,7 @@ services:
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
   booking:
-    image: pichangapp-booking:latest
+    image: fabrizziocastro/pichangapp-containers:booking
     build:
       context: ./services/booking
       args:
@@ -41,7 +54,7 @@ services:
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
 
   reservation:
-    image: pichangapp-reservation:latest
+    image: fabrizziocastro/pichangapp-containers:reservation
     build:
       context: ./services/reservation
       args:
@@ -55,7 +68,7 @@ services:
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8002"]
 
   notification:
-    image: pichangapp-notification:latest
+    image: fabrizziocastro/pichangapp-containers:notification
     build:
       context: ./services/notification
       args:
@@ -69,7 +82,7 @@ services:
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004"]
 
   analytics:
-    image: pichangapp-analytics:latest
+    image: fabrizziocastro/pichangapp-containers:analytics
     build:
       context: ./services/analytics
       args:
@@ -83,7 +96,7 @@ services:
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8005"]
 
   rasa:
-    image: pichangapp-rasa:latest
+    image: fabrizziocastro/pichangapp-containers:rasa
     build:
       context: ./services/rasa
     environment:
@@ -93,7 +106,7 @@ services:
       - "5055:5055"
 
   gateway:
-    image: pichangapp-gateway:latest
+    image: fabrizziocastro/pichangapp-containers:gateway
     build:
       context: ./services/gateway
       args:
@@ -119,7 +132,7 @@ services:
 
   # Placeholder if payment service is enabled later using the shared venv image
   payment:
-    image: pichangapp-payment:latest
+    image: fabrizziocastro/pichangapp-containers:payment
     build:
       context: ./services/payment
       args:

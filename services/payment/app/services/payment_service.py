@@ -41,6 +41,8 @@ class PaymentService:
         if not update_data:
             return payment
 
+        # Apply only the provided fields so callers can send partial updates
+        # (e.g., just status/receipt) without re-sending the full object.
         for field, value in update_data.items():
             setattr(payment, field, value)
 
