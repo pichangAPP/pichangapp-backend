@@ -121,8 +121,8 @@ services:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       POSTGRES_SSL_MODE: "${POSTGRES_SSL_MODE}"
-      ANALYTICS_SERVICE_URL: http://analytics:8005
-      RESERVATION_SERVICE_URL: http://reservation:8002
+      ANALYTICS_SERVICE_URL: http://analytics:8005/api/pichangapp/v1
+      RESERVATION_SERVICE_URL: http://reservation:8002/api/pichangapp/v1
       RASA_SERVER_URL: http://rasa:5005
       POSTGRES_APPLICATION_NAME: "${POSTGRES_APPLICATION_NAME}"
       DATABASE_URL: "${DATABASE_URL}"
