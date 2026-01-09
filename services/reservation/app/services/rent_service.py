@@ -368,7 +368,8 @@ class RentService:
         schedule = self._get_schedule(payload.id_schedule)
         self._ensure_schedule_available(schedule.id_schedule)
 
-        #  Ensure the rent inherits the schedule timing regardless of user input.
+        # Build the rent from the schedule definition
+        # so start/end/pricing.
         rent_data = payload.dict(exclude_unset=True)
         rent_data.pop("start_time", None)
         rent_data.pop("end_time", None)

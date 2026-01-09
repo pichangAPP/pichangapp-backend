@@ -57,13 +57,13 @@ def _sport_search_patterns(value: str) -> List[str]:
     patterns = {value}
     if any(alias in lowered for alias in ("futbol", "fútbol", "fulbito", "football", "soccer")):
         patterns.update({"futbol", "fútbol", "fulbito", "football", "soccer"})
-    if "basket" in lowered or "basquet" in lowered or "básquet" in lowered or "baloncesto" in lowered:
+    if any(alias in lowered for alias in ("basket", "basquet", "básquet", "baloncesto")):
         patterns.update({"basket", "basketball", "basquet", "básquet", "basquetbol", "baloncesto"})
     if any(alias in lowered for alias in ("voley", "voleibol", "volley", "volleyball", "voleyball")):
         patterns.update({"voley", "voleibol", "volley", "volleyball", "voleyball"})
-    if "tenis" in lowered or "tennis" in lowered:
+    if any(alias in lowered for alias in ("tenis", "tennis")):
         patterns.update({"tenis", "tennis"})
-    if "padel" in lowered or "pádel" in lowered:
+    if any(alias in lowered for alias in ("padel", "pádel")):
         patterns.update({"padel", "pádel"})
     return list(patterns)
 

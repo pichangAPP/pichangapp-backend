@@ -143,6 +143,8 @@ class EmailService:
         campus = rent.campus
         user = payload.user
 
+        # Generate a lightweight boarding-pass style PNG on the fly so emails
+        # always include a scannable, offline-friendly proof of reservation.
         width, height = 900, 640
         background = "#f8fafc"
         accent = "#2563eb"

@@ -1,9 +1,12 @@
 version: "3.9"
 
-x-shared-venv-image: &shared-venv-image pichangapp-shared-venv:latest
+x-shared-venv-image: &shared-venv-image fabrizziocastro/pichangapp-containers:shared-venv
 x-common-env: &common-env
   DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:fabri005@68.211.112.98:5432/pichangapp_dev}
-
+  SECRET_KEY: "${SECRET_KEY}"
+  ALGORITHM: "${ALGORITHM}"
+  ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+  REFRESH_TOKEN_EXPIRE_MINUTES: ${REFRESH_TOKEN_EXPIRE_MINUTES}
 services:
   shared-venv:
     image: *shared-venv-image
@@ -13,7 +16,7 @@ services:
     command: ["/bin/true"]
 
   auth:
-    image: pichangapp-auth:latest
+    image: fabrizziocastro/pichangapp-containers:auth
     build:
       context: ./services/auth
       args:
@@ -21,13 +24,17 @@ services:
     depends_on:
       - shared-venv
     environment:
+      FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID}"
+      DEFAULT_SOCIAL_ROLE_ID: ${DEFAULT_SOCIAL_ROLE_ID}
       <<: *common-env
     ports:
       - "8000:8000"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    networks:
+      - pichangapp-network
 
   booking:
-    image: pichangapp-booking:latest
+    image: fabrizziocastro/pichangapp-containers:booking
     build:
       context: ./services/booking
       args:
@@ -39,9 +46,11 @@ services:
     ports:
       - "8001:8001"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+    networks:
+      - pichangapp-network
 
   reservation:
-    image: pichangapp-reservation:latest
+    image: fabrizziocastro/pichangapp-containers:reservation
     build:
       context: ./services/reservation
       args:
@@ -49,13 +58,16 @@ services:
     depends_on:
       - shared-venv
     environment:
+      NOTIFICATION_SERVICE_URL: http://notification:8004
       <<: *common-env
     ports:
       - "8002:8002"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8002"]
+    networks:
+      - pichangapp-network
 
   notification:
-    image: pichangapp-notification:latest
+    image: fabrizziocastro/pichangapp-containers:notification
     build:
       context: ./services/notification
       args:
@@ -63,13 +75,26 @@ services:
     depends_on:
       - shared-venv
     environment:
+      SMTP_HOST: "${SMTP_HOST}"
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USERNAME: "${SMTP_USERNAME}"
+      SMTP_PASSWORD: "${SMTP_PASSWORD}"
+      SMTP_FROM_EMAIL: "${SMTP_FROM_EMAIL}"
+      SMTP_FROM_NAME: "${SMTP_FROM_NAME}"
+      SMTP_USE_TLS: "${SMTP_USE_TLS}"
+      SMTP_USE_SSL: "${SMTP_USE_SSL}"
+      SMTP_TIMEOUT: ${SMTP_TIMEOUT}
+      MANAGER_CONFIRMATION_SUBJECT: "${MANAGER_CONFIRMATION_SUBJECT}"
+      USER_RECEIPT_SUBJECT: "${USER_RECEIPT_SUBJECT}"
       <<: *common-env
     ports:
       - "8004:8004"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004"]
+    networks:
+      - pichangapp-network
 
   analytics:
-    image: pichangapp-analytics:latest
+    image: fabrizziocastro/pichangapp-containers:analytics
     build:
       context: ./services/analytics
       args:
@@ -81,19 +106,37 @@ services:
     ports:
       - "8005:8005"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8005"]
+    networks:
+      - pichangapp-network
 
   rasa:
-    image: pichangapp-rasa:latest
+    image: fabrizziocastro/pichangapp-containers:rasa
     build:
       context: ./services/rasa
     environment:
+      RASA_PRO_LICENSE: "${RASA_PRO_LICENSE}"
+      POSTGRES_HOST: "${POSTGRES_HOST}"
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_SSL_MODE: "${POSTGRES_SSL_MODE}"
+      ANALYTICS_SERVICE_URL: http://analytics:8005/api/pichangapp/v1
+      RESERVATION_SERVICE_URL: http://reservation:8002/api/pichangapp/v1
+      RASA_SERVER_URL: http://rasa:5005
+      POSTGRES_APPLICATION_NAME: "${POSTGRES_APPLICATION_NAME}"
+      DATABASE_URL: "${DATABASE_URL}"
+      RASA_ENV: production
+      RASA_TRACKER_DB: "${RASA_TRACKER_DB}"
       <<: *common-env
     ports:
       - "8006:8006"
       - "5055:5055"
+    networks:
+      - pichangapp-network
 
   gateway:
-    image: pichangapp-gateway:latest
+    image: fabrizziocastro/pichangapp-containers:gateway
     build:
       context: ./services/gateway
       args:
@@ -116,10 +159,12 @@ services:
     ports:
       - "9000:9000"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9000"]
+    networks:
+      - pichangapp-network
 
   # Placeholder if payment service is enabled later using the shared venv image
   payment:
-    image: pichangapp-payment:latest
+    image: fabrizziocastro/pichangapp-containers:payment
     build:
       context: ./services/payment
       args:
@@ -133,7 +178,9 @@ services:
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003"]
     profiles:
       - payment
+    networks:
+      - pichangapp-network
 
 networks:
-  default:
-    name: pichangapp-network
+  pichangapp-network:
+    external: true

@@ -1,33 +1,40 @@
 #!/bin/bash
 set -euo pipefail
 
-LOG_LEVEL=${LOG_LEVEL:-ERROR}
-LOG_LEVEL_LOWER=$(echo "${LOG_LEVEL}" | tr '[:upper:]' '[:lower:]')
+echo "==============================="
+echo "   🚀 INICIANDO CHATO-BOT"
+echo "==============================="
 
-# 1) Levantar el action server
-/venv/bin/rasa run actions --cors "*" --port 5055 --log-level "${LOG_LEVEL}" &
-ACTIONS_PID=$!
+###############################################
+# 1) Levantar Action Server
+###############################################
+echo "👉 Iniciando Action Server (5055)..."
+rasa run actions \
+  --cors "*" \
+  --port 5055 &
 
-# 2) Levantar Rasa (API principal) y esperar a que esté listo en el 5005
-/venv/bin/python rasa-run.py &
+ACTION_PID=$!
+echo "✔ Action Server PID: $ACTION_PID"
+
+###############################################
+# 2) Levantar Rasa Server (NLU/Core)
+###############################################
+echo "👉 Iniciando Rasa Server (5005)..."
+rasa run \
+  --enable-api \
+  --cors "*" \
+  --port 5005 &
+
 RASA_PID=$!
+echo "✔ Rasa Server PID: $RASA_PID"
 
-/venv/bin/python - <<'PY'
-import socket, sys, time
+###############################################
+# 3) Pequeña espera para que termine de cargar
+###############################################
+sleep 10
 
-host, port, timeout = "127.0.0.1", 5005, 60
-deadline = time.time() + timeout
-
-while time.time() < deadline:
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.settimeout(1)
-        if sock.connect_ex((host, port)) == 0:
-            sys.exit(0)
-    time.sleep(1)
-
-print(f"Rasa HTTP API ({host}:{port}) no respondió en {timeout}s", file=sys.stderr)
-sys.exit(1)
-PY
-
-# 3) Iniciar la API FastAPI (puerto 8006) cuando Rasa ya está arriba
-exec /venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8006 --log-level "${LOG_LEVEL_LOWER}"
+###############################################
+# 4) Levantar FastAPI (8006)
+###############################################
+echo "👉 Iniciando FastAPI (8006)..."
+exec uvicorn app.main:app --host 0.0.0.0 --port 8006

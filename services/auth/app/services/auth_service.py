@@ -170,6 +170,8 @@ class AuthService:
     def login_with_google(self, id_token: str) -> Tuple[str, str, User]:
         get_firebase_app()
 
+        # Validate the external token first; we short-circuit before touching the DB to avoid
+        # persisting sessions for unverified identities.
         try:
             decoded_token = firebase_auth.verify_id_token(id_token)
         except firebase_auth.InvalidIdTokenError as exc:  # pragma: no cover - firebase specific
@@ -212,19 +214,21 @@ class AuthService:
 
             user = User(
                 name=first_name,
-                lastname=last_name,
-                email=email,
+            lastname=last_name,
+            email=email,
                 imageurl=decoded_token.get("picture") or None,
                 phone=decoded_token.get("phone_number") or "000000000",
                 birthdate=None,
                 gender="unspecified",
                 city=None,
                 district=None,
-                password_hash=random_password,
-                id_role=settings.DEFAULT_SOCIAL_ROLE_ID,
-                status="active",
-            )
+            password_hash=random_password,
+            id_role=settings.DEFAULT_SOCIAL_ROLE_ID,
+            status="active",
+        )
 
+            # On first login we provision the user locally with the default social role so later
+            # requests can reuse the same auth flow without duplicating rows.
             role = role_repository.get_role_by_id(self.db, user.id_role)
             if not role:
                 raise HTTPException(

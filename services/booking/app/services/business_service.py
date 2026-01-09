@@ -40,6 +40,8 @@ class BusinessService:
             ) from exc
 
 
+        # For each business we locate the nearest campus (if coords exist),
+        # keep the campuses sorted by proximity, then rank all businesses
         business_distances: list[tuple[float, BusinessResponse]] = []
         for business in businesses:
             populate_available_schedules(self.db, business.campuses)

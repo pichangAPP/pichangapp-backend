@@ -114,6 +114,10 @@ class AnalyticsService:
         start_of_today = datetime.combine(today, time.min, tzinfo=LOCAL_TIMEZONE)
         start_of_tomorrow = start_of_today + timedelta(days=1)
 
+        # Build comparable windows so income/traffic charts always align to current day:
+        # - week starts on Monday and is capped to today to avoid future gaps
+        # - month starts on the first day and is capped the same way
+        # - seven_day_* always spans the last 7 calendar days
         week_start_date = today - timedelta(days=today.weekday())
         week_start = datetime.combine(week_start_date, time.min, tzinfo=LOCAL_TIMEZONE)
         week_end = week_start + timedelta(days=7)
@@ -130,7 +134,7 @@ class AnalyticsService:
 
         try:
             campus_overview = fetch_campus_overview(self._db, campus_id=campus_id)
-        except AnalyticsRepositoryError as exc:  # pragma: no cover - defensive programming
+        except AnalyticsRepositoryError as exc:  #defensive programming
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Unable to obtain campus information",
@@ -181,7 +185,7 @@ class AnalyticsService:
                 start_at=seven_day_start,
                 end_at=seven_day_end,
             )
-        except AnalyticsRepositoryError as exc:  # pragma: no cover - defensive programming
+        except AnalyticsRepositoryError as exc:  #defensive programming
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Unable to compute campus revenue metrics",

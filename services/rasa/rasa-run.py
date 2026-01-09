@@ -1,12 +1,15 @@
-from dotenv import load_dotenv
-import os
 import subprocess
+import sys
 
-# Cargar variables del .env
-load_dotenv()
+if __name__ == "__main__":
+    cmd = [
+        "rasa",
+        "run",
+        "--enable-api",
+        "--cors", "*",
+        "--port", "5005",
+        # NO pasar endpoints ni credentials
+    ]
 
-# Nivel de log: por defecto WARNING para reducir ruido
-log_level = os.getenv("LOG_LEVEL", "ERROR").upper()
-
-# Ejecutar Rasa
-subprocess.run(["rasa", "run", "--enable-api", "-p", "5005", "--log-level", log_level])
+    print("Ejecutando:", " ".join(cmd), flush=True)
+    subprocess.run(cmd, check=True)
