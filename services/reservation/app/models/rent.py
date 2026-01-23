@@ -1,27 +1,17 @@
 from sqlalchemy import (
+    BigInteger,
     Column,
     DateTime,
     ForeignKey,
     Integer,
     Numeric,
     String,
-    BigInteger,
-    Table,
     func,
     text,
 )
 from sqlalchemy.orm import relationship
-from typing import TYPE_CHECKING
 
 from app.core.database import Base
-
-Table(
-    "memberships",
-    Base.metadata,
-    Column("id_membership", Integer, primary_key=True),
-    schema="payment",
-    keep_existing=True, 
-)
 
 class Rent(Base):
 
@@ -45,11 +35,8 @@ class Rent(Base):
         server_default=text("CURRENT_TIMESTAMP + INTERVAL '5 minutes'"),
     )
     capacity = Column(Integer, nullable=False)
-    id_payment = Column(BigInteger, ForeignKey("payment.payment.id_payment"), nullable=True)
+    id_payment = Column(BigInteger, nullable=True)
     id_schedule = Column(BigInteger, ForeignKey("reservation.schedule.id_schedule"), nullable=False)
-    #Límite de pago
-    payment_deadline = Column(DateTime(timezone=True), server_default=func.now())
-
     schedule = relationship("Schedule", back_populates="rents")
 
     def __repr__(self) -> str:

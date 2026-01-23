@@ -1,27 +1,17 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Optional, Iterable, Sequence
+from typing import Iterable, Optional, Sequence
 
 from sqlalchemy import exists, func
-from sqlalchemy.orm import Session, joinedload, load_only
-
-from app.models.campus import Campus
-from app.models.field import Field
+from sqlalchemy.orm import Session, load_only
 from app.models.rent import Rent
-from app.models.user import User
 from app.models.schedule import Schedule
 
 
 def get_schedule(db: Session, schedule_id: int) -> Optional[Schedule]:
     return (
         db.query(Schedule)
-        .options(
-            joinedload(Schedule.field)
-            .joinedload(Field.campus)
-            .joinedload(Campus.manager),
-            joinedload(Schedule.user),
-        )
         .filter(Schedule.id_schedule == schedule_id)
         .first()
     )
@@ -33,12 +23,7 @@ def list_schedules(
     day_of_week: Optional[str] = None,
     status_filter: Optional[str] = None,
 ) -> list[Schedule]:
-    query = db.query(Schedule).options(
-        joinedload(Schedule.field)
-        .joinedload(Field.campus)
-        .joinedload(Campus.manager),
-        joinedload(Schedule.user),
-    )
+    query = db.query(Schedule)
 
     if field_id is not None:
         query = query.filter(Schedule.id_field == field_id)
@@ -120,12 +105,7 @@ def list_available_schedules(
     status_filter: Optional[str] = None,
     exclude_rent_statuses: Optional[Sequence[str]] = None,
 ) -> list[Schedule]:
-    query = db.query(Schedule).options(
-        joinedload(Schedule.field)
-        .joinedload(Field.campus)
-        .joinedload(Campus.manager),
-        joinedload(Schedule.user),
-    )
+    query = db.query(Schedule)
 
     query = query.filter(Schedule.id_field == field_id)
 
@@ -176,11 +156,3 @@ def list_schedules_by_date(
         .order_by(Schedule.start_time)
         .all()
     )
-
-
-def get_field(db: Session, field_id: int) -> Optional[Field]:
-    return db.query(Field).filter(Field.id_field == field_id).first()
-
-
-def get_user(db: Session, user_id: int) -> Optional[User]:
-    return db.query(User).filter(User.id_user == user_id).first()

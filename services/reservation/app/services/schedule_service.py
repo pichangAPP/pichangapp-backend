@@ -4,10 +4,15 @@ from typing import List, Optional, Sequence
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.models.field import Field
+from app.integrations import auth_reader, booking_reader
 from app.models.schedule import Schedule
-from app.models.user import User
-from app.schemas.schedule import ScheduleCreate, ScheduleUpdate
+from app.schemas.schedule import (
+    FieldSummary,
+    ScheduleCreate,
+    ScheduleResponse,
+    ScheduleUpdate,
+    UserSummary,
+)
 
 from app.repository import rent_repository, schedule_repository
 
@@ -19,8 +24,8 @@ class ScheduleService:
     def __init__(self, db: Session):
         self.db = db
 
-    def _get_field(self, field_id: int) -> Field:
-        field = schedule_repository.get_field(self.db, field_id)
+    def _get_field(self, field_id: int) -> FieldSummary:
+        field = booking_reader.get_field_summary(self.db, field_id)
         if field is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -28,8 +33,8 @@ class ScheduleService:
             )
         return field
     
-    def _get_user(self, user_id: int) -> User:
-        user = schedule_repository.get_user(self.db, user_id)
+    def _get_user(self, user_id: int) -> UserSummary:
+        user = auth_reader.get_user_summary(self.db, user_id)
 
         if user is None:
             raise HTTPException(
@@ -39,7 +44,7 @@ class ScheduleService:
         return user
 
     def _validate_schedule_window(
-        self, *, field: Field, start_time: datetime, end_time: datetime
+        self, *, field: FieldSummary, start_time: datetime, end_time: datetime
     ) -> None:
         # Verifica que el fin sea después del inicio
         if end_time <= start_time:
@@ -112,16 +117,17 @@ class ScheduleService:
         field_id: Optional[int] = None,
         day_of_week: Optional[str] = None,
         status_filter: Optional[str] = None,
-    ) -> List[Schedule]:
+    ) -> List[ScheduleResponse]:
 
-        return schedule_repository.list_schedules(
+        schedules = schedule_repository.list_schedules(
             self.db,
             field_id=field_id,
             day_of_week=day_of_week,
             status_filter=status_filter,
         )
+        return self._hydrate_schedules(schedules)
 
-    def get_schedule(self, schedule_id: int) -> Schedule:
+    def get_schedule(self, schedule_id: int) -> ScheduleResponse:
 
         schedule = schedule_repository.get_schedule(self.db, schedule_id)
 
@@ -130,11 +136,11 @@ class ScheduleService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Schedule not found",
             )
-        return schedule
+        return self._hydrate_schedule(schedule)
 
-    def create_schedule(self, payload: ScheduleCreate) -> Schedule:
+    def create_schedule(self, payload: ScheduleCreate) -> ScheduleResponse:
 
-        field: Optional[Field] = None
+        field: Optional[FieldSummary] = None
         if payload.id_field is not None:
             field = self._get_field(payload.id_field)
 
@@ -156,21 +162,24 @@ class ScheduleService:
         schedule = schedule_repository.create_schedule(
             self.db, payload.model_dump()
         )
-        return schedule_repository.get_schedule(
-            self.db, schedule.id_schedule
-        )
+        persisted = schedule_repository.get_schedule(self.db, schedule.id_schedule)
+        return self._hydrate_schedule(persisted)
 
-    def update_schedule(self, schedule_id: int, payload: ScheduleUpdate) -> Schedule:
+    def update_schedule(self, schedule_id: int, payload: ScheduleUpdate) -> ScheduleResponse:
 
-        schedule = self.get_schedule(schedule_id)
+        schedule = schedule_repository.get_schedule(self.db, schedule_id)
+        if schedule is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Schedule not found",
+            )
 
         update_data = payload.model_dump(exclude_unset=True)
 
-        field: Optional[Field] = schedule.field
-        if field is None and schedule.id_field is not None:
+        field: Optional[FieldSummary] = None
+        if schedule.id_field is not None:
             field = self._get_field(schedule.id_field)
-
-        if schedule.user is None and schedule.id_user is not None:
+        if schedule.id_user is not None:
             self._get_user(schedule.id_user)
 
         if "id_field" in update_data:
@@ -201,11 +210,17 @@ class ScheduleService:
             setattr(schedule, attribute, value)
 
         schedule_repository.save_schedule(self.db, schedule)
-        return schedule_repository.get_schedule(self.db, schedule_id)
+        persisted = schedule_repository.get_schedule(self.db, schedule_id)
+        return self._hydrate_schedule(persisted)
 
     def delete_schedule(self, schedule_id: int) -> None:
 
-        schedule = self.get_schedule(schedule_id)
+        schedule = schedule_repository.get_schedule(self.db, schedule_id)
+        if schedule is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Schedule not found",
+            )
         schedule_repository.delete_schedule(self.db, schedule)
 
     def list_available_schedules(
@@ -215,17 +230,18 @@ class ScheduleService:
         day_of_week: Optional[str] = None,
         status_filter: Optional[str] = None,
         exclude_rent_statuses: Optional[Sequence[str]] = None,
-    ) -> List[Schedule]:
+    ) -> List[ScheduleResponse]:
 
         self._get_field(field_id)
 
-        return schedule_repository.list_available_schedules(
+        schedules = schedule_repository.list_available_schedules(
             self.db,
             field_id=field_id,
             day_of_week=day_of_week,
             status_filter=status_filter,
             exclude_rent_statuses=exclude_rent_statuses,
         )
+        return self._hydrate_schedules(schedules)
 
     def list_time_slots_by_date(
         self,
@@ -233,14 +249,17 @@ class ScheduleService:
         field_id: int,
         target_date: date,
     ) -> List[dict]:
+        # Build 1-hour availability slots for a specific field/day based on schedules.
         field = self._get_field(field_id)
 
         open_time = datetime.combine(target_date, field.open_time)
         close_time = datetime.combine(target_date, field.close_time)
 
+        # Handle fields that close after midnight by rolling the close forward.
         if close_time <= open_time:
             close_time += timedelta(days=1)
 
+        # Fetch schedules for the day to mark occupied ranges.
         schedules = schedule_repository.list_schedules_by_date(
             self.db,
             field_id=field_id,
@@ -274,11 +293,14 @@ class ScheduleService:
 
             status_value = (schedule.status or "").strip().lower()
 
+            # Any non-available schedule blocks the slot.
             if status_value and status_value != "available":
                 reserved_ranges.append((start_time, end_time))
             elif schedule.id_schedule in active_schedule_ids:
+                # A schedule with an active rent also blocks the slot.
                 reserved_ranges.append((start_time, end_time))
             else:
+                # Otherwise, the schedule is available; keep its price for the slot.
                 price_value = getattr(schedule, "price", None)
                 if price_value is not None:
                     price_by_range[(start_time, end_time)] = price_value
@@ -296,6 +318,7 @@ class ScheduleService:
         while current_start + slot_duration <= close_time:
             current_end = current_start + slot_duration
             if not _overlaps(current_start, current_end):
+                # Prefer schedule price when it exists; fallback to field price.
                 price_value = price_by_range.get(
                     (current_start, current_end), field.price_per_hour
                 )
@@ -311,3 +334,60 @@ class ScheduleService:
             current_start = current_end
 
         return slots
+
+    def _hydrate_schedule(self, schedule: Optional[Schedule]) -> ScheduleResponse:
+        if schedule is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Schedule not found",
+            )
+
+        field = (
+            booking_reader.get_field_summary(self.db, schedule.id_field)
+            if schedule.id_field is not None
+            else None
+        )
+        user = (
+            auth_reader.get_user_summary(self.db, schedule.id_user)
+            if schedule.id_user is not None
+            else None
+        )
+        return self._build_schedule_response(schedule, field=field, user=user)
+
+    def _hydrate_schedules(
+        self, schedules: Sequence[Schedule]
+    ) -> List[ScheduleResponse]:
+        field_ids = [schedule.id_field for schedule in schedules if schedule.id_field]
+        user_ids = [schedule.id_user for schedule in schedules if schedule.id_user]
+
+        fields = booking_reader.get_field_summaries(self.db, field_ids)
+        users = auth_reader.get_user_summaries(self.db, user_ids)
+
+        return [
+            self._build_schedule_response(
+                schedule,
+                field=fields.get(schedule.id_field),
+                user=users.get(schedule.id_user),
+            )
+            for schedule in schedules
+        ]
+
+    @staticmethod
+    def _build_schedule_response(
+        schedule: Schedule,
+        *,
+        field: Optional[FieldSummary],
+        user: Optional[UserSummary],
+    ) -> ScheduleResponse:
+        return ScheduleResponse(
+            id_schedule=schedule.id_schedule,
+            day_of_week=schedule.day_of_week,
+            start_time=schedule.start_time,
+            end_time=schedule.end_time,
+            status=schedule.status,
+            price=schedule.price,
+            id_field=schedule.id_field,
+            id_user=schedule.id_user,
+            field=field,
+            user=user,
+        )

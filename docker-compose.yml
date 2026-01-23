@@ -2,11 +2,12 @@ version: "3.9"
 
 x-shared-venv-image: &shared-venv-image fabrizziocastro/pichangapp-containers:shared-venv
 x-common-env: &common-env
-  DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:fabri005@68.211.112.98:5432/pichangapp_dev}
+  DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:fabri005@postgres:5432/pichangapp_dev}
   SECRET_KEY: "${SECRET_KEY}"
   ALGORITHM: "${ALGORITHM}"
   ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
   REFRESH_TOKEN_EXPIRE_MINUTES: ${REFRESH_TOKEN_EXPIRE_MINUTES}
+  KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
 services:
   shared-venv:
     image: *shared-venv-image
@@ -14,6 +15,79 @@ services:
       context: .
       dockerfile: services/shared-venv/Dockerfile
     command: ["/bin/true"]
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.1
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+    ports:
+      - "2181:2181"
+    networks:
+      - pichangapp-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,PLAINTEXT_HOST://:29092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,PLAINTEXT_HOST://${KAFKA_PUBLIC_HOST:-localhost}:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    networks:
+      - pichangapp-network
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: pichangapp
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - pichangapp-network
+
+  postgres:
+    image: fabrizziocastro/pichangapp-containers:postgres-17-cron
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-pichangapp_dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    command:
+      - postgres
+      - -c
+      - shared_preload_libraries=pg_cron
+      - -c
+      - cron.database_name=${POSTGRES_DB:-pichangapp_dev}
+      - -c
+      - timezone=America/Lima
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-pichangapp_dev}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - pichangapp-network
 
   auth:
     image: fabrizziocastro/pichangapp-containers:auth
@@ -184,3 +258,8 @@ services:
 networks:
   pichangapp-network:
     external: true
+
+volumes:
+  pgdata:
+    external: true
+    name: pichangapp_pgdata

@@ -76,7 +76,6 @@ class ScheduleSummary(BaseModel):
     user: UserSummary
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -87,5 +86,4 @@ class RentResponse(RentBase):
     schedule: ScheduleSummary
 
     class Config:
-        orm_mode = True
         from_attributes = True

@@ -57,7 +57,6 @@ class FieldSummary(BaseModel):
     id_campus: int
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -71,7 +70,6 @@ class UserSummary(BaseModel):
     status: str
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -81,7 +79,6 @@ class ScheduleResponse(ScheduleBase):
     user: Optional[UserSummary] = None
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -92,5 +89,4 @@ class ScheduleTimeSlotResponse(BaseModel):
     price: Decimal
 
     class Config:
-        orm_mode = True
         from_attributes = True

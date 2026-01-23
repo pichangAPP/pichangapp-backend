@@ -2,17 +2,18 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 import logging
 from decimal import Decimal, ROUND_HALF_UP
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Sequence
 
 from fastapi import BackgroundTasks, HTTPException, status
-from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
+from app.integrations import auth_reader, booking_reader, payment_reader
 from app.models.rent import Rent
 from app.models.schedule import Schedule
-from app.repository import payment_repository, rent_repository, schedule_repository
-from app.schemas.rent import RentCreate, RentUpdate
+from app.repository import rent_repository, schedule_repository
+from app.schemas.rent import RentCreate, RentResponse, RentUpdate, ScheduleSummary
+from app.schemas.schedule import FieldSummary, UserSummary
 from app.services.notification_client import NotificationClient
 
 logger = logging.getLogger(__name__)
@@ -47,23 +48,29 @@ class RentService:
 
     def _build_notification_payload(self, rent: Rent) -> Optional[Dict[str, object]]:
         schedule = rent.schedule
-        if schedule is None or schedule.user is None or schedule.field is None:
+        if schedule is None or schedule.id_field is None or schedule.id_user is None:
             logger.info(
-                "Skipping notification payload creation for rent %s due to incomplete relationships",
+                "Skipping notification payload creation for rent %s due to missing schedule data",
                 rent.id_rent,
             )
             return None
 
-        field = schedule.field
-        campus = field.campus
+        field = booking_reader.get_field_summary(self.db, schedule.id_field)
+        user = auth_reader.get_user_summary(self.db, schedule.id_user)
+        if field is None or user is None:
+            logger.info(
+                "Skipping notification payload creation for rent %s due to missing external data",
+                rent.id_rent,
+            )
+            return None
+
+        campus = booking_reader.get_campus_summary(self.db, field.id_campus)
         if campus is None:
             logger.info(
                 "Skipping notification payload creation for rent %s because campus information is missing",
                 rent.id_rent,
             )
             return None
-
-        user = schedule.user
 
         campus_payload = {
             "id_campus": campus.id_campus,
@@ -72,8 +79,11 @@ class RentService:
             "district": campus.district,
         }
 
-        manager = campus.manager
         manager_payload = None
+        if campus.id_manager is not None:
+            manager = auth_reader.get_user_summary(self.db, campus.id_manager)
+        else:
+            manager = None
         if manager is not None and manager.email:
             manager_payload = {
                 "name": manager.name,
@@ -110,7 +120,7 @@ class RentService:
         self._notification_client.send_rent_email(payload)
 
     def _ensure_field_exists(self, field_id: int) -> None:
-        field = schedule_repository.get_field(self.db, field_id)
+        field = booking_reader.get_field_summary(self.db, field_id)
         if field is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -118,7 +128,7 @@ class RentService:
             )
 
     def _ensure_user_exists(self, user_id: int) -> None:
-        user = schedule_repository.get_user(self.db, user_id)
+        user = auth_reader.get_user_summary(self.db, user_id)
         if user is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -130,74 +140,82 @@ class RentService:
         *,
         status_filter: Optional[str] = None,
         schedule_id: Optional[int] = None,
-    ) -> List[Rent]:
+    ) -> List[RentResponse]:
 
-        return rent_repository.list_rents(
+        rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
             schedule_id=schedule_id,
         )
+        return self._hydrate_rents(rents)
 
     def list_rents_by_campus(
         self,
         campus_id: int,
         *,
         status_filter: Optional[str] = None,
-    ) -> List[Rent]:
+    ) -> List[RentResponse]:
+        field_ids = booking_reader.get_field_ids_by_campus(self.db, campus_id)
+        if not field_ids:
+            return []
 
-        return rent_repository.list_rents(
+        rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
-            campus_id=campus_id,
+            field_ids=field_ids,
         )
+        return self._hydrate_rents(rents)
 
     def list_rents_by_field(
         self,
         field_id: int,
         *,
         status_filter: Optional[str] = None,
-    ) -> List[Rent]:
+    ) -> List[RentResponse]:
 
         self._ensure_field_exists(field_id)
 
-        return rent_repository.list_rents(
+        rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
             field_id=field_id,
         )
+        return self._hydrate_rents(rents)
 
     def list_rents_by_user(
         self,
         user_id: int,
         *,
         status_filter: Optional[str] = None,
-    ) -> List[Rent]:
+    ) -> List[RentResponse]:
 
         self._ensure_user_exists(user_id)
 
-        return rent_repository.list_rents(
+        rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
             user_id=user_id,
         )
+        return self._hydrate_rents(rents)
 
     def list_user_rent_history(
         self,
         user_id: int,
         *,
         status_filter: Optional[str] = None,
-    ) -> List[Rent]:
+    ) -> List[RentResponse]:
 
         self._ensure_user_exists(user_id)
 
-        return rent_repository.list_rents(
+        rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
             user_id=user_id,
             sort_desc=True,
         )
+        return self._hydrate_rents(rents)
 
-    def get_rent(self, rent_id: int) -> Rent:
+    def _get_rent_model(self, rent_id: int) -> Rent:
 
         rent = rent_repository.get_rent(self.db, rent_id)
         if rent is None:
@@ -206,6 +224,103 @@ class RentService:
                 detail="Rent not found",
             )
         return rent
+
+    def get_rent(self, rent_id: int) -> RentResponse:
+        rent = self._get_rent_model(rent_id)
+        return self._hydrate_rent(rent)
+
+    def _hydrate_rent(self, rent: Optional[Rent]) -> RentResponse:
+        if rent is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Rent not found",
+            )
+        return self._hydrate_rents([rent])[0]
+
+    def _hydrate_rents(self, rents: Sequence[Rent]) -> List[RentResponse]:
+        schedules: List[Schedule] = []
+        for rent in rents:
+            schedule = rent.schedule or schedule_repository.get_schedule(
+                self.db, rent.id_schedule
+            )
+            if schedule is None:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Associated schedule not found",
+                )
+            rent.schedule = schedule
+            schedules.append(schedule)
+
+        field_ids = [schedule.id_field for schedule in schedules if schedule.id_field]
+        user_ids = [schedule.id_user for schedule in schedules if schedule.id_user]
+
+        fields = booking_reader.get_field_summaries(self.db, field_ids)
+        users = auth_reader.get_user_summaries(self.db, user_ids)
+
+        responses: List[RentResponse] = []
+        for rent in rents:
+            schedule = rent.schedule
+            field = fields.get(schedule.id_field)
+            user = users.get(schedule.id_user)
+            schedule_summary = self._build_schedule_summary(
+                schedule,
+                field=field,
+                user=user,
+            )
+            responses.append(self._build_rent_response(rent, schedule_summary))
+        return responses
+
+    @staticmethod
+    def _build_schedule_summary(
+        schedule: Schedule,
+        *,
+        field: Optional[FieldSummary],
+        user: Optional[UserSummary],
+    ) -> ScheduleSummary:
+        if field is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Associated field not found",
+            )
+        if user is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Associated user not found",
+            )
+        return ScheduleSummary(
+            id_schedule=schedule.id_schedule,
+            day_of_week=schedule.day_of_week,
+            start_time=schedule.start_time,
+            end_time=schedule.end_time,
+            status=schedule.status,
+            price=schedule.price,
+            field=field,
+            user=user,
+        )
+
+    @staticmethod
+    def _build_rent_response(
+        rent: Rent,
+        schedule: ScheduleSummary,
+    ) -> RentResponse:
+        return RentResponse(
+            id_rent=rent.id_rent,
+            period=rent.period,
+            start_time=rent.start_time,
+            end_time=rent.end_time,
+            initialized=rent.initialized,
+            finished=rent.finished,
+            status=rent.status,
+            minutes=rent.minutes,
+            mount=rent.mount,
+            date_log=rent.date_log,
+            date_create=rent.date_create,
+            payment_deadline=rent.payment_deadline,
+            capacity=rent.capacity,
+            id_payment=rent.id_payment,
+            id_schedule=rent.id_schedule,
+            schedule=schedule,
+        )
 
     def _get_schedule(self, schedule_id: int) -> Schedule:
 
@@ -242,14 +357,14 @@ class RentService:
             )
 
     def _validate_payment(self, payment_id: int) -> None:
-        payment = payment_repository.get_payment(self.db, payment_id)
-        if payment is None:
+        payment_status = payment_reader.get_payment_status(self.db, payment_id)
+        if payment_status is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Associated payment not found",
             )
 
-        status_value = (payment.status or "").lower()
+        status_value = (payment_status or "").lower()
         if status_value != "paid":
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -309,6 +424,7 @@ class RentService:
         rent_data: Dict[str, object],
         schedule_changed: bool,
         existing_rent: Optional[Rent] = None,
+        field_summary: Optional[FieldSummary] = None,
     ) -> None:
 
         rent_data["id_schedule"] = schedule.id_schedule
@@ -336,8 +452,12 @@ class RentService:
 
         if "capacity" not in rent_data or rent_data["capacity"] is None:
             capacity_source = None
-            if schedule.field is not None:
-                capacity_source = schedule.field.capacity
+            if field_summary is None and schedule.id_field is not None:
+                field_summary = booking_reader.get_field_summary(
+                    self.db, schedule.id_field
+                )
+            if field_summary is not None:
+                capacity_source = field_summary.capacity
             elif existing_rent is not None:
                 capacity_source = existing_rent.capacity
 
@@ -363,10 +483,15 @@ class RentService:
         payload: RentCreate,
         *,
         background_tasks: Optional[BackgroundTasks] = None,
-    ) -> Rent:
+    ) -> RentResponse:
 
         schedule = self._get_schedule(payload.id_schedule)
         self._ensure_schedule_available(schedule.id_schedule)
+        field_summary = (
+            booking_reader.get_field_summary(self.db, schedule.id_field)
+            if schedule.id_field is not None
+            else None
+        )
 
         # Build the rent from the schedule definition
         # so start/end/pricing.
@@ -384,6 +509,7 @@ class RentService:
             schedule=schedule,
             rent_data=rent_data,
             schedule_changed=True,
+            field_summary=field_summary,
         )
 
         if rent_data.get("id_payment") is not None:
@@ -395,7 +521,7 @@ class RentService:
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
         if persisted_rent is not None:
             self._notify_rent_creation(persisted_rent)
-            return persisted_rent
+            return self._hydrate_rent(persisted_rent)
     
         self._refresh_field_status(self.db, schedule.id_field)
 
@@ -406,7 +532,8 @@ class RentService:
                 rent.end_time,
             )
 
-        return rent_repository.get_rent(self.db, rent.id_rent)
+        persisted = rent_repository.get_rent(self.db, rent.id_rent)
+        return self._hydrate_rent(persisted)
 
     def update_rent(
         self,
@@ -414,10 +541,10 @@ class RentService:
         payload: RentUpdate,
         *,
         background_tasks: Optional[BackgroundTasks] = None,
-    ) -> Rent:
+    ) -> RentResponse:
         """Update an existing rent."""
 
-        rent = self.get_rent(rent_id)
+        rent = self._get_rent_model(rent_id)
         original_schedule = rent.schedule or self._get_schedule(rent.id_schedule)
         original_field_id = original_schedule.id_field if original_schedule else None
 
@@ -434,11 +561,18 @@ class RentService:
 
         schedule_changed = target_schedule.id_schedule != rent.id_schedule
 
+        field_summary = (
+            booking_reader.get_field_summary(self.db, target_schedule.id_field)
+            if target_schedule.id_field is not None
+            else None
+        )
+
         self._apply_schedule_defaults(
             schedule=target_schedule,
             rent_data=update_data,
             schedule_changed=schedule_changed,
             existing_rent=rent,
+            field_summary=field_summary,
         )
 
         if "id_payment" in update_data and update_data["id_payment"] is not None:
@@ -465,12 +599,12 @@ class RentService:
                 updated_rent.end_time,
             )
 
-        return updated_rent
+        return self._hydrate_rent(updated_rent)
 
     def delete_rent(self, rent_id: int) -> None:
         """Delete a rent from the database."""
 
-        rent = self.get_rent(rent_id)
+        rent = self._get_rent_model(rent_id)
         field_id = rent.schedule.id_field if rent.schedule is not None else None
         rent_repository.delete_rent(self.db, rent)
         self._refresh_field_status(self.db, field_id)
@@ -480,7 +614,7 @@ class RentService:
         if field_id is None:
             return
 
-        field = schedule_repository.get_field(db, field_id)
+        field = booking_reader.get_field_summary(db, field_id)
         if field is None:
             return
 
@@ -500,10 +634,7 @@ class RentService:
         if current_status == target_status:
             return
 
-        field.status = target_status
-        db.add(field)
-        db.commit()
-        db.refresh(field)
+        booking_reader.update_field_status(db, field_id, target_status)
 
     @staticmethod
     async def _reset_field_status_after_time(
