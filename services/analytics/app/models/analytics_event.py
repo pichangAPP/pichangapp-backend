@@ -24,7 +24,6 @@ class AnalyticsEvent(Base):
     timestamp = Column( DateTime(timezone=True), nullable=False)
     id_rent = Column(
         BigInteger,
-        ForeignKey("reservation.rent.id_rent"),
         nullable=False,
     )
     id_kpi = Column(

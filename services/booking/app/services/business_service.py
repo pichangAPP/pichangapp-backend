@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.integrations import auth_reader
 from app.models import Business
 from app.repository import business_repository
 from app.schemas import BusinessCreate, BusinessResponse, BusinessUpdate, CampusResponse
@@ -21,7 +22,9 @@ class BusinessService:
 
     def list_businesses(self) -> list[Business]:
         try:
-            return business_repository.list_businesses(self.db)
+            businesses = business_repository.list_businesses(self.db)
+            self._attach_manager_data(businesses)
+            return businesses
         except SQLAlchemyError as exc:  
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -33,6 +36,7 @@ class BusinessService:
     ) -> list[BusinessResponse]:
         try:
             businesses = business_repository.list_businesses(self.db)
+            self._attach_manager_data(businesses)
         except SQLAlchemyError as exc:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -85,6 +89,7 @@ class BusinessService:
                 detail=f"Business {business_id} not found",
             )
         populate_available_schedules(self.db, business.campuses)
+        self._attach_manager_data([business])
         return business
 
     def get_business_by_manager(self, manager_id: int) -> Business:
@@ -95,6 +100,7 @@ class BusinessService:
                 detail=f"Business for manager {manager_id} not found",
             )
         populate_available_schedules(self.db, business.campuses)
+        self._attach_manager_data([business])
         return business
 
     def create_business(self, business_in: BusinessCreate) -> Business:
@@ -108,6 +114,7 @@ class BusinessService:
             business_repository.create_business(self.db, business)
             self.db.commit()
             self.db.refresh(business)
+            self._attach_manager_data([business])
             return business
         except SQLAlchemyError as exc:
             self.db.rollback()
@@ -130,6 +137,7 @@ class BusinessService:
             self.db.flush()
             self.db.commit()
             self.db.refresh(business)
+            self._attach_manager_data([business])
             return business
         except SQLAlchemyError as exc:
             self.db.rollback()
@@ -156,3 +164,27 @@ class BusinessService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="min_price must be zero or greater",
             )
+
+    def _attach_manager_data(self, businesses: list[Business]) -> None:
+        business_list = [business for business in businesses if business is not None]
+        if not business_list:
+            return
+
+        manager_ids: set[int] = set()
+        for business in business_list:
+            if business.id_manager is not None:
+                manager_ids.add(business.id_manager)
+            for campus in getattr(business, "campuses", []) or []:
+                if campus.id_manager is not None:
+                    manager_ids.add(campus.id_manager)
+
+        managers = auth_reader.get_manager_summaries(self.db, manager_ids)
+
+        for business in business_list:
+            manager_id = business.id_manager
+            business.manager = managers.get(manager_id) if manager_id else None  # type: ignore[attr-defined]
+            for campus in getattr(business, "campuses", []) or []:
+                campus_manager_id = campus.id_manager
+                campus.manager = (  # type: ignore[attr-defined]
+                    managers.get(campus_manager_id) if campus_manager_id else None
+                )

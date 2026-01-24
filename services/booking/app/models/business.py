@@ -4,20 +4,10 @@ from typing import TYPE_CHECKING
 
 from datetime import date
 
-from sqlalchemy import BigInteger, Column, Date, ForeignKey, Integer, Numeric, String, Text, Table, func
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import BigInteger, Date, Integer, Numeric, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.core.database import Base, engine
-from app.models.manager import Manager
-
-Table(
-    "memberships",
-    Base.metadata,
-    Column("id_membership", Integer, primary_key=True),
-    schema="payment",
-    keep_existing=True, 
-)
+from app.core.database import Base
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.campus import Campus
@@ -40,14 +30,8 @@ class Business(Base):
     status: Mapped[str] = mapped_column(String(30), nullable=False)
     imageurl: Mapped[str | None] = mapped_column(Text, nullable=True)
     min_price: Mapped[float | None] = mapped_column(Numeric(10, 2), nullable=True)
-    id_membership: Mapped[int] = mapped_column(
-        Integer, ForeignKey("payment.memberships.id_membership"), nullable=False
-    )
-    id_manager: Mapped[int | None] = mapped_column(
-        BigInteger,
-        ForeignKey("auth.users.id_user", ondelete="SET NULL"),
-        nullable=True,
-    )
+    id_membership: Mapped[int] = mapped_column(Integer, nullable=False)
+    id_manager: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
 
     campuses: Mapped[list["Campus"]] = relationship(
         "Campus",
@@ -59,4 +43,3 @@ class Business(Base):
     images: Mapped[list["Image"]] = relationship(
         "Image", back_populates="business", cascade="all, delete-orphan", passive_deletes=True
     )
-    manager: Mapped[Manager | None] = relationship(Manager, lazy="joined")

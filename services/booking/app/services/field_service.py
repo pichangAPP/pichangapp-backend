@@ -5,9 +5,9 @@ import math
 from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
-from sqlalchemy import func
 
-from app.models import Field, Image, Schedule, Sport
+from app.integrations import reservation_reader
+from app.models import Field, Image, Sport
 from app.repository import field_repository, image_repository, sport_repository
 from app.schemas import FieldCreate, FieldUpdate
 from app.services.campus_service import CampusService
@@ -261,12 +261,10 @@ class FieldService:
         now = datetime.now()
         start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
 
-        schedules = (
-            self.db.query(Schedule)
-            .filter(Schedule.id_field.in_(field_ids))
-            .filter(func.date(Schedule.start_time) == start_of_day.date())
-            .order_by(Schedule.start_time)
-            .all()
+        schedules = reservation_reader.get_schedules_for_fields_on_date(
+            self.db,
+            field_ids,
+            target_date=start_of_day.date(),
         )
 
         def _as_naive(value: datetime) -> datetime:

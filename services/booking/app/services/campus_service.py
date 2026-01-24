@@ -5,11 +5,11 @@ from datetime import datetime, timezone
 from typing import Iterable
 
 from fastapi import HTTPException, status
-from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.models import Campus, Characteristic, Field, Image, Schedule
+from app.integrations import auth_reader, reservation_reader
+from app.models import Campus, Characteristic, Field, Image
 from app.repository import (
     business_repository,
     campus_repository,
@@ -61,6 +61,7 @@ class CampusService:
         try:
             campuses = campus_repository.list_campuses_by_business(self.db, business_id)
             populate_available_schedules(self.db, campuses)
+            self._attach_manager_data(campuses)
             return campuses
         except SQLAlchemyError as exc:  # pragma: no cover - defensive
             raise HTTPException(
@@ -101,6 +102,7 @@ class CampusService:
                 detail=f"Campus {campus_id} not found",
             )
         populate_available_schedules(self.db, [campus])
+        self._attach_manager_data([campus])
         return campus
 
     def create_campus(self, business_id: int, campus_in: CampusCreate) -> Campus:
@@ -120,6 +122,7 @@ class CampusService:
             campus_repository.create_campus(self.db, campus)
             self.db.commit()
             self.db.refresh(campus)
+            self._attach_manager_data([campus])
             return campus
         except SQLAlchemyError as exc:
             self.db.rollback()
@@ -153,6 +156,7 @@ class CampusService:
             self.db.flush()
             self.db.commit()
             self.db.refresh(campus)
+            self._attach_manager_data([campus])
             return campus
         except SQLAlchemyError as exc:
             self.db.rollback()
@@ -242,6 +246,19 @@ class CampusService:
                 detail="rating must be between 0 and 10",
             )
 
+    def _attach_manager_data(self, campuses: Iterable[Campus]) -> None:
+        campus_list = [campus for campus in campuses if campus is not None]
+        if not campus_list:
+            return
+
+        manager_ids = {
+            campus.id_manager for campus in campus_list if campus.id_manager is not None
+        }
+        managers = auth_reader.get_manager_summaries(self.db, manager_ids)
+        for campus in campus_list:
+            manager_id = campus.id_manager
+            campus.manager = managers.get(manager_id) if manager_id else None  # type: ignore[attr-defined]
+
 
 def populate_available_schedules(db: Session, campuses: Iterable[Campus]) -> None:
     campus_list = [campus for campus in campuses if campus is not None]
@@ -260,13 +277,11 @@ def populate_available_schedules(db: Session, campuses: Iterable[Campus]) -> Non
 
     now_utc = datetime.now(timezone.utc)
 
-    schedules = (
-        db.query(Schedule)
-        .filter(Schedule.id_field.in_(field_by_id.keys()))
-        .filter(Schedule.start_time >= now_utc)
-        .filter(func.lower(Schedule.status) == "available")
-        .order_by(Schedule.start_time)
-        .all()
+    schedules = reservation_reader.get_available_schedules(
+        db,
+        field_by_id.keys(),
+        start_time=now_utc,
+        status="available",
     )
 
     schedules_by_campus: dict[int, list[CampusScheduleResponse]] = defaultdict(list)

@@ -8,6 +8,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.integrations import auth_reader
 ALLOWED_INTERVALS = {"day", "week", "month"}
 
 
@@ -346,60 +347,62 @@ def fetch_campus_top_clients(
     query = text(
         """
         SELECT
-            usr.id_user,
-            usr.name,
-            usr.lastname,
-            usr.email,
-            usr.phone,
-            usr.imageurl,
-            usr.city,
-            usr.district,
+            schedule.id_user AS id_user,
             COUNT(rent.id_rent) AS rent_count
         FROM reservation.rent AS rent
         JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
         JOIN booking.field AS field ON field.id_field = schedule.id_field
-        JOIN auth.users AS usr ON usr.id_user = schedule.id_user
         WHERE field.id_campus = :campus_id
           AND LOWER(rent.status) NOT IN ('available', 'pending', 'cancelled')
         GROUP BY
-            usr.id_user,
-            usr.name,
-            usr.lastname,
-            usr.email,
-            usr.phone,
-            usr.imageurl,
-            usr.city,
-            usr.district
-        ORDER BY rent_count DESC, usr.name ASC, usr.lastname ASC
-        LIMIT :limit
+            schedule.id_user
         """
     )
 
     try:
         result = db.execute(
             query,
-            {"campus_id": campus_id, "limit": limit},
+            {"campus_id": campus_id},
         )
     except SQLAlchemyError as exc:  # pragma: no cover - defensive programming
         raise AnalyticsRepositoryError(str(exc)) from exc
 
+    rows = result.mappings().all()
+    if not rows:
+        return []
+
+    rent_counts = {
+        row["id_user"]: int(row["rent_count"]) for row in rows if row["id_user"] is not None
+    }
+    user_profiles = auth_reader.get_user_summaries(db, rent_counts.keys())
+
     entries: List[Dict[str, object]] = []
-    for row in result:
+    for user_id, rent_count in rent_counts.items():
+        profile = user_profiles.get(user_id)
+        if profile is None:
+            continue
         entries.append(
             {
-                "id_user": row.id_user,
-                "name": row.name,
-                "lastname": row.lastname,
-                "email": row.email,
-                "phone": row.phone,
-                "image_url": row.imageurl,
-                "city": row.city,
-                "district": row.district,
-                "rent_count": int(row.rent_count),
+                "id_user": user_id,
+                "name": profile.get("name"),
+                "lastname": profile.get("lastname"),
+                "email": profile.get("email"),
+                "phone": profile.get("phone"),
+                "image_url": profile.get("imageurl"),
+                "city": profile.get("city"),
+                "district": profile.get("district"),
+                "rent_count": rent_count,
             }
         )
 
-    return entries
+    entries.sort(
+        key=lambda row: (
+            -row["rent_count"],
+            (row.get("name") or "").lower(),
+            (row.get("lastname") or "").lower(),
+        )
+    )
+    return entries[:limit]
 
 
 def fetch_campus_top_fields(

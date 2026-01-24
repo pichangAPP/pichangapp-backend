@@ -3,10 +3,10 @@ from __future__ import annotations
 from datetime import date
 from typing import List, Optional
 
-from sqlalchemy import func
 from sqlalchemy.orm import Session, selectinload
 
-from app.models import Field, Schedule, Sport
+from app.integrations import reservation_reader
+from app.models import Field, Sport
 
 
 def list_fields_by_campus(db: Session, campus_id: int) -> List[Field]:
@@ -52,13 +52,9 @@ def field_has_upcoming_reservations(
     """Return True when the field has reserved or pending schedules today or later."""
 
     statuses = ("reserved", "pending")
-    match = (
-        db.query(Schedule.id_schedule)
-        .filter(
-            Schedule.id_field == field_id,
-            func.lower(Schedule.status).in_(statuses),
-            func.date(Schedule.start_time) >= reference_date,
-        )
-        .first()
+    return reservation_reader.field_has_upcoming_reservations(
+        db,
+        field_id,
+        reference_date=reference_date,
+        statuses=statuses,
     )
-    return match is not None
