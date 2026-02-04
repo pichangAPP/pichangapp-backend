@@ -374,7 +374,10 @@ def fetch_campus_top_clients(
     rent_counts = {
         row["id_user"]: int(row["rent_count"]) for row in rows if row["id_user"] is not None
     }
-    user_profiles = auth_reader.get_user_summaries(db, rent_counts.keys())
+    try:
+        user_profiles = auth_reader.get_user_summaries(db, rent_counts.keys())
+    except auth_reader.AuthReaderError as exc:
+        raise AnalyticsRepositoryError(str(exc)) from exc
 
     entries: List[Dict[str, object]] = []
     for user_id, rent_count in rent_counts.items():

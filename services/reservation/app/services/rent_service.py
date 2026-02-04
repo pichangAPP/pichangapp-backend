@@ -56,7 +56,14 @@ class RentService:
             return None
 
         field = booking_reader.get_field_summary(self.db, schedule.id_field)
-        user = auth_reader.get_user_summary(self.db, schedule.id_user)
+        try:
+            user = auth_reader.get_user_summary(self.db, schedule.id_user)
+        except auth_reader.AuthReaderError as exc:
+            logger.warning(
+                "Auth service unavailable while building notification payload: %s",
+                exc,
+            )
+            return None
         if field is None or user is None:
             logger.info(
                 "Skipping notification payload creation for rent %s due to missing external data",
@@ -81,7 +88,15 @@ class RentService:
 
         manager_payload = None
         if campus.id_manager is not None:
-            manager = auth_reader.get_user_summary(self.db, campus.id_manager)
+            try:
+                manager = auth_reader.get_user_summary(self.db, campus.id_manager)
+            except auth_reader.AuthReaderError as exc:
+                logger.warning(
+                    "Auth service unavailable while fetching manager for rent %s: %s",
+                    rent.id_rent,
+                    exc,
+                )
+                manager = None
         else:
             manager = None
         if manager is not None and manager.email:
@@ -128,7 +143,13 @@ class RentService:
             )
 
     def _ensure_user_exists(self, user_id: int) -> None:
-        user = auth_reader.get_user_summary(self.db, user_id)
+        try:
+            user = auth_reader.get_user_summary(self.db, user_id)
+        except auth_reader.AuthReaderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=str(exc),
+            ) from exc
         if user is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -255,7 +276,13 @@ class RentService:
         user_ids = [schedule.id_user for schedule in schedules if schedule.id_user]
 
         fields = booking_reader.get_field_summaries(self.db, field_ids)
-        users = auth_reader.get_user_summaries(self.db, user_ids)
+        try:
+            users = auth_reader.get_user_summaries(self.db, user_ids)
+        except auth_reader.AuthReaderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=str(exc),
+            ) from exc
 
         responses: List[RentResponse] = []
         for rent in rents:

@@ -4,10 +4,8 @@ from fastapi import FastAPI
 
 from app.api import payment_router
 from app.core.config import settings
-from app.core.database import Base, engine
 from app.core.error_handlers import register_exception_handlers
 
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title=settings.PROJECT_NAME)
 

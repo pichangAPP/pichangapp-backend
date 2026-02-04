@@ -254,7 +254,13 @@ class CampusService:
         manager_ids = {
             campus.id_manager for campus in campus_list if campus.id_manager is not None
         }
-        managers = auth_reader.get_manager_summaries(self.db, manager_ids)
+        try:
+            managers = auth_reader.get_manager_summaries(self.db, manager_ids)
+        except auth_reader.AuthReaderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=str(exc),
+            ) from exc
         for campus in campus_list:
             manager_id = campus.id_manager
             campus.manager = managers.get(manager_id) if manager_id else None  # type: ignore[attr-defined]

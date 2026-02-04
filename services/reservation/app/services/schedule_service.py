@@ -34,7 +34,13 @@ class ScheduleService:
         return field
     
     def _get_user(self, user_id: int) -> UserSummary:
-        user = auth_reader.get_user_summary(self.db, user_id)
+        try:
+            user = auth_reader.get_user_summary(self.db, user_id)
+        except auth_reader.AuthReaderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=str(exc),
+            ) from exc
 
         if user is None:
             raise HTTPException(
@@ -347,11 +353,16 @@ class ScheduleService:
             if schedule.id_field is not None
             else None
         )
-        user = (
-            auth_reader.get_user_summary(self.db, schedule.id_user)
-            if schedule.id_user is not None
-            else None
-        )
+        if schedule.id_user is not None:
+            try:
+                user = auth_reader.get_user_summary(self.db, schedule.id_user)
+            except auth_reader.AuthReaderError as exc:
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail=str(exc),
+                ) from exc
+        else:
+            user = None
         return self._build_schedule_response(schedule, field=field, user=user)
 
     def _hydrate_schedules(
@@ -361,7 +372,13 @@ class ScheduleService:
         user_ids = [schedule.id_user for schedule in schedules if schedule.id_user]
 
         fields = booking_reader.get_field_summaries(self.db, field_ids)
-        users = auth_reader.get_user_summaries(self.db, user_ids)
+        try:
+            users = auth_reader.get_user_summaries(self.db, user_ids)
+        except auth_reader.AuthReaderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=str(exc),
+            ) from exc
 
         return [
             self._build_schedule_response(

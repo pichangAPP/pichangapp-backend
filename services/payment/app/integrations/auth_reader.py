@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 import logging
-from typing import Iterable, Optional
+from typing import Optional
 
 import httpx
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.schemas.user import UserSummary
 
 logger = logging.getLogger(__name__)
 
@@ -31,44 +32,25 @@ def _get_auth_headers() -> dict[str, str]:
     return {"X-Internal-Auth": api_key}
 
 
-def get_user_summaries(
-    db: Session,
-    user_ids: Iterable[int],
-) -> dict[int, dict[str, Optional[str]]]:
+def get_user_summary(db: Session, user_id: int) -> Optional[UserSummary]:
     del db
-    unique_ids = {user_id for user_id in user_ids if user_id is not None}
-    if not unique_ids:
-        return {}
-
-    url = f"{_get_auth_base_url()}/api/pichangapp/v1/internal/users"
+    url = f"{_get_auth_base_url()}/api/pichangapp/v1/internal/users/{user_id}"
     try:
         response = httpx.get(
             url,
             headers=_get_auth_headers(),
-            params={"ids": list(unique_ids)},
             timeout=settings.AUTH_SERVICE_TIMEOUT,
         )
     except httpx.RequestError as exc:
-        logger.warning("Auth service unavailable while fetching users: %s", exc)
+        logger.warning("Auth service unavailable while fetching user %s: %s", user_id, exc)
         raise AuthReaderError("Auth service unavailable") from exc
 
+    if response.status_code == 404:
+        return None
     if response.is_error:
         raise AuthReaderError(f"Auth service error ({response.status_code})")
 
-    users = response.json()
-    return {
-        user["id_user"]: {
-            "id_user": user["id_user"],
-            "name": user.get("name"),
-            "lastname": user.get("lastname"),
-            "email": user.get("email"),
-            "phone": user.get("phone"),
-            "imageurl": user.get("imageurl"),
-            "city": user.get("city"),
-            "district": user.get("district"),
-        }
-        for user in users
-    }
+    return UserSummary(**response.json())
 
 
-__all__ = ["AuthReaderError", "get_user_summaries"]
+__all__ = ["AuthReaderError", "get_user_summary"]

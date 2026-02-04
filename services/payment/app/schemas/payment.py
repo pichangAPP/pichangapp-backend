@@ -20,7 +20,21 @@ class PaymentBase(BaseModel):
 
 
 class PaymentCreate(PaymentBase):
-    pass
+    rent_id: Optional[int] = Field(
+        None,
+        ge=1,
+        description="Rent identifier used to resolve the campus for Yape/Plin payments.",
+    )
+    payer_phone: Optional[str] = Field(
+        None,
+        max_length=20,
+        description="Phone number used by the user to pay via Yape/Plin.",
+    )
+    approval_code: Optional[str] = Field(
+        None,
+        max_length=100,
+        description="Approval code reported by Yape/Plin.",
+    )
 
 
 class PaymentUpdate(BaseModel):

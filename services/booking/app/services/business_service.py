@@ -178,7 +178,13 @@ class BusinessService:
                 if campus.id_manager is not None:
                     manager_ids.add(campus.id_manager)
 
-        managers = auth_reader.get_manager_summaries(self.db, manager_ids)
+        try:
+            managers = auth_reader.get_manager_summaries(self.db, manager_ids)
+        except auth_reader.AuthReaderError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail=str(exc),
+            ) from exc
 
         for business in business_list:
             manager_id = business.id_manager
