@@ -12,6 +12,8 @@ def list_businesses(db: Session) -> List[Business]:
         db.query(Business)
         .options(
             selectinload(Business.images),
+            selectinload(Business.legal),
+            selectinload(Business.social_media),
             selectinload(Business.campuses)
             .selectinload(Campus.images),
             selectinload(Business.campuses)
@@ -31,6 +33,8 @@ def get_business(db: Session, business_id: int) -> Optional[Business]:
         db.query(Business)
         .options(
             selectinload(Business.images),
+            selectinload(Business.legal),
+            selectinload(Business.social_media),
             selectinload(Business.campuses)
             .selectinload(Campus.images),
             selectinload(Business.campuses)
@@ -50,6 +54,8 @@ def get_business_by_manager(db: Session, manager_id: int) -> Optional[Business]:
         db.query(Business)
         .options(
             selectinload(Business.images),
+            selectinload(Business.legal),
+            selectinload(Business.social_media),
             selectinload(Business.campuses)
             .selectinload(Campus.images),
             selectinload(Business.campuses)

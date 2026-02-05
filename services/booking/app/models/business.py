@@ -10,8 +10,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
 
 if TYPE_CHECKING:  # pragma: no cover
+    from app.models.business_legal import BusinessLegal
     from app.models.campus import Campus
     from app.models.image import Image
+    from app.models.business_social_media import BusinessSocialMedia
 
 
 class Business(Base):
@@ -42,4 +44,22 @@ class Business(Base):
 
     images: Mapped[list["Image"]] = relationship(
         "Image", back_populates="business", cascade="all, delete-orphan", passive_deletes=True
+    )
+
+    social_media: Mapped["BusinessSocialMedia | None"] = relationship(
+        "BusinessSocialMedia",
+        back_populates="business",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        uselist=False,
+        passive_deletes=True,
+    )
+
+    legal: Mapped["BusinessLegal | None"] = relationship(
+        "BusinessLegal",
+        back_populates="business",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        uselist=False,
+        passive_deletes=True,
     )

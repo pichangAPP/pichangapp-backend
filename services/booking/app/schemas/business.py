@@ -11,6 +11,8 @@ from pydantic import (
 )
 
 from app.schemas.campus import CampusCreate, CampusResponse
+from app.schemas.business_legal import BusinessLegalResponse
+from app.schemas.business_social_media import BusinessSocialMediaResponse
 from app.schemas.image import ImageResponse
 from app.schemas.manager import ManagerResponse
 
@@ -107,3 +109,5 @@ class BusinessResponse(BusinessBase):
     campuses: List[CampusResponse]
     images: List[ImageResponse] = PydanticField(default_factory=list)
     manager: Optional[ManagerResponse] = None
+    legal: Optional[BusinessLegalResponse] = None
+    social_media: Optional[BusinessSocialMediaResponse] = None

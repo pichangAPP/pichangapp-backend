@@ -5,6 +5,18 @@ from .business_repository import (
     get_business_by_manager,
     list_businesses,
 )
+from .business_legal_repository import (
+    create_business_legal,
+    delete_business_legal,
+    get_business_legal,
+    get_business_legal_by_business,
+)
+from .business_social_media_repository import (
+    create_business_social_media,
+    delete_business_social_media,
+    get_business_social_media,
+    get_business_social_media_by_business,
+)
 from .campus_repository import (
     create_campus,
     delete_campus,
@@ -34,6 +46,14 @@ __all__ = [
     "get_business",
     "get_business_by_manager",
     "list_businesses",
+    "create_business_legal",
+    "delete_business_legal",
+    "get_business_legal",
+    "get_business_legal_by_business",
+    "create_business_social_media",
+    "delete_business_social_media",
+    "get_business_social_media",
+    "get_business_social_media_by_business",
     "create_campus",
     "delete_campus",
     "get_campus",

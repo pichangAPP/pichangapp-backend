@@ -1,4 +1,6 @@
 from .business import Business
+from .business_legal import BusinessLegal
+from .business_social_media import BusinessSocialMedia
 from .campus import Campus
 from .characteristic import Characteristic
 from .field import Field
@@ -7,6 +9,8 @@ from .modality import Modality
 from .sport import Sport
 __all__ = [
     "Business",
+    "BusinessLegal",
+    "BusinessSocialMedia",
     "Campus",
     "Characteristic",
     "Field",
