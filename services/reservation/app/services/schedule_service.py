@@ -321,6 +321,16 @@ class ScheduleService:
         slots: List[dict] = []
         current_start = open_time
 
+        if target_date == date.today():
+            now_value = _as_naive(datetime.now())
+            if now_value > current_start:
+                elapsed_seconds = (now_value - current_start).total_seconds()
+                slot_seconds = slot_duration.total_seconds()
+                elapsed_slots = int(elapsed_seconds // slot_seconds)
+                current_start += timedelta(seconds=elapsed_slots * slot_seconds)
+                if current_start < now_value:
+                    current_start += slot_duration
+
         while current_start + slot_duration <= close_time:
             current_end = current_start + slot_duration
             if not _overlaps(current_start, current_end):
