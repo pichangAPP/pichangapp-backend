@@ -2,7 +2,10 @@ from fastapi import FastAPI
 
 from app.api.v1 import rent_routes, schedule_routes
 from app.core.config import settings
+from app.core.database import ensure_reservation_functions
 from app.core.error_handlers import register_exception_handlers
+
+ensure_reservation_functions()
 
 app = FastAPI(title=settings.PROJECT_NAME)
 

@@ -164,6 +164,27 @@ async def proxy_reservation(request: Request, path: str):
     return await _proxy_request(request, "reservation", target_path)
 
 
+# Payment Service Proxies
+
+@app.api_route(
+    "/api/pichangapp/v1/payment",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_payment_root(request: Request):
+    return await _proxy_request(request, "payment", "/api/pichangapp/v1/payment")
+
+
+@app.api_route(
+    "/api/pichangapp/v1/payment/{path:path}",
+    methods=SUPPORTED_METHODS,
+    include_in_schema=False,
+)
+async def proxy_payment(request: Request, path: str):
+    target_path = _build_path("/api/pichangapp/v1/payment", path)
+    return await _proxy_request(request, "payment", target_path)
+
+
 # Notification Service Proxies
 
 @app.api_route(

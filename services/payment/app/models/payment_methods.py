@@ -7,7 +7,6 @@ from sqlalchemy import (
     Boolean,
     Column,
     DateTime,
-    ForeignKey,
     Identity,
     String,
     Text,
@@ -41,13 +40,11 @@ class PaymentMethods(Base):
 
     id_business = Column(
         BigInteger,
-        ForeignKey("booking.business.id_business", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
     id_campus = Column(
         BigInteger,
-        ForeignKey("booking.campus.id_campus", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )

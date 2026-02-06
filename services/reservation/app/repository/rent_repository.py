@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Dict, Iterable, Optional, Sequence, Set
 
-from sqlalchemy import func
+from sqlalchemy import func, text
 from sqlalchemy.orm import Session, joinedload
 
 from app.models.rent import Rent
@@ -39,6 +39,28 @@ def list_rents(
     order_clause = Rent.start_time.desc() if sort_desc else Rent.start_time
 
     return query.order_by(order_clause).all()
+
+
+def list_rents_by_campus_view(
+    db: Session,
+    *,
+    campus_id: int,
+    status_filter: Optional[str] = None,
+) -> list[dict]:
+    query = text(
+        """
+        SELECT *
+        FROM reservation.get_rents_by_campus(:campus_id, :status_filter)
+        """
+    )
+    rows = db.execute(
+        query,
+        {
+            "campus_id": campus_id,
+            "status_filter": status_filter,
+        },
+    ).mappings().all()
+    return [dict(row) for row in rows]
 
 
 def get_rent(db: Session, rent_id: int) -> Optional[Rent]:

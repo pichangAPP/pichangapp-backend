@@ -18,7 +18,7 @@ from app.services.payment_methods_service import PaymentMethodsService
 router = APIRouter(prefix="/payment-methods", tags=["payment-methods"])
 
 
-@router.get("/", response_model=list[PaymentMethodsResponse])
+@router.get("", response_model=list[PaymentMethodsResponse])
 def list_payment_methods(
     id_business: Optional[int] = None,
     id_campus: Optional[int] = None,
@@ -41,7 +41,7 @@ def get_payment_methods(
     return service.get_payment_methods(payment_methods_id)
 
 
-@router.post("/", response_model=PaymentMethodsResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=PaymentMethodsResponse, status_code=status.HTTP_201_CREATED)
 def create_payment_methods(
     payload: PaymentMethodsCreate, db: Session = Depends(get_db)
 ) -> PaymentMethodsResponse:

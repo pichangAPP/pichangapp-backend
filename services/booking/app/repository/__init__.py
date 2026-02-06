@@ -3,6 +3,7 @@ from .business_repository import (
     delete_business,
     get_business,
     get_business_by_manager,
+    get_business_profile,
     list_businesses,
 )
 from .business_legal_repository import (
@@ -45,6 +46,7 @@ __all__ = [
     "delete_business",
     "get_business",
     "get_business_by_manager",
+    "get_business_profile",
     "list_businesses",
     "create_business_legal",
     "delete_business_legal",

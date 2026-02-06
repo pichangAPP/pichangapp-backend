@@ -111,3 +111,17 @@ class BusinessResponse(BusinessBase):
     manager: Optional[ManagerResponse] = None
     legal: Optional[BusinessLegalResponse] = None
     social_media: Optional[BusinessSocialMediaResponse] = None
+
+
+class CampusProfileResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id_campus: int
+    name: str
+
+
+class BusinessProfileResponse(BusinessBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    id_business: int
+    campuses: List[CampusProfileResponse] = PydanticField(default_factory=list)

@@ -1,4 +1,4 @@
-from .business import BusinessCreate, BusinessResponse, BusinessUpdate
+from .business import BusinessCreate, BusinessProfileResponse, BusinessResponse, BusinessUpdate
 from .business_legal import BusinessLegalCreate, BusinessLegalResponse, BusinessLegalUpdate
 from .business_social_media import (
     BusinessSocialMediaCreate,
@@ -19,6 +19,7 @@ from .sport import ModalityResponse, SportCreate, SportResponse, SportUpdate
 
 __all__ = [
     "BusinessCreate",
+    "BusinessProfileResponse",
     "BusinessResponse",
     "BusinessUpdate",
     "BusinessLegalCreate",

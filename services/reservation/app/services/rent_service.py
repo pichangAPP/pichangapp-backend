@@ -176,16 +176,12 @@ class RentService:
         *,
         status_filter: Optional[str] = None,
     ) -> List[RentResponse]:
-        field_ids = booking_reader.get_field_ids_by_campus(self.db, campus_id)
-        if not field_ids:
-            return []
-
-        rents = rent_repository.list_rents(
+        rows = rent_repository.list_rents_by_campus_view(
             self.db,
+            campus_id=campus_id,
             status_filter=status_filter,
-            field_ids=field_ids,
         )
-        return self._hydrate_rents(rents)
+        return self._build_rent_responses_from_rows(rows)
 
     def list_rents_by_field(
         self,
@@ -295,6 +291,64 @@ class RentService:
                 user=user,
             )
             responses.append(self._build_rent_response(rent, schedule_summary))
+        return responses
+
+    def _build_rent_responses_from_rows(self, rows: Sequence[dict]) -> List[RentResponse]:
+        responses: List[RentResponse] = []
+        for row in rows:
+            field = FieldSummary(
+                id_field=row["field_id_field"],
+                field_name=row["field_name"],
+                capacity=row["field_capacity"],
+                surface=row["field_surface"],
+                measurement=row["field_measurement"],
+                price_per_hour=row["field_price_per_hour"],
+                status=row["field_status"],
+                open_time=row["field_open_time"],
+                close_time=row["field_close_time"],
+                minutes_wait=row["field_minutes_wait"],
+                id_sport=row["field_id_sport"],
+                id_campus=row["field_id_campus"],
+            )
+            user = UserSummary(
+                id_user=row["user_id_user"],
+                name=row["user_name"],
+                lastname=row["user_lastname"],
+                email=row["user_email"],
+                phone=row["user_phone"],
+                imageurl=row["user_imageurl"],
+                status=row["user_status"],
+            )
+            schedule_summary = ScheduleSummary(
+                id_schedule=row["id_schedule"],
+                day_of_week=row["schedule_day_of_week"],
+                start_time=row["schedule_start_time"],
+                end_time=row["schedule_end_time"],
+                status=row["schedule_status"],
+                price=row["schedule_price"],
+                field=field,
+                user=user,
+            )
+            responses.append(
+                RentResponse(
+                    id_rent=row["id_rent"],
+                    period=row["period"],
+                    start_time=row["start_time"],
+                    end_time=row["end_time"],
+                    initialized=row["initialized"],
+                    finished=row["finished"],
+                    status=row["status"],
+                    minutes=row["minutes"],
+                    mount=row["mount"],
+                    date_log=row["date_log"],
+                    date_create=row["date_create"],
+                    payment_deadline=row["payment_deadline"],
+                    capacity=row["capacity"],
+                    id_payment=row["id_payment"],
+                    id_schedule=row["id_schedule"],
+                    schedule=schedule_summary,
+                )
+            )
         return responses
 
     @staticmethod

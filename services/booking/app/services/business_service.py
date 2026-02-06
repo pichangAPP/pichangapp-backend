@@ -7,7 +7,13 @@ from sqlalchemy.orm import Session
 from app.integrations import auth_reader
 from app.models import Business
 from app.repository import business_repository
-from app.schemas import BusinessCreate, BusinessResponse, BusinessUpdate, CampusResponse
+from app.schemas import (
+    BusinessCreate,
+    BusinessProfileResponse,
+    BusinessResponse,
+    BusinessUpdate,
+    CampusResponse,
+)
 from app.services.campus_service import (
     build_campus_entity,
     populate_available_schedules,
@@ -91,6 +97,15 @@ class BusinessService:
         populate_available_schedules(self.db, business.campuses)
         self._attach_manager_data([business])
         return business
+
+    def get_business_profile(self, business_id: int) -> BusinessProfileResponse:
+        business = business_repository.get_business_profile(self.db, business_id)
+        if not business:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Business {business_id} not found",
+            )
+        return BusinessProfileResponse.model_validate(business)
 
     def get_business_by_manager(self, manager_id: int) -> Business:
         business = business_repository.get_business_by_manager(self.db, manager_id)

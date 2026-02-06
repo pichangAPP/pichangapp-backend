@@ -4,12 +4,16 @@ from __future__ import annotations
 
 from typing import Optional
 
+import logging
+
 from fastapi import HTTPException, status
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.repository import payment_methods_repository
 from app.schemas.payment_methods import PaymentMethodsCreate, PaymentMethodsUpdate
+
+logger = logging.getLogger(__name__)
 
 
 class PaymentMethodsService:
@@ -62,6 +66,11 @@ class PaymentMethodsService:
             raise self._map_integrity_error(exc) from exc
         except SQLAlchemyError as exc:
             self.db.rollback()
+            logger.exception(
+                "Failed to create payment methods. id_business=%s id_campus=%s",
+                data.get("id_business"),
+                data.get("id_campus"),
+            )
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to create payment methods configuration",
@@ -87,6 +96,10 @@ class PaymentMethodsService:
             raise self._map_integrity_error(exc) from exc
         except SQLAlchemyError as exc:
             self.db.rollback()
+            logger.exception(
+                "Failed to update payment methods. id_payment_methods=%s",
+                payment_methods_id,
+            )
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to update payment methods configuration",
@@ -98,6 +111,10 @@ class PaymentMethodsService:
             payment_methods_repository.delete_payment_methods(self.db, payment_methods)
         except SQLAlchemyError as exc:
             self.db.rollback()
+            logger.exception(
+                "Failed to delete payment methods. id_payment_methods=%s",
+                payment_methods_id,
+            )
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="Failed to delete payment methods configuration",
