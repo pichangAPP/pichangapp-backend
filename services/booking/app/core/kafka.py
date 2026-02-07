@@ -4,13 +4,21 @@ from datetime import datetime, timezone
 from functools import lru_cache
 from uuid import uuid4
 
-from confluent_kafka import Producer
+try:
+    from confluent_kafka import Producer
+except Exception as exc:  # pragma: no cover - optional dependency in some environments
+    Producer = None  # type: ignore[assignment]
+    _KAFKA_IMPORT_ERROR = exc
 
 BOOKING_EVENTS_TOPIC = os.getenv("BOOKING_EVENTS_TOPIC", "booking.events")
 
 
 @lru_cache()
 def get_kafka_producer() -> Producer:
+    if Producer is None:  # type: ignore[comparison-overlap]
+        raise RuntimeError(
+            "Kafka client dependency missing. Install confluent_kafka to enable publishing."
+        ) from _KAFKA_IMPORT_ERROR
     config = {
         "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092"),
         "client.id": os.getenv("KAFKA_CLIENT_ID", "booking-svc"),
