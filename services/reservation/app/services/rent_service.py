@@ -2,6 +2,8 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 import logging
 from decimal import Decimal, ROUND_HALF_UP
+from email.utils import parseaddr
+import re
 from typing import Dict, List, Optional, Sequence
 
 from fastapi import BackgroundTasks, HTTPException, status
@@ -12,7 +14,14 @@ from app.integrations import auth_reader, booking_reader, payment_reader
 from app.models.rent import Rent
 from app.models.schedule import Schedule
 from app.repository import rent_repository, schedule_repository
-from app.schemas.rent import RentCreate, RentResponse, RentUpdate, ScheduleSummary
+from app.schemas.rent import (
+    RentAdminCreate,
+    RentAdminUpdate,
+    RentCreate,
+    RentResponse,
+    RentUpdate,
+    ScheduleSummary,
+)
 from app.schemas.schedule import FieldSummary, UserSummary
 from app.services.notification_client import NotificationClient
 
@@ -24,6 +33,8 @@ class RentService:
     _EXCLUDED_RENT_STATUSES = ("cancelled",)
     _FIELD_STATUS_ACTIVE = "active"
     _FIELD_STATUS_OCCUPIED = "occupied"
+    _ADMIN_NOTE = "Creado por administrador"
+    _EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
     def __init__(
         self,
@@ -46,9 +57,29 @@ class RentService:
             return None
         return format(value, "f")
 
+    @classmethod
+    def _is_valid_email(cls, value: Optional[str]) -> bool:
+        if not value:
+            return False
+        _, addr = parseaddr(value)
+        if addr != value:
+            return False
+        return bool(cls._EMAIL_REGEX.match(value))
+
+    @staticmethod
+    def _split_full_name(full_name: Optional[str]) -> tuple[str, str]:
+        if not full_name:
+            return "", ""
+        parts = full_name.strip().split()
+        if not parts:
+            return "", ""
+        if len(parts) == 1:
+            return parts[0], ""
+        return parts[0], " ".join(parts[1:])
+
     def _build_notification_payload(self, rent: Rent) -> Optional[Dict[str, object]]:
         schedule = rent.schedule
-        if schedule is None or schedule.id_field is None or schedule.id_user is None:
+        if schedule is None or schedule.id_field is None:
             logger.info(
                 "Skipping notification payload creation for rent %s due to missing schedule data",
                 rent.id_rent,
@@ -56,20 +87,52 @@ class RentService:
             return None
 
         field = booking_reader.get_field_summary(self.db, schedule.id_field)
-        try:
-            user = auth_reader.get_user_summary(self.db, schedule.id_user)
-        except auth_reader.AuthReaderError as exc:
-            logger.warning(
-                "Auth service unavailable while building notification payload: %s",
-                exc,
-            )
-            return None
-        if field is None or user is None:
+        if field is None:
             logger.info(
                 "Skipping notification payload creation for rent %s due to missing external data",
                 rent.id_rent,
             )
             return None
+
+        if schedule.id_user is not None:
+            try:
+                user = auth_reader.get_user_summary(self.db, schedule.id_user)
+            except auth_reader.AuthReaderError as exc:
+                logger.warning(
+                    "Auth service unavailable while building notification payload: %s",
+                    exc,
+                )
+                return None
+            if user is None:
+                logger.info(
+                    "Skipping notification payload creation for rent %s due to missing user data",
+                    rent.id_rent,
+                )
+                return None
+            if not self._is_valid_email(user.email):
+                logger.info(
+                    "Skipping notification payload creation for rent %s due to invalid user email",
+                    rent.id_rent,
+                )
+                return None
+            user_payload = {
+                "name": user.name,
+                "lastname": user.lastname,
+                "email": user.email,
+            }
+        else:
+            if not self._is_valid_email(rent.customer_email):
+                logger.info(
+                    "Skipping notification payload creation for rent %s due to invalid customer email",
+                    rent.id_rent,
+                )
+                return None
+            name, lastname = self._split_full_name(rent.customer_full_name)
+            user_payload = {
+                "name": name or "Cliente",
+                "lastname": lastname,
+                "email": rent.customer_email,
+            }
 
         campus = booking_reader.get_campus_summary(self.db, field.id_campus)
         if campus is None:
@@ -120,9 +183,9 @@ class RentService:
                 "campus": campus_payload,
             },
             "user": {
-                "name": user.name,
-                "lastname": user.lastname,
-                "email": user.email,
+                "name": user_payload["name"],
+                "lastname": user_payload["lastname"],
+                "email": user_payload["email"],
             },
             "manager": manager_payload,
         }
@@ -310,15 +373,17 @@ class RentService:
                 id_sport=row["field_id_sport"],
                 id_campus=row["field_id_campus"],
             )
-            user = UserSummary(
-                id_user=row["user_id_user"],
-                name=row["user_name"],
-                lastname=row["user_lastname"],
-                email=row["user_email"],
-                phone=row["user_phone"],
-                imageurl=row["user_imageurl"],
-                status=row["user_status"],
-            )
+            user = None
+            if row["user_id_user"] is not None:
+                user = UserSummary(
+                    id_user=row["user_id_user"],
+                    name=row["user_name"],
+                    lastname=row["user_lastname"],
+                    email=row["user_email"],
+                    phone=row["user_phone"],
+                    imageurl=row["user_imageurl"],
+                    status=row["user_status"],
+                )
             schedule_summary = ScheduleSummary(
                 id_schedule=row["id_schedule"],
                 day_of_week=row["schedule_day_of_week"],
@@ -345,6 +410,11 @@ class RentService:
                     payment_deadline=row["payment_deadline"],
                     capacity=row["capacity"],
                     id_payment=row["id_payment"],
+                    customer_full_name=row.get("customer_full_name"),
+                    customer_phone=row.get("customer_phone"),
+                    customer_email=row.get("customer_email"),
+                    customer_document=row.get("customer_document"),
+                    customer_notes=row.get("customer_notes"),
                     id_schedule=row["id_schedule"],
                     schedule=schedule_summary,
                 )
@@ -362,11 +432,6 @@ class RentService:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Associated field not found",
-            )
-        if user is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Associated user not found",
             )
         return ScheduleSummary(
             id_schedule=schedule.id_schedule,
@@ -399,6 +464,11 @@ class RentService:
             payment_deadline=rent.payment_deadline,
             capacity=rent.capacity,
             id_payment=rent.id_payment,
+            customer_full_name=rent.customer_full_name,
+            customer_phone=rent.customer_phone,
+            customer_email=rent.customer_email,
+            customer_document=rent.customer_document,
+            customer_notes=rent.customer_notes,
             id_schedule=rent.id_schedule,
             schedule=schedule,
         )
@@ -559,6 +629,36 @@ class RentService:
             else:
                 rent_data["period"] = self._format_period(minutes)
 
+    @classmethod
+    def _apply_admin_note(cls, notes: Optional[str]) -> str:
+        if not notes:
+            return cls._ADMIN_NOTE
+        if cls._ADMIN_NOTE.lower() in notes.lower():
+            return notes
+        return f"{notes}\n{cls._ADMIN_NOTE}"
+
+    def _ensure_admin_customer_fields(
+        self,
+        rent_data: Dict[str, object],
+        *,
+        existing_rent: Optional[Rent] = None,
+    ) -> None:
+        required_fields = (
+            "customer_full_name",
+        )
+        missing = []
+        for field in required_fields:
+            value = rent_data.get(field)
+            if value is None and existing_rent is not None:
+                value = getattr(existing_rent, field, None)
+            if not value:
+                missing.append(field)
+        if missing:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Missing admin customer fields: {', '.join(missing)}",
+            )
+
     def create_rent(
         self,
         payload: RentCreate,
@@ -604,6 +704,64 @@ class RentService:
             self._notify_rent_creation(persisted_rent)
             return self._hydrate_rent(persisted_rent)
     
+        self._refresh_field_status(self.db, schedule.id_field)
+
+        if background_tasks is not None:
+            background_tasks.add_task(
+                self._reset_field_status_after_time,
+                schedule.id_field,
+                rent.end_time,
+            )
+
+        persisted = rent_repository.get_rent(self.db, rent.id_rent)
+        return self._hydrate_rent(persisted)
+
+    def create_rent_admin(
+        self,
+        payload: RentAdminCreate,
+        *,
+        background_tasks: Optional[BackgroundTasks] = None,
+    ) -> RentResponse:
+
+        schedule = self._get_schedule(payload.id_schedule)
+        self._ensure_schedule_available(schedule.id_schedule)
+
+        field_summary = (
+            booking_reader.get_field_summary(self.db, schedule.id_field)
+            if schedule.id_field is not None
+            else None
+        )
+
+        rent_data = payload.dict(exclude_unset=True)
+        rent_data.pop("start_time", None)
+        rent_data.pop("end_time", None)
+
+        rent_data.setdefault(
+            "payment_deadline",
+            datetime.now(timezone.utc) + timedelta(minutes=5),
+        )
+        rent_data["customer_notes"] = self._apply_admin_note(
+            rent_data.get("customer_notes")
+        )
+
+        self._ensure_admin_customer_fields(rent_data)
+
+        self._apply_schedule_defaults(
+            schedule=schedule,
+            rent_data=rent_data,
+            schedule_changed=True,
+            field_summary=field_summary,
+        )
+
+        rent = rent_repository.create_rent(self.db, rent_data)
+        schedule.status = "reserved"
+        schedule_repository.save_schedule(self.db, schedule)
+
+        persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
+        if persisted_rent is not None:
+            self._notify_rent_creation(persisted_rent)
+            return self._hydrate_rent(persisted_rent)
+
         self._refresh_field_status(self.db, schedule.id_field)
 
         if background_tasks is not None:
@@ -677,6 +835,67 @@ class RentService:
             background_tasks.add_task(
                 self._reset_field_status_after_time,
                 new_field_id,
+                updated_rent.end_time,
+            )
+
+        return self._hydrate_rent(updated_rent)
+
+    def update_rent_admin(
+        self,
+        rent_id: int,
+        payload: RentAdminUpdate,
+        *,
+        background_tasks: Optional[BackgroundTasks] = None,
+    ) -> RentResponse:
+
+        rent = self._get_rent_model(rent_id)
+
+        update_data = payload.dict(exclude_unset=True)
+
+        target_schedule = rent.schedule or self._get_schedule(rent.id_schedule)
+
+        if "id_schedule" in update_data:
+            target_schedule = self._get_schedule(update_data["id_schedule"])
+
+        self._ensure_schedule_available(
+            target_schedule.id_schedule,
+            exclude_rent_id=rent.id_rent,
+        )
+
+        schedule_changed = target_schedule.id_schedule != rent.id_schedule
+
+        field_summary = (
+            booking_reader.get_field_summary(self.db, target_schedule.id_field)
+            if target_schedule.id_field is not None
+            else None
+        )
+
+        update_data["customer_notes"] = self._apply_admin_note(
+            update_data.get("customer_notes", rent.customer_notes)
+        )
+
+        self._ensure_admin_customer_fields(update_data, existing_rent=rent)
+
+        self._apply_schedule_defaults(
+            schedule=target_schedule,
+            rent_data=update_data,
+            schedule_changed=schedule_changed,
+            existing_rent=rent,
+            field_summary=field_summary,
+        )
+
+        for field, value in update_data.items():
+            setattr(rent, field, value)
+
+        rent_repository.save_rent(self.db, rent)
+        updated_rent = rent_repository.get_rent(self.db, rent_id)
+
+        self._refresh_field_status(self.db, target_schedule.id_field)
+
+        if background_tasks is not None:
+            background_tasks.add_task(
+                self._reset_field_status_after_time,
+                target_schedule.id_field,
                 updated_rent.end_time,
             )
 

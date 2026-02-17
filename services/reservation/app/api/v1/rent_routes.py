@@ -6,7 +6,13 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
-from app.schemas.rent import RentCreate, RentResponse, RentUpdate
+from app.schemas.rent import (
+    RentAdminCreate,
+    RentAdminUpdate,
+    RentCreate,
+    RentResponse,
+    RentUpdate,
+)
 from app.services.rent_service import RentService
 
 router = APIRouter(prefix="/rents", tags=["rents"])
@@ -98,6 +104,18 @@ def create_rent(
     return service.create_rent(payload, background_tasks=background_tasks)
 
 
+@router.post("/admin", response_model=RentResponse, status_code=status.HTTP_201_CREATED)
+def create_rent_admin(
+    payload: RentAdminCreate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+) -> RentResponse:
+    """Create a new rent by admin."""
+
+    service = RentService(db)
+    return service.create_rent_admin(payload, background_tasks=background_tasks)
+
+
 @router.put("/{rent_id}", response_model=RentResponse)
 def update_rent(
     rent_id: int,
@@ -109,6 +127,23 @@ def update_rent(
 
     service = RentService(db)
     return service.update_rent(
+        rent_id,
+        payload,
+        background_tasks=background_tasks,
+    )
+
+
+@router.put("/admin/{rent_id}", response_model=RentResponse)
+def update_rent_admin(
+    rent_id: int,
+    payload: RentAdminUpdate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+) -> RentResponse:
+    """Update an existing rent by admin."""
+
+    service = RentService(db)
+    return service.update_rent_admin(
         rent_id,
         payload,
         background_tasks=background_tasks,

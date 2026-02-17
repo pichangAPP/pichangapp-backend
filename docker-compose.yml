@@ -58,6 +58,21 @@ services:
     networks:
       - pichangapp-network
 
+  kafka-init:
+    image: confluentinc/cp-kafka:7.6.1
+    depends_on:
+      - kafka
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "
+      echo 'Creating Kafka topics...';
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic booking.events --partitions 1 --replication-factor 1;
+      echo 'Kafka topics OK';
+      "
+    restart: "no"
+    networks:
+      - pichangapp-network
+
   postgres:
     image: fabrizziocastro/pichangapp-containers:postgres-17-cron
     container_name: postgres
@@ -155,6 +170,9 @@ services:
     depends_on:
       - shared-venv
     environment:
+      FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID}"
+      FIREBASE_CREDENTIALS_PATH: "${FIREBASE_CREDENTIALS_PATH}"
+      FIREBASE_STORAGE_BUCKET: "${FIREBASE_STORAGE_BUCKET}"
       SMTP_HOST: "${SMTP_HOST}"
       SMTP_PORT: ${SMTP_PORT}
       SMTP_USERNAME: "${SMTP_USERNAME}"

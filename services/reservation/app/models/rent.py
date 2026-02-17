@@ -6,6 +6,7 @@ from sqlalchemy import (
     Integer,
     Numeric,
     String,
+    Text,
     func,
     text,
 )
@@ -36,6 +37,11 @@ class Rent(Base):
     )
     capacity = Column(Integer, nullable=False)
     id_payment = Column(BigInteger, nullable=True)
+    customer_full_name = Column(String(200), nullable=True)
+    customer_phone = Column(String(20), nullable=True)
+    customer_email = Column(String(200), nullable=True)
+    customer_document = Column(String(30), nullable=True)
+    customer_notes = Column(Text, nullable=True)
     id_schedule = Column(BigInteger, ForeignKey("reservation.schedule.id_schedule"), nullable=False)
     schedule = relationship("Schedule", back_populates="rents")
 

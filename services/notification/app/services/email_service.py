@@ -5,6 +5,8 @@ from __future__ import annotations
 import base64
 import logging
 import re
+from uuid import uuid4
+from urllib.parse import quote
 from datetime import datetime
 from decimal import Decimal
 from io import BytesIO
@@ -17,8 +19,10 @@ import qrcode
 from qrcode import constants
 from qrcode.exceptions import DataOverflowError
 from PIL import Image, ImageDraw, ImageFont
+from firebase_admin import storage
 
 from app.core.config import settings
+from app.core.firebase import get_firebase_app
 from app.models import EmailAttachment, EmailContent
 from app.repository import EmailRepository
 from app.schemas import NotificationRequest
@@ -198,7 +202,7 @@ class EmailService:
         )
 
     @staticmethod
-    def _build_pass_link(payload: NotificationRequest) -> str:
+    def _build_pass_link(payload: NotificationRequest, *, override_url: Optional[str] = None) -> str:
         """Return a concise link or token to recover the reservation pass.
 
         If ``RESERVATION_PASS_URL_TEMPLATE`` is configured, it can include placeholders
@@ -206,6 +210,9 @@ class EmailService:
         ``{user_email}``. When not configured, fall back to an internal token so the QR
         content remains small and still identifies the reservation.
         """
+
+        if override_url:
+            return override_url
 
         template = getattr(settings, "RESERVATION_PASS_URL_TEMPLATE", "")
         if template:
@@ -225,12 +232,43 @@ class EmailService:
             f"pichangapp:reserva:{payload.rent.rent_id}:{payload.rent.schedule_day}"  # noqa: E501
         )
 
+    def _upload_pass_to_firebase(
+        self,
+        *,
+        attachment: EmailAttachment,
+        payload: NotificationRequest,
+    ) -> Optional[str]:
+        bucket_name = getattr(settings, "FIREBASE_STORAGE_BUCKET", "")
+        if not bucket_name:
+            return None
+
+        try:
+            app = get_firebase_app()
+            bucket = storage.bucket(bucket_name, app=app)
+            object_name = f"reservas/{payload.rent.rent_id}.png"
+            blob = bucket.blob(object_name)
+            token = uuid4().hex
+            blob.metadata = {"firebaseStorageDownloadTokens": token}
+            blob.upload_from_string(attachment.data, content_type=attachment.content_type)
+            encoded_name = quote(object_name, safe="")
+            return (
+                "https://firebasestorage.googleapis.com/v0/b/"
+                f"{bucket_name}/o/{encoded_name}?alt=media&token={token}"
+            )
+        except Exception as exc:  # pragma: no cover - external dependency
+            logger.warning("No se pudo subir comprobante a Firebase: %s", exc)
+            return None
+
     def send_rent_notification(self, payload: NotificationRequest) -> None:
         """Send the rent confirmation emails for manager and user."""
 
         context = self._build_common_context(payload)
         reservation_pass = self._build_reservation_pass(payload)
-        pass_link = self._build_pass_link(payload)
+        firebase_url = self._upload_pass_to_firebase(
+            attachment=reservation_pass,
+            payload=payload,
+        )
+        pass_link = self._build_pass_link(payload, override_url=firebase_url)
 
         user_qr = self._build_qr_attachment(
             pass_link,

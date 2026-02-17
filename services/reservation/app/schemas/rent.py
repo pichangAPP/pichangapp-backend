@@ -23,6 +23,11 @@ class RentBase(BaseModel):
     payment_deadline: datetime
     capacity: int
     id_payment: Optional[int] = None
+    customer_full_name: Optional[str] = Field(None, max_length=200)
+    customer_phone: Optional[str] = Field(None, max_length=20)
+    customer_email: Optional[str] = Field(None, max_length=200)
+    customer_document: Optional[str] = Field(None, max_length=30)
+    customer_notes: Optional[str] = None
     id_schedule: int
 
 
@@ -42,6 +47,24 @@ class RentCreate(BaseModel):
     date_log: Optional[datetime] = None
     date_create: Optional[datetime] = None
     capacity: Optional[int] = Field(None, ge=0)
+    customer_full_name: Optional[str] = Field(None, max_length=200)
+    customer_phone: Optional[str] = Field(None, max_length=20)
+    customer_email: Optional[str] = Field(None, max_length=200)
+    customer_document: Optional[str] = Field(None, max_length=30)
+    customer_notes: Optional[str] = None
+
+
+class RentAdminCreate(BaseModel):
+    """Schema used when creating a new rent by admin."""
+
+    id_schedule: int = Field(..., gt=0)
+    status: str = Field(..., max_length=30)
+    id_payment: Optional[int] = Field(None, gt=0)
+    customer_full_name: str = Field(..., max_length=200)
+    customer_phone: Optional[str] = Field(None, max_length=20)
+    customer_email: Optional[str] = Field(None, max_length=200)
+    customer_document: Optional[str] = Field(None, max_length=30)
+    customer_notes: Optional[str] = None
 
 
 class RentUpdate(BaseModel):
@@ -61,6 +84,24 @@ class RentUpdate(BaseModel):
     capacity: Optional[int]
     id_payment: Optional[int]
     id_schedule: Optional[int]
+    customer_full_name: Optional[str] = Field(None, max_length=200)
+    customer_phone: Optional[str] = Field(None, max_length=20)
+    customer_email: Optional[str] = Field(None, max_length=200)
+    customer_document: Optional[str] = Field(None, max_length=30)
+    customer_notes: Optional[str] = None
+
+
+class RentAdminUpdate(BaseModel):
+    """Schema used when updating a rent by admin."""
+
+    id_schedule: Optional[int] = Field(None, gt=0)
+    status: Optional[str] = Field(None, max_length=30)
+    id_payment: Optional[int] = Field(None, gt=0)
+    customer_full_name: Optional[str] = Field(None, max_length=200)
+    customer_phone: Optional[str] = Field(None, max_length=20)
+    customer_email: Optional[str] = Field(None, max_length=200)
+    customer_document: Optional[str] = Field(None, max_length=30)
+    customer_notes: Optional[str] = None
 
 
 class ScheduleSummary(BaseModel):
@@ -73,7 +114,7 @@ class ScheduleSummary(BaseModel):
     status: str
     price: Decimal
     field: FieldSummary
-    user: UserSummary
+    user: Optional[UserSummary] = None
 
     class Config:
         from_attributes = True

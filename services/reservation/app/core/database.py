@@ -23,6 +23,8 @@ logger = logging.getLogger(__name__)
 
 def ensure_reservation_functions() -> None:
     function_sql = """
+    DROP FUNCTION IF EXISTS reservation.get_rents_by_campus(bigint, text);
+
     CREATE OR REPLACE FUNCTION reservation.get_rents_by_campus(
         p_campus_id bigint,
         p_status text DEFAULT NULL
@@ -42,6 +44,11 @@ def ensure_reservation_functions() -> None:
         payment_deadline timestamptz,
         capacity integer,
         id_payment bigint,
+        customer_full_name varchar,
+        customer_phone varchar,
+        customer_email varchar,
+        customer_document varchar,
+        customer_notes text,
         id_schedule bigint,
         schedule_day_of_week varchar,
         schedule_start_time timestamptz,
@@ -87,6 +94,11 @@ def ensure_reservation_functions() -> None:
                r.payment_deadline,
                r.capacity,
                r.id_payment,
+               r.customer_full_name,
+               r.customer_phone,
+               r.customer_email,
+               r.customer_document,
+               r.customer_notes,
                r.id_schedule,
                s.day_of_week,
                s.start_time,
@@ -115,7 +127,7 @@ def ensure_reservation_functions() -> None:
         FROM reservation.rent r
         JOIN reservation.schedule s ON s.id_schedule = r.id_schedule
         JOIN booking.field f ON f.id_field = s.id_field
-        JOIN auth.users u ON u.id_user = s.id_user
+        LEFT JOIN auth.users u ON u.id_user = s.id_user
         WHERE f.id_campus = p_campus_id
           AND (p_status IS NULL OR r.status = p_status)
         ORDER BY r.start_time;

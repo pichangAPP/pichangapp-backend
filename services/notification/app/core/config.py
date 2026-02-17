@@ -38,6 +38,10 @@ class Settings:
         "Comprobante de tu reserva",
     )
 
+    FIREBASE_CREDENTIALS_PATH: str = os.getenv("FIREBASE_CREDENTIALS_PATH", "")
+    FIREBASE_PROJECT_ID: str = os.getenv("FIREBASE_PROJECT_ID", "")
+    FIREBASE_STORAGE_BUCKET: str = os.getenv("FIREBASE_STORAGE_BUCKET", "")
+
     # Optional template to build a public URL for the reservation pass. Supports
     # str.format placeholders such as {rent_id}, {schedule_day}, and
     # {user_email}. When empty, the QR will fall back to a compact token.
