@@ -18,10 +18,6 @@ nlu:
       - buenas
       - chato
       - hey
-      - necesite un favor
-      - buenas tardes, ¿qué puedes hacer?
-      - necesito ayuda con una cancha
-      - hola, escucha una consulta
       - holi
       - qué onda
       - qué pasa
@@ -79,7 +75,6 @@ nlu:
       - estás ahí
       - me escuchas
       - bot presente
-      - bot ayúdame
   - intent: goodbye
     examples: |
       - chao
@@ -319,6 +314,11 @@ nlu:
       - ayuda
       - ayúdame
       - necesito ayuda
+      - buenas tardes, ¿qué puedes hacer?
+      - necesito ayuda con una cancha
+      - hola, escucha una consulta
+      - bot ayúdame
+      - necesite un favor
       - ¿qué puedes hacer?
       - ¿cómo me ayudas?
       - muéstrame tus funciones
@@ -1121,6 +1121,11 @@ nlu:
       - /SetSlots
       - /SetSlots{"feedback_rating":"thumbs_up"}
       - /SetSlots{"feedback_rating":"thumbs_down"}
+      - /SetSlots{"feedback_rating":"up"}
+      - /SetSlots{"feedback_rating":"down"}
+      - /SetSlots{"feedback_comment":"buena atención"}
+      - /SetSlots{"feedback_comment":"mala experiencia"}
+      - /SetSlots{"feedback_rating":"thumbs_up","feedback_comment":"todo ok"}
   - intent: ask_reservation_process
     examples: |
       - ¿cómo reservo?
@@ -1334,9 +1339,6 @@ nlu:
       - ¿qué precio tiene?
       - dame los precios
       - información de precios
-      - ¿hay promociones?
-      - ¿hay descuentos?
-      - ofertas
       - precio por hora
       - ¿cuál es la cancha más barata?
       - dónde es más económico
@@ -1353,6 +1355,16 @@ nlu:
       - cuánto sería
       - a cuánto sale
       - cuánto me costaría
+      - cuánto cuesta la reserva
+      - precio de la reserva
+      - precio de la cancha
+      - costo de la cancha
+      - tarifa por cancha
+      - precio para reservar
+      - precio por hora de fútbol 7
+      - cuánto sale por hora en [Surco](location)
+      - cuánto cuesta por hora en [Miraflores](location)
+      - cuánto cuesta una cancha en [San Isidro](location)
       - tabla de precios
       - lista de precios
       - precios actualizados
@@ -1368,18 +1380,8 @@ nlu:
       - más caro
       - económico
       - accesible
-      - ofertas del día
-      - ofertas de la semana
-      - descuentos especiales
       - precio especial
       - tarifa especial
-      - promoción actual
-      - promos
-      - hay promo
-      - cupones
-      - código de descuento
-      - rebaja
-      - 2x1
       - paquetes
       - combos
       - abonos
@@ -1601,6 +1603,42 @@ nlu:
       - explícame qué preguntas puedo hacerte
       - dame ejemplos de temas frecuentes
 
+  - intent: show_promotions
+    examples: |
+      - hay promociones
+      - tienes promociones
+      - hay descuentos
+      - tienen descuentos
+      - promos disponibles
+      - promociones de canchas
+      - promociones vigentes
+      - ofertas para reservar
+      - hay ofertas hoy
+      - qué promos tienen
+      - qué descuentos hay
+      - hay promociones para jugadores
+      - muéstrame las promociones
+      - quiero ver las promociones
+      - promociones actuales
+      - descuentos para reservar
+      - ofertas de canchas
+      - promociones del día
+      - hay alguna promo
+      - tienen alguna promo
+      - ¿hay promociones?
+      - ¿hay descuentos?
+      - ofertas
+      - ofertas del día
+      - ofertas de la semana
+      - descuentos especiales
+      - promoción actual
+      - promos
+      - hay promo
+      - cupones
+      - código de descuento
+      - rebaja
+      - 2x1
+
   - intent: give_positive_feedback
     examples: |
       - gracias
@@ -1645,6 +1683,21 @@ nlu:
       - [el próximo sábado](date)
       - [09:00](time)
       - a las [08:30](time)
+      - en [Surco](location)
+      - por [Barranco](location)
+      - [La Molina](location)
+      - cancha en [San Isidro](location)
+      - con [Grass sintético](surface)
+      - superficie [Grass natural](surface)
+      - quiero [Losa deportiva](surface)
+      - presupuesto [S/ 120](budget)
+      - máximo [80 soles](budget)
+      - entre [18:00](time) y [20:00](time)
+      - después de las [21:00](time)
+      - el [viernes](date)
+      - para el [2024-11-20](date)
+      - somos [12](num_players) jugadores
+      - [fútbol](sport)
 
   - synonym: cancha
     examples: |
@@ -1652,3 +1705,81 @@ nlu:
       - espacios
       - espacio deportivo
       - espacio
+
+  # Added: lookup tables to reduce entity confusion in NLU
+  - lookup: sport
+    examples: |
+      - fútbol
+      - futbol
+      - fulbito
+      - fútbol 7
+      - fútbol 5
+      - futsal
+      - vóley
+      - voley
+      - básquet
+      - basket
+      - pádel
+      - padel
+      - tenis
+
+  - lookup: location
+    examples: |
+      - Surco
+      - Miraflores
+      - San Isidro
+      - La Molina
+      - Barranco
+      - Chorrillos
+      - San Borja
+      - San Miguel
+      - Jesús María
+      - Villa El Salvador
+      - Villa María del Triunfo
+      - Pueblo Libre
+      - Magdalena
+      - Lince
+      - Breña
+      - Ate
+      - Los Olivos
+      - Comas
+      - Callao
+
+  - lookup: surface
+    examples: |
+      - grass sintético
+      - grass natural
+      - grass mixto
+      - césped natural
+      - césped sintético
+      - losa
+      - losa deportiva
+      - losa de cemento
+      - parquet
+      - madera
+
+  - lookup: amenities
+    examples: |
+      - techada
+      - iluminada
+      - con camerinos
+      - con vestuarios
+      - con estacionamiento
+      - con duchas
+
+  # Added: regex patterns for budget, time and date
+  - regex: budget
+    examples: |
+      - \\bS/\\s?\\d+(?:\\.\\d{1,2})?\\b
+      - \\b\\d+\\s?soles\\b
+
+  - regex: time
+    examples: |
+      - \\b([01]?\\d|2[0-3]):[0-5]\\d\\b
+      - \\b([1-9]|1[0-2])\\s?(am|pm)\\b
+
+  - regex: date
+    examples: |
+      - \\b\\d{4}-\\d{2}-\\d{2}\\b
+      - \\b\\d{2}/\\d{2}/\\d{4}\\b
+      - \\b\\d{1,2}\\s?de\\s?[a-zA-Z]+\\b

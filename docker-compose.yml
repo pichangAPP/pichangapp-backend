@@ -185,6 +185,8 @@ services:
       MANAGER_CONFIRMATION_SUBJECT: "${MANAGER_CONFIRMATION_SUBJECT}"
       USER_RECEIPT_SUBJECT: "${USER_RECEIPT_SUBJECT}"
       <<: *common-env
+    volumes:
+      - ./secrets/firebase-service-account.json:/run/secrets/firebase-service-account.json:ro
     ports:
       - "8004:8004"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004"]

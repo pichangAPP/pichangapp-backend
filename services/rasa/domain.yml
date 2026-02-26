@@ -5,11 +5,17 @@ version: "3.1"
 # ===============================================
 intents:
   # Intenciones básicas
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - help
+  # Nota: `use_entities: []` reduce falsos positivos en intenciones sin entidades.
+  - greet:
+      use_entities: []
+  - goodbye:
+      use_entities: []
+  - affirm:
+      use_entities: []
+  - deny:
+      use_entities: []
+  - help:
+      use_entities: []
 
   # Intenciones principales del negocio
   - request_field_recommendation
@@ -19,12 +25,19 @@ intents:
   - request_admin_demand_alerts
 
   # Consultas informativas
-  - ask_reservation_process
-  - ask_modify_reservation
-  - ask_cancellation_policy
-  - ask_reprogram_reservation
+  - ask_reservation_process:
+      use_entities: []
+  - ask_modify_reservation:
+      use_entities: []
+  - ask_cancellation_policy:
+      use_entities: []
+  - ask_reprogram_reservation:
+      use_entities: []
   - ask_pricing_info
-  - show_faqs
+  - show_faqs:
+      use_entities: []
+  - show_promotions:
+      use_entities: []
 
   # Funcionalidades de seguimiento
   - show_previous_recommendations

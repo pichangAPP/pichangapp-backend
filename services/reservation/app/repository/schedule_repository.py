@@ -5,6 +5,7 @@ from typing import Iterable, Optional, Sequence
 
 from sqlalchemy import exists, func
 from sqlalchemy.orm import Session, load_only
+from app.core.status_constants import RENT_FINAL_STATUS_CODES
 from app.models.rent import Rent
 from app.models.schedule import Schedule
 
@@ -116,7 +117,7 @@ def list_available_schedules(
 
     excluded_statuses: Iterable[str] = [
         status_value
-        for status_value in (exclude_rent_statuses or ("cancelled",))
+        for status_value in (exclude_rent_statuses or RENT_FINAL_STATUS_CODES)
         if status_value
     ]
 

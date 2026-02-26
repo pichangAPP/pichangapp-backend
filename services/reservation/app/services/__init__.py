@@ -3,5 +3,11 @@
 from app.services.schedule_service import ScheduleService
 from app.services.rent_service import RentService
 from app.services.notification_client import NotificationClient
+from app.services.status_catalog_service import StatusCatalogService
 
-__all__ = ["ScheduleService", "RentService", "NotificationClient"]
+__all__ = [
+    "ScheduleService",
+    "RentService",
+    "NotificationClient",
+    "StatusCatalogService",
+]

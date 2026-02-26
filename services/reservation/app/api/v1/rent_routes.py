@@ -10,6 +10,7 @@ from app.schemas.rent import (
     RentAdminCreate,
     RentAdminUpdate,
     RentCreate,
+    RentPaymentResponse,
     RentResponse,
     RentUpdate,
 )
@@ -92,12 +93,12 @@ def get_rent(rent_id: int, db: Session = Depends(get_db)) -> RentResponse:
     return service.get_rent(rent_id)
 
 
-@router.post("", response_model=RentResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=RentPaymentResponse, status_code=status.HTTP_201_CREATED)
 def create_rent(
     payload: RentCreate,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
-) -> RentResponse:
+) -> RentPaymentResponse:
     """Create a new rent."""
 
     service = RentService(db)

@@ -14,10 +14,18 @@ from app.schemas.schedule import (
     UserSummary,
 )
 
-from app.repository import rent_repository, schedule_repository
+from app.repository import rent_repository, schedule_repository, status_catalog_repository
+from app.core.status_constants import (
+    RENT_FINAL_STATUS_CODES,
+    SCHEDULE_AVAILABLE_STATUS_CODE,
+    SCHEDULE_BLOCKING_STATUS_CODES,
+    SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES,
+    SCHEDULE_EXPIRED_STATUS_CODE,
+    SCHEDULE_PENDING_STATUS_CODE,
+)
 
-_EXCLUDED_RENT_STATUSES = ("cancelled",)
-_CONFLICT_SCHEDULE_EXCLUDED_STATUSES = ("cancelled",)
+_EXCLUDED_RENT_STATUSES = RENT_FINAL_STATUS_CODES
+_CONFLICT_SCHEDULE_EXCLUDED_STATUSES = SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES
 
 class ScheduleService:
 
@@ -33,6 +41,61 @@ class ScheduleService:
             )
         return field
     
+    def _resolve_status_pair(
+        self,
+        *,
+        entity: str,
+        status_code: Optional[str],
+        status_id: Optional[int],
+    ) -> tuple[str, int]:
+        if status_id is not None:
+            status_item = status_catalog_repository.get_status(self.db, status_id)
+            if status_item is None:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Status id {status_id} is not defined in status_catalog",
+                )
+            if status_item.entity != entity:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=(
+                        f"Status id {status_id} does not belong to entity {entity!r}"
+                    ),
+                )
+            if status_code is not None and status_item.code != status_code:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=(
+                        f"Status id {status_id} does not match status {status_code!r} "
+                        f"for entity {entity!r}"
+                    ),
+                )
+            return status_item.code, int(status_item.id_status)
+
+        if status_code is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="status or id_status must be provided",
+            )
+
+        return status_code, self._resolve_status_id(entity, status_code)
+
+    def _resolve_status_id(self, entity: str, code: str) -> int:
+        status_item = status_catalog_repository.get_status_by_entity_code(
+            self.db,
+            entity=entity,
+            code=code,
+        )
+        if status_item is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=(
+                    f"Status code {code!r} for entity {entity!r} "
+                    "is not defined in status_catalog"
+                ),
+            )
+        return int(status_item.id_status)
+
     def _get_user(self, user_id: int) -> UserSummary:
         try:
             user = auth_reader.get_user_summary(self.db, user_id)
@@ -165,8 +228,23 @@ class ScheduleService:
                 end_time=payload.end_time,
             )
 
+        if payload.status != SCHEDULE_PENDING_STATUS_CODE:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Create schedule only supports status 'pending'",
+            )
+
+        schedule_data = payload.model_dump()
+        status_code, status_id = self._resolve_status_pair(
+            entity="schedule",
+            status_code=SCHEDULE_PENDING_STATUS_CODE,
+            status_id=schedule_data.get("id_status"),
+        )
+        schedule_data["status"] = status_code
+        schedule_data["id_status"] = status_id
+
         schedule = schedule_repository.create_schedule(
-            self.db, payload.model_dump()
+            self.db, schedule_data
         )
         persisted = schedule_repository.get_schedule(self.db, schedule.id_schedule)
         return self._hydrate_schedule(persisted)
@@ -181,6 +259,14 @@ class ScheduleService:
             )
 
         update_data = payload.model_dump(exclude_unset=True)
+        if "status" in update_data or "id_status" in update_data:
+            status_code, status_id = self._resolve_status_pair(
+                entity="schedule",
+                status_code=update_data.get("status"),
+                status_id=update_data.get("id_status"),
+            )
+            update_data["status"] = status_code
+            update_data["id_status"] = status_id
 
         field: Optional[FieldSummary] = None
         if schedule.id_field is not None:
@@ -299,8 +385,13 @@ class ScheduleService:
 
             status_value = (schedule.status or "").strip().lower()
 
-            # Any non-available schedule blocks the slot.
-            if status_value and status_value != "available":
+            # Block only schedules marked as blocking (pending/hold/admin).
+            if status_value in SCHEDULE_BLOCKING_STATUS_CODES:
+                reserved_ranges.append((start_time, end_time))
+            elif status_value and status_value not in (
+                SCHEDULE_AVAILABLE_STATUS_CODE,
+                SCHEDULE_EXPIRED_STATUS_CODE,
+            ):
                 reserved_ranges.append((start_time, end_time))
             elif schedule.id_schedule in active_schedule_ids:
                 # A schedule with an active rent also blocks the slot.
@@ -342,7 +433,7 @@ class ScheduleService:
                     {
                         "start_time": current_start,
                         "end_time": current_end,
-                        "status": "available",
+                        "status": SCHEDULE_AVAILABLE_STATUS_CODE,
                         "price": price_value,
                     }
                 )
@@ -412,6 +503,7 @@ class ScheduleService:
             start_time=schedule.start_time,
             end_time=schedule.end_time,
             status=schedule.status,
+            id_status=schedule.id_status,
             price=schedule.price,
             id_field=schedule.id_field,
             id_user=schedule.id_user,

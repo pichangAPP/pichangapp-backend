@@ -16,6 +16,7 @@ class RentBase(BaseModel):
     initialized: Optional[datetime]
     finished: Optional[datetime]
     status: str = Field(..., max_length=30)
+    id_status: Optional[int] = None
     minutes: Decimal
     mount: Decimal
     date_log: datetime
@@ -23,6 +24,10 @@ class RentBase(BaseModel):
     payment_deadline: datetime
     capacity: int
     id_payment: Optional[int] = None
+    payment_code: Optional[str] = Field(None, max_length=30)
+    payment_proof_url: Optional[str] = None
+    payment_reviewed_at: Optional[datetime] = None
+    payment_reviewed_by: Optional[int] = None
     customer_full_name: Optional[str] = Field(None, max_length=200)
     customer_phone: Optional[str] = Field(None, max_length=20)
     customer_email: Optional[str] = Field(None, max_length=200)
@@ -37,6 +42,7 @@ class RentCreate(BaseModel):
     id_schedule: int = Field(..., gt=0)
     id_payment: Optional[int] = Field(None, gt=0)
     status: str = Field(..., max_length=30)
+    id_status: Optional[int] = None
     period: Optional[str] = Field(None, max_length=20)
     start_time: Optional[datetime] = None
     end_time: Optional[datetime] = None
@@ -52,6 +58,10 @@ class RentCreate(BaseModel):
     customer_email: Optional[str] = Field(None, max_length=200)
     customer_document: Optional[str] = Field(None, max_length=30)
     customer_notes: Optional[str] = None
+    payment_code: Optional[str] = Field(None, max_length=30)
+    payment_proof_url: Optional[str] = None
+    payment_reviewed_at: Optional[datetime] = None
+    payment_reviewed_by: Optional[int] = None
 
 
 class RentAdminCreate(BaseModel):
@@ -59,12 +69,17 @@ class RentAdminCreate(BaseModel):
 
     id_schedule: int = Field(..., gt=0)
     status: str = Field(..., max_length=30)
+    id_status: Optional[int] = None
     id_payment: Optional[int] = Field(None, gt=0)
     customer_full_name: str = Field(..., max_length=200)
     customer_phone: Optional[str] = Field(None, max_length=20)
     customer_email: Optional[str] = Field(None, max_length=200)
     customer_document: Optional[str] = Field(None, max_length=30)
     customer_notes: Optional[str] = None
+    payment_code: Optional[str] = Field(None, max_length=30)
+    payment_proof_url: Optional[str] = None
+    payment_reviewed_at: Optional[datetime] = None
+    payment_reviewed_by: Optional[int] = None
 
 
 class RentUpdate(BaseModel):
@@ -76,6 +91,7 @@ class RentUpdate(BaseModel):
     initialized: Optional[datetime]
     finished: Optional[datetime]
     status: Optional[str] = Field(None, max_length=30)
+    id_status: Optional[int] = None
     minutes: Optional[Decimal]
     mount: Optional[Decimal]
     date_log: Optional[datetime]
@@ -89,6 +105,10 @@ class RentUpdate(BaseModel):
     customer_email: Optional[str] = Field(None, max_length=200)
     customer_document: Optional[str] = Field(None, max_length=30)
     customer_notes: Optional[str] = None
+    payment_code: Optional[str] = Field(None, max_length=30)
+    payment_proof_url: Optional[str] = None
+    payment_reviewed_at: Optional[datetime] = None
+    payment_reviewed_by: Optional[int] = None
 
 
 class RentAdminUpdate(BaseModel):
@@ -96,12 +116,17 @@ class RentAdminUpdate(BaseModel):
 
     id_schedule: Optional[int] = Field(None, gt=0)
     status: Optional[str] = Field(None, max_length=30)
+    id_status: Optional[int] = None
     id_payment: Optional[int] = Field(None, gt=0)
     customer_full_name: Optional[str] = Field(None, max_length=200)
     customer_phone: Optional[str] = Field(None, max_length=20)
     customer_email: Optional[str] = Field(None, max_length=200)
     customer_document: Optional[str] = Field(None, max_length=30)
     customer_notes: Optional[str] = None
+    payment_code: Optional[str] = Field(None, max_length=30)
+    payment_proof_url: Optional[str] = None
+    payment_reviewed_at: Optional[datetime] = None
+    payment_reviewed_by: Optional[int] = None
 
 
 class ScheduleSummary(BaseModel):
@@ -112,6 +137,7 @@ class ScheduleSummary(BaseModel):
     start_time: datetime
     end_time: datetime
     status: str
+    id_status: Optional[int] = None
     price: Decimal
     field: FieldSummary
     user: Optional[UserSummary] = None
@@ -128,3 +154,20 @@ class RentResponse(RentBase):
 
     class Config:
         from_attributes = True
+
+
+class PaymentInstructions(BaseModel):
+    yape_phone: Optional[str] = None
+    yape_qr_url: Optional[str] = None
+    plin_phone: Optional[str] = None
+    plin_qr_url: Optional[str] = None
+    payment_code: str
+    message: str
+    status: Optional[str] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+
+
+class RentPaymentResponse(BaseModel):
+    rent: RentResponse
+    payment_instructions: PaymentInstructions

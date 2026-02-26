@@ -4,20 +4,29 @@ import logging
 from decimal import Decimal, ROUND_HALF_UP
 from email.utils import parseaddr
 import re
+import secrets
+import string
 from typing import Dict, List, Optional, Sequence
 
 from fastapi import BackgroundTasks, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
+from app.core.status_constants import (
+    RENT_FINAL_STATUS_CODES,
+    RENT_PENDING_PAYMENT_STATUS_CODE,
+    SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
+)
 from app.integrations import auth_reader, booking_reader, payment_reader
 from app.models.rent import Rent
 from app.models.schedule import Schedule
-from app.repository import rent_repository, schedule_repository
+from app.repository import rent_repository, schedule_repository, status_catalog_repository
 from app.schemas.rent import (
+    PaymentInstructions,
     RentAdminCreate,
     RentAdminUpdate,
     RentCreate,
+    RentPaymentResponse,
     RentResponse,
     RentUpdate,
     ScheduleSummary,
@@ -30,7 +39,7 @@ logger = logging.getLogger(__name__)
 
 class RentService:
 
-    _EXCLUDED_RENT_STATUSES = ("cancelled",)
+    _EXCLUDED_RENT_STATUSES = RENT_FINAL_STATUS_CODES
     _FIELD_STATUS_ACTIVE = "active"
     _FIELD_STATUS_OCCUPIED = "occupied"
     _ADMIN_NOTE = "Creado por administrador"
@@ -76,6 +85,107 @@ class RentService:
         if len(parts) == 1:
             return parts[0], ""
         return parts[0], " ".join(parts[1:])
+
+    def _resolve_status_pair(
+        self,
+        *,
+        entity: str,
+        status_code: Optional[str],
+        status_id: Optional[int],
+    ) -> tuple[str, int]:
+        if status_id is not None:
+            status_item = status_catalog_repository.get_status(self.db, status_id)
+            if status_item is None:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Status id {status_id} is not defined in status_catalog",
+                )
+            if status_item.entity != entity:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=(
+                        f"Status id {status_id} does not belong to entity {entity!r}"
+                    ),
+                )
+            if status_code is not None and status_item.code != status_code:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=(
+                        f"Status id {status_id} does not match status {status_code!r} "
+                        f"for entity {entity!r}"
+                    ),
+                )
+            return status_item.code, int(status_item.id_status)
+
+        if status_code is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="status or id_status must be provided",
+            )
+
+        return status_code, self._resolve_status_id(entity, status_code)
+
+    def _resolve_status_id(self, entity: str, code: str) -> int:
+        status_item = status_catalog_repository.get_status_by_entity_code(
+            self.db,
+            entity=entity,
+            code=code,
+        )
+        if status_item is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=(
+                    f"Status code {code!r} for entity {entity!r} "
+                    "is not defined in status_catalog"
+                ),
+            )
+        return int(status_item.id_status)
+
+    @staticmethod
+    def _generate_payment_code(length: int = 6) -> str:
+        alphabet = string.ascii_uppercase + string.digits
+        return "".join(secrets.choice(alphabet) for _ in range(length))
+
+    def _build_payment_instructions(
+        self,
+        rent: Rent,
+        *,
+        field_summary: Optional[FieldSummary],
+    ) -> PaymentInstructions:
+        wallet_info = None
+        if field_summary is not None:
+            wallet_info = payment_reader.get_campus_digital_wallets(
+                self.db, campus_id=field_summary.id_campus
+            )
+
+        if not wallet_info:
+            return PaymentInstructions(
+                payment_code=rent.payment_code or "",
+                message="Realiza el pago y sube la captura para continuar.",
+            )
+
+        has_yape = bool(wallet_info.get("yape_phone") or wallet_info.get("yape_qr_url"))
+        has_plin = bool(wallet_info.get("plin_phone") or wallet_info.get("plin_qr_url"))
+        if has_yape and has_plin:
+            message = "Realiza el pago por Yape o Plin y sube la captura para continuar."
+        elif has_yape:
+            message = "Realiza el pago por Yape y sube la captura para continuar."
+        elif has_plin:
+            message = "Realiza el pago por Plin y sube la captura para continuar."
+        else:
+            message = "Realiza el pago y sube la captura para continuar."
+
+        return PaymentInstructions(
+            yape_phone=wallet_info.get("yape_phone") if has_yape else None,
+            yape_qr_url=wallet_info.get("yape_qr_url") if has_yape else None,
+            plin_phone=wallet_info.get("plin_phone") if has_plin else None,
+            plin_qr_url=wallet_info.get("plin_qr_url") if has_plin else None,
+            payment_code=rent.payment_code or "",
+            message=message,
+            status=wallet_info.get("status"),
+            created_at=wallet_info.get("created_at"),
+            updated_at=wallet_info.get("updated_at"),
+        )
 
     def _build_notification_payload(self, rent: Rent) -> Optional[Dict[str, object]]:
         schedule = rent.schedule
@@ -390,6 +500,7 @@ class RentService:
                 start_time=row["schedule_start_time"],
                 end_time=row["schedule_end_time"],
                 status=row["schedule_status"],
+                id_status=row.get("schedule_id_status"),
                 price=row["schedule_price"],
                 field=field,
                 user=user,
@@ -403,6 +514,7 @@ class RentService:
                     initialized=row["initialized"],
                     finished=row["finished"],
                     status=row["status"],
+                    id_status=row.get("rent_id_status"),
                     minutes=row["minutes"],
                     mount=row["mount"],
                     date_log=row["date_log"],
@@ -410,6 +522,10 @@ class RentService:
                     payment_deadline=row["payment_deadline"],
                     capacity=row["capacity"],
                     id_payment=row["id_payment"],
+                    payment_code=row.get("payment_code"),
+                    payment_proof_url=row.get("payment_proof_url"),
+                    payment_reviewed_at=row.get("payment_reviewed_at"),
+                    payment_reviewed_by=row.get("payment_reviewed_by"),
                     customer_full_name=row.get("customer_full_name"),
                     customer_phone=row.get("customer_phone"),
                     customer_email=row.get("customer_email"),
@@ -439,6 +555,7 @@ class RentService:
             start_time=schedule.start_time,
             end_time=schedule.end_time,
             status=schedule.status,
+            id_status=schedule.id_status,
             price=schedule.price,
             field=field,
             user=user,
@@ -448,7 +565,7 @@ class RentService:
     def _build_rent_response(
         rent: Rent,
         schedule: ScheduleSummary,
-    ) -> RentResponse:
+    ) -> RentPaymentResponse:
         return RentResponse(
             id_rent=rent.id_rent,
             period=rent.period,
@@ -457,6 +574,7 @@ class RentService:
             initialized=rent.initialized,
             finished=rent.finished,
             status=rent.status,
+            id_status=rent.id_status,
             minutes=rent.minutes,
             mount=rent.mount,
             date_log=rent.date_log,
@@ -464,6 +582,10 @@ class RentService:
             payment_deadline=rent.payment_deadline,
             capacity=rent.capacity,
             id_payment=rent.id_payment,
+            payment_code=rent.payment_code,
+            payment_proof_url=rent.payment_proof_url,
+            payment_reviewed_at=rent.payment_reviewed_at,
+            payment_reviewed_by=rent.payment_reviewed_by,
             customer_full_name=rent.customer_full_name,
             customer_phone=rent.customer_phone,
             customer_email=rent.customer_email,
@@ -664,7 +786,13 @@ class RentService:
         payload: RentCreate,
         *,
         background_tasks: Optional[BackgroundTasks] = None,
-    ) -> RentResponse:
+    ) -> RentPaymentResponse:
+
+        if payload.status != RENT_PENDING_PAYMENT_STATUS_CODE:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Create rent only supports status 'pending_payment'",
+            )
 
         schedule = self._get_schedule(payload.id_schedule)
         self._ensure_schedule_available(schedule.id_schedule)
@@ -677,6 +805,15 @@ class RentService:
         # Build the rent from the schedule definition
         # so start/end/pricing.
         rent_data = payload.dict(exclude_unset=True)
+        status_code, status_id = self._resolve_status_pair(
+            entity="rent",
+            status_code=RENT_PENDING_PAYMENT_STATUS_CODE,
+            status_id=rent_data.get("id_status"),
+        )
+        rent_data["status"] = status_code
+        rent_data["id_status"] = status_id
+        if not rent_data.get("payment_code"):
+            rent_data["payment_code"] = self._generate_payment_code()
         rent_data.pop("start_time", None)
         rent_data.pop("end_time", None)
 
@@ -697,12 +834,23 @@ class RentService:
             self._validate_payment(int(rent_data["id_payment"]))
 
         rent = rent_repository.create_rent(self.db, rent_data)
-        schedule.status = "reserved"
+        schedule.status = SCHEDULE_HOLD_PAYMENT_STATUS_CODE
+        schedule.id_status = self._resolve_status_id(
+            "schedule", SCHEDULE_HOLD_PAYMENT_STATUS_CODE
+        )
         schedule_repository.save_schedule(self.db, schedule)
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
         if persisted_rent is not None:
             self._notify_rent_creation(persisted_rent)
-            return self._hydrate_rent(persisted_rent)
+            rent_response = self._hydrate_rent(persisted_rent)
+            instructions = self._build_payment_instructions(
+                persisted_rent,
+                field_summary=field_summary,
+            )
+            return RentPaymentResponse(
+                rent=rent_response,
+                payment_instructions=instructions,
+            )
     
         self._refresh_field_status(self.db, schedule.id_field)
 
@@ -714,7 +862,15 @@ class RentService:
             )
 
         persisted = rent_repository.get_rent(self.db, rent.id_rent)
-        return self._hydrate_rent(persisted)
+        rent_response = self._hydrate_rent(persisted)
+        instructions = self._build_payment_instructions(
+            persisted,
+            field_summary=field_summary,
+        )
+        return RentPaymentResponse(
+            rent=rent_response,
+            payment_instructions=instructions,
+        )
 
     def create_rent_admin(
         self,
@@ -733,6 +889,13 @@ class RentService:
         )
 
         rent_data = payload.dict(exclude_unset=True)
+        status_code, status_id = self._resolve_status_pair(
+            entity="rent",
+            status_code=rent_data.get("status"),
+            status_id=rent_data.get("id_status"),
+        )
+        rent_data["status"] = status_code
+        rent_data["id_status"] = status_id
         rent_data.pop("start_time", None)
         rent_data.pop("end_time", None)
 
@@ -754,7 +917,10 @@ class RentService:
         )
 
         rent = rent_repository.create_rent(self.db, rent_data)
-        schedule.status = "reserved"
+        schedule.status = SCHEDULE_HOLD_PAYMENT_STATUS_CODE
+        schedule.id_status = self._resolve_status_id(
+            "schedule", SCHEDULE_HOLD_PAYMENT_STATUS_CODE
+        )
         schedule_repository.save_schedule(self.db, schedule)
 
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
@@ -788,6 +954,14 @@ class RentService:
         original_field_id = original_schedule.id_field if original_schedule else None
 
         update_data = payload.dict(exclude_unset=True)
+        if "status" in update_data or "id_status" in update_data:
+            status_code, status_id = self._resolve_status_pair(
+                entity="rent",
+                status_code=update_data.get("status"),
+                status_id=update_data.get("id_status"),
+            )
+            update_data["status"] = status_code
+            update_data["id_status"] = status_id
 
         target_schedule = rent.schedule or self._get_schedule(rent.id_schedule)
 
@@ -851,6 +1025,14 @@ class RentService:
         rent = self._get_rent_model(rent_id)
 
         update_data = payload.dict(exclude_unset=True)
+        if "status" in update_data or "id_status" in update_data:
+            status_code, status_id = self._resolve_status_pair(
+                entity="rent",
+                status_code=update_data.get("status"),
+                status_id=update_data.get("id_status"),
+            )
+            update_data["status"] = status_code
+            update_data["id_status"] = status_id
 
         target_schedule = rent.schedule or self._get_schedule(rent.id_schedule)
 

@@ -15,6 +15,7 @@ class Schedule(Base):
     start_time = Column(DateTime(timezone=True), nullable=False)
     end_time = Column(DateTime(timezone=True), nullable=False)
     status = Column(String(30), nullable=False)
+    id_status = Column(BigInteger, nullable=True)
     price = Column(Numeric(10, 2), nullable=False)
     id_field = Column(BigInteger, nullable=True)
     id_user = Column(BigInteger, nullable=True)
