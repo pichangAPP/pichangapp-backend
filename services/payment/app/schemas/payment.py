@@ -1,6 +1,6 @@
 """Pydantic models for payment resources."""
 
-from datetime import datetime, timezone
+from datetime import datetime
 from decimal import Decimal
 from typing import Optional
 
@@ -13,7 +13,7 @@ class PaymentBase(BaseModel):
     method: str = Field(..., max_length=100)
     status: str = Field(..., max_length=30)
     type: str = Field(..., max_length=30)
-    paid_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    paid_at: Optional[datetime] = None
     memberships_id_membership: int = Field(..., ge=1)
     reference: Optional[str] = Field(None, max_length=100)
     additional_data: Optional[str] = None
@@ -52,6 +52,7 @@ class PaymentUpdate(BaseModel):
 class PaymentResponse(PaymentBase):
     id_payment: int
     transaction_id: int
+    paid_at: datetime
 
     class Config:
         from_attributes = True

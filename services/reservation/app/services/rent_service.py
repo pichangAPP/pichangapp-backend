@@ -15,6 +15,7 @@ from app.core.database import SessionLocal
 from app.core.status_constants import (
     RENT_FINAL_STATUS_CODES,
     RENT_PENDING_PAYMENT_STATUS_CODE,
+    RENT_UNDER_REVIEW_STATUS_CODE,
     SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
 )
 from app.integrations import auth_reader, booking_reader, payment_reader
@@ -307,6 +308,20 @@ class RentService:
         logger.info("Dispatching rent notification for rent %s", rent.id_rent)
         self._notification_client.send_rent_email(payload)
 
+    def _notify_rent_creation_by_id(self, rent_id: int) -> None:
+        db = SessionLocal()
+        try:
+            rent = rent_repository.get_rent(db, rent_id)
+            if rent is None:
+                return
+            service = RentService(
+                db,
+                notification_client=self._notification_client,
+            )
+            service._notify_rent_creation(rent)
+        finally:
+            db.close()
+
     def _ensure_field_exists(self, field_id: int) -> None:
         field = booking_reader.get_field_summary(self.db, field_id)
         if field is None:
@@ -565,7 +580,7 @@ class RentService:
     def _build_rent_response(
         rent: Rent,
         schedule: ScheduleSummary,
-    ) -> RentPaymentResponse:
+    ) -> RentResponse:
         return RentResponse(
             id_rent=rent.id_rent,
             period=rent.period,
@@ -841,7 +856,13 @@ class RentService:
         schedule_repository.save_schedule(self.db, schedule)
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
         if persisted_rent is not None:
-            self._notify_rent_creation(persisted_rent)
+            if background_tasks is not None:
+                background_tasks.add_task(
+                    self._notify_rent_creation_by_id,
+                    persisted_rent.id_rent,
+                )
+            else:
+                self._notify_rent_creation(persisted_rent)
             rent_response = self._hydrate_rent(persisted_rent)
             instructions = self._build_payment_instructions(
                 persisted_rent,
@@ -925,7 +946,13 @@ class RentService:
 
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
         if persisted_rent is not None:
-            self._notify_rent_creation(persisted_rent)
+            if background_tasks is not None:
+                background_tasks.add_task(
+                    self._notify_rent_creation_by_id,
+                    persisted_rent.id_rent,
+                )
+            else:
+                self._notify_rent_creation(persisted_rent)
             return self._hydrate_rent(persisted_rent)
 
         self._refresh_field_status(self.db, schedule.id_field)
@@ -954,7 +981,21 @@ class RentService:
         original_field_id = original_schedule.id_field if original_schedule else None
 
         update_data = payload.dict(exclude_unset=True)
-        if "status" in update_data or "id_status" in update_data:
+        if "id_payment" in update_data and update_data["id_payment"] is not None:
+            self._validate_payment(int(update_data["id_payment"]))
+            if "status" in update_data and update_data["status"] != RENT_UNDER_REVIEW_STATUS_CODE:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Payment confirmation moves rent to status 'under_review'",
+                )
+            status_code, status_id = self._resolve_status_pair(
+                entity="rent",
+                status_code=RENT_UNDER_REVIEW_STATUS_CODE,
+                status_id=update_data.get("id_status"),
+            )
+            update_data["status"] = status_code
+            update_data["id_status"] = status_id
+        elif "status" in update_data or "id_status" in update_data:
             status_code, status_id = self._resolve_status_pair(
                 entity="rent",
                 status_code=update_data.get("status"),
@@ -987,9 +1028,6 @@ class RentService:
             existing_rent=rent,
             field_summary=field_summary,
         )
-
-        if "id_payment" in update_data and update_data["id_payment"] is not None:
-            self._validate_payment(int(update_data["id_payment"]))
 
         for field, value in update_data.items():
             setattr(rent, field, value)

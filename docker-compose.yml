@@ -255,6 +255,7 @@ services:
       - shared-venv
       - postgres
     environment:
+      PAYMENT_ALLOWED_STATUSES: ${PAYMENT_ALLOWED_STATUSES:-pending,paid,failed,cancelled}
       <<: *common-env
     ports:
       - "8003:8003"

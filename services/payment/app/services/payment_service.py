@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.integrations import (
     AuthReaderError,
     get_payment_destination,
@@ -39,6 +41,9 @@ class PaymentService:
     def create_payment(self, payload: PaymentCreate):
         payment_data = payload.dict(exclude_unset=True)
         method = (payment_data.get("method") or "").strip().lower()
+        status_value = self._normalize_status(payment_data.get("status"))
+        self._validate_status(status_value)
+        payment_data["status"] = status_value
 
         rent_id = payment_data.pop("rent_id", None)
         payer_phone = payment_data.pop("payer_phone", None)
@@ -52,6 +57,9 @@ class PaymentService:
                 approval_code=approval_code,
             )
 
+        if status_value == "paid" and not payment_data.get("paid_at"):
+            payment_data["paid_at"] = datetime.now(timezone.utc)
+
         payment = payment_repository.create_payment(self.db, payment_data)
         return payment
 
@@ -61,6 +69,13 @@ class PaymentService:
 
         if not update_data:
             return payment
+
+        if "status" in update_data:
+            status_value = self._normalize_status(update_data.get("status"))
+            self._validate_status(status_value)
+            update_data["status"] = status_value
+            if status_value == "paid" and not update_data.get("paid_at"):
+                update_data["paid_at"] = datetime.now(timezone.utc)
 
         # Apply only the provided fields so callers can send partial updates
         # (e.g., just status/receipt) without re-sending the full object.
@@ -172,6 +187,20 @@ class PaymentService:
 
         payload.update(updates)
         return payload
+
+    @staticmethod
+    def _normalize_status(value: Optional[str]) -> str:
+        return (value or "").strip().lower()
+
+    @staticmethod
+    def _validate_status(status_value: str) -> None:
+        allowed = set(settings.payment_allowed_statuses)
+        if not status_value or status_value not in allowed:
+            allowed_list = ", ".join(sorted(allowed))
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Invalid payment status '{status_value}'. Allowed: {allowed_list}",
+            )
 
 
 __all__ = ["PaymentService"]
