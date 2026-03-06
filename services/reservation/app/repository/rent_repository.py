@@ -18,6 +18,7 @@ def list_rents(
     field_id: Optional[int] = None,
     field_ids: Optional[Sequence[int]] = None,
     user_id: Optional[int] = None,
+    order_by_created: bool = False,
     sort_desc: bool = False,
 ) -> list[Rent]:
     query = db.query(Rent).options(joinedload(Rent.schedule))
@@ -36,7 +37,10 @@ def list_rents(
     if user_id is not None:
         query = query.filter(Schedule.id_user == user_id)
 
-    order_clause = Rent.start_time.desc() if sort_desc else Rent.start_time
+    if order_by_created:
+        order_clause = Rent.date_create.desc() if sort_desc else Rent.date_create
+    else:
+        order_clause = Rent.start_time.desc() if sort_desc else Rent.start_time
 
     return query.order_by(order_clause).all()
 

@@ -11,10 +11,12 @@ RENT_FINAL_STATUS_CODES = (
     "dispute_resolved",
 )
 
+RENT_RESERVED_STATUS_CODE = "reserved"
 RENT_PENDING_PAYMENT_STATUS_CODE = "pending_payment"
 RENT_UNDER_REVIEW_STATUS_CODE = "under_review"
 
 RENT_HOLD_STATUS_CODES = (
+    RENT_RESERVED_STATUS_CODE,
     RENT_PENDING_PAYMENT_STATUS_CODE,
     "pending_proof",
     "proof_submitted",

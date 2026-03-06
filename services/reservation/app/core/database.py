@@ -142,7 +142,7 @@ def ensure_reservation_functions() -> None:
         LEFT JOIN auth.users u ON u.id_user = s.id_user
         WHERE f.id_campus = p_campus_id
           AND (p_status IS NULL OR r.status = p_status)
-        ORDER BY r.start_time;
+        ORDER BY r.date_create DESC;
     END;
     $$;
     """

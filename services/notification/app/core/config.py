@@ -41,6 +41,10 @@ class Settings:
     FIREBASE_CREDENTIALS_PATH: str = os.getenv("FIREBASE_CREDENTIALS_PATH", "")
     FIREBASE_PROJECT_ID: str = os.getenv("FIREBASE_PROJECT_ID", "")
     FIREBASE_STORAGE_BUCKET: str = os.getenv("FIREBASE_STORAGE_BUCKET", "")
+    USER_CONFIRMATION_SUBJECT: str = os.getenv(
+        "USER_CONFIRMATION_SUBJECT",
+        "Reserva confirmada",
+    )
 
     # Optional template to build a public URL for the reservation pass. Supports
     # str.format placeholders such as {rent_id}, {schedule_day}, and

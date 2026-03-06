@@ -258,6 +258,8 @@ class RentService:
             "name": campus.name,
             "address": campus.address,
             "district": campus.district,
+            "contact_email": campus.contact_email,
+            "contact_phone": campus.contact_phone,
         }
 
         manager_payload = None
@@ -355,6 +357,8 @@ class RentService:
             self.db,
             status_filter=status_filter,
             schedule_id=schedule_id,
+            order_by_created=True,
+            sort_desc=True,
         )
         return self._hydrate_rents(rents)
 
@@ -856,13 +860,6 @@ class RentService:
         schedule_repository.save_schedule(self.db, schedule)
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
         if persisted_rent is not None:
-            if background_tasks is not None:
-                background_tasks.add_task(
-                    self._notify_rent_creation_by_id,
-                    persisted_rent.id_rent,
-                )
-            else:
-                self._notify_rent_creation(persisted_rent)
             rent_response = self._hydrate_rent(persisted_rent)
             instructions = self._build_payment_instructions(
                 persisted_rent,
@@ -946,13 +943,6 @@ class RentService:
 
         persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
         if persisted_rent is not None:
-            if background_tasks is not None:
-                background_tasks.add_task(
-                    self._notify_rent_creation_by_id,
-                    persisted_rent.id_rent,
-                )
-            else:
-                self._notify_rent_creation(persisted_rent)
             return self._hydrate_rent(persisted_rent)
 
         self._refresh_field_status(self.db, schedule.id_field)
@@ -981,6 +971,11 @@ class RentService:
         original_field_id = original_schedule.id_field if original_schedule else None
 
         update_data = payload.dict(exclude_unset=True)
+        notify_after_payment = (
+            "id_payment" in update_data
+            and update_data["id_payment"] is not None
+            and (rent.id_payment is None or rent.id_payment != update_data["id_payment"])
+        )
         if "id_payment" in update_data and update_data["id_payment"] is not None:
             self._validate_payment(int(update_data["id_payment"]))
             if "status" in update_data and update_data["status"] != RENT_UNDER_REVIEW_STATUS_CODE:
@@ -1034,6 +1029,14 @@ class RentService:
 
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
+        if updated_rent is not None and notify_after_payment:
+            if background_tasks is not None:
+                background_tasks.add_task(
+                    self._notify_rent_creation_by_id,
+                    updated_rent.id_rent,
+                )
+            else:
+                self._notify_rent_creation(updated_rent)
 
         self._refresh_field_status(self.db, original_field_id)
 
@@ -1063,6 +1066,11 @@ class RentService:
         rent = self._get_rent_model(rent_id)
 
         update_data = payload.dict(exclude_unset=True)
+        notify_after_payment = (
+            "id_payment" in update_data
+            and update_data["id_payment"] is not None
+            and (rent.id_payment is None or rent.id_payment != update_data["id_payment"])
+        )
         if "status" in update_data or "id_status" in update_data:
             status_code, status_id = self._resolve_status_pair(
                 entity="rent",
@@ -1109,6 +1117,14 @@ class RentService:
 
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
+        if updated_rent is not None and notify_after_payment:
+            if background_tasks is not None:
+                background_tasks.add_task(
+                    self._notify_rent_creation_by_id,
+                    updated_rent.id_rent,
+                )
+            else:
+                self._notify_rent_creation(updated_rent)
 
         self._refresh_field_status(self.db, target_schedule.id_field)
 

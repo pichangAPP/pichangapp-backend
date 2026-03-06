@@ -34,6 +34,8 @@ class CampusSummary:
     address: str
     district: str
     id_manager: Optional[int]
+    contact_email: Optional[str]
+    contact_phone: Optional[str]
 
 
 def get_field_summary(db: Session, field_id: int) -> Optional[FieldSummary]:
@@ -84,8 +86,17 @@ def get_field_ids_by_campus(db: Session, campus_id: int) -> list[int]:
 def get_campus_summary(db: Session, campus_id: int) -> Optional[CampusSummary]:
     query = text(
         """
-        SELECT id_campus, name, address, district, id_manager
-        FROM booking.campus
+        SELECT
+            campus.id_campus,
+            campus.name,
+            campus.address,
+            campus.district,
+            campus.id_manager,
+            business.email_contact,
+            business.phone_contact
+        FROM booking.campus AS campus
+        JOIN booking.business AS business
+            ON business.id_business = campus.id_business
         WHERE id_campus = :campus_id
         """
     )

@@ -171,7 +171,7 @@ services:
       - shared-venv
     environment:
       FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID}"
-      FIREBASE_CREDENTIALS_PATH: "${FIREBASE_CREDENTIALS_PATH}"
+      FIREBASE_CREDENTIALS_PATH: "/secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json"
       FIREBASE_STORAGE_BUCKET: "${FIREBASE_STORAGE_BUCKET}"
       SMTP_HOST: "${SMTP_HOST}"
       SMTP_PORT: ${SMTP_PORT}
@@ -186,7 +186,7 @@ services:
       USER_RECEIPT_SUBJECT: "${USER_RECEIPT_SUBJECT}"
       <<: *common-env
     volumes:
-      - ./secrets/firebase-service-account.json:/run/secrets/firebase-service-account.json:ro
+      - ./secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json:/secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json:ro
     ports:
       - "8004:8004"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004"]
