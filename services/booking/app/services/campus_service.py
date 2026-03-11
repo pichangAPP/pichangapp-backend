@@ -151,6 +151,7 @@ class CampusService:
         if images_data is not None:
             self._sync_campus_images(campus, images_data)
 
+        campus.updated_at = datetime.now(timezone.utc)
         self._validate_campus_entity(campus)
         try:
             self.db.flush()

@@ -77,6 +77,8 @@ class UserSummary(BaseModel):
 
 class ScheduleResponse(ScheduleBase):
     id_schedule: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
     field: Optional[FieldSummary] = None
     user: Optional[UserSummary] = None
 

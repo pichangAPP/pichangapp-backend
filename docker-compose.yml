@@ -136,6 +136,7 @@ services:
     environment:
       KAFKA_CLIENT_ID: booking-svc
       BOOKING_EVENTS_TOPIC: ${BOOKING_EVENTS_TOPIC:-booking.events}
+      TIMEZONE: ${TIMEZONE:-America/Lima}
       <<: *common-env
     ports:
       - "8001:8001"
@@ -154,6 +155,7 @@ services:
       - postgres
     environment:
       NOTIFICATION_SERVICE_URL: http://notification:8004
+      TIMEZONE: ${TIMEZONE:-America/Lima}
       <<: *common-env
     ports:
       - "8002:8002"

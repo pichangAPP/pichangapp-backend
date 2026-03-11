@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from datetime import date
+from datetime import date, datetime
 
-from sqlalchemy import BigInteger, Date, Integer, Numeric, String, Text, func
+from sqlalchemy import BigInteger, Date, DateTime, Integer, Numeric, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
@@ -27,6 +27,11 @@ class Business(Base):
     email_contact: Mapped[str] = mapped_column(String(300), nullable=False)
     phone_contact: Mapped[str] = mapped_column(String(20), nullable=False)
     created_at: Mapped[date] = mapped_column(Date, server_default=func.current_date(), nullable=False)
+    updated_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        onupdate=func.now(),
+        nullable=True,
+    )
     district: Mapped[str] = mapped_column(String(50), nullable=False)
     address: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[str] = mapped_column(String(30), nullable=False)

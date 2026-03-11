@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from datetime import date, datetime
+
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -106,6 +108,8 @@ class BusinessResponse(BusinessBase):
     model_config = ConfigDict(from_attributes=True)
 
     id_business: int
+    created_at: date
+    updated_at: Optional[datetime] = None
     campuses: List[CampusResponse]
     images: List[ImageResponse] = PydanticField(default_factory=list)
     manager: Optional[ManagerResponse] = None
@@ -135,4 +139,6 @@ class BusinessProfileResponse(BusinessBase):
     model_config = ConfigDict(from_attributes=True)
 
     id_business: int
+    created_at: date
+    updated_at: Optional[datetime] = None
     campuses: List[CampusProfileResponse] = PydanticField(default_factory=list)

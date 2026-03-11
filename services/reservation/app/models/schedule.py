@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, Column, DateTime, Numeric, String
+from sqlalchemy import BigInteger, Column, DateTime, Numeric, String, func
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -19,6 +19,8 @@ class Schedule(Base):
     price = Column(Numeric(10, 2), nullable=False)
     id_field = Column(BigInteger, nullable=True)
     id_user = Column(BigInteger, nullable=True)
+    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=True, onupdate=func.now())
 
     rents = relationship("Rent", back_populates="schedule", cascade="all, delete-orphan")
 

@@ -1,10 +1,12 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from typing import List, Optional, Sequence
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.integrations import auth_reader, booking_reader
+from app.core.config import settings
 from app.models.schedule import Schedule
 from app.schemas.schedule import (
     FieldSummary,
@@ -301,6 +303,7 @@ class ScheduleService:
         for attribute, value in update_data.items():
             setattr(schedule, attribute, value)
 
+        schedule.updated_at = datetime.now(timezone.utc)
         schedule_repository.save_schedule(self.db, schedule)
         persisted = schedule_repository.get_schedule(self.db, schedule_id)
         return self._hydrate_schedule(persisted)
@@ -344,8 +347,12 @@ class ScheduleService:
         # Build 1-hour availability slots for a specific field/day based on schedules.
         field = self._get_field(field_id)
 
-        open_time = datetime.combine(target_date, field.open_time)
-        close_time = datetime.combine(target_date, field.close_time)
+        try:
+            local_tz = ZoneInfo(settings.TIMEZONE)
+        except ZoneInfoNotFoundError:
+            local_tz = timezone.utc
+        open_time = datetime.combine(target_date, field.open_time).replace(tzinfo=local_tz)
+        close_time = datetime.combine(target_date, field.close_time).replace(tzinfo=local_tz)
 
         # Handle fields that close after midnight by rolling the close forward.
         if close_time <= open_time:
@@ -358,11 +365,13 @@ class ScheduleService:
             target_date=target_date,
         )
 
-        def _as_naive(value: datetime) -> datetime:
-            return value.replace(tzinfo=None) if value.tzinfo is not None else value
+        def _as_naive_local(value: datetime) -> datetime:
+            if value.tzinfo is None:
+                return value
+            return value.astimezone(local_tz).replace(tzinfo=None)
 
-        open_time = _as_naive(open_time)
-        close_time = _as_naive(close_time)
+        open_time = _as_naive_local(open_time)
+        close_time = _as_naive_local(close_time)
 
         schedule_ids = [
             schedule.id_schedule for schedule in schedules if schedule.id_schedule is not None
@@ -377,8 +386,8 @@ class ScheduleService:
         reserved_ranges = []
         price_by_range = {}
         for schedule in schedules:
-            start_time = _as_naive(schedule.start_time)
-            end_time = _as_naive(schedule.end_time)
+            start_time = _as_naive_local(schedule.start_time)
+            end_time = _as_naive_local(schedule.end_time)
 
             if start_time >= end_time:
                 continue
@@ -412,8 +421,9 @@ class ScheduleService:
         slots: List[dict] = []
         current_start = open_time
 
-        if target_date == date.today():
-            now_value = _as_naive(datetime.now())
+        today_local = datetime.now(local_tz).date()
+        if target_date == today_local:
+            now_value = _as_naive_local(datetime.now(local_tz))
             if now_value > current_start:
                 elapsed_seconds = (now_value - current_start).total_seconds()
                 slot_seconds = slot_duration.total_seconds()
@@ -507,6 +517,8 @@ class ScheduleService:
             price=schedule.price,
             id_field=schedule.id_field,
             id_user=schedule.id_user,
+            created_at=schedule.created_at,
+            updated_at=schedule.updated_at,
             field=field,
             user=user,
         )

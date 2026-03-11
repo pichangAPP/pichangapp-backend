@@ -10,6 +10,8 @@ from typing import Iterable
 from sqlalchemy import bindparam, text
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
+
 
 @dataclass(frozen=True)
 class ScheduleSummary:
@@ -70,14 +72,14 @@ def get_schedules_for_fields_on_date(
         SELECT id_schedule, id_field, day_of_week, start_time, end_time, price, status
         FROM reservation.schedule
         WHERE id_field IN :field_ids
-          AND DATE(start_time) = :target_date
+          AND DATE(start_time AT TIME ZONE :timezone) = :target_date
         ORDER BY start_time
         """
     ).bindparams(bindparam("field_ids", expanding=True))
 
     rows = db.execute(
         query,
-        {"field_ids": ids, "target_date": target_date},
+        {"field_ids": ids, "target_date": target_date, "timezone": settings.TIMEZONE},
     ).mappings().all()
     return [ScheduleSummary(**row) for row in rows]
 
@@ -99,7 +101,7 @@ def field_has_upcoming_reservations(
         FROM reservation.schedule
         WHERE id_field = :field_id
           AND lower(status) IN :statuses
-          AND DATE(start_time) >= :reference_date
+          AND DATE(start_time AT TIME ZONE :timezone) >= :reference_date
         LIMIT 1
         """
     ).bindparams(bindparam("statuses", expanding=True))
@@ -110,6 +112,7 @@ def field_has_upcoming_reservations(
             "field_id": field_id,
             "statuses": status_values,
             "reference_date": reference_date,
+            "timezone": settings.TIMEZONE,
         },
     ).scalar_one_or_none()
     return result is not None

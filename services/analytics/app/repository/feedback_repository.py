@@ -165,7 +165,8 @@ def recalculate_campus_rating(db: Session, campus_id: int) -> None:
     update_query = text(
         """
         UPDATE booking.campus
-        SET rating = :rating
+        SET rating = :rating,
+            updated_at = now()
         WHERE id_campus = :campus_id
         """
     )

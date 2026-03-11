@@ -28,6 +28,7 @@ class Settings:
     NOTIFICATION_SERVICE_TIMEOUT: float = float(
         os.getenv("NOTIFICATION_SERVICE_TIMEOUT", "10")
     )
+    TIMEZONE: str = os.getenv("TIMEZONE", "America/Lima")
 
 
 @lru_cache()

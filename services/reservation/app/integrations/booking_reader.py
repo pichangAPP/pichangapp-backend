@@ -110,7 +110,8 @@ def update_field_status(db: Session, field_id: int, status: str) -> bool:
     query = text(
         """
         UPDATE booking.field
-        SET status = :status
+        SET status = :status,
+            updated_at = now()
         WHERE id_field = :field_id
         """
     )

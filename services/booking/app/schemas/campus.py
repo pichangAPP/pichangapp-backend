@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from datetime import time
+from datetime import datetime, time
 
 from pydantic import (
     BaseModel,
@@ -76,6 +76,8 @@ class CampusResponse(CampusBase):
 
     id_campus: int
     id_business: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
     id_manager: Optional[int] = None
     characteristic: CharacteristicResponse
     fields: List[FieldResponse]

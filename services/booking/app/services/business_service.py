@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
@@ -142,9 +144,10 @@ class BusinessService:
     def update_business(self, business_id: int, business_in: BusinessUpdate) -> Business:
         business = self.get_business(business_id)
         update_data = business_in.model_dump(exclude_unset=True)
-        
+
         for field, value in update_data.items():
             setattr(business, field, value)
+        business.updated_at = datetime.now(timezone.utc)
 
         self._validate_business_entity(business)
 
