@@ -2,11 +2,13 @@
 
 from typing import List, Optional
 
-from fastapi import APIRouter, BackgroundTasks, Depends, Query, status
+from fastapi import APIRouter, BackgroundTasks, Body, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
 from app.schemas.rent import (
+    RentCancelRequest,
+    RentCancelResponse,
     RentAdminCreate,
     RentAdminUpdate,
     RentCreate,
@@ -115,6 +117,18 @@ def create_rent_admin(
 
     service = RentService(db)
     return service.create_rent_admin(payload, background_tasks=background_tasks)
+
+
+@router.put("/{rent_id}/cancel", response_model=RentCancelResponse)
+def cancel_rent(
+    rent_id: int,
+    payload: RentCancelRequest = Body(default=RentCancelRequest()),
+    db: Session = Depends(get_db),
+) -> RentCancelResponse:
+    """Cancel a rent and set the schedule available."""
+
+    service = RentService(db)
+    return service.cancel_rent(rent_id, payload)
 
 
 @router.put("/{rent_id}", response_model=RentResponse)

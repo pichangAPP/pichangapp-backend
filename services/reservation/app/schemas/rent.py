@@ -171,3 +171,14 @@ class PaymentInstructions(BaseModel):
 class RentPaymentResponse(BaseModel):
     rent: RentResponse
     payment_instructions: PaymentInstructions
+
+
+class RentCancelRequest(BaseModel):
+    schedule_id: Optional[int] = Field(None, gt=0)
+
+
+class RentCancelResponse(BaseModel):
+    rent_id: Optional[int] = None
+    rent_status: Optional[str] = None
+    schedule_id: int
+    schedule_status: str

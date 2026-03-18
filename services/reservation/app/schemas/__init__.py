@@ -8,6 +8,8 @@ from app.schemas.schedule import (
 )
 from app.schemas.rent import (
     PaymentInstructions,
+    RentCancelRequest,
+    RentCancelResponse,
     RentCreate,
     RentPaymentResponse,
     RentResponse,
@@ -25,6 +27,8 @@ __all__ = [
     "ScheduleTimeSlotResponse",
     "ScheduleUpdate",
     "RentCreate",
+    "RentCancelRequest",
+    "RentCancelResponse",
     "RentPaymentResponse",
     "RentResponse",
     "RentUpdate",

@@ -114,6 +114,27 @@ class ScheduleService:
             )
         return user
 
+    @staticmethod
+    def _get_local_tz() -> timezone:
+        try:
+            return ZoneInfo(settings.TIMEZONE)
+        except ZoneInfoNotFoundError:
+            return timezone.utc
+
+    def _ensure_start_time_in_future(self, start_time: datetime) -> None:
+        local_tz = self._get_local_tz()
+        now_local = datetime.now(local_tz)
+        if start_time.tzinfo is None:
+            start_local = start_time.replace(tzinfo=local_tz)
+        else:
+            start_local = start_time.astimezone(local_tz)
+
+        if start_local <= now_local:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="start_time must be in the future",
+            )
+
     def _validate_schedule_window(
         self, *, field: FieldSummary, start_time: datetime, end_time: datetime
     ) -> None:
@@ -229,6 +250,7 @@ class ScheduleService:
                 start_time=payload.start_time,
                 end_time=payload.end_time,
             )
+        self._ensure_start_time_in_future(payload.start_time)
 
         if payload.status != SCHEDULE_PENDING_STATUS_CODE:
             raise HTTPException(

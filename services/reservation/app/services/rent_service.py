@@ -7,16 +7,23 @@ import re
 import secrets
 import string
 from typing import Dict, List, Optional, Sequence
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from fastapi import BackgroundTasks, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
+from app.core.kafka import build_event, publish_event
+from app.core.config import settings
 from app.core.status_constants import (
     RENT_FINAL_STATUS_CODES,
+    RENT_HOLD_STATUS_CODES,
     RENT_PENDING_PAYMENT_STATUS_CODE,
+    RENT_RESERVED_STATUS_CODE,
     RENT_UNDER_REVIEW_STATUS_CODE,
+    SCHEDULE_AVAILABLE_STATUS_CODE,
     SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
+    SCHEDULE_PENDING_STATUS_CODE,
 )
 from app.integrations import auth_reader, booking_reader, payment_reader
 from app.models.rent import Rent
@@ -24,6 +31,8 @@ from app.models.schedule import Schedule
 from app.repository import rent_repository, schedule_repository, status_catalog_repository
 from app.schemas.rent import (
     PaymentInstructions,
+    RentCancelRequest,
+    RentCancelResponse,
     RentAdminCreate,
     RentAdminUpdate,
     RentCreate,
@@ -33,8 +42,6 @@ from app.schemas.rent import (
     ScheduleSummary,
 )
 from app.schemas.schedule import FieldSummary, UserSummary
-from app.services.notification_client import NotificationClient
-
 logger = logging.getLogger(__name__)
 
 
@@ -49,11 +56,8 @@ class RentService:
     def __init__(
         self,
         db: Session,
-        *,
-        notification_client: Optional[NotificationClient] = None,
     ):
         self.db = db
-        self._notification_client = notification_client or NotificationClient()
 
     @staticmethod
     def _datetime_to_iso(value: Optional[datetime]) -> Optional[str]:
@@ -303,24 +307,26 @@ class RentService:
             "manager": manager_payload,
         }
 
-    def _notify_rent_creation(self, rent: Rent) -> None:
+    def _publish_notification_event(self, *, rent: Rent, event_type: str) -> None:
+        """Publish a notification event to Kafka with the full payload."""
         payload = self._build_notification_payload(rent)
         if payload is None:
             return
-        logger.info("Dispatching rent notification for rent %s", rent.id_rent)
-        self._notification_client.send_rent_email(payload)
+        event = build_event(
+            event_type=event_type,
+            payload={"notification": payload},
+        )
+        logger.info("Publishing notification event %s for rent %s", event_type, rent.id_rent)
+        publish_event(event, key=str(rent.id_rent))
 
-    def _notify_rent_creation_by_id(self, rent_id: int) -> None:
+    def _publish_notification_event_by_id(self, *, rent_id: int, event_type: str) -> None:
         db = SessionLocal()
         try:
             rent = rent_repository.get_rent(db, rent_id)
             if rent is None:
                 return
-            service = RentService(
-                db,
-                notification_client=self._notification_client,
-            )
-            service._notify_rent_creation(rent)
+            service = RentService(db)
+            service._publish_notification_event(rent=rent, event_type=event_type)
         finally:
             db.close()
 
@@ -624,6 +630,30 @@ class RentService:
             )
         return schedule
 
+    @staticmethod
+    def _get_local_tz() -> timezone:
+        try:
+            return ZoneInfo(settings.TIMEZONE)
+        except ZoneInfoNotFoundError:
+            return timezone.utc
+
+    def _ensure_schedule_not_started(self, schedule: Schedule) -> None:
+        local_tz = self._get_local_tz()
+        now_local = datetime.now(local_tz)
+        start_time = schedule.start_time
+        if start_time is None:
+            return
+        if start_time.tzinfo is None:
+            start_local = start_time.replace(tzinfo=local_tz)
+        else:
+            start_local = start_time.astimezone(local_tz)
+
+        if start_local <= now_local:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Schedule has already started",
+            )
+
     def _ensure_schedule_available(
         self,
         schedule_id: int,
@@ -814,6 +844,7 @@ class RentService:
             )
 
         schedule = self._get_schedule(payload.id_schedule)
+        self._ensure_schedule_not_started(schedule)
         self._ensure_schedule_available(schedule.id_schedule)
         field_summary = (
             booking_reader.get_field_summary(self.db, schedule.id_field)
@@ -898,6 +929,7 @@ class RentService:
     ) -> RentResponse:
 
         schedule = self._get_schedule(payload.id_schedule)
+        self._ensure_schedule_not_started(schedule)
         self._ensure_schedule_available(schedule.id_schedule)
 
         field_summary = (
@@ -956,6 +988,77 @@ class RentService:
 
         persisted = rent_repository.get_rent(self.db, rent.id_rent)
         return self._hydrate_rent(persisted)
+
+    def cancel_rent(self, rent_id: int, payload: RentCancelRequest) -> RentCancelResponse:
+        rent: Optional[Rent] = rent_repository.get_rent(self.db, rent_id)
+        schedule: Optional[Schedule] = None
+
+        if rent is None and payload.schedule_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Rent not found",
+            )
+
+        if rent is not None:
+            status_value = (rent.status or "").lower()
+            allowed_statuses = {value.lower() for value in RENT_HOLD_STATUS_CODES}
+            if status_value not in allowed_statuses:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Rent cannot be cancelled in its current status",
+                )
+            schedule = (
+                schedule_repository.get_schedule(self.db, rent.id_schedule)
+                if rent.id_schedule is not None
+                else None
+            )
+            if schedule is None:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Associated schedule not found",
+                )
+
+            rent.status = "cancelled"
+            rent.id_status = self._resolve_status_id("rent", "cancelled")
+            rent_repository.save_rent(self.db, rent)
+
+        schedule_id = payload.schedule_id if schedule is None else schedule.id_schedule
+        if schedule_id is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="schedule_id is required when rent is not provided",
+            )
+
+        schedule = schedule or schedule_repository.get_schedule(self.db, schedule_id)
+        if schedule is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Schedule not found",
+            )
+
+        schedule_status_value = (schedule.status or "").lower()
+        if schedule_status_value != SCHEDULE_AVAILABLE_STATUS_CODE:
+            if schedule_status_value not in {
+                SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
+                SCHEDULE_PENDING_STATUS_CODE,
+            }:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Schedule cannot be released in its current status",
+                )
+
+            schedule.status = SCHEDULE_AVAILABLE_STATUS_CODE
+            schedule.id_status = self._resolve_status_id(
+                "schedule", SCHEDULE_AVAILABLE_STATUS_CODE
+            )
+            schedule_repository.save_schedule(self.db, schedule)
+
+        return RentCancelResponse(
+            rent_id=rent.id_rent if rent is not None else None,
+            rent_status=rent.status if rent is not None else None,
+            schedule_id=schedule.id_schedule,
+            schedule_status=schedule.status,
+        )
 
     def update_rent(
         self,
@@ -1030,13 +1133,18 @@ class RentService:
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
         if updated_rent is not None and notify_after_payment:
+            # Publish the payment-received event so notifications are sent via Kafka.
             if background_tasks is not None:
                 background_tasks.add_task(
-                    self._notify_rent_creation_by_id,
-                    updated_rent.id_rent,
+                    self._publish_notification_event_by_id,
+                    rent_id=updated_rent.id_rent,
+                    event_type="rent.payment_received",
                 )
             else:
-                self._notify_rent_creation(updated_rent)
+                self._publish_notification_event(
+                    rent=updated_rent,
+                    event_type="rent.payment_received",
+                )
 
         self._refresh_field_status(self.db, original_field_id)
 
@@ -1071,6 +1179,7 @@ class RentService:
             and update_data["id_payment"] is not None
             and (rent.id_payment is None or rent.id_payment != update_data["id_payment"])
         )
+        original_status = (rent.status or "").strip().lower()
         if "status" in update_data or "id_status" in update_data:
             status_code, status_id = self._resolve_status_pair(
                 entity="rent",
@@ -1117,14 +1226,45 @@ class RentService:
 
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
+        updated_status = (
+            (updated_rent.status or "").strip().lower()
+            if updated_rent is not None
+            else ""
+        )
+        verdict_status = bool(
+            updated_status
+            and updated_status != original_status
+            and (
+                updated_status == RENT_RESERVED_STATUS_CODE
+                or updated_status.startswith("rejected_")
+            )
+        )
         if updated_rent is not None and notify_after_payment:
+            # Publish the payment-received event so notifications are sent via Kafka.
             if background_tasks is not None:
                 background_tasks.add_task(
-                    self._notify_rent_creation_by_id,
-                    updated_rent.id_rent,
+                    self._publish_notification_event_by_id,
+                    rent_id=updated_rent.id_rent,
+                    event_type="rent.payment_received",
                 )
             else:
-                self._notify_rent_creation(updated_rent)
+                self._publish_notification_event(
+                    rent=updated_rent,
+                    event_type="rent.payment_received",
+                )
+        if updated_rent is not None and verdict_status:
+            # Publish the final verdict event (reserved/rejected) for user notification.
+            if background_tasks is not None:
+                background_tasks.add_task(
+                    self._publish_notification_event_by_id,
+                    rent_id=updated_rent.id_rent,
+                    event_type="rent.verdict",
+                )
+            else:
+                self._publish_notification_event(
+                    rent=updated_rent,
+                    event_type="rent.verdict",
+                )
 
         self._refresh_field_status(self.db, target_schedule.id_field)
 

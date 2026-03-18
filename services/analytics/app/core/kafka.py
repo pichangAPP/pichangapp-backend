@@ -33,10 +33,21 @@ class KafkaConsumerWorker:
     def _run(self) -> None:
         consumer = Consumer(
             {
-                "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092"),
-                "group.id": os.getenv("KAFKA_CONSUMER_GROUP", "analytics-cg"),
-                "client.id": os.getenv("KAFKA_CLIENT_ID", "analytics-svc"),
-                "auto.offset.reset": os.getenv("KAFKA_AUTO_OFFSET_RESET", "earliest"),
+                # Default to the Docker Compose broker hostname.
+                "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092"),
+                # Analytics-specific consumer group and client id.
+                "group.id": os.getenv(
+                    "KAFKA_ANALYTICS_CONSUMER_GROUP",
+                    "analytics-cg",
+                ),
+                "client.id": os.getenv(
+                    "KAFKA_ANALYTICS_CLIENT_ID",
+                    "analytics-svc",
+                ),
+                "auto.offset.reset": os.getenv(
+                    "KAFKA_ANALYTICS_AUTO_OFFSET_RESET",
+                    "earliest",
+                ),
             }
         )
         consumer.subscribe(self._topics)

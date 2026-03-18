@@ -67,6 +67,7 @@ services:
       "
       echo 'Creating Kafka topics...';
       kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic booking.events --partitions 1 --replication-factor 1;
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic reservation.notifications --partitions 1 --replication-factor 1;
       echo 'Kafka topics OK';
       "
     restart: "no"
@@ -134,7 +135,7 @@ services:
       - shared-venv
       - postgres
     environment:
-      KAFKA_CLIENT_ID: booking-svc
+      KAFKA_BOOKING_CLIENT_ID: ${KAFKA_BOOKING_CLIENT_ID:-booking-svc}
       BOOKING_EVENTS_TOPIC: ${BOOKING_EVENTS_TOPIC:-booking.events}
       TIMEZONE: ${TIMEZONE:-America/Lima}
       <<: *common-env
@@ -155,6 +156,8 @@ services:
       - postgres
     environment:
       NOTIFICATION_SERVICE_URL: http://notification:8004
+      KAFKA_RESERVATION_CLIENT_ID: ${KAFKA_RESERVATION_CLIENT_ID:-reservation-svc}
+      RESERVATION_NOTIFICATIONS_TOPIC: ${RESERVATION_NOTIFICATIONS_TOPIC:-reservation.notifications}
       TIMEZONE: ${TIMEZONE:-America/Lima}
       <<: *common-env
     ports:
@@ -172,6 +175,10 @@ services:
     depends_on:
       - shared-venv
     environment:
+      KAFKA_NOTIFICATION_CLIENT_ID: ${KAFKA_NOTIFICATION_CLIENT_ID:-notification-svc}
+      KAFKA_NOTIFICATION_CONSUMER_GROUP: ${KAFKA_NOTIFICATION_CONSUMER_GROUP:-notification-cg}
+      KAFKA_NOTIFICATION_AUTO_OFFSET_RESET: ${KAFKA_NOTIFICATION_AUTO_OFFSET_RESET:-earliest}
+      RESERVATION_NOTIFICATIONS_TOPIC: ${RESERVATION_NOTIFICATIONS_TOPIC:-reservation.notifications}
       FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID}"
       FIREBASE_CREDENTIALS_PATH: "/secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json"
       FIREBASE_STORAGE_BUCKET: "${FIREBASE_STORAGE_BUCKET}"
@@ -208,9 +215,9 @@ services:
       AUTH_INTERNAL_API_KEY: "${AUTH_INTERNAL_API_KEY}"
       AUTH_SERVICE_URL: ${AUTH_SERVICE_URL:-http://auth:8000}
       AUTH_SERVICE_TIMEOUT: ${AUTH_SERVICE_TIMEOUT:-10}
-      KAFKA_CLIENT_ID: ${KAFKA_CLIENT_ID:-analytics-svc}
-      KAFKA_CONSUMER_GROUP: ${KAFKA_CONSUMER_GROUP:-analytics-cg}
-      KAFKA_AUTO_OFFSET_RESET: ${KAFKA_AUTO_OFFSET_RESET:-earliest}
+      KAFKA_ANALYTICS_CLIENT_ID: ${KAFKA_ANALYTICS_CLIENT_ID:-analytics-svc}
+      KAFKA_ANALYTICS_CONSUMER_GROUP: ${KAFKA_ANALYTICS_CONSUMER_GROUP:-analytics-cg}
+      KAFKA_ANALYTICS_AUTO_OFFSET_RESET: ${KAFKA_ANALYTICS_AUTO_OFFSET_RESET:-earliest}
       BOOKING_EVENTS_TOPIC: ${BOOKING_EVENTS_TOPIC:-booking.events}
       <<: *common-env
     ports:
