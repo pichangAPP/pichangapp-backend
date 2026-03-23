@@ -1,5 +1,7 @@
 """Entry point for the Payment service."""
 
+import time
+
 from fastapi import FastAPI
 
 from app import models  # noqa: F401  # Ensure models are registered for metadata.
@@ -15,6 +17,12 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title=settings.PROJECT_NAME)
 
 register_exception_handlers(app)
+
+
+@app.middleware("http")
+async def _capture_request_start_time(request, call_next):
+    request.state.start_time = time.perf_counter()
+    return await call_next(request)
 
 app.include_router(
     api_router,

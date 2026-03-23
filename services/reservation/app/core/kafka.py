@@ -27,6 +27,7 @@ RESERVATION_NOTIFICATIONS_TOPIC = os.getenv(
     "RESERVATION_NOTIFICATIONS_TOPIC",
     "reservation.notifications",
 )
+ERROR_LOGS_TOPIC = os.getenv("ERROR_LOGS_TOPIC", "error.logs")
 
 
 def kafka_enabled() -> bool:
@@ -74,9 +75,28 @@ def publish_event(
     producer.flush(5)
 
 
+def publish_error_event(
+    event: dict,
+    *,
+    topic: str = ERROR_LOGS_TOPIC,
+    key: str | None = None,
+) -> None:
+    """Publish error events without blocking request handling."""
+    if not kafka_enabled():
+        logger.info("Kafka disabled; skipping error event %s", event.get("event_type"))
+        return
+    producer = get_kafka_producer()
+    payload = json.dumps(event, ensure_ascii=True).encode("utf-8")
+    producer.produce(topic, key=key, value=payload)
+    # Non-blocking poll to serve delivery callbacks.
+    producer.poll(0)
+
+
 __all__ = [
     "RESERVATION_NOTIFICATIONS_TOPIC",
+    "ERROR_LOGS_TOPIC",
     "kafka_enabled",
     "build_event",
     "publish_event",
+    "publish_error_event",
 ]

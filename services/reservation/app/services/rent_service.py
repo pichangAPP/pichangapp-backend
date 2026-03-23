@@ -262,8 +262,8 @@ class RentService:
             "name": campus.name,
             "address": campus.address,
             "district": campus.district,
-            "contact_email": campus.contact_email,
-            "contact_phone": campus.contact_phone,
+            "contact_email": campus.email_contact,
+            "contact_phone": campus.phone_contact,
         }
 
         manager_payload = None

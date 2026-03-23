@@ -34,8 +34,8 @@ class CampusSummary:
     address: str
     district: str
     id_manager: Optional[int]
-    contact_email: Optional[str]
-    contact_phone: Optional[str]
+    email_contact: Optional[str]
+    phone_contact: Optional[str]
 
 
 def get_field_summary(db: Session, field_id: int) -> Optional[FieldSummary]:

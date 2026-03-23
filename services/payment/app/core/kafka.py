@@ -1,3 +1,5 @@
+"""Kafka publisher utilities for payment error events."""
+
 from __future__ import annotations
 
 import json
@@ -21,7 +23,6 @@ except Exception as exc:  # pragma: no cover - optional dependency in some envir
 
 logger = logging.getLogger(__name__)
 
-BOOKING_EVENTS_TOPIC = os.getenv("BOOKING_EVENTS_TOPIC", "booking.events")
 ERROR_LOGS_TOPIC = os.getenv("ERROR_LOGS_TOPIC", "error.logs")
 
 
@@ -35,17 +36,15 @@ def get_kafka_producer() -> KafkaProducer:
         raise RuntimeError(
             "Kafka client dependency missing. Install confluent_kafka to enable publishing."
         ) from _KAFKA_IMPORT_ERROR
-    # Use booking-specific client id to avoid collisions across services.
-    client_id = os.getenv("KAFKA_BOOKING_CLIENT_ID", "booking-svc")
+    client_id = os.getenv("KAFKA_PAYMENT_CLIENT_ID", "payment-svc")
     config = {
-        # Default to the Docker Compose broker hostname.
         "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092"),
         "client.id": client_id,
     }
     return KafkaProducerRuntime(config)
 
 
-def build_event(*, event_type: str, payload: dict, source: str = "booking") -> dict:
+def build_event(*, event_type: str, payload: dict, source: str = "payment") -> dict:
     return {
         "event_id": str(uuid4()),
         "event_type": event_type,
@@ -55,34 +54,12 @@ def build_event(*, event_type: str, payload: dict, source: str = "booking") -> d
     }
 
 
-def build_booking_test_event() -> dict:
-    booking_id = str(uuid4())
-    return {
-        "event_id": str(uuid4()),
-        "event_type": "booking.requested",
-        "booking_id": booking_id,
-        "occurred_at": datetime.now(timezone.utc).isoformat(),
-        "source": "booking",
-        "payload": {"status": "requested"},
-    }
-
-
-def publish_event(
-    event: dict, *, topic: str = BOOKING_EVENTS_TOPIC, key: str | None = None
-) -> None:
-    producer = get_kafka_producer()
-    payload = json.dumps(event).encode("utf-8")
-    producer.produce(topic, key=key, value=payload)
-    producer.flush(5)
-
-
 def publish_error_event(
     event: dict,
     *,
     topic: str = ERROR_LOGS_TOPIC,
     key: str | None = None,
 ) -> None:
-    """Publish error events without blocking request handling."""
     if not kafka_enabled():
         logger.info("Kafka disabled; skipping error event %s", event.get("event_type"))
         return
@@ -93,11 +70,8 @@ def publish_error_event(
 
 
 __all__ = [
-    "BOOKING_EVENTS_TOPIC",
     "ERROR_LOGS_TOPIC",
     "kafka_enabled",
     "build_event",
-    "build_booking_test_event",
-    "publish_event",
     "publish_error_event",
 ]

@@ -14,7 +14,7 @@ class PaymentBase(BaseModel):
     status: str = Field(..., max_length=30)
     type: str = Field(..., max_length=30)
     paid_at: Optional[datetime] = None
-    memberships_id_membership: int = Field(..., ge=1)
+    memberships_id_membership: Optional[int] = Field(None, ge=1)
     reference: Optional[str] = Field(None, max_length=100)
     additional_data: Optional[str] = None
 
