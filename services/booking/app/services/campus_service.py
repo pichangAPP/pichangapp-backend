@@ -4,10 +4,18 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from typing import Iterable
 
-from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import (
+    BOOKING_BAD_REQUEST,
+    BOOKING_INTERNAL_ERROR,
+    BOOKING_NOT_FOUND,
+    BOOKING_SERVICE_UNAVAILABLE,
+    BUSINESS_NOT_FOUND,
+    CAMPUS_NOT_FOUND,
+    http_error,
+)
 from app.integrations import auth_reader, reservation_reader
 from app.models import Campus, Characteristic, Field, Image
 from app.repository import (
@@ -40,8 +48,8 @@ def validate_campus_fields(db: Session, campus_in: CampusCreate) -> None:
     }
     if missing_sports:
         missing_list = ", ".join(str(sport_id) for sport_id in sorted(missing_sports))
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
+        raise http_error(
+            BOOKING_NOT_FOUND,
             detail=f"Sports not found for ids: {missing_list}",
         )
     
@@ -51,8 +59,8 @@ class CampusService:
 
     def _ensure_business_exists(self, business_id: int) -> None:
         if not business_repository.get_business(self.db, business_id):
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BUSINESS_NOT_FOUND,
                 detail=f"Business {business_id} not found",
             )
 
@@ -64,8 +72,8 @@ class CampusService:
             self._attach_manager_data(campuses)
             return campuses
         except SQLAlchemyError as exc:  # pragma: no cover - defensive
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to list campuses",
             ) from exc
 
@@ -97,8 +105,8 @@ class CampusService:
     def get_campus(self, campus_id: int) -> Campus:
         campus = campus_repository.get_campus(self.db, campus_id)
         if not campus:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                CAMPUS_NOT_FOUND,
                 detail=f"Campus {campus_id} not found",
             )
         populate_available_schedules(self.db, [campus])
@@ -108,8 +116,8 @@ class CampusService:
     def create_campus(self, business_id: int, campus_in: CampusCreate) -> Campus:
         business = business_repository.get_business(self.db, business_id)
         if not business:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BUSINESS_NOT_FOUND,
                 detail=f"Business {business_id} not found",
             )
         
@@ -126,8 +134,8 @@ class CampusService:
             return campus
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to create campus",
             ) from exc
 
@@ -161,8 +169,8 @@ class CampusService:
             return campus
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail=f"Failed to update campus {exc}",
             ) from exc
 
@@ -181,13 +189,13 @@ class CampusService:
             id_campus = image_data.get("id_campus")
             id_field = image_data.get("id_field")
             if id_campus != campus.id_campus:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
+                raise http_error(
+                    BOOKING_BAD_REQUEST,
                     detail="Image campus id must match the campus being updated",
                 )
             if id_field is not None:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
+                raise http_error(
+                    BOOKING_BAD_REQUEST,
                     detail="Campus images cannot reference a field",
                 )
 
@@ -195,8 +203,8 @@ class CampusService:
             if image_id is not None:
                 image = existing_images_by_id.get(image_id)
                 if image is None:
-                    raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
+                    raise http_error(
+                        BOOKING_NOT_FOUND,
                         detail=f"Image {image_id} not found for campus {campus.id_campus}",
                     )
                 incoming_ids.add(image_id)
@@ -225,25 +233,25 @@ class CampusService:
             self.db.commit()
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to delete campus",
             ) from exc
     
     def _validate_campus_entity(self, campus: Campus) -> None:
         if campus.opentime >= campus.closetime:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="opentime must be earlier than closetime",
             )
         if campus.count_fields < 0:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="count_fields must be zero or positive",
             )
         if not (0 <= float(campus.rating) <= 10):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="rating must be between 0 and 10",
             )
 
@@ -258,8 +266,8 @@ class CampusService:
         try:
             managers = auth_reader.get_manager_summaries(self.db, manager_ids)
         except auth_reader.AuthReaderError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            raise http_error(
+                BOOKING_SERVICE_UNAVAILABLE,
                 detail=str(exc),
             ) from exc
         for campus in campus_list:

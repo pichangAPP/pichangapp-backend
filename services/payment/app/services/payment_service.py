@@ -10,6 +10,17 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.core.error_codes import (
+    FIELD_NOT_FOUND,
+    PAYMENT_INVALID_STATUS,
+    PAYMENT_MISSING_APPROVAL_CODE,
+    PAYMENT_MISSING_PAYER_PHONE,
+    PAYMENT_MISSING_RENT_ID,
+    PAYMENT_NOT_FOUND,
+    PAYMENT_RECEIVER_NOT_CONFIGURED,
+    RENT_NOT_FOUND,
+    http_error,
+)
 from app.integrations import (
     AuthReaderError,
     get_payment_destination,
@@ -32,14 +43,14 @@ class PaymentService:
     def get_payment(self, payment_id: int):
         payment = payment_repository.get_payment(self.db, payment_id)
         if payment is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                PAYMENT_NOT_FOUND,
                 detail="Payment not found",
             )
         return payment
 
     def create_payment(self, payload: PaymentCreate):
-        payment_data = payload.dict(exclude_unset=True)
+        payment_data = payload.model_dump(exclude_unset=True)
         method = (payment_data.get("method") or "").strip().lower()
         status_value = self._normalize_status(payment_data.get("status"))
         self._validate_status(status_value)
@@ -65,7 +76,7 @@ class PaymentService:
 
     def update_payment(self, payment_id: int, payload: PaymentUpdate):
         payment = self.get_payment(payment_id)
-        update_data = payload.dict(exclude_unset=True)
+        update_data = payload.model_dump(exclude_unset=True)
 
         if not update_data:
             return payment
@@ -93,37 +104,37 @@ class PaymentService:
         approval_code: Optional[str],
     ) -> None:
         if rent_id is None:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            raise http_error(
+                PAYMENT_MISSING_RENT_ID,
                 detail="rent_id is required for Yape/Plin payments",
             )
         if not payer_phone:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            raise http_error(
+                PAYMENT_MISSING_PAYER_PHONE,
                 detail="payer_phone is required for Yape/Plin payments",
             )
         if not approval_code:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            raise http_error(
+                PAYMENT_MISSING_APPROVAL_CODE,
                 detail="approval_code is required for Yape/Plin payments",
             )
 
         rent_context = get_rent_context(self.db, rent_id)
         if rent_context is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                RENT_NOT_FOUND,
                 detail="Rent not found for payment",
             )
         if rent_context.field_id is None:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            raise http_error(
+                FIELD_NOT_FOUND,
                 detail="Rent does not include a field identifier",
             )
 
         destination = get_payment_destination(self.db, rent_context.field_id)
         if destination is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                FIELD_NOT_FOUND,
                 detail="Field/campus not found for payment",
             )
 
@@ -147,8 +158,8 @@ class PaymentService:
             receiver_name = receiver_name or destination.business_name
 
         if not receiver_phone:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            raise http_error(
+                PAYMENT_RECEIVER_NOT_CONFIGURED,
                 detail="No payment receiver configured for the campus",
             )
 
@@ -197,8 +208,8 @@ class PaymentService:
         allowed = set(settings.payment_allowed_statuses)
         if not status_value or status_value not in allowed:
             allowed_list = ", ".join(sorted(allowed))
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            raise http_error(
+                PAYMENT_INVALID_STATUS,
                 detail=f"Invalid payment status '{status_value}'. Allowed: {allowed_list}",
             )
 

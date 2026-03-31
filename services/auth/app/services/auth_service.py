@@ -2,12 +2,25 @@ from datetime import datetime, timedelta, timezone
 import secrets
 from typing import Any, Dict, Tuple
 
-from fastapi import HTTPException, status
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.core.error_codes import (
+    AUTH_INTERNAL_ERROR,
+    DEFAULT_ROLE_NOT_CONFIGURED,
+    EMAIL_ALREADY_REGISTERED,
+    EXPIRED_GOOGLE_TOKEN,
+    GOOGLE_EMAIL_MISSING,
+    INVALID_CREDENTIALS,
+    INVALID_GOOGLE_TOKEN,
+    INVALID_REFRESH_TOKEN,
+    REVOKED_GOOGLE_TOKEN,
+    ROLE_NOT_FOUND,
+    USER_NOT_FOUND,
+    http_error,
+)
 from app.core.firebase import get_firebase_app
 from app.models.audit_log import AuditLog
 from app.models.session import UserSession
@@ -27,15 +40,15 @@ class AuthService:
     def register_user(self, register_data: RegisterRequest) -> Tuple[str, str, User]:
         existing_user = user_repository.get_user_by_email(self.db, register_data.email)
         if existing_user:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
+            raise http_error(
+                EMAIL_ALREADY_REGISTERED,
                 detail="Email already registered",
             )
 
         role = role_repository.get_role_by_id(self.db, register_data.id_role)
         if not role:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                ROLE_NOT_FOUND,
                 detail="Role not found",
             )
 
@@ -67,9 +80,9 @@ class AuthService:
             )
             audit_log_repository.create_audit_log(self.db, audit_entry)
 
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="User could not be created"
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
+                detail="User could not be created",
             )
 
         audit_entry = AuditLog(
@@ -109,9 +122,9 @@ class AuthService:
             )
             audit_log_repository.create_audit_log(self.db, audit_entry)
 
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Unexpected error while saving user"
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
+                detail="Unexpected error while saving user",
             ) from exc
 
         self.db.refresh(new_user)
@@ -121,8 +134,8 @@ class AuthService:
     def login_user(self, login_data: LoginRequest) -> Tuple[str, str, User]:
         user = user_repository.get_user_by_email(self.db, login_data.email)
         if not user or not _pwd_context.verify(login_data.password, user.password_hash):
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+            raise http_error(
+                INVALID_CREDENTIALS,
                 detail="Invalid email or password",
             )
 
@@ -160,9 +173,9 @@ class AuthService:
                 state="active"
             )
             audit_log_repository.create_audit_log(self.db, audit_entry)
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Could not complete login"
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
+                detail="Could not complete login",
             ) from exc
 
         return access_token, refresh_token, user
@@ -175,30 +188,30 @@ class AuthService:
         try:
             decoded_token = firebase_auth.verify_id_token(id_token)
         except firebase_auth.InvalidIdTokenError as exc:  # pragma: no cover - firebase specific
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+            raise http_error(
+                INVALID_GOOGLE_TOKEN,
                 detail="Invalid Google token",
             ) from exc
         except firebase_auth.ExpiredIdTokenError as exc:  # pragma: no cover
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+            raise http_error(
+                EXPIRED_GOOGLE_TOKEN,
                 detail="Expired Google token",
             ) from exc
         except firebase_auth.RevokedIdTokenError as exc:  # pragma: no cover
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+            raise http_error(
+                REVOKED_GOOGLE_TOKEN,
                 detail="Revoked Google token",
             ) from exc
         except Exception as exc:  # pragma: no cover - unexpected firebase errors
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+            raise http_error(
+                INVALID_GOOGLE_TOKEN,
                 detail="Could not validate Google token",
             ) from exc
 
         email = decoded_token.get("email")
         if not email:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                GOOGLE_EMAIL_MISSING,
                 detail="Google token does not contain an email",
             )
 
@@ -231,8 +244,8 @@ class AuthService:
             # requests can reuse the same auth flow without duplicating rows.
             role = role_repository.get_role_by_id(self.db, user.id_role)
             if not role:
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                raise http_error(
+                    DEFAULT_ROLE_NOT_CONFIGURED,
                     detail="Default role for social login not configured",
                 )
 
@@ -272,8 +285,8 @@ class AuthService:
             self.db.commit()
         except Exception as exc:  #  database errors
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Could not complete Google login",
             ) from exc
 
@@ -289,28 +302,28 @@ class AuthService:
                 algorithms=[settings.ALGORITHM],
             )
         except JWTError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+            raise http_error(
+                INVALID_REFRESH_TOKEN,
                 detail="Invalid refresh token",
             ) from exc
 
         if payload.get("type") != "refresh":
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+            raise http_error(
+                INVALID_REFRESH_TOKEN,
                 detail="Invalid refresh token",
             )
 
         user_id = payload.get("sub")
         if not user_id:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
+            raise http_error(
+                INVALID_REFRESH_TOKEN,
                 detail="Invalid refresh token",
             )
 
         user = user_repository.get_user_by_id(self.db, int(user_id))
         if not user:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                USER_NOT_FOUND,
                 detail="User not found",
             )
 

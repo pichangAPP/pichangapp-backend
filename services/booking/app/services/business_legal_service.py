@@ -1,9 +1,14 @@
 from __future__ import annotations
 
-from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import (
+    BOOKING_CONFLICT,
+    BOOKING_INTERNAL_ERROR,
+    BUSINESS_NOT_FOUND,
+    http_error,
+)
 from app.models import BusinessLegal
 from app.repository import business_legal_repository, business_repository
 from app.schemas import BusinessLegalCreate, BusinessLegalUpdate
@@ -15,8 +20,8 @@ class BusinessLegalService:
 
     def _ensure_business_exists(self, business_id: int) -> None:
         if not business_repository.get_business(self.db, business_id):
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BUSINESS_NOT_FOUND,
                 detail=f"Business {business_id} not found",
             )
 
@@ -24,8 +29,8 @@ class BusinessLegalService:
         self._ensure_business_exists(business_id)
         legal = business_legal_repository.get_business_legal_by_business(self.db, business_id)
         if not legal:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BUSINESS_NOT_FOUND,
                 detail=f"Legal data for business {business_id} not found",
             )
         return legal
@@ -34,8 +39,8 @@ class BusinessLegalService:
         self._ensure_business_exists(business_id)
         existing = business_legal_repository.get_business_legal_by_business(self.db, business_id)
         if existing:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
+            raise http_error(
+                BOOKING_CONFLICT,
                 detail=f"Legal data for business {business_id} already exists",
             )
         legal = BusinessLegal(id_business=business_id, **legal_in.model_dump())
@@ -46,8 +51,8 @@ class BusinessLegalService:
             return legal
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to create legal data",
             ) from exc
 
@@ -65,8 +70,8 @@ class BusinessLegalService:
             return legal
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to update legal data",
             ) from exc
 
@@ -77,7 +82,7 @@ class BusinessLegalService:
             self.db.commit()
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to delete legal data",
             ) from exc

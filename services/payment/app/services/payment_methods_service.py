@@ -11,6 +11,12 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.repository import payment_methods_repository
+from app.core.error_codes import (
+    PAYMENT_METHODS_EXISTS,
+    PAYMENT_METHODS_INVALID,
+    PAYMENT_METHODS_NOT_FOUND,
+    http_error,
+)
 from app.schemas.payment_methods import PaymentMethodsCreate, PaymentMethodsUpdate
 
 logger = logging.getLogger(__name__)
@@ -39,8 +45,8 @@ class PaymentMethodsService:
             self.db, payment_methods_id
         )
         if payment_methods is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                PAYMENT_METHODS_NOT_FOUND,
                 detail="Payment methods configuration not found",
             )
         return payment_methods
@@ -53,8 +59,8 @@ class PaymentMethodsService:
             id_campus=data["id_campus"],
         )
         if existing is not None:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
+            raise http_error(
+                PAYMENT_METHODS_EXISTS,
                 detail="Payment methods configuration already exists for this business/campus",
             )
 
@@ -150,8 +156,8 @@ class PaymentMethodsService:
                 if data.get(field_name) in (None, "")
             ]
             if missing_fields:
-                raise HTTPException(
-                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                raise http_error(
+                    PAYMENT_METHODS_INVALID,
                     detail=(
                         f"{', '.join(missing_fields)} are required when "
                         f"{method_flag} is true"
@@ -203,19 +209,19 @@ class PaymentMethodsService:
         if "uq_payment_methods_business_campus" in detail or (
             "duplicate key value" in detail and "id_business" in detail and "id_campus" in detail
         ):
-            return HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
+            return http_error(
+                PAYMENT_METHODS_EXISTS,
                 detail="Payment methods configuration already exists for this business/campus",
             )
 
         if "chk_" in detail:
-            return HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            return http_error(
+                PAYMENT_METHODS_INVALID,
                 detail="Payment methods validation failed due to check constraints",
             )
 
-        return HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+        return http_error(
+            PAYMENT_METHODS_INVALID,
             detail="Invalid payment methods payload",
         )
 

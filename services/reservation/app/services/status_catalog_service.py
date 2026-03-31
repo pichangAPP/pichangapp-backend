@@ -10,6 +10,7 @@ from app.schemas.status_catalog import (
     StatusCatalogResponse,
     StatusCatalogUpdate,
 )
+from app.core.error_codes import STATUS_NOT_FOUND, http_error
 
 
 class StatusCatalogService:
@@ -32,8 +33,8 @@ class StatusCatalogService:
     def get_status(self, status_id: int) -> StatusCatalogResponse:
         status_item = status_catalog_repository.get_status(self.db, status_id)
         if status_item is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                STATUS_NOT_FOUND,
                 detail="Status not found",
             )
         return self._build_status_response(status_item)
@@ -61,8 +62,8 @@ class StatusCatalogService:
     ) -> StatusCatalogResponse:
         status_item = status_catalog_repository.get_status(self.db, status_id)
         if status_item is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                STATUS_NOT_FOUND,
                 detail="Status not found",
             )
 
@@ -91,8 +92,8 @@ class StatusCatalogService:
     def delete_status(self, status_id: int) -> None:
         status_item = status_catalog_repository.get_status(self.db, status_id)
         if status_item is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                STATUS_NOT_FOUND,
                 detail="Status not found",
             )
         status_catalog_repository.delete_status(self.db, status_item)

@@ -5,10 +5,16 @@ from __future__ import annotations
 from typing import List, Optional
 import secrets
 
-from fastapi import APIRouter, Depends, Header, HTTPException, Query, status
+from fastapi import APIRouter, Depends, Header, Query
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.core.error_codes import (
+    INTERNAL_API_KEY_MISSING,
+    INVALID_INTERNAL_CREDENTIALS,
+    USER_NOT_FOUND,
+    http_error,
+)
 from app.dependencies import get_db
 from app.repository import user_repository
 from app.schemas.auth import UserResponse
@@ -21,13 +27,13 @@ def _require_internal_key(
 ) -> None:
     expected = settings.AUTH_INTERNAL_API_KEY
     if not expected:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        raise http_error(
+            INTERNAL_API_KEY_MISSING,
             detail="Internal API key not configured",
         )
     if x_internal_auth is None or not secrets.compare_digest(x_internal_auth, expected):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+        raise http_error(
+            INVALID_INTERNAL_CREDENTIALS,
             detail="Invalid internal credentials",
         )
 
@@ -43,8 +49,8 @@ def get_internal_user(
 ) -> UserResponse:
     user = user_repository.get_user_by_id(db, user_id)
     if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
+        raise http_error(
+            USER_NOT_FOUND,
             detail="User not found",
         )
     return user

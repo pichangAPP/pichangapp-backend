@@ -35,6 +35,8 @@ def _flatten_detail(detail: Any) -> str:
             nested = detail["detail"]
             if isinstance(nested, str):
                 return nested
+        if "message" in detail and isinstance(detail["message"], str):
+            return detail["message"]
         return "; ".join(f"{key}: {value}" for key, value in detail.items())
     if isinstance(detail, Iterable) and not isinstance(detail, (bytes, bytearray)):
         return "; ".join(_flatten_detail(item) for item in detail)
@@ -43,13 +45,42 @@ def _flatten_detail(detail: Any) -> str:
     return str(detail)
 
 
+def _build_error_payload(
+    detail: Any,
+    *,
+    default_code: str,
+    default_message: str,
+) -> dict[str, Any]:
+    if isinstance(detail, dict):
+        payload: dict[str, Any] = {}
+        code = detail.get("code") or default_code
+        message = detail.get("message") or detail.get("detail") or default_message
+        payload["code"] = code
+        payload["message"] = message
+        if "detail" in detail and detail["detail"] not in (None, message):
+            payload["detail"] = detail["detail"]
+        if "errors" in detail:
+            payload["errors"] = detail["errors"]
+        return payload
+
+    return {
+        "code": default_code,
+        "message": default_message,
+        "detail": _flatten_detail(detail),
+    }
+
+
 def register_exception_handlers(app: FastAPI) -> None:
     """Register FastAPI exception handlers that return a normalized JSON payload."""
 
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request: Request, exc: HTTPException):  # type: ignore[override]
-        detail = _flatten_detail(exc.detail)
-        response = JSONResponse(status_code=exc.status_code, content={"detail": detail})
+        payload = _build_error_payload(
+            exc.detail,
+            default_code="RESERVATION_ERROR",
+            default_message="No se pudo procesar la solicitud.",
+        )
+        response = JSONResponse(status_code=exc.status_code, content=payload)
 
         if exc.headers:
             for key, value in exc.headers.items():
@@ -59,8 +90,8 @@ def register_exception_handlers(app: FastAPI) -> None:
             request=request,
             exc=exc,
             status_code=exc.status_code,
-            response_body={"detail": detail},
-            error_detail=detail,
+            response_body=payload,
+            error_detail=_flatten_detail(payload),
             stack_trace=None,
         )
         return response
@@ -79,7 +110,11 @@ def register_exception_handlers(app: FastAPI) -> None:
                 messages.append(message)
 
         detail = "; ".join(messages) if messages else "Invalid request"
-        response_body = {"detail": detail}
+        response_body = {
+            "code": "VALIDATION_ERROR",
+            "message": "Datos inválidos.",
+            "detail": detail,
+        }
         await _emit_error_event(
             request=request,
             exc=exc,
@@ -101,11 +136,17 @@ def register_exception_handlers(app: FastAPI) -> None:
             request=request,
             exc=exc,
             status_code=500,
-            response_body={"detail": "Internal server error"},
+            response_body={
+                "code": "INTERNAL_ERROR",
+                "message": "Ocurrió un error interno.",
+            },
             error_detail=str(exc),
             stack_trace=traceback.format_exc(),
         )
-        return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+        return JSONResponse(
+            status_code=500,
+            content={"code": "INTERNAL_ERROR", "message": "Ocurrió un error interno."},
+        )
 
 
 def _mask_headers(headers: dict[str, str]) -> dict[str, str]:

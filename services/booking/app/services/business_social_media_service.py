@@ -1,9 +1,14 @@
 from __future__ import annotations
 
-from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import (
+    BOOKING_CONFLICT,
+    BOOKING_INTERNAL_ERROR,
+    BUSINESS_NOT_FOUND,
+    http_error,
+)
 from app.models import BusinessSocialMedia
 from app.repository import business_repository, business_social_media_repository
 from app.schemas import BusinessSocialMediaCreate, BusinessSocialMediaUpdate
@@ -15,8 +20,8 @@ class BusinessSocialMediaService:
 
     def _ensure_business_exists(self, business_id: int) -> None:
         if not business_repository.get_business(self.db, business_id):
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BUSINESS_NOT_FOUND,
                 detail=f"Business {business_id} not found",
             )
 
@@ -26,8 +31,8 @@ class BusinessSocialMediaService:
             self.db, business_id
         )
         if not social_media:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BUSINESS_NOT_FOUND,
                 detail=f"Social media for business {business_id} not found",
             )
         return social_media
@@ -40,8 +45,8 @@ class BusinessSocialMediaService:
             self.db, business_id
         )
         if existing:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
+            raise http_error(
+                BOOKING_CONFLICT,
                 detail=f"Social media for business {business_id} already exists",
             )
         social_media = BusinessSocialMedia(
@@ -54,8 +59,8 @@ class BusinessSocialMediaService:
             return social_media
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to create social media",
             ) from exc
 
@@ -73,8 +78,8 @@ class BusinessSocialMediaService:
             return social_media
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to update social media",
             ) from exc
 
@@ -85,7 +90,7 @@ class BusinessSocialMediaService:
             self.db.commit()
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to delete social media",
             ) from exc

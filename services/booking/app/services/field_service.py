@@ -3,10 +3,17 @@ from __future__ import annotations
 from datetime import date, datetime, timedelta, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import math
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import (
+    BOOKING_BAD_REQUEST,
+    BOOKING_INTERNAL_ERROR,
+    BOOKING_NOT_FOUND,
+    FIELD_NOT_FOUND,
+    http_error,
+)
 from app.integrations import reservation_reader
 from app.core.config import settings
 from app.models import Field, Image, Sport
@@ -27,16 +34,16 @@ class FieldService:
             self._populate_next_available_time_range(fields)
             return fields
         except SQLAlchemyError as exc:  # pragma: no cover - defensive
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to list fields",
             ) from exc
 
     def get_field(self, field_id: int) -> Field:
         field = field_repository.get_field(self.db, field_id)
         if not field:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                FIELD_NOT_FOUND,
                 detail=f"Field {field_id} not found",
             )
         self._populate_next_available_time_range([field])
@@ -63,8 +70,8 @@ class FieldService:
             raise exc
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to create field",
             ) from exc
 
@@ -97,8 +104,8 @@ class FieldService:
             return field
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to update field",
             ) from exc
 
@@ -113,8 +120,8 @@ class FieldService:
         for image_data in images_data:
             id_field = image_data.get("id_field")
             if id_field != field.id_field:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
+                raise http_error(
+                    BOOKING_BAD_REQUEST,
                     detail="Image field id must match the field being updated",
                 )
 
@@ -122,8 +129,8 @@ class FieldService:
             if image_id is not None:
                 image = existing_images_by_id.get(image_id)
                 if image is None:
-                    raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
+                    raise http_error(
+                        BOOKING_NOT_FOUND,
                         detail=f"Image {image_id} not found for field {field.id_field}",
                     )
                 incoming_ids.add(image_id)
@@ -164,20 +171,20 @@ class FieldService:
     ) -> dict[str, object]:
         id_field = image_data.get("id_field")
         if id_field is not None and id_field != field.id_field:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="Image field id must match the field being created",
             )
         id_campus = image_data.get("id_campus")
         if id_campus is not None and id_campus != field.id_campus:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="Image campus id must match the parent campus",
             )
         image_type = image_data.get("type")
         if image_type != "field":
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="Field images must have type 'field'",
             )
         return image_data
@@ -186,8 +193,8 @@ class FieldService:
         field = self.get_field(field_id)
 
         if (field.status or "").lower() == "occupied":
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="Cannot delete a field while its status is 'occupied'",
             )
 
@@ -195,8 +202,8 @@ class FieldService:
         if field_repository.field_has_upcoming_reservations(
             self.db, field.id_field, reference_date=today_utc
         ):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail=(
                     "Cannot delete a field with reserved or pending schedules today or later"
                 ),
@@ -210,8 +217,8 @@ class FieldService:
             self.db.commit()
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to delete field",
             ) from exc
 
@@ -228,31 +235,31 @@ class FieldService:
     def _ensure_sport_exists(self, sport_id: int) -> Sport:
         sport = sport_repository.get_sport(self.db, sport_id)
         if sport is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BOOKING_NOT_FOUND,
                 detail=f"Sport {sport_id} not found",
             )
         return sport
 
     def _validate_field_entity(self, field: Field) -> None:
         if field.open_time >= field.close_time:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="open_time must be earlier than close_time",
             )
         if field.capacity <= 0:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="capacity must be greater than zero",
             )
         if float(field.price_per_hour) <= 0:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="price_per_hour must be greater than zero",
             )
         if float(field.minutes_wait) < 0:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="minutes_wait must be zero or greater",
             )
 

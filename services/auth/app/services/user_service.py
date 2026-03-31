@@ -1,9 +1,14 @@
 from typing import List, Optional
 
-from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import (
+    AUTH_INTERNAL_ERROR,
+    ROLE_NOT_FOUND,
+    USER_NOT_FOUND,
+    http_error,
+)
 from app.models.audit_log import AuditLog
 from app.models.user import User
 from app.repository import audit_log_repository, role_repository, user_repository
@@ -23,8 +28,8 @@ class UserService:
                 "list_users_error",
                 f"Database error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Failed to retrieve users",
             ) from exc
         except Exception as exc:  # pragma: no cover - defensive programming
@@ -34,8 +39,8 @@ class UserService:
                 "list_users_unexpected_error",
                 f"Unexpected error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Unexpected error while retrieving users",
             ) from exc
 
@@ -49,8 +54,8 @@ class UserService:
                 "list_active_users_error",
                 f"Database error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Failed to retrieve active users",
             ) from exc
         except Exception as exc:  # pragma: no cover - defensive programming
@@ -60,16 +65,16 @@ class UserService:
                 "list_active_users_unexpected_error",
                 f"Unexpected error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Unexpected error while retrieving active users",
             ) from exc
 
     def list_users_by_role(self, role_id: int, requester: User | None = None) -> List[User]:
         role = role_repository.get_role_by_id(self.db, role_id)
         if not role:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                ROLE_NOT_FOUND,
                 detail="Role not found",
             )
 
@@ -82,8 +87,8 @@ class UserService:
                 "list_users_by_role_error",
                 f"Database error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Failed to retrieve users by role",
             ) from exc
         except Exception as exc:  # pragma: no cover - defensive programming
@@ -93,8 +98,8 @@ class UserService:
                 "list_users_by_role_unexpected_error",
                 f"Unexpected error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Unexpected error while retrieving users by role",
             ) from exc
 
@@ -102,8 +107,8 @@ class UserService:
         try:
             user = user_repository.get_user_by_id(self.db, user_id)
             if not user:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
+                raise http_error(
+                    USER_NOT_FOUND,
                     detail=f"User with id {user_id} not found",
                 )
             return user
@@ -114,8 +119,8 @@ class UserService:
                 "get_user_by_id_error",
                 f"Database error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Failed to retrieve user by id",
             ) from exc
         except Exception as exc:
@@ -125,8 +130,8 @@ class UserService:
                 "get_user_by_id_unexpected_error",
                 f"Unexpected error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Unexpected error while retrieving user by id",
             ) from exc
        
@@ -143,16 +148,16 @@ class UserService:
         try:
             user = user_repository.get_user_by_id(self.db, user_id)
             if not user:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
+                raise http_error(
+                    USER_NOT_FOUND,
                     detail=f"User with id {user_id} not found",
                 )
 
             # Validar rol
             role = role_repository.get_role_by_id(self.db, updates["id_role"])
             if not role:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
+                raise http_error(
+                    ROLE_NOT_FOUND,
                     detail=f"Role with id {updates['id_role']} not found",
                 )
 
@@ -192,8 +197,8 @@ class UserService:
                 "update_user_error",
                 f"Database error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Failed to update user",
             ) from exc
         except Exception as exc:
@@ -203,8 +208,8 @@ class UserService:
                 "update_user_unexpected_error",
                 f"Unexpected error: {exc}",
             )
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                AUTH_INTERNAL_ERROR,
                 detail="Unexpected error while updating user",
             ) from exc
 

@@ -1,8 +1,9 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException,status
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import USER_NOT_FOUND, http_error
 from app.core.security import get_current_user
 from app.dependencies import get_db
 from app.models.user import User
@@ -65,7 +66,8 @@ def update_user(
     user_service = UserService(db)
 
     if user_service.exists_user_by_id(user_id) is False:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        raise http_error(
+            USER_NOT_FOUND,
+            detail="User not found",
         )
     return user_service.update_user(user_id, updates.model_dump(exclude_unset=True), current_user)
