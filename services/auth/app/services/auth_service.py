@@ -1,9 +1,7 @@
-from datetime import datetime, timedelta, timezone
 import secrets
-from typing import Any, Dict, Tuple
+from typing import Tuple
 
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
@@ -11,26 +9,25 @@ from app.core.error_codes import (
     AUTH_INTERNAL_ERROR,
     DEFAULT_ROLE_NOT_CONFIGURED,
     EMAIL_ALREADY_REGISTERED,
-    EXPIRED_GOOGLE_TOKEN,
     GOOGLE_EMAIL_MISSING,
     INVALID_CREDENTIALS,
-    INVALID_GOOGLE_TOKEN,
     INVALID_REFRESH_TOKEN,
-    REVOKED_GOOGLE_TOKEN,
-    ROLE_NOT_FOUND,
-    USER_NOT_FOUND,
     http_error,
 )
-from app.core.firebase import get_firebase_app
-from app.models.audit_log import AuditLog
-from app.models.session import UserSession
 from app.models.user import User
-from app.repository import audit_log_repository, role_repository, session_repository, user_repository
+from app.domain.audit import record_audit_log
+from app.domain.auth import (
+    build_role_claims,
+    create_access_token,
+    create_refresh_token,
+    create_user_session,
+    hash_password,
+    verify_google_token,
+    verify_password,
+)
+from app.domain.user import get_role_or_error, get_user_or_error
+from app.repository import role_repository, user_repository
 from app.schemas.auth import LoginRequest, RegisterRequest
-
-from firebase_admin import auth as firebase_auth
-
-_pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class AuthService:
@@ -45,14 +42,9 @@ class AuthService:
                 detail="Email already registered",
             )
 
-        role = role_repository.get_role_by_id(self.db, register_data.id_role)
-        if not role:
-            raise http_error(
-                ROLE_NOT_FOUND,
-                detail="Role not found",
-            )
+        get_role_or_error(self.db, register_data.id_role, detail="Role not found")
 
-        hashed_password = _pwd_context.hash(register_data.password)
+        hashed_password = hash_password(register_data.password)
 
         new_user = User(
             name=register_data.name,
@@ -72,55 +64,55 @@ class AuthService:
         user_db = user_repository.create_user(self.db, new_user)
         
         if not user_db or not user_db.id_user:
-            audit_entry = AuditLog(
-                id_user=None,
+            record_audit_log(
+                self.db,
+                user_id=None,
                 entity="AuthService",
                 action="register_error",
-                message="User creation failed: repository returned null"
+                message="User creation failed: repository returned null",
+                state="error",
             )
-            audit_log_repository.create_audit_log(self.db, audit_entry)
 
             raise http_error(
                 AUTH_INTERNAL_ERROR,
                 detail="User could not be created",
             )
 
-        audit_entry = AuditLog(
-            id_user=new_user.id_user,
+        record_audit_log(
+            self.db,
+            user_id=new_user.id_user,
             entity="AuthService",
             action="register",
             message="User registered",
-            state="active"
+            state="active",
         )
-
-        audit_log_repository.create_audit_log(self.db, audit_entry)
 
         token_claims = {
             "sub": str(new_user.id_user),
             "email": new_user.email,
             "id_user": new_user.id_user,
-            **self._build_role_claims(new_user.id_role),
+            **build_role_claims(new_user.id_role),
         }
 
-        access_token = self._create_access_token(token_claims)
+        access_token = create_access_token(token_claims)
 
-        refresh_token = self._create_refresh_token(token_claims)
+        refresh_token = create_refresh_token(token_claims)
 
-        self._create_user_session(new_user.id_user, access_token, refresh_token)
+        create_user_session(self.db, new_user.id_user, access_token, refresh_token)
 
         try:
             self.db.commit()
         except Exception as exc:
             self.db.rollback()
 
-            audit_entry = AuditLog(
-                id_user=None,
+            record_audit_log(
+                self.db,
+                user_id=None,
                 entity="AuthService",
                 action="register_exception",
                 message=f"Exception during commit: {str(exc)}",
-                state="active"
+                state="active",
             )
-            audit_log_repository.create_audit_log(self.db, audit_entry)
 
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -133,7 +125,7 @@ class AuthService:
 
     def login_user(self, login_data: LoginRequest) -> Tuple[str, str, User]:
         user = user_repository.get_user_by_email(self.db, login_data.email)
-        if not user or not _pwd_context.verify(login_data.password, user.password_hash):
+        if not user or not verify_password(login_data.password, user.password_hash):
             raise http_error(
                 INVALID_CREDENTIALS,
                 detail="Invalid email or password",
@@ -143,36 +135,36 @@ class AuthService:
             "sub": str(user.id_user),
             "email": user.email,
             "id_user": user.id_user,
-            **self._build_role_claims(user.id_role),
+            **build_role_claims(user.id_role),
         }
 
-        access_token = self._create_access_token(token_claims)
-        refresh_token = self._create_refresh_token(token_claims)
+        access_token = create_access_token(token_claims)
+        refresh_token = create_refresh_token(token_claims)
 
-        audit_entry = AuditLog(
-            id_user=user.id_user,
+        record_audit_log(
+            self.db,
+            user_id=user.id_user,
             entity="AuthService",
             action="login",
             message="User login",
-            state="active"
+            state="active",
         )
-        audit_log_repository.create_audit_log(self.db, audit_entry)
 
-        self._create_user_session(user.id_user, access_token, refresh_token)
+        create_user_session(self.db, user.id_user, access_token, refresh_token)
 
         try:
             self.db.commit()
         except Exception as exc:
 
             self.db.rollback()
-            audit_entry = AuditLog(
-                id_user=None,
+            record_audit_log(
+                self.db,
+                user_id=None,
                 entity="AuthService",
                 action="login_exception",
                 message=f"Exception during commit: {str(exc)}",
-                state="active"
+                state="active",
             )
-            audit_log_repository.create_audit_log(self.db, audit_entry)
             raise http_error(
                 AUTH_INTERNAL_ERROR,
                 detail="Could not complete login",
@@ -181,32 +173,9 @@ class AuthService:
         return access_token, refresh_token, user
 
     def login_with_google(self, id_token: str) -> Tuple[str, str, User]:
-        get_firebase_app()
-
         # Validate the external token first; we short-circuit before touching the DB to avoid
         # persisting sessions for unverified identities.
-        try:
-            decoded_token = firebase_auth.verify_id_token(id_token)
-        except firebase_auth.InvalidIdTokenError as exc:  # pragma: no cover - firebase specific
-            raise http_error(
-                INVALID_GOOGLE_TOKEN,
-                detail="Invalid Google token",
-            ) from exc
-        except firebase_auth.ExpiredIdTokenError as exc:  # pragma: no cover
-            raise http_error(
-                EXPIRED_GOOGLE_TOKEN,
-                detail="Expired Google token",
-            ) from exc
-        except firebase_auth.RevokedIdTokenError as exc:  # pragma: no cover
-            raise http_error(
-                REVOKED_GOOGLE_TOKEN,
-                detail="Revoked Google token",
-            ) from exc
-        except Exception as exc:  # pragma: no cover - unexpected firebase errors
-            raise http_error(
-                INVALID_GOOGLE_TOKEN,
-                detail="Could not validate Google token",
-            ) from exc
+        decoded_token = verify_google_token(id_token)
 
         email = decoded_token.get("email")
         if not email:
@@ -223,7 +192,7 @@ class AuthService:
             first_name = name_parts[0]
             last_name = name_parts[1] if len(name_parts) > 1 else "Google"
 
-            random_password = _pwd_context.hash(secrets.token_urlsafe(32))
+            random_password = hash_password(secrets.token_urlsafe(32))
 
             user = User(
                 name=first_name,
@@ -251,35 +220,35 @@ class AuthService:
 
             user_repository.create_user(self.db, user)
 
-            audit_entry = AuditLog(
-                id_user=user.id_user,
+            record_audit_log(
+                self.db,
+                user_id=user.id_user,
                 entity="AuthService",
                 action="google_register",
                 message="User registered via Google",
                 state="active",
             )
-            audit_log_repository.create_audit_log(self.db, audit_entry)
 
         token_claims = {
             "sub": str(user.id_user),
             "email": user.email,
             "id_user": user.id_user,
-            **self._build_role_claims(user.id_role),
+            **build_role_claims(user.id_role),
         }
 
-        access_token = self._create_access_token(token_claims)
-        refresh_token = self._create_refresh_token(token_claims)
+        access_token = create_access_token(token_claims)
+        refresh_token = create_refresh_token(token_claims)
 
-        audit_entry = AuditLog(
-            id_user=user.id_user,
+        record_audit_log(
+            self.db,
+            user_id=user.id_user,
             entity="AuthService",
             action="google_login",
             message="User login with Google",
             state="active",
         )
-        audit_log_repository.create_audit_log(self.db, audit_entry)
 
-        self._create_user_session(user.id_user, access_token, refresh_token)
+        create_user_session(self.db, user.id_user, access_token, refresh_token)
 
         try:
             self.db.commit()
@@ -320,58 +289,16 @@ class AuthService:
                 detail="Invalid refresh token",
             )
 
-        user = user_repository.get_user_by_id(self.db, int(user_id))
-        if not user:
-            raise http_error(
-                USER_NOT_FOUND,
-                detail="User not found",
-            )
+        user = get_user_or_error(self.db, int(user_id), detail="User not found")
 
         token_claims = {
             "sub": str(user.id_user),
             "email": user.email,
             "id_user": user.id_user,
-            **self._build_role_claims(user.id_role),
+            **build_role_claims(user.id_role),
         }
 
-        access_token = self._create_access_token(token_claims)
-        new_refresh_token = self._create_refresh_token(token_claims)
+        access_token = create_access_token(token_claims)
+        new_refresh_token = create_refresh_token(token_claims)
 
         return access_token, new_refresh_token, user
-
-    @staticmethod
-    def _build_role_claims(role_id: int) -> Dict[str, Any]:
-        return {"id_role": role_id}
-
-    def _create_access_token(self, data: Dict[str, Any]) -> str:
-        to_encode = data.copy()
-        expire = datetime.utcnow() + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-        to_encode.update({"exp": expire, "type": "access"})
-        return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
-
-    def _create_refresh_token(self, data: Dict[str, Any]) -> str:
-        to_encode = data.copy()
-        expire = datetime.utcnow() + timedelta(minutes=settings.REFRESH_TOKEN_EXPIRE_MINUTES)
-        to_encode.update({"exp": expire, "type": "refresh"})
-        return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
-
-    def _create_user_session(
-        self, user_id: int, access_token: str, refresh_token: str
-    ) -> UserSession:
-        session_repository.delete_sessions_by_user(self.db, user_id)
-
-        expires_at = None
-        if settings.REFRESH_TOKEN_EXPIRE_MINUTES:
-            expires_at = datetime.now(timezone.utc) + timedelta(
-                minutes=settings.REFRESH_TOKEN_EXPIRE_MINUTES
-            )
-
-        user_session = UserSession(
-            id_user=user_id,
-            access_token=access_token,
-            refresh_token=refresh_token,
-            expires_at=expires_at,
-            is_active=True,
-        )
-
-        return session_repository.create_session(self.db, user_session)

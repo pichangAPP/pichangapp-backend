@@ -5,13 +5,12 @@ from sqlalchemy.orm import Session
 
 from app.core.error_codes import (
     AUTH_INTERNAL_ERROR,
-    ROLE_NOT_FOUND,
-    USER_NOT_FOUND,
     http_error,
 )
-from app.models.audit_log import AuditLog
 from app.models.user import User
-from app.repository import audit_log_repository, role_repository, user_repository
+from app.domain.audit import log_error, record_audit_log
+from app.domain.user import get_role_or_error, get_user_or_error
+from app.repository import user_repository
 
 
 class UserService:
@@ -23,10 +22,12 @@ class UserService:
             return user_repository.get_all_users(self.db)
         except SQLAlchemyError as exc:
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "list_users_error",
-                f"Database error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="list_users_error",
+                message=f"Database error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -34,10 +35,12 @@ class UserService:
             ) from exc
         except Exception as exc:  # pragma: no cover - defensive programming
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "list_users_unexpected_error",
-                f"Unexpected error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="list_users_unexpected_error",
+                message=f"Unexpected error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -49,10 +52,12 @@ class UserService:
             return user_repository.get_users_by_status(self.db, "active")
         except SQLAlchemyError as exc:
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "list_active_users_error",
-                f"Database error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="list_active_users_error",
+                message=f"Database error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -60,10 +65,12 @@ class UserService:
             ) from exc
         except Exception as exc:  # pragma: no cover - defensive programming
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "list_active_users_unexpected_error",
-                f"Unexpected error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="list_active_users_unexpected_error",
+                message=f"Unexpected error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -71,21 +78,18 @@ class UserService:
             ) from exc
 
     def list_users_by_role(self, role_id: int, requester: User | None = None) -> List[User]:
-        role = role_repository.get_role_by_id(self.db, role_id)
-        if not role:
-            raise http_error(
-                ROLE_NOT_FOUND,
-                detail="Role not found",
-            )
+        get_role_or_error(self.db, role_id, detail="Role not found")
 
         try:
             return user_repository.get_users_by_role(self.db, role_id)
         except SQLAlchemyError as exc:
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "list_users_by_role_error",
-                f"Database error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="list_users_by_role_error",
+                message=f"Database error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -93,10 +97,12 @@ class UserService:
             ) from exc
         except Exception as exc:  # pragma: no cover - defensive programming
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "list_users_by_role_unexpected_error",
-                f"Unexpected error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="list_users_by_role_unexpected_error",
+                message=f"Unexpected error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -105,19 +111,15 @@ class UserService:
 
     def get_user_by_id(self, user_id: int, requester: User | None = None) -> Optional[User]:
         try:
-            user = user_repository.get_user_by_id(self.db, user_id)
-            if not user:
-                raise http_error(
-                    USER_NOT_FOUND,
-                    detail=f"User with id {user_id} not found",
-                )
-            return user
+            return get_user_or_error(self.db, user_id)
         except SQLAlchemyError as exc:
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "get_user_by_id_error",
-                f"Database error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="get_user_by_id_error",
+                message=f"Database error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -125,10 +127,12 @@ class UserService:
             ) from exc
         except Exception as exc:
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "get_user_by_id_unexpected_error",
-                f"Unexpected error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="get_user_by_id_unexpected_error",
+                message=f"Unexpected error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -146,20 +150,14 @@ class UserService:
         updates puede contener: name, phone, status, id_role, etc.
         """
         try:
-            user = user_repository.get_user_by_id(self.db, user_id)
-            if not user:
-                raise http_error(
-                    USER_NOT_FOUND,
-                    detail=f"User with id {user_id} not found",
-                )
+            user = get_user_or_error(self.db, user_id)
 
             # Validar rol
-            role = role_repository.get_role_by_id(self.db, updates["id_role"])
-            if not role:
-                raise http_error(
-                    ROLE_NOT_FOUND,
-                    detail=f"Role with id {updates['id_role']} not found",
-                )
+            get_role_or_error(
+                self.db,
+                updates["id_role"],
+                detail=f"Role with id {updates['id_role']} not found",
+            )
 
             # Actualizar solo campos permitidos
             user.name = updates["name"]
@@ -178,24 +176,26 @@ class UserService:
             self.db.refresh(user)
 
             # Log de auditoría
-            audit_entry = AuditLog(
-                id_user=requester.id_user if requester else None,
+            record_audit_log(
+                self.db,
+                user_id=requester.id_user if requester else None,
                 entity="UserService",
                 action="update_user",
                 message=f"User {user_id} updated",
                 state="success",
             )
-            audit_log_repository.create_audit_log(self.db, audit_entry)
             self.db.commit()
 
             return user
 
         except SQLAlchemyError as exc:
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "update_user_error",
-                f"Database error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="update_user_error",
+                message=f"Database error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
@@ -203,26 +203,14 @@ class UserService:
             ) from exc
         except Exception as exc:
             self.db.rollback()
-            self._log_error(
-                requester.id_user if requester else None,
-                "update_user_unexpected_error",
-                f"Unexpected error: {exc}",
+            log_error(
+                self.db,
+                user_id=requester.id_user if requester else None,
+                entity="UserService",
+                action="update_user_unexpected_error",
+                message=f"Unexpected error: {exc}",
             )
             raise http_error(
                 AUTH_INTERNAL_ERROR,
                 detail="Unexpected error while updating user",
             ) from exc
-
-    def _log_error(self, user_id: int | None, action: str, message: str) -> None:
-        try:
-            audit_entry = AuditLog(
-                id_user=user_id,
-                entity="UserService",
-                action=action,
-                message=message,
-                state="error",
-            )
-            audit_log_repository.create_audit_log(self.db, audit_entry)
-            self.db.commit()
-        except Exception:
-            self.db.rollback()

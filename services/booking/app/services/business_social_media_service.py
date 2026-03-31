@@ -9,8 +9,9 @@ from app.core.error_codes import (
     BUSINESS_NOT_FOUND,
     http_error,
 )
+from app.domain.business.validations import get_business_or_error
 from app.models import BusinessSocialMedia
-from app.repository import business_repository, business_social_media_repository
+from app.repository import business_social_media_repository
 from app.schemas import BusinessSocialMediaCreate, BusinessSocialMediaUpdate
 
 
@@ -18,15 +19,8 @@ class BusinessSocialMediaService:
     def __init__(self, db: Session):
         self.db = db
 
-    def _ensure_business_exists(self, business_id: int) -> None:
-        if not business_repository.get_business(self.db, business_id):
-            raise http_error(
-                BUSINESS_NOT_FOUND,
-                detail=f"Business {business_id} not found",
-            )
-
     def get_social_media_by_business_id(self, business_id: int) -> BusinessSocialMedia:
-        self._ensure_business_exists(business_id)
+        get_business_or_error(self.db, business_id)
         social_media = business_social_media_repository.get_business_social_media_by_business(
             self.db, business_id
         )
@@ -40,7 +34,7 @@ class BusinessSocialMediaService:
     def create_social_media(
         self, business_id: int, social_media_in: BusinessSocialMediaCreate
     ) -> BusinessSocialMedia:
-        self._ensure_business_exists(business_id)
+        get_business_or_error(self.db, business_id)
         existing = business_social_media_repository.get_business_social_media_by_business(
             self.db, business_id
         )

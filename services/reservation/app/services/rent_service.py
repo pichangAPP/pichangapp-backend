@@ -622,7 +622,12 @@ class RentService:
             if notify_after_payment:
                 event_types.append("rent.payment_received")
             if verdict_status:
-                event_types.append("rent.verdict")
+                if updated_status == RENT_RESERVED_STATUS_CODE:
+                    event_types.append("rent.approved")
+                elif updated_status.startswith("rejected_"):
+                    event_types.append("rent.rejected")
+                else:
+                    event_types.append("rent.verdict")
 
             if background_tasks is not None:
                 if len(event_types) == 1:

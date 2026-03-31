@@ -5,14 +5,13 @@ from datetime import datetime, timezone
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.core.error_codes import (
-    BOOKING_BAD_REQUEST,
-    BOOKING_INTERNAL_ERROR,
-    BOOKING_SERVICE_UNAVAILABLE,
-    BUSINESS_NOT_FOUND,
-    http_error,
+from app.core.error_codes import BOOKING_INTERNAL_ERROR, BUSINESS_NOT_FOUND, http_error
+from app.domain.business import attach_business_manager_data, validate_business_entity
+from app.domain.campus import (
+    build_campus_entity,
+    populate_available_schedules,
+    validate_campus_fields,
 )
-from app.integrations import auth_reader
 from app.models import Business
 from app.repository import business_repository
 from app.schemas import (
@@ -21,11 +20,6 @@ from app.schemas import (
     BusinessResponse,
     BusinessUpdate,
     CampusResponse,
-)
-from app.services.campus_service import (
-    build_campus_entity,
-    populate_available_schedules,
-    validate_campus_fields,
 )
 from app.services.location_utils import haversine_distance
 
@@ -37,7 +31,7 @@ class BusinessService:
     def list_businesses(self) -> list[Business]:
         try:
             businesses = business_repository.list_businesses(self.db)
-            self._attach_manager_data(businesses)
+            attach_business_manager_data(self.db, businesses)
             return businesses
         except SQLAlchemyError as exc:  
             raise http_error(
@@ -50,7 +44,7 @@ class BusinessService:
     ) -> list[BusinessResponse]:
         try:
             businesses = business_repository.list_businesses(self.db)
-            self._attach_manager_data(businesses)
+            attach_business_manager_data(self.db, businesses)
         except SQLAlchemyError as exc:
             raise http_error(
                 BOOKING_INTERNAL_ERROR,
@@ -103,7 +97,7 @@ class BusinessService:
                 detail=f"Business {business_id} not found",
             )
         populate_available_schedules(self.db, business.campuses)
-        self._attach_manager_data([business])
+        attach_business_manager_data(self.db, [business])
         return business
 
     def get_business_profile(self, business_id: int) -> BusinessProfileResponse:
@@ -123,7 +117,7 @@ class BusinessService:
                 detail=f"Business for manager {manager_id} not found",
             )
         populate_available_schedules(self.db, business.campuses)
-        self._attach_manager_data([business])
+        attach_business_manager_data(self.db, [business])
         return business
 
     def create_business(self, business_in: BusinessCreate) -> Business:
@@ -133,11 +127,11 @@ class BusinessService:
                 validate_campus_fields(self.db, campus_in)
                 business.campuses.append(build_campus_entity(campus_in))
             
-            self._validate_business_entity(business)
+            validate_business_entity(business)
             business_repository.create_business(self.db, business)
             self.db.commit()
             self.db.refresh(business)
-            self._attach_manager_data([business])
+            attach_business_manager_data(self.db, [business])
             return business
         except SQLAlchemyError as exc:
             self.db.rollback()
@@ -155,13 +149,13 @@ class BusinessService:
             setattr(business, field, value)
         business.updated_at = datetime.now(timezone.utc)
 
-        self._validate_business_entity(business)
+        validate_business_entity(business)
 
         try:
             self.db.flush()
             self.db.commit()
             self.db.refresh(business)
-            self._attach_manager_data([business])
+            attach_business_manager_data(self.db, [business])
             return business
         except SQLAlchemyError as exc:
             self.db.rollback()
@@ -182,39 +176,3 @@ class BusinessService:
                 detail="Failed to delete business",
             ) from exc
 
-    def _validate_business_entity(self, business: Business) -> None:
-        if business.min_price is not None and float(business.min_price) < 0:
-            raise http_error(
-                BOOKING_BAD_REQUEST,
-                detail="min_price must be zero or greater",
-            )
-
-    def _attach_manager_data(self, businesses: list[Business]) -> None:
-        business_list = [business for business in businesses if business is not None]
-        if not business_list:
-            return
-
-        manager_ids: set[int] = set()
-        for business in business_list:
-            if business.id_manager is not None:
-                manager_ids.add(business.id_manager)
-            for campus in getattr(business, "campuses", []) or []:
-                if campus.id_manager is not None:
-                    manager_ids.add(campus.id_manager)
-
-        try:
-            managers = auth_reader.get_manager_summaries(self.db, manager_ids)
-        except auth_reader.AuthReaderError as exc:
-            raise http_error(
-                BOOKING_SERVICE_UNAVAILABLE,
-                detail=str(exc),
-            ) from exc
-
-        for business in business_list:
-            manager_id = business.id_manager
-            business.manager = managers.get(manager_id) if manager_id else None  # type: ignore[attr-defined]
-            for campus in getattr(business, "campuses", []) or []:
-                campus_manager_id = campus.id_manager
-                campus.manager = (  # type: ignore[attr-defined]
-                    managers.get(campus_manager_id) if campus_manager_id else None
-                )

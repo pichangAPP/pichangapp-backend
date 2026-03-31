@@ -2,30 +2,17 @@
 
 from __future__ import annotations
 
-import json
-from datetime import datetime, timezone
 from typing import Optional
 
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.core.error_codes import (
-    FIELD_NOT_FOUND,
-    PAYMENT_INVALID_STATUS,
-    PAYMENT_MISSING_APPROVAL_CODE,
-    PAYMENT_MISSING_PAYER_PHONE,
-    PAYMENT_MISSING_RENT_ID,
-    PAYMENT_NOT_FOUND,
-    PAYMENT_RECEIVER_NOT_CONFIGURED,
-    RENT_NOT_FOUND,
-    http_error,
-)
-from app.integrations import (
-    AuthReaderError,
-    get_payment_destination,
-    get_rent_context,
-    get_user_summary,
+from app.core.error_codes import PAYMENT_NOT_FOUND, http_error
+from app.domain.payment.payments import (
+    apply_yape_plin_context,
+    ensure_paid_at,
+    normalize_status,
+    validate_status,
 )
 from app.repository import payment_repository
 from app.schemas.payment import PaymentCreate, PaymentUpdate
@@ -52,8 +39,8 @@ class PaymentService:
     def create_payment(self, payload: PaymentCreate):
         payment_data = payload.model_dump(exclude_unset=True)
         method = (payment_data.get("method") or "").strip().lower()
-        status_value = self._normalize_status(payment_data.get("status"))
-        self._validate_status(status_value)
+        status_value = normalize_status(payment_data.get("status"))
+        validate_status(status_value, allowed_statuses=list(settings.payment_allowed_statuses))
         payment_data["status"] = status_value
 
         rent_id = payment_data.pop("rent_id", None)
@@ -61,15 +48,15 @@ class PaymentService:
         approval_code = payment_data.pop("approval_code", None)
 
         if method in {"yape", "plin"}:
-            self._apply_yape_plin_context(
+            apply_yape_plin_context(
+                self.db,
                 payment_data,
                 rent_id=rent_id,
                 payer_phone=payer_phone,
                 approval_code=approval_code,
             )
 
-        if status_value == "paid" and not payment_data.get("paid_at"):
-            payment_data["paid_at"] = datetime.now(timezone.utc)
+        ensure_paid_at(status_value, payment_data)
 
         payment = payment_repository.create_payment(self.db, payment_data)
         return payment
@@ -82,11 +69,10 @@ class PaymentService:
             return payment
 
         if "status" in update_data:
-            status_value = self._normalize_status(update_data.get("status"))
-            self._validate_status(status_value)
+            status_value = normalize_status(update_data.get("status"))
+            validate_status(status_value, allowed_statuses=list(settings.payment_allowed_statuses))
             update_data["status"] = status_value
-            if status_value == "paid" and not update_data.get("paid_at"):
-                update_data["paid_at"] = datetime.now(timezone.utc)
+            ensure_paid_at(status_value, update_data)
 
         # Apply only the provided fields so callers can send partial updates
         # (e.g., just status/receipt) without re-sending the full object.
@@ -94,124 +80,5 @@ class PaymentService:
             setattr(payment, field, value)
 
         return payment_repository.save_payment(self.db, payment)
-
-    def _apply_yape_plin_context(
-        self,
-        payment_data: dict,
-        *,
-        rent_id: Optional[int],
-        payer_phone: Optional[str],
-        approval_code: Optional[str],
-    ) -> None:
-        if rent_id is None:
-            raise http_error(
-                PAYMENT_MISSING_RENT_ID,
-                detail="rent_id is required for Yape/Plin payments",
-            )
-        if not payer_phone:
-            raise http_error(
-                PAYMENT_MISSING_PAYER_PHONE,
-                detail="payer_phone is required for Yape/Plin payments",
-            )
-        if not approval_code:
-            raise http_error(
-                PAYMENT_MISSING_APPROVAL_CODE,
-                detail="approval_code is required for Yape/Plin payments",
-            )
-
-        rent_context = get_rent_context(self.db, rent_id)
-        if rent_context is None:
-            raise http_error(
-                RENT_NOT_FOUND,
-                detail="Rent not found for payment",
-            )
-        if rent_context.field_id is None:
-            raise http_error(
-                FIELD_NOT_FOUND,
-                detail="Rent does not include a field identifier",
-            )
-
-        destination = get_payment_destination(self.db, rent_context.field_id)
-        if destination is None:
-            raise http_error(
-                FIELD_NOT_FOUND,
-                detail="Field/campus not found for payment",
-            )
-
-        receiver_phone = None
-        receiver_name = None
-        if destination.manager_id is not None:
-            try:
-                manager = get_user_summary(self.db, destination.manager_id)
-            except AuthReaderError as exc:
-                raise HTTPException(
-                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                    detail="Unable to reach auth service for campus manager",
-                ) from exc
-
-            if manager is not None and manager.phone:
-                receiver_phone = manager.phone
-                receiver_name = f"{manager.name} {manager.lastname}".strip()
-
-        if not receiver_phone:
-            receiver_phone = destination.business_phone
-            receiver_name = receiver_name or destination.business_name
-
-        if not receiver_phone:
-            raise http_error(
-                PAYMENT_RECEIVER_NOT_CONFIGURED,
-                detail="No payment receiver configured for the campus",
-            )
-
-        metadata = self._merge_additional_data(
-            payment_data.get("additional_data"),
-            {
-                "channel": payment_data.get("method"),
-                "payer_phone": payer_phone,
-                "approval_code": approval_code,
-                "receiver_phone": receiver_phone,
-                "receiver_name": receiver_name,
-                "campus_id": destination.campus_id,
-                "campus_name": destination.campus_name,
-                "field_id": destination.field_id,
-                "rent_id": rent_context.rent_id,
-                "schedule_id": rent_context.schedule_id,
-            },
-        )
-
-        payment_data["additional_data"] = json.dumps(metadata, ensure_ascii=True)
-        if payment_data.get("reference") is None:
-            payment_data["reference"] = approval_code
-
-    @staticmethod
-    def _merge_additional_data(existing: Optional[str], updates: dict) -> dict:
-        if not existing:
-            return dict(updates)
-
-        try:
-            payload = json.loads(existing)
-        except json.JSONDecodeError:
-            payload = {"client_notes": existing}
-
-        if not isinstance(payload, dict):
-            payload = {"client_notes": existing}
-
-        payload.update(updates)
-        return payload
-
-    @staticmethod
-    def _normalize_status(value: Optional[str]) -> str:
-        return (value or "").strip().lower()
-
-    @staticmethod
-    def _validate_status(status_value: str) -> None:
-        allowed = set(settings.payment_allowed_statuses)
-        if not status_value or status_value not in allowed:
-            allowed_list = ", ".join(sorted(allowed))
-            raise http_error(
-                PAYMENT_INVALID_STATUS,
-                detail=f"Invalid payment status '{status_value}'. Allowed: {allowed_list}",
-            )
-
 
 __all__ = ["PaymentService"]

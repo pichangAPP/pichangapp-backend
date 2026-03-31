@@ -9,8 +9,9 @@ from app.core.error_codes import (
     BUSINESS_NOT_FOUND,
     http_error,
 )
+from app.domain.business.validations import get_business_or_error
 from app.models import BusinessLegal
-from app.repository import business_legal_repository, business_repository
+from app.repository import business_legal_repository
 from app.schemas import BusinessLegalCreate, BusinessLegalUpdate
 
 
@@ -18,15 +19,8 @@ class BusinessLegalService:
     def __init__(self, db: Session):
         self.db = db
 
-    def _ensure_business_exists(self, business_id: int) -> None:
-        if not business_repository.get_business(self.db, business_id):
-            raise http_error(
-                BUSINESS_NOT_FOUND,
-                detail=f"Business {business_id} not found",
-            )
-
     def get_legal_by_business_id(self, business_id: int) -> BusinessLegal:
-        self._ensure_business_exists(business_id)
+        get_business_or_error(self.db, business_id)
         legal = business_legal_repository.get_business_legal_by_business(self.db, business_id)
         if not legal:
             raise http_error(
@@ -36,7 +30,7 @@ class BusinessLegalService:
         return legal
 
     def create_legal(self, business_id: int, legal_in: BusinessLegalCreate) -> BusinessLegal:
-        self._ensure_business_exists(business_id)
+        get_business_or_error(self.db, business_id)
         existing = business_legal_repository.get_business_legal_by_business(self.db, business_id)
         if existing:
             raise http_error(

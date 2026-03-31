@@ -119,8 +119,8 @@ class KafkaConsumerWorker:
                             notification
                         ),
                     )
-                elif event_type == "rent.verdict":
-                    # Send the final verdict email with retries.
+                elif event_type in {"rent.verdict", "rent.approved", "rent.rejected"}:
+                    # Send the final verdict/approval email with retries.
                     self._send_with_retry(
                         event_type=event_type,
                         action=lambda: self._email_service.send_user_confirmation(
