@@ -1,6 +1,6 @@
 """Custom actions for booking recommendations and analytics integration."""
 
-from .actions import (
+from .modules import (
     ActionCheckFeedbackStatus,
     ActionCloseChatSession,
     ActionEnsureUserRole,

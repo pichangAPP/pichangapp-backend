@@ -1,7 +1,7 @@
 # Chatbot Domain (Rasa Actions)
 
 Este directorio concentra utilidades y logica de apoyo para las acciones del chatbot
-ubicadas en `actions/` y re-exportadas por `actions/action_chatbot.py`.
+ubicadas en `modules/` y re-exportadas por `actions/action_chatbot.py`.
 La meta es mantener las acciones enfocadas en orquestacion y dejar el detalle aqui.
 Las operaciones de IO (HTTP/DB) viven en `actions/services/` o `actions/repositories/`.
 

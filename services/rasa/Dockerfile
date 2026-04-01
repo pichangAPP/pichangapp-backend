@@ -37,4 +37,4 @@ EXPOSE 5005 5055 8006
 # ===========================================
 # 🚀 ENTRYPOINT
 # ===========================================
-ENTRYPOINT ["bash", "/app/entrypoint.sh"]
+ENTRYPOINT ["sh", "/app/entrypoint.sh"]
