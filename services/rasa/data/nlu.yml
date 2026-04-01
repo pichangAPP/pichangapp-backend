@@ -1706,6 +1706,178 @@ nlu:
       - espacio deportivo
       - espacio
 
+  - synonym: football
+    examples: |
+      - fútbol
+      - futbol
+      - fulbito
+      - pichanga
+      - fútbol 7
+      - fútbol 5
+      - futsal
+      - jugar futbol
+      - jugar fútbol
+      - jugar pelota
+
+  - synonym: basketball
+    examples: |
+      - basketball
+      - basket
+      - basquet
+      - básquet
+      - basquetbol
+      - baloncesto
+      - jugar basket
+      - jugar basquet
+
+  - synonym: volleyball
+    examples: |
+      - volleyball
+      - voley
+      - vóley
+      - voleibol
+      - voleyball
+      - jugar voley
+
+  - synonym: tennis
+    examples: |
+      - tennis
+      - tenis
+      - jugar tenis
+
+  - synonym: padel
+    examples: |
+      - padel
+      - pádel
+
+  - synonym: Grass sintético
+    examples: |
+      - grass sintetico
+      - grass sintético
+      - sintetico
+      - sintético
+      - césped sintético
+      - cesped sintetico
+      - pasto sintetico
+      - pasto sintético
+      - synthetic
+
+  - synonym: Grass natural
+    examples: |
+      - grass natural
+      - cesped natural
+      - césped natural
+      - pasto natural
+
+  - synonym: Grass mixto (natural + sintético)
+    examples: |
+      - grass mixto
+      - mixto
+      - mixta
+      - mixto natural sintetico
+
+  - synonym: Grass sintético premium
+    examples: |
+      - grass sintetico premium
+      - grass sintético premium
+      - sintetico premium
+      - sintético premium
+      - premium
+
+  - synonym: Losa de cemento
+    examples: |
+      - losa de cemento
+      - cemento
+      - cemento pulido
+
+  - synonym: Losa deportiva
+    examples: |
+      - losa deportiva
+      - cemento deportivo
+      - losa
+
+  - synonym: Villa El Salvador
+    examples: |
+      - villa el salvador
+      - villaelsalvador
+      - ves
+      - villa el salv
+
+  - synonym: San Isidro
+    examples: |
+      - san isidro
+      - sanisdro
+      - san iisdro
+      - san isidro lima
+
+  - synonym: Surco
+    examples: |
+      - surco
+
+  - synonym: Chorrillos
+    examples: |
+      - chorrillos
+
+  - synonym: Ancón
+    examples: |
+      - ancon
+
+  - synonym: Ate
+    examples: |
+      - ate vitarte
+
+  - synonym: Breña
+    examples: |
+      - brena
+
+  - synonym: Jesús María
+    examples: |
+      - jesus maria
+
+  - synonym: Lurín
+    examples: |
+      - lurin
+
+  - synonym: Rímac
+    examples: |
+      - rimac
+
+  - synonym: San Martín de Porres
+    examples: |
+      - san martin de porres
+      - smp
+
+  - synonym: San Juan de Lurigancho
+    examples: |
+      - san juan de lurigancho
+      - sjl
+
+  - synonym: San Juan de Miraflores
+    examples: |
+      - san juan de miraflores
+      - sjm
+
+  - synonym: Santa María del Mar
+    examples: |
+      - santa maria del mar
+
+  - synonym: Villa María del Triunfo
+    examples: |
+      - villa maria del triunfo
+      - vmt
+
+  - synonym: Villa El Salvador
+    examples: |
+      - ves
+
+  - synonym: Pachacámac
+    examples: |
+      - pachacamac
+
+  - synonym: Lima
+    examples: |
+      - cercado de lima
+
   # Added: lookup tables to reduce entity confusion in NLU
   - lookup: sport
     examples: |
@@ -1725,25 +1897,49 @@ nlu:
 
   - lookup: location
     examples: |
-      - Surco
-      - Miraflores
-      - San Isidro
-      - La Molina
+      - Ancón
+      - Ate
       - Barranco
+      - Breña
+      - Carabayllo
+      - Cieneguilla
+      - Comas
+      - Chaclacayo
       - Chorrillos
-      - San Borja
-      - San Miguel
+      - El Agustino
+      - Independencia
       - Jesús María
+      - La Molina
+      - La Victoria
+      - Lima
+      - Lince
+      - Los Olivos
+      - Lurigancho
+      - Lurín
+      - Magdalena del Mar
+      - Miraflores
+      - Pachacámac
+      - Pucusana
+      - Pueblo Libre
+      - Puente Piedra
+      - Punta Hermosa
+      - Punta Negra
+      - Rímac
+      - San Bartolo
+      - San Borja
+      - San Isidro
+      - San Juan de Lurigancho
+      - San Juan de Miraflores
+      - San Luis
+      - San Martín de Porres
+      - San Miguel
+      - Santa Anita
+      - Santa María del Mar
+      - Santa Rosa
+      - Santiago de Surco
+      - Surquillo
       - Villa El Salvador
       - Villa María del Triunfo
-      - Pueblo Libre
-      - Magdalena
-      - Lince
-      - Breña
-      - Ate
-      - Los Olivos
-      - Comas
-      - Callao
 
   - lookup: surface
     examples: |

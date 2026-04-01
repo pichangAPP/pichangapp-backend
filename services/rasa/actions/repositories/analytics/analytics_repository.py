@@ -13,7 +13,7 @@ from sqlalchemy import case, func, or_, select, literal
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from ..db_models import (
+from ...db_models import (
     Campus,
     Chatbot,
     ChatbotLog,
@@ -23,8 +23,8 @@ from ..db_models import (
     RecommendationLog,
     Sport,
 )
-from ..infrastructure.database import DatabaseError
-from ..models import FieldRecommendation
+from ...infrastructure.database import DatabaseError
+from ...models import FieldRecommendation
 
 LOGGER = logging.getLogger(__name__)
 
