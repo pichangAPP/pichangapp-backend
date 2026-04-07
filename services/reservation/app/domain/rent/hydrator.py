@@ -1,6 +1,7 @@
 """Mapping helpers that hydrate rent models into API responses."""
 from __future__ import annotations
 
+from itertools import groupby
 from typing import List, Optional, Sequence
 
 from fastapi import HTTPException, status
@@ -18,6 +19,25 @@ from app.models.schedule import Schedule
 from app.repository import schedule_repository
 from app.schemas.rent import RentResponse, ScheduleSummary
 from app.schemas.schedule import FieldSummary, UserSummary
+
+
+def ordered_schedules_for_rent(db: Session, rent: Rent) -> List[Schedule]:
+    """Return schedules for a rent (combined first), ordered for display."""
+    if rent.schedule_links:
+        links = sorted(
+            rent.schedule_links,
+            key=lambda x: (not x.is_primary, x.id_schedule),
+        )
+        out = [ln.schedule for ln in links if ln.schedule is not None]
+        if out:
+            return out
+    if rent.schedule is not None:
+        return [rent.schedule]
+    if rent.id_schedule is not None:
+        sch = schedule_repository.get_schedule(db, rent.id_schedule)
+        if sch is not None:
+            return [sch]
+    return []
 
 
 class RentHydrator:
@@ -47,21 +67,12 @@ class RentHydrator:
 
         Used by: RentService list endpoints.
         """
-        schedules: List[Schedule] = []
+        all_schedules: List[Schedule] = []
         for rent in rents:
-            schedule = rent.schedule or schedule_repository.get_schedule(
-                self.db, rent.id_schedule
-            )
-            if schedule is None:
-                raise http_error(
-                    SCHEDULE_NOT_FOUND,
-                    detail="Associated schedule not found",
-                )
-            rent.schedule = schedule
-            schedules.append(schedule)
+            all_schedules.extend(ordered_schedules_for_rent(self.db, rent))
 
-        field_ids = [schedule.id_field for schedule in schedules if schedule.id_field]
-        user_ids = [schedule.id_user for schedule in schedules if schedule.id_user]
+        field_ids = [s.id_field for s in all_schedules if s.id_field]
+        user_ids = [s.id_user for s in all_schedules if s.id_user]
 
         fields = booking_reader.get_field_summaries(self.db, field_ids)
         try:
@@ -74,15 +85,24 @@ class RentHydrator:
 
         responses: List[RentResponse] = []
         for rent in rents:
-            schedule = rent.schedule
-            field = fields.get(schedule.id_field)
-            user = users.get(schedule.id_user)
-            schedule_summary = self._build_schedule_summary(
-                schedule,
-                field=field,
-                user=user,
-            )
-            responses.append(self._build_rent_response(rent, schedule_summary))
+            ordered = ordered_schedules_for_rent(self.db, rent)
+            if not ordered:
+                raise http_error(
+                    SCHEDULE_NOT_FOUND,
+                    detail="Associated schedule not found",
+                )
+            summaries: List[ScheduleSummary] = []
+            for schedule in ordered:
+                field = fields.get(schedule.id_field)
+                user = users.get(schedule.id_user)
+                summaries.append(
+                    self._build_schedule_summary(
+                        schedule,
+                        field=field,
+                        user=user,
+                    )
+                )
+            responses.append(self._build_rent_response(rent, summaries))
         return responses
 
     def build_rent_responses_from_rows(self, rows: Sequence[dict]) -> List[RentResponse]:
@@ -90,72 +110,91 @@ class RentHydrator:
 
         Used by: RentService list_rents_by_campus view.
         """
+        if not rows:
+            return []
+
+        sorted_rows = sorted(
+            rows,
+            key=lambda r: (
+                r["id_rent"],
+                not r.get("rent_schedule_is_primary", True),
+                r["id_schedule"],
+            ),
+        )
         responses: List[RentResponse] = []
-        for row in rows:
-            field = FieldSummary(
-                id_field=row["field_id_field"],
-                field_name=row["field_name"],
-                capacity=row["field_capacity"],
-                surface=row["field_surface"],
-                measurement=row["field_measurement"],
-                price_per_hour=row["field_price_per_hour"],
-                status=row["field_status"],
-                open_time=row["field_open_time"],
-                close_time=row["field_close_time"],
-                minutes_wait=row["field_minutes_wait"],
-                id_sport=row["field_id_sport"],
-                id_campus=row["field_id_campus"],
-            )
-            user = None
-            if row["user_id_user"] is not None:
-                user = UserSummary(
-                    id_user=row["user_id_user"],
-                    name=row["user_name"],
-                    lastname=row["user_lastname"],
-                    email=row["user_email"],
-                    phone=row["user_phone"],
-                    imageurl=row["user_imageurl"],
-                    status=row["user_status"],
+        for _rent_id, group in groupby(sorted_rows, key=lambda r: r["id_rent"]):
+            grp = list(group)
+            schedule_summaries: List[ScheduleSummary] = []
+            for row in grp:
+                field = FieldSummary(
+                    id_field=row["field_id_field"],
+                    field_name=row["field_name"],
+                    capacity=row["field_capacity"],
+                    surface=row["field_surface"],
+                    measurement=row["field_measurement"],
+                    price_per_hour=row["field_price_per_hour"],
+                    status=row["field_status"],
+                    open_time=row["field_open_time"],
+                    close_time=row["field_close_time"],
+                    minutes_wait=row["field_minutes_wait"],
+                    id_sport=row["field_id_sport"],
+                    id_campus=row["field_id_campus"],
                 )
-            schedule_summary = ScheduleSummary(
-                id_schedule=row["id_schedule"],
-                day_of_week=row["schedule_day_of_week"],
-                start_time=row["schedule_start_time"],
-                end_time=row["schedule_end_time"],
-                status=row["schedule_status"],
-                id_status=row.get("schedule_id_status"),
-                price=row["schedule_price"],
-                field=field,
-                user=user,
-            )
+                user = None
+                if row["user_id_user"] is not None:
+                    user = UserSummary(
+                        id_user=row["user_id_user"],
+                        name=row["user_name"],
+                        lastname=row["user_lastname"],
+                        email=row["user_email"],
+                        phone=row["user_phone"],
+                        imageurl=row["user_imageurl"],
+                        status=row["user_status"],
+                    )
+                schedule_summaries.append(
+                    ScheduleSummary(
+                        id_schedule=row["id_schedule"],
+                        day_of_week=row["schedule_day_of_week"],
+                        start_time=row["schedule_start_time"],
+                        end_time=row["schedule_end_time"],
+                        status=row["schedule_status"],
+                        id_status=row.get("schedule_id_status"),
+                        price=row["schedule_price"],
+                        field=field,
+                        user=user,
+                    )
+                )
+            first = grp[0]
+            primary = schedule_summaries[0]
             responses.append(
                 RentResponse(
-                    id_rent=row["id_rent"],
-                    period=row["period"],
-                    start_time=row["start_time"],
-                    end_time=row["end_time"],
-                    initialized=row["initialized"],
-                    finished=row["finished"],
-                    status=row["status"],
-                    id_status=row.get("rent_id_status"),
-                    minutes=row["minutes"],
-                    mount=row["mount"],
-                    date_log=row["date_log"],
-                    date_create=row["date_create"],
-                    payment_deadline=row["payment_deadline"],
-                    capacity=row["capacity"],
-                    id_payment=row["id_payment"],
-                    payment_code=row.get("payment_code"),
-                    payment_proof_url=row.get("payment_proof_url"),
-                    payment_reviewed_at=row.get("payment_reviewed_at"),
-                    payment_reviewed_by=row.get("payment_reviewed_by"),
-                    customer_full_name=row.get("customer_full_name"),
-                    customer_phone=row.get("customer_phone"),
-                    customer_email=row.get("customer_email"),
-                    customer_document=row.get("customer_document"),
-                    customer_notes=row.get("customer_notes"),
-                    id_schedule=row["id_schedule"],
-                    schedule=schedule_summary,
+                    id_rent=first["id_rent"],
+                    period=first["period"],
+                    start_time=first["start_time"],
+                    end_time=first["end_time"],
+                    initialized=first["initialized"],
+                    finished=first["finished"],
+                    status=first["status"],
+                    id_status=first.get("rent_id_status"),
+                    minutes=first["minutes"],
+                    mount=first["mount"],
+                    date_log=first["date_log"],
+                    date_create=first["date_create"],
+                    payment_deadline=first["payment_deadline"],
+                    capacity=first["capacity"],
+                    id_payment=first["id_payment"],
+                    payment_code=first.get("payment_code"),
+                    payment_proof_url=first.get("payment_proof_url"),
+                    payment_reviewed_at=first.get("payment_reviewed_at"),
+                    payment_reviewed_by=first.get("payment_reviewed_by"),
+                    customer_full_name=first.get("customer_full_name"),
+                    customer_phone=first.get("customer_phone"),
+                    customer_email=first.get("customer_email"),
+                    customer_document=first.get("customer_document"),
+                    customer_notes=first.get("customer_notes"),
+                    id_schedule=primary.id_schedule,
+                    schedules=schedule_summaries,
+                    schedule=primary,
                 )
             )
         return responses
@@ -191,12 +230,13 @@ class RentHydrator:
     @staticmethod
     def _build_rent_response(
         rent: Rent,
-        schedule: ScheduleSummary,
+        schedule_summaries: List[ScheduleSummary],
     ) -> RentResponse:
         """Build the final RentResponse object.
 
         Used by: hydrate_rents/build_rent_responses_from_rows.
         """
+        primary = schedule_summaries[0]
         return RentResponse(
             id_rent=rent.id_rent,
             period=rent.period,
@@ -222,9 +262,10 @@ class RentHydrator:
             customer_email=rent.customer_email,
             customer_document=rent.customer_document,
             customer_notes=rent.customer_notes,
-            id_schedule=rent.id_schedule,
-            schedule=schedule,
+            id_schedule=primary.id_schedule,
+            schedules=schedule_summaries,
+            schedule=primary,
         )
 
 
-__all__ = ["RentHydrator"]
+__all__ = ["RentHydrator", "ordered_schedules_for_rent"]

@@ -263,7 +263,7 @@ services:
       POSTGRES_SSL_MODE: "${POSTGRES_SSL_MODE}"
       ANALYTICS_SERVICE_URL: http://analytics:8005/api/pichangapp/v1
       RESERVATION_SERVICE_URL: http://reservation:8002/api/pichangapp/v1
-      RASA_SERVER_URL: http://rasa:5005
+      RASA_SERVER_URL: http://localhost:5005
       POSTGRES_APPLICATION_NAME: "${POSTGRES_APPLICATION_NAME}"
       DATABASE_URL: "postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}"
       RASA_ENV: production

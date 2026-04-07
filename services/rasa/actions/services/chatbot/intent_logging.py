@@ -12,6 +12,7 @@ from ...domain.chatbot.async_utils import run_in_thread
 from ...domain.chatbot.context import coerce_metadata, coerce_user_identifier
 
 LOGGER = logging.getLogger(__name__)
+ACTION_SIDE_LOGGING_ENABLED = False
 
 
 async def record_intent_and_log(
@@ -24,7 +25,12 @@ async def record_intent_and_log(
     recommendation_id: Optional[int] = None,
     message_metadata: Optional[Dict[str, Any]] = None,
 ) -> None:
-    """Persist intent statistics and log the combined user/bot message."""
+    """Persist chatbot log entry and attach intent id when available."""
+
+    # Tracker-store mirroring is the primary source of truth to avoid duplicate
+    # rows (one per BotUttered). Keep this opt-in for troubleshooting.
+    if not ACTION_SIDE_LOGGING_ENABLED:
+        return
 
     latest_message = tracker.latest_message or {}
     user_message = latest_message.get("text") or ""
@@ -36,28 +42,15 @@ async def record_intent_and_log(
     intent_data = latest_message.get("intent") or {}
     intent_name = intent_data.get("name") or "nlu_fallback"
     confidence = intent_data.get("confidence")
-    detected = bool(intent_name) and intent_name != "nlu_fallback"
-    false_positive = not detected
-
-    example_phrases = [user_message] if user_message else []
-    if not example_phrases:
-        example_phrases.append(intent_name)
-
     intent_id: Optional[int] = None
     try:
         intent_id = await run_in_thread(
-            chatbot_service.ensure_intent,
-            intent_name=intent_name,
-            example_phrases=example_phrases,
-            response_template=response_text,
-            confidence=confidence,
-            detected=detected,
-            false_positive=false_positive,
-            source_model=metadata.get("model") or metadata.get("pipeline"),
+            chatbot_service.get_intent_id,
+            intent_name,
         )
     except DatabaseError:
         LOGGER.exception(
-            "[Analytics] Unable to persist intent=%s for conversation=%s",
+            "[Analytics] Unable to resolve intent=%s for conversation=%s",
             intent_name,
             tracker.sender_id,
         )

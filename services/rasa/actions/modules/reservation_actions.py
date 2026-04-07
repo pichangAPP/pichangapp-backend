@@ -125,6 +125,10 @@ class ActionReprogramReservation(Action):
         start_dt = _rent_start_time(target_rent)
         end_dt = _rent_end_time(target_rent)
         schedule = target_rent.get("schedule") or {}
+        if not schedule:
+            schedules = target_rent.get("schedules") or []
+            if schedules:
+                schedule = schedules[0]
         field_info = schedule.get("field") or {}
         field_name = field_info.get("field_name") or "esa cancha"
         field_id = field_info.get("id_field")

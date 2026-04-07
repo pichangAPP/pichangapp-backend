@@ -4,7 +4,7 @@ import logging
 from typing import List, Optional
 
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import EventType, SessionStarted, SlotSet
+from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 
@@ -85,6 +85,8 @@ class ActionSessionStart(Action):
     ) -> List[EventType]:
         events: List[EventType] = [SessionStarted()]
         metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+        if not metadata:
+            metadata = _coerce_metadata(tracker.get_slot("session_started_metadata"))
         metadata = _enrich_metadata_with_token(metadata)
 
         LOGGER.info(
@@ -118,17 +120,37 @@ class ActionSessionStart(Action):
                     tracker.sender_id,
                 )
 
-        if "token" in metadata and tracker.get_slot("user_token") != metadata["token"]:
-            events.append(SlotSet("user_token", metadata["token"]))
-
         normalized_role = _normalize_role_from_metadata(metadata)
         if normalized_role:
             events.append(SlotSet("user_role", normalized_role))
 
-        chat_theme = tracker.get_slot("chat_theme")
-        if chat_theme:
+        chat_theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
+        if tracker.get_slot("chat_theme") != chat_theme:
             events.append(SlotSet("chat_theme", chat_theme))
 
+        if user_id is not None and not tracker.get_slot("chatbot_session_id"):
+            try:
+                ensured = await run_in_thread(
+                    chatbot_service.ensure_chat_session,
+                    user_id,
+                    chat_theme,
+                    normalized_role or tracker.get_slot("user_role") or "player",
+                )
+            except DatabaseError:
+                LOGGER.exception(
+                    "[ActionSessionStart] database error ensuring chat session for user_id=%s",
+                    user_id,
+                )
+            else:
+                events.append(SlotSet("chatbot_session_id", str(ensured)))
+
+        if "token" in metadata and tracker.get_slot("user_token") != metadata["token"]:
+            events.append(SlotSet("user_token", metadata["token"]))
+
+        if metadata:
+            events.append(SlotSet("session_started_metadata", metadata))
+
+        events.append(ActionExecuted("action_listen"))
         return events
 
 

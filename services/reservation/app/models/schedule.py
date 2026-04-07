@@ -22,7 +22,11 @@ class Schedule(Base):
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
     updated_at = Column(DateTime(timezone=True), nullable=True, onupdate=func.now())
 
-    rents = relationship("Rent", back_populates="schedule", cascade="all, delete-orphan")
+    rent_links = relationship(
+        "RentSchedule",
+        back_populates="schedule",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:  # pragma: no cover - debugging helper
         return (

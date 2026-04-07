@@ -12,6 +12,7 @@ from app.schemas.rent import (
     RentAdminCreate,
     RentAdminUpdate,
     RentCreate,
+    RentCreateCombo,
     RentPaymentResponse,
     RentResponse,
     RentUpdate,
@@ -105,6 +106,18 @@ def create_rent(
 
     service = RentService(db)
     return service.create_rent(payload, background_tasks=background_tasks)
+
+
+@router.post("/combo", response_model=RentPaymentResponse, status_code=status.HTTP_201_CREATED)
+def create_rent_combo(
+    payload: RentCreateCombo,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+) -> RentPaymentResponse:
+    """Create a rent that spans multiple fields (combined courts)."""
+
+    service = RentService(db)
+    return service.create_rent_combo(payload, background_tasks=background_tasks)
 
 
 @router.post("/admin", response_model=RentResponse, status_code=status.HTTP_201_CREATED)

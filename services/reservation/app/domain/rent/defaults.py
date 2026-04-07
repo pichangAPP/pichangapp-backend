@@ -75,6 +75,7 @@ def apply_schedule_defaults(
     schedule_changed: bool,
     existing_rent: Optional[Rent] = None,
     field_summary: Optional[FieldSummary] = None,
+    mount_override: Optional[Decimal] = None,
 ) -> None:
     """Populate rent_data with schedule-driven defaults and derived fields.
 
@@ -83,7 +84,10 @@ def apply_schedule_defaults(
     rent_data["id_schedule"] = schedule.id_schedule
     rent_data["start_time"] = schedule.start_time
     rent_data["end_time"] = schedule.end_time
-    rent_data["mount"] = schedule.price
+    if mount_override is not None:
+        rent_data["mount"] = mount_override
+    else:
+        rent_data["mount"] = schedule.price
 
     minutes = calculate_minutes(
         start_time=schedule.start_time,

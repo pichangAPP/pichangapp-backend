@@ -46,5 +46,90 @@ stories:
 
   - story: test fallback
     steps:
+      - slot_was_set:
+          - user_role: "player"
       - intent: nlu_fallback
       - action: utter_default_fallback
+      - action: utter_what_can_you_do
+
+  - story: test admin metrics continuity
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_metrics
+        entities:
+          - metric_type: "ocupacion"
+          - metric_period: "semana"
+      - action: action_route_admin_request
+      - action: admin_metrics_form
+      - active_loop: null
+      - action: action_provide_admin_metrics
+      - action: action_admin_post_topic_followup
+
+  - story: test admin metrics followup with inform
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_metrics
+        entities:
+          - metric_type: "ocupacion"
+          - metric_period: "semana"
+      - action: action_route_admin_request
+      - action: admin_metrics_form
+      - active_loop: null
+      - action: action_provide_admin_metrics
+      - action: action_admin_post_topic_followup
+      - intent: inform
+      - action: action_route_admin_request
+      - action: admin_metrics_form
+      - active_loop: null
+      - action: action_provide_admin_metrics
+      - action: action_admin_post_topic_followup
+      - intent: request_admin_metrics
+        entities:
+          - metric_type: "ingresos"
+          - metric_period: "esta semana"
+      - action: action_route_admin_request
+      - action: admin_metrics_form
+      - active_loop: null
+      - action: action_provide_admin_metrics
+      - action: action_admin_post_topic_followup
+
+  - story: test admin route to top clients
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_top_clients
+      - action: action_route_admin_request
+      - action: action_provide_admin_campus_top_clients
+      - action: action_admin_post_topic_followup
+
+  - story: test admin route from nlu fallback
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: nlu_fallback
+      - action: action_route_admin_request
+
+  - story: test switch from metrics form to another admin topic
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - action: admin_metrics_form
+      - active_loop: admin_metrics_form
+      - intent: request_admin_top_clients
+      - action: action_deactivate_loop
+      - action: action_route_admin_request
+      - action: action_provide_admin_campus_top_clients
+      - action: action_admin_post_topic_followup
+
+  - story: test contextual followup with pending topics
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - slot_was_set:
+          - admin_topic_detected: "metrics"
+      - slot_was_set:
+          - admin_topics_pending:
+              - top_clients
+      - action: action_admin_post_topic_followup

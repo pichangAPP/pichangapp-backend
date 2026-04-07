@@ -31,7 +31,36 @@ echo "✔ Rasa Server PID: $RASA_PID"
 ###############################################
 # 3) Pequeña espera para que termine de cargar
 ###############################################
-sleep 10
+echo "⏳ Esperando a que Rasa Server responda en /status..."
+if python - <<'PY'
+import json
+import time
+import urllib.request
+
+url = "http://localhost:5005/status"
+timeout_seconds = 180
+start = time.monotonic()
+
+while True:
+    try:
+        with urllib.request.urlopen(url, timeout=2) as resp:
+            if resp.status == 200:
+                data = json.loads(resp.read().decode("utf-8") or "{}")
+                if data.get("model_file"):
+                    print("✔ Rasa Server listo.")
+                    raise SystemExit(0)
+    except Exception:
+        pass
+
+    if time.monotonic() - start > timeout_seconds:
+        print("⚠️ Rasa Server no respondió a tiempo. Continuando...")
+        raise SystemExit(1)
+
+    time.sleep(2)
+PY
+then
+  :
+fi
 
 ###############################################
 # 4) Levantar FastAPI (8006)

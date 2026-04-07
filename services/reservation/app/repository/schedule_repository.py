@@ -3,10 +3,12 @@ from __future__ import annotations
 from datetime import date, datetime
 from typing import Iterable, Optional, Sequence
 
-from sqlalchemy import exists, func
+from sqlalchemy import exists, func, or_
 from sqlalchemy.orm import Session, load_only
+
 from app.core.status_constants import RENT_FINAL_STATUS_CODES
 from app.models.rent import Rent
+from app.models.rent_schedule import RentSchedule
 from app.models.schedule import Schedule
 
 
@@ -121,16 +123,19 @@ def list_available_schedules(
         if status_value
     ]
 
-    active_rent_exists = exists().where(
-        Rent.id_schedule == Schedule.id_schedule,
+    excluded_list = list(excluded_statuses)
+    primary_exists = exists().where(Rent.id_schedule == Schedule.id_schedule)
+    junction_exists = (
+        exists()
+        .select_from(RentSchedule)
+        .join(Rent, Rent.id_rent == RentSchedule.id_rent)
+        .where(RentSchedule.id_schedule == Schedule.id_schedule)
     )
+    if excluded_list:
+        primary_exists = primary_exists.where(Rent.status.notin_(excluded_list))
+        junction_exists = junction_exists.where(Rent.status.notin_(excluded_list))
 
-    if excluded_statuses:
-        active_rent_exists = active_rent_exists.where(
-            Rent.status.notin_(excluded_statuses)
-        )
-
-    query = query.filter(~active_rent_exists)
+    query = query.filter(~or_(primary_exists, junction_exists))
 
     return query.order_by(Schedule.start_time).all()
 

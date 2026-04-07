@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable, Optional
+from decimal import Decimal
+from typing import Iterable, Optional, Tuple
 
 from sqlalchemy import bindparam, text
 from sqlalchemy.orm import Session
@@ -36,6 +37,53 @@ class CampusSummary:
     id_manager: Optional[int]
     email_contact: Optional[str]
     phone_contact: Optional[str]
+
+
+@dataclass(frozen=True)
+class FieldCombinationForReservation:
+    id_combination: int
+    id_campus: int
+    status: str
+    price_per_hour: Decimal
+    member_field_ids: Tuple[int, ...]
+
+
+def get_field_combination_for_reservation(
+    db: Session,
+    combination_id: int,
+    *,
+    active_only: bool = True,
+) -> Optional[FieldCombinationForReservation]:
+    status_clause = "AND c.status = 'active'" if active_only else ""
+    query = text(
+        f"""
+        SELECT
+            c.id_combination,
+            c.id_campus,
+            c.status,
+            c.price_per_hour,
+            array_agg(m.id_field ORDER BY m.sort_order, m.id_field) AS field_ids
+        FROM booking.field_combination c
+        JOIN booking.field_combination_member m ON m.id_combination = c.id_combination
+        WHERE c.id_combination = :cid
+        {status_clause}
+        GROUP BY c.id_combination, c.id_campus, c.status, c.price_per_hour
+        """
+    )
+    row = db.execute(query, {"cid": combination_id}).mappings().first()
+    if row is None:
+        return None
+    raw_ids = row["field_ids"]
+    if raw_ids is None:
+        return None
+    field_ids = tuple(int(x) for x in raw_ids)
+    return FieldCombinationForReservation(
+        id_combination=int(row["id_combination"]),
+        id_campus=int(row["id_campus"]),
+        status=str(row["status"]),
+        price_per_hour=Decimal(str(row["price_per_hour"])),
+        member_field_ids=field_ids,
+    )
 
 
 def get_field_summary(db: Session, field_id: int) -> Optional[FieldSummary]:
@@ -122,6 +170,8 @@ def update_field_status(db: Session, field_id: int, status: str) -> bool:
 
 __all__ = [
     "CampusSummary",
+    "FieldCombinationForReservation",
+    "get_field_combination_for_reservation",
     "get_campus_summary",
     "get_field_ids_by_campus",
     "get_field_summary",

@@ -1,0 +1,198 @@
+{
+  "help": {
+    "precision": 1.0,
+    "recall": 0.972972972972973,
+    "f1-score": 0.9863013698630136,
+    "support": 74.0,
+    "confused_with": {
+      "show_faqs": 2
+    }
+  },
+  "ask_feedback_status": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 48.0,
+    "confused_with": {}
+  },
+  "request_admin_recommendation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 51.0,
+    "confused_with": {}
+  },
+  "show_promotions": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 37.0,
+    "confused_with": {}
+  },
+  "ask_cancellation_policy": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 81.0,
+    "confused_with": {}
+  },
+  "SetSlots": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 5.0,
+    "confused_with": {}
+  },
+  "ask_reprogram_reservation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 28.0,
+    "confused_with": {}
+  },
+  "goodbye": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 75.0,
+    "confused_with": {}
+  },
+  "show_previous_recommendations": {
+    "precision": 0.9692307692307692,
+    "recall": 1.0,
+    "f1-score": 0.984375,
+    "support": 63.0,
+    "confused_with": {}
+  },
+  "ask_modify_reservation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 44.0,
+    "confused_with": {}
+  },
+  "request_admin_metrics": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 39.0,
+    "confused_with": {}
+  },
+  "request_admin_field_usage": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 49.0,
+    "confused_with": {}
+  },
+  "request_admin_top_clients": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 41.0,
+    "confused_with": {}
+  },
+  "inform": {
+    "precision": 0.9464285714285714,
+    "recall": 0.9814814814814815,
+    "f1-score": 0.9636363636363636,
+    "support": 54.0,
+    "confused_with": {
+      "request_field_recommendation": 1
+    }
+  },
+  "request_field_recommendation": {
+    "precision": 0.99830220713073,
+    "recall": 0.9915682967959528,
+    "f1-score": 0.9949238578680203,
+    "support": 593.0,
+    "confused_with": {
+      "inform": 3,
+      "show_previous_recommendations": 2
+    }
+  },
+  "greet": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 79.0,
+    "confused_with": {}
+  },
+  "give_positive_feedback": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 12.0,
+    "confused_with": {}
+  },
+  "affirm": {
+    "precision": 1.0,
+    "recall": 0.9876543209876543,
+    "f1-score": 0.9937888198757764,
+    "support": 81.0,
+    "confused_with": {
+      "ask_reservation_process": 1
+    }
+  },
+  "request_admin_demand_alerts": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 32.0,
+    "confused_with": {}
+  },
+  "give_negative_feedback": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 17.0,
+    "confused_with": {}
+  },
+  "ask_reservation_process": {
+    "precision": 0.9836065573770492,
+    "recall": 1.0,
+    "f1-score": 0.9917355371900827,
+    "support": 60.0,
+    "confused_with": {}
+  },
+  "deny": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 77.0,
+    "confused_with": {}
+  },
+  "ask_pricing_info": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 116.0,
+    "confused_with": {}
+  },
+  "show_faqs": {
+    "precision": 0.9591836734693877,
+    "recall": 1.0,
+    "f1-score": 0.9791666666666666,
+    "support": 47.0,
+    "confused_with": {}
+  },
+  "accuracy": 0.9950083194675541,
+  "macro avg": {
+    "precision": 0.9940313241098545,
+    "recall": 0.997236544676586,
+    "f1-score": 0.9955803172958303,
+    "support": 1803.0
+  },
+  "weighted avg": {
+    "precision": 0.99515247711752,
+    "recall": 0.9950083194675541,
+    "f1-score": 0.9950360497485518,
+    "support": 1803.0
+  },
+  "micro avg": {
+    "precision": 0.9950083194675541,
+    "recall": 0.9950083194675541,
+    "f1-score": 0.9950083194675541,
+    "support": 1803.0
+  }
+}

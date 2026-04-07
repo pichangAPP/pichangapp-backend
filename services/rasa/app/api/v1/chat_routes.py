@@ -35,6 +35,20 @@ _rasa_client = RasaClient(
 )
 
 
+def _build_empty_rasa_reply(conversation_id: str, user_role: str) -> ChatbotMessage:
+    if user_role == "admin":
+        text = (
+            "No generé respuesta esta vez. "
+            "Prueba con: 'métricas de hoy', 'clientes top' o 'uso de canchas'."
+        )
+    else:
+        text = (
+            "No generé respuesta esta vez. "
+            "Prueba con: 'quiero reservar', 'precio' o 'canchas en Surco'."
+        )
+    return ChatbotMessage(recipient_id=conversation_id, text=text)
+
+
 def _resolve_user_id(payload: Dict[str, Any]) -> int:
     user_identifier = payload.get("sub") or payload.get("id")
     if user_identifier is None:
@@ -109,6 +123,11 @@ async def send_message(
     metadata.setdefault("model", settings.RASA_DEFAULT_SOURCE_MODEL)
 
     try:
+        if not await _rasa_client.is_ready():
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="El servidor de Rasa está iniciando. Intenta de nuevo en unos segundos.",
+            )
         rasa_messages = await _rasa_client.send_message(
             conversation_id,
             request.message,
@@ -126,6 +145,8 @@ async def send_message(
         ) from exc
 
     messages = [_coerce_message(item) for item in rasa_messages]
+    if not messages:
+        messages = [_build_empty_rasa_reply(conversation_id, user_role)]
     return ChatMessageResponse(conversation_id=conversation_id, messages=messages)
 
 

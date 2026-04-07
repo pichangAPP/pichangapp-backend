@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from decimal import Decimal
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -33,13 +33,42 @@ class RentBase(BaseModel):
     customer_email: Optional[str] = Field(None, max_length=200)
     customer_document: Optional[str] = Field(None, max_length=30)
     customer_notes: Optional[str] = None
-    id_schedule: int
+    id_schedule: Optional[int] = None
 
 
 class RentCreate(BaseModel):
     """Schema used when creating a new rent."""
 
     id_schedule: int = Field(..., gt=0)
+    id_payment: Optional[int] = Field(None, gt=0)
+    status: str = Field(..., max_length=30)
+    id_status: Optional[int] = None
+    period: Optional[str] = Field(None, max_length=20)
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    initialized: Optional[datetime] = None
+    finished: Optional[datetime] = None
+    minutes: Optional[Decimal] = None
+    mount: Optional[Decimal] = None
+    date_log: Optional[datetime] = None
+    date_create: Optional[datetime] = None
+    capacity: Optional[int] = Field(None, ge=0)
+    customer_full_name: Optional[str] = Field(None, max_length=200)
+    customer_phone: Optional[str] = Field(None, max_length=20)
+    customer_email: Optional[str] = Field(None, max_length=200)
+    customer_document: Optional[str] = Field(None, max_length=30)
+    customer_notes: Optional[str] = None
+    payment_code: Optional[str] = Field(None, max_length=30)
+    payment_proof_url: Optional[str] = None
+    payment_reviewed_at: Optional[datetime] = None
+    payment_reviewed_by: Optional[int] = None
+
+
+class RentCreateCombo(BaseModel):
+    """Create a single rent covering multiple fields (combined courts)."""
+
+    id_combination: int = Field(..., gt=0)
+    id_schedules: List[int] = Field(..., min_length=2)
     id_payment: Optional[int] = Field(None, gt=0)
     status: str = Field(..., max_length=30)
     id_status: Optional[int] = None
@@ -150,6 +179,7 @@ class RentResponse(RentBase):
     """Rent data returned to API clients."""
 
     id_rent: int
+    schedules: List[ScheduleSummary]
     schedule: ScheduleSummary
 
     class Config:

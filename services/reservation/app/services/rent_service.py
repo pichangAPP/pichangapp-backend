@@ -28,15 +28,18 @@ from app.schemas.rent import (
     RentCancelRequest,
     RentCancelResponse,
     RentCreate,
+    RentCreateCombo,
     RentPaymentResponse,
     RentResponse,
     RentUpdate,
 )
+from app.domain.rent.combo import compute_combo_mount, validate_combo_schedules
 from app.domain.rent.defaults import (
     apply_admin_note,
     apply_schedule_defaults,
     ensure_admin_customer_fields,
 )
+from app.domain.rent.hydrator import ordered_schedules_for_rent
 from app.domain.rent.field_status import (
     refresh_field_status,
     reset_field_status_after_time,
@@ -68,6 +71,28 @@ class RentService:
     @classmethod
     def _active_excluded_statuses(cls) -> List[str]:
         return [value for value in cls._EXCLUDED_RENT_STATUSES if value]
+
+    def _field_ids_for_rent(self, rent: Rent) -> List[int]:
+        out: List[int] = []
+        for sch in ordered_schedules_for_rent(self.db, rent):
+            if sch.id_field is not None:
+                out.append(int(sch.id_field))
+        return list(dict.fromkeys(out))
+
+    def _schedule_link_count(self, rent: Rent) -> int:
+        if rent.schedule_links:
+            return len(rent.schedule_links)
+        return 1 if rent.id_schedule is not None else 0
+
+    def _primary_schedule_id(self, rent: Rent) -> Optional[int]:
+        if rent.id_schedule is not None:
+            return int(rent.id_schedule)
+        for ln in rent.schedule_links or []:
+            if ln.is_primary:
+                return int(ln.id_schedule)
+        if rent.schedule_links:
+            return int(rent.schedule_links[0].id_schedule)
+        return None
 
     def _get_rent_model(self, rent_id: int) -> Rent:
         rent = rent_repository.get_rent(self.db, rent_id)
@@ -216,6 +241,12 @@ class RentService:
             validate_payment(self.db, int(rent_data["id_payment"]))
 
         rent = rent_repository.create_rent(self.db, rent_data)
+        rent_repository.add_rent_schedule_link(
+            self.db,
+            rent_id=rent.id_rent,
+            schedule_id=schedule.id_schedule,
+            is_primary=True,
+        )
         schedule.status = SCHEDULE_HOLD_PAYMENT_STATUS_CODE
         schedule.id_status = resolve_status_id(
             self.db,
@@ -223,18 +254,6 @@ class RentService:
             code=SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
         )
         schedule_repository.save_schedule(self.db, schedule)
-        persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
-        if persisted_rent is not None:
-            rent_response = hydrator.hydrate_rent(persisted_rent)
-            instructions = build_payment_instructions(
-                self.db,
-                persisted_rent,
-                field_summary=field_summary,
-            )
-            return RentPaymentResponse(
-                rent=rent_response,
-                payment_instructions=instructions,
-            )
 
         refresh_field_status(
             self.db,
@@ -314,6 +333,12 @@ class RentService:
         )
 
         rent = rent_repository.create_rent(self.db, rent_data)
+        rent_repository.add_rent_schedule_link(
+            self.db,
+            rent_id=rent.id_rent,
+            schedule_id=schedule.id_schedule,
+            is_primary=True,
+        )
         schedule.status = SCHEDULE_HOLD_PAYMENT_STATUS_CODE
         schedule.id_status = resolve_status_id(
             self.db,
@@ -321,10 +346,6 @@ class RentService:
             code=SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
         )
         schedule_repository.save_schedule(self.db, schedule)
-
-        persisted_rent = rent_repository.get_rent(self.db, rent.id_rent)
-        if persisted_rent is not None:
-            return hydrator.hydrate_rent(persisted_rent)
 
         refresh_field_status(
             self.db,
@@ -343,14 +364,155 @@ class RentService:
         persisted = rent_repository.get_rent(self.db, rent.id_rent)
         return hydrator.hydrate_rent(persisted)
 
+    def create_rent_combo(
+        self,
+        payload: RentCreateCombo,
+        *,
+        background_tasks: Optional[BackgroundTasks] = None,
+    ) -> RentPaymentResponse:
+        hydrator = RentHydrator(self.db)
+        if payload.status != RENT_PENDING_PAYMENT_STATUS_CODE:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Create rent only supports status 'pending_payment'",
+            )
+
+        combo = booking_reader.get_field_combination_for_reservation(
+            self.db,
+            payload.id_combination,
+            active_only=True,
+        )
+        if combo is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Field combination not found or inactive",
+            )
+
+        ordered_schedules = validate_combo_schedules(
+            self.db,
+            member_field_ids=list(combo.member_field_ids),
+            schedule_ids=payload.id_schedules,
+            excluded_rent_statuses=self._active_excluded_statuses(),
+        )
+        primary = ordered_schedules[0]
+        for sch in ordered_schedules:
+            ensure_schedule_not_started(sch)
+
+        mount_override = compute_combo_mount(
+            price_per_hour=combo.price_per_hour,
+            start_time=primary.start_time,
+            end_time=primary.end_time,
+        )
+
+        field_summary = (
+            booking_reader.get_field_summary(self.db, primary.id_field)
+            if primary.id_field is not None
+            else None
+        )
+
+        rent_data = payload.model_dump(exclude_unset=True)
+        rent_data.pop("id_combination", None)
+        rent_data.pop("id_schedules", None)
+        status_code, status_id = resolve_status_pair(
+            self.db,
+            entity="rent",
+            status_code=RENT_PENDING_PAYMENT_STATUS_CODE,
+            status_id=rent_data.get("id_status"),
+        )
+        rent_data["status"] = status_code
+        rent_data["id_status"] = status_id
+        if not rent_data.get("payment_code"):
+            rent_data["payment_code"] = generate_payment_code()
+        rent_data.pop("start_time", None)
+        rent_data.pop("end_time", None)
+        rent_data.setdefault(
+            "payment_deadline",
+            datetime.now(timezone.utc) + timedelta(minutes=5),
+        )
+
+        apply_schedule_defaults(
+            self.db,
+            schedule=primary,
+            rent_data=rent_data,
+            schedule_changed=True,
+            field_summary=field_summary,
+            mount_override=mount_override,
+        )
+
+        if rent_data.get("id_payment") is not None:
+            validate_payment(self.db, int(rent_data["id_payment"]))
+
+        schedule_links = [
+            (sch.id_schedule, sch.id_schedule == primary.id_schedule)
+            for sch in ordered_schedules
+        ]
+        rent = rent_repository.create_rent_with_schedule_links(
+            self.db,
+            rent_data,
+            schedule_links,
+        )
+
+        hold_status_id = resolve_status_id(
+            self.db,
+            entity="schedule",
+            code=SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
+        )
+        for sch in ordered_schedules:
+            sch.status = SCHEDULE_HOLD_PAYMENT_STATUS_CODE
+            sch.id_status = hold_status_id
+            schedule_repository.save_schedule(self.db, sch)
+
+        field_ids = {sch.id_field for sch in ordered_schedules if sch.id_field is not None}
+        for fid in field_ids:
+            refresh_field_status(
+                self.db,
+                fid,
+                excluded_statuses=self._active_excluded_statuses(),
+            )
+        if background_tasks is not None:
+            for fid in field_ids:
+                background_tasks.add_task(
+                    reset_field_status_after_time,
+                    field_id=fid,
+                    end_time=rent.end_time,
+                    excluded_statuses=self._active_excluded_statuses(),
+                )
+
+        persisted = rent_repository.get_rent(self.db, rent.id_rent)
+        rent_response = hydrator.hydrate_rent(persisted)
+        instructions = build_payment_instructions(
+            self.db,
+            persisted,
+            field_summary=field_summary,
+        )
+        return RentPaymentResponse(
+            rent=rent_response,
+            payment_instructions=instructions,
+        )
+
     def cancel_rent(self, rent_id: int, payload: RentCancelRequest) -> RentCancelResponse:
         rent: Optional[Rent] = rent_repository.get_rent(self.db, rent_id)
-        schedule: Optional[Schedule] = None
 
         if rent is None and payload.schedule_id is None:
             raise http_error(
                 RENT_NOT_FOUND,
                 detail="Rent not found",
+            )
+
+        schedule_ids_to_release: List[int] = []
+        if rent is not None:
+            schedule_ids_to_release = rent_repository.list_schedule_ids_for_rent(
+                self.db, rent.id_rent
+            )
+            if not schedule_ids_to_release and rent.id_schedule is not None:
+                schedule_ids_to_release = [rent.id_schedule]
+        elif payload.schedule_id is not None:
+            schedule_ids_to_release = [payload.schedule_id]
+
+        if not schedule_ids_to_release:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="schedule_id is required when rent is not provided",
             )
 
         if rent is not None:
@@ -361,59 +523,45 @@ class RentService:
                     status_code=status.HTTP_409_CONFLICT,
                     detail="Rent cannot be cancelled in its current status",
                 )
-            schedule = (
-                schedule_repository.get_schedule(self.db, rent.id_schedule)
-                if rent.id_schedule is not None
-                else None
-            )
-            if schedule is None:
-                raise http_error(
-                    SCHEDULE_NOT_FOUND,
-                    detail="Associated schedule not found",
-                )
-
             rent.status = "cancelled"
             rent.id_status = resolve_status_id(self.db, entity="rent", code="cancelled")
             rent_repository.save_rent(self.db, rent)
 
-        schedule_id = payload.schedule_id if schedule is None else schedule.id_schedule
-        if schedule_id is None:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="schedule_id is required when rent is not provided",
-            )
-
-        schedule = schedule or schedule_repository.get_schedule(self.db, schedule_id)
-        if schedule is None:
-            raise http_error(
-                SCHEDULE_NOT_FOUND,
-                detail="Schedule not found",
-            )
-
-        schedule_status_value = (schedule.status or "").lower()
-        if schedule_status_value != SCHEDULE_AVAILABLE_STATUS_CODE:
-            if schedule_status_value not in {
-                SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
-                SCHEDULE_PENDING_STATUS_CODE,
-            }:
-                raise HTTPException(
-                    status_code=status.HTTP_409_CONFLICT,
-                    detail="Schedule cannot be released in its current status",
+        last_status = SCHEDULE_AVAILABLE_STATUS_CODE
+        last_id: Optional[int] = None
+        for sid in schedule_ids_to_release:
+            sch = schedule_repository.get_schedule(self.db, sid)
+            if sch is None:
+                raise http_error(
+                    SCHEDULE_NOT_FOUND,
+                    detail="Schedule not found",
                 )
+            schedule_status_value = (sch.status or "").lower()
+            if schedule_status_value != SCHEDULE_AVAILABLE_STATUS_CODE:
+                if schedule_status_value not in {
+                    SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
+                    SCHEDULE_PENDING_STATUS_CODE,
+                }:
+                    raise HTTPException(
+                        status_code=status.HTTP_409_CONFLICT,
+                        detail="Schedule cannot be released in its current status",
+                    )
 
-            schedule.status = SCHEDULE_AVAILABLE_STATUS_CODE
-            schedule.id_status = resolve_status_id(
-                self.db,
-                entity="schedule",
-                code=SCHEDULE_AVAILABLE_STATUS_CODE,
-            )
-            schedule_repository.save_schedule(self.db, schedule)
+                sch.status = SCHEDULE_AVAILABLE_STATUS_CODE
+                sch.id_status = resolve_status_id(
+                    self.db,
+                    entity="schedule",
+                    code=SCHEDULE_AVAILABLE_STATUS_CODE,
+                )
+                schedule_repository.save_schedule(self.db, sch)
+            last_status = sch.status
+            last_id = sch.id_schedule
 
         return RentCancelResponse(
             rent_id=rent.id_rent if rent is not None else None,
             rent_status=rent.status if rent is not None else None,
-            schedule_id=schedule.id_schedule,
-            schedule_status=schedule.status,
+            schedule_id=last_id if last_id is not None else schedule_ids_to_release[0],
+            schedule_status=last_status,
         )
 
     def update_rent(
@@ -425,10 +573,20 @@ class RentService:
     ) -> RentResponse:
         hydrator = RentHydrator(self.db)
         rent = self._get_rent_model(rent_id)
-        original_schedule = rent.schedule or get_schedule(self.db, rent.id_schedule)
-        original_field_id = original_schedule.id_field if original_schedule else None
+        original_schedules = ordered_schedules_for_rent(self.db, rent)
+        original_schedule = (
+            original_schedules[0]
+            if original_schedules
+            else (get_schedule(self.db, rent.id_schedule) if rent.id_schedule else None)
+        )
+        original_field_ids = self._field_ids_for_rent(rent)
 
         update_data = payload.model_dump(exclude_unset=True)
+        if self._schedule_link_count(rent) > 1 and "id_schedule" in update_data:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot change schedule on a combined-field rent",
+            )
         notify_after_payment = (
             "id_payment" in update_data
             and update_data["id_payment"] is not None
@@ -464,7 +622,9 @@ class RentService:
             update_data["status"] = status_code
             update_data["id_status"] = status_id
 
-        target_schedule = rent.schedule or get_schedule(self.db, rent.id_schedule)
+        target_schedule = original_schedule
+        if target_schedule is None and rent.id_schedule is not None:
+            target_schedule = get_schedule(self.db, rent.id_schedule)
 
         if "id_schedule" in update_data:
             target_schedule = get_schedule(self.db, update_data["id_schedule"])
@@ -475,7 +635,14 @@ class RentService:
                 exclude_rent_id=rent.id_rent,
             )
 
-        schedule_changed = target_schedule.id_schedule != rent.id_schedule
+        if target_schedule is None:
+            raise http_error(
+                SCHEDULE_NOT_FOUND,
+                detail="Associated schedule not found",
+            )
+
+        prev_primary = self._primary_schedule_id(rent)
+        schedule_changed = prev_primary is None or target_schedule.id_schedule != prev_primary
 
         field_summary = (
             booking_reader.get_field_summary(self.db, target_schedule.id_field)
@@ -495,6 +662,13 @@ class RentService:
         for field, value in update_data.items():
             setattr(rent, field, value)
 
+        if schedule_changed and self._schedule_link_count(rent) <= 1:
+            rent_repository.sync_primary_schedule_link(
+                self.db,
+                rent_id=rent.id_rent,
+                new_schedule_id=target_schedule.id_schedule,
+            )
+
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
         if updated_rent is not None and notify_after_payment:
@@ -511,29 +685,22 @@ class RentService:
                     event_type="rent.payment_received",
                 )
 
-        refresh_field_status(
-            self.db,
-            original_field_id,
-            excluded_statuses=self._active_excluded_statuses(),
-        )
-
-        new_field_id = (
-            updated_rent.schedule.id_field if updated_rent.schedule is not None else None
-        )
-        if new_field_id != original_field_id:
+        new_field_ids = self._field_ids_for_rent(updated_rent)
+        for fid in set(original_field_ids) | set(new_field_ids):
             refresh_field_status(
                 self.db,
-                new_field_id,
+                fid,
                 excluded_statuses=self._active_excluded_statuses(),
             )
 
         if background_tasks is not None:
-            background_tasks.add_task(
-                reset_field_status_after_time,
-                field_id=new_field_id,
-                end_time=updated_rent.end_time,
-                excluded_statuses=self._active_excluded_statuses(),
-            )
+            for fid in new_field_ids:
+                background_tasks.add_task(
+                    reset_field_status_after_time,
+                    field_id=fid,
+                    end_time=updated_rent.end_time,
+                    excluded_statuses=self._active_excluded_statuses(),
+                )
 
         return hydrator.hydrate_rent(updated_rent)
 
@@ -548,6 +715,11 @@ class RentService:
         rent = self._get_rent_model(rent_id)
 
         update_data = payload.model_dump(exclude_unset=True)
+        if self._schedule_link_count(rent) > 1 and "id_schedule" in update_data:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot change schedule on a combined-field rent",
+            )
         notify_after_payment = (
             "id_payment" in update_data
             and update_data["id_payment"] is not None
@@ -564,10 +736,21 @@ class RentService:
             update_data["status"] = status_code
             update_data["id_status"] = status_id
 
-        target_schedule = rent.schedule or get_schedule(self.db, rent.id_schedule)
+        original_schedules = ordered_schedules_for_rent(self.db, rent)
+        target_schedule = (
+            original_schedules[0]
+            if original_schedules
+            else (get_schedule(self.db, rent.id_schedule) if rent.id_schedule else None)
+        )
 
         if "id_schedule" in update_data:
             target_schedule = get_schedule(self.db, update_data["id_schedule"])
+
+        if target_schedule is None:
+            raise http_error(
+                SCHEDULE_NOT_FOUND,
+                detail="Associated schedule not found",
+            )
 
         ensure_schedule_available(
             self.db,
@@ -576,7 +759,8 @@ class RentService:
             exclude_rent_id=rent.id_rent,
         )
 
-        schedule_changed = target_schedule.id_schedule != rent.id_schedule
+        prev_primary = self._primary_schedule_id(rent)
+        schedule_changed = prev_primary is None or target_schedule.id_schedule != prev_primary
 
         field_summary = (
             booking_reader.get_field_summary(self.db, target_schedule.id_field)
@@ -601,6 +785,13 @@ class RentService:
 
         for field, value in update_data.items():
             setattr(rent, field, value)
+
+        if schedule_changed and self._schedule_link_count(rent) <= 1:
+            rent_repository.sync_primary_schedule_link(
+                self.db,
+                rent_id=rent.id_rent,
+                new_schedule_id=target_schedule.id_schedule,
+            )
 
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
@@ -650,29 +841,32 @@ class RentService:
                         event_type=event_type,
                     )
 
-        refresh_field_status(
-            self.db,
-            target_schedule.id_field,
-            excluded_statuses=self._active_excluded_statuses(),
-        )
-
-        if background_tasks is not None:
-            background_tasks.add_task(
-                reset_field_status_after_time,
-                field_id=target_schedule.id_field,
-                end_time=updated_rent.end_time,
+        for fid in self._field_ids_for_rent(updated_rent):
+            refresh_field_status(
+                self.db,
+                fid,
                 excluded_statuses=self._active_excluded_statuses(),
             )
+
+        if background_tasks is not None:
+            for fid in self._field_ids_for_rent(updated_rent):
+                background_tasks.add_task(
+                    reset_field_status_after_time,
+                    field_id=fid,
+                    end_time=updated_rent.end_time,
+                    excluded_statuses=self._active_excluded_statuses(),
+                )
 
         return hydrator.hydrate_rent(updated_rent)
 
     def delete_rent(self, rent_id: int) -> None:
         """Delete a rent from the database."""
         rent = self._get_rent_model(rent_id)
-        field_id = rent.schedule.id_field if rent.schedule is not None else None
+        field_ids = self._field_ids_for_rent(rent)
         rent_repository.delete_rent(self.db, rent)
-        refresh_field_status(
-            self.db,
-            field_id,
-            excluded_statuses=self._active_excluded_statuses(),
-        )
+        for fid in field_ids:
+            refresh_field_status(
+                self.db,
+                fid,
+                excluded_statuses=self._active_excluded_statuses(),
+            )

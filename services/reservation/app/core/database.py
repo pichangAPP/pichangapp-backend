@@ -21,6 +21,43 @@ Base = declarative_base()
 logger = logging.getLogger(__name__)
 
 
+def ensure_rent_schedule_schema() -> None:
+    """Create rent_schedule M:N, relax rent.id_schedule nullability, backfill links."""
+    ddl = """
+    CREATE TABLE IF NOT EXISTS reservation.rent_schedule (
+        id_rent BIGINT NOT NULL
+            REFERENCES reservation.rent (id_rent) ON DELETE CASCADE,
+        id_schedule BIGINT NOT NULL
+            REFERENCES reservation.schedule (id_schedule) ON DELETE CASCADE,
+        is_primary BOOLEAN NOT NULL DEFAULT false,
+        PRIMARY KEY (id_rent, id_schedule)
+    );
+
+    CREATE INDEX IF NOT EXISTS ix_rent_schedule_schedule
+        ON reservation.rent_schedule (id_schedule);
+    """
+    try:
+        with engine.begin() as connection:
+            connection.execute(text(ddl))
+            connection.execute(
+                text("ALTER TABLE reservation.rent ALTER COLUMN id_schedule DROP NOT NULL;")
+            )
+            connection.execute(
+                text(
+                    """
+                    INSERT INTO reservation.rent_schedule (id_rent, id_schedule, is_primary)
+                    SELECT r.id_rent, r.id_schedule, true
+                    FROM reservation.rent r
+                    WHERE r.id_schedule IS NOT NULL
+                    ON CONFLICT DO NOTHING;
+                    """
+                )
+            )
+    except SQLAlchemyError as exc:
+        logger.exception("Failed to ensure rent_schedule schema")
+        raise RuntimeError("Failed to initialize rent_schedule schema") from exc
+
+
 def ensure_reservation_functions() -> None:
     function_sql = """
     DROP FUNCTION IF EXISTS reservation.get_rents_by_campus(bigint, text);
@@ -79,7 +116,8 @@ def ensure_reservation_functions() -> None:
         user_email varchar,
         user_phone varchar,
         user_imageurl text,
-        user_status varchar
+        user_status varchar,
+        rent_schedule_is_primary boolean
     )
     LANGUAGE plpgsql
     STABLE
@@ -135,14 +173,16 @@ def ensure_reservation_functions() -> None:
                u.email,
                u.phone,
                u.imageurl,
-               u.status
+               u.status,
+               COALESCE(rs.is_primary, true) AS rent_schedule_is_primary
         FROM reservation.rent r
-        JOIN reservation.schedule s ON s.id_schedule = r.id_schedule
+        JOIN reservation.rent_schedule rs ON rs.id_rent = r.id_rent
+        JOIN reservation.schedule s ON s.id_schedule = rs.id_schedule
         JOIN booking.field f ON f.id_field = s.id_field
         LEFT JOIN auth.users u ON u.id_user = s.id_user
         WHERE f.id_campus = p_campus_id
           AND (p_status IS NULL OR r.status = p_status)
-        ORDER BY r.date_create DESC;
+        ORDER BY r.date_create DESC, rs.is_primary DESC, s.id_schedule;
     END;
     $$;
     """

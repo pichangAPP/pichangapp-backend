@@ -23,6 +23,7 @@ intents:
   - request_admin_top_clients
   - request_admin_field_usage
   - request_admin_demand_alerts
+  - request_admin_metrics
 
   # Consultas informativas
   - ask_reservation_process:
@@ -72,6 +73,8 @@ entities:
   - field_size
   - urgency_level
   - recurrence
+  - metric_type
+  - metric_period
 
 # ===============================================
 # SLOTS - Almacenamiento de información
@@ -222,6 +225,13 @@ slots:
     mappings:
       - type: custom
 
+  # Slot para token del usuario (auth)
+  user_token:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+
   # Slot para preferencias guardadas
   user_preferences:
     type: any
@@ -315,6 +325,64 @@ slots:
     mappings:
       - type: controlled
 
+  admin_metric_type:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: metric_type
+      - type: from_text
+        conditions:
+          - active_loop: admin_metrics_form
+            requested_slot: admin_metric_type
+
+  admin_metric_period:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: metric_period
+      - type: from_text
+        conditions:
+          - active_loop: admin_metrics_form
+            requested_slot: admin_metric_period
+
+  admin_topic_detected:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: custom
+
+  admin_topics_pending:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  admin_last_topic:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: custom
+
+  routing_confidence:
+    type: float
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  admin_routing_reason:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+
+  admin_routing_corrections:
+    type: any
+    influence_conversation: false
+    mappings:
+      - type: custom
+
   # Slot para id de sesión del chatbot
   chatbot_session_id:
     type: text
@@ -375,6 +443,10 @@ forms:
       - sport
       - time
       - date
+  admin_metrics_form:
+    required_slots:
+      - admin_metric_type
+      - admin_metric_period
 
 # ===============================================
 # RESPONSES - Respuestas del bot
@@ -390,12 +462,23 @@ responses:
     - condition:
         - type: slot
           name: user_role
+          value: admin
+      text: "Hola, admin. ¿Qué indicador o reporte quieres revisar primero?"
+    - condition:
+        - type: slot
+          name: user_role
           value: player
       text: "¡Hola! Soy Chato Bot y estoy listo para ayudarte a encontrar la mejor cancha para tu partido."
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "¡Hola! Dime dónde y cuándo quieres jugar y te ayudo a buscar."
     - text: "¡Habla! me llamo Chato, tu asistente virtual para coordinar pichangas. ¿En qué te ayudo?"
     - text: "¡Hola! Aquí para ayudarte a encontrar la cancha ideal 🏃"
     - text: "¡Saludos! Dime qué necesitas y te consigo la mejor cancha 🎯"
     - text: "¡Bienvenido! Estoy aquí para que encuentres donde jugar 🏀"
+    - text: "¡Hola! Cuenta conmigo para buscar cancha o resolver tus dudas."
 
   utter_goodbye:
     - condition:
@@ -428,6 +511,13 @@ responses:
     - condition:
         - type: slot
           name: user_role
+          value: admin
+      text: |
+        Te ayudo con métricas, clientes top y uso de canchas.
+        Solo dime qué reporte necesitas.
+    - condition:
+        - type: slot
+          name: user_role
           value: player
       text: |
         Puedo ayudarte con todo lo necesario para tu juego:
@@ -435,6 +525,13 @@ responses:
         - Contarte cómo reservar, reprogramar o cancelar sin complicaciones.
         - Mostrarte tu historial de sugerencias y los comentarios que dejaste.
         - Avisarte sobre promos o detalles importantes de las sedes.
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: |
+        Te puedo ayudar a encontrar cancha, ver precios y resolver dudas rápidas.
+        Dime qué necesitas y lo armamos.
     - text: |
         Puedo darte una mano con:
         - Recomendarte canchas según el barrio, horario y deporte que buscas.
@@ -479,11 +576,22 @@ responses:
     - condition:
         - type: slot
           name: user_role
+          value: admin
+      text: "¿Quieres otro reporte o revisamos otra sede?"
+    - condition:
+        - type: slot
+          name: user_role
           value: player
       text: "¿Te gustaría buscar otra cancha o necesitas algo más?"
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "¿Buscamos otra opción o te ayudo con algo más?"
     - text: "¿Hay algo más que pueda hacer por ti?"
     - text: "¿Necesitas ayuda con otra cosa?"
     - text: "¿Quieres que te ayude con algo más?"
+    - text: "Estoy aquí si necesitas algo más."
 
   utter_can_help_more:
     - condition:
@@ -598,6 +706,20 @@ responses:
         • Confirmas en la app y listo!
 
         ¿Empezamos?
+    - text: |
+        Reservar es fácil:
+        1. Me dices barrio, deporte y horario
+        2. Te paso opciones disponibles
+        3. Eliges la mejor y confirmas en la app
+
+        ¿Buscamos una cancha?
+    - text: |
+        Para reservar:
+        • Dime dónde, cuándo y qué deporte
+        • Te muestro opciones con precios
+        • Confirmas en la app
+
+        ¿Te ayudo con eso?
 
   utter_modify_reservation:
     - text: |
@@ -670,6 +792,16 @@ responses:
         ⭐ Calidad de instalaciones
 
         ¿Quieres que busque opciones en tu presupuesto?
+    - text: |
+        Los precios varían por zona, horario y tipo de cancha.
+        Si me dices tu presupuesto y distrito, te paso opciones reales.
+    - text: |
+        Te doy precios exactos si me dices:
+        • distrito
+        • deporte
+        • horario
+
+        ¿Qué buscas?
 
   utter_top_faqs:
     - text: |
@@ -704,6 +836,8 @@ responses:
     - text: "Perdona, no capté eso. ¿Podrías decirlo diferente?"
     - text: "No entendí bien. ¿Me lo puedes decir de otra manera?"
     - text: "Mmm, no comprendí. Intenta con otras palabras por favor 🤔"
+    - text: "Uy, se me pasó. ¿Me lo puedes explicar con otras palabras?"
+    - text: "Perdón, no lo capté. ¿Cómo lo dirías de otra manera?"
 
   utter_ask_rephrase:
     - text: "Lo siento, no capté eso. ¿Podrías decirlo de otra manera?"
@@ -819,6 +953,15 @@ responses:
 
         ¿Qué deseas consultar?
 
+  utter_ask_admin_metric_type:
+    - text: "¿Qué métrica necesitas? Puedes pedir ingresos, ocupación, clientes, canchas, tráfico, comparativo o tendencia."
+
+  utter_ask_admin_metric_period:
+    - text: "¿Para qué periodo? Hoy, esta semana o este mes."
+
+  utter_admin_metrics_followup:
+    - text: "¿Quieres otra métrica o revisar otra sede?"
+
   # --- Validaciones y errores ---
   utter_invalid_time:
     - text: "Ese horario no parece válido. Usa formato 24h (ejemplo: 19:00)"
@@ -867,10 +1010,13 @@ actions:
   - action_reprogram_reservation
 
   # Acciones de administrador
+  - action_route_admin_request
+  - action_admin_post_topic_followup
   - action_provide_admin_management_tips
   - action_provide_admin_field_usage
   - action_provide_admin_campus_top_clients
   - action_provide_admin_demand_alerts
+  - action_provide_admin_metrics
 
   # Acciones de feedback
   - action_check_feedback_status
@@ -878,6 +1024,7 @@ actions:
 
   # Acciones de formulario
   - validate_field_recommendation_form
+  - validate_admin_metrics_form
   - action_deactivate_loop
 
   # Acciones de utilidad

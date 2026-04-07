@@ -142,3 +142,16 @@ class IntentAnalyticsOperations:
             intent_name,
         )
         return intent_id
+
+    def get_intent_id(self, intent_name: str) -> Optional[int]:
+        """Return intent id when it already exists, without updating counters."""
+        def _fetch_existing() -> Optional[Dict[str, Any]]:
+            with get_session() as session:
+                repository = IntentRepository(session)
+                return repository.fetch_by_name(intent_name)
+
+        existing = self._executor.execute(_fetch_existing, action="fetch_intent")
+        if not existing:
+            return None
+        intent_id = existing.get("id_intent")
+        return int(intent_id) if intent_id is not None else None

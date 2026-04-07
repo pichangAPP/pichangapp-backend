@@ -23,12 +23,20 @@ def get_rent_context(db: Session, rent_id: int) -> Optional[RentContext]:
         """
         SELECT
             rent.id_rent AS rent_id,
-            rent.id_schedule AS schedule_id,
+            COALESCE(rent.id_schedule, picked.id_schedule) AS schedule_id,
             rent.mount AS amount,
             schedule.id_field AS field_id,
             schedule.id_user AS user_id
         FROM reservation.rent AS rent
-        JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
+        LEFT JOIN LATERAL (
+            SELECT rs.id_schedule
+            FROM reservation.rent_schedule AS rs
+            WHERE rs.id_rent = rent.id_rent
+            ORDER BY rs.is_primary DESC, rs.id_schedule ASC
+            LIMIT 1
+        ) AS picked ON true
+        JOIN reservation.schedule AS schedule
+            ON schedule.id_schedule = COALESCE(rent.id_schedule, picked.id_schedule)
         WHERE rent.id_rent = :rent_id
         """
     )

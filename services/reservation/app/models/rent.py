@@ -47,8 +47,13 @@ class Rent(Base):
     customer_email = Column(String(200), nullable=True)
     customer_document = Column(String(30), nullable=True)
     customer_notes = Column(Text, nullable=True)
-    id_schedule = Column(BigInteger, ForeignKey("reservation.schedule.id_schedule"), nullable=False)
-    schedule = relationship("Schedule", back_populates="rents")
+    id_schedule = Column(BigInteger, ForeignKey("reservation.schedule.id_schedule"), nullable=True)
+    schedule = relationship("Schedule", foreign_keys=[id_schedule])
+    schedule_links = relationship(
+        "RentSchedule",
+        back_populates="rent",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return (

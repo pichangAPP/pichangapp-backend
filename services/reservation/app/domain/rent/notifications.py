@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 from app.core.database import SessionLocal
 from app.core.kafka import build_event, publish_event
 from app.integrations import auth_reader, booking_reader
+from app.domain.rent.hydrator import ordered_schedules_for_rent
 from app.models.rent import Rent
 from app.repository import rent_repository
 
@@ -84,13 +85,29 @@ class RentNotificationPublisher:
 
         Used by: publish before emitting Kafka events.
         """
-        schedule = rent.schedule
-        if schedule is None or schedule.id_field is None:
+        ordered = ordered_schedules_for_rent(self.db, rent)
+        if not ordered:
             logger.info(
                 "Skipping notification payload creation for rent %s due to missing schedule data",
                 rent.id_rent,
             )
             return None
+
+        schedule = ordered[0]
+        if schedule.id_field is None:
+            logger.info(
+                "Skipping notification payload creation for rent %s due to missing schedule data",
+                rent.id_rent,
+            )
+            return None
+
+        field_names: list[str] = []
+        for sch in ordered:
+            if sch.id_field is None:
+                continue
+            fsum = booking_reader.get_field_summary(self.db, sch.id_field)
+            if fsum is not None:
+                field_names.append(fsum.field_name)
 
         field = booking_reader.get_field_summary(self.db, schedule.id_field)
         if field is None:
@@ -177,6 +194,9 @@ class RentNotificationPublisher:
                 "email": manager.email,
             }
 
+        display_field_name = (
+            ", ".join(field_names) if len(field_names) > 1 else (field_names[0] if field_names else field.field_name)
+        )
         return {
             "rent": {
                 "rent_id": rent.id_rent,
@@ -187,7 +207,8 @@ class RentNotificationPublisher:
                 "period": rent.period,
                 "mount": self._decimal_to_str(rent.mount),
                 "payment_deadline": self._datetime_to_iso(rent.payment_deadline),
-                "field_name": field.field_name,
+                "field_name": display_field_name,
+                "field_names": field_names,
                 "campus": campus_payload,
             },
             "user": {

@@ -78,6 +78,9 @@ class ChatbotAnalyticsService:
             source_model=source_model,
         )
 
+    def get_intent_id(self, intent_name: str) -> Optional[int]:
+        return self._intents.get_intent_id(intent_name)
+
     # ------------------------------------------------------------------
     # Recommendation and log helpers
     # ------------------------------------------------------------------
