@@ -115,20 +115,20 @@ class RentUpdate(BaseModel):
     """Schema used when updating an existing rent."""
 
     period: Optional[str] = Field(None, max_length=20)
-    start_time: Optional[datetime]
-    end_time: Optional[datetime]
-    initialized: Optional[datetime]
-    finished: Optional[datetime]
+    start_time: Optional[datetime] = None
+    end_time: Optional[datetime] = None
+    initialized: Optional[datetime] = None
+    finished: Optional[datetime] = None
     status: Optional[str] = Field(None, max_length=30)
     id_status: Optional[int] = None
-    minutes: Optional[Decimal]
-    mount: Optional[Decimal]
-    date_log: Optional[datetime]
-    date_create: Optional[datetime]
-    payment_deadline: Optional[datetime]
-    capacity: Optional[int]
-    id_payment: Optional[int]
-    id_schedule: Optional[int]
+    minutes: Optional[Decimal] = None
+    mount: Optional[Decimal] = None
+    date_log: Optional[datetime] = None
+    date_create: Optional[datetime] = None
+    payment_deadline: Optional[datetime] = None
+    capacity: Optional[int] = None
+    id_payment: Optional[int] = None
+    id_schedule: Optional[int] = None
     customer_full_name: Optional[str] = Field(None, max_length=200)
     customer_phone: Optional[str] = Field(None, max_length=20)
     customer_email: Optional[str] = Field(None, max_length=200)
