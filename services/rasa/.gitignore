@@ -1,2 +1,2 @@
-# Modelos entrenados (montar o generar con CI / rasa train)
+# Modelos entrenados: no versionar (peso y límite 100 MB GitHub). Entrena en local y monta en Docker.
 artifacts/models/*.tar.gz

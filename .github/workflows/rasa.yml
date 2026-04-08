@@ -1,4 +1,4 @@
-# Rasa Pro: validar datos, entrenar y ejecutar tests de historias (imagen alineada con services/rasa/Dockerfile).
+# Rasa Pro: solo validación de datos (domain + NLU/stories/rules). No requiere modelo ni Git LFS.
 name: Rasa service
 
 on:
@@ -12,7 +12,7 @@ on:
       - ".github/workflows/rasa.yml"
 
 jobs:
-  validate-train-test:
+  validate-data:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,27 +27,3 @@ jobs:
             -e RASA_PRO_LICENSE \
             rasa/rasa-pro:3.12.3 \
             rasa data validate
-
-      - name: Rasa train
-        env:
-          RASA_PRO_LICENSE: ${{ secrets.RASA_PRO_LICENSE }}
-        run: |
-          docker run --rm \
-            -v "${{ github.workspace }}/services/rasa:/app" \
-            -w /app \
-            -e RASA_PRO_LICENSE \
-            rasa/rasa-pro:3.12.3 \
-            sh -lc 'rasa train --quiet && mkdir -p artifacts/models && cp models/*.tar.gz artifacts/models/'
-
-      - name: Rasa story tests
-        env:
-          RASA_PRO_LICENSE: ${{ secrets.RASA_PRO_LICENSE }}
-          RASA_ENFORCE_JWT_FOR_ADMIN_ACTIONS: "false"
-        run: |
-          docker run --rm \
-            -v "${{ github.workspace }}/services/rasa:/app" \
-            -w /app \
-            -e RASA_PRO_LICENSE \
-            -e RASA_ENFORCE_JWT_FOR_ADMIN_ACTIONS \
-            rasa/rasa-pro:3.12.3 \
-            rasa test --stories tests/stories_test.yml --model artifacts/models

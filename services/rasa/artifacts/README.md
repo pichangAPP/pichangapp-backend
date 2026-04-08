@@ -1,6 +1,6 @@
 # Artefactos del servicio Rasa
 
-- **`models/`**: paquetes `.tar.gz` producidos por `rasa train`. En Docker Compose este directorio se monta en el contenedor como `/app/artifacts/models` para no inflar la imagen.
+- **`models/`**: paquetes `.tar.gz` producidos por `rasa train`. No se versionan en Git (`.gitignore`). En Docker Compose se monta en el contenedor como `/app/artifacts/models`.
 - **`eval/`**: informes y gráficos de `rasa test` u otras evaluaciones; no forman parte del runtime del bot.
 
 Entrenar escribiendo aquí:

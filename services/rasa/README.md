@@ -114,3 +114,25 @@ Orientación muy aproximada: **8 GB RAM** en la VM para un stack completo con Ra
 - **`artifacts/eval/`**: salidas de evaluación (`rasa test`, informes); no se usan en runtime.
 
 Detalle en [artifacts/README.md](artifacts/README.md).
+
+## GitHub Actions (licencia e imagen Docker)
+
+El workflow [`.github/workflows/rasa.yml`](../../.github/workflows/rasa.yml) solo ejecuta **`rasa data validate`** (coherencia de `domain.yml`, `data/*.yml`, etc.). **No sube ni usa modelos** en el repo; no hace falta Git LFS.
+
+Los **story tests** (`rasa test --stories`) requieren un modelo entrenado: ejecútalos **en local** después de `rasa train` y con el `.tar.gz` en `artifacts/models/` (ver [docs/TRAINING_CHECKLIST.md](docs/TRAINING_CHECKLIST.md)).
+
+### 1. Variable `RASA_PRO_LICENSE` (obligatoria)
+
+Tu `.env` local **no** llega a GitHub. Crea un **secret** en el repositorio:
+
+1. GitHub → **Settings** del repo → **Secrets and variables** → **Actions**.
+2. **New repository secret**.
+3. **Name:** `RASA_PRO_LICENSE`.
+4. **Secret:** el mismo valor que en tu `.env` (licencia Rasa Pro).
+5. **Add secret**.
+
+Sin este secret, el job fallará con `license.not_found`.
+
+### 2. Descarga de la imagen (“Pulling from rasa/rasa-pro…”)
+
+La primera vez, Docker **descarga** la imagen `rasa/rasa-pro:3.12.3`; puede tardar varios minutos. Es normal; en ejecuciones siguientes a veces va más rápido por caché del runner.
