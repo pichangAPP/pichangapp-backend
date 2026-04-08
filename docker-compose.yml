@@ -38,6 +38,9 @@ services:
         limits:
           cpus: "${ZOOKEEPER_CPUS_LIMIT:-0.5}"
           memory: "${ZOOKEEPER_MEM_LIMIT:-512m}"
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_log:/var/lib/zookeeper/log
 
   kafka:
     image: confluentinc/cp-kafka:7.6.1
@@ -55,7 +58,11 @@ services:
       - "9092:9092"
       - "29092:29092"
     healthcheck:
-      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092 >/dev/null 2>&1"]
+      test:
+        [
+          "CMD-SHELL",
+          "kafka-broker-api-versions --bootstrap-server localhost:9092 >/dev/null 2>&1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -66,6 +73,8 @@ services:
         limits:
           cpus: "${KAFKA_CPUS_LIMIT:-1.0}"
           memory: "${KAFKA_MEM_LIMIT:-1g}"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
 
   kafka-ui:
     profiles:
@@ -373,3 +382,6 @@ volumes:
   pgdata:
     external: true
     name: pichangapp_pgdata
+  kafka_data:
+  zookeeper_data:
+  zookeeper_log:
