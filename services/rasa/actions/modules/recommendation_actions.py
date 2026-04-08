@@ -13,7 +13,10 @@ from ..models import FieldRecommendation
 from ..services.chatbot_service import DatabaseError, chatbot_service
 from ..services.chatbot.intent_logging import record_intent_and_log as _record_intent_and_log
 from ..domain.chatbot.async_utils import run_in_thread
-from ..domain.chatbot.context import coerce_metadata as _coerce_metadata
+from ..domain.chatbot.context import (
+    coerce_metadata as _coerce_metadata,
+    redact_metadata_for_logging as _redact_metadata_for_logging,
+)
 from ..domain.chatbot.budget import (
     detect_rating_focus as _detect_rating_focus,
     extract_budget_preferences as _extract_budget_preferences,
@@ -78,7 +81,7 @@ class ActionSubmitFieldRecommendationForm(Action):
             user_message,
             user_id_raw,
             user_role,
-            latest_metadata,
+            _redact_metadata_for_logging(latest_metadata),
         )
 
         if not user_id_raw:

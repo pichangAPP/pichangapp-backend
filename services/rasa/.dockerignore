@@ -1,0 +1,23 @@
+# Secretos y entorno local (nunca en la imagen)
+.env
+.env.*
+!.env.example
+
+# Cachés Python
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Artefactos grandes: se montan por volumen en Compose (artifacts/models)
+artifacts/models/*.tar.gz
+
+# Salidas de evaluación (regenerables)
+artifacts/eval/
+
+# Rutas legadas si aún existen en el contexto de build
+models/
+results/
+
+.git

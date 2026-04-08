@@ -1,16 +1,22 @@
 from __future__ import annotations
 
+import copy
 import json
 import logging
-from typing import Any, Dict, Iterable, Optional
+from dataclasses import dataclass
+from typing import Any, Dict, Iterable, Optional, TYPE_CHECKING
 
 from rasa_sdk.types import DomainDict
 
+from ...infrastructure.config import get_settings
 from ...infrastructure.security import (
     TokenDecodeError,
     decode_access_token,
     extract_role_from_claims,
 )
+
+if TYPE_CHECKING:
+    from rasa_sdk import Tracker
 
 LOGGER = logging.getLogger(__name__)
 
@@ -143,7 +149,7 @@ def enrich_metadata_with_token(metadata: Dict[str, Any]) -> Dict[str, Any]:
         LOGGER.warning("[Token] Unable to decode token from metadata", exc_info=True)
         return metadata
 
-    metadata.setdefault("token_claims", claims)
+    metadata["token_claims"] = claims
 
     user_identifier = claims.get("id_user") or claims.get("sub")
     if user_identifier is not None and "id_user" not in metadata:
@@ -165,6 +171,128 @@ def enrich_metadata_with_token(metadata: Dict[str, Any]) -> Dict[str, Any]:
         metadata.setdefault("default_role", role_name)
 
     return metadata
+
+
+_SENSITIVE_METADATA_KEYS = frozenset(
+    {
+        "token",
+        "access_token",
+        "auth_token",
+        "refresh_token",
+        "authorization",
+        "id_token",
+        "password",
+        "secret",
+    }
+)
+
+
+def _is_sensitive_key(key: Any) -> bool:
+    if not isinstance(key, str):
+        return False
+    lowered = key.lower()
+    if lowered in _SENSITIVE_METADATA_KEYS:
+        return True
+    return lowered.endswith("_token") or lowered.endswith("_secret")
+
+
+def redact_metadata_for_logging(metadata: Any) -> Any:
+    """Copia superficial/profunda de metadata apta para logs (sin JWT ni cabeceras de auth)."""
+    if not isinstance(metadata, dict):
+        return metadata
+    redacted = copy.deepcopy(metadata)
+    _redact_mapping_for_logging(redacted)
+    return redacted
+
+
+def _redact_mapping_for_logging(obj: Dict[str, Any]) -> None:
+    for key in list(obj.keys()):
+        if _is_sensitive_key(key) or key == "token_claims":
+            obj[key] = "***"
+            continue
+        val = obj[key]
+        if isinstance(val, dict):
+            _redact_mapping_for_logging(val)
+        elif isinstance(val, list):
+            for item in val:
+                if isinstance(item, dict):
+                    _redact_mapping_for_logging(item)
+
+
+def redact_slot_values_for_logging(slots: Any) -> Any:
+    """Enmascara slots que puedan contener secretos (p. ej. user_token legado)."""
+    if not isinstance(slots, dict):
+        return slots
+    out = copy.deepcopy(slots)
+    if out.get("user_token"):
+        out["user_token"] = "***"
+    return out
+
+
+@dataclass(frozen=True)
+class SecuredActor:
+    """Usuario efectivo tras aplicar JWT y política de enforce."""
+
+    user_id: Optional[int]
+    role: str
+    token_valid: bool
+    admin_authorized: bool
+    enriched_metadata: Dict[str, Any]
+
+
+def _claims_from_enriched_metadata(metadata: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    claims = metadata.get("token_claims")
+    return claims if isinstance(claims, dict) else None
+
+
+def resolve_secured_actor(
+    tracker: "Tracker",
+    raw_metadata: Any,
+    *,
+    for_admin_action: bool = False,
+) -> SecuredActor:
+    """Resuelve rol e id_user para acciones; admin requiere JWT válido si enforce está activo."""
+    metadata = enrich_metadata_with_token(dict(coerce_metadata(raw_metadata)))
+    enforce = get_settings().ENFORCE_JWT_FOR_ADMIN_ACTIONS
+    claims = _claims_from_enriched_metadata(metadata)
+    token_valid = claims is not None
+
+    if token_valid and claims is not None:
+        role_name = extract_role_from_claims(claims) or "player"
+        if role_name not in ("admin", "player"):
+            role_name = "player"
+        uid = coerce_user_identifier(claims.get("id_user") or claims.get("sub"))
+        return SecuredActor(
+            user_id=uid,
+            role=role_name,
+            token_valid=True,
+            admin_authorized=role_name == "admin",
+            enriched_metadata=metadata,
+        )
+
+    if enforce and for_admin_action:
+        return SecuredActor(
+            user_id=None,
+            role="player",
+            token_valid=False,
+            admin_authorized=False,
+            enriched_metadata=metadata,
+        )
+
+    role_raw = tracker.get_slot("user_role") or normalize_role_from_metadata(metadata) or "player"
+    role_name = role_raw.lower() if isinstance(role_raw, str) else "player"
+    if role_name not in ("admin", "player"):
+        role_name = "player"
+    uid = coerce_user_identifier(
+        metadata.get("id_user") or metadata.get("user_id") or tracker.get_slot("user_id")
+    )
+    return SecuredActor(
+        user_id=uid,
+        role=role_name,
+        token_valid=False,
+        admin_authorized=role_name == "admin",
+        enriched_metadata=metadata,
+    )
 
 
 def slot_already_planned(events: Iterable[Any], slot_name: str) -> bool:

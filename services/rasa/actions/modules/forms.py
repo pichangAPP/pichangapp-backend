@@ -122,15 +122,6 @@ class ValidateFieldRecommendationForm(FormValidationAction):
     ) -> Dict[Text, Any]:
         return {"sport": slot_value}
 
-    async def validate_time(
-        self,
-        slot_value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: DomainDict,
-    ) -> Dict[Text, Any]:
-        return {"time": slot_value}
-
     async def validate_date(
         self,
         slot_value: Text,

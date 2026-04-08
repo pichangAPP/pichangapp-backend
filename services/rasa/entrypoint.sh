@@ -19,11 +19,21 @@ echo "✔ Action Server PID: $ACTION_PID"
 ###############################################
 # 2) Levantar Rasa Server (NLU/Core)
 ###############################################
-echo "👉 Iniciando Rasa Server (5005)..."
+MODEL_DIR="${RASA_MODEL_DIR:-/app/artifacts/models}"
+if [ -n "${RASA_MODEL_PATH:-}" ] && [ -f "${RASA_MODEL_PATH}" ]; then
+  MODEL_ARG="${RASA_MODEL_PATH}"
+elif ls "${MODEL_DIR}"/*.tar.gz >/dev/null 2>&1; then
+  MODEL_ARG="${MODEL_DIR}"
+else
+  echo "⚠️ No hay modelo en ${MODEL_DIR} (*.tar.gz). Monta el volumen o entrena con: rasa train --out artifacts/models"
+  MODEL_ARG="${MODEL_DIR}"
+fi
+echo "👉 Iniciando Rasa Server (5005) con --model ${MODEL_ARG}..."
 rasa run \
   --enable-api \
   --cors "*" \
-  --port 5005 &
+  --port 5005 \
+  --model "${MODEL_ARG}" &
 
 RASA_PID=$!
 echo "✔ Rasa Server PID: $RASA_PID"

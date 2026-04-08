@@ -19,9 +19,8 @@ from ..domain.chatbot.budget import (
     extract_budget_preferences as _extract_budget_preferences,
 )
 from ..domain.chatbot.context import (
-    coerce_metadata as _coerce_metadata,
-    coerce_user_identifier as _coerce_user_identifier,
     extract_token_from_metadata as _extract_token_from_metadata,
+    resolve_secured_actor as _resolve_secured_actor,
 )
 from ..domain.chatbot.preferences import (
     extract_entity_values as _extract_entity_values,
@@ -134,15 +133,6 @@ ADMIN_CONTEXTUAL_HINTS = (
     "ese dato",
     "esa data",
 )
-
-
-def _resolve_authenticated_user_id(tracker: Tracker, metadata: Dict[str, Any]) -> Optional[int]:
-    """Prefer per-request metadata user id and fall back to tracker slot."""
-    metadata_user_id = metadata.get("id_user") or metadata.get("user_id")
-    resolved = _coerce_user_identifier(metadata_user_id)
-    if resolved is not None:
-        return resolved
-    return _coerce_user_identifier(tracker.get_slot("user_id"))
 
 
 def _normalize_text(value: Any) -> str:
@@ -278,12 +268,14 @@ class ActionRouteAdminRequest(Action):
         del domain
         events: List[EventType] = []
         latest_message = tracker.latest_message or {}
-        metadata = _coerce_metadata(latest_message.get("metadata"))
-        user_role = (tracker.get_slot("user_role") or metadata.get("user_role") or "player").lower()
+        actor = _resolve_secured_actor(
+            tracker, latest_message.get("metadata"), for_admin_action=True
+        )
+        metadata = actor.enriched_metadata
         session_id = tracker.get_slot("chatbot_session_id")
-        user_id = _resolve_authenticated_user_id(tracker, metadata)
+        user_id = actor.user_id
 
-        if user_role != "admin":
+        if not actor.admin_authorized:
             response_text = (
                 "Ese flujo está reservado para administradores. "
                 "Si necesitas buscar canchas como jugador, te ayudo de inmediato."
@@ -295,7 +287,13 @@ class ActionRouteAdminRequest(Action):
                 user_id=user_id,
                 response_text=response_text,
                 response_type="admin_router_denied",
-                message_metadata={"routing": {"reason": "non_admin_user"}},
+                message_metadata={
+                    "routing": {
+                        "reason": "non_admin_user"
+                        if actor.token_valid
+                        else "missing_or_invalid_jwt",
+                    }
+                },
             )
             return events
 
@@ -410,9 +408,15 @@ class ActionAdminPostTopicFollowup(Action):
     ) -> List[EventType]:
         del domain
         latest_message = tracker.latest_message or {}
-        metadata = _coerce_metadata(latest_message.get("metadata"))
+        actor = _resolve_secured_actor(
+            tracker, latest_message.get("metadata"), for_admin_action=True
+        )
+        metadata = actor.enriched_metadata
         session_id = tracker.get_slot("chatbot_session_id")
-        user_id = _resolve_authenticated_user_id(tracker, metadata)
+        user_id = actor.user_id
+
+        if not actor.admin_authorized:
+            return []
 
         current_topic = tracker.get_slot("admin_topic_detected") or tracker.get_slot("admin_last_topic")
         pending_topics = _coerce_topic_list(tracker.get_slot("admin_topics_pending"))
@@ -480,12 +484,14 @@ class ActionProvideAdminManagementTips(Action):
         )
         latest_message = tracker.latest_message or {}
         theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
-        user_role = (tracker.get_slot("user_role") or "player").lower()
         session_id = tracker.get_slot("chatbot_session_id")
-        metadata = _coerce_metadata(latest_message.get("metadata"))
-        user_id = _resolve_authenticated_user_id(tracker, metadata)
+        actor = _resolve_secured_actor(
+            tracker, latest_message.get("metadata"), for_admin_action=True
+        )
+        metadata = actor.enriched_metadata
+        user_id = actor.user_id
 
-        if user_role != "admin":
+        if not actor.admin_authorized:
             response_text = (
                 "Estas recomendaciones operativas están disponibles para administradores. "
                 "Inicia sesión con un perfil de gestión o indícame si buscas canchas para jugar."
@@ -634,12 +640,14 @@ class ActionProvideAdminDemandAlerts(Action):
             SlotSet("admin_topic_detected", "demand_alerts"),
         ]
         latest_message = tracker.latest_message or {}
-        metadata = _coerce_metadata(latest_message.get("metadata"))
-        user_role = (tracker.get_slot("user_role") or metadata.get("user_role") or "player").lower()
+        actor = _resolve_secured_actor(
+            tracker, latest_message.get("metadata"), for_admin_action=True
+        )
+        metadata = actor.enriched_metadata
         session_id = tracker.get_slot("chatbot_session_id")
-        user_id = _resolve_authenticated_user_id(tracker, metadata)
+        user_id = actor.user_id
 
-        if user_role != "admin":
+        if not actor.admin_authorized:
             response_text = (
                 "Estas alertas predictivas están disponibles solo para administradores."
             )
@@ -715,12 +723,14 @@ class ActionProvideAdminMetrics(Action):
         )
         latest_message = tracker.latest_message or {}
         theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
-        metadata = _coerce_metadata(latest_message.get("metadata"))
-        user_role = (tracker.get_slot("user_role") or metadata.get("user_role") or "player").lower()
+        actor = _resolve_secured_actor(
+            tracker, latest_message.get("metadata"), for_admin_action=True
+        )
+        metadata = actor.enriched_metadata
         session_id = tracker.get_slot("chatbot_session_id")
-        user_id = _resolve_authenticated_user_id(tracker, metadata)
+        user_id = actor.user_id
 
-        if user_role != "admin":
+        if not actor.admin_authorized:
             response_text = (
                 "Estas métricas están disponibles solo para administradores. "
                 "Si necesitas reservar una cancha, dime qué buscas y te ayudo."
@@ -1082,15 +1092,17 @@ class ActionProvideAdminCampusTopClients(Action):
             ]
         )
         latest_message = tracker.latest_message or {}
-        metadata = _coerce_metadata(latest_message.get("metadata"))
+        actor = _resolve_secured_actor(
+            tracker, latest_message.get("metadata"), for_admin_action=True
+        )
+        metadata = actor.enriched_metadata
 
-        user_role = (tracker.get_slot("user_role") or "player").lower()
         session_id = tracker.get_slot("chatbot_session_id")
         theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
 
-        user_id = _resolve_authenticated_user_id(tracker, metadata)
+        user_id = actor.user_id
 
-        if user_role != "admin":
+        if not actor.admin_authorized:
             response_text = (
                 "Esta consulta de clientes frecuentes está reservada para administradores. "
                 "Inicia sesión con el perfil de gestión para acceder a estos datos."
@@ -1102,7 +1114,7 @@ class ActionProvideAdminCampusTopClients(Action):
                 user_id=user_id,
                 response_text=response_text,
                 response_type="admin_top_clients_denied",
-                message_metadata={"role": user_role},
+                message_metadata={"role": actor.role},
             )
             return events
 
@@ -1311,15 +1323,17 @@ class ActionProvideAdminFieldUsage(Action):
             ]
         )
         latest_message = tracker.latest_message or {}
-        metadata = _coerce_metadata(latest_message.get("metadata"))
+        actor = _resolve_secured_actor(
+            tracker, latest_message.get("metadata"), for_admin_action=True
+        )
+        metadata = actor.enriched_metadata
 
-        user_role = (tracker.get_slot("user_role") or "player").lower()
         session_id = tracker.get_slot("chatbot_session_id")
         theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
 
-        user_id = _resolve_authenticated_user_id(tracker, metadata)
+        user_id = actor.user_id
 
-        if user_role != "admin":
+        if not actor.admin_authorized:
             response_text = (
                 "Este informe está reservado para administradores. "
                 "Inicia sesión con tu perfil de gestión para acceder a estos datos."

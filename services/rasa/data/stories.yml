@@ -180,3 +180,17 @@ stories:
       - intent: deny
       - action: utter_can_help_more
       - action: utter_what_can_you_do
+
+  - story: jugador bloqueado en flujo admin por regla
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: request_admin_metrics
+      - action: utter_admin_only_flow
+
+  - story: administrador bloqueado en flujo jugador por regla
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_field_recommendation
+      - action: utter_player_only_flow

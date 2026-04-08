@@ -10,9 +10,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def _env_bool(name: str, default: str = "true") -> bool:
+    return os.getenv(name, default).strip().lower() in ("1", "true", "yes", "on")
+
+
 class Settings:
     SECRET_KEY: str = os.getenv("SECRET_KEY", "")
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
+    # When true (default), admin custom actions derive role only from a valid JWT;
+    # metadata/slot cannot grant admin without a signed token. Set to false for
+    # rasa shell / story tests without tokens.
+    ENFORCE_JWT_FOR_ADMIN_ACTIONS: bool = _env_bool("RASA_ENFORCE_JWT_FOR_ADMIN_ACTIONS", "true")
     CHATBOT_DATABASE_URL: str | None = os.getenv("CHATBOT_DATABASE_URL")
     DATABASE_URL: str | None = os.getenv("DATABASE_URL")
     POSTGRES_HOST: str = os.getenv("POSTGRES_HOST", "localhost")

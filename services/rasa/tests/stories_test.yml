@@ -133,3 +133,24 @@ stories:
           - admin_topics_pending:
               - top_clients
       - action: action_admin_post_topic_followup
+
+  - story: test player cannot access admin metrics rule
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: request_admin_metrics
+      - action: utter_admin_only_flow
+
+  - story: test player cannot access admin top clients rule
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: request_admin_top_clients
+      - action: utter_admin_only_flow
+
+  - story: test admin cannot start player recommendation rule
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_field_recommendation
+      - action: utter_player_only_flow

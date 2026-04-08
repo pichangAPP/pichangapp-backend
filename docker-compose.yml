@@ -10,6 +10,7 @@ x-common-env: &common-env
   AUTH_SERVICE_TIMEOUT: ${AUTH_SERVICE_TIMEOUT:-10}
   KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
   ERROR_LOGS_TOPIC: ${ERROR_LOGS_TOPIC:-error.logs}
+# Límites de recursos (VM): definir en .env en la raíz del repo, p. ej. RASA_MEM_LIMIT=4g
 services:
   shared-venv:
     image: *shared-venv-image
@@ -17,6 +18,11 @@ services:
       context: .
       dockerfile: services/shared-venv/Dockerfile
     command: ["/bin/true"]
+    deploy:
+      resources:
+        limits:
+          cpus: "${SHARED_VENV_CPUS_LIMIT:-1.0}"
+          memory: "${SHARED_VENV_MEM_LIMIT:-512m}"
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.1
@@ -27,6 +33,11 @@ services:
       - "2181:2181"
     networks:
       - pichangapp-network
+    deploy:
+      resources:
+        limits:
+          cpus: "${ZOOKEEPER_CPUS_LIMIT:-0.5}"
+          memory: "${ZOOKEEPER_MEM_LIMIT:-512m}"
 
   kafka:
     image: confluentinc/cp-kafka:7.6.1
@@ -50,8 +61,15 @@ services:
       retries: 10
     networks:
       - pichangapp-network
+    deploy:
+      resources:
+        limits:
+          cpus: "${KAFKA_CPUS_LIMIT:-1.0}"
+          memory: "${KAFKA_MEM_LIMIT:-1g}"
 
   kafka-ui:
+    profiles:
+      - messaging-debug
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     ports:
@@ -112,6 +130,13 @@ services:
     restart: unless-stopped
     networks:
       - pichangapp-network
+    deploy:
+      resources:
+        limits:
+          cpus: "${POSTGRES_CPUS_LIMIT:-1.0}"
+          memory: "${POSTGRES_MEM_LIMIT:-1g}"
+        reservations:
+          memory: "${POSTGRES_MEM_RESERVATION:-512m}"
 
   auth:
     image: fabrizziocastro/pichangapp-containers:auth
@@ -269,13 +294,26 @@ services:
       RASA_ENV: production
       RASA_TRACKER_DB: "${RASA_TRACKER_DB}"
       <<: *common-env
+    # Red: en producción expón solo el gateway FastAPI (8006) hacia fuera. Rasa (5005) y el
+    # action server (5055) deberían ser solo red interna; quita el mapeo "5055:5055" si no
+    # depuras acciones desde el host.
     ports:
       - "8006:8006"
       - "5055:5055"
+    volumes:
+      - ./services/rasa/artifacts/models:/app/artifacts/models
     networks:
       - pichangapp-network
     depends_on:
       - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: "${RASA_CPUS_LIMIT:-2.0}"
+          memory: "${RASA_MEM_LIMIT:-4g}"
+        reservations:
+          cpus: "${RASA_CPUS_RESERVATION:-0.5}"
+          memory: "${RASA_MEM_RESERVATION:-2g}"
 
   payment:
     image: fabrizziocastro/pichangapp-containers:payment
