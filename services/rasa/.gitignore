@@ -1,0 +1,2 @@
+# Modelos entrenados (montar o generar con CI / rasa train)
+artifacts/models/*.tar.gz

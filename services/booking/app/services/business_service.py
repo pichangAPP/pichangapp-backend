@@ -1,16 +1,25 @@
 from __future__ import annotations
 
-from fastapi import HTTPException, status
+from datetime import datetime, timezone
+
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.models import Business
-from app.repository import business_repository
-from app.schemas import BusinessCreate, BusinessResponse, BusinessUpdate, CampusResponse
-from app.services.campus_service import (
+from app.core.error_codes import BOOKING_INTERNAL_ERROR, BUSINESS_NOT_FOUND, http_error
+from app.domain.business import attach_business_manager_data, validate_business_entity
+from app.domain.campus import (
     build_campus_entity,
     populate_available_schedules,
     validate_campus_fields,
+)
+from app.models import Business
+from app.repository import business_repository
+from app.schemas import (
+    BusinessCreate,
+    BusinessProfileResponse,
+    BusinessResponse,
+    BusinessUpdate,
+    CampusResponse,
 )
 from app.services.location_utils import haversine_distance
 
@@ -21,10 +30,12 @@ class BusinessService:
 
     def list_businesses(self) -> list[Business]:
         try:
-            return business_repository.list_businesses(self.db)
+            businesses = business_repository.list_businesses(self.db)
+            attach_business_manager_data(self.db, businesses)
+            return businesses
         except SQLAlchemyError as exc:  
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to list businesses",
             ) from exc
 
@@ -33,9 +44,10 @@ class BusinessService:
     ) -> list[BusinessResponse]:
         try:
             businesses = business_repository.list_businesses(self.db)
+            attach_business_manager_data(self.db, businesses)
         except SQLAlchemyError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to list businesses",
             ) from exc
 
@@ -80,21 +92,32 @@ class BusinessService:
     def get_business(self, business_id: int) -> Business:
         business = business_repository.get_business(self.db, business_id)
         if not business:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BUSINESS_NOT_FOUND,
                 detail=f"Business {business_id} not found",
             )
         populate_available_schedules(self.db, business.campuses)
+        attach_business_manager_data(self.db, [business])
         return business
+
+    def get_business_profile(self, business_id: int) -> BusinessProfileResponse:
+        business = business_repository.get_business_profile(self.db, business_id)
+        if not business:
+            raise http_error(
+                BUSINESS_NOT_FOUND,
+                detail=f"Business {business_id} not found",
+            )
+        return BusinessProfileResponse.model_validate(business)
 
     def get_business_by_manager(self, manager_id: int) -> Business:
         business = business_repository.get_business_by_manager(self.db, manager_id)
         if not business:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BUSINESS_NOT_FOUND,
                 detail=f"Business for manager {manager_id} not found",
             )
         populate_available_schedules(self.db, business.campuses)
+        attach_business_manager_data(self.db, [business])
         return business
 
     def create_business(self, business_in: BusinessCreate) -> Business:
@@ -104,37 +127,40 @@ class BusinessService:
                 validate_campus_fields(self.db, campus_in)
                 business.campuses.append(build_campus_entity(campus_in))
             
-            self._validate_business_entity(business)
+            validate_business_entity(business)
             business_repository.create_business(self.db, business)
             self.db.commit()
             self.db.refresh(business)
+            attach_business_manager_data(self.db, [business])
             return business
         except SQLAlchemyError as exc:
             self.db.rollback()
             print(f"SQLAlchemy error: {exc}")  # o usa logging
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Failed to create business: {exc}"
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
+                detail=f"Failed to create business: {exc}",
             ) from exc
 
     def update_business(self, business_id: int, business_in: BusinessUpdate) -> Business:
         business = self.get_business(business_id)
         update_data = business_in.model_dump(exclude_unset=True)
-        
+
         for field, value in update_data.items():
             setattr(business, field, value)
+        business.updated_at = datetime.now(timezone.utc)
 
-        self._validate_business_entity(business)
+        validate_business_entity(business)
 
         try:
             self.db.flush()
             self.db.commit()
             self.db.refresh(business)
+            attach_business_manager_data(self.db, [business])
             return business
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to update business",
             ) from exc
 
@@ -145,14 +171,8 @@ class BusinessService:
             self.db.commit()
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to delete business",
             ) from exc
 
-    def _validate_business_entity(self, business: Business) -> None:
-        if business.min_price is not None and float(business.min_price) < 0:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="min_price must be zero or greater",
-            )

@@ -1,27 +1,18 @@
 from sqlalchemy import (
+    BigInteger,
     Column,
     DateTime,
     ForeignKey,
     Integer,
     Numeric,
     String,
-    BigInteger,
-    Table,
+    Text,
     func,
     text,
 )
 from sqlalchemy.orm import relationship
-from typing import TYPE_CHECKING
 
 from app.core.database import Base
-
-Table(
-    "memberships",
-    Base.metadata,
-    Column("id_membership", Integer, primary_key=True),
-    schema="payment",
-    keep_existing=True, 
-)
 
 class Rent(Base):
 
@@ -35,6 +26,7 @@ class Rent(Base):
     initialized = Column(DateTime(timezone=True), nullable=True)
     finished = Column(DateTime(timezone=True), nullable=True)
     status = Column(String(30), nullable=False)
+    id_status = Column(BigInteger, nullable=True)
     minutes = Column(Numeric(6, 2), nullable=False)
     mount = Column(Numeric(10, 2), nullable=False)
     date_log = Column(DateTime(timezone=True), nullable=False)
@@ -45,12 +37,23 @@ class Rent(Base):
         server_default=text("CURRENT_TIMESTAMP + INTERVAL '5 minutes'"),
     )
     capacity = Column(Integer, nullable=False)
-    id_payment = Column(BigInteger, ForeignKey("payment.payment.id_payment"), nullable=True)
-    id_schedule = Column(BigInteger, ForeignKey("reservation.schedule.id_schedule"), nullable=False)
-    #Límite de pago
-    payment_deadline = Column(DateTime(timezone=True), server_default=func.now())
-
-    schedule = relationship("Schedule", back_populates="rents")
+    id_payment = Column(BigInteger, nullable=True)
+    payment_code = Column(String(30), nullable=True)
+    payment_proof_url = Column(Text, nullable=True)
+    payment_reviewed_at = Column(DateTime(timezone=True), nullable=True)
+    payment_reviewed_by = Column(BigInteger, nullable=True)
+    customer_full_name = Column(String(200), nullable=True)
+    customer_phone = Column(String(20), nullable=True)
+    customer_email = Column(String(200), nullable=True)
+    customer_document = Column(String(30), nullable=True)
+    customer_notes = Column(Text, nullable=True)
+    id_schedule = Column(BigInteger, ForeignKey("reservation.schedule.id_schedule"), nullable=True)
+    schedule = relationship("Schedule", foreign_keys=[id_schedule])
+    schedule_links = relationship(
+        "RentSchedule",
+        back_populates="rent",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return (

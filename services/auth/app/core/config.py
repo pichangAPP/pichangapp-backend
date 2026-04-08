@@ -16,6 +16,7 @@ class Settings:
     FIREBASE_CREDENTIALS_PATH: str = os.getenv("FIREBASE_CREDENTIALS_PATH", "")
     FIREBASE_PROJECT_ID: str = os.getenv("FIREBASE_PROJECT_ID", "")
     DEFAULT_SOCIAL_ROLE_ID: int = int(os.getenv("DEFAULT_SOCIAL_ROLE_ID", "1"))
+    AUTH_INTERNAL_API_KEY: str = os.getenv("AUTH_INTERNAL_API_KEY", "")
 
 
 @lru_cache()

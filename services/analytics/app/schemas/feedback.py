@@ -22,7 +22,7 @@ class FeedbackResponse(FeedbackBase):
     id_rent: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 __all__ = ["FeedbackBase", "FeedbackCreate", "FeedbackResponse"]

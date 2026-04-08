@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from datetime import time
+from datetime import datetime, time
 
 from pydantic import (
     BaseModel,
@@ -76,6 +76,8 @@ class CampusResponse(CampusBase):
 
     id_campus: int
     id_business: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
     id_manager: Optional[int] = None
     characteristic: CharacteristicResponse
     fields: List[FieldResponse]
@@ -87,6 +89,13 @@ class CampusResponse(CampusBase):
     @classmethod
     def _only_campus_images(cls, value: list[object]) -> list[object]:
         if isinstance(value, list):
-            return [image for image in value if getattr(image, "id_field", None) is None]
+            filtered = [
+                image for image in value if getattr(image, "id_field", None) is None
+            ]
+            return [
+                image
+                for image in filtered
+                if (getattr(image, "category", None) or "").lower() != "payment"
+            ]
         return value
 

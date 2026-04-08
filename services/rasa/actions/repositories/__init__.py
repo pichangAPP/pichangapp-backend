@@ -1,6 +1,6 @@
 """Repository layer for Rasa custom actions."""
 
-from .analytics_repository import (
+from .analytics import (
     ChatSessionRepository,
     ChatbotLogRepository,
     FeedbackRepository,

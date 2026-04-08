@@ -1,5 +1,5 @@
 action_endpoint:
-  actions_module: "actions"
+  actions_module: "actions.action_chatbot"
 
 tracker_store:
   type: custom_tracker_store.ResilientSQLTrackerStore

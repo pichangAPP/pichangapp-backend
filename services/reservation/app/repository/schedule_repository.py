@@ -1,27 +1,20 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from typing import Optional, Iterable, Sequence
+from typing import Iterable, Optional, Sequence
 
-from sqlalchemy import exists, func
-from sqlalchemy.orm import Session, joinedload, load_only
+from sqlalchemy import exists, func, or_
+from sqlalchemy.orm import Session, load_only
 
-from app.models.campus import Campus
-from app.models.field import Field
+from app.core.status_constants import RENT_FINAL_STATUS_CODES
 from app.models.rent import Rent
-from app.models.user import User
+from app.models.rent_schedule import RentSchedule
 from app.models.schedule import Schedule
 
 
 def get_schedule(db: Session, schedule_id: int) -> Optional[Schedule]:
     return (
         db.query(Schedule)
-        .options(
-            joinedload(Schedule.field)
-            .joinedload(Field.campus)
-            .joinedload(Campus.manager),
-            joinedload(Schedule.user),
-        )
         .filter(Schedule.id_schedule == schedule_id)
         .first()
     )
@@ -33,12 +26,7 @@ def list_schedules(
     day_of_week: Optional[str] = None,
     status_filter: Optional[str] = None,
 ) -> list[Schedule]:
-    query = db.query(Schedule).options(
-        joinedload(Schedule.field)
-        .joinedload(Field.campus)
-        .joinedload(Campus.manager),
-        joinedload(Schedule.user),
-    )
+    query = db.query(Schedule)
 
     if field_id is not None:
         query = query.filter(Schedule.id_field == field_id)
@@ -120,12 +108,7 @@ def list_available_schedules(
     status_filter: Optional[str] = None,
     exclude_rent_statuses: Optional[Sequence[str]] = None,
 ) -> list[Schedule]:
-    query = db.query(Schedule).options(
-        joinedload(Schedule.field)
-        .joinedload(Field.campus)
-        .joinedload(Campus.manager),
-        joinedload(Schedule.user),
-    )
+    query = db.query(Schedule)
 
     query = query.filter(Schedule.id_field == field_id)
 
@@ -136,20 +119,23 @@ def list_available_schedules(
 
     excluded_statuses: Iterable[str] = [
         status_value
-        for status_value in (exclude_rent_statuses or ("cancelled",))
+        for status_value in (exclude_rent_statuses or RENT_FINAL_STATUS_CODES)
         if status_value
     ]
 
-    active_rent_exists = exists().where(
-        Rent.id_schedule == Schedule.id_schedule,
+    excluded_list = list(excluded_statuses)
+    primary_exists = exists().where(Rent.id_schedule == Schedule.id_schedule)
+    junction_exists = (
+        exists()
+        .select_from(RentSchedule)
+        .join(Rent, Rent.id_rent == RentSchedule.id_rent)
+        .where(RentSchedule.id_schedule == Schedule.id_schedule)
     )
+    if excluded_list:
+        primary_exists = primary_exists.where(Rent.status.notin_(excluded_list))
+        junction_exists = junction_exists.where(Rent.status.notin_(excluded_list))
 
-    if excluded_statuses:
-        active_rent_exists = active_rent_exists.where(
-            Rent.status.notin_(excluded_statuses)
-        )
-
-    query = query.filter(~active_rent_exists)
+    query = query.filter(~or_(primary_exists, junction_exists))
 
     return query.order_by(Schedule.start_time).all()
 
@@ -176,11 +162,3 @@ def list_schedules_by_date(
         .order_by(Schedule.start_time)
         .all()
     )
-
-
-def get_field(db: Session, field_id: int) -> Optional[Field]:
-    return db.query(Field).filter(Field.id_field == field_id).first()
-
-
-def get_user(db: Session, user_id: int) -> Optional[User]:
-    return db.query(User).filter(User.id_user == user_id).first()

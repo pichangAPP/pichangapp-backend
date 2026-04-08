@@ -3,9 +3,17 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import List
 
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import (
+    ANALYTICS_REPOSITORY_ERROR,
+    FEEDBACK_ALREADY_SUBMITTED,
+    FEEDBACK_FORBIDDEN,
+    FEEDBACK_NOT_ALLOWED,
+    FEEDBACK_NOT_FOUND,
+    RENT_NOT_FOUND,
+    http_error,
+)
 from app.models import Feedback
 from app.repository import (
     FeedbackRepositoryError,
@@ -29,22 +37,22 @@ class FeedbackService:
         rent_context = self._get_rent_context(payload.id_rent)
 
         if rent_context.user_id != user_id:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
+            raise http_error(
+                FEEDBACK_FORBIDDEN,
                 detail="Only the renter can submit feedback for this booking",
             )
 
         finished_at = self._ensure_timezone(rent_context.end_time)
         if finished_at > datetime.now(timezone.utc):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                FEEDBACK_NOT_ALLOWED,
                 detail="Feedback can only be submitted after the rent has finished",
             )
 
         existing = get_feedback_by_rent_and_user(self._db, payload.id_rent, user_id)
         if existing is not None:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
+            raise http_error(
+                FEEDBACK_ALREADY_SUBMITTED,
                 detail="Feedback has already been submitted for this rent",
             )
 
@@ -62,10 +70,7 @@ class FeedbackService:
             self._db.commit()
         except FeedbackRepositoryError as exc:
             self._db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=str(exc),
-            ) from exc
+            raise http_error(ANALYTICS_REPOSITORY_ERROR, detail=str(exc)) from exc
 
         self._db.refresh(feedback)
         return self._map_model_to_response(feedback)
@@ -74,10 +79,7 @@ class FeedbackService:
         try:
             rows = list_feedback_by_field(self._db, field_id)
         except FeedbackRepositoryError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=str(exc),
-            ) from exc
+            raise http_error(ANALYTICS_REPOSITORY_ERROR, detail=str(exc)) from exc
 
         responses: List[FeedbackResponse] = []
         for row in rows:
@@ -96,14 +98,11 @@ class FeedbackService:
     def delete_feedback(self, *, feedback_id: int, user_id: int) -> None:
         feedback = get_feedback(self._db, feedback_id)
         if feedback is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Feedback not found",
-            )
+            raise http_error(FEEDBACK_NOT_FOUND, detail="Feedback not found")
 
         if feedback.id_user != user_id:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
+            raise http_error(
+                FEEDBACK_FORBIDDEN,
                 detail="You are not allowed to delete this feedback",
             )
 
@@ -115,16 +114,13 @@ class FeedbackService:
             self._db.commit()
         except FeedbackRepositoryError as exc:
             self._db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=str(exc),
-            ) from exc
+            raise http_error(ANALYTICS_REPOSITORY_ERROR, detail=str(exc)) from exc
 
     def _get_rent_context(self, rent_id: int) -> RentFeedbackContext:
         context = fetch_rent_context(self._db, rent_id)
         if context is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                RENT_NOT_FOUND,
                 detail="Rent not found for feedback processing",
             )
         return context

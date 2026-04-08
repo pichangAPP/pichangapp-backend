@@ -5,6 +5,7 @@ from typing import List, Optional, Sequence
 
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
+from app.core.status_constants import RENT_FINAL_STATUS_CODES
 
 from app.dependencies import get_db
 from app.schemas.schedule import (
@@ -73,7 +74,7 @@ def list_available_schedules(
         description="Filter by schedule status before availability rules",
     ),
     exclude_rent_statuses: Optional[Sequence[str]] = Query(
-        ("cancelled",),
+        RENT_FINAL_STATUS_CODES,
         description=(
             "Rent statuses that should not block the schedule availability. "
             "Provide multiple values to exclude additional statuses."

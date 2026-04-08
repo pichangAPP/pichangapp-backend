@@ -1,6 +1,7 @@
 Hola {{ recipient.name }} {{ recipient.lastname }},
 
-Se confirmó una nueva reserva en el campus {{ campus.name }}.
+{{ manager_status_message }}
+Campus: {{ campus.name }}
 
 Detalles de la reserva:
 - Campo: {{ field_name }}
@@ -10,6 +11,9 @@ Detalles de la reserva:
 - Usuario que reservó: {{ user.name }} {{ user.lastname }} ({{ user.email }})
 
 Dirección del campus: {{ campus.address }}, {{ campus.district }}
+{% if campus.contact_email or campus.contact_phone -%}
+Contacto del campus: {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}{% if campus.contact_email and campus.contact_phone %} | {% endif %}{% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}
+{%- endif %}
 
 Adjuntamos un pase en imagen con el código de la reserva y un QR que abre ese pase desde tu
 teléfono.
