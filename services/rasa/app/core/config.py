@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import os
 from functools import lru_cache
+from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load the service-local .env regardless of current working directory.
+_SERVICE_ROOT = Path(__file__).resolve().parents[2]
+load_dotenv(_SERVICE_ROOT / ".env")
 
 
 class Settings:

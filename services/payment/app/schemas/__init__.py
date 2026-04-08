@@ -6,10 +6,20 @@ from app.schemas.payment import (
     PaymentResponse,
     PaymentUpdate,
 )
+from app.schemas.payment_methods import (
+    PaymentMethodsBase,
+    PaymentMethodsCreate,
+    PaymentMethodsResponse,
+    PaymentMethodsUpdate,
+)
 
 __all__ = [
     "PaymentBase",
     "PaymentCreate",
     "PaymentResponse",
     "PaymentUpdate",
+    "PaymentMethodsBase",
+    "PaymentMethodsCreate",
+    "PaymentMethodsResponse",
+    "PaymentMethodsUpdate",
 ]

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from datetime import time
+from datetime import datetime, time
 
 from pydantic import (
     BaseModel,
@@ -63,7 +63,19 @@ class FieldResponse(FieldBase):
 
     id_field: int
     id_campus: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
     sport: SportResponse
     images: list[ImageResponse] = PydanticField(default_factory=list)
     next_available_time_range: Optional[str] = None
+
+    @model_validator(mode="after")
+    def _exclude_payment_images(self) -> "FieldResponse":
+        if isinstance(self.images, list):
+            self.images = [
+                image
+                for image in self.images
+                if (getattr(image, "category", None) or "").lower() != "payment"
+            ]
+        return self
 

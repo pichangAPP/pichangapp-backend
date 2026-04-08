@@ -21,7 +21,7 @@ pipeline:
   - name: CountVectorsFeaturizer
     analyzer: word
     min_ngram: 1
-    max_ngram: 2
+    max_ngram: 3
 
   # Vectorización de caracteres (útil para errores de tipeo)
   - name: CountVectorsFeaturizer
@@ -32,14 +32,14 @@ pipeline:
   # Clasificador principal DIET (Dual Intent Entity Transformer)
   # Es el corazón del NLU - clasifica intenciones y extrae entidades
   - name: DIETClassifier
-    epochs: 200 # Incrementar si tienes más datos
+    epochs: 300 # Incrementar si tienes más datos
     constrain_similarities: true
     model_confidence: softmax
     entity_recognition: true
 
     # Arquitectura del modelo
-    embedding_dimension: 20
-    transformer_size: 256
+    embedding_dimension: 64
+    transformer_size: 512
 
     # Dropout para prevenir overfitting
     drop_rate: 0.2
@@ -87,12 +87,12 @@ policies:
   # La política más potente para conversaciones complejas
   - name: TEDPolicy
     max_history: 5
-    epochs: 200
+    epochs: 300
     constrain_similarities: true
     model_confidence: softmax
 
     # Arquitectura del transformer (se usan los valores por defecto para los tamaños)
-    embedding_dimension: 20
+    embedding_dimension: 64
 
     # Regularización
     drop_rate: 0.2

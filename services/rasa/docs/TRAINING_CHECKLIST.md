@@ -46,6 +46,6 @@ Vuelve a desplegar o asegúrate de que el volumen `artifacts/models` del servici
 
 ## CI (GitHub Actions)
 
-En el repositorio existe [`.github/workflows/rasa.yml`](../../../.github/workflows/rasa.yml): **no entrena** (eso lo haces en local); ejecuta `rasa data validate` y `rasa test --stories` con `--model artifacts/models` usando la imagen `rasa/rasa-pro:3.12.3`. Debe existir **al menos un `.tar.gz`** versionado en `artifacts/models/` (si `.gitignore` lo oculta, usa `git add -f`).
+En el repositorio existe [`.github/workflows/rasa.yml`](../../../.github/workflows/rasa.yml): valida datos, entrena (`rasa train` → copia a `artifacts/models/`) y ejecuta tests con `--model artifacts/models` usando la imagen `rasa/rasa-pro:3.12.3`.
 
 Configura el secret **`RASA_PRO_LICENSE`** en GitHub (Settings → Secrets) con tu licencia Rasa Pro; sin él el job fallará. Los tests usan `RASA_ENFORCE_JWT_FOR_ADMIN_ACTIONS=false` para no exigir JWT en metadata.

@@ -1,0 +1,392 @@
+[
+  {
+    "text": "también puedo usar Grass mixto natural y sintético",
+    "entities": [
+      {
+        "start": 19,
+        "end": 30,
+        "value": "Grass mixto",
+        "entity": "surface"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "surface",
+        "start": 19,
+        "end": 30,
+        "confidence_entity": 0.9986461997032166,
+        "value": "Grass mixto (natural + sintético)",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "surface",
+        "start": 41,
+        "end": 50,
+        "confidence_entity": 0.9434155821800232,
+        "value": "Grass sintético",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "quiero ver opciones de fulbito en Villa El Salvador con losa de cemento alrededor de las 20:00 por unos S/200",
+    "entities": [
+      {
+        "start": 23,
+        "end": 30,
+        "value": "fulbito",
+        "entity": "sport"
+      },
+      {
+        "start": 34,
+        "end": 51,
+        "value": "Villa El Salvador",
+        "entity": "location"
+      },
+      {
+        "start": 56,
+        "end": 71,
+        "value": "losa de cemento",
+        "entity": "surface"
+      },
+      {
+        "start": 89,
+        "end": 94,
+        "value": "20:00",
+        "entity": "time"
+      },
+      {
+        "start": 104,
+        "end": 109,
+        "value": "S/200",
+        "entity": "budget"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 23,
+        "end": 30,
+        "confidence_entity": 0.9979115128517151,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 34,
+        "end": 51,
+        "confidence_entity": 0.9963616728782654,
+        "value": "Villa El Salvador",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "surface",
+        "start": 56,
+        "end": 71,
+        "confidence_entity": 0.994128942489624,
+        "value": "Losa de cemento",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "surface",
+        "start": 82,
+        "end": 84,
+        "confidence_entity": 0.6654158234596252,
+        "value": "de",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "time",
+        "start": 89,
+        "end": 94,
+        "confidence_entity": 0.9874311685562134,
+        "value": "20:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "budget",
+        "start": 104,
+        "end": 109,
+        "confidence_entity": 0.9989746809005737,
+        "value": "S/200",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "somos 6",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.7029079794883728,
+        "value": "6",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "necesito métricas de ocupación",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 21,
+        "end": 30,
+        "confidence_entity": 0.718508243560791,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "quiero un comparativo de ingresos",
+    "entities": [
+      {
+        "start": 10,
+        "end": 21,
+        "value": "comparativo",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 10,
+        "end": 21,
+        "confidence_entity": 0.9986317753791809,
+        "value": "comparativo",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 25,
+        "end": 33,
+        "confidence_entity": 0.604155957698822,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "tendencia de tráfico en la semana",
+    "entities": [
+      {
+        "start": 13,
+        "end": 20,
+        "value": "tráfico",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 9,
+        "confidence_entity": 0.6430914998054504,
+        "value": "tendencia",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 13,
+        "end": 20,
+        "confidence_entity": 0.9991093277931213,
+        "value": "trafico",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "ranking ingresos",
+    "entities": [
+      {
+        "start": 0,
+        "end": 7,
+        "value": "ranking",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 7,
+        "confidence_entity": 0.9973087310791016,
+        "value": "comparativo",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 8,
+        "end": 16,
+        "confidence_entity": 0.8549171686172485,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "hoy",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 3,
+        "confidence_entity": 0.7359363436698914,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "mañana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 6,
+        "confidence_entity": 0.8590139746665955,
+        "value": "mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "en surco",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 3,
+        "end": 8,
+        "confidence_entity": 0.7784484624862671,
+        "value": "Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "19:00",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.5821735262870789,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "20:00",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.5821735262870789,
+        "value": "20:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "somos 8",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.7029079794883728,
+        "value": "8",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "somos 9",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.7029079794883728,
+        "value": "9",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  }
+]

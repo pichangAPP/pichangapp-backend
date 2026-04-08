@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Reserva rechazada</title>
+    <style>
+        body { font-family: "Helvetica Neue", Arial, sans-serif; color: #1f2937; }
+        .container { max-width: 600px; margin: 0 auto; padding: 16px; }
+        .header { background-color: #b91c1c; color: #ffffff; padding: 16px; border-radius: 6px 6px 0 0; }
+        .content { border: 1px solid #d1d5db; border-top: none; border-radius: 0 0 6px 6px; padding: 24px; }
+        .details { background-color: #fef2f2; padding: 16px; border-radius: 6px; margin-top: 16px; }
+        .details dt { font-weight: 600; margin-top: 8px; }
+        .details dd { margin: 0; }
+        .footer { margin-top: 24px; font-size: 12px; color: #6b7280; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ user_status_heading }}</h1>
+        </div>
+        <div class="content">
+            <p>Hola {{ user.name }} {{ user.lastname }},</p>
+            <p>{{ user_status_message }}</p>
+            {% if campus.contact_email or campus.contact_phone %}
+            <p>
+                Si necesitas aclaraciones, contáctanos en
+                {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}
+                {% if campus.contact_email and campus.contact_phone %} o {% endif %}
+                {% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}.
+            </p>
+            {% endif %}
+
+            <div class="details">
+                <dl>
+                    <dt>Campus:</dt>
+                    <dd>{{ campus.name }}</dd>
+
+                    <dt>Dirección:</dt>
+                    <dd>{{ campus.address }}, {{ campus.district }}</dd>
+
+                    {% if campus.contact_email or campus.contact_phone %}
+                    <dt>Contacto del campus:</dt>
+                    <dd>
+                        {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}
+                        {% if campus.contact_email and campus.contact_phone %} | {% endif %}
+                        {% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}
+                    </dd>
+                    {% endif %}
+
+                    <dt>Campo:</dt>
+                    <dd>{{ field_name }}</dd>
+
+                    <dt>Horario reservado:</dt>
+                    <dd>{{ date_range }}</dd>
+
+                    <dt>Estado de la reserva:</dt>
+                    <dd>{{ rent.status | upper }}</dd>
+
+                    <dt>Monto:</dt>
+                    <dd>S/ {{ amount_display }}</dd>
+                </dl>
+            </div>
+        </div>
+        <p class="footer">Pichangapp &copy; {{ rent.start_time.year }}</p>
+    </div>
+</body>
+</html>

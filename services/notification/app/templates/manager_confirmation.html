@@ -17,11 +17,12 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Nueva reserva confirmada</h1>
+            <h1>{{ manager_status_heading }}</h1>
         </div>
         <div class="content">
             <p>Hola {{ recipient.name }} {{ recipient.lastname }},</p>
-            <p>Se ha confirmado una nueva reserva para el campus <strong>{{ campus.name }}</strong>.</p>
+            <p>{{ manager_status_message }}</p>
+            <p>Campus: <strong>{{ campus.name }}</strong></p>
 
             <div class="details">
                 <dl>
@@ -44,6 +45,14 @@
 
             <p>Recuerda coordinar con el usuario cualquier detalle adicional previo al inicio de la reserva.</p>
             <p>Dirección del campus: {{ campus.address }}, {{ campus.district }}</p>
+            {% if campus.contact_email or campus.contact_phone %}
+            <p>
+                Contacto del campus:
+                {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}
+                {% if campus.contact_email and campus.contact_phone %} | {% endif %}
+                {% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}
+            </p>
+            {% endif %}
             <p>
                 Adjuntamos un pase en imagen con el código y los datos de la reserva, junto
                 con un QR que abre ese pase directamente desde tu teléfono.

@@ -1,4 +1,4 @@
-# Rasa Pro: validar datos y tests de historias (sin entrenar; el modelo debe existir en artifacts/models).
+# Rasa Pro: validar datos, entrenar y ejecutar tests de historias (imagen alineada con services/rasa/Dockerfile).
 name: Rasa service
 
 on:
@@ -12,7 +12,7 @@ on:
       - ".github/workflows/rasa.yml"
 
 jobs:
-  validate-and-test:
+  validate-train-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,13 +28,16 @@ jobs:
             rasa/rasa-pro:3.12.3 \
             rasa data validate
 
-      - name: Comprobar modelo para story tests
+      - name: Rasa train
+        env:
+          RASA_PRO_LICENSE: ${{ secrets.RASA_PRO_LICENSE }}
         run: |
-          set -e
-          if ! ls "${{ github.workspace }}/services/rasa/artifacts/models"/*.tar.gz >/dev/null 2>&1; then
-            echo "::error::No hay ningún .tar.gz en services/rasa/artifacts/models. Entrena en local, copia el modelo ahí y súbelo al repo (si .gitignore lo bloquea, usa git add -f)."
-            exit 1
-          fi
+          docker run --rm \
+            -v "${{ github.workspace }}/services/rasa:/app" \
+            -w /app \
+            -e RASA_PRO_LICENSE \
+            rasa/rasa-pro:3.12.3 \
+            sh -lc 'rasa train --quiet && mkdir -p artifacts/models && cp models/*.tar.gz artifacts/models/'
 
       - name: Rasa story tests
         env:

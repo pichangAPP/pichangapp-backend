@@ -19,4 +19,14 @@ async def send_email(payload: NotificationRequest) -> dict[str, str]:
     return {"detail": "Emails sent"}
 
 
+@router.post("/rent-approved", status_code=status.HTTP_202_ACCEPTED)
+async def send_rent_approved_notification(
+    payload: NotificationRequest,
+) -> dict[str, str]:
+    """Send reservation approval email to the user."""
+
+    await run_in_threadpool(_email_service.send_user_confirmation, payload)
+    return {"detail": "Reservation approval email sent"}
+
+
 __all__ = ["router"]

@@ -3,6 +3,7 @@ version: "3.1"
 rules:
   - rule: initialize session
     conversation_start: true
+    wait_for_user_input: false
     steps:
       - action: action_session_start
 
@@ -41,6 +42,14 @@ rules:
       - action: action_deactivate_loop
       - action: utter_what_can_you_do
 
+  - rule: help during admin metrics form
+    condition:
+      - active_loop: admin_metrics_form
+    steps:
+      - intent: help
+      - action: action_deactivate_loop
+      - action: utter_what_can_you_do
+
   - rule: admin-only flow guard
     condition:
       - slot_was_set:
@@ -55,6 +64,38 @@ rules:
           - user_role: "player"
     steps:
       - intent: request_admin_recommendation
+      - action: utter_admin_only_flow
+
+  - rule: player guard admin top clients
+    condition:
+      - slot_was_set:
+          - user_role: "player"
+    steps:
+      - intent: request_admin_top_clients
+      - action: utter_admin_only_flow
+
+  - rule: player guard admin field usage
+    condition:
+      - slot_was_set:
+          - user_role: "player"
+    steps:
+      - intent: request_admin_field_usage
+      - action: utter_admin_only_flow
+
+  - rule: player guard admin demand alerts
+    condition:
+      - slot_was_set:
+          - user_role: "player"
+    steps:
+      - intent: request_admin_demand_alerts
+      - action: utter_admin_only_flow
+
+  - rule: player guard admin metrics
+    condition:
+      - slot_was_set:
+          - user_role: "player"
+    steps:
+      - intent: request_admin_metrics
       - action: utter_admin_only_flow
 
   - rule: show faqs
@@ -95,6 +136,11 @@ rules:
       - action: action_deactivate_loop
       - action: utter_pricing_info
 
+  - rule: listen after recommendation submit
+    steps:
+      - action: action_submit_field_recommendation_form
+      - action: action_listen
+
   - rule: reprogram reservation
     steps:
       - intent: ask_reprogram_reservation
@@ -116,6 +162,13 @@ rules:
       - intent: SetSlots
       - action: action_handle_feedback_rating
 
+  - rule: thank after recommendation confirm
+    steps:
+      - action: action_submit_field_recommendation_form
+      - intent: affirm
+      - action: utter_thanks_for_feedback
+      - action: utter_anything_else
+
   - rule: thank positive feedback
     steps:
       - intent: give_positive_feedback
@@ -127,95 +180,50 @@ rules:
       - action: utter_sorry_for_experience
       - action: utter_what_can_you_do
 
-  - rule: admin requests alerts (player filtered)
-    condition:
-      - slot_was_set:
-          - user_role: "admin"
-    steps:
-      - intent: request_admin_demand_alerts
-      - action: action_provide_admin_demand_alerts
-      - action: action_close_chat_session
-      - action: utter_goodbye
-
-  - rule: admin requests management tips
-    condition:
-      - slot_was_set:
-          - user_role: "admin"
-    steps:
-      - intent: request_admin_recommendation
-      - action: action_provide_admin_management_tips
-      - action: action_close_chat_session
-      - action: utter_goodbye
-
-  - rule: admin requests top clients
-    condition:
-      - slot_was_set:
-          - user_role: "admin"
-    steps:
-      - intent: request_admin_top_clients
-      - action: action_provide_admin_campus_top_clients
-      - action: action_close_chat_session
-      - action: utter_goodbye
-
-  - rule: admin requests field usage
-    condition:
-      - slot_was_set:
-          - user_role: "admin"
-    steps:
-      - intent: request_admin_field_usage
-      - action: action_provide_admin_field_usage
-      - action: action_close_chat_session
-      - action: utter_goodbye
-
-  - rule: admin requests without role (alerts)
-    condition:
-      - slot_was_set:
-          - user_role: null
-    steps:
-      - intent: request_admin_demand_alerts
-      - action: action_ensure_user_role
-
-  - rule: admin requests without role (management)
+  - rule: admin recommendation without role -> route
     condition:
       - slot_was_set:
           - user_role: null
     steps:
       - intent: request_admin_recommendation
       - action: action_ensure_user_role
+      - action: action_route_admin_request
 
-  - rule: admin requests without role (clients)
+  - rule: admin top clients without role -> route
     condition:
       - slot_was_set:
           - user_role: null
     steps:
       - intent: request_admin_top_clients
       - action: action_ensure_user_role
+      - action: action_route_admin_request
 
-  - rule: admin requests without role (field usage)
+  - rule: admin field usage without role -> route
     condition:
       - slot_was_set:
           - user_role: null
     steps:
       - intent: request_admin_field_usage
       - action: action_ensure_user_role
+      - action: action_route_admin_request
 
-  - rule: player requests recommendation
+  - rule: admin demand alerts without role -> route
+    condition:
+      - slot_was_set:
+          - user_role: null
     steps:
+      - intent: request_admin_demand_alerts
+      - action: action_ensure_user_role
+      - action: action_route_admin_request
+
+  - rule: admin metrics without role -> route
+    condition:
       - slot_was_set:
-          - user_role: "player"
-      - intent: request_field_recommendation
-      - action: action_log_field_recommendation_request
-      - action: field_recommendation_form
-      - active_loop: field_recommendation_form
-      - slot_was_set:
-          - requested_slot: null
-      - active_loop: null
-      - action: field_recommendation_form
-      - active_loop: field_recommendation_form
-      - slot_was_set:
-          - requested_slot: null
-      - active_loop: null
-      - action: action_submit_field_recommendation_form
+          - user_role: null
+    steps:
+      - intent: request_admin_metrics
+      - action: action_ensure_user_role
+      - action: action_route_admin_request
 
   - rule: request recommendation without role
     condition:
@@ -224,58 +232,159 @@ rules:
     steps:
       - intent: request_field_recommendation
       - action: action_ensure_user_role
-
-  - rule: submit completed form
-    condition:
-      - active_loop: field_recommendation_form
-    steps:
       - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+
+  - rule: route admin recommendation
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+      - active_loop: null
+    steps:
+      - intent: request_admin_recommendation
+      - action: action_route_admin_request
+
+  - rule: route admin top clients
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+      - active_loop: null
+    steps:
+      - intent: request_admin_top_clients
+      - action: action_route_admin_request
+
+  - rule: route admin field usage
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+      - active_loop: null
+    steps:
+      - intent: request_admin_field_usage
+      - action: action_route_admin_request
+
+  - rule: route admin demand alerts
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+      - active_loop: null
+    steps:
+      - intent: request_admin_demand_alerts
+      - action: action_route_admin_request
+
+  - rule: route admin metrics
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+      - active_loop: null
+    steps:
+      - intent: request_admin_metrics
+      - action: action_route_admin_request
+
+  - rule: route admin inform followup
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+      - active_loop: null
+    steps:
+      - intent: inform
+      - action: action_route_admin_request
+
+  - rule: recover admin from nlu fallback
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+      - active_loop: null
+    steps:
+      - intent: nlu_fallback
+      - action: action_route_admin_request
+
+  - rule: submit admin metrics form
+    condition:
+      - active_loop: admin_metrics_form
+    steps:
+      - action: admin_metrics_form
+      - active_loop: null
+      - action: action_provide_admin_metrics
+      - action: action_admin_post_topic_followup
+
+  - rule: post followup after admin management tips
+    steps:
+      - action: action_provide_admin_management_tips
+      - action: action_admin_post_topic_followup
+
+  - rule: post followup after admin top clients
+    steps:
+      - action: action_provide_admin_campus_top_clients
+      - action: action_admin_post_topic_followup
+
+  - rule: post followup after admin field usage
+    steps:
+      - action: action_provide_admin_field_usage
+      - action: action_admin_post_topic_followup
+
+  - rule: post followup after admin demand alerts
+    steps:
+      - action: action_provide_admin_demand_alerts
+      - action: action_admin_post_topic_followup
+
+  - rule: fallback inside admin metrics form
+    condition:
+      - active_loop: admin_metrics_form
+    steps:
+      - intent: nlu_fallback
+      - action: action_deactivate_loop
+      - action: action_route_admin_request
+
+  - rule: switch from admin metrics form to top clients
+    condition:
+      - active_loop: admin_metrics_form
+    steps:
+      - intent: request_admin_top_clients
+      - action: action_deactivate_loop
+      - action: action_route_admin_request
+
+  - rule: switch from admin metrics form to field usage
+    condition:
+      - active_loop: admin_metrics_form
+    steps:
+      - intent: request_admin_field_usage
+      - action: action_deactivate_loop
+      - action: action_route_admin_request
+
+  - rule: switch from admin metrics form to demand alerts
+    condition:
+      - active_loop: admin_metrics_form
+    steps:
+      - intent: request_admin_demand_alerts
+      - action: action_deactivate_loop
+      - action: action_route_admin_request
+
+  - rule: switch from admin metrics form to management tips
+    condition:
+      - active_loop: admin_metrics_form
+    steps:
+      - intent: request_admin_recommendation
+      - action: action_deactivate_loop
+      - action: action_route_admin_request
+
+  - rule: fallback outside forms for player
+    condition:
       - active_loop: null
       - slot_was_set:
-          - requested_slot: null
-      - action: action_submit_field_recommendation_form
-
-  - rule: deny inside form
-    condition:
-      - active_loop: field_recommendation_form
-    steps:
-      - intent: deny
-      - action: action_deactivate_loop
-      - action: action_reset_slots
-      - action: action_log_abandonment
-      - action: utter_help
-
-  - rule: fallback inside form
-    condition:
-      - active_loop: field_recommendation_form
-    steps:
-      - intent: nlu_fallback
-      - action: utter_default_fallback
-      - action: field_recommendation_form
-      - active_loop: field_recommendation_form
-
-  - rule: fallback outside forms
-    condition:
-      - active_loop: null
+          - user_role: "player"
     steps:
       - intent: nlu_fallback
       - action: utter_default_fallback
       - action: utter_what_can_you_do
 
-  - rule: positive confirmation after recommendation
+  - rule: fallback outside forms without role
     condition:
       - active_loop: null
+      - slot_was_set:
+          - user_role: null
     steps:
-      - action: action_submit_field_recommendation_form
-      - intent: affirm
-      - action: utter_thanks_for_feedback
-      - action: utter_anything_else
-
-  - rule: negative confirmation after recommendation
-    condition:
-      - active_loop: null
-    steps:
-      - action: action_submit_field_recommendation_form
-      - intent: deny
-      - action: utter_can_help_more
+      - intent: nlu_fallback
+      - action: action_ensure_user_role
+      - action: utter_default_fallback
       - action: utter_what_can_you_do
+

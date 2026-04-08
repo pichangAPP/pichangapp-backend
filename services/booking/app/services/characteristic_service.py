@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from fastapi import HTTPException,status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import BOOKING_INTERNAL_ERROR, http_error
 from app.models import Characteristic
 from app.schemas import CharacteristicUpdate
 from app.services.campus_service import CampusService
@@ -32,7 +32,7 @@ class CharacteristicService:
             return characteristic
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to update characteristic",
             ) from exc

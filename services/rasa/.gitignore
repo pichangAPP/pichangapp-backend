@@ -1,3 +1,2 @@
-# Modelos entrenados (no subir todos por defecto). GitHub Actions necesita al menos un .tar.gz
-# en artifacts/models para story tests: versiona uno con: git add -f artifacts/models/tu-modelo.tar.gz
+# Modelos entrenados (montar o generar con CI / rasa train)
 artifacts/models/*.tar.gz

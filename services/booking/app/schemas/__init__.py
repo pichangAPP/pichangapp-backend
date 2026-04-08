@@ -1,4 +1,10 @@
-from .business import BusinessCreate, BusinessResponse, BusinessUpdate
+from .business import BusinessCreate, BusinessProfileResponse, BusinessResponse, BusinessUpdate
+from .business_legal import BusinessLegalCreate, BusinessLegalResponse, BusinessLegalUpdate
+from .business_social_media import (
+    BusinessSocialMediaCreate,
+    BusinessSocialMediaResponse,
+    BusinessSocialMediaUpdate,
+)
 from .campus import CampusCreate, CampusResponse, CampusUpdate
 from .characteristic import (
     CharacteristicCreate,
@@ -13,8 +19,15 @@ from .sport import ModalityResponse, SportCreate, SportResponse, SportUpdate
 
 __all__ = [
     "BusinessCreate",
+    "BusinessProfileResponse",
     "BusinessResponse",
     "BusinessUpdate",
+    "BusinessLegalCreate",
+    "BusinessLegalResponse",
+    "BusinessLegalUpdate",
+    "BusinessSocialMediaCreate",
+    "BusinessSocialMediaResponse",
+    "BusinessSocialMediaUpdate",
     "CampusCreate",
     "CampusResponse",
     "CampusUpdate",

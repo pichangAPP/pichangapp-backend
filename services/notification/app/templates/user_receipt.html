@@ -17,11 +17,20 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>¡Tu reserva está confirmada!</h1>
+            <h1>{{ user_status_heading }}</h1>
         </div>
         <div class="content">
             <p>Hola {{ user.name }} {{ user.lastname }},</p>
-            <p>Gracias por reservar con Pichangapp. Aquí tienes el comprobante de tu reserva.</p>
+            <p>{{ user_status_message }}</p>
+            {% if campus.contact_email or campus.contact_phone %}
+            <p>
+                Si tienes dudas, contáctanos en
+                {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}
+                {% if campus.contact_email and campus.contact_phone %} o {% endif %}
+                {% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}.
+            </p>
+            {% endif %}
+            <p>Aquí tienes el comprobante de tu reserva.</p>
 
             <div class="details">
                 <dl>
@@ -30,6 +39,15 @@
 
                     <dt>Dirección:</dt>
                     <dd>{{ campus.address }}, {{ campus.district }}</dd>
+
+                    {% if campus.contact_email or campus.contact_phone %}
+                    <dt>Contacto del campus:</dt>
+                    <dd>
+                        {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}
+                        {% if campus.contact_email and campus.contact_phone %} | {% endif %}
+                        {% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}
+                    </dd>
+                    {% endif %}
 
                     <dt>Campo:</dt>
                     <dd>{{ field_name }}</dd>

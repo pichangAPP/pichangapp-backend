@@ -1,8 +1,16 @@
 Hola {{ user.name }} {{ user.lastname }},
 
-Gracias por reservar con Pichangapp. Estos son los datos de tu reserva:
+{{ user_status_message }}
+{% if campus.contact_email or campus.contact_phone -%}
+Si tienes dudas, contáctanos en {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}{% if campus.contact_email and campus.contact_phone %} o {% endif %}{% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}.
+{%- endif %}
+
+Estos son los datos de tu reserva:
 - Campus: {{ campus.name }}
 - Dirección: {{ campus.address }}, {{ campus.district }}
+{% if campus.contact_email or campus.contact_phone -%}
+- Contacto del campus: {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}{% if campus.contact_email and campus.contact_phone %} | {% endif %}{% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}
+{%- endif %}
 - Campo: {{ field_name }}
 - Horario: {{ date_range }}
 - Estado de la reserva: {{ rent.status | upper }}

@@ -1,0 +1,449 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - hola
+      - buenas
+      - buen dia
+      - buen diaa
+      - que tal
+      - qe tal
+      - holi
+      - hey
+      - ola
+      - oi
+      - eyy
+      - buenas tardes
+      - buenas noches
+
+  - intent: goodbye
+    examples: |
+      - chau
+      - chao
+      - adios
+      - hasta luego
+      - me voy
+      - gracias chau
+      - ok chau
+      - bai
+      - bye
+
+  - intent: affirm
+    examples: |
+      - si
+      - s
+      - ok
+      - dale
+      - va
+      - claro
+      - de una
+      - yes
+      - ajá
+      - sip
+
+  - intent: deny
+    examples: |
+      - no
+      - nop
+      - n
+      - nah
+      - no quiero
+      - no gracias
+      - negativo
+      - nel
+      - naa
+
+  - intent: help
+    examples: |
+      - ayuda
+      - ayudame
+      - ayúdame
+      - help
+      - que haces
+      - que puedes
+      - q haces
+      - q puedes
+      - necesito ayuda
+      - no entiendo
+      - no se
+      - necesito una mano
+      - me ayudas con la app
+      - orientame
+      - estoy perdido
+
+  - intent: request_field_recommendation
+    examples: |
+      - quiero cancha
+      - cancha
+      - buscar cancha
+      - muestrame canchas
+      - canchas disponibles
+      - canchas libres
+      - cancha libre
+      - campo libre
+      - alquilar cancha
+      - rentar cancha
+      - reservar cancha
+      - quiero jugar
+      - quiero jugar hoy
+      - canchas cerca
+      - cancha barata
+      - cancha hoy
+      - cancha mañana
+      - cancha ahora
+      - canxa
+      - qiero cancha
+
+  - intent: request_admin_recommendation
+    examples: |
+      - tips admin
+      - ayuda admin
+      - recomendaciones admin
+      - dame recomendaciones admin
+      - quiero recomendaciones de gestion
+      - consejos de gestion
+      - qiero tips de admin
+      - como lleno mis canchas
+      - como mejorar ocupacion
+      - como subir reservas
+      - admin ayuda
+      - consejos admin
+      - mejorar gestion
+      - bajar horas vacias
+
+  - intent: request_admin_top_clients
+    examples: |
+      - top clientes
+      - clientes top
+      - dame top clientes
+      - quiero clientes frecuentes
+      - muestrame clientes top
+      - q clientes reservan mas
+      - mis mejores clientes
+      - quien renta mas
+      - quien reserva mas
+      - clientes frecuentes
+      - usuarios top
+      - top usuarios
+
+  - intent: request_admin_field_usage
+    examples: |
+      - dame uso de canchas
+      - quiero uso de canchas
+      - muestrame canchas mas usadas
+      - q canchas se usan mas
+      - cancha mas usada
+      - canchas mas usadas
+      - uso de canchas
+      - ranking canchas
+      - cancha top
+      - campo mas usado
+      - campos top
+
+  - intent: request_admin_demand_alerts
+    examples: |
+      - dame alertas demanda
+      - qiero alertas de demanda
+      - muestrame alertas de ocupacion
+      - avisame cuando baje
+      - alertas demanda
+      - alerta ocupacion
+      - avisame si baja
+      - avisame si sube
+      - alertas de ocupacion
+      - quiero alertas
+      - alerta horarios vacios
+
+  - intent: request_admin_metrics
+    examples: |
+      - metricas hoy
+      - metricas semana
+      - metricas mes
+      - quiero metricas
+      - dame metricas
+      - qro ver metricas
+      - cuales son metricas
+      - metrica [ingresos](metric_type)
+      - quiero ver [ingresos](metric_type)
+      - dame [ingresos](metric_type)
+      - [ingresos](metric_type)
+      - ingreso [hoy](metric_period)
+      - [ingr](metric_type) [hoy](metric_period)
+      - [ingr](metric_type) [semana](metric_period)
+      - ingresos semana
+      - ingresos de esta semana
+      - ingreso de esta semana
+      - quiero ingresos semana
+      - quiero ver ingresos de esta semana
+      - dame ingresos de esta semana
+      - cuantos ingresos semana
+      - cuales ingresos semana
+      - [ocu](metric_type)
+      - [ocu](metric_type) [hoy](metric_period)
+      - [ocupacion](metric_type) [hoy](metric_period)
+      - [ocupacion](metric_type) [semana](metric_period)
+      - quiero ver [ocupacion](metric_type)
+      - dame [ocupacion](metric_type)
+      - [traf](metric_type) [semana](metric_period)
+      - [trafico](metric_type) [semana](metric_period)
+      - [comparativo](metric_type) ingresos
+      - [ranking](metric_type) ingresos
+      - [tendencia](metric_type) reservas
+      - [clientes](metric_type) [mes](metric_period)
+      - [canchas](metric_type) top [mes](metric_period)
+      - ingresos y luego clientes
+      - ocupacion y alertas
+      - qiero ingresos semana
+      - kiero ocupacion hoy
+
+  - intent: ask_reservation_process
+    examples: |
+      - como reservo
+      - como reservar
+      - reserva
+      - como hago reserva
+      - como se reserva
+      - reservar?
+
+  - intent: ask_modify_reservation
+    examples: |
+      - cambiar hora
+      - cambiar reserva
+      - modificar reserva
+      - mover reserva
+      - cambio de hora
+      - reprogramo?
+
+  - intent: ask_cancellation_policy
+    examples: |
+      - cancelar
+      - puedo cancelar
+      - cancelacion
+      - cancelar reserva
+      - politica cancel
+      - se puede cancelar
+
+  - intent: ask_reprogram_reservation
+    examples: |
+      - reprogramar
+      - reprogramar reserva
+      - mover fecha
+      - cambiar fecha
+      - cambiar dia
+      - pasar para otro dia
+
+  - intent: ask_pricing_info
+    examples: |
+      - precio
+      - precios
+      - cuanto cuesta
+      - cuanto sale
+      - tarifa
+      - costo
+      - precio cancha
+      - precio x hora
+
+  - intent: show_faqs
+    examples: |
+      - faq
+      - preguntas
+      - dudas
+      - preguntas frecuentes
+      - ayuda rapida
+      - dudas comunes
+      - preguntas tipicas
+
+  - intent: show_promotions
+    examples: |
+      - promo
+      - promociones
+      - descuento
+      - oferta
+      - ofertas
+      - hay promo
+
+  - intent: show_previous_recommendations
+    examples: |
+      - mis recomendaciones
+      - historial
+      - recomendaciones anteriores
+      - lo de antes
+      - ver historial
+
+  - intent: ask_feedback_status
+    examples: |
+      - mis comentarios
+      - mi feedback
+      - estado feedback
+      - mis reseñas
+
+  - intent: give_positive_feedback
+    examples: |
+      - gracias
+      - ok gracias
+      - buen servicio
+      - nice
+
+  - intent: give_negative_feedback
+    examples: |
+      - mal
+      - malo
+      - pesimo
+      - no sirve
+      - mal servicio
+      - terrible
+      - fatal
+
+  - intent: inform
+    examples: |
+      - cuantos son
+      - cuales son
+      - y de hoy
+      - y de semana
+      - y de mes
+      - ahora ese
+      - sigue con ese
+      - hoy
+      - mañana
+      - ahora
+      - en surco
+      - por surco
+      - en barranco
+      - en la molina
+      - 8pm
+      - 9pm
+      - 7:30pm
+      - 19:00
+      - 20:00
+      - a las 19:30
+      - despues de las 18
+      - grass sintetico
+      - sintetico
+      - losa
+      - 10 jugadores
+      - 12 jugadores
+      - somos 8
+      - somos 9
+      - somos 6
+      - futbol
+      - basquet
+      - voley
+
+  - intent: SetSlots
+    examples: |
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+
+  - synonym: ingresos
+    examples: |
+      - ingr
+      - ingreso
+      - ingresos
+      - revenue
+      - income
+
+  - synonym: ocupacion
+    examples: |
+      - ocu
+      - ocupación
+      - ocupacion
+      - disponibilidad
+
+  - synonym: trafico
+    examples: |
+      - traf
+      - tráfico
+      - trafico
+      - flujo
+
+  - synonym: clientes
+    examples: |
+      - cliente
+      - clientes
+      - client
+      - usuarios
+
+  - synonym: canchas
+    examples: |
+      - campo
+      - campos
+      - cancha
+
+  - synonym: comparativo
+    examples: |
+      - comparacion
+      - comparación
+      - comparar
+      - ranking
+
+  - synonym: tendencia
+    examples: |
+      - tendencia
+      - tendencias
+      - evolucion
+      - evolución
+
+  - synonym: hoy
+    examples: |
+      - hoy
+      - hoy dia
+
+  - synonym: semana
+    examples: |
+      - semana
+      - sem
+      - semanal
+
+  - synonym: mes
+    examples: |
+      - mes
+      - mensual
+
+  - lookup: metric_type
+    examples: |
+      - ingresos
+      - ocupacion
+      - trafico
+      - clientes
+      - canchas
+      - comparativo
+      - tendencia
+
+  - lookup: metric_period
+    examples: |
+      - hoy
+      - semana
+      - mes
+
+  - lookup: admin_management_terms
+    examples: |
+      - consejos admin
+      - recomendaciones admin
+      - tips admin
+      - gestion
+      - estrategias
+
+  - lookup: admin_top_clients_terms
+    examples: |
+      - top clientes
+      - clientes frecuentes
+      - clientes top
+      - usuarios top
+
+  - lookup: admin_field_usage_terms
+    examples: |
+      - uso de canchas
+      - canchas mas usadas
+      - campo mas usado
+      - ranking canchas
+
+  - lookup: admin_demand_alert_terms
+    examples: |
+      - alertas demanda
+      - alerta ocupacion
+      - horarios vacios
+      - avisame si baja

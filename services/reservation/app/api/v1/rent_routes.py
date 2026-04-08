@@ -2,11 +2,21 @@
 
 from typing import List, Optional
 
-from fastapi import APIRouter, BackgroundTasks, Depends, Query, status
+from fastapi import APIRouter, BackgroundTasks, Body, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
-from app.schemas.rent import RentCreate, RentResponse, RentUpdate
+from app.schemas.rent import (
+    RentCancelRequest,
+    RentCancelResponse,
+    RentAdminCreate,
+    RentAdminUpdate,
+    RentCreate,
+    RentCreateCombo,
+    RentPaymentResponse,
+    RentResponse,
+    RentUpdate,
+)
 from app.services.rent_service import RentService
 
 router = APIRouter(prefix="/rents", tags=["rents"])
@@ -86,16 +96,52 @@ def get_rent(rent_id: int, db: Session = Depends(get_db)) -> RentResponse:
     return service.get_rent(rent_id)
 
 
-@router.post("", response_model=RentResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=RentPaymentResponse, status_code=status.HTTP_201_CREATED)
 def create_rent(
     payload: RentCreate,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
-) -> RentResponse:
+) -> RentPaymentResponse:
     """Create a new rent."""
 
     service = RentService(db)
     return service.create_rent(payload, background_tasks=background_tasks)
+
+
+@router.post("/combo", response_model=RentPaymentResponse, status_code=status.HTTP_201_CREATED)
+def create_rent_combo(
+    payload: RentCreateCombo,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+) -> RentPaymentResponse:
+    """Create a rent that spans multiple fields (combined courts)."""
+
+    service = RentService(db)
+    return service.create_rent_combo(payload, background_tasks=background_tasks)
+
+
+@router.post("/admin", response_model=RentResponse, status_code=status.HTTP_201_CREATED)
+def create_rent_admin(
+    payload: RentAdminCreate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+) -> RentResponse:
+    """Create a new rent by admin."""
+
+    service = RentService(db)
+    return service.create_rent_admin(payload, background_tasks=background_tasks)
+
+
+@router.put("/{rent_id}/cancel", response_model=RentCancelResponse)
+def cancel_rent(
+    rent_id: int,
+    payload: RentCancelRequest = Body(default=RentCancelRequest()),
+    db: Session = Depends(get_db),
+) -> RentCancelResponse:
+    """Cancel a rent and set the schedule available."""
+
+    service = RentService(db)
+    return service.cancel_rent(rent_id, payload)
 
 
 @router.put("/{rent_id}", response_model=RentResponse)
@@ -109,6 +155,23 @@ def update_rent(
 
     service = RentService(db)
     return service.update_rent(
+        rent_id,
+        payload,
+        background_tasks=background_tasks,
+    )
+
+
+@router.put("/admin/{rent_id}", response_model=RentResponse)
+def update_rent_admin(
+    rent_id: int,
+    payload: RentAdminUpdate,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+) -> RentResponse:
+    """Update an existing rent by admin."""
+
+    service = RentService(db)
+    return service.update_rent_admin(
         rent_id,
         payload,
         background_tasks=background_tasks,

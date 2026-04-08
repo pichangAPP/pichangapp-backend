@@ -4,7 +4,6 @@ from sqlalchemy import (
     BigInteger,
     Column,
     DateTime,
-    ForeignKey,
     Identity,
     Integer,
     Numeric,
@@ -45,8 +44,7 @@ class Payment(Base):
     )
     memberships_id_membership = Column(
         Integer,
-        ForeignKey("payment.memberships.id_membership"),
-        nullable=False,
+        nullable=True,
     )
     reference = Column(String(100), nullable=True)
     additional_data = Column(Text, nullable=True)
