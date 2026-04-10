@@ -29,10 +29,17 @@ services:
     environment:
       - ZOOKEEPER_CLIENT_PORT=2181
       - ZOOKEEPER_TICK_TIME=2000
+    healthcheck:
+      test: ["CMD-SHELL", "zookeeper-shell localhost:2181 ls / >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
     ports:
       - "2181:2181"
     networks:
       - pichangapp-network
+    restart: unless-stopped
     deploy:
       resources:
         limits:
@@ -45,7 +52,8 @@ services:
   kafka:
     image: confluentinc/cp-kafka:7.6.1
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
@@ -54,6 +62,9 @@ services:
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
     ports:
       - "9092:9092"
       - "29092:29092"
@@ -66,6 +77,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+      start_period: 20s
+    restart: unless-stopped
     networks:
       - pichangapp-network
     deploy:
@@ -77,8 +90,6 @@ services:
       - kafka_data:/var/lib/kafka/data
 
   kafka-ui:
-    profiles:
-      - messaging-debug
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     ports:
@@ -87,14 +98,17 @@ services:
       KAFKA_CLUSTERS_0_NAME: pichangapp
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - pichangapp-network
 
   kafka-init:
     image: confluentinc/cp-kafka:7.6.1
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     entrypoint: ["/bin/bash", "-lc"]
     command: >
       "
@@ -157,7 +171,7 @@ services:
       shared-venv:
         condition: service_started
       postgres:
-        condition: service_started
+        condition: service_healthy
       kafka:
         condition: service_healthy
       kafka-init:
@@ -172,6 +186,7 @@ services:
     ports:
       - "8000:8000"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    restart: unless-stopped
     networks:
       - pichangapp-network
 
@@ -193,6 +208,7 @@ services:
     ports:
       - "8001:8001"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+    restart: unless-stopped
     networks:
       - pichangapp-network
 
@@ -215,6 +231,7 @@ services:
     ports:
       - "8002:8002"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8002"]
+    restart: unless-stopped
     networks:
       - pichangapp-network
 
@@ -250,12 +267,18 @@ services:
       SMTP_TIMEOUT: ${SMTP_TIMEOUT}
       MANAGER_CONFIRMATION_SUBJECT: "${MANAGER_CONFIRMATION_SUBJECT}"
       USER_RECEIPT_SUBJECT: "${USER_RECEIPT_SUBJECT}"
+      APP_BRAND_NAME: "${APP_BRAND_NAME:-Cuadra!}"
+      RESERVATION_PASS_FALLBACK_BASE_URL: "${RESERVATION_PASS_FALLBACK_BASE_URL:-http://31.97.95.61:9000/api/pichangapp/v1/notification/notifications/reservation-pass}"
+      RESERVATION_PASS_TOKEN_SECRET: "${RESERVATION_PASS_TOKEN_SECRET}"
+      RESERVATION_PASS_URL_TEMPLATE: "${RESERVATION_PASS_URL_TEMPLATE:-}"
       <<: *common-env
     volumes:
+      # Debe ser un archivo JSON real en el host; si no existe, Docker crea un directorio y Firebase falla (EISDIR).
       - ./secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json:/secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json:ro
     ports:
       - "8004:8004"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004"]
+    restart: unless-stopped
     networks:
       - pichangapp-network
 
@@ -280,6 +303,7 @@ services:
     ports:
       - "8005:8005"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8005"]
+    restart: unless-stopped
     networks:
       - pichangapp-network
 
@@ -315,6 +339,7 @@ services:
       - pichangapp-network
     depends_on:
       - postgres
+    restart: unless-stopped
     deploy:
       resources:
         limits:
@@ -334,7 +359,7 @@ services:
       shared-venv:
         condition: service_started
       postgres:
-        condition: service_started
+        condition: service_healthy
     environment:
       PAYMENT_ALLOWED_STATUSES: ${PAYMENT_ALLOWED_STATUSES:-pending,paid,failed,cancelled}
       SERVICE_NAME: payment-service
@@ -343,6 +368,7 @@ services:
     ports:
       - "8003:8003"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003"]
+    restart: unless-stopped
     networks:
       - pichangapp-network
 
@@ -371,16 +397,17 @@ services:
     ports:
       - "9000:9000"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9000"]
+    restart: unless-stopped
     networks:
       - pichangapp-network
 
 networks:
   pichangapp-network:
-    external: true
+    name: pichangapp-network
+    driver: bridge
 
 volumes:
   pgdata:
-    external: true
     name: pichangapp_pgdata
   kafka_data:
   zookeeper_data:

@@ -13,5 +13,7 @@ Detalle de la reserva:
 {%- endif %}
 - Campo: {{ field_name }}
 - Horario: {{ date_range }}
-- Estado de la reserva: {{ rent.status | upper }}
+- Estado: {{ rent_status_label }}
 - Monto: S/ {{ amount_display }}
+
+— {{ app_brand }}

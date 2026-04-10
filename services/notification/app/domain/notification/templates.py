@@ -66,33 +66,33 @@ def build_status_context(status_value: str) -> Dict[str, str]:
             "La reserva fue confirmada para el usuario.",
         ),
         "under_review": (
-            "Pago en revision",
-            "Hemos recibido tu pago. Estamos revisandolo y te avisaremos.",
-            "Pago en revision",
-            "Se recibio un pago y esta en revision.",
+            "Pago en revisión",
+            "¡Gracias! Recibimos tu pago y lo estamos revisando. Te avisaremos en cuanto esté confirmado.",
+            "Pago en revisión",
+            "El usuario envió un pago; la reserva está en revisión.",
         ),
         "pending_payment": (
             "Pago pendiente",
-            "Aun no hemos recibido tu pago.",
+            "Aún no hemos recibido tu pago. Completa el pago para asegurar tu horario.",
             "Pago pendiente",
             "La reserva sigue pendiente de pago.",
         ),
         "pending_proof": (
             "Falta evidencia de pago",
-            "Aun no se ha subido evidencia de pago.",
+            "Aún no registramos evidencia de tu pago. Súbela desde la app para continuar.",
             "Falta evidencia de pago",
-            "El usuario aun no sube evidencia de pago.",
+            "El usuario aún no sube evidencia de pago.",
         ),
         "proof_submitted": (
             "Evidencia recibida",
-            "Hemos recibido tu evidencia. La validaremos pronto.",
+            "Recibimos tu comprobante. Lo revisaremos y te avisaremos pronto.",
             "Evidencia recibida",
-            "El usuario subio evidencia de pago.",
+            "El usuario subió evidencia de pago.",
         ),
         "needs_info": (
-            "Se requiere informacion adicional",
-            "La evidencia es insuficiente o incorrecta. Por favor envia mas informacion.",
-            "Se requiere informacion adicional",
+            "Necesitamos más información",
+            "La evidencia no fue suficiente o no coincide. Por favor envía más detalle desde la app.",
+            "Se requiere información adicional",
             "La evidencia del usuario es insuficiente o incorrecta.",
         ),
         "cancelled": (
@@ -103,27 +103,27 @@ def build_status_context(status_value: str) -> Dict[str, str]:
         ),
         "fullfilled": (
             "Reserva completada",
-            "Tu reserva se realizo con exito.",
+            "Tu reserva se realizó con éxito. ¡Gracias por jugar con Cuadra!",
             "Reserva completada",
             "La reserva fue completada.",
         ),
         "expired_no_proof": (
             "Reserva expirada",
-            "El plazo vencio sin que se suba evidencia de pago.",
+            "El plazo venció sin evidencia de pago. Puedes crear una nueva reserva desde la app.",
             "Reserva expirada",
-            "La reserva expiro por falta de evidencia.",
+            "La reserva expiró por falta de evidencia.",
         ),
         "expired_slot_unavailable": (
             "Reserva expirada",
-            "El horario ya no estaba disponible al validar el pago.",
+            "El horario ya no estaba disponible al validar el pago. Elige otro cupo en la app.",
             "Reserva expirada",
-            "El horario dejo de estar disponible.",
+            "El horario dejó de estar disponible.",
         ),
         "dispute_open": (
-            "Caso en revision",
-            "Se abrio un caso y esta en revision.",
-            "Caso en revision",
-            "Se abrio un caso para esta reserva.",
+            "Caso en revisión",
+            "Hay un caso abierto con esta reserva. Nuestro equipo lo está revisando.",
+            "Caso en revisión",
+            "Se abrió un caso para esta reserva.",
         ),
         "dispute_resolved": (
             "Caso resuelto",
@@ -159,29 +159,59 @@ def build_user_subject(status_value: str) -> str:
         return settings.USER_CONFIRMATION_SUBJECT
 
     status_subjects = {
-        "reserved": "Reserva confirmada",
-        "under_review": "Pago en revision",
-        "pending_payment": "Pago pendiente",
-        "pending_proof": "Falta evidencia de pago",
-        "proof_submitted": "Evidencia recibida",
-        "needs_info": "Se requiere informacion adicional",
-        "cancelled": "Reserva cancelada",
-        "fullfilled": "Reserva completada",
-        "expired_no_proof": "Reserva expirada (sin evidencia)",
-        "expired_slot_unavailable": "Reserva expirada (sin disponibilidad)",
-        "dispute_open": "Caso en revision",
-        "dispute_resolved": "Caso resuelto",
-        "rejected_not_received": "Reserva rechazada (pago no recibido)",
-        "rejected_invalid_proof": "Reserva rechazada (evidencia invalida)",
-        "rejected_amount_low": "Reserva rechazada (monto incompleto)",
-        "rejected_amount_high": "Reserva rechazada (monto excedente)",
-        "rejected_wrong_destination": "Reserva rechazada (destino incorrecto)",
+        "reserved": "Cuadra · Reserva confirmada",
+        "under_review": "Cuadra · Pago en revisión",
+        "pending_payment": "Cuadra · Pago pendiente",
+        "pending_proof": "Cuadra · Falta evidencia de pago",
+        "proof_submitted": "Cuadra · Evidencia recibida",
+        "needs_info": "Cuadra · Necesitamos más información",
+        "cancelled": "Cuadra · Reserva cancelada",
+        "fullfilled": "Cuadra · Reserva completada",
+        "expired_no_proof": "Cuadra · Reserva expirada (sin evidencia)",
+        "expired_slot_unavailable": "Cuadra · Reserva expirada (sin disponibilidad)",
+        "dispute_open": "Cuadra · Caso en revisión",
+        "dispute_resolved": "Cuadra · Caso resuelto",
+        "rejected_not_received": "Cuadra · Reserva rechazada (pago no recibido)",
+        "rejected_invalid_proof": "Cuadra · Reserva rechazada (evidencia inválida)",
+        "rejected_amount_low": "Cuadra · Reserva rechazada (monto incompleto)",
+        "rejected_amount_high": "Cuadra · Reserva rechazada (monto excedente)",
+        "rejected_wrong_destination": "Cuadra · Reserva rechazada (destino incorrecto)",
     }
 
     if normalized.startswith("rejected_") and normalized not in status_subjects:
-        return "Reserva rechazada"
+        return "Cuadra · Reserva rechazada"
 
     return status_subjects.get(normalized, settings.USER_CONFIRMATION_SUBJECT)
+
+
+def build_manager_subject(status_value: str) -> str:
+    """Asunto del correo al administrador del campus según el estado."""
+    normalized = (status_value or "").strip().lower()
+    if not normalized:
+        return settings.MANAGER_CONFIRMATION_SUBJECT
+
+    subjects = {
+        "reserved": "Cuadra · Nueva reserva confirmada",
+        "under_review": "Cuadra · Pago en revisión",
+        "pending_payment": "Cuadra · Reserva con pago pendiente",
+        "pending_proof": "Cuadra · Falta evidencia de pago",
+        "proof_submitted": "Cuadra · Evidencia de pago recibida",
+        "needs_info": "Cuadra · Reserva requiere más información",
+        "cancelled": "Cuadra · Reserva cancelada",
+        "fullfilled": "Cuadra · Reserva completada",
+        "expired_no_proof": "Cuadra · Reserva expirada (sin evidencia)",
+        "expired_slot_unavailable": "Cuadra · Reserva expirada (sin cupo)",
+        "dispute_open": "Cuadra · Disputa abierta",
+        "dispute_resolved": "Cuadra · Disputa resuelta",
+        "rejected_not_received": "Cuadra · Reserva rechazada (pago no recibido)",
+        "rejected_invalid_proof": "Cuadra · Reserva rechazada (evidencia inválida)",
+        "rejected_amount_low": "Cuadra · Reserva rechazada (monto incompleto)",
+        "rejected_amount_high": "Cuadra · Reserva rechazada (monto excedente)",
+        "rejected_wrong_destination": "Cuadra · Reserva rechazada (destino incorrecto)",
+    }
+    if normalized.startswith("rejected_") and normalized not in subjects:
+        return "Cuadra · Reserva rechazada"
+    return subjects.get(normalized, settings.MANAGER_CONFIRMATION_SUBJECT)
 
 
 __all__ = [
@@ -189,4 +219,5 @@ __all__ = [
     "select_manager_templates",
     "build_status_context",
     "build_user_subject",
+    "build_manager_subject",
 ]

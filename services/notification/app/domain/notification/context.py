@@ -5,8 +5,36 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Any, Dict
 
+from app.core.config import settings
 from app.schemas import NotificationRequest
 from app.domain.notification.templates import build_status_context
+
+
+def humanize_rent_status(status_value: str) -> str:
+    """Etiqueta legible del estado para boleta y correo."""
+    key = (status_value or "").strip().lower()
+    mapping = {
+        "under_review": "Pago en revisión",
+        "reserved": "Confirmada",
+        "pending_payment": "Pago pendiente",
+        "pending_proof": "Falta evidencia de pago",
+        "proof_submitted": "Evidencia recibida",
+        "needs_info": "Se requiere información adicional",
+        "cancelled": "Cancelada",
+        "fullfilled": "Completada",
+        "expired_no_proof": "Expirada (sin evidencia)",
+        "expired_slot_unavailable": "Expirada (sin disponibilidad)",
+        "dispute_open": "En disputa",
+        "dispute_resolved": "Disputa resuelta",
+        "rejected_not_received": "Rechazada (pago no recibido)",
+        "rejected_invalid_proof": "Rechazada (evidencia inválida)",
+        "rejected_amount_low": "Rechazada (monto incompleto)",
+        "rejected_amount_high": "Rechazada (monto excedente)",
+        "rejected_wrong_destination": "Rechazada (destino incorrecto)",
+    }
+    if key.startswith("rejected_") and key not in mapping:
+        return "Rechazada"
+    return mapping.get(key, (status_value or "").replace("_", " ").title())
 
 
 def format_datetime(value: datetime) -> str:
@@ -46,9 +74,11 @@ def build_common_context(payload: NotificationRequest) -> Dict[str, Any]:
         "end_time_display": format_datetime(rent.end_time),
         "payment_deadline_display": format_datetime(rent.payment_deadline),
         "amount_display": format_decimal(rent.mount),
+        "rent_status_label": humanize_rent_status(rent.status),
+        "app_brand": settings.APP_BRAND_NAME,
     }
     context.update(status_context)
     return context
 
 
-__all__ = ["build_common_context", "format_datetime", "format_decimal"]
+__all__ = ["build_common_context", "format_datetime", "format_decimal", "humanize_rent_status"]

@@ -8,7 +8,6 @@ from typing import Any, Dict, Optional, Sequence
 
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound, select_autoescape
 
-from app.core.config import settings
 from app.models import EmailAttachment, EmailContent
 from app.repository import EmailRepository
 from app.schemas import NotificationRequest
@@ -18,8 +17,10 @@ from app.domain.notification.attachments import (
     build_reservation_pass,
     upload_pass_to_firebase,
 )
+from app.domain.notification.branding import get_brand_logo_data_uri
 from app.domain.notification.context import build_common_context
 from app.domain.notification.templates import (
+    build_manager_subject,
     build_user_subject,
     select_manager_templates,
     select_user_templates,
@@ -48,6 +49,12 @@ class EmailService:
 
     def _build_common_context(self, payload: NotificationRequest) -> Dict[str, Any]:
         return build_common_context(payload)
+
+    def _with_email_extras(self, context: Dict[str, Any], *, pass_link: str) -> Dict[str, Any]:
+        merged = dict(context)
+        merged["pass_link"] = pass_link
+        merged["brand_logo_src"] = get_brand_logo_data_uri()
+        return merged
 
     def _render_template(self, template_name: str, context: Dict[str, Any]) -> str:
         try:
@@ -79,21 +86,20 @@ class EmailService:
     def send_rent_notification(self, payload: NotificationRequest) -> None:
         """Send the rent confirmation emails for manager and user."""
 
-        context = self._build_common_context(payload)
+        base_context = self._build_common_context(payload)
+        pass_link = build_pass_link(payload, firebase_url=None)
+        context = self._with_email_extras(base_context, pass_link=pass_link)
+
         user_html, user_text = select_user_templates(payload.rent.status)
-        reservation_pass = build_reservation_pass(payload)
-        firebase_url = upload_pass_to_firebase(
-            attachment=reservation_pass,
-            payload=payload,
-        )
-        pass_link = build_pass_link(payload, override_url=firebase_url)
+        reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
+        upload_pass_to_firebase(attachment=reservation_pass, payload=payload)
 
         user_qr = build_qr_attachment(
             pass_link,
             f"reserva-{payload.rent.rent_id}-usuario",
         )
         user_email = self._build_email(
-            subject=settings.USER_RECEIPT_SUBJECT,
+            subject=build_user_subject(payload.rent.status),
             recipient=payload.user.email,
             html_template=user_html,
             text_template=user_text,
@@ -114,7 +120,7 @@ class EmailService:
             )
             return
 
-        manager_context = dict(context)
+        manager_context = self._with_email_extras(dict(context), pass_link=pass_link)
         manager_context["recipient"] = payload.manager
         manager_html, manager_text = select_manager_templates(payload.rent.status)
 
@@ -123,7 +129,7 @@ class EmailService:
             f"reserva-{payload.rent.rent_id}-administrador",
         )
         manager_email = self._build_email(
-            subject=settings.MANAGER_CONFIRMATION_SUBJECT,
+            subject=build_manager_subject(payload.rent.status),
             recipient=payload.manager.email,
             html_template=manager_html,
             text_template=manager_text,
@@ -140,14 +146,13 @@ class EmailService:
     def send_user_confirmation(self, payload: NotificationRequest) -> None:
         """Send a reservation confirmation email only to the user."""
 
-        context = self._build_common_context(payload)
+        base_context = self._build_common_context(payload)
+        pass_link = build_pass_link(payload, firebase_url=None)
+        context = self._with_email_extras(base_context, pass_link=pass_link)
+
         user_html, user_text = select_user_templates(payload.rent.status)
-        reservation_pass = build_reservation_pass(payload)
-        firebase_url = upload_pass_to_firebase(
-            attachment=reservation_pass,
-            payload=payload,
-        )
-        pass_link = build_pass_link(payload, override_url=firebase_url)
+        reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
+        upload_pass_to_firebase(attachment=reservation_pass, payload=payload)
 
         user_qr = build_qr_attachment(
             pass_link,
