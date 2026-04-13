@@ -271,7 +271,6 @@ class ActionRouteAdminRequest(Action):
         actor = _resolve_secured_actor(
             tracker, latest_message.get("metadata"), for_admin_action=True
         )
-        metadata = actor.enriched_metadata
         session_id = tracker.get_slot("chatbot_session_id")
         user_id = actor.user_id
 
