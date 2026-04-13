@@ -6,7 +6,21 @@ from app.schemas.schedule import (
     ScheduleTimeSlotResponse,
     ScheduleUpdate,
 )
-from app.schemas.rent import RentCreate, RentResponse, RentUpdate
+from app.schemas.rent import (
+    PaymentInstructions,
+    RentCancelRequest,
+    RentCancelResponse,
+    RentCreate,
+    RentCreateCombo,
+    RentPaymentResponse,
+    RentResponse,
+    RentUpdate,
+)
+from app.schemas.status_catalog import (
+    StatusCatalogCreate,
+    StatusCatalogResponse,
+    StatusCatalogUpdate,
+)
 
 __all__ = [
     "ScheduleCreate",
@@ -14,6 +28,14 @@ __all__ = [
     "ScheduleTimeSlotResponse",
     "ScheduleUpdate",
     "RentCreate",
+    "RentCreateCombo",
+    "RentCancelRequest",
+    "RentCancelResponse",
+    "RentPaymentResponse",
     "RentResponse",
     "RentUpdate",
+    "PaymentInstructions",
+    "StatusCatalogCreate",
+    "StatusCatalogResponse",
+    "StatusCatalogUpdate",
 ]

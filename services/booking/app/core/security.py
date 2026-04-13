@@ -1,8 +1,9 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 
 from app.core.config import settings
+from app.core.error_codes import AUTH_INVALID_CREDENTIALS, AUTH_NOT_AUTHENTICATED, http_error
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
@@ -17,11 +18,12 @@ def get_current_user(
     """
 
     if credentials is None or not credentials.scheme or credentials.scheme.lower() != "bearer":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+        exc = http_error(
+            AUTH_NOT_AUTHENTICATED,
             detail="Not authenticated",
-            headers={"WWW-Authenticate": "Bearer"},
         )
+        exc.headers = {"WWW-Authenticate": "Bearer"}
+        raise exc
 
     token = credentials.credentials
 
@@ -32,11 +34,12 @@ def get_current_user(
             algorithms=[settings.ALGORITHM],
         )
     except JWTError as exc:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+        auth_exc = http_error(
+            AUTH_INVALID_CREDENTIALS,
             detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        ) from exc
+        )
+        auth_exc.headers = {"WWW-Authenticate": "Bearer"}
+        raise auth_exc from exc
 
     return payload
 

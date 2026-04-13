@@ -7,4 +7,9 @@ from app.schemas.email import (
     RentDetails,
 )
 
-__all__ = ["NotificationRequest", "Person", "RentDetails", "CampusSummary"]
+__all__ = [
+    "NotificationRequest",
+    "Person",
+    "RentDetails",
+    "CampusSummary",
+]

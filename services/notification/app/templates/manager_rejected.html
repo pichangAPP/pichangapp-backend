@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ app_brand }} · Reserva rechazada</title>
+    <style>
+        body { margin: 0; padding: 0; background-color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: #0f172a; }
+        .wrap { max-width: 600px; margin: 0 auto; padding: 24px 16px 40px; }
+        .card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08); }
+        .hero { background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%); color: #fff; padding: 26px 24px; }
+        .hero-top { display: flex; align-items: center; gap: 14px; }
+        .hero-logo { width: 48px; height: 48px; border-radius: 12px; background: rgba(255,255,255,0.12); padding: 6px; object-fit: contain; }
+        .hero h1 { margin: 0; font-size: 20px; font-weight: 700; }
+        .body { padding: 26px 24px 32px; }
+        .greet { font-size: 15px; line-height: 1.6; margin: 0 0 14px; }
+        .details { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 18px; font-size: 14px; }
+        .row { margin-bottom: 10px; }
+        .row strong { color: #7f1d1d; min-width: 140px; display: inline-block; }
+        .footer { text-align: center; font-size: 12px; color: #94a3b8; margin-top: 24px; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="card">
+            <div class="hero">
+                <div class="hero-top">
+                    {% if brand_logo_src %}
+                    <img class="hero-logo" src="{{ brand_logo_src }}" alt="{{ app_brand }}" width="48" height="48" />
+                    {% endif %}
+                    <h1>{{ manager_status_heading }}</h1>
+                </div>
+            </div>
+            <div class="body">
+                <p class="greet">Hola <strong>{{ recipient.name }} {{ recipient.lastname }}</strong>,</p>
+                <p class="greet">{{ manager_status_message }}</p>
+                <p class="greet"><strong>{{ campus.name }}</strong></p>
+                <div class="details">
+                    <div class="row"><strong>Campo</strong> {{ field_name }}</div>
+                    <div class="row"><strong>Horario</strong> {{ date_range }}</div>
+                    <div class="row"><strong>Estado</strong> {{ rent_status_label }}</div>
+                    <div class="row"><strong>Monto</strong> S/ {{ amount_display }}</div>
+                    <div class="row"><strong>Usuario</strong> {{ user.name }} {{ user.lastname }} ({{ user.email }})</div>
+                </div>
+            </div>
+        </div>
+        <p class="footer">Mensaje automático de {{ app_brand }}.</p>
+    </div>
+</body>
+</html>

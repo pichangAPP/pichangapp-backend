@@ -18,6 +18,9 @@ httpx
 jinja2
 firebase-admin  
 qrcode[pil]==7.4.2
+
+# Mensajería (Kafka)
+confluent-kafka
 # Herramientas de prueba compartidas
 pytest
 pytest-asyncio

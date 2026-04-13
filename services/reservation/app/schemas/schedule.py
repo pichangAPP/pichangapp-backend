@@ -11,6 +11,7 @@ class ScheduleBase(BaseModel):
     end_time: datetime
     status: str = Field(..., max_length=30)
     price: Decimal = Field(..., ge=0)
+    id_status: Optional[int] = Field(None, gt=0)
     id_field: Optional[int] = Field(None, gt=0)
     id_user: Optional[int] = Field(None, gt=0)
 
@@ -31,6 +32,7 @@ class ScheduleUpdate(BaseModel):
     end_time: Optional[datetime]
     status: Optional[str] = Field(None, max_length=30)
     price: Optional[Decimal] = Field(None, ge=0)
+    id_status: Optional[int] = Field(None, gt=0)
     id_field: Optional[int] = Field(None, gt=0)
     id_user: Optional[int] = Field(None, gt=0)
 
@@ -57,7 +59,6 @@ class FieldSummary(BaseModel):
     id_campus: int
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -71,17 +72,17 @@ class UserSummary(BaseModel):
     status: str
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
 class ScheduleResponse(ScheduleBase):
     id_schedule: int
+    created_at: datetime
+    updated_at: Optional[datetime] = None
     field: Optional[FieldSummary] = None
     user: Optional[UserSummary] = None
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -92,5 +93,4 @@ class ScheduleTimeSlotResponse(BaseModel):
     price: Decimal
 
     class Config:
-        orm_mode = True
         from_attributes = True

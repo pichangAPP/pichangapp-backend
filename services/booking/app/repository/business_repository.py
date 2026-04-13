@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from sqlalchemy.orm import Session, joinedload, selectinload
+from sqlalchemy.orm import Session, load_only, selectinload
 
 from app.models import Business, Campus, Field, Sport
 
@@ -11,8 +11,9 @@ def list_businesses(db: Session) -> List[Business]:
     return (
         db.query(Business)
         .options(
-            joinedload(Business.manager),
             selectinload(Business.images),
+            selectinload(Business.legal),
+            selectinload(Business.social_media),
             selectinload(Business.campuses)
             .selectinload(Campus.images),
             selectinload(Business.campuses)
@@ -31,8 +32,9 @@ def get_business(db: Session, business_id: int) -> Optional[Business]:
     return (
         db.query(Business)
         .options(
-            joinedload(Business.manager),
             selectinload(Business.images),
+            selectinload(Business.legal),
+            selectinload(Business.social_media),
             selectinload(Business.campuses)
             .selectinload(Campus.images),
             selectinload(Business.campuses)
@@ -47,12 +49,41 @@ def get_business(db: Session, business_id: int) -> Optional[Business]:
         .first()
     )
 
+def get_business_profile(db: Session, business_id: int) -> Optional[Business]:
+    return (
+        db.query(Business)
+        .options(
+            load_only(
+                Business.id_business,
+                Business.name,
+                Business.description,
+                Business.ruc,
+                Business.email_contact,
+                Business.phone_contact,
+                Business.district,
+                Business.address,
+                Business.status,
+                Business.id_membership,
+                Business.imageurl,
+                Business.min_price,
+                Business.id_manager,
+            ),
+            selectinload(Business.campuses).load_only(
+                Campus.id_campus,
+                Campus.name,
+            ),
+        )
+        .filter(Business.id_business == business_id)
+        .first()
+    )
+
 def get_business_by_manager(db: Session, manager_id: int) -> Optional[Business]:
     return (
         db.query(Business)
         .options(
-            joinedload(Business.manager),
             selectinload(Business.images),
+            selectinload(Business.legal),
+            selectinload(Business.social_media),
             selectinload(Business.campuses)
             .selectinload(Campus.images),
             selectinload(Business.campuses)

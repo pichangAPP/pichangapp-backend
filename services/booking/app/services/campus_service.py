@@ -1,70 +1,43 @@
 from __future__ import annotations
 
-from collections import defaultdict
 from datetime import datetime, timezone
-from typing import Iterable
 
-from fastapi import HTTPException, status
-from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.models import Campus, Characteristic, Field, Image, Schedule
-from app.repository import (
-    business_repository,
-    campus_repository,
-    image_repository,
-    sport_repository,
+from app.core.error_codes import (
+    BOOKING_INTERNAL_ERROR,
+    CAMPUS_NOT_FOUND,
+    http_error,
 )
-from app.schemas import CampusCreate, CampusScheduleResponse, CampusUpdate
+from app.domain.business.validations import get_business_or_error
+from app.domain.campus import (
+    attach_campus_manager_data,
+    build_campus_entity,
+    populate_available_schedules,
+    sync_campus_images,
+    validate_campus_entity,
+    validate_campus_fields,
+)
+from app.models import Campus, Characteristic
+from app.repository import campus_repository
+from app.schemas import CampusCreate, CampusUpdate
 from app.services.location_utils import haversine_distance
-
-
-def build_campus_entity(campus_in: CampusCreate) -> Campus:
-    campus_data = campus_in.model_dump(exclude={"characteristic", "fields", "images"})
-    campus = Campus(**campus_data)
-    characteristic = Characteristic(**campus_in.characteristic.model_dump())
-    campus.characteristic = characteristic
-
-    for field_in in campus_in.fields:
-        campus.fields.append(Field(**field_in.model_dump()))
-    for image_in in campus_in.images:
-        campus.images.append(Image(**image_in.model_dump()))
-    return campus
-
-def validate_campus_fields(db: Session, campus_in: CampusCreate) -> None:
-    missing_sports = {
-        field_in.id_sport
-        for field_in in campus_in.fields
-        if sport_repository.get_sport(db, field_in.id_sport) is None
-    }
-    if missing_sports:
-        missing_list = ", ".join(str(sport_id) for sport_id in sorted(missing_sports))
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Sports not found for ids: {missing_list}",
-        )
     
 class CampusService:
     def __init__(self, db: Session):
         self.db = db
 
-    def _ensure_business_exists(self, business_id: int) -> None:
-        if not business_repository.get_business(self.db, business_id):
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Business {business_id} not found",
-            )
-
     def list_campuses(self, business_id: int) -> list[Campus]:
-        self._ensure_business_exists(business_id)
+        get_business_or_error(self.db, business_id)
         try:
             campuses = campus_repository.list_campuses_by_business(self.db, business_id)
             populate_available_schedules(self.db, campuses)
+            attach_campus_manager_data(self.db, campuses)
             return campuses
         except SQLAlchemyError as exc:  # pragma: no cover - defensive
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to list campuses",
             ) from exc
 
@@ -96,35 +69,32 @@ class CampusService:
     def get_campus(self, campus_id: int) -> Campus:
         campus = campus_repository.get_campus(self.db, campus_id)
         if not campus:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                CAMPUS_NOT_FOUND,
                 detail=f"Campus {campus_id} not found",
             )
         populate_available_schedules(self.db, [campus])
+        attach_campus_manager_data(self.db, [campus])
         return campus
 
     def create_campus(self, business_id: int, campus_in: CampusCreate) -> Campus:
-        business = business_repository.get_business(self.db, business_id)
-        if not business:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Business {business_id} not found",
-            )
+        business = get_business_or_error(self.db, business_id)
         
         validate_campus_fields(self.db, campus_in)
         campus = build_campus_entity(campus_in)
         campus.business = business
-        self._validate_campus_entity(campus)
+        validate_campus_entity(campus)
 
         try:
             campus_repository.create_campus(self.db, campus)
             self.db.commit()
             self.db.refresh(campus)
+            attach_campus_manager_data(self.db, [campus])
             return campus
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to create campus",
             ) from exc
 
@@ -146,72 +116,22 @@ class CampusService:
                     setattr(campus.characteristic, field, value)
 
         if images_data is not None:
-            self._sync_campus_images(campus, images_data)
+            sync_campus_images(self.db, campus, images_data)
 
-        self._validate_campus_entity(campus)
+        campus.updated_at = datetime.now(timezone.utc)
+        validate_campus_entity(campus)
         try:
             self.db.flush()
             self.db.commit()
             self.db.refresh(campus)
+            attach_campus_manager_data(self.db, [campus])
             return campus
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail=f"Failed to update campus {exc}",
             ) from exc
-
-    def _sync_campus_images(
-        self, campus: Campus, images_data: list[dict[str, object]]
-    ) -> None:
-        campus_images = [image for image in campus.images if image.id_field is None]
-        existing_images_by_id = {
-            image.id_image: image
-            for image in campus_images
-            if image.id_image is not None
-        }
-        incoming_ids: set[int] = set()
-
-        for image_data in images_data:
-            id_campus = image_data.get("id_campus")
-            id_field = image_data.get("id_field")
-            if id_campus != campus.id_campus:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Image campus id must match the campus being updated",
-                )
-            if id_field is not None:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Campus images cannot reference a field",
-                )
-
-            image_id = image_data.get("id_image")
-            if image_id is not None:
-                image = existing_images_by_id.get(image_id)
-                if image is None:
-                    raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
-                        detail=f"Image {image_id} not found for campus {campus.id_campus}",
-                    )
-                incoming_ids.add(image_id)
-                updated_fields = {
-                    key: value
-                    for key, value in image_data.items()
-                    if key != "id_image"
-                }
-                for attr, value in updated_fields.items():
-                    setattr(image, attr, value)
-            else:
-                new_image_data = {
-                    key: value for key, value in image_data.items() if key != "id_image"
-                }
-                campus.images.append(Image(**new_image_data))
-
-        for image in list(campus_images):
-            if image.id_image is not None and image.id_image not in incoming_ids:
-                campus.images.remove(image)
-                image_repository.delete_image(self.db, image)
 
     def delete_campus(self, campus_id: int) -> None:
         campus = self.get_campus(campus_id)
@@ -220,75 +140,8 @@ class CampusService:
             self.db.commit()
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to delete campus",
             ) from exc
     
-    def _validate_campus_entity(self, campus: Campus) -> None:
-        if campus.opentime >= campus.closetime:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="opentime must be earlier than closetime",
-            )
-        if campus.count_fields < 0:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="count_fields must be zero or positive",
-            )
-        if not (0 <= float(campus.rating) <= 10):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="rating must be between 0 and 10",
-            )
-
-
-def populate_available_schedules(db: Session, campuses: Iterable[Campus]) -> None:
-    campus_list = [campus for campus in campuses if campus is not None]
-    if not campus_list:
-        return
-
-    field_by_id: dict[int, Field] = {}
-    for campus in campus_list:
-        # Ensure the attribute exists even when there are no fields.
-        campus.available_schedules = []  # type: ignore[attr-defined]
-        for field in getattr(campus, "fields", []) or []:
-            field_by_id[field.id_field] = field
-
-    if not field_by_id:
-        return
-
-    now_utc = datetime.now(timezone.utc)
-
-    schedules = (
-        db.query(Schedule)
-        .filter(Schedule.id_field.in_(field_by_id.keys()))
-        .filter(Schedule.start_time >= now_utc)
-        .filter(func.lower(Schedule.status) == "available")
-        .order_by(Schedule.start_time)
-        .all()
-    )
-
-    schedules_by_campus: dict[int, list[CampusScheduleResponse]] = defaultdict(list)
-
-    for schedule in schedules:
-        field = field_by_id.get(schedule.id_field)
-        if field is None:
-            continue
-
-        schedule_response = CampusScheduleResponse(
-            id_schedule=schedule.id_schedule,
-            id_field=schedule.id_field,
-            field_name=field.field_name,
-            day_of_week=schedule.day_of_week,
-            start_time=schedule.start_time,
-            end_time=schedule.end_time,
-            price=schedule.price,
-            status=schedule.status,
-        )
-        schedules_by_campus[field.id_campus].append(schedule_response)
-
-    for campus in campus_list:
-        campus.available_schedules = schedules_by_campus.get(  # type: ignore[attr-defined]
-            campus.id_campus, []
-        )

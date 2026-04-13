@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from datetime import date, datetime
+
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -11,6 +13,8 @@ from pydantic import (
 )
 
 from app.schemas.campus import CampusCreate, CampusResponse
+from app.schemas.business_legal import BusinessLegalResponse
+from app.schemas.business_social_media import BusinessSocialMediaResponse
 from app.schemas.image import ImageResponse
 from app.schemas.manager import ManagerResponse
 
@@ -104,6 +108,37 @@ class BusinessResponse(BusinessBase):
     model_config = ConfigDict(from_attributes=True)
 
     id_business: int
+    created_at: date
+    updated_at: Optional[datetime] = None
     campuses: List[CampusResponse]
     images: List[ImageResponse] = PydanticField(default_factory=list)
     manager: Optional[ManagerResponse] = None
+    legal: Optional[BusinessLegalResponse] = None
+    social_media: Optional[BusinessSocialMediaResponse] = None
+
+    @field_validator("images", mode="before")
+    @classmethod
+    def _exclude_payment_images(cls, value: list[object]) -> list[object]:
+        if isinstance(value, list):
+            return [
+                image
+                for image in value
+                if (getattr(image, "category", None) or "").lower() != "payment"
+            ]
+        return value
+
+
+class CampusProfileResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id_campus: int
+    name: str
+
+
+class BusinessProfileResponse(BusinessBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    id_business: int
+    created_at: date
+    updated_at: Optional[datetime] = None
+    campuses: List[CampusProfileResponse] = PydanticField(default_factory=list)

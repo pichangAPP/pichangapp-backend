@@ -1,0 +1,19 @@
+Hola {{ user.name }} {{ user.lastname }},
+
+{{ user_status_message }}
+{% if campus.contact_email or campus.contact_phone -%}
+Si necesitas aclaraciones, contáctanos en {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}{% if campus.contact_email and campus.contact_phone %} o {% endif %}{% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}.
+{%- endif %}
+
+Detalle de la reserva:
+- Campus: {{ campus.name }}
+- Dirección: {{ campus.address }}, {{ campus.district }}
+{% if campus.contact_email or campus.contact_phone -%}
+- Contacto del campus: {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}{% if campus.contact_email and campus.contact_phone %} | {% endif %}{% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}
+{%- endif %}
+- Campo: {{ field_name }}
+- Horario: {{ date_range }}
+- Estado: {{ rent_status_label }}
+- Monto: S/ {{ amount_display }}
+
+— {{ app_brand }}

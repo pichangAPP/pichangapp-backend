@@ -1,6 +1,6 @@
 """SQLAlchemy model for the analytics.kpi_log table."""
 
-from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, Numeric, String, Text
+from sqlalchemy import BigInteger, Column, DateTime, Numeric, String, Text
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -18,11 +18,7 @@ class KpiLog(Base):
     period = Column(String(30), nullable=False)
     formula = Column(Text, nullable=False)
     calculation_date = Column(DateTime(timezone=True), nullable=False)
-    id_business = Column(
-        BigInteger,
-        ForeignKey("booking.business.id_business"),
-        nullable=False,
-    )
+    id_business = Column(BigInteger, nullable=False)
 
     analytics_events = relationship(
         "AnalyticsEvent",

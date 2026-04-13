@@ -18,6 +18,8 @@ class CampusSummary(BaseModel):
     name: str = Field(..., max_length=300)
     address: str
     district: str = Field(..., max_length=200)
+    contact_email: Optional[EmailStr] = None
+    contact_phone: Optional[str] = Field(None, max_length=50)
 
 
 class RentDetails(BaseModel):
@@ -39,4 +41,9 @@ class NotificationRequest(BaseModel):
     manager: Optional[Person] = None
 
 
-__all__ = ["NotificationRequest", "RentDetails", "Person", "CampusSummary"]
+__all__ = [
+    "NotificationRequest",
+    "RentDetails",
+    "Person",
+    "CampusSummary",
+]

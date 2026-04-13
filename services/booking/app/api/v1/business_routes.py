@@ -2,7 +2,12 @@ from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
-from app.schemas import BusinessCreate, BusinessResponse, BusinessUpdate
+from app.schemas import (
+    BusinessCreate,
+    BusinessProfileResponse,
+    BusinessResponse,
+    BusinessUpdate,
+)
 from app.services import BusinessService
 
 router = APIRouter(prefix="/businesses", tags=["businesses"])
@@ -33,6 +38,11 @@ def list_businesses_by_location(
 def get_business_by_manager(manager_id: int, db: Session = Depends(get_db)):
     service = BusinessService(db)
     return service.get_business_by_manager(manager_id)
+
+@router.get("/profile/{business_id}", response_model=BusinessProfileResponse)
+def get_business_profile(business_id: int, db: Session = Depends(get_db)):
+    service = BusinessService(db)
+    return service.get_business_profile(business_id)
 
 @router.get("/{business_id}", response_model=BusinessResponse)
 def get_business(business_id: int, db: Session = Depends(get_db)):

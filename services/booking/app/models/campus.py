@@ -2,13 +2,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from datetime import time
+from datetime import datetime, time
 
-from sqlalchemy import BigInteger, ForeignKey, Integer, Numeric, String, Text, Time
+from sqlalchemy import BigInteger, DateTime, ForeignKey, Integer, Numeric, String, Text, Time, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
-from app.models.manager import Manager
 
 if TYPE_CHECKING:  # pragma: no cover
     from app.models.business import Business
@@ -32,6 +31,16 @@ class Campus(Base):
     count_fields: Mapped[int] = mapped_column(Integer, nullable=False)
     coords_x: Mapped[float] = mapped_column(Numeric(9, 6), nullable=False)
     coords_y: Mapped[float] = mapped_column(Numeric(9, 6), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        onupdate=func.now(),
+        nullable=True,
+    )
     id_business: Mapped[int] = mapped_column(
         BigInteger,
         ForeignKey("booking.business.id_business", ondelete="CASCADE"),
@@ -43,11 +52,7 @@ class Campus(Base):
         nullable=False,
         unique=True,
     )
-    id_manager: Mapped[int | None] = mapped_column(
-        BigInteger,
-        ForeignKey("auth.users.id_user", ondelete="SET NULL"),
-        nullable=True,
-    )
+    id_manager: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
     
 
     business: Mapped["Business"] = relationship("Business", back_populates="campuses")
@@ -63,5 +68,4 @@ class Campus(Base):
     images: Mapped[list["Image"]] = relationship(
         "Image", back_populates="campus", cascade="all, delete-orphan", passive_deletes=True
     )
-    manager: Mapped[Manager | None] = relationship(Manager, lazy="joined")
 

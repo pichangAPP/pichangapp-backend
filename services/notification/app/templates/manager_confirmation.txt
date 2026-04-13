@@ -1,17 +1,22 @@
 Hola {{ recipient.name }} {{ recipient.lastname }},
 
-Se confirmó una nueva reserva en el campus {{ campus.name }}.
+{{ manager_status_message }}
 
-Detalles de la reserva:
+Campus: {{ campus.name }}
+
+Boleta / enlace (mismo QR que el usuario): {{ pass_link }}
+
+Detalle:
 - Campo: {{ field_name }}
 - Horario: {{ date_range }}
-- Estado: {{ rent.status | upper }}
-- Monto pagado: S/ {{ amount_display }}
-- Usuario que reservó: {{ user.name }} {{ user.lastname }} ({{ user.email }})
+- Estado: {{ rent_status_label }}
+- Monto: S/ {{ amount_display }}
+- Usuario: {{ user.name }} {{ user.lastname }} ({{ user.email }})
+- Dirección: {{ campus.address }}, {{ campus.district }}
+{% if campus.contact_email or campus.contact_phone -%}
+- Contacto: {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}{% if campus.contact_email and campus.contact_phone %} | {% endif %}{% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}
+{%- endif %}
 
-Dirección del campus: {{ campus.address }}, {{ campus.district }}
+Adjuntamos la boleta PNG y el QR.
 
-Adjuntamos un pase en imagen con el código de la reserva y un QR que abre ese pase desde tu
-teléfono.
-
-Gracias por usar Pichangapp.
+— {{ app_brand }}

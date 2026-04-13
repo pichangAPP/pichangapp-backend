@@ -6,9 +6,15 @@ from datetime import date, datetime, time, timedelta, timezone
 from decimal import Decimal
 from typing import Dict, List, Optional
 
-from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import (
+    ANALYTICS_INVALID_DATE_RANGE,
+    ANALYTICS_INVALID_LIMIT,
+    ANALYTICS_REPOSITORY_ERROR,
+    CAMPUS_NOT_FOUND,
+    http_error,
+)
 from app.repository import (
     AnalyticsRepositoryError,
     fetch_campus_daily_income,
@@ -78,8 +84,8 @@ class AnalyticsService:
         if start_date is None:
             start_date = end_date - timedelta(days=DEFAULT_DAY_WINDOW - 1)
         if start_date > end_date:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                ANALYTICS_INVALID_DATE_RANGE,
                 detail="start_date must be on or before end_date",
             )
 
@@ -94,8 +100,8 @@ class AnalyticsService:
                 status=status,
             )
         except AnalyticsRepositoryError as exc:  # pragma: no cover - defensive programming
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                ANALYTICS_REPOSITORY_ERROR,
                 detail="Unable to compute revenue summary",
             ) from exc
 
@@ -135,16 +141,13 @@ class AnalyticsService:
         try:
             campus_overview = fetch_campus_overview(self._db, campus_id=campus_id)
         except AnalyticsRepositoryError as exc:  #defensive programming
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                ANALYTICS_REPOSITORY_ERROR,
                 detail="Unable to obtain campus information",
             ) from exc
 
         if campus_overview is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Campus not found",
-            )
+            raise http_error(CAMPUS_NOT_FOUND, detail="Campus not found")
 
         try:
             today_total = fetch_campus_income_total(
@@ -186,8 +189,8 @@ class AnalyticsService:
                 end_at=seven_day_end,
             )
         except AnalyticsRepositoryError as exc:  #defensive programming
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                ANALYTICS_REPOSITORY_ERROR,
                 detail="Unable to compute campus revenue metrics",
             ) from exc
 
@@ -248,24 +251,21 @@ class AnalyticsService:
                 limit=limit,
             )
         except AnalyticsRepositoryError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                ANALYTICS_REPOSITORY_ERROR,
                 detail="Unable to fetch field usage",
             ) from exc
 
         try:
             campus_overview = fetch_campus_overview(self._db, campus_id=campus_id)
         except AnalyticsRepositoryError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                ANALYTICS_REPOSITORY_ERROR,
                 detail="Unable to retrieve campus info",
             ) from exc
 
         if campus_overview is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Campus not found",
-            )
+            raise http_error(CAMPUS_NOT_FOUND, detail="Campus not found")
 
         top_fields = [
             FieldUsage(
@@ -290,24 +290,21 @@ class AnalyticsService:
         """Return the most frequent clients for the specified campus."""
 
         if limit < 1 or limit > 100:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                ANALYTICS_INVALID_LIMIT,
                 detail="limit must be between 1 and 100",
             )
 
         try:
             campus_overview = fetch_campus_overview(self._db, campus_id=campus_id)
         except AnalyticsRepositoryError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                ANALYTICS_REPOSITORY_ERROR,
                 detail="Unable to obtain campus information",
             ) from exc
 
         if campus_overview is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Campus not found",
-            )
+            raise http_error(CAMPUS_NOT_FOUND, detail="Campus not found")
 
         try:
             client_rows = fetch_campus_top_clients(
@@ -316,8 +313,8 @@ class AnalyticsService:
                 limit=limit,
             )
         except AnalyticsRepositoryError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                ANALYTICS_REPOSITORY_ERROR,
                 detail="Unable to compute frequent clients",
             ) from exc
 

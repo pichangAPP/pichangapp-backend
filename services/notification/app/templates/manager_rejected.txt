@@ -1,0 +1,18 @@
+Hola {{ recipient.name }} {{ recipient.lastname }},
+
+{{ manager_status_message }}
+Campus: {{ campus.name }}
+
+Detalles de la reserva:
+- Campo: {{ field_name }}
+- Horario: {{ date_range }}
+- Estado: {{ rent_status_label }}
+- Monto: S/ {{ amount_display }}
+- Usuario que reservó: {{ user.name }} {{ user.lastname }} ({{ user.email }})
+
+Dirección del campus: {{ campus.address }}, {{ campus.district }}
+{% if campus.contact_email or campus.contact_phone -%}
+Contacto del campus: {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}{% if campus.contact_email and campus.contact_phone %} | {% endif %}{% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}
+{%- endif %}
+
+— {{ app_brand }}

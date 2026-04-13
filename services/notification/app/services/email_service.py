@@ -2,26 +2,29 @@
 
 from __future__ import annotations
 
-import base64
 import logging
-import re
-from datetime import datetime
-from decimal import Decimal
-from io import BytesIO
 from pathlib import Path
 from typing import Any, Dict, Optional, Sequence
 
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound, select_autoescape
 
-import qrcode
-from qrcode import constants
-from qrcode.exceptions import DataOverflowError
-from PIL import Image, ImageDraw, ImageFont
-
-from app.core.config import settings
 from app.models import EmailAttachment, EmailContent
 from app.repository import EmailRepository
 from app.schemas import NotificationRequest
+from app.domain.notification.attachments import (
+    build_pass_link,
+    build_qr_attachment,
+    build_reservation_pass,
+    upload_pass_to_firebase,
+)
+from app.domain.notification.branding import get_brand_logo_data_uri
+from app.domain.notification.context import build_common_context
+from app.domain.notification.templates import (
+    build_manager_subject,
+    build_user_subject,
+    select_manager_templates,
+    select_user_templates,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -44,32 +47,14 @@ class EmailService:
             lstrip_blocks=True,
         )
 
-    @staticmethod
-    def _format_datetime(value: datetime) -> str:
-        if value.tzinfo:
-            return value.strftime("%d/%m/%Y %H:%M %Z")
-        return value.strftime("%d/%m/%Y %H:%M")
-
-    @staticmethod
-    def _format_decimal(value: Decimal) -> str:
-        return f"{value:,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
-
     def _build_common_context(self, payload: NotificationRequest) -> Dict[str, Any]:
-        rent = payload.rent
-        campus = rent.campus
-        context: Dict[str, Any] = {
-            "rent": rent,
-            "user": payload.user,
-            "manager": payload.manager,
-            "campus": campus,
-            "field_name": rent.field_name,
-            "date_range": f"{self._format_datetime(rent.start_time)} - {self._format_datetime(rent.end_time)}",
-            "start_time_display": self._format_datetime(rent.start_time),
-            "end_time_display": self._format_datetime(rent.end_time),
-            "payment_deadline_display": self._format_datetime(rent.payment_deadline),
-            "amount_display": self._format_decimal(rent.mount),
-        }
-        return context
+        return build_common_context(payload)
+
+    def _with_email_extras(self, context: Dict[str, Any], *, pass_link: str) -> Dict[str, Any]:
+        merged = dict(context)
+        merged["pass_link"] = pass_link
+        merged["brand_logo_src"] = get_brand_logo_data_uri()
+        return merged
 
     def _render_template(self, template_name: str, context: Dict[str, Any]) -> str:
         try:
@@ -98,149 +83,26 @@ class EmailService:
             attachments=tuple(attachments or ()),
         )
 
-    @staticmethod
-    def _build_attachment_data_uri(attachment: EmailAttachment) -> str:
-        encoded = base64.b64encode(attachment.data).decode("ascii")
-        return f"{attachment.content_type};base64,{encoded}"
-
-    @staticmethod
-    def _build_qr_attachment(target: str, filename_hint: str) -> EmailAttachment:
-        safe_hint = re.sub(r"[^A-Za-z0-9_-]", "_", filename_hint)
-        qr = qrcode.QRCode(
-            version=None,
-            error_correction=constants.ERROR_CORRECT_M,
-            box_size=10,
-            border=4,
-        )
-
-        try:
-            qr.add_data(target)
-            qr.make(fit=True)
-        except (DataOverflowError, ValueError) as exc:  # pragma: no cover - defensive
-            logger.error("Error generando el QR %s: %s", safe_hint, exc)
-            fallback_qr = qrcode.QRCode(
-                version=1,
-                error_correction=constants.ERROR_CORRECT_L,
-                box_size=10,
-                border=4,
-            )
-            fallback_qr.add_data("RESERVA PICHANGAPP")
-            fallback_qr.make(fit=True)
-            qr = fallback_qr
-
-        image = qr.make_image(fill_color="black", back_color="white")
-        buffer = BytesIO()
-        image.save(buffer, format="PNG")
-        filename = f"qr-{safe_hint}.png"
-        return EmailAttachment(
-            filename=filename,
-            content_type="image/png",
-            data=buffer.getvalue(),
-        )
-
-    def _build_reservation_pass(self, payload: NotificationRequest) -> EmailAttachment:
-        rent = payload.rent
-        campus = rent.campus
-        user = payload.user
-
-        # Generate a lightweight boarding-pass style PNG on the fly so emails
-        # always include a scannable, offline-friendly proof of reservation.
-        width, height = 900, 640
-        background = "#f8fafc"
-        accent = "#2563eb"
-        text_color = "#0f172a"
-
-        image = Image.new("RGB", (width, height), background)
-        draw = ImageDraw.Draw(image)
-        header_font = ImageFont.load_default()
-        body_font = ImageFont.load_default()
-
-        padding = 40
-        draw.rectangle([0, 0, width, 140], fill=accent)
-        draw.text((padding, 40), "Pichangapp", fill="#ffffff", font=header_font)
-        draw.text(
-            (padding, 80),
-            f"Comprobante de reserva #{rent.rent_id}",
-            fill="#ffffff",
-            font=header_font,
-        )
-
-        y = 180
-        line_spacing = 34
-
-        details = [
-            ("Titular", f"{user.name} {user.lastname}"),
-            ("Correo", user.email),
-            ("Campus", campus.name),
-            ("Dirección", f"{campus.address}, {campus.district}"),
-            ("Campo", rent.field_name),
-            ("Horario", f"{self._format_datetime(rent.start_time)} - {self._format_datetime(rent.end_time)}"),
-            ("Periodo", rent.period),
-            ("Estado", rent.status.upper()),
-            ("Monto pagado", f"S/ {self._format_decimal(rent.mount)}"),
-            ("Límite de pago", self._format_datetime(rent.payment_deadline)),
-        ]
-
-        for label, value in details:
-            draw.text((padding, y), f"{label}:", fill=text_color, font=body_font)
-            draw.text((padding + 220, y), value, fill=text_color, font=body_font)
-            y += line_spacing
-
-        footer_text = "Presenta esta imagen en recepción para validar tu reserva."
-        draw.text((padding, height - 80), footer_text, fill=text_color, font=body_font)
-
-        buffer = BytesIO()
-        image.save(buffer, format="PNG")
-        return EmailAttachment(
-            filename=f"reserva-{rent.rent_id}.png",
-            content_type="image/png",
-            data=buffer.getvalue(),
-        )
-
-    @staticmethod
-    def _build_pass_link(payload: NotificationRequest) -> str:
-        """Return a concise link or token to recover the reservation pass.
-
-        If ``RESERVATION_PASS_URL_TEMPLATE`` is configured, it can include placeholders
-        compatible with ``str.format`` such as ``{rent_id}``, ``{schedule_day}``, and
-        ``{user_email}``. When not configured, fall back to an internal token so the QR
-        content remains small and still identifies the reservation.
-        """
-
-        template = getattr(settings, "RESERVATION_PASS_URL_TEMPLATE", "")
-        if template:
-            try:
-                return template.format(
-                    rent_id=payload.rent.rent_id,
-                    schedule_day=payload.rent.schedule_day,
-                    user_email=payload.user.email,
-                )
-            except KeyError as exc:  # pragma: no cover - defensive logging only
-                logger.warning(
-                    "Plantilla RESERVATION_PASS_URL_TEMPLATE inválida: %s", exc
-                )
-
-        # Fallback: compact token with the most relevant identifiers.
-        return (
-            f"pichangapp:reserva:{payload.rent.rent_id}:{payload.rent.schedule_day}"  # noqa: E501
-        )
-
     def send_rent_notification(self, payload: NotificationRequest) -> None:
         """Send the rent confirmation emails for manager and user."""
 
-        context = self._build_common_context(payload)
-        reservation_pass = self._build_reservation_pass(payload)
-        pass_link = self._build_pass_link(payload)
+        base_context = self._build_common_context(payload)
+        pass_link = build_pass_link(payload, firebase_url=None)
+        context = self._with_email_extras(base_context, pass_link=pass_link)
 
-        user_qr = self._build_qr_attachment(
+        user_html, user_text = select_user_templates(payload.rent.status)
+        reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
+        upload_pass_to_firebase(attachment=reservation_pass, payload=payload)
+
+        user_qr = build_qr_attachment(
             pass_link,
             f"reserva-{payload.rent.rent_id}-usuario",
         )
         user_email = self._build_email(
-            subject=settings.USER_RECEIPT_SUBJECT,
+            subject=build_user_subject(payload.rent.status),
             recipient=payload.user.email,
-            html_template="user_receipt.html",
-            text_template="user_receipt.txt",
+            html_template=user_html,
+            text_template=user_text,
             context=context,
             attachments=[reservation_pass, user_qr],
         )
@@ -258,18 +120,19 @@ class EmailService:
             )
             return
 
-        manager_context = dict(context)
+        manager_context = self._with_email_extras(dict(context), pass_link=pass_link)
         manager_context["recipient"] = payload.manager
+        manager_html, manager_text = select_manager_templates(payload.rent.status)
 
-        manager_qr = self._build_qr_attachment(
+        manager_qr = build_qr_attachment(
             pass_link,
             f"reserva-{payload.rent.rent_id}-administrador",
         )
         manager_email = self._build_email(
-            subject=settings.MANAGER_CONFIRMATION_SUBJECT,
+            subject=build_manager_subject(payload.rent.status),
             recipient=payload.manager.email,
-            html_template="manager_confirmation.html",
-            text_template="manager_confirmation.txt",
+            html_template=manager_html,
+            text_template=manager_text,
             context=manager_context,
             attachments=[reservation_pass, manager_qr],
         )
@@ -277,6 +140,36 @@ class EmailService:
         logger.info(
             "Reservation confirmation sent to manager %s for rent %s",
             manager_email.primary_recipient(),
+            payload.rent.rent_id,
+        )
+
+    def send_user_confirmation(self, payload: NotificationRequest) -> None:
+        """Send a reservation confirmation email only to the user."""
+
+        base_context = self._build_common_context(payload)
+        pass_link = build_pass_link(payload, firebase_url=None)
+        context = self._with_email_extras(base_context, pass_link=pass_link)
+
+        user_html, user_text = select_user_templates(payload.rent.status)
+        reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
+        upload_pass_to_firebase(attachment=reservation_pass, payload=payload)
+
+        user_qr = build_qr_attachment(
+            pass_link,
+            f"reserva-{payload.rent.rent_id}-usuario",
+        )
+        user_email = self._build_email(
+            subject=build_user_subject(payload.rent.status),
+            recipient=payload.user.email,
+            html_template=user_html,
+            text_template=user_text,
+            context=context,
+            attachments=[reservation_pass, user_qr],
+        )
+        self._repository.send_email(user_email)
+        logger.info(
+            "Reservation confirmation sent to user %s for rent %s",
+            user_email.primary_recipient(),
             payload.rent.rent_id,
         )
 

@@ -1,9 +1,15 @@
 from __future__ import annotations
 
-from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import (
+    BOOKING_BAD_REQUEST,
+    BOOKING_INTERNAL_ERROR,
+    BOOKING_NOT_FOUND,
+    FIELD_NOT_FOUND,
+    http_error,
+)
 from app.models import Image
 from app.repository import field_repository, image_repository
 from app.schemas import ImageCreate, ImageUpdate
@@ -21,31 +27,31 @@ class ImageService:
             images = image_repository.list_images_by_campus(self.db, campus_id)
             return [image for image in images if image.id_field is None]
         except SQLAlchemyError as exc:  # pragma: no cover - defensive
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to list images",
             ) from exc
 
     def list_field_images(self, field_id: int) -> list[Image]:
         field = field_repository.get_field(self.db, field_id)
         if not field:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                FIELD_NOT_FOUND,
                 detail=f"Field {field_id} not found",
             )
         try:
             return image_repository.list_images_by_field(self.db, field_id)
         except SQLAlchemyError as exc:  # pragma: no cover - defensive
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to list field images",
             ) from exc
 
     def get_image(self, image_id: int) -> Image:
         image = image_repository.get_image(self.db, image_id)
         if not image:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
+            raise http_error(
+                BOOKING_NOT_FOUND,
                 detail=f"Image {image_id} not found",
             )
         return image
@@ -56,19 +62,19 @@ class ImageService:
         if image_in.id_field is not None:
             field = field_repository.get_field(self.db, image_in.id_field)
             if not field:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
+                raise http_error(
+                    FIELD_NOT_FOUND,
                     detail=f"Field {image_in.id_field} not found",
                 )
             if field.id_campus != campus_id:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
+                raise http_error(
+                    BOOKING_BAD_REQUEST,
                     detail="Field does not belong to the specified campus",
                 )
 
         if image_in.id_campus is not None and image_in.id_campus != campus_id:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+            raise http_error(
+                BOOKING_BAD_REQUEST,
                 detail="Image campus id does not match the requested campus",
             )
 
@@ -86,8 +92,8 @@ class ImageService:
             return image
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to create image",
             ) from exc
 
@@ -112,13 +118,13 @@ class ImageService:
             if new_field_id is not None:
                 field = field_repository.get_field(self.db, new_field_id)
                 if not field:
-                    raise HTTPException(
-                        status_code=status.HTTP_404_NOT_FOUND,
+                    raise http_error(
+                        FIELD_NOT_FOUND,
                         detail=f"Field {new_field_id} not found",
                     )
                 if campus_provided and new_campus_id is not None and field.id_campus != new_campus_id:
-                    raise HTTPException(
-                        status_code=status.HTTP_400_BAD_REQUEST,
+                    raise http_error(
+                        BOOKING_BAD_REQUEST,
                         detail="Field does not belong to the specified campus",
                     )
                 image.field = field
@@ -135,8 +141,8 @@ class ImageService:
             return image
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to update image",
             ) from exc
 
@@ -147,7 +153,7 @@ class ImageService:
             self.db.commit()
         except SQLAlchemyError as exc:
             self.db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            raise http_error(
+                BOOKING_INTERNAL_ERROR,
                 detail="Failed to delete image",
             ) from exc

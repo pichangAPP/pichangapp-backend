@@ -18,10 +18,6 @@ nlu:
       - buenas
       - chato
       - hey
-      - necesite un favor
-      - buenas tardes, ¿qué puedes hacer?
-      - necesito ayuda con una cancha
-      - hola, escucha una consulta
       - holi
       - qué onda
       - qué pasa
@@ -79,7 +75,6 @@ nlu:
       - estás ahí
       - me escuchas
       - bot presente
-      - bot ayúdame
   - intent: goodbye
     examples: |
       - chao
@@ -192,7 +187,6 @@ nlu:
       - justo eso
       - así es hermano
       - tal cual
-      - efectivo
       - confirmado
       - está bien
       - todo bien
@@ -298,7 +292,6 @@ nlu:
       - no encaja
       - descartado
       - rechazado
-      - cancelar
       - olvídalo
       - déjalo
       - no importa
@@ -319,6 +312,11 @@ nlu:
       - ayuda
       - ayúdame
       - necesito ayuda
+      - buenas tardes, ¿qué puedes hacer?
+      - necesito ayuda con una cancha
+      - hola, escucha una consulta
+      - bot ayúdame
+      - necesite un favor
       - ¿qué puedes hacer?
       - ¿cómo me ayudas?
       - muéstrame tus funciones
@@ -337,7 +335,6 @@ nlu:
       - ayúdame con algo
       - necesito ayuda con otra cosa
       - ¿puedes orientarme?
-      - dime qué temas manejas
       - necesito soporte
       - ¿cómo funciona esto?
       - ¿qué tipo de ayuda ofreces?
@@ -370,20 +367,26 @@ nlu:
       - muéstrame ejemplos
       - cómo te uso
       - cómo funciona el bot
-      - qué preguntas respondes
-      - sobre qué temas puedo preguntar
-      - de qué puedo hablar contigo
       - ¿qué onda con la app?
       - no sé cómo usar esto, chato
       - explícamelo como si fuera mi pata
       - necesito que me lo digas clarito
       - ¿puedo hacer eso desde el celular?
+      - me ayudas con la reserva
+      - me ayudas a buscar cancha
+      - necesito una mano con la app
+      - guíame con la reserva
+      - necesito orientación rápida
 
   - intent: request_field_recommendation
     examples: |
       - quiero alquilar una cancha
       - necesito una cancha
       - busco una cancha
+      - muéstrame canchas
+      - muéstrame canchas disponibles
+      - muéstrame canchas cerca
+      - enséñame canchas para jugar
       - busco un espacio deportivo
       - recomiéndame espacios deportivos
       - necesito un espacio para jugar
@@ -444,7 +447,6 @@ nlu:
       - yo me quedo cerca del VES, ¿algo por ahí?
       - algo en [Surco](location)
       - cerca de [La Molina](location)
-      - por [Barranco](location)
       - zona de [Chorrillos](location)
       - en [San Borja](location)
       - por [San Miguel](location)
@@ -475,47 +477,6 @@ nlu:
       - también puedo usar [Grass mixto](surface) natural y sintético
       - busco cancha con [Losa de cemento](surface)
       - dame una opción con [Losa deportiva](surface)
-      - para las [20:00](time)
-      - a las [19:30](time)
-      - sobre las [21:00](time)
-      - después de las [18:00](time)
-      - antes de las [22:00](time)
-      - tipo [8pm](time)
-      - como a las [7:30pm](time)
-      - alrededor de las [19:00](time)
-      - más o menos a las [20:30](time)
-      - entre las [19:00](time) y [21:00](time)
-      - de [18:00](time) a [20:00](time)
-      - desde las [19:00](time)
-      - hasta las [22:00](time)
-      - en la noche a las [20:00](time)
-      - en la tarde tipo [17:00](time)
-      - temprano como a las [15:00](time)
-      - al mediodía [12:00](time)
-      - en la mañana [10:00](time)
-      - para hoy
-      - para mañana
-      - este sábado
-      - el [viernes](date)
-      - para el [2024-11-20](date)
-      - el próximo fin de semana
-      - este fin de semana
-      - el domingo
-      - el lunes
-      - el martes que viene
-      - para el miércoles
-      - este jueves
-      - pasado mañana
-      - dentro de 3 días
-      - para la próxima semana
-      - el [15/11/2024](date)
-      - el [20-11-2024](date)
-      - para el día [25](date)
-      - en dos días
-      - en una semana
-      - el mes que viene
-      - para diciembre
-      - fin de año
       - con presupuesto de [S/60](budget)
       - hasta [80 soles](budget)
       - máximo [S/100](budget)
@@ -535,8 +496,6 @@ nlu:
       - que no sea caro
       - baratito
       - low cost
-      - promociones
-      - descuentos
       - que cueste como [S/70](budget)
       - alrededor de [S/90](budget)
       - entre [S/50](budget) y [S/80](budget)
@@ -805,9 +764,7 @@ nlu:
       - disponible ahora
       - para 10 personas
       - para mi equipo
-      - somos 8
       - partido de 11 vs 11
-      - somos 6
       - un grupo de 12
       - equipos de 7
       - fulbito 7
@@ -969,6 +926,14 @@ nlu:
       - en distintos momentos
   - intent: request_admin_recommendation
     examples: |
+      - dame recomendaciones de gestión
+      - quiero ver recomendaciones de gestión
+      - muéstrame recomendaciones para admin
+      - recomendaciones admin para esta semana
+      - como admin dame tips de gestion
+      - qiero recomendaciones de gestion
+      - recomendaciones para mejorar ocupacion y precio
+      - quiero recomendaciones y alertas de demanda
       - Cómo optimizo la operación de mis espacios deportivos
       - Qué hago para que mis espacios deportivos tengan más reservas
       - Necesito ideas para mover mis espacios en horas valle
@@ -1010,8 +975,18 @@ nlu:
       - Quiero ver qué horarios valen más para rentas corporativas
       - Recuérdame qué combos valen la pena en temporada de lluvias
       - ¿Cómo puedo mantener las canchas abiertas hasta tarde sin perder plata?
+      - dame estrategias para horarios vacíos
+      - muéstrame un plan de gestión para hoy
+      - como mejoro mis reservas con promociones
   - intent: request_admin_top_clients
     examples: |
+      - dame clientes frecuentes
+      - quiero ver clientes frecuentes
+      - muéstrame top clientes de mis sedes
+      - cuales son mis clientes top
+      - quienes son mis clientes mas fieles
+      - qienes rentan mas seguido
+      - clientes frecuentes y luego uso de canchas
       - Quiénes son los clientes que más reservan mis espacios deportivos
       - Muéstrame los top que usan mis espacios
       - Dame el ranking de clientes de mis espacios
@@ -1045,8 +1020,16 @@ nlu:
       - Dime cuáles clientes deberían recibir promociones VIP
       - Muéstrame los usuarios frecuentes del estadio de concreto
       - Dame el ranking de los equipos nocturnos
+      - dame los clientes que mas reservan esta semana
+      - quiero el top de clientes por sede
   - intent: request_admin_field_usage
     examples: |
+      - dame uso de canchas
+      - quiero ver uso de canchas
+      - muéstrame canchas más usadas
+      - cuales son las canchas con más uso
+      - q canchas se usan mas
+      - uso de canchas y luego clientes frecuentes
       - Cuáles de mis espacios deportivos se usan más
       - Qué espacios deportivos son los más reservados
       - Muéstrame el uso de mis espacios
@@ -1089,8 +1072,17 @@ nlu:
       - ¿Qué campos tienen más demanda en mis canchas?
       - Dime cuáles son los campos con más reservas este mes
       - Muéstrame el ranking de campos más alquilados
+      - campos mas usados hoy
+      - dame el uso por campo de esta semana
   - intent: request_admin_demand_alerts
     examples: |
+      - dame alertas de demanda
+      - quiero ver alertas de demanda
+      - muestrame alertas de ocupacion
+      - avisame cuando baje la demanda
+      - avisame si cae la ocupacion
+      - qiero alertas para horarios vacios
+      - alertas y luego métricas de ingresos
       - Avísame si un espacio deportivo está quedando vacío
       - Necesito alertas para mis espacios deportivos con poca demanda
       - Quiero saber si un espacio se está llenando demasiado
@@ -1116,11 +1108,68 @@ nlu:
       - Cóbreme al toque sobre las franjas de entrenamiento vacías.
       - Dímelo en tiempo real para mover la oferta.
       - Que me avise si hay más de tres cancelaciones seguidas.
+      - alertas de demanda para este mes
+      - dame notificaciones de demanda por sede
+  - intent: request_admin_metrics
+    examples: |
+      - ayudame con las metricas
+      - ayúdame con las métricas
+      - quiero ver métricas
+      - dame métricas
+      - cuáles son las métricas
+      - cuántas métricas puedo ver
+      - necesito métricas de ocupación
+      - necesito métricas de [ocupación](metric_type)
+      - métricas de [ingresos](metric_type)
+      - quiero ver [ocupación](metric_type)
+      - quiero ver la [ocupación](metric_type)
+      - dame [ocupación](metric_type)
+      - dame la métrica de [ocupación](metric_type)
+      - [ocupación](metric_type)
+      - quiero ver [ingresos](metric_type)
+      - dame [ingresos](metric_type)
+      - cuáles son los [ingresos](metric_type)
+      - cuántos son los [ingresos](metric_type)
+      - quiero ver los [ingresos](metric_type) de la [semana](metric_period)
+      - [ingresos](metric_type) de [esta semana](metric_period)
+      - ingresos de esta semana
+      - quiero ver [ingresos](metric_type) de [esta semana](metric_period)
+      - dame [ingresos](metric_type) de [esta semana](metric_period)
+      - cuáles son los [ingresos](metric_type) de [esta semana](metric_period)
+      - cuántos son los [ingresos](metric_type) de [esta semana](metric_period)
+      - [ingresos](metric_type) [semana](metric_period)
+      - dime los [ingresos](metric_type) de esta semana
+      - ingresos de [esta semana](metric_period)
+      - ingresos de [hoy](metric_period)
+      - ingresos de [este mes](metric_period)
+      - quiero ver [ingresos](metric_type) de [hoy](metric_period)
+      - dame [ingresos](metric_type) de [este mes](metric_period)
+      - ocupación de [hoy](metric_period)
+      - quiero la ocupación de [esta semana](metric_period)
+      - quiero ver [ocupación](metric_type) de [esta semana](metric_period)
+      - dame [ocupación](metric_type) de [hoy](metric_period)
+      - dame el [tráfico](metric_type) de reservas
+      - tráfico de reservas de [esta semana](metric_period)
+      - [canchas](metric_type) más usadas
+      - dame las [canchas](metric_type) top
+      - métricas de [clientes](metric_type) y [ocupación](metric_type)
+      - quiero un [comparativo](metric_type) de ingresos
+      - comparativo de [ingresos](metric_type) por sede
+      - ranking de [ingresos](metric_type)
+      - dame la [tendencia](metric_type) de reservas
+      - tendencia de [tráfico](metric_type) en la semana
+      - ahora [ingresos](metric_type) de [esta semana](metric_period)
+      - cambiemos a [ingresos](metric_type) de [esta semana](metric_period)
+      - volvamos a [ocupación](metric_type) de [esta semana](metric_period)
+      - quiero [ingresos](metric_type) y luego clientes frecuentes
+      - dame [ocupación](metric_type) y también alertas de demanda
+      - muéstrame [ingresos](metric_type), después [ocupación](metric_type)
+      - qiero ver [ingresos](metric_type) de [esta semana](metric_period)
+      - kiero [ocupación](metric_type) de [hoy](metric_period)
   - intent: SetSlots
     examples: |
-      - /SetSlots
-      - /SetSlots{"feedback_rating":"thumbs_up"}
-      - /SetSlots{"feedback_rating":"thumbs_down"}
+      - __set_slots__
+      - __set_slots_payload__
   - intent: ask_reservation_process
     examples: |
       - ¿cómo reservo?
@@ -1198,8 +1247,6 @@ nlu:
       - prefiero otra cancha
       - cambio de fecha
       - cambio de horario
-      - reprogramar
-      - cambiar de día
       - cambiar de hora
       - mover la reserva
       - pasar para otro día
@@ -1334,9 +1381,6 @@ nlu:
       - ¿qué precio tiene?
       - dame los precios
       - información de precios
-      - ¿hay promociones?
-      - ¿hay descuentos?
-      - ofertas
       - precio por hora
       - ¿cuál es la cancha más barata?
       - dónde es más económico
@@ -1353,6 +1397,16 @@ nlu:
       - cuánto sería
       - a cuánto sale
       - cuánto me costaría
+      - cuánto cuesta la reserva
+      - precio de la reserva
+      - precio de la cancha
+      - costo de la cancha
+      - tarifa por cancha
+      - precio para reservar
+      - precio por hora de fútbol 7
+      - cuánto sale por hora en [Surco](location)
+      - cuánto cuesta por hora en [Miraflores](location)
+      - cuánto cuesta una cancha en [San Isidro](location)
       - tabla de precios
       - lista de precios
       - precios actualizados
@@ -1368,18 +1422,8 @@ nlu:
       - más caro
       - económico
       - accesible
-      - ofertas del día
-      - ofertas de la semana
-      - descuentos especiales
       - precio especial
       - tarifa especial
-      - promoción actual
-      - promos
-      - hay promo
-      - cupones
-      - código de descuento
-      - rebaja
-      - 2x1
       - paquetes
       - combos
       - abonos
@@ -1533,7 +1577,6 @@ nlu:
       - me gustó
       - no me gustó
       - excelente servicio
-      - mal servicio
       - buena cancha
       - mala cancha
       - queja
@@ -1559,6 +1602,9 @@ nlu:
       - preguntas frecuentes
       - faq
       - dudas comunes
+      - qué preguntas respondes
+      - sobre qué temas puedo preguntar
+      - de qué puedo hablar contigo
       - ¿qué preguntas puedo hacer?
       - temas que manejas
       - ayuda general
@@ -1601,6 +1647,42 @@ nlu:
       - explícame qué preguntas puedo hacerte
       - dame ejemplos de temas frecuentes
 
+  - intent: show_promotions
+    examples: |
+      - hay promociones
+      - tienes promociones
+      - hay descuentos
+      - tienen descuentos
+      - promos disponibles
+      - promociones de canchas
+      - promociones vigentes
+      - ofertas para reservar
+      - hay ofertas hoy
+      - qué promos tienen
+      - qué descuentos hay
+      - hay promociones para jugadores
+      - muéstrame las promociones
+      - quiero ver las promociones
+      - promociones actuales
+      - descuentos para reservar
+      - ofertas de canchas
+      - promociones del día
+      - hay alguna promo
+      - tienen alguna promo
+      - ¿hay promociones?
+      - ¿hay descuentos?
+      - ofertas
+      - ofertas del día
+      - ofertas de la semana
+      - descuentos especiales
+      - promoción actual
+      - promos
+      - hay promo
+      - cupones
+      - código de descuento
+      - rebaja
+      - 2x1
+
   - intent: give_positive_feedback
     examples: |
       - gracias
@@ -1629,6 +1711,16 @@ nlu:
 
   - intent: inform
     examples: |
+      - cuántos son
+      - cuáles son
+      - y de hoy
+      - y de esta semana
+      - y de este mes
+      - ahora ese
+      - ahora esa
+      - ok ese tema
+      - sigue con ese
+      - dale con ese
       - mi deporte es football
       - quiero jugar basketball
       - soy del distrito San Isidro
@@ -1639,16 +1731,437 @@ nlu:
       - necesito una cancha techada
       - el horario que quiero es 20:00
       - puedo usar la cancha el sábado en la tarde
+      - para las [20:00](time)
+      - a las [19:30](time)
+      - sobre las [21:00](time)
+      - después de las [18:00](time)
+      - antes de las [22:00](time)
+      - tipo [8pm](time)
+      - como a las [7:30pm](time)
+      - alrededor de las [19:00](time)
+      - más o menos a las [20:30](time)
+      - entre las [19:00](time) y [21:00](time)
+      - de [18:00](time) a [20:00](time)
+      - desde las [19:00](time)
+      - hasta las [22:00](time)
+      - en la noche a las [20:00](time)
+      - en la tarde tipo [17:00](time)
+      - temprano como a las [15:00](time)
+      - al mediodía [12:00](time)
+      - en la mañana [10:00](time)
+      - para hoy
+      - para mañana
+      - este sábado
+      - el próximo fin de semana
+      - este fin de semana
+      - el domingo
+      - el lunes
+      - el martes que viene
+      - para el miércoles
+      - este jueves
+      - pasado mañana
+      - dentro de 3 días
+      - para la próxima semana
+      - el [15/11/2024](date)
+      - el [20-11-2024](date)
+      - para el día [25](date)
+      - en dos días
+      - en una semana
+      - el mes que viene
+      - para diciembre
+      - fin de año
       - [hoy](date)
       - [mañana](date)
       - [el próximo jueves](date)
       - [el próximo sábado](date)
       - [09:00](time)
       - a las [08:30](time)
+      - en [Surco](location)
+      - por [Barranco](location)
+      - [La Molina](location)
+      - cancha en [San Isidro](location)
+      - con [Grass sintético](surface)
+      - superficie [Grass natural](surface)
+      - quiero [Losa deportiva](surface)
+      - presupuesto [S/ 120](budget)
+      - máximo [80 soles](budget)
+      - entre [18:00](time) y [20:00](time)
+      - después de las [21:00](time)
+      - el [viernes](date)
+      - para el [2024-11-20](date)
+      - somos [12](num_players) jugadores
+      - somos [10](num_players)
+      - somos [8](num_players)
+      - somos [6](num_players)
+      - [fútbol](sport)
 
-  - synonym: cancha
+  - synonym: football
     examples: |
+      - fútbol
+      - futbol
+      - fulbito
+      - pichanga
+      - fútbol 7
+      - fútbol 5
+      - futsal
+      - jugar futbol
+      - jugar fútbol
+      - jugar pelota
+
+  - synonym: basketball
+    examples: |
+      - basketball
+      - basket
+      - basquet
+      - básquet
+      - basquetbol
+      - baloncesto
+      - jugar basket
+      - jugar basquet
+
+  - synonym: volleyball
+    examples: |
+      - volleyball
+      - voley
+      - vóley
+      - voleibol
+      - voleyball
+      - jugar voley
+
+  - synonym: tennis
+    examples: |
+      - tennis
+      - tenis
+      - jugar tenis
+
+  - synonym: padel
+    examples: |
+      - padel
+      - pádel
+
+  - synonym: Grass sintético
+    examples: |
+      - grass sintetico
+      - grass sintético
+      - sintetico
+      - sintético
+      - césped sintético
+      - cesped sintetico
+      - pasto sintetico
+      - pasto sintético
+      - synthetic
+
+  - synonym: Grass natural
+    examples: |
+      - grass natural
+      - cesped natural
+      - césped natural
+      - pasto natural
+
+  - synonym: Grass mixto (natural + sintético)
+    examples: |
+      - grass mixto
+      - mixto
+      - mixta
+      - mixto natural sintetico
+
+  - synonym: Grass sintético premium
+    examples: |
+      - grass sintetico premium
+      - grass sintético premium
+      - sintetico premium
+      - sintético premium
+      - premium
+
+  - synonym: Losa de cemento
+    examples: |
+      - losa de cemento
+      - cemento
+      - cemento pulido
+
+  - synonym: Losa deportiva
+    examples: |
+      - losa deportiva
+      - cemento deportivo
+      - losa
+
+  - synonym: Villa El Salvador
+    examples: |
+      - villa el salvador
+      - villaelsalvador
+      - ves
+      - villa el salv
+
+  - synonym: San Isidro
+    examples: |
+      - san isidro
+      - sanisdro
+      - san iisdro
+      - san isidro lima
+
+  - synonym: Surco
+    examples: |
+      - surco
+
+  - synonym: Chorrillos
+    examples: |
+      - chorrillos
+
+  - synonym: Ancón
+    examples: |
+      - ancon
+
+  - synonym: Ate
+    examples: |
+      - ate vitarte
+
+  - synonym: Breña
+    examples: |
+      - brena
+
+  - synonym: Jesús María
+    examples: |
+      - jesus maria
+
+  - synonym: Lurín
+    examples: |
+      - lurin
+
+  - synonym: Rímac
+    examples: |
+      - rimac
+
+  - synonym: San Martín de Porres
+    examples: |
+      - san martin de porres
+      - smp
+
+  - synonym: San Juan de Lurigancho
+    examples: |
+      - san juan de lurigancho
+      - sjl
+
+  - synonym: San Juan de Miraflores
+    examples: |
+      - san juan de miraflores
+      - sjm
+
+  - synonym: Santa María del Mar
+    examples: |
+      - santa maria del mar
+
+  - synonym: Villa María del Triunfo
+    examples: |
+      - villa maria del triunfo
+      - vmt
+
+  - synonym: Villa El Salvador
+    examples: |
+      - ves
+
+  - synonym: Pachacámac
+    examples: |
+      - pachacamac
+
+  - synonym: Lima
+    examples: |
+      - cercado de lima
+
+  # Added: lookup tables to reduce entity confusion in NLU
+  - lookup: sport
+    examples: |
+      - fútbol
+      - futbol
+      - fulbito
+      - fútbol 7
+      - fútbol 5
+      - futsal
+      - vóley
+      - voley
+      - básquet
+      - basket
+      - pádel
+      - padel
+      - tenis
+
+  - lookup: location
+    examples: |
+      - Ancón
+      - Ate
+      - Barranco
+      - Breña
+      - Carabayllo
+      - Cieneguilla
+      - Comas
+      - Chaclacayo
+      - Chorrillos
+      - El Agustino
+      - Independencia
+      - Jesús María
+      - La Molina
+      - La Victoria
+      - Lima
+      - Lince
+      - Los Olivos
+      - Lurigancho
+      - Lurín
+      - Magdalena del Mar
+      - Miraflores
+      - Pachacámac
+      - Pucusana
+      - Pueblo Libre
+      - Puente Piedra
+      - Punta Hermosa
+      - Punta Negra
+      - Rímac
+      - San Bartolo
+      - San Borja
+      - San Isidro
+      - San Juan de Lurigancho
+      - San Juan de Miraflores
+      - San Luis
+      - San Martín de Porres
+      - San Miguel
+      - Santa Anita
+      - Santa María del Mar
+      - Santa Rosa
+      - Santiago de Surco
+      - Surquillo
+      - Villa El Salvador
+      - Villa María del Triunfo
+
+  - synonym: ingresos
+    examples: |
+      - revenue
+      - income
+      - ventas
+      - facturación
+
+  - synonym: ocupacion
+    examples: |
+      - ocupación
+      - disponibilidad
+      - disponibilidad de canchas
+
+  - synonym: trafico
+    examples: |
+      - tráfico
+      - trafico de reservas
+      - flujo
+
+  - synonym: clientes
+    examples: |
+      - clientes frecuentes
+      - top clientes
+      - usuarios frecuentes
+
+  - synonym: canchas
+    examples: |
+      - campos
+      - fields
       - espacios deportivos
       - espacios
       - espacio deportivo
       - espacio
+
+  - synonym: comparativo
+    examples: |
+      - comparación
+      - comparacion
+      - comparar
+      - ranking
+
+  - synonym: tendencia
+    examples: |
+      - tendencias
+      - evolución
+      - evolucion
+
+  - synonym: hoy
+    examples: |
+      - día de hoy
+      - hoy día
+
+  - synonym: semana
+    examples: |
+      - esta semana
+      - semanal
+      - semana actual
+
+  - synonym: mes
+    examples: |
+      - este mes
+      - mensual
+      - mes actual
+
+  - lookup: admin_management_terms
+    examples: |
+      - recomendaciones
+      - estrategias
+      - gestion
+      - optimizar
+      - pricing dinamico
+      - consejos admin
+
+  - lookup: admin_top_clients_terms
+    examples: |
+      - clientes frecuentes
+      - top clientes
+      - clientes vip
+      - usuarios frecuentes
+      - mejores clientes
+
+  - lookup: admin_field_usage_terms
+    examples: |
+      - uso de canchas
+      - canchas mas usadas
+      - campos mas usados
+      - ranking canchas
+      - uso por campo
+
+  - lookup: admin_demand_alert_terms
+    examples: |
+      - alertas de demanda
+      - alerta ocupacion
+      - avisame si baja
+      - horarios vacios
+      - notificaciones de demanda
+
+  - lookup: surface
+    examples: |
+      - grass sintético
+      - grass natural
+      - grass mixto
+      - césped natural
+      - césped sintético
+      - losa
+      - losa deportiva
+      - losa de cemento
+      - parquet
+      - madera
+
+  - lookup: amenities
+    examples: |
+      - techada
+      - iluminada
+      - con camerinos
+      - con vestuarios
+      - con estacionamiento
+      - con duchas
+
+  # Added: regex patterns for budget, time and date
+  - regex: budget
+    examples: |
+      - \\bS/\\s?\\d+(?:\\.\\d{1,2})?\\b
+      - \\b\\d+\\s?soles\\b
+
+  - regex: time
+    examples: |
+      - \\b([01]?\\d|2[0-3]):[0-5]\\d\\b
+      - \\b([1-9]|1[0-2])\\s?(am|pm)\\b
+
+  - regex: date
+    examples: |
+      - \\b\\d{4}-\\d{2}-\\d{2}\\b
+      - \\b\\d{2}/\\d{2}/\\d{4}\\b
+      - \\b\\d{1,2}\\s?de\\s?[a-zA-Z]+\\b

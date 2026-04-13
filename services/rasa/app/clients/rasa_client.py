@@ -35,5 +35,20 @@ class RasaClient:
                 return data
             return [data]
 
+    async def is_ready(self, *, timeout: float = 2.0) -> bool:
+        endpoint = f"{self._base_url}/status"
+        try:
+            async with httpx.AsyncClient(timeout=timeout) as client:
+                response = await client.get(endpoint)
+                if response.status_code != 200:
+                    return False
+                try:
+                    data = response.json()
+                except ValueError:
+                    return False
+                return bool(data.get("model_file"))
+        except httpx.RequestError:
+            return False
+
 
 __all__ = ["RasaClient"]

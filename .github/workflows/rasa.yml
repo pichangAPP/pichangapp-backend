@@ -1,0 +1,29 @@
+# Rasa Pro: solo validación de datos (domain + NLU/stories/rules). No requiere modelo ni Git LFS.
+name: Rasa service
+
+on:
+  push:
+    paths:
+      - "services/rasa/**"
+      - ".github/workflows/rasa.yml"
+  pull_request:
+    paths:
+      - "services/rasa/**"
+      - ".github/workflows/rasa.yml"
+
+jobs:
+  validate-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rasa data validate
+        env:
+          RASA_PRO_LICENSE: ${{ secrets.RASA_PRO_LICENSE }}
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}/services/rasa:/app" \
+            -w /app \
+            -e RASA_PRO_LICENSE \
+            rasa/rasa-pro:3.12.3 \
+            rasa data validate

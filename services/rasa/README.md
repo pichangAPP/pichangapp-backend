@@ -25,10 +25,12 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
    cd services/rasa
    pip install -r requirements.txt
    ```
-3. Entrena el modelo:
+   El **runtime de referencia** es la imagen Docker `rasa/rasa-pro:3.12.3` (ver `Dockerfile`). Para desarrollo local con `pip`, alinea `rasa-pro` con la misma línea 3.12.x (`pyproject.toml`: `>=3.12.3,<3.13`).
+3. Entrena el modelo y deja el `.tar.gz` en `artifacts/models` (requerido para Docker Compose):
    ```bash
    rasa data validate
    rasa train
+   mkdir -p artifacts/models && cp models/*.tar.gz artifacts/models/
    ```
 4. Levanta el servidor de acciones personalizadas (requiere las variables de entorno anteriores):
    ```bash
@@ -56,7 +58,9 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
 
 ## 🔐 Inicio de sesión y roles
 
-- El microservicio de FastAPI adjunta en el `metadata` de cada mensaje los campos `user_id`, `id_user`, `user_role` e `id_role`. La acción `action_session_start` valida estos valores, normaliza el rol (`admin` o `player`) y rellena los slots `user_id` y `user_role` antes de procesar la conversación. Cuando no se envía metadata (por ejemplo, con `rasa shell`), el bot asume el rol `player`.
+- El microservicio de FastAPI adjunta en el `metadata` los campos `user_id`, `id_user`, `user_role`, `id_role` y el **JWT** (`token`). La acción `action_session_start` enriquece la metadata con los claims del JWT; sin token válido y con enforce activo, no se usa `user_id` desde metadata arbitraria ni se acepta rol admin solo por metadata.
+- Las acciones admin usan `resolve_secured_actor` (`actions/domain/chatbot/context.py`). Con **`RASA_ENFORCE_JWT_FOR_ADMIN_ACTIONS=true`** (por defecto), el rol administrador **solo** se acepta si el token se decodifica con `SECRET_KEY` y los claims llevan `id_role` de admin, reduciendo el spoofing contra el webhook.
+- Para `rasa shell` o `rasa test` sin token, exporta temporalmente `RASA_ENFORCE_JWT_FOR_ADMIN_ACTIONS=false`. Sin metadata (p. ej. shell), el comportamiento por defecto sigue orientado a jugador (`player`).
 - Si el rol o el identificador del usuario no son válidos, el bot responde con un mensaje de reautenticación y detiene la recomendación. Esto evita que se creen registros huérfanos en `analytics.chatbot` y mantiene la trazabilidad de las conversaciones.
 - Cada inicio de sesión correcto crea o reactiva una sesión en `analytics.chatbot` y todas las respuestas del bot quedan registradas mediante `analytics.chatbot_log`, `analytics.intents` y `analytics.recomendation_log`.
   - La acción `action_session_start` persiste inmediatamente el inicio de la conversación en `analytics.chatbot` y agrega una fila con `response_type = session_started` en `analytics.chatbot_log`, asegurando que los chats abiertos aparezcan en los tableros aun antes de que se generen recomendaciones.
@@ -72,3 +76,63 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
 Los patrones heredados de Rasa Studio se conservan en `docs/patterns_backup/` como referencia. Allí encontrarás exactamente los archivos exportados desde Rasa Studio (no se usan en el entrenamiento de `rasa train`).
 
 Consulta `actions/actions.md` para entender el detalle de cada acción personalizada.
+
+## Checklist de validación y entrenamiento
+
+Tras cambios en dominio, reglas o historias, sigue los pasos de [docs/TRAINING_CHECKLIST.md](docs/TRAINING_CHECKLIST.md) (`rasa data validate`, tests, `rasa train` y variables de entorno).
+
+## Red y Docker Compose
+
+El gateway del chatbot es el puerto **8006** (FastAPI). En despliegues reales conviene **no publicar** hacia Internet los puertos internos de Rasa (5005) ni del action server (5055); en `docker-compose.yml` del monorepo hay una nota junto al servicio `rasa` para revisar el mapeo `5055:5055` en producción.
+
+El servicio `rasa` monta **`./services/rasa/artifacts/models` → `/app/artifacts/models`**: la imagen no incluye los `.tar.gz` (ver `.dockerignore`); hay que tener modelos en ese directorio del host o entrenar antes de levantar el contenedor.
+
+**Kafka UI** ya no arranca por defecto: usa el perfil `messaging-debug` para depurar tópicos, por ejemplo:
+
+```bash
+docker compose --profile messaging-debug up -d kafka-ui
+```
+
+## Recursos en VM (variables opcionales en `.env` del monorepo)
+
+En `docker-compose.yml` hay límites `deploy.resources` parametrizables para aliviar OOM en máquinas pequeñas. Ejemplos (ajusta según RAM real):
+
+| Variable | Uso típico |
+|----------|------------|
+| `RASA_MEM_LIMIT` / `RASA_MEM_RESERVATION` | Servicio `rasa` (NLU + Core + acciones + FastAPI en un contenedor) |
+| `RASA_CPUS_LIMIT` / `RASA_CPUS_RESERVATION` | CPU del servicio `rasa` |
+| `POSTGRES_MEM_LIMIT` / `POSTGRES_MEM_RESERVATION` | Postgres |
+| `KAFKA_MEM_LIMIT` / `KAFKA_CPUS_LIMIT` | Broker Kafka |
+| `ZOOKEEPER_MEM_LIMIT` | Zookeeper |
+| `SHARED_VENV_MEM_LIMIT` | Imagen de build `shared-venv` |
+
+Orientación muy aproximada: **8 GB RAM** en la VM para un stack completo con Rasa es un mínimo incómodo; **16 GB** es más holgado. Si hace falta, baja `RASA_MEM_LIMIT` y revisa que el modelo siga cargando sin OOM.
+
+## Estructura de artefactos
+
+- **`artifacts/models/`**: modelos `.tar.gz` servidos por `rasa run` (variable `RASA_MODEL_DIR` o `RASA_MODEL_PATH` en el contenedor si necesitas un archivo concreto).
+- **`artifacts/eval/`**: salidas de evaluación (`rasa test`, informes); no se usan en runtime.
+
+Detalle en [artifacts/README.md](artifacts/README.md).
+
+## GitHub Actions (licencia e imagen Docker)
+
+El workflow [`.github/workflows/rasa.yml`](../../.github/workflows/rasa.yml) solo ejecuta **`rasa data validate`** (coherencia de `domain.yml`, `data/*.yml`, etc.). **No sube ni usa modelos** en el repo; no hace falta Git LFS.
+
+Los **story tests** (`rasa test --stories`) requieren un modelo entrenado: ejecútalos **en local** después de `rasa train` y con el `.tar.gz` en `artifacts/models/` (ver [docs/TRAINING_CHECKLIST.md](docs/TRAINING_CHECKLIST.md)).
+
+### 1. Variable `RASA_PRO_LICENSE` (obligatoria)
+
+Tu `.env` local **no** llega a GitHub. Crea un **secret** en el repositorio:
+
+1. GitHub → **Settings** del repo → **Secrets and variables** → **Actions**.
+2. **New repository secret**.
+3. **Name:** `RASA_PRO_LICENSE`.
+4. **Secret:** el mismo valor que en tu `.env` (licencia Rasa Pro).
+5. **Add secret**.
+
+Sin este secret, el job fallará con `license.not_found`.
+
+### 2. Descarga de la imagen (“Pulling from rasa/rasa-pro…”)
+
+La primera vez, Docker **descarga** la imagen `rasa/rasa-pro:3.12.3`; puede tardar varios minutos. Es normal; en ejecuciones siguientes a veces va más rápido por caché del runner.

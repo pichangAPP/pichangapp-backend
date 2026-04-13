@@ -1,4 +1,4 @@
-from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, Numeric, String
+from sqlalchemy import BigInteger, Column, DateTime, Numeric, String, func
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -15,15 +15,18 @@ class Schedule(Base):
     start_time = Column(DateTime(timezone=True), nullable=False)
     end_time = Column(DateTime(timezone=True), nullable=False)
     status = Column(String(30), nullable=False)
+    id_status = Column(BigInteger, nullable=True)
     price = Column(Numeric(10, 2), nullable=False)
-    id_field = Column(
-        BigInteger, ForeignKey("booking.field.id_field"), nullable=True
-    )
-    id_user = Column(BigInteger, ForeignKey("auth.users.id_user"), nullable=True)
+    id_field = Column(BigInteger, nullable=True)
+    id_user = Column(BigInteger, nullable=True)
+    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=True, onupdate=func.now())
 
-    rents = relationship("Rent", back_populates="schedule", cascade="all, delete-orphan")
-    field = relationship("Field", lazy="joined")
-    user = relationship("User", lazy="joined")
+    rent_links = relationship(
+        "RentSchedule",
+        back_populates="schedule",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:  # pragma: no cover - debugging helper
         return (

@@ -15,6 +15,11 @@ WORKDIR /app
 COPY requirements.txt ./requirements.txt
 RUN ${VENV_PATH}/bin/pip install --no-cache-dir -r requirements.txt
 
+USER root
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y fonts-dejavu-core \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY app ./app
 
 RUN groupadd --system appuser \

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from sqlalchemy.orm import Session, joinedload, selectinload
+from sqlalchemy.orm import Session, selectinload
 
 from app.models import Campus,Field,Sport
 
@@ -11,7 +11,6 @@ def list_campuses_by_business(db: Session, business_id: int) -> List[Campus]:
     return (
         db.query(Campus)
         .options(
-            joinedload(Campus.manager),
             selectinload(Campus.characteristic),
             selectinload(Campus.images),
             selectinload(Campus.fields)
@@ -29,7 +28,6 @@ def get_campus(db: Session, campus_id: int) -> Optional[Campus]:
     return (
         db.query(Campus)
         .options(
-            joinedload(Campus.manager),
             selectinload(Campus.characteristic),
             selectinload(Campus.images),
             selectinload(Campus.fields)
