@@ -171,7 +171,6 @@ class ActionSubmitFieldRecommendationForm(Action):
             location_slot = tracker.get_slot("location")
             if isinstance(location_slot, str) and location_slot.strip():
                 preferences["preferred_location"] = location_slot.strip()
-        initial_preferences = dict(preferences)
         inferred_preferences = _guess_preferences_from_context(tracker)
         inference_events: List[EventType] = []
         inference_notes: List[str] = []
