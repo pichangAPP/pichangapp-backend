@@ -323,7 +323,7 @@ def slot_defined(slot_name: str, domain: DomainDict) -> bool:
         try:
             domain_dict = domain.as_dict()
         except Exception:  # pragma: no cover - defensive
-            domain_dict = None
+            pass
         else:
             slots = domain_dict.get("slots")
             if isinstance(slots, dict):
