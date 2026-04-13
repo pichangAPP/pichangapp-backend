@@ -105,16 +105,6 @@ def build_time_slots_by_date(
             if price_value is not None:
                 price_by_range[(start_time, end_time)] = price_value
 
-    def _overlaps(slot_start: datetime, slot_end: datetime) -> bool:
-        """Check if a candidate slot overlaps any reserved range.
-
-        Used by: build_time_slots_by_date filtering.
-        """
-        return any(
-            slot_start < reserved_end and reserved_start < slot_end
-            for reserved_start, reserved_end in reserved_ranges
-        )
-
     slot_duration = timedelta(hours=1)
     slot_seconds = slot_duration.total_seconds()
     anchor = open_time
