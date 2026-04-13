@@ -486,7 +486,6 @@ class ActionProvideAdminManagementTips(Action):
         actor = _resolve_secured_actor(
             tracker, latest_message.get("metadata"), for_admin_action=True
         )
-        metadata = actor.enriched_metadata
         user_id = actor.user_id
 
         if not actor.admin_authorized:
