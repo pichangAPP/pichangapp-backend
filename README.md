@@ -1,4 +1,4 @@
-# PichangApp Backend
+# Cuadra Backend
 
 Documentación unificada de endpoints por microservicio. Para flujos complejos (time slots, reservas en canchas combinadas, integración con Rasa), ver el [manual de funcionalidades avanzadas](docs/manual-funcionalidades-avanzadas.md).
 
