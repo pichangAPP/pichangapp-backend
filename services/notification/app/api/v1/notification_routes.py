@@ -1,8 +1,12 @@
 """Routes for handling notification related requests."""
 
-from fastapi import APIRouter, HTTPException, Response, status
+from fastapi import APIRouter, HTTPException, Request, Response, status
 from fastapi.concurrency import run_in_threadpool
 
+from app.core.reservation_pass_ratelimit import (
+    client_ip_from_request,
+    reservation_pass_rate_limit_exceeded,
+)
 from app.domain.notification.attachments import (
     build_pass_link,
     build_reservation_pass,
@@ -35,8 +39,18 @@ async def send_rent_approved_notification(
 
 
 @router.get("/reservation-pass")
-async def get_reservation_pass(token: str) -> Response:
+async def get_reservation_pass(request: Request, token: str) -> Response:
     """Devuelve la boleta PNG. El token va en query (?token=) para soportar JWT con puntos."""
+    ip = client_ip_from_request(
+        request.headers.get("x-forwarded-for"),
+        request.client.host if request.client else None,
+    )
+    if reservation_pass_rate_limit_exceeded(ip):
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Demasiadas solicitudes. Intenta de nuevo en un minuto.",
+        )
+
     payload = parse_pass_token(token.strip())
     if payload is None:
         raise HTTPException(

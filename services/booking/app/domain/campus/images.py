@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from app.core.error_codes import BOOKING_BAD_REQUEST, BOOKING_NOT_FOUND, http_error
+from app.core.image_url_validation import validate_https_image_url, validate_image_url_in_mapping
 from app.models import Campus, Image
 from app.repository import image_repository
 
@@ -21,6 +22,11 @@ def sync_campus_images(
     incoming_ids: set[int] = set()
 
     for image_data in images_data:
+        try:
+            validate_image_url_in_mapping(dict(image_data))
+        except ValueError as exc:
+            raise http_error(BOOKING_BAD_REQUEST, detail=str(exc)) from exc
+
         id_campus = image_data.get("id_campus")
         id_field = image_data.get("id_field")
         if id_campus != campus.id_campus:
@@ -49,6 +55,11 @@ def sync_campus_images(
                 if key != "id_image"
             }
             for attr, value in updated_fields.items():
+                if attr == "image_url" and value is not None:
+                    try:
+                        validate_https_image_url(str(value))
+                    except ValueError as exc:
+                        raise http_error(BOOKING_BAD_REQUEST, detail=str(exc)) from exc
                 setattr(image, attr, value)
         else:
             new_image_data = {

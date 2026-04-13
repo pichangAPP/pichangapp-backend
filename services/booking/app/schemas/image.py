@@ -3,7 +3,9 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, field_validator
+
+from app.core.image_url_validation import validate_https_image_url
 
 
 class ImageBase(BaseModel):
@@ -13,6 +15,11 @@ class ImageBase(BaseModel):
     deleted: bool = False
     type: str  # "business", "campus" o "field"
     category: Optional[str] = None  # Ejemplo: "campo", "logo", "estadio"
+
+    @field_validator("image_url")
+    @classmethod
+    def _validate_image_url(cls, value: str) -> str:
+        return validate_https_image_url(value)
 
 
 class ImageCreate(ImageBase):
@@ -32,6 +39,13 @@ class ImageUpdate(BaseModel):
     id_campus: Optional[int] = None
     id_business: Optional[int] = None
     id_field: Optional[int] = None
+
+    @field_validator("image_url")
+    @classmethod
+    def _validate_image_url_optional(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            return None
+        return validate_https_image_url(value)
 
 
 class ImageResponse(ImageBase):

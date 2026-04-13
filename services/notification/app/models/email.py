@@ -11,6 +11,8 @@ class EmailAttachment:
     filename: str
     content_type: str
     data: bytes
+    #: Si se define, se envía como imagen inline (Content-ID) para <img src="cid:...">.
+    content_id: Optional[str] = None
 
 
 @dataclass(frozen=True)

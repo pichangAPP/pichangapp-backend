@@ -4,6 +4,7 @@ from __future__ import annotations
 import base64
 import logging
 import re
+import time
 from io import BytesIO
 from pathlib import Path
 from typing import Optional
@@ -106,13 +107,12 @@ def _qr_pil_image(target: str, *, box_size: int = 7, border: int = 2) -> Image.I
 
 
 def build_pass_token(payload: NotificationRequest) -> str:
-    """JWT con el payload de la notificación para abrir la boleta sin sesión."""
+    """JWT firmado: payload bajo clave "p" y expiración, para acortar vida útil del enlace."""
     secret = (settings.RESERVATION_PASS_TOKEN_SECRET or "").strip() or "change-me-reservation-pass-secret"
-    return jwt.encode(
-        payload.model_dump(mode="json"),
-        secret,
-        algorithm=_PASS_JWT_ALG,
-    )
+    days = max(1, int(getattr(settings, "RESERVATION_PASS_TOKEN_EXPIRE_DAYS", 14)))
+    exp = int(time.time()) + days * 86400
+    body = {"p": payload.model_dump(mode="json"), "exp": exp}
+    return jwt.encode(body, secret, algorithm=_PASS_JWT_ALG)
 
 
 def parse_pass_token(token: str) -> Optional[NotificationRequest]:
@@ -124,9 +124,15 @@ def parse_pass_token(token: str) -> Optional[NotificationRequest]:
         data = jwt.decode(token, secret, algorithms=[_PASS_JWT_ALG])
     except JWTError:
         return None
+    inner = data.get("p")
+    if inner is not None:
+        try:
+            return NotificationRequest.model_validate(inner)
+        except Exception:  # pragma: no cover
+            return None
     try:
         return NotificationRequest.model_validate(data)
-    except Exception:  # pragma: no cover
+    except Exception:  # pragma: no cover - tokens antiguos sin envoltura "p"
         return None
 
 

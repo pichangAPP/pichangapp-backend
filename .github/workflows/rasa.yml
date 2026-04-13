@@ -26,4 +26,4 @@ jobs:
             -w /app \
             -e RASA_PRO_LICENSE \
             rasa/rasa-pro:3.12.3 \
-            rasa data validate
+            data validate

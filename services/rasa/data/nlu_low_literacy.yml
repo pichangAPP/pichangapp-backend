@@ -311,13 +311,21 @@ nlu:
       - por surco
       - en barranco
       - en la molina
+      - en villaelsalvador
+      - en villa el salvador
+      - por sanjuandelurigancho
+      - en santiagodesurco
       - 8pm
+      - 8 pm
       - 9pm
       - 7:30pm
+      - 7:30 pm
       - 19:00
       - 20:00
       - a las 19:30
       - despues de las 18
+      - maximo 80soles
+      - hasta 120 lucas
       - grass sintetico
       - sintetico
       - losa
@@ -327,8 +335,14 @@ nlu:
       - somos 9
       - somos 6
       - futbol
+      - futbol7
       - basquet
       - voley
+      - en [villaelsalvador](location)
+      - [Villa el salvador](location)
+      - por [sanjuandelurigancho](location)
+      - [80soles](budget)
+      - [7pm](time)
 
   - intent: SetSlots
     examples: |

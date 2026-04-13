@@ -1777,6 +1777,11 @@ nlu:
       - [09:00](time)
       - a las [08:30](time)
       - en [Surco](location)
+      - en [villaelsalvador](location)
+      - en [Villa el salvador](location)
+      - por [sanjuandelurigancho](location)
+      - por [santiagodesurco](location)
+      - [villamariadeltriunfo](location)
       - por [Barranco](location)
       - [La Molina](location)
       - cancha en [San Isidro](location)
@@ -1803,6 +1808,12 @@ nlu:
       - pichanga
       - fútbol 7
       - fútbol 5
+      - futbol7
+      - futbol5
+      - fútbol7
+      - fútbol5
+      - futbol 7
+      - futbol 5
       - futsal
       - jugar futbol
       - jugar fútbol
@@ -1888,7 +1899,10 @@ nlu:
   - synonym: Villa El Salvador
     examples: |
       - villa el salvador
+      - Villa el salvador
+      - VILLA EL SALVADOR
       - villaelsalvador
+      - villa elsalvador
       - ves
       - villa el salv
 
@@ -1902,6 +1916,8 @@ nlu:
   - synonym: Surco
     examples: |
       - surco
+      - santiagodesurco
+      - santiago de surco
 
   - synonym: Chorrillos
     examples: |
@@ -1922,6 +1938,8 @@ nlu:
   - synonym: Jesús María
     examples: |
       - jesus maria
+      - jesusmaria
+      - jesús maría
 
   - synonym: Lurín
     examples: |
@@ -1934,11 +1952,14 @@ nlu:
   - synonym: San Martín de Porres
     examples: |
       - san martin de porres
+      - sanmartindeporres
       - smp
 
   - synonym: San Juan de Lurigancho
     examples: |
       - san juan de lurigancho
+      - sanjuandelurigancho
+      - san juan delurigancho
       - sjl
 
   - synonym: San Juan de Miraflores
@@ -1953,11 +1974,9 @@ nlu:
   - synonym: Villa María del Triunfo
     examples: |
       - villa maria del triunfo
+      - villamariadeltriunfo
+      - villa mariadeltriunfo
       - vmt
-
-  - synonym: Villa El Salvador
-    examples: |
-      - ves
 
   - synonym: Pachacámac
     examples: |
@@ -2153,12 +2172,16 @@ nlu:
   - regex: budget
     examples: |
       - \\bS/\\s?\\d+(?:\\.\\d{1,2})?\\b
-      - \\b\\d+\\s?soles\\b
+      - \\b\\d+\\s+soles\\b
+      - \\b\\d+(?:soles|lucas)\\b
+      - \\b\\d+\\s*-\\s*\\d+\\s*(?:soles|s/\\.?)\\b
 
   - regex: time
     examples: |
       - \\b([01]?\\d|2[0-3]):[0-5]\\d\\b
-      - \\b([1-9]|1[0-2])\\s?(am|pm)\\b
+      - \\b([01]?\\d|2[0-3]):[0-5]\\d\\s*(am|pm|a\\.m\\.|p\\.m\\.)\\b
+      - \\b([1-9]|1[0-2])\\s*(am|pm|a\\.m\\.|p\\.m\\.)\\b
+      - \\b([1-9]|1[0-2])(am|pm)\\b
 
   - regex: date
     examples: |

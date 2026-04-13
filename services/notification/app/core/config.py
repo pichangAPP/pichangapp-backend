@@ -56,6 +56,13 @@ class Settings:
     RESERVATION_PASS_TOKEN_SECRET: str = (
         os.getenv("RESERVATION_PASS_TOKEN_SECRET", "") or "change-me-reservation-pass-secret"
     ).strip()
+    RESERVATION_PASS_TOKEN_EXPIRE_DAYS: int = int(
+        os.getenv("RESERVATION_PASS_TOKEN_EXPIRE_DAYS", "14"),
+    )
+    # Máximo de respuestas PNG por IP y minuto (GET reservation-pass).
+    RESERVATION_PASS_RATE_LIMIT_PER_MINUTE: int = int(
+        os.getenv("RESERVATION_PASS_RATE_LIMIT_PER_MINUTE", "40"),
+    )
 
 
 @lru_cache()

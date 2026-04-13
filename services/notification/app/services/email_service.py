@@ -17,7 +17,7 @@ from app.domain.notification.attachments import (
     build_reservation_pass,
     upload_pass_to_firebase,
 )
-from app.domain.notification.branding import get_brand_logo_data_uri
+from app.domain.notification.branding import BRAND_LOGO_CONTENT_ID, get_brand_logo_bytes
 from app.domain.notification.context import build_common_context
 from app.domain.notification.templates import (
     build_manager_subject,
@@ -53,8 +53,25 @@ class EmailService:
     def _with_email_extras(self, context: Dict[str, Any], *, pass_link: str) -> Dict[str, Any]:
         merged = dict(context)
         merged["pass_link"] = pass_link
-        merged["brand_logo_src"] = get_brand_logo_data_uri()
+        # Gmail suele bloquear data: URLs en <img>; usamos adjunto inline (CID) en el repositorio.
+        merged["brand_logo_src"] = (
+            f"cid:{BRAND_LOGO_CONTENT_ID}" if get_brand_logo_bytes() else ""
+        )
         return merged
+
+    @staticmethod
+    def _logo_inline_attachments() -> list[EmailAttachment]:
+        raw = get_brand_logo_bytes()
+        if not raw:
+            return []
+        return [
+            EmailAttachment(
+                filename="cuadra-logo.png",
+                content_type="image/png",
+                data=raw,
+                content_id=BRAND_LOGO_CONTENT_ID,
+            )
+        ]
 
     def _render_template(self, template_name: str, context: Dict[str, Any]) -> str:
         try:
@@ -104,7 +121,7 @@ class EmailService:
             html_template=user_html,
             text_template=user_text,
             context=context,
-            attachments=[reservation_pass, user_qr],
+            attachments=[*self._logo_inline_attachments(), reservation_pass, user_qr],
         )
         self._repository.send_email(user_email)
         logger.info(
@@ -134,7 +151,7 @@ class EmailService:
             html_template=manager_html,
             text_template=manager_text,
             context=manager_context,
-            attachments=[reservation_pass, manager_qr],
+            attachments=[*self._logo_inline_attachments(), reservation_pass, manager_qr],
         )
         self._repository.send_email(manager_email)
         logger.info(
@@ -164,7 +181,7 @@ class EmailService:
             html_template=user_html,
             text_template=user_text,
             context=context,
-            attachments=[reservation_pass, user_qr],
+            attachments=[*self._logo_inline_attachments(), reservation_pass, user_qr],
         )
         self._repository.send_email(user_email)
         logger.info(

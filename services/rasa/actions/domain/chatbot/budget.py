@@ -51,7 +51,10 @@ _BUDGET_MIN_PATTERN = re.compile(
     re.IGNORECASE,
 )
 _BUDGET_GENERIC_PATTERN = re.compile(r"(?:s/\.?|s/|\$)\s*(\d+(?:[.,]\d+)?)", re.IGNORECASE)
-_BUDGET_SOL_PATTERN = re.compile(r"(\d+(?:[.,]\d+)?)\s*(?:soles|lucas)", re.IGNORECASE)
+_BUDGET_SOL_PATTERN = re.compile(
+    r"(\d+(?:[.,]\d+)?)\s+(?:soles|lucas)\b|(\d+(?:[.,]\d+)?)(?:soles|lucas)\b",
+    re.IGNORECASE,
+)
 
 
 def _mentions_price_context(text: str) -> bool:
@@ -117,8 +120,10 @@ def parse_budget_from_text(text: Optional[str], *, force: bool = False) -> Tuple
 
     match = _BUDGET_SOL_PATTERN.search(candidate)
     if match:
-        value = _budget_string_to_float(match.group(1))
-        return (None, value)
+        raw_amount = match.group(1) or match.group(2)
+        value = _budget_string_to_float(raw_amount) if raw_amount else None
+        if value is not None:
+            return (None, value)
 
     return (None, None)
 

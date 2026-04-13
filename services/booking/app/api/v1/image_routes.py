@@ -20,6 +20,7 @@ def list_images(campus_id: int, db: Session = Depends(get_db)):
     status_code=status.HTTP_201_CREATED,
 )
 def create_image(campus_id: int, image_in: ImageCreate, db: Session = Depends(get_db)):
+    """Registra una fila en `booking.images` con la URL pública (p. ej. Firebase tras subir el archivo)."""
     service = ImageService(db)
     return service.create_image(campus_id, image_in)
 

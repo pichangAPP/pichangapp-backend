@@ -17,6 +17,8 @@ class Settings:
     AUTH_INTERNAL_API_KEY: str = os.getenv("AUTH_INTERNAL_API_KEY", "")
     AUTH_SERVICE_TIMEOUT: float = float(os.getenv("AUTH_SERVICE_TIMEOUT", "10"))
     TIMEZONE: str = os.getenv("TIMEZONE", "America/Lima")
+    # Hostnames permitidos en image_url (coma). Vacío = Firebase Storage por defecto.
+    IMAGE_URL_ALLOWED_HOSTS: str = os.getenv("IMAGE_URL_ALLOWED_HOSTS", "")
 
 
 @lru_cache()
