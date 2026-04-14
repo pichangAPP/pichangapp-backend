@@ -1709,6 +1709,8 @@ nlu:
       - esperaba más
       - no me dio lo que necesitaba
 
+  # Intent inform: respuestas al formulario y entidades (location, sport, time, date, budget, surface, …).
+  # Sinónimos de distritos (location) viven en nlu_synonyms_districts.yml.
   - intent: inform
     examples: |
       - cuántos son
@@ -1799,7 +1801,64 @@ nlu:
       - somos [8](num_players)
       - somos [6](num_players)
       - [fútbol](sport)
+      - en [Miraflores](location)
+      - distrito [San Miguel](location)
+      - vivo en [Los Olivos](location)
+      - en [Lince](location) porfa
+      - [Magdalena del Mar](location) cerca
+      - [Pueblo Libre](location)
+      - [Puente Piedra](location)
+      - en [Punta Hermosa](location)
+      - en [Punta Negra](location)
+      - [San Borja](location)
+      - [San Luis](location)
+      - [Santa Anita](location)
+      - [Santa Rosa](location)
+      - [Surquillo](location)
+      - [Carabayllo](location)
+      - [Comas](location)
+      - [Independencia](location)
+      - [El Agustino](location)
+      - [Chaclacayo](location)
+      - [Cieneguilla](location)
+      - [Lurigancho](location)
+      - [Pucusana](location)
+      - [San Bartolo](location)
+      - [La Victoria](location)
+      - en [miraflores](location)
+      - por [barranco](location)
+      - [lamolina](location)
+      - [losolivos](location)
+      - [pueblolibre](location)
+      - [puentepiedra](location)
+      - [sanmiguel](location)
+      - [santarosa](location)
+      - [magdalenadelmar](location)
+      - en [Villa El Salvador](location)
+      - por [San Isidro](location)
+      - [Chorrillos](location) nomas
+      - [Rímac](location)
+      - [Ancón](location)
+      - [Breña](location)
+      - [Lurín](location)
+      - [Ate](location)
+      - [Lima](location) centro
+      - [Santa María del Mar](location)
+      - [San Juan de Miraflores](location)
+      - [San Martín de Porres](location)
+      - [Pachacámac](location)
+      - soy de [Villa El Salvador](location)
+      - juego en [villaelsalvador](location)
+      - la cancha en [Villa el salvador](location)
+      - preferencia [sanjuandelurigancho](location)
+      - busco en [santiagodesurco](location)
+      - opciones [villamariadeltriunfo](location)
+      - cerca de [Jesús María](location)
+      - zona [San Juan de Lurigancho](location)
 
+  # =============================================================================
+  # Sinónimos — deportes (entidad sport)
+  # =============================================================================
   - synonym: football
     examples: |
       - fútbol
@@ -1850,6 +1909,9 @@ nlu:
       - padel
       - pádel
 
+  # =============================================================================
+  # Sinónimos — superficies (entidad surface)
+  # =============================================================================
   - synonym: Grass sintético
     examples: |
       - grass sintetico
@@ -1896,97 +1958,9 @@ nlu:
       - cemento deportivo
       - losa
 
-  - synonym: Villa El Salvador
-    examples: |
-      - villa el salvador
-      - Villa el salvador
-      - VILLA EL SALVADOR
-      - villaelsalvador
-      - villa elsalvador
-      - ves
-      - villa el salv
-
-  - synonym: San Isidro
-    examples: |
-      - san isidro
-      - sanisdro
-      - san iisdro
-      - san isidro lima
-
-  - synonym: Surco
-    examples: |
-      - surco
-      - santiagodesurco
-      - santiago de surco
-
-  - synonym: Chorrillos
-    examples: |
-      - chorrillos
-
-  - synonym: Ancón
-    examples: |
-      - ancon
-
-  - synonym: Ate
-    examples: |
-      - ate vitarte
-
-  - synonym: Breña
-    examples: |
-      - brena
-
-  - synonym: Jesús María
-    examples: |
-      - jesus maria
-      - jesusmaria
-      - jesús maría
-
-  - synonym: Lurín
-    examples: |
-      - lurin
-
-  - synonym: Rímac
-    examples: |
-      - rimac
-
-  - synonym: San Martín de Porres
-    examples: |
-      - san martin de porres
-      - sanmartindeporres
-      - smp
-
-  - synonym: San Juan de Lurigancho
-    examples: |
-      - san juan de lurigancho
-      - sanjuandelurigancho
-      - san juan delurigancho
-      - sjl
-
-  - synonym: San Juan de Miraflores
-    examples: |
-      - san juan de miraflores
-      - sjm
-
-  - synonym: Santa María del Mar
-    examples: |
-      - santa maria del mar
-
-  - synonym: Villa María del Triunfo
-    examples: |
-      - villa maria del triunfo
-      - villamariadeltriunfo
-      - villa mariadeltriunfo
-      - vmt
-
-  - synonym: Pachacámac
-    examples: |
-      - pachacamac
-
-  - synonym: Lima
-    examples: |
-      - cercado de lima
-
-  # Added: lookup tables to reduce entity confusion in NLU
+  # =============================================================================
+  # Lookups — sport / location (DIET). Sinónimos location: nlu_synonyms_districts.yml
+  # =============================================================================
   - lookup: sport
     examples: |
       - fútbol
@@ -2049,6 +2023,9 @@ nlu:
       - Villa El Salvador
       - Villa María del Triunfo
 
+  # =============================================================================
+  # Sinónimos — métricas y vocabulario admin / negocio (no location/sport/surface)
+  # =============================================================================
   - synonym: ingresos
     examples: |
       - revenue

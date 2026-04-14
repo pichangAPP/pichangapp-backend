@@ -39,6 +39,8 @@ class NotificationRequest(BaseModel):
     rent: RentDetails
     user: Person
     manager: Optional[Person] = None
+    # Cliente autenticado (schedule.id_user); ausente en reservas invitado.
+    id_user: Optional[int] = Field(None, gt=0)
 
 
 __all__ = [

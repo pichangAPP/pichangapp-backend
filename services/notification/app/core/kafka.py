@@ -11,6 +11,8 @@ from typing import Iterable
 
 from confluent_kafka import Consumer, KafkaError
 
+from app.core.database import SessionLocal
+from app.domain.notification.notify_push import notify_user_from_event
 from app.schemas import NotificationRequest
 from app.services import EmailService
 
@@ -115,16 +117,24 @@ class KafkaConsumerWorker:
                     # Send the "payment received / under review" email with retries.
                     self._send_with_retry(
                         event_type=event_type,
-                        action=lambda: self._email_service.send_rent_notification(
-                            notification
+                        action=lambda: self._email_then_push(
+                            event_type,
+                            notification,
+                            email_action=lambda: self._email_service.send_rent_notification(
+                                notification
+                            ),
                         ),
                     )
                 elif event_type in {"rent.verdict", "rent.approved", "rent.rejected"}:
                     # Send the final verdict/approval email with retries.
                     self._send_with_retry(
                         event_type=event_type,
-                        action=lambda: self._email_service.send_user_confirmation(
-                            notification
+                        action=lambda: self._email_then_push(
+                            event_type,
+                            notification,
+                            email_action=lambda: self._email_service.send_user_confirmation(
+                                notification
+                            ),
                         ),
                     )
                 else:
@@ -132,6 +142,29 @@ class KafkaConsumerWorker:
         finally:
             consumer.close()
             logger.info("Kafka consumer stopped")
+
+    @staticmethod
+    def _email_then_push(
+        event_type: str,
+        notification: NotificationRequest,
+        *,
+        email_action,
+    ) -> None:
+        email_action()
+        if not notification.id_user:
+            return
+        db = SessionLocal()
+        try:
+            notify_user_from_event(
+                db,
+                id_user=notification.id_user,
+                event_type=event_type,
+                rent_id=notification.rent.rent_id,
+                schedule_day=notification.rent.schedule_day,
+                status=notification.rent.status,
+            )
+        finally:
+            db.close()
 
     @staticmethod
     def _send_with_retry(*, event_type: str, action) -> None:

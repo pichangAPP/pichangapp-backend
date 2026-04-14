@@ -20,6 +20,9 @@ class Settings:
     PROJECT_NAME: str = os.getenv("NOTIFICATION_PROJECT_NAME", "Cuadra! Notifications")
     APP_BRAND_NAME: str = os.getenv("APP_BRAND_NAME", "Cuadra!")
 
+    # Misma base que auth (schema auth.user_devices).
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+
     SMTP_HOST: str = os.getenv("SMTP_HOST", "")
     SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
     SMTP_USERNAME: Optional[str] = os.getenv("SMTP_USERNAME")
@@ -42,6 +45,10 @@ class Settings:
     FIREBASE_CREDENTIALS_PATH: str = os.getenv("FIREBASE_CREDENTIALS_PATH", "")
     FIREBASE_PROJECT_ID: str = os.getenv("FIREBASE_PROJECT_ID", "")
     FIREBASE_STORAGE_BUCKET: str = os.getenv("FIREBASE_STORAGE_BUCKET", "")
+    # Opcional: alinear con el canal creado en la app Android (React Native).
+    FCM_ANDROID_NOTIFICATION_CHANNEL_ID: str = os.getenv(
+        "FCM_ANDROID_NOTIFICATION_CHANNEL_ID", ""
+    ).strip()
     USER_CONFIRMATION_SUBJECT: str = os.getenv(
         "USER_CONFIRMATION_SUBJECT",
         "Cuadra · Actualización de tu reserva",

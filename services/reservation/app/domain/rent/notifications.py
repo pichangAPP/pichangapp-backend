@@ -197,7 +197,7 @@ class RentNotificationPublisher:
         display_field_name = (
             ", ".join(field_names) if len(field_names) > 1 else (field_names[0] if field_names else field.field_name)
         )
-        return {
+        payload: Dict[str, object] = {
             "rent": {
                 "rent_id": rent.id_rent,
                 "schedule_day": schedule.day_of_week,
@@ -218,6 +218,9 @@ class RentNotificationPublisher:
             },
             "manager": manager_payload,
         }
+        if schedule.id_user is not None:
+            payload["id_user"] = schedule.id_user
+        return payload
 
     def publish(self, *, rent: Rent, event_type: str) -> None:
         """Publish a notification event to Kafka with the full payload.

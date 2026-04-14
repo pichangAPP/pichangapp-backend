@@ -159,27 +159,27 @@ def build_user_subject(status_value: str) -> str:
         return settings.USER_CONFIRMATION_SUBJECT
 
     status_subjects = {
-        "reserved": "Cuadra · Reserva confirmada",
-        "under_review": "Cuadra · Pago en revisión",
-        "pending_payment": "Cuadra · Pago pendiente",
-        "pending_proof": "Cuadra · Falta evidencia de pago",
-        "proof_submitted": "Cuadra · Evidencia recibida",
-        "needs_info": "Cuadra · Necesitamos más información",
-        "cancelled": "Cuadra · Reserva cancelada",
-        "fullfilled": "Cuadra · Reserva completada",
-        "expired_no_proof": "Cuadra · Reserva expirada (sin evidencia)",
-        "expired_slot_unavailable": "Cuadra · Reserva expirada (sin disponibilidad)",
-        "dispute_open": "Cuadra · Caso en revisión",
-        "dispute_resolved": "Cuadra · Caso resuelto",
-        "rejected_not_received": "Cuadra · Reserva rechazada (pago no recibido)",
-        "rejected_invalid_proof": "Cuadra · Reserva rechazada (evidencia inválida)",
-        "rejected_amount_low": "Cuadra · Reserva rechazada (monto incompleto)",
-        "rejected_amount_high": "Cuadra · Reserva rechazada (monto excedente)",
-        "rejected_wrong_destination": "Cuadra · Reserva rechazada (destino incorrecto)",
+        "reserved": "CuadrAI! · Reserva confirmada",
+        "under_review": "CuadrAI! · Pago en revisión",
+        "pending_payment": "CuadrAI! · Pago pendiente",
+        "pending_proof": "CuadrAI! · Falta evidencia de pago",
+        "proof_submitted": "CuadrAI! · Evidencia recibida",
+        "needs_info": "CuadrAI! · Necesitamos más información",
+        "cancelled": "CuadrAI! · Reserva cancelada",
+        "fullfilled": "CuadrAI! · Reserva completada",
+        "expired_no_proof": "CuadrAI! · Reserva expirada (sin evidencia)",
+        "expired_slot_unavailable": "CuadrAI! · Reserva expirada (sin disponibilidad)",
+        "dispute_open": "CuadrAI! · Caso en revisión",
+        "dispute_resolved": "CuadrAI! · Caso resuelto",
+        "rejected_not_received": "CuadrAI! · Reserva rechazada (pago no recibido)",
+        "rejected_invalid_proof": "CuadrAI! · Reserva rechazada (evidencia inválida)",
+        "rejected_amount_low": "CuadrAI! · Reserva rechazada (monto incompleto)",
+        "rejected_amount_high": "CuadrAI! · Reserva rechazada (monto excedente)",
+        "rejected_wrong_destination": "CuadrAI! · Reserva rechazada (destino incorrecto)",
     }
 
     if normalized.startswith("rejected_") and normalized not in status_subjects:
-        return "Cuadra · Reserva rechazada"
+        return "CuadrAI! · Reserva rechazada"
 
     return status_subjects.get(normalized, settings.USER_CONFIRMATION_SUBJECT)
 
@@ -191,26 +191,26 @@ def build_manager_subject(status_value: str) -> str:
         return settings.MANAGER_CONFIRMATION_SUBJECT
 
     subjects = {
-        "reserved": "Cuadra · Nueva reserva confirmada",
-        "under_review": "Cuadra · Pago en revisión",
-        "pending_payment": "Cuadra · Reserva con pago pendiente",
-        "pending_proof": "Cuadra · Falta evidencia de pago",
-        "proof_submitted": "Cuadra · Evidencia de pago recibida",
-        "needs_info": "Cuadra · Reserva requiere más información",
-        "cancelled": "Cuadra · Reserva cancelada",
-        "fullfilled": "Cuadra · Reserva completada",
-        "expired_no_proof": "Cuadra · Reserva expirada (sin evidencia)",
-        "expired_slot_unavailable": "Cuadra · Reserva expirada (sin cupo)",
-        "dispute_open": "Cuadra · Disputa abierta",
-        "dispute_resolved": "Cuadra · Disputa resuelta",
-        "rejected_not_received": "Cuadra · Reserva rechazada (pago no recibido)",
-        "rejected_invalid_proof": "Cuadra · Reserva rechazada (evidencia inválida)",
-        "rejected_amount_low": "Cuadra · Reserva rechazada (monto incompleto)",
-        "rejected_amount_high": "Cuadra · Reserva rechazada (monto excedente)",
-        "rejected_wrong_destination": "Cuadra · Reserva rechazada (destino incorrecto)",
+        "reserved": "CuadrAI! · Nueva reserva confirmada",
+        "under_review": "CuadrAI! · Pago en revisión",
+        "pending_payment": "CuadrAI! · Reserva con pago pendiente",
+        "pending_proof": "CuadrAI! · Falta evidencia de pago",
+        "proof_submitted": "CuadrAI! · Evidencia de pago recibida",
+        "needs_info": "CuadrAI! · Reserva requiere más información",
+        "cancelled": "CuadrAI! · Reserva cancelada",
+        "fullfilled": "CuadrAI! · Reserva completada",
+        "expired_no_proof": "CuadrAI! · Reserva expirada (sin evidencia)",
+        "expired_slot_unavailable": "CuadrAI! · Reserva expirada (sin cupo)",
+        "dispute_open": "CuadrAI! · Disputa abierta",
+        "dispute_resolved": "CuadrAI! · Disputa resuelta",
+        "rejected_not_received": "CuadrAI! · Reserva rechazada (pago no recibido)",
+        "rejected_invalid_proof": "CuadrAI! · Reserva rechazada (evidencia inválida)",
+        "rejected_amount_low": "CuadrAI! · Reserva rechazada (monto incompleto)",
+        "rejected_amount_high": "CuadrAI! · Reserva rechazada (monto excedente)",
+        "rejected_wrong_destination": "CuadrAI! · Reserva rechazada (destino incorrecto)",
     }
     if normalized.startswith("rejected_") and normalized not in subjects:
-        return "Cuadra · Reserva rechazada"
+        return "CuadrAI! · Reserva rechazada"
     return subjects.get(normalized, settings.MANAGER_CONFIRMATION_SUBJECT)
 
 

@@ -9,6 +9,8 @@ from app.core.image_url_validation import validate_https_image_url
 
 
 class ImageBase(BaseModel):
+    """Campos comunes; sin validar image_url aquí para no romper respuestas con URLs legacy en BD."""
+
     name_image: str
     image_url: str
     state: str
@@ -16,16 +18,16 @@ class ImageBase(BaseModel):
     type: str  # "business", "campus" o "field"
     category: Optional[str] = None  # Ejemplo: "campo", "logo", "estadio"
 
-    @field_validator("image_url")
-    @classmethod
-    def _validate_image_url(cls, value: str) -> str:
-        return validate_https_image_url(value)
-
 
 class ImageCreate(ImageBase):
     id_campus: Optional[int] = None
     id_business: Optional[int] = None
     id_field: Optional[int] = None
+
+    @field_validator("image_url")
+    @classmethod
+    def _validate_image_url_on_create(cls, value: str) -> str:
+        return validate_https_image_url(value)
 
 
 class ImageUpdate(BaseModel):

@@ -1,8 +1,10 @@
 """Entry point for the Notification service."""
 
+import logging
+
 from fastapi import FastAPI
 
-from app.api import notification_router
+from app.api import notification_router, push_router
 from app.core.config import settings
 from app.core.error_handlers import register_exception_handlers
 from app.core.kafka import (
@@ -19,6 +21,12 @@ app.include_router(
     notification_router,
     prefix="/api/pichangapp/v1/notification",
 )
+app.include_router(
+    push_router,
+    prefix="/api/pichangapp/v1/notification",
+)
+
+logger = logging.getLogger(__name__)
 
 kafka_worker: KafkaConsumerWorker | None = None
 if kafka_enabled():
@@ -28,6 +36,12 @@ if kafka_enabled():
 
 @app.on_event("startup")
 def _start_kafka_worker() -> None:
+    try:
+        from app.core.firebase import get_firebase_app
+
+        get_firebase_app()
+    except Exception as exc:  # noqa: BLE001 — no bloquear arranque si falta el JSON
+        logger.warning("Firebase Admin no inicializado al arranque: %s", exc)
     if kafka_worker is not None:
         kafka_worker.start()
 

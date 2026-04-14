@@ -1,0 +1,231 @@
+version: "3.1"
+
+# Sinónimos de distrito (entidad location). Complementan el intent inform y el lookup location en nlu.yml.
+nlu:
+  - synonym: Ancón
+    examples: |
+      - ancon
+      - ancón
+
+  - synonym: Ate
+    examples: |
+      - ate vitarte
+      - ate
+
+  - synonym: Barranco
+    examples: |
+      - barranco
+
+  - synonym: Breña
+    examples: |
+      - brena
+      - breña
+
+  - synonym: Carabayllo
+    examples: |
+      - carabayllo
+      - caraballo
+
+  - synonym: Cieneguilla
+    examples: |
+      - cieneguilla
+      - cieneguila
+
+  - synonym: Comas
+    examples: |
+      - comas
+
+  - synonym: Chaclacayo
+    examples: |
+      - chaclacayo
+      - chaclayo
+
+  - synonym: Chorrillos
+    examples: |
+      - chorrillos
+
+  - synonym: El Agustino
+    examples: |
+      - el agustino
+      - elagustino
+
+  - synonym: Independencia
+    examples: |
+      - independencia
+      - la independencia
+
+  - synonym: Jesús María
+    examples: |
+      - jesus maria
+      - jesusmaria
+      - jesús maría
+
+  - synonym: La Molina
+    examples: |
+      - la molina
+      - lamolina
+      - la molina lima
+
+  - synonym: La Victoria
+    examples: |
+      - la victoria
+      - lavictoria
+
+  - synonym: Lima
+    examples: |
+      - cercado de lima
+      - lima centro
+      - cercado
+
+  - synonym: Lince
+    examples: |
+      - lince
+
+  - synonym: Los Olivos
+    examples: |
+      - los olivos
+      - losolivos
+
+  - synonym: Lurigancho
+    examples: |
+      - lurigancho
+      - lurigancho chosica
+
+  - synonym: Lurín
+    examples: |
+      - lurin
+      - lurín
+
+  - synonym: Magdalena del Mar
+    examples: |
+      - magdalena del mar
+      - magdalena
+      - magdalenadelmar
+
+  - synonym: Miraflores
+    examples: |
+      - miraflores
+      - mira flores
+
+  - synonym: Pachacámac
+    examples: |
+      - pachacamac
+
+  - synonym: Pucusana
+    examples: |
+      - pucusana
+
+  - synonym: Pueblo Libre
+    examples: |
+      - pueblo libre
+      - pueblolibre
+
+  - synonym: Puente Piedra
+    examples: |
+      - puente piedra
+      - puentepiedra
+
+  - synonym: Punta Hermosa
+    examples: |
+      - punta hermosa
+      - puntahermosa
+
+  - synonym: Punta Negra
+    examples: |
+      - punta negra
+      - puntanegra
+
+  - synonym: Rímac
+    examples: |
+      - rimac
+      - rímac
+
+  - synonym: San Bartolo
+    examples: |
+      - san bartolo
+      - sanbartolo
+
+  - synonym: San Borja
+    examples: |
+      - san borja
+      - sanborja
+
+  - synonym: San Isidro
+    examples: |
+      - san isidro
+      - sanisdro
+      - san iisdro
+      - san isidro lima
+
+  - synonym: San Juan de Lurigancho
+    examples: |
+      - san juan de lurigancho
+      - sanjuandelurigancho
+      - san juan delurigancho
+      - sjl
+
+  - synonym: San Juan de Miraflores
+    examples: |
+      - san juan de miraflores
+      - sanjuandemiraflores
+      - sjm
+
+  - synonym: San Luis
+    examples: |
+      - san luis
+      - sanluis
+
+  - synonym: San Martín de Porres
+    examples: |
+      - san martin de porres
+      - sanmartindeporres
+      - smp
+
+  - synonym: San Miguel
+    examples: |
+      - san miguel
+      - sanmiguel
+
+  - synonym: Santa Anita
+    examples: |
+      - santa anita
+      - santaanita
+
+  - synonym: Santa María del Mar
+    examples: |
+      - santa maria del mar
+      - santamariadelmar
+
+  - synonym: Santa Rosa
+    examples: |
+      - santa rosa
+      - santarosa
+
+  - synonym: Surco
+    examples: |
+      - surco
+      - santiagodesurco
+      - santiago de surco
+      - Santiago de Surco
+
+  - synonym: Surquillo
+    examples: |
+      - surquillo
+      - surquillo lima
+
+  - synonym: Villa El Salvador
+    examples: |
+      - villa el salvador
+      - Villa el salvador
+      - VILLA EL SALVADOR
+      - villaelsalvador
+      - villa elsalvador
+      - ves
+      - villa el salv
+
+  - synonym: Villa María del Triunfo
+    examples: |
+      - villa maria del triunfo
+      - villamariadeltriunfo
+      - villa mariadeltriunfo
+      - vmt

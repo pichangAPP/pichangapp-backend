@@ -243,6 +243,8 @@ services:
       args:
         SHARED_VENV_IMAGE: *shared-venv-image
     depends_on:
+      postgres:
+        condition: service_started
       shared-venv:
         condition: service_started
       kafka:
