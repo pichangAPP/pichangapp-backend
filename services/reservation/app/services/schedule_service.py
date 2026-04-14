@@ -3,13 +3,16 @@ from __future__ import annotations
 
 from datetime import date, datetime, timezone
 from typing import List, Optional, Sequence
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.core.error_codes import SCHEDULE_NOT_FOUND, http_error
 from app.core.status_constants import (
     RENT_FINAL_STATUS_CODES,
+    SCHEDULE_AVAILABLE_STATUS_CODE,
     SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES,
     SCHEDULE_PENDING_STATUS_CODE,
 )
@@ -23,7 +26,8 @@ from app.domain.schedule.validations import (
     validate_schedule_window,
 )
 from app.domain.status_resolver import resolve_status_pair
-from app.repository import schedule_repository
+from app.models.schedule import Schedule
+from app.repository import rent_repository, schedule_repository
 from app.schemas.schedule import (
     ScheduleCreate,
     ScheduleResponse,
@@ -32,6 +36,26 @@ from app.schemas.schedule import (
 
 _EXCLUDED_RENT_STATUSES = RENT_FINAL_STATUS_CODES
 _CONFLICT_SCHEDULE_EXCLUDED_STATUSES = SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES
+
+
+def _slot_times_equal(
+    a_start: datetime,
+    a_end: datetime,
+    b_start: datetime,
+    b_end: datetime,
+) -> bool:
+    """Compare slot boundaries in the configured local timezone."""
+    try:
+        tz = ZoneInfo(settings.TIMEZONE)
+    except ZoneInfoNotFoundError:
+        tz = timezone.utc
+
+    def _norm(value: datetime) -> datetime:
+        if value.tzinfo is None:
+            return value.replace(tzinfo=tz)
+        return value.astimezone(tz)
+
+    return _norm(a_start) == _norm(b_start) and _norm(a_end) == _norm(b_end)
 
 
 class ScheduleService:
@@ -79,6 +103,59 @@ class ScheduleService:
                 start_time=payload.start_time,
                 end_time=payload.end_time,
             )
+
+            reuse: Optional[Schedule] = None
+            for candidate in schedule_repository.list_overlapping_schedules_with_status(
+                self.db,
+                field_id=field.id_field,
+                start_time=payload.start_time,
+                end_time=payload.end_time,
+                status_code=SCHEDULE_AVAILABLE_STATUS_CODE,
+            ):
+                if not _slot_times_equal(
+                    candidate.start_time,
+                    candidate.end_time,
+                    payload.start_time,
+                    payload.end_time,
+                ):
+                    continue
+                if rent_repository.schedule_has_active_rent(
+                    self.db,
+                    candidate.id_schedule,
+                    excluded_statuses=list(_EXCLUDED_RENT_STATUSES),
+                ):
+                    continue
+                reuse = candidate
+                break
+
+            if reuse is not None:
+                ensure_start_time_in_future(payload.start_time)
+                if payload.status != SCHEDULE_PENDING_STATUS_CODE:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="Create schedule only supports status 'pending'",
+                    )
+                schedule_data = payload.model_dump()
+                status_code, status_id = resolve_status_pair(
+                    self.db,
+                    entity="schedule",
+                    status_code=SCHEDULE_PENDING_STATUS_CODE,
+                    status_id=schedule_data.get("id_status"),
+                )
+                reuse.day_of_week = schedule_data["day_of_week"]
+                reuse.start_time = schedule_data["start_time"]
+                reuse.end_time = schedule_data["end_time"]
+                reuse.price = schedule_data["price"]
+                if schedule_data.get("id_field") is not None:
+                    reuse.id_field = schedule_data["id_field"]
+                reuse.id_user = schedule_data.get("id_user")
+                reuse.status = status_code
+                reuse.id_status = status_id
+                reuse.updated_at = datetime.now(timezone.utc)
+                schedule_repository.save_schedule(self.db, reuse)
+                persisted = schedule_repository.get_schedule(self.db, reuse.id_schedule)
+                return hydrator.hydrate_schedule(persisted)
+
             ensure_field_not_reserved(
                 self.db,
                 field_id=field.id_field,

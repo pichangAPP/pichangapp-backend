@@ -252,13 +252,17 @@ services:
       kafka-init:
         condition: service_completed_successfully
     environment:
+      SERVICE_NAME: notification-service
       KAFKA_NOTIFICATION_CLIENT_ID: ${KAFKA_NOTIFICATION_CLIENT_ID:-notification-svc}
       KAFKA_NOTIFICATION_CONSUMER_GROUP: ${KAFKA_NOTIFICATION_CONSUMER_GROUP:-notification-cg}
       KAFKA_NOTIFICATION_AUTO_OFFSET_RESET: ${KAFKA_NOTIFICATION_AUTO_OFFSET_RESET:-earliest}
       RESERVATION_NOTIFICATIONS_TOPIC: ${RESERVATION_NOTIFICATIONS_TOPIC:-reservation.notifications}
       FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID}"
-      FIREBASE_CREDENTIALS_PATH: "/secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json"
+      FIREBASE_CREDENTIALS_PATH: "${FIREBASE_CREDENTIALS_PATH}"
       FIREBASE_STORAGE_BUCKET: "${FIREBASE_STORAGE_BUCKET}"
+      FCM_FIREBASE_PROJECT_ID: "${FCM_FIREBASE_PROJECT_ID}"
+      FCM_FIREBASE_CREDENTIALS_PATH: "${FCM_FIREBASE_CREDENTIALS_PATH}"
+      FCM_ANDROID_NOTIFICATION_CHANNEL_ID: "${FCM_ANDROID_NOTIFICATION_CHANNEL_ID:-cuadra_notifications}"
       SMTP_HOST: "${SMTP_HOST}"
       SMTP_PORT: ${SMTP_PORT}
       SMTP_USERNAME: "${SMTP_USERNAME}"
@@ -280,6 +284,7 @@ services:
     volumes:
       # Debe ser un archivo JSON real en el host; si no existe, Docker crea un directorio y Firebase falla (EISDIR).
       - ./secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json:/secrets/pichangapp-storage-firebase-adminsdk-fbsvc-fbdf826f9c.json:ro
+      - ./secrets/pushnotificationcuadra-firebase-adminsdk-fbsvc-f0961bc35b.json:/secrets/pushnotificationcuadra-firebase-adminsdk-fbsvc-f0961bc35b.json:ro
     ports:
       - "8004:8004"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8004"]

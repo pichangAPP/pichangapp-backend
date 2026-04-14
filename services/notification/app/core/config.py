@@ -22,6 +22,9 @@ class Settings:
 
     # Misma base que auth (schema auth.user_devices).
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+    # JWT (mismos valores que el servicio auth).
+    SECRET_KEY: str = os.getenv("SECRET_KEY", "")
+    ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
 
     SMTP_HOST: str = os.getenv("SMTP_HOST", "")
     SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
@@ -45,9 +48,13 @@ class Settings:
     FIREBASE_CREDENTIALS_PATH: str = os.getenv("FIREBASE_CREDENTIALS_PATH", "")
     FIREBASE_PROJECT_ID: str = os.getenv("FIREBASE_PROJECT_ID", "")
     FIREBASE_STORAGE_BUCKET: str = os.getenv("FIREBASE_STORAGE_BUCKET", "")
+    FCM_FIREBASE_CREDENTIALS_PATH: str = os.getenv(
+        "FCM_FIREBASE_CREDENTIALS_PATH", ""
+    ).strip()
+    FCM_FIREBASE_PROJECT_ID: str = os.getenv("FCM_FIREBASE_PROJECT_ID", "").strip()
     # Opcional: alinear con el canal creado en la app Android (React Native).
     FCM_ANDROID_NOTIFICATION_CHANNEL_ID: str = os.getenv(
-        "FCM_ANDROID_NOTIFICATION_CHANNEL_ID", ""
+        "FCM_ANDROID_NOTIFICATION_CHANNEL_ID", "cuadra_notifications"
     ).strip()
     USER_CONFIRMATION_SUBJECT: str = os.getenv(
         "USER_CONFIRMATION_SUBJECT",

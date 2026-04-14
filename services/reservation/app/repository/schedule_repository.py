@@ -58,6 +58,27 @@ def delete_schedule(db: Session, schedule: Schedule) -> None:
     db.commit()
 
 
+def list_overlapping_schedules_with_status(
+    db: Session,
+    *,
+    field_id: int,
+    start_time: datetime,
+    end_time: datetime,
+    status_code: str,
+) -> list[Schedule]:
+    """Schedules on a field overlapping a time window with a given status (lowercased match)."""
+    status_norm = (status_code or "").strip().lower()
+    return (
+        db.query(Schedule)
+        .filter(Schedule.id_field == field_id)
+        .filter(func.lower(Schedule.status) == status_norm)
+        .filter(Schedule.start_time < end_time)
+        .filter(Schedule.end_time > start_time)
+        .order_by(Schedule.id_schedule)
+        .all()
+    )
+
+
 def field_has_schedule_in_range(
     db: Session,
     *,

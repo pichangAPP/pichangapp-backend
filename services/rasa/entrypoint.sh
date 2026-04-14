@@ -1,5 +1,7 @@
-#!/usr/bin/env sh
-set -eu
+#!/bin/bash
+# Bash: dash/busybox sh a veces falla con "set: Illegal option" si hay CRLF o flags no soportados.
+set -e
+set -u
 
 echo "==============================="
 echo "   🚀 INICIANDO CHATO-BOT"
