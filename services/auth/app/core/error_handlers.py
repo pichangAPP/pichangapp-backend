@@ -2,6 +2,9 @@
 from __future__ import annotations
 
 import logging
+import os
+import socket
+import traceback
 from collections.abc import Iterable
 from typing import Any
 
@@ -9,7 +12,10 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
+from app.core.kafka_errors import build_error_log_event, publish_error_log_event
+
 logger = logging.getLogger(__name__)
+SERVICE_NAME = os.getenv("SERVICE_NAME", "auth-service")
 
 
 def _flatten_detail(detail: Any) -> str:
@@ -102,6 +108,48 @@ def register_exception_handlers(app: FastAPI) -> None:
         logger.exception(
             "Unhandled exception while processing %s %s", request.method, request.url
         )
+        try:
+            trace_id = request.headers.get("x-trace-id") or request.headers.get(
+                "x-request-id"
+            )
+            correlation_id = request.headers.get("x-correlation-id")
+            payload = {
+                "trace_id": trace_id,
+                "correlation_id": correlation_id,
+                "method": request.method,
+                "url": str(request.url),
+                "path": request.url.path,
+                "query_params": dict(request.query_params),
+                "headers": dict(request.headers),
+                "request_body": None,
+                "response_status": 500,
+                "response_body": {
+                    "code": "INTERNAL_ERROR",
+                    "message": "Ocurrió un error interno.",
+                },
+                "error_type": exc.__class__.__name__,
+                "error_message": str(exc),
+                "error_detail": None,
+                "stack_trace": "".join(
+                    traceback.format_exception(type(exc), exc, exc.__traceback__)
+                ),
+                "entity": "auth",
+                "entity_id": None,
+                "user_id": request.headers.get("x-user-id"),
+                "tenant_id": request.headers.get("x-tenant-id"),
+                "service_name": SERVICE_NAME,
+                "host": socket.gethostname(),
+                "ip_client": request.client.host if request.client else None,
+                "duration_ms": None,
+            }
+            event = build_error_log_event(
+                event_type="error.log",
+                payload=payload,
+                source=SERVICE_NAME,
+            )
+            publish_error_log_event(event, key=trace_id or correlation_id)
+        except Exception:
+            logger.exception("Failed to publish unhandled error to Kafka")
         return JSONResponse(
             status_code=500,
             content={"code": "INTERNAL_ERROR", "message": "Ocurrió un error interno."},

@@ -201,7 +201,8 @@ class AuthService:
                 imageurl=decoded_token.get("picture") or None,
                 phone=decoded_token.get("phone_number") or "000000000",
                 birthdate=None,
-                gender="unspecified",
+                # auth.users.gender is VARCHAR(10) in DB.
+                gender="other",
                 city=None,
                 district=None,
             password_hash=random_password,

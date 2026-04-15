@@ -592,6 +592,9 @@ class RentService:
         original_field_ids = self._field_ids_for_rent(rent)
 
         update_data = payload.model_dump(exclude_unset=True)
+        payment_submission_requested = (
+            "id_payment" in update_data and update_data["id_payment"] is not None
+        )
         if self._schedule_link_count(rent) > 1 and "id_schedule" in update_data:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -602,7 +605,7 @@ class RentService:
             and update_data["id_payment"] is not None
             and (rent.id_payment is None or rent.id_payment != update_data["id_payment"])
         )
-        if "id_payment" in update_data and update_data["id_payment"] is not None:
+        if payment_submission_requested:
             validate_payment(self.db, int(update_data["id_payment"]))
             if "status" in update_data:
                 status_code, status_id = resolve_status_pair(
@@ -650,6 +653,9 @@ class RentService:
                 SCHEDULE_NOT_FOUND,
                 detail="Associated schedule not found",
             )
+        if payment_submission_requested:
+            # User payment submissions are not allowed once the slot start time is reached.
+            ensure_schedule_not_started(target_schedule)
 
         prev_primary = self._primary_schedule_id(rent)
         schedule_changed = prev_primary is None or target_schedule.id_schedule != prev_primary
@@ -813,10 +819,6 @@ class RentService:
         verdict_status = bool(
             updated_status
             and updated_status != original_status
-            and (
-                updated_status == RENT_RESERVED_STATUS_CODE
-                or updated_status.startswith("rejected_")
-            )
         )
         if updated_rent is not None and (notify_after_payment or verdict_status):
             event_types = []

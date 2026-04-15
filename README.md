@@ -853,6 +853,7 @@ Si omites `conversation_id`, el servicio usa `user-{id}` derivado del JWT. El se
 | --- | --- | --- | --- |
 | `/api/pichangapp/v1/notification/notifications/send-email` | `POST` | `notification_routes` | Encola envío de correos de confirmación de renta (`202 Accepted`). |
 | `/api/pichangapp/v1/notification/notifications/rent-approved` | `POST` | `notification_routes` | Encola correo de aprobación al jugador (`202`). |
+| `/api/pichangapp/v1/notification/notifications/send-push` | `POST` | `notification_routes` | Encola push al usuario (`id_user`) usando `rent.status` para el mensaje. |
 | `/api/pichangapp/v1/notification/notifications/reservation-pass?token=...` | `GET` | `notification_routes` | Devuelve PNG de boleta; `token` en query. |
 
 #### `POST .../notifications/send-email` — Request
@@ -864,7 +865,7 @@ Si omites `conversation_id`, el servicio usa `user-{id}` derivado del JWT. El se
     "schedule_day": "Saturday",
     "start_time": "2026-04-12T18:00:00-05:00",
     "end_time": "2026-04-12T19:00:00-05:00",
-    "status": "confirmed",
+    "status": "under_review",
     "period": "hour",
     "mount": "120.00",
     "payment_deadline": "2026-04-12T18:00:00-05:00",
@@ -887,7 +888,8 @@ Si omites `conversation_id`, el servicio usa `user-{id}` derivado del JWT. El se
     "name": "Luis",
     "lastname": "Gestor",
     "email": "manager@sede.com"
-  }
+  },
+  "id_user": 12
 }
 ```
 
@@ -897,6 +899,90 @@ Si omites `conversation_id`, el servicio usa `user-{id}` derivado del JWT. El se
 {
   "detail": "Emails sent"
 }
+```
+
+#### `POST .../notifications/send-push` — Request
+
+Usa el mismo body que `send-email`. El push toma `id_user` y `rent.status`.
+
+```json
+{
+  "rent": {
+    "rent_id": 500,
+    "schedule_day": "Saturday",
+    "start_time": "2026-04-12T18:00:00-05:00",
+    "end_time": "2026-04-12T19:00:00-05:00",
+    "status": "reserved",
+    "period": "hour",
+    "mount": "120.00",
+    "payment_deadline": "2026-04-12T18:00:00-05:00",
+    "field_name": "Cancha Sintética A",
+    "campus": {
+      "id_campus": 3,
+      "name": "Sede Surco",
+      "address": "Av. Principal 123",
+      "district": "Surco",
+      "contact_email": "contacto@sede.com",
+      "contact_phone": "011222333"
+    }
+  },
+  "user": {
+    "name": "Ana",
+    "lastname": "Perez",
+    "email": "ana.perez@example.com"
+  },
+  "id_user": 12
+}
+```
+
+#### `POST .../notifications/send-push` — Response
+
+```json
+{
+  "detail": "Push notification dispatched"
+}
+```
+
+#### Status soportados para email y push (`rent.status`)
+
+- `under_review`
+- `reserved`
+- `pending_payment`
+- `pending_proof`
+- `proof_submitted`
+- `needs_info`
+- `cancelled`
+- `fullfilled`
+- `expired_no_proof`
+- `expired_slot_unavailable`
+- `dispute_open`
+- `dispute_resolved`
+- `rejected_not_received`
+- `rejected_invalid_proof`
+- `rejected_amount_low`
+- `rejected_amount_high`
+- `rejected_wrong_destination`
+
+#### Ejemplos rápidos por status (mismo body, cambiando `rent.status`)
+
+```json
+{ "rent": { "status": "under_review" }, "id_user": 12 }
+{ "rent": { "status": "reserved" }, "id_user": 12 }
+{ "rent": { "status": "pending_payment" }, "id_user": 12 }
+{ "rent": { "status": "pending_proof" }, "id_user": 12 }
+{ "rent": { "status": "proof_submitted" }, "id_user": 12 }
+{ "rent": { "status": "needs_info" }, "id_user": 12 }
+{ "rent": { "status": "cancelled" }, "id_user": 12 }
+{ "rent": { "status": "fullfilled" }, "id_user": 12 }
+{ "rent": { "status": "expired_no_proof" }, "id_user": 12 }
+{ "rent": { "status": "expired_slot_unavailable" }, "id_user": 12 }
+{ "rent": { "status": "dispute_open" }, "id_user": 12 }
+{ "rent": { "status": "dispute_resolved" }, "id_user": 12 }
+{ "rent": { "status": "rejected_not_received" }, "id_user": 12 }
+{ "rent": { "status": "rejected_invalid_proof" }, "id_user": 12 }
+{ "rent": { "status": "rejected_amount_low" }, "id_user": 12 }
+{ "rent": { "status": "rejected_amount_high" }, "id_user": 12 }
+{ "rent": { "status": "rejected_wrong_destination" }, "id_user": 12 }
 ```
 
 #### `GET .../notifications/reservation-pass?token=...`

@@ -1,12 +1,15 @@
 """Routes for handling notification related requests."""
 
-from fastapi import APIRouter, HTTPException, Request, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from fastapi.concurrency import run_in_threadpool
+from sqlalchemy.orm import Session
 
 from app.core.reservation_pass_ratelimit import (
     client_ip_from_request,
     reservation_pass_rate_limit_exceeded,
 )
+from app.dependencies import get_db
+from app.domain.notification.notify_push import notify_user_from_event
 from app.domain.notification.attachments import (
     build_pass_link,
     build_reservation_pass,
@@ -36,6 +39,29 @@ async def send_rent_approved_notification(
 
     await run_in_threadpool(_email_service.send_user_confirmation, payload)
     return {"detail": "Reservation approval email sent"}
+
+
+@router.post("/send-push", status_code=status.HTTP_202_ACCEPTED)
+async def send_push_notification(
+    payload: NotificationRequest,
+    db: Session = Depends(get_db),
+) -> dict[str, str]:
+    """Send a push notification to the authenticated reservation user."""
+    if payload.id_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="id_user is required to send push notifications",
+        )
+
+    notify_user_from_event(
+        db,
+        id_user=payload.id_user,
+        event_type="rent.verdict",
+        rent_id=payload.rent.rent_id,
+        schedule_day=payload.rent.schedule_day,
+        status=payload.rent.status,
+    )
+    return {"detail": "Push notification dispatched"}
 
 
 @router.get("/reservation-pass")

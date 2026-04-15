@@ -1,36 +1,32 @@
 #!/bin/bash
-# Bash: dash/busybox sh a veces falla con "set: Illegal option" si hay CRLF o flags no soportados.
 set -e
 set -u
 
 echo "==============================="
-echo "   🚀 INICIANDO CHATO-BOT"
+echo "   STARTING CHATO-BOT"
 echo "==============================="
 
-###############################################
-# 1) Levantar Action Server
-###############################################
-echo "👉 Iniciando Action Server (5055)..."
+# 1) Start action server
+echo "Starting Action Server (5055)..."
 rasa run actions \
   --cors "*" \
   --port 5055 &
 
 ACTION_PID=$!
-echo "✔ Action Server PID: $ACTION_PID"
+echo "Action Server PID: $ACTION_PID"
 
-###############################################
-# 2) Levantar Rasa Server (NLU/Core)
-###############################################
+# 2) Start Rasa server (NLU/Core)
 MODEL_DIR="${RASA_MODEL_DIR:-/app/artifacts/models}"
 if [ -n "${RASA_MODEL_PATH:-}" ] && [ -f "${RASA_MODEL_PATH}" ]; then
   MODEL_ARG="${RASA_MODEL_PATH}"
 elif ls "${MODEL_DIR}"/*.tar.gz >/dev/null 2>&1; then
   MODEL_ARG="${MODEL_DIR}"
 else
-  echo "⚠️ No hay modelo en ${MODEL_DIR} (*.tar.gz). Monta el volumen o entrena con: rasa train --out artifacts/models"
+  echo "WARNING: no model found in ${MODEL_DIR} (*.tar.gz). Train with: rasa train --out artifacts/models"
   MODEL_ARG="${MODEL_DIR}"
 fi
-echo "👉 Iniciando Rasa Server (5005) con --model ${MODEL_ARG}..."
+
+echo "Starting Rasa Server (5005) with --model ${MODEL_ARG}..."
 rasa run \
   --enable-api \
   --cors "*" \
@@ -38,12 +34,10 @@ rasa run \
   --model "${MODEL_ARG}" &
 
 RASA_PID=$!
-echo "✔ Rasa Server PID: $RASA_PID"
+echo "Rasa Server PID: $RASA_PID"
 
-###############################################
-# 3) Pequeña espera para que termine de cargar
-###############################################
-echo "⏳ Esperando a que Rasa Server responda en /status..."
+# 3) Wait until /status responds with a loaded model
+echo "Waiting for Rasa /status..."
 if python - <<'PY'
 import json
 import time
@@ -59,13 +53,13 @@ while True:
             if resp.status == 200:
                 data = json.loads(resp.read().decode("utf-8") or "{}")
                 if data.get("model_file"):
-                    print("✔ Rasa Server listo.")
+                    print("Rasa ready.")
                     raise SystemExit(0)
     except Exception:
         pass
 
     if time.monotonic() - start > timeout_seconds:
-        print("⚠️ Rasa Server no respondió a tiempo. Continuando...")
+        print("WARNING: Rasa /status timeout. Continuing...")
         raise SystemExit(1)
 
     time.sleep(2)
@@ -74,8 +68,6 @@ then
   :
 fi
 
-###############################################
-# 4) Levantar FastAPI (8006)
-###############################################
-echo "👉 Iniciando FastAPI (8006)..."
+# 4) Start FastAPI gateway
+echo "Starting FastAPI (8006)..."
 exec uvicorn app.main:app --host 0.0.0.0 --port 8006

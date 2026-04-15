@@ -14,6 +14,40 @@ from app.repository.push_token_repository import (
 logger = logging.getLogger(__name__)
 
 
+def _push_message_for_status(status: str) -> tuple[str, str]:
+    normalized = (status or "").strip().lower()
+    if normalized == "under_review":
+        return ("Pago en revision", "Recibimos tu pago. Tu reserva esta en revision.")
+    if normalized == "reserved":
+        return ("Reserva confirmada", "Tu reserva fue confirmada. Toca para ver detalles.")
+    if normalized == "pending_payment":
+        return ("Pago pendiente", "Tu reserva sigue pendiente de pago.")
+    if normalized == "pending_proof":
+        return ("Falta evidencia", "Sube tu comprobante para continuar con la reserva.")
+    if normalized == "proof_submitted":
+        return ("Evidencia recibida", "Recibimos tu comprobante. Pronto validaremos el pago.")
+    if normalized == "needs_info":
+        return (
+            "Mas informacion requerida",
+            "Necesitamos datos adicionales para validar tu pago.",
+        )
+    if normalized == "cancelled":
+        return ("Reserva cancelada", "Tu reserva fue cancelada.")
+    if normalized == "fullfilled":
+        return ("Reserva completada", "Tu reserva fue completada. Gracias por jugar.")
+    if normalized == "expired_no_proof":
+        return ("Reserva expirada", "La reserva expiro por falta de evidencia de pago.")
+    if normalized == "expired_slot_unavailable":
+        return ("Reserva expirada", "El horario ya no estaba disponible para tu reserva.")
+    if normalized == "dispute_open":
+        return ("Caso en revision", "Se abrio un caso para tu reserva.")
+    if normalized == "dispute_resolved":
+        return ("Caso resuelto", "El caso de tu reserva fue resuelto.")
+    if normalized.startswith("rejected_"):
+        return ("Reserva rechazada", f"Estado: {status}. Toca para ver detalles.")
+    return ("Actualizacion de reserva", f"Estado: {status}. Toca para ver detalles.")
+
+
 def notify_user(
     db: Session,
     id_user: int,
@@ -60,14 +94,9 @@ def notify_user_from_event(
         "status": status,
     }
     if event_type == "rent.payment_received":
-        title = "Pago registrado"
-        body = "Recibimos tu pago. Tu reserva está en revisión."
-    elif event_type in {"rent.verdict", "rent.approved", "rent.rejected"}:
-        title = "Actualización de reserva"
-        body = f"Estado: {status}. Toca para ver detalles."
+        title, body = ("Pago registrado", "Recibimos tu pago. Tu reserva esta en revision.")
     else:
-        title = "Cuadra"
-        body = "Tienes una actualización de reserva."
+        title, body = _push_message_for_status(status)
     notify_user(db, id_user, title=title, body=body, data=data)
 
 
