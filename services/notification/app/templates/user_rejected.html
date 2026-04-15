@@ -17,6 +17,10 @@
         .details { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 18px; font-size: 14px; }
         .row { margin-bottom: 10px; }
         .row strong { color: #991b1b; min-width: 120px; display: inline-block; }
+        .time-callout { margin: 0 0 18px; padding: 18px 16px; border-radius: 14px; background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%); border: 1px solid #fcd34d; text-align: center; }
+        .time-callout-label { margin: 0 0 6px; font-size: 11px; font-weight: 700; color: #92400e; text-transform: uppercase; letter-spacing: 0.05em; }
+        .time-callout-value { margin: 0; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.12; }
+        .time-callout-sub { margin: 12px 0 0; font-size: 13px; color: #451a03; line-height: 1.45; }
         .footer { text-align: center; font-size: 12px; color: #94a3b8; margin-top: 24px; }
     </style>
 </head>
@@ -32,6 +36,13 @@
                 </div>
             </div>
             <div class="body">
+                {% if minutes_wait_display %}
+                <div class="time-callout">
+                    <p class="time-callout-label">Tiempo de espera del campo</p>
+                    <p class="time-callout-value">{{ minutes_wait_display }}</p>
+                    <p class="time-callout-sub">Referencia del campo · horario: {{ date_range }}</p>
+                </div>
+                {% endif %}
                 <p class="greet">Hola <strong>{{ user.name }} {{ user.lastname }}</strong>,</p>
                 <p class="greet">{{ user_status_message }}</p>
                 {% if campus.contact_email or campus.contact_phone %}
@@ -45,6 +56,9 @@
                     <div class="row"><strong>Campus</strong> {{ campus.name }}</div>
                     <div class="row"><strong>Campo</strong> {{ field_name }}</div>
                     <div class="row"><strong>Horario</strong> {{ date_range }}</div>
+                    {% if minutes_wait_display %}
+                    <div class="row"><strong>Tiempo de espera del campo</strong> {{ minutes_wait_display }}</div>
+                    {% endif %}
                     <div class="row"><strong>Estado</strong> {{ rent_status_label }}</div>
                     <div class="row"><strong>Monto</strong> S/ {{ amount_display }}</div>
                 </div>

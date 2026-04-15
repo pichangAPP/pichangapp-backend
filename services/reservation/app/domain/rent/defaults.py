@@ -1,6 +1,7 @@
 """Default value builders for rent data based on schedules."""
 from __future__ import annotations
 
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from typing import Dict, Optional
 
@@ -13,6 +14,35 @@ from app.models.schedule import Schedule
 from app.schemas.schedule import FieldSummary
 
 _ADMIN_NOTE = "Creado por administrador"
+
+PAYMENT_DEADLINE_GRACE_MINUTES = 5
+
+
+def schedule_payment_window_anchor(schedule: Schedule) -> datetime:
+    """Start instant for the rent payment countdown.
+
+    Uses ``created_at`` when the schedule row is new. If ``updated_at`` is
+    strictly after ``created_at`` (e.g. slot reopened from ``available`` to
+    ``pending`` after a cancel), ``updated_at`` is the anchor so the window
+    reflects the last booking attempt, not the original row creation.
+    """
+    now = datetime.now(timezone.utc)
+    created = schedule.created_at
+    updated = schedule.updated_at
+    if created is None:
+        return now
+    if updated is not None and updated > created:
+        return updated
+    return created
+
+
+def compute_payment_deadline_from_schedule(
+    schedule: Schedule,
+    *,
+    grace_minutes: int = PAYMENT_DEADLINE_GRACE_MINUTES,
+) -> datetime:
+    """``anchor + grace`` where anchor comes from :func:`schedule_payment_window_anchor`."""
+    return schedule_payment_window_anchor(schedule) + timedelta(minutes=grace_minutes)
 
 
 def calculate_minutes(*, start_time, end_time) -> Decimal:
@@ -175,9 +205,12 @@ def ensure_admin_customer_fields(
 
 
 __all__ = [
+    "PAYMENT_DEADLINE_GRACE_MINUTES",
     "apply_schedule_defaults",
     "apply_admin_note",
     "ensure_admin_customer_fields",
     "calculate_minutes",
+    "compute_payment_deadline_from_schedule",
     "format_period",
+    "schedule_payment_window_anchor",
 ]

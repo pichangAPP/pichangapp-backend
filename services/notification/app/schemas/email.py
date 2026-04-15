@@ -32,6 +32,8 @@ class RentDetails(BaseModel):
     mount: Decimal
     payment_deadline: datetime
     field_name: str = Field(..., max_length=200)
+    # booking.field.minutes_wait (anticipo antes del turno). Opcional por payloads antiguos.
+    minutes_wait: Optional[Decimal] = Field(None, ge=0)
     campus: CampusSummary
 
 

@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 from decimal import Decimal
 from email.utils import parseaddr
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from sqlalchemy.orm import Session
 
@@ -117,6 +117,15 @@ class RentNotificationPublisher:
             )
             return None
 
+        wait_minutes: List[Decimal] = []
+        for sch in ordered:
+            if sch.id_field is None:
+                continue
+            fsum = booking_reader.get_field_summary(self.db, sch.id_field)
+            if fsum is not None:
+                wait_minutes.append(fsum.minutes_wait)
+        minutes_wait = max(wait_minutes) if wait_minutes else field.minutes_wait
+
         if schedule.id_user is not None:
             try:
                 user = auth_reader.get_user_summary(self.db, schedule.id_user)
@@ -209,6 +218,7 @@ class RentNotificationPublisher:
                 "payment_deadline": self._datetime_to_iso(rent.payment_deadline),
                 "field_name": display_field_name,
                 "field_names": field_names,
+                "minutes_wait": self._decimal_to_str(minutes_wait),
                 "campus": campus_payload,
             },
             "user": {

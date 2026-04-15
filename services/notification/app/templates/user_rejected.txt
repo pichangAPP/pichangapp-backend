@@ -1,5 +1,9 @@
 Hola {{ user.name }} {{ user.lastname }},
 
+{% if minutes_wait_display -%}
+TIEMPO DE ESPERA DEL CAMPO: {{ minutes_wait_display }} · Horario: {{ date_range }}
+{% endif %}
+
 {{ user_status_message }}
 {% if campus.contact_email or campus.contact_phone -%}
 Si necesitas aclaraciones, contáctanos en {% if campus.contact_email %}{{ campus.contact_email }}{% endif %}{% if campus.contact_email and campus.contact_phone %} o {% endif %}{% if campus.contact_phone %}{{ campus.contact_phone }}{% endif %}.
@@ -13,6 +17,9 @@ Detalle de la reserva:
 {%- endif %}
 - Campo: {{ field_name }}
 - Horario: {{ date_range }}
+{% if minutes_wait_display -%}
+- Tiempo de espera del campo: {{ minutes_wait_display }}
+{% endif %}
 - Estado: {{ rent_status_label }}
 - Monto: S/ {{ amount_display }}
 

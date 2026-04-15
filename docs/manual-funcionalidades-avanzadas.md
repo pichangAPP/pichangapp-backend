@@ -5,7 +5,7 @@
 | Campo | Contenido |
 | --- | --- |
 | **Objetivo** | Describir paso a paso cómo funcionan los flujos más complejos y para qué sirven, para equipos de frontend y de integración. |
-| **Alcance** | Time slots por fecha, reservas en canchas combinadas (combo), visión de integración del chatbot Rasa. |
+| **Alcance** | Time slots por fecha, ciclo completo schedule→renta→pago→cancelación, validaciones y conflictos, canchas combinadas (combo), visión de integración del chatbot Rasa. |
 | **Audiencia** | Desarrolladores que consumen la API o replican reglas en cliente. |
 
 ---
@@ -261,7 +261,7 @@ flowchart TD
   F -->|ok| G[ensure_start_time_in_future]
   G -->|pasado| P400[400 SCHEDULE_PAST_START]
   G -->|ok| H[INSERT schedule pending]
-  R --> I[200/201 respuesta ScheduleResponse]
+  R --> I[Respuesta ScheduleResponse]
   H --> I
 ```
 

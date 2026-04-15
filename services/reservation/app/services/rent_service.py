@@ -1,7 +1,6 @@
 """Rent service orchestrating rent workflows."""
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 
 from fastapi import BackgroundTasks, HTTPException, status
@@ -37,6 +36,7 @@ from app.domain.rent.combo import compute_combo_mount, validate_combo_schedules
 from app.domain.rent.defaults import (
     apply_admin_note,
     apply_schedule_defaults,
+    compute_payment_deadline_from_schedule,
     ensure_admin_customer_fields,
 )
 from app.domain.rent.hydrator import ordered_schedules_for_rent
@@ -226,7 +226,7 @@ class RentService:
 
         rent_data.setdefault(
             "payment_deadline",
-            datetime.now(timezone.utc) + timedelta(minutes=5),
+            compute_payment_deadline_from_schedule(schedule),
         )
 
         apply_schedule_defaults(
@@ -316,7 +316,7 @@ class RentService:
 
         rent_data.setdefault(
             "payment_deadline",
-            datetime.now(timezone.utc) + timedelta(minutes=5),
+            compute_payment_deadline_from_schedule(schedule),
         )
         rent_data["customer_notes"] = apply_admin_note(
             rent_data.get("customer_notes")
@@ -427,7 +427,7 @@ class RentService:
         rent_data.pop("end_time", None)
         rent_data.setdefault(
             "payment_deadline",
-            datetime.now(timezone.utc) + timedelta(minutes=5),
+            compute_payment_deadline_from_schedule(primary),
         )
 
         apply_schedule_defaults(

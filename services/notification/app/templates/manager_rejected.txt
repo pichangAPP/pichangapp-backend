@@ -1,11 +1,18 @@
 Hola {{ recipient.name }} {{ recipient.lastname }},
 
+{% if minutes_wait_display -%}
+TIEMPO DE ESPERA DEL CAMPO: {{ minutes_wait_display }} · Horario: {{ date_range }}
+{% endif %}
+
 {{ manager_status_message }}
 Campus: {{ campus.name }}
 
 Detalles de la reserva:
 - Campo: {{ field_name }}
 - Horario: {{ date_range }}
+{% if minutes_wait_display -%}
+- Tiempo de espera del campo: {{ minutes_wait_display }}
+{% endif %}
 - Estado: {{ rent_status_label }}
 - Monto: S/ {{ amount_display }}
 - Usuario que reservó: {{ user.name }} {{ user.lastname }} ({{ user.email }})

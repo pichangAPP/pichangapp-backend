@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from app.core.config import settings
 from app.schemas import NotificationRequest
@@ -55,6 +55,23 @@ def format_decimal(value: Decimal) -> str:
     return f"{value:,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
 
 
+def format_minutes_wait_display(value: Optional[Decimal]) -> Optional[str]:
+    """Texto legible para booking.field.minutes_wait (minutos de anticipación)."""
+    if value is None:
+        return None
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return None
+    if v < 0:
+        v = 0.0
+    if abs(v - round(v)) < 1e-6:
+        n = int(round(v))
+        return f"{n} minutos"
+    text = f"{v:.2f}".rstrip("0").rstrip(".")
+    return text.replace(".", ",") + " minutos"
+
+
 def build_common_context(payload: NotificationRequest) -> Dict[str, Any]:
     """Construye el contexto base para renderizar plantillas.
 
@@ -76,9 +93,16 @@ def build_common_context(payload: NotificationRequest) -> Dict[str, Any]:
         "amount_display": format_decimal(rent.mount),
         "rent_status_label": humanize_rent_status(rent.status),
         "app_brand": settings.APP_BRAND_NAME,
+        "minutes_wait_display": format_minutes_wait_display(rent.minutes_wait),
     }
     context.update(status_context)
     return context
 
 
-__all__ = ["build_common_context", "format_datetime", "format_decimal", "humanize_rent_status"]
+__all__ = [
+    "build_common_context",
+    "format_datetime",
+    "format_decimal",
+    "format_minutes_wait_display",
+    "humanize_rent_status",
+]
