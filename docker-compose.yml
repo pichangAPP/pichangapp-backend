@@ -177,12 +177,15 @@ services:
       kafka-init:
         condition: service_completed_successfully
     environment:
-      FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID}"
+      FCM_FIREBASE_PROJECT_ID: "${FCM_FIREBASE_PROJECT_ID}"
+      FCM_FIREBASE_CREDENTIALS_PATH: "${FCM_FIREBASE_CREDENTIALS_PATH}"
       DEFAULT_SOCIAL_ROLE_ID: ${DEFAULT_SOCIAL_ROLE_ID}
       KAFKA_AUTH_CLIENT_ID: ${KAFKA_AUTH_CLIENT_ID:-auth-svc}
       KAFKA_AUTH_CONSUMER_GROUP: ${KAFKA_AUTH_CONSUMER_GROUP:-auth-error-cg}
       KAFKA_AUTH_AUTO_OFFSET_RESET: ${KAFKA_AUTH_AUTO_OFFSET_RESET:-earliest}
       <<: *common-env
+    volumes:
+      - ./secrets/pushnotificationcuadra-firebase-adminsdk-fbsvc-f0961bc35b.json:/secrets/pushnotificationcuadra-firebase-adminsdk-fbsvc-f0961bc35b.json:ro
     ports:
       - "8000:8000"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

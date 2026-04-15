@@ -1,9 +1,12 @@
 from fastapi import FastAPI
+import logging
 
 from app.api.v1 import auth_routes, user_routes
 from app.api.v1.internal_routes import router as internal_router
 from app.core.error_handlers import register_exception_handlers
 from app.core.kafka import ERROR_LOGS_TOPIC, KafkaConsumerWorker, kafka_enabled
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Auth Service")
 
@@ -17,16 +20,22 @@ app.include_router(internal_router, prefix="/api/pichangapp/v1")
 kafka_worker: KafkaConsumerWorker | None = None
 if kafka_enabled():
     kafka_worker = KafkaConsumerWorker([ERROR_LOGS_TOPIC])
+else:
+    logger.warning(
+        "Kafka consumer disabled because KAFKA_BOOTSTRAP_SERVERS is empty"
+    )
 
 
 @app.on_event("startup")
 def _start_kafka_worker() -> None:
     if kafka_worker is not None:
+        logger.info("Starting Kafka consumer worker")
         kafka_worker.start()
 
 
 @app.on_event("shutdown")
 def _stop_kafka_worker() -> None:
     if kafka_worker is not None:
+        logger.info("Stopping Kafka consumer worker")
         kafka_worker.stop()
 

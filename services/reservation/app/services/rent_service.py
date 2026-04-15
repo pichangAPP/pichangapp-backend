@@ -107,12 +107,14 @@ class RentService:
         self,
         *,
         status_filter: Optional[str] = None,
+        exclude_status: Optional[str] = None,
         schedule_id: Optional[int] = None,
     ) -> List[RentResponse]:
         hydrator = RentHydrator(self.db)
         rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
+            exclude_status=exclude_status,
             schedule_id=schedule_id,
             order_by_created=True,
             sort_desc=True,
@@ -124,12 +126,14 @@ class RentService:
         campus_id: int,
         *,
         status_filter: Optional[str] = None,
+        exclude_status: Optional[str] = None,
     ) -> List[RentResponse]:
         hydrator = RentHydrator(self.db)
         rows = rent_repository.list_rents_by_campus_view(
             self.db,
             campus_id=campus_id,
             status_filter=status_filter,
+            exclude_status=exclude_status,
         )
         return hydrator.build_rent_responses_from_rows(rows)
 
@@ -138,12 +142,14 @@ class RentService:
         field_id: int,
         *,
         status_filter: Optional[str] = None,
+        exclude_status: Optional[str] = None,
     ) -> List[RentResponse]:
         hydrator = RentHydrator(self.db)
         ensure_field_exists(self.db, field_id)
         rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
+            exclude_status=exclude_status,
             field_id=field_id,
         )
         return hydrator.hydrate_rents(rents)
@@ -153,12 +159,14 @@ class RentService:
         user_id: int,
         *,
         status_filter: Optional[str] = None,
+        exclude_status: Optional[str] = None,
     ) -> List[RentResponse]:
         hydrator = RentHydrator(self.db)
         ensure_user_exists(self.db, user_id)
         rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
+            exclude_status=exclude_status,
             user_id=user_id,
         )
         return hydrator.hydrate_rents(rents)
@@ -168,12 +176,14 @@ class RentService:
         user_id: int,
         *,
         status_filter: Optional[str] = None,
+        exclude_status: Optional[str] = None,
     ) -> List[RentResponse]:
         hydrator = RentHydrator(self.db)
         ensure_user_exists(self.db, user_id)
         rents = rent_repository.list_rents(
             self.db,
             status_filter=status_filter,
+            exclude_status=exclude_status,
             user_id=user_id,
             sort_desc=True,
         )

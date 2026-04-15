@@ -27,12 +27,20 @@ def list_rents(
     *,
     db: Session = Depends(get_db),
     status: Optional[str] = Query(None, description="Filter rents by status"),
+    exclude_status: Optional[str] = Query(
+        None,
+        description="Omit rents whose status equals this value (e.g. cancelled)",
+    ),
     schedule_id: Optional[int] = Query(None, description="Filter rents by schedule id"),
 ) -> List[RentResponse]:
     """Retrieve all rents optionally filtered by status or schedule."""
 
     service = RentService(db)
-    rents = service.list_rents(status_filter=status, schedule_id=schedule_id)
+    rents = service.list_rents(
+        status_filter=status,
+        exclude_status=exclude_status,
+        schedule_id=schedule_id,
+    )
     return rents
 
 
@@ -42,11 +50,19 @@ def list_rents_by_field(
     *,
     db: Session = Depends(get_db),
     status: Optional[str] = Query(None, description="Filter rents by status"),
+    exclude_status: Optional[str] = Query(
+        None,
+        description="Omit rents whose status equals this value (e.g. cancelled)",
+    ),
 ) -> List[RentResponse]:
     """Retrieve rents associated with a specific field."""
 
     service = RentService(db)
-    return service.list_rents_by_field(field_id, status_filter=status)
+    return service.list_rents_by_field(
+        field_id,
+        status_filter=status,
+        exclude_status=exclude_status,
+    )
 
 
 @router.get("/users/{user_id}", response_model=List[RentResponse])
@@ -55,11 +71,19 @@ def list_rents_by_user(
     *,
     db: Session = Depends(get_db),
     status: Optional[str] = Query(None, description="Filter rents by status"),
+    exclude_status: Optional[str] = Query(
+        None,
+        description="Omit rents whose status equals this value (e.g. cancelled)",
+    ),
 ) -> List[RentResponse]:
     """Retrieve rents associated with a specific user."""
 
     service = RentService(db)
-    return service.list_rents_by_user(user_id, status_filter=status)
+    return service.list_rents_by_user(
+        user_id,
+        status_filter=status,
+        exclude_status=exclude_status,
+    )
 
 
 @router.get("/campus/{campus_id}", response_model=List[RentResponse])
@@ -68,11 +92,19 @@ def list_rents_by_campus(
     *,
     db: Session = Depends(get_db),
     status: Optional[str] = Query(None, description="Filter rents by status"),
+    exclude_status: Optional[str] = Query(
+        None,
+        description="Omit rents whose status equals this value (e.g. cancelled)",
+    ),
 ) -> List[RentResponse]:
     """Retrieve rents associated with a specific campus."""
 
     service = RentService(db)
-    return service.list_rents_by_campus(campus_id, status_filter=status)
+    return service.list_rents_by_campus(
+        campus_id,
+        status_filter=status,
+        exclude_status=exclude_status,
+    )
 
 
 @router.get("/users/{user_id}/history", response_model=List[RentResponse])
@@ -81,11 +113,19 @@ def list_user_rent_history(
     *,
     db: Session = Depends(get_db),
     status: Optional[str] = Query(None, description="Filter rents by status"),
+    exclude_status: Optional[str] = Query(
+        None,
+        description="Omit rents whose status equals this value (e.g. cancelled)",
+    ),
 ) -> List[RentResponse]:
     """Retrieve the rent history for a specific user ordered from newest to oldest."""
 
     service = RentService(db)
-    return service.list_user_rent_history(user_id, status_filter=status)
+    return service.list_user_rent_history(
+        user_id,
+        status_filter=status,
+        exclude_status=exclude_status,
+    )
 
 
 @router.get("/{rent_id}", response_model=RentResponse)

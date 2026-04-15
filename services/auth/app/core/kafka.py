@@ -23,6 +23,22 @@ def kafka_enabled() -> bool:
     return bool(os.getenv("KAFKA_BOOTSTRAP_SERVERS"))
 
 
+def _message_context(message) -> dict:
+    """Build minimal broker context for error diagnostics."""
+    raw_key = message.key()
+    if isinstance(raw_key, bytes):
+        key = raw_key.decode("utf-8", errors="replace")
+    else:
+        key = str(raw_key) if raw_key is not None else None
+    return {
+        "topic": message.topic(),
+        "partition": message.partition(),
+        "offset": message.offset(),
+        "timestamp": message.timestamp(),
+        "key": key,
+    }
+
+
 def _parse_uuid(value: str | None):
     if not value:
         return None
@@ -138,18 +154,41 @@ class KafkaConsumerWorker:
             self._thread.join(timeout=timeout)
 
     def _run(self) -> None:
-        consumer = Consumer(
-            {
-                "bootstrap.servers": os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092"),
-                "group.id": os.getenv("KAFKA_AUTH_CONSUMER_GROUP", "auth-error-cg"),
-                "client.id": os.getenv("KAFKA_AUTH_CLIENT_ID", "auth-svc"),
-                "auto.offset.reset": os.getenv(
-                    "KAFKA_AUTH_AUTO_OFFSET_RESET", "earliest"
-                ),
-            }
+        bootstrap_servers = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092")
+        group_id = os.getenv("KAFKA_AUTH_CONSUMER_GROUP", "auth-error-cg")
+        client_id = os.getenv("KAFKA_AUTH_CLIENT_ID", "auth-svc")
+        auto_offset_reset = os.getenv("KAFKA_AUTH_AUTO_OFFSET_RESET", "earliest")
+        config = {
+            "bootstrap.servers": bootstrap_servers,
+            "group.id": group_id,
+            "client.id": client_id,
+            "auto.offset.reset": auto_offset_reset,
+        }
+        try:
+            consumer = Consumer(config)
+            consumer.subscribe(self._topics)
+        except Exception:
+            logger.exception(
+                "Kafka consumer startup failed",
+                extra={
+                    "kafka_bootstrap_servers": bootstrap_servers,
+                    "kafka_group_id": group_id,
+                    "kafka_client_id": client_id,
+                    "kafka_topics": self._topics,
+                },
+            )
+            return
+
+        logger.info(
+            "Kafka consumer started",
+            extra={
+                "kafka_bootstrap_servers": bootstrap_servers,
+                "kafka_group_id": group_id,
+                "kafka_client_id": client_id,
+                "kafka_auto_offset_reset": auto_offset_reset,
+                "kafka_topics": self._topics,
+            },
         )
-        consumer.subscribe(self._topics)
-        logger.info("Kafka consumer started for topics: %s", self._topics)
 
         try:
             while not self._stop_event.is_set():
@@ -158,31 +197,82 @@ class KafkaConsumerWorker:
                     continue
                 if message.error():
                     if message.error().code() != KafkaError._PARTITION_EOF:
-                        logger.error("Kafka error: %s", message.error())
+                        logger.error(
+                            "Kafka poll error",
+                            extra={
+                                "kafka_error": str(message.error()),
+                                **_message_context(message),
+                            },
+                        )
                     continue
 
                 payload = message.value()
                 try:
                     decoded = json.loads(payload.decode("utf-8"))
                 except (json.JSONDecodeError, UnicodeDecodeError):
-                    logger.warning("Kafka message not JSON: %s", payload)
+                    snippet = (
+                        payload[:512].decode("utf-8", errors="replace")
+                        if isinstance(payload, bytes)
+                        else str(payload)[:512]
+                    )
+                    logger.warning(
+                        "Kafka message decode failed (non-JSON payload)",
+                        extra={**_message_context(message), "payload_snippet": snippet},
+                    )
                     continue
 
                 if decoded.get("event_type") != "error.log":
+                    logger.debug(
+                        "Kafka event ignored (event_type mismatch)",
+                        extra={
+                            **_message_context(message),
+                            "event_type": decoded.get("event_type"),
+                        },
+                    )
                     continue
 
                 event_payload = decoded.get("payload")
                 if not isinstance(event_payload, dict):
-                    logger.warning("Kafka error event missing payload: %s", decoded)
+                    logger.warning(
+                        "Kafka error.log event missing payload object",
+                        extra={**_message_context(message), "event": decoded},
+                    )
                     continue
 
                 try:
                     _insert_error_log(event_payload)
+                    logger.debug(
+                        "Kafka error.log persisted",
+                        extra={
+                            **_message_context(message),
+                            "trace_id": event_payload.get("trace_id"),
+                            "service_name": event_payload.get("service_name"),
+                        },
+                    )
                 except Exception as exc:  # pragma: no cover - DB side effects
-                    logger.error("Failed to insert error log: %s", exc)
+                    logger.exception(
+                        "Failed to persist Kafka error.log event",
+                        extra={
+                            **_message_context(message),
+                            "trace_id": event_payload.get("trace_id"),
+                            "service_name": event_payload.get("service_name"),
+                            "error_type": type(exc).__name__,
+                        },
+                    )
         finally:
-            consumer.close()
-            logger.info("Kafka consumer stopped")
+            try:
+                consumer.close()
+            except Exception:
+                logger.exception("Kafka consumer close failed")
+            logger.info(
+                "Kafka consumer stopped",
+                extra={
+                    "kafka_bootstrap_servers": bootstrap_servers,
+                    "kafka_group_id": group_id,
+                    "kafka_client_id": client_id,
+                    "kafka_topics": self._topics,
+                },
+            )
 
 
 __all__ = ["ERROR_LOGS_TOPIC", "KafkaConsumerWorker", "kafka_enabled"]

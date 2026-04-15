@@ -12,8 +12,9 @@ from app.core.config import settings
 
 def _build_init_kwargs() -> Dict[str, Any]:
     init_kwargs: Dict[str, Any] = {}
-    if settings.FIREBASE_PROJECT_ID:
-        init_kwargs["projectId"] = settings.FIREBASE_PROJECT_ID
+    pid = settings.FCM_FIREBASE_PROJECT_ID.strip()
+    if pid:
+        init_kwargs["projectId"] = pid
     return init_kwargs
 
 
@@ -21,8 +22,9 @@ def get_firebase_app() -> firebase_admin.App:
     """Return the default Firebase app, initializing it if required."""
 
     if not firebase_admin._apps:  # type: ignore[attr-defined]
-        if settings.FIREBASE_CREDENTIALS_PATH:
-            cred = credentials.Certificate(settings.FIREBASE_CREDENTIALS_PATH)
+        cred_path = settings.FCM_FIREBASE_CREDENTIALS_PATH.strip()
+        if cred_path:
+            cred = credentials.Certificate(cred_path)
         else:
             cred = credentials.ApplicationDefault()
 

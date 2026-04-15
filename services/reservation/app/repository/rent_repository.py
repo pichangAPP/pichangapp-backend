@@ -22,6 +22,7 @@ def list_rents(
     db: Session,
     *,
     status_filter: Optional[str] = None,
+    exclude_status: Optional[str] = None,
     schedule_id: Optional[int] = None,
     field_id: Optional[int] = None,
     field_ids: Optional[Sequence[int]] = None,
@@ -33,6 +34,10 @@ def list_rents(
 
     if status_filter is not None:
         query = query.filter(Rent.status == status_filter)
+    if exclude_status:
+        query = query.filter(
+            func.lower(Rent.status) != func.lower(exclude_status.strip())
+        )
     if schedule_id is not None:
         query = query.filter(
             or_(
@@ -89,6 +94,7 @@ def list_rents_by_campus_view(
     *,
     campus_id: int,
     status_filter: Optional[str] = None,
+    exclude_status: Optional[str] = None,
 ) -> list[dict]:
     query = text(
         """
@@ -103,7 +109,15 @@ def list_rents_by_campus_view(
             "status_filter": status_filter,
         },
     ).mappings().all()
-    return [dict(row) for row in rows]
+    out = [dict(row) for row in rows]
+    if exclude_status:
+        ex = exclude_status.strip().lower()
+        out = [
+            row
+            for row in out
+            if (row.get("status") or "").lower() != ex
+        ]
+    return out
 
 
 def get_rent(db: Session, rent_id: int) -> Optional[Rent]:
