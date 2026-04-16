@@ -15,12 +15,12 @@
         .hero-logo-wrap { width: 62px; height: 62px; border-radius: 14px; background: rgba(255,255,255,0.14); padding: 7px; display: inline-flex; align-items: center; justify-content: center; }
         .hero-logo { width: 48px; height: 48px; border-radius: 10px; object-fit: contain; display: block; }
         .hero h1 { margin: 0; font-size: 20px; font-weight: 700; }
-        .body { padding: 26px 24px 32px; }
+        .body { padding: 30px 26px 34px; }
         .greet { font-size: 15px; line-height: 1.6; margin: 0 0 14px; }
-        .details { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 18px; font-size: 14px; }
+        .details { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 20px; margin-top: 10px; font-size: 14px; line-height: 1.55; }
         .row { margin-bottom: 10px; }
         .row strong { color: #7f1d1d; min-width: 140px; display: inline-block; }
-        .time-callout { margin: 0 0 18px; padding: 18px 16px; border-radius: 14px; background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%); border: 1px solid #fdba74; text-align: center; }
+        .time-callout { margin: 0 0 22px; padding: 20px 18px; border-radius: 14px; background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%); border: 1px solid #fdba74; text-align: center; }
         .time-callout-label { margin: 0 0 6px; font-size: 11px; font-weight: 700; color: #9a3412; text-transform: uppercase; letter-spacing: 0.05em; }
         .time-callout-value { margin: 0; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.12; }
         .time-callout-sub { margin: 12px 0 0; font-size: 13px; color: #431407; line-height: 1.45; }
@@ -50,7 +50,7 @@
                 {% endif %}
                 <p class="greet">Hola <strong>{{ recipient.name }} {{ recipient.lastname }}</strong>,</p>
                 <p class="greet">{{ manager_status_message }}</p>
-                <p class="greet"><strong>{{ campus.name }}</strong></p>
+                <p class="greet" style="text-align: center; margin-bottom: 16px;"><strong>{{ campus.name }}</strong></p>
                 <div class="details">
                     <div class="row"><strong>Campo</strong> {{ field_name }}</div>
                     <div class="row"><strong>Horario</strong> {{ date_range }}</div>

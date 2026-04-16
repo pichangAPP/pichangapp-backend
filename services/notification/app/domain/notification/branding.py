@@ -13,6 +13,7 @@ _LOGO_PATH = _STATIC / "branding" / "cuadra_logo.png"
 BRAND_LOGO_CONTENT_ID = "cuadra-logo@inline.cuadra"
 
 
+@lru_cache(maxsize=1)
 def get_brand_logo_bytes() -> bytes:
     """Bytes del PNG del logo; vacío si no hay archivo."""
     if not _LOGO_PATH.is_file():

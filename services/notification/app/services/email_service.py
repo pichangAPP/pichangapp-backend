@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any, Dict, Optional, Sequence
 
@@ -100,6 +101,10 @@ class EmailService:
             attachments=tuple(attachments or ()),
         )
 
+    @staticmethod
+    def _is_rejected_status(status_value: str) -> bool:
+        return (status_value or "").strip().lower().startswith("rejected_")
+
     def send_rent_notification(self, payload: NotificationRequest) -> None:
         """Send the rent confirmation emails for manager and user."""
 
@@ -108,29 +113,32 @@ class EmailService:
         context = self._with_email_extras(base_context, pass_link=pass_link)
 
         user_html, user_text = select_user_templates(payload.rent.status)
-        reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
-        upload_pass_to_firebase(attachment=reservation_pass, payload=payload)
-
-        user_qr = build_qr_attachment(
-            pass_link,
-            f"reserva-{payload.rent.rent_id}-usuario",
-        )
+        include_pass_assets = not self._is_rejected_status(payload.rent.status)
+        user_attachments = [*self._logo_inline_attachments()]
+        reservation_pass = None
+        if include_pass_assets:
+            reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
+            upload_pass_to_firebase(attachment=reservation_pass, payload=payload)
+            user_qr = build_qr_attachment(
+                pass_link,
+                f"reserva-{payload.rent.rent_id}-usuario",
+            )
+            user_attachments.extend([reservation_pass, user_qr])
         user_email = self._build_email(
             subject=build_user_subject(payload.rent.status),
             recipient=payload.user.email,
             html_template=user_html,
             text_template=user_text,
             context=context,
-            attachments=[*self._logo_inline_attachments(), reservation_pass, user_qr],
+            attachments=user_attachments,
         )
-        self._repository.send_email(user_email)
-        logger.info(
-            "Reservation receipt sent to %s for rent %s",
-            user_email.primary_recipient(),
-            payload.rent.rent_id,
-        )
-
         if payload.manager is None:
+            self._repository.send_email(user_email)
+            logger.info(
+                "Reservation receipt sent to %s for rent %s",
+                user_email.primary_recipient(),
+                payload.rent.rent_id,
+            )
             logger.info(
                 "No campus manager configured for campus %s; skipping manager email",
                 payload.rent.campus.id_campus,
@@ -141,19 +149,38 @@ class EmailService:
         manager_context["recipient"] = payload.manager
         manager_html, manager_text = select_manager_templates(payload.rent.status)
 
-        manager_qr = build_qr_attachment(
-            pass_link,
-            f"reserva-{payload.rent.rent_id}-administrador",
-        )
+        manager_attachments = [*self._logo_inline_attachments()]
+        if include_pass_assets and reservation_pass is not None:
+            manager_qr = build_qr_attachment(
+                pass_link,
+                f"reserva-{payload.rent.rent_id}-administrador",
+            )
+            manager_attachments.extend([reservation_pass, manager_qr])
         manager_email = self._build_email(
             subject=build_manager_subject(payload.rent.status),
             recipient=payload.manager.email,
             html_template=manager_html,
             text_template=manager_text,
             context=manager_context,
-            attachments=[*self._logo_inline_attachments(), reservation_pass, manager_qr],
+            attachments=manager_attachments,
         )
-        self._repository.send_email(manager_email)
+
+        def _send(content) -> None:
+            self._repository.send_email(content)
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            futures = (
+                pool.submit(_send, user_email),
+                pool.submit(_send, manager_email),
+            )
+            for fut in as_completed(futures):
+                fut.result()
+
+        logger.info(
+            "Reservation receipt sent to %s for rent %s",
+            user_email.primary_recipient(),
+            payload.rent.rent_id,
+        )
         logger.info(
             "Reservation confirmation sent to manager %s for rent %s",
             manager_email.primary_recipient(),
@@ -168,20 +195,23 @@ class EmailService:
         context = self._with_email_extras(base_context, pass_link=pass_link)
 
         user_html, user_text = select_user_templates(payload.rent.status)
-        reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
-        upload_pass_to_firebase(attachment=reservation_pass, payload=payload)
-
-        user_qr = build_qr_attachment(
-            pass_link,
-            f"reserva-{payload.rent.rent_id}-usuario",
-        )
+        include_pass_assets = not self._is_rejected_status(payload.rent.status)
+        user_attachments = [*self._logo_inline_attachments()]
+        if include_pass_assets:
+            reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
+            upload_pass_to_firebase(attachment=reservation_pass, payload=payload)
+            user_qr = build_qr_attachment(
+                pass_link,
+                f"reserva-{payload.rent.rent_id}-usuario",
+            )
+            user_attachments.extend([reservation_pass, user_qr])
         user_email = self._build_email(
             subject=build_user_subject(payload.rent.status),
             recipient=payload.user.email,
             html_template=user_html,
             text_template=user_text,
             context=context,
-            attachments=[*self._logo_inline_attachments(), reservation_pass, user_qr],
+            attachments=user_attachments,
         )
         self._repository.send_email(user_email)
         logger.info(
