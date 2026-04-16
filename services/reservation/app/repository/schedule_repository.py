@@ -89,7 +89,11 @@ def field_has_schedule_in_range(
     exclude_schedule_id: Optional[int] = None,
     exclude_statuses: Optional[Sequence[str]] = None,
 ) -> bool:
-    """Return ``True`` when a field has schedules in the requested range."""
+    """Return ``True`` when a field has schedules in the requested range.
+
+    Rows whose status is in ``exclude_statuses`` are ignored (e.g. ``expired``,
+    ``available`` so a new booking window can be created without reusing the row).
+    """
 
     query = (
         db.query(Schedule.id_schedule)

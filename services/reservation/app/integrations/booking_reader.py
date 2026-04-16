@@ -7,6 +7,7 @@ from decimal import Decimal
 from typing import Iterable, Optional, Tuple
 
 from sqlalchemy import bindparam, text
+from sqlalchemy.dialects.postgresql import ARRAY, BIGINT
 from sqlalchemy.orm import Session
 
 from app.schemas.schedule import FieldSummary
@@ -84,6 +85,41 @@ def get_field_combination_for_reservation(
         price_per_hour=Decimal(str(row["price_per_hour"])),
         member_field_ids=field_ids,
     )
+
+
+def find_field_combination_price_per_hour_by_fields(
+    db: Session,
+    field_ids: Iterable[int],
+) -> Optional[Decimal]:
+    normalized_ids = sorted({int(field_id) for field_id in field_ids if field_id is not None})
+    if not normalized_ids:
+        return None
+    query = text(
+        """
+        WITH candidate AS (
+            SELECT
+                c.price_per_hour,
+                c.status,
+                c.updated_at,
+                array_agg(m.id_field ORDER BY m.sort_order, m.id_field) AS member_ids
+            FROM booking.field_combination c
+            JOIN booking.field_combination_member m
+              ON m.id_combination = c.id_combination
+            GROUP BY c.id_combination, c.price_per_hour, c.status, c.updated_at
+        )
+        SELECT price_per_hour
+        FROM candidate
+        WHERE member_ids = CAST(:member_ids AS bigint[])
+        ORDER BY
+            CASE WHEN lower(status) = 'active' THEN 0 ELSE 1 END,
+            updated_at DESC NULLS LAST
+        LIMIT 1
+        """
+    ).bindparams(bindparam("member_ids", type_=ARRAY(BIGINT())))
+    row = db.execute(query, {"member_ids": list(normalized_ids)}).mappings().first()
+    if row is None or row["price_per_hour"] is None:
+        return None
+    return Decimal(str(row["price_per_hour"]))
 
 
 def get_field_summary(db: Session, field_id: int) -> Optional[FieldSummary]:
@@ -171,6 +207,7 @@ def update_field_status(db: Session, field_id: int, status: str) -> bool:
 __all__ = [
     "CampusSummary",
     "FieldCombinationForReservation",
+    "find_field_combination_price_per_hour_by_fields",
     "get_field_combination_for_reservation",
     "get_campus_summary",
     "get_field_ids_by_campus",

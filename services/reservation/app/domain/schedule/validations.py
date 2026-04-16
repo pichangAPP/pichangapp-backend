@@ -163,10 +163,15 @@ def ensure_field_not_reserved(
     exclude_schedule_id: Optional[int],
     excluded_schedule_statuses: Sequence[str],
     excluded_rent_statuses: Sequence[str],
+    exclude_rent_id: Optional[int] = None,
 ) -> None:
     """Ensure there is no conflicting schedule or active rent.
 
-    Used by: ScheduleService create/update.
+    Used by: ScheduleService create/update and RentService create/update when
+    validating a field time window.
+
+    ``exclude_rent_id`` skips that rent in the active-rent overlap query (e.g. PUT
+    rent changing ``id_schedule`` so the current row does not block itself).
     """
     has_conflicting_schedule = schedule_repository.field_has_schedule_in_range(
         db,
@@ -180,7 +185,11 @@ def ensure_field_not_reserved(
     if has_conflicting_schedule:
         raise http_error(
             SCHEDULE_CONFLICT,
-            detail="Field already has a schedule in this time range",
+            detail=(
+                "Field already has a blocking schedule in this time range "
+                "(pending, hold_payment, blocked_admin, reserved, fullfilled, etc.); "
+                "overlapping available slots do not block new schedules."
+            ),
         )
     has_active_rent = rent_repository.field_has_active_rent_in_range(
         db,
@@ -189,6 +198,7 @@ def ensure_field_not_reserved(
         end_time=end_time,
         excluded_statuses=excluded_rent_statuses,
         exclude_schedule_id=exclude_schedule_id,
+        exclude_rent_id=exclude_rent_id,
     )
 
     if has_active_rent:

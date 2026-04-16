@@ -114,29 +114,21 @@ class KafkaConsumerWorker:
                     continue
 
                 if event_type == "rent.payment_received":
-                    # Send the "payment received / under review" email with retries.
-                    self._send_with_retry(
+                    self._retry_email_dispatch(
                         event_type=event_type,
-                        action=lambda: self._email_then_push(
-                            event_type,
-                            notification,
-                            email_action=lambda: self._email_service.send_rent_notification(
-                                notification
-                            ),
+                        email_action=lambda: self._email_service.send_rent_notification(
+                            notification
                         ),
                     )
+                    self._dispatch_push(event_type, notification)
                 elif event_type in {"rent.verdict", "rent.approved", "rent.rejected"}:
-                    # Send the final verdict/approval email with retries.
-                    self._send_with_retry(
+                    self._retry_email_dispatch(
                         event_type=event_type,
-                        action=lambda: self._email_then_push(
-                            event_type,
-                            notification,
-                            email_action=lambda: self._email_service.send_user_confirmation(
-                                notification
-                            ),
+                        email_action=lambda: self._email_service.send_user_confirmation(
+                            notification
                         ),
                     )
+                    self._dispatch_push(event_type, notification)
                 else:
                     logger.info("Ignoring Kafka event type: %s", event_type)
         finally:
@@ -144,13 +136,8 @@ class KafkaConsumerWorker:
             logger.info("Kafka consumer stopped")
 
     @staticmethod
-    def _email_then_push(
-        event_type: str,
-        notification: NotificationRequest,
-        *,
-        email_action,
-    ) -> None:
-        email_action()
+    def _dispatch_push(event_type: str, notification: NotificationRequest) -> None:
+        """FCM independiente del correo: se intenta aunque el SMTP haya fallado."""
         if not notification.id_user:
             return
         db = SessionLocal()
@@ -163,16 +150,23 @@ class KafkaConsumerWorker:
                 schedule_day=notification.rent.schedule_day,
                 status=notification.rent.status,
             )
+        except Exception as exc:  # pragma: no cover - external dependencies
+            logger.warning(
+                "FCM dispatch failed for event %s user_id=%s: %s",
+                event_type,
+                notification.id_user,
+                exc,
+            )
         finally:
             db.close()
 
     @staticmethod
-    def _send_with_retry(*, event_type: str, action) -> None:
-        """Retry email dispatch on transient failures to avoid losing events."""
+    def _retry_email_dispatch(*, event_type: str, email_action) -> None:
+        """Reintentos solo para el correo."""
         attempts = max(1, KAFKA_EMAIL_RETRY_ATTEMPTS)
         for attempt in range(1, attempts + 1):
             try:
-                action()
+                email_action()
                 return
             except Exception as exc:  # pragma: no cover - external dependencies
                 if attempt >= attempts:
@@ -183,7 +177,6 @@ class KafkaConsumerWorker:
                         exc,
                     )
                     return
-                # Exponential backoff gives upstream services time to recover.
                 delay = min(
                     KAFKA_EMAIL_RETRY_BASE_SECONDS * (2 ** (attempt - 1)),
                     KAFKA_EMAIL_RETRY_MAX_SECONDS,

@@ -309,9 +309,11 @@ Además, **`ensure_start_time_in_future`**: el inicio del schedule debe ser **es
 
 ### 6.8. Conflictos al crear o actualizar schedule (`ensure_field_not_reserved`)
 
-Se consulta si ya hay **otro** schedule en el mismo `id_field` solapando el rango, **excluyendo** estados listados en `SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES` (hoy solo **`expired`**). Por tanto, un schedule **`available`** en el mismo rango **sí** cuenta como conflicto si se intenta **INSERT** duplicado; la reutilización del apartado 6.4 evita ese caso cuando la ventana es idéntica.
+Se consulta si ya hay **otro** schedule en el mismo `id_field` solapando el rango, **excluyendo** estados listados en `SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES` (**`expired`** y **`available`**). Un bloque **`available`** (p. ej. tras cancelar una renta) **no** impide crear un **nuevo** schedule solapado: se inserta otra fila sin editar la anterior. Siguen bloqueando ventanas solapadas los estados operativos (`pending`, `hold_payment`, `blocked_admin`, `reserved`, `fullfilled`, etc.). La reutilización del apartado 6.4 sigue aplicando cuando existe **`available`** con la **misma** ventana horaria exacta.
 
 En paralelo se comprueba **`field_has_active_rent_in_range`**: rentas que no estén en estados finales y que afecten el campo por schedule primario **o** por **`rent_schedule`**.
+
+**Documentación detallada (schedules + rentas simple/combo, tablas de casos):** ver [`manual-document.md`](./manual-document.md).
 
 ### 6.9. Actualizar renta (`PUT …/reservation/rents/{id}`)
 
@@ -319,6 +321,7 @@ En paralelo se comprueba **`field_has_active_rent_in_range`**: rentas que no est
 - Si se envía **`id_payment`** y cambia respecto al valor previo, se valida el pago y, si corresponde, el estado puede pasar a **`under_review`** automáticamente cuando solo se envía pago (lógica en `RentService.update_rent`).
 - **Renta combo** (más de un vínculo en `rent_schedule`): **no** se permite enviar `id_schedule` para cambiar el horario primario desde este endpoint (evita inconsistencias entre canchas).
 - Si la renta tiene un solo schedule y se cambia `id_schedule`, se sincroniza la fila única en **`rent_schedule`** (`sync_primary_schedule_link`).
+- Si se envía **`id_schedule`**, además de `ensure_schedule_available` se valida **`ensure_field_not_reserved`** sobre el **campo** y la ventana del nuevo schedule (misma lógica que en `POST` schedule / creación de renta), excluyendo la propia renta (`exclude_rent_id`) para no auto-bloquearse.
 
 **Nota de producto:** al actualizar una renta **combo**, el servicio puede recalcular campos derivados desde el schedule primario; si solo se actualiza pago/estado, conviene no enviar `mount` salvo que el negocio quiera forzar un valor explícito.
 

@@ -3,10 +3,12 @@ import time
 from fastapi import FastAPI
 
 from app.api.v1 import router as v1_router
+from app.core.database import ensure_booking_functions
 from app.core.error_handlers import register_exception_handlers
 from app.core.schema_bootstrap import ensure_field_combination_tables
 
 ensure_field_combination_tables()
+ensure_booking_functions()
 
 app = FastAPI(title="Booking Service")
 

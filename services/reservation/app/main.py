@@ -4,7 +4,10 @@ from fastapi import FastAPI
 
 from app.api.v1 import rent_routes, schedule_routes, status_catalog_routes
 from app.core.config import settings
-from app.core.database import ensure_rent_schedule_schema, ensure_reservation_functions
+from app.core.database import (
+    ensure_rent_schedule_schema,
+    ensure_reservation_functions,
+)
 from app.core.error_handlers import register_exception_handlers
 
 ensure_rent_schedule_schema()

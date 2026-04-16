@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
     <title>{{ app_brand }} · Tu reserva</title>
     <style>
         body { margin: 0; padding: 0; background-color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #0f172a; }
         .wrap { max-width: 600px; margin: 0 auto; padding: 24px 16px 40px; }
         .card { background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08); }
         .hero { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #fff; padding: 28px 24px 32px; }
-        .hero-top { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-        .hero-logo { width: 56px; height: 56px; border-radius: 14px; background: rgba(255,255,255,0.15); padding: 6px; object-fit: contain; }
+        .hero-top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+        .hero-logo-wrap { width: 68px; height: 68px; border-radius: 16px; background: rgba(255,255,255,0.18); padding: 8px; display: inline-flex; align-items: center; justify-content: center; }
+        .hero-logo { width: 52px; height: 52px; border-radius: 12px; object-fit: contain; display: block; }
         .hero h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
         .hero p { margin: 10px 0 0; font-size: 15px; opacity: 0.95; line-height: 1.5; }
         .body { padding: 28px 24px 32px; }
@@ -27,6 +30,8 @@
         .time-callout-label { margin: 0 0 8px; font-size: 12px; font-weight: 700; color: #1e40af; text-transform: uppercase; letter-spacing: 0.05em; }
         .time-callout-value { margin: 0; font-size: 30px; font-weight: 800; color: #0f172a; line-height: 1.12; letter-spacing: -0.03em; }
         .time-callout-sub { margin: 14px 0 0; font-size: 14px; color: #334155; line-height: 1.45; }
+        .force-readability { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
+        .force-readability-soft { color: #334155 !important; -webkit-text-fill-color: #334155 !important; }
         .footer { text-align: center; font-size: 12px; color: #94a3b8; margin-top: 28px; padding: 0 8px; line-height: 1.5; }
         @media only screen and (max-width: 480px) {
             .row dt { width: 42%; font-size: 13px; }
@@ -40,7 +45,7 @@
             <div class="hero">
                 <div class="hero-top">
                     {% if brand_logo_src %}
-                    <img class="hero-logo" src="{{ brand_logo_src }}" alt="{{ app_brand }}" width="56" height="56" />
+                    <span class="hero-logo-wrap"><img class="hero-logo" src="{{ brand_logo_src }}" alt="{{ app_brand }}" width="52" height="52" /></span>
                     {% endif %}
                     <div>
                         <h1>{{ user_status_heading }}</h1>
@@ -52,8 +57,8 @@
                 {% if minutes_wait_display %}
                 <div class="time-callout">
                     <p class="time-callout-label">Tiempo de espera del campo</p>
-                    <p class="time-callout-value">{{ minutes_wait_display }}</p>
-                    <p class="time-callout-sub">Llega con esta anticipación respecto al inicio de tu horario ({{ date_range }}).</p>
+                    <p class="time-callout-value force-readability">{{ minutes_wait_display }}</p>
+                    <p class="time-callout-sub force-readability-soft">Llega con esta anticipación respecto al inicio de tu horario ({{ date_range }}).</p>
                 </div>
                 {% endif %}
                 <p class="greet">Hola <strong>{{ user.name }} {{ user.lastname }}</strong>,</p>

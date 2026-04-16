@@ -36,4 +36,10 @@ SCHEDULE_BLOCKING_STATUS_CODES = (
     SCHEDULE_BLOCKED_ADMIN_STATUS_CODE,
 )
 
-SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES = (SCHEDULE_EXPIRED_STATUS_CODE,)
+# Schedules in these statuses do not block POST/PUT of another row on the same field
+# and overlapping window: "available" is a released slot (no booking hold); a new
+# pending/hold row may be created on top of that window without editing the old row.
+SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES = (
+    SCHEDULE_EXPIRED_STATUS_CODE,
+    SCHEDULE_AVAILABLE_STATUS_CODE,
+)

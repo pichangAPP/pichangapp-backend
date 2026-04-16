@@ -1,7 +1,6 @@
 """Validation for combined-field (multi-schedule) rents."""
 from __future__ import annotations
 
-from datetime import datetime
 from decimal import Decimal, ROUND_HALF_UP
 from typing import List, Sequence
 
@@ -13,12 +12,35 @@ from app.repository import rent_repository
 from app.domain.rent.validations import get_schedule
 
 
-def compute_combo_mount(*, price_per_hour: Decimal, start_time: datetime, end_time: datetime) -> Decimal:
+def compute_combo_mount_from_price_per_hour(
+    *,
+    price_per_hour: Decimal,
+    schedules: Sequence[Schedule],
+) -> Decimal:
     from app.domain.rent.defaults import calculate_minutes
 
-    minutes = calculate_minutes(start_time=start_time, end_time=end_time)
+    if not schedules:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="At least one schedule is required for combo rent mount",
+        )
+
+    base = schedules[0]
+    minutes = calculate_minutes(start_time=base.start_time, end_time=base.end_time)
     hour_fraction = minutes / Decimal(60)
-    return (price_per_hour * hour_fraction).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    return (Decimal(str(price_per_hour)) * hour_fraction).quantize(
+        Decimal("0.01"), rounding=ROUND_HALF_UP
+    )
+
+
+def compute_combo_mount(*, schedules: Sequence[Schedule]) -> Decimal:
+    combined_price_per_hour = sum(
+        Decimal(str(schedule.price or 0)) for schedule in schedules
+    )
+    return compute_combo_mount_from_price_per_hour(
+        price_per_hour=combined_price_per_hour,
+        schedules=schedules,
+    )
 
 
 def validate_combo_schedules(
@@ -92,4 +114,8 @@ def validate_combo_schedules(
     return ordered
 
 
-__all__ = ["compute_combo_mount", "validate_combo_schedules"]
+__all__ = [
+    "compute_combo_mount",
+    "compute_combo_mount_from_price_per_hour",
+    "validate_combo_schedules",
+]

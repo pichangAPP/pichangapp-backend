@@ -14,6 +14,7 @@ from app.core.status_constants import (
     RENT_RESERVED_STATUS_CODE,
     RENT_UNDER_REVIEW_STATUS_CODE,
     SCHEDULE_AVAILABLE_STATUS_CODE,
+    SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES,
     SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
     SCHEDULE_PENDING_STATUS_CODE,
 )
@@ -32,7 +33,11 @@ from app.schemas.rent import (
     RentResponse,
     RentUpdate,
 )
-from app.domain.rent.combo import compute_combo_mount, validate_combo_schedules
+from app.domain.rent.combo import (
+    compute_combo_mount,
+    compute_combo_mount_from_price_per_hour,
+    validate_combo_schedules,
+)
 from app.domain.rent.defaults import (
     apply_admin_note,
     apply_schedule_defaults,
@@ -58,6 +63,7 @@ from app.domain.rent.validations import (
     ensure_user_exists,
     get_schedule,
 )
+from app.domain.schedule.validations import ensure_field_not_reserved
 from app.domain.status_resolver import resolve_status_id, resolve_status_pair
 
 class RentService:
@@ -102,6 +108,32 @@ class RentService:
                 detail="Rent not found",
             )
         return rent
+
+    def _ensure_field_window_clear_for_new_rent(
+        self,
+        schedule: Schedule,
+        *,
+        exclude_schedule_id: int,
+        exclude_rent_id: Optional[int] = None,
+    ) -> None:
+        """Block double booking on the same field and overlapping window.
+
+        Uses the same schedule-status exclusions as ``POST /schedules`` (e.g.
+        ``available`` does not block). Always blocks overlapping **active** rents
+        (``under_review``, ``pending_payment``, etc.) via ``field_has_active_rent_in_range``.
+        """
+        if schedule.id_field is None:
+            return
+        ensure_field_not_reserved(
+            self.db,
+            field_id=int(schedule.id_field),
+            start_time=schedule.start_time,
+            end_time=schedule.end_time,
+            exclude_schedule_id=exclude_schedule_id,
+            excluded_schedule_statuses=SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES,
+            excluded_rent_statuses=self._active_excluded_statuses(),
+            exclude_rent_id=exclude_rent_id,
+        )
 
     def list_rents(
         self,
@@ -214,6 +246,10 @@ class RentService:
             schedule.id_schedule,
             excluded_statuses=self._active_excluded_statuses(),
         )
+        self._ensure_field_window_clear_for_new_rent(
+            schedule,
+            exclude_schedule_id=schedule.id_schedule,
+        )
         field_summary = (
             booking_reader.get_field_summary(self.db, schedule.id_field)
             if schedule.id_field is not None
@@ -304,6 +340,10 @@ class RentService:
             self.db,
             schedule.id_schedule,
             excluded_statuses=self._active_excluded_statuses(),
+        )
+        self._ensure_field_window_clear_for_new_rent(
+            schedule,
+            exclude_schedule_id=schedule.id_schedule,
         )
 
         field_summary = (
@@ -407,11 +447,19 @@ class RentService:
         primary = ordered_schedules[0]
         for sch in ordered_schedules:
             ensure_schedule_not_started(sch)
+            ensure_schedule_available(
+                self.db,
+                sch.id_schedule,
+                excluded_statuses=self._active_excluded_statuses(),
+            )
+            self._ensure_field_window_clear_for_new_rent(
+                sch,
+                exclude_schedule_id=sch.id_schedule,
+            )
 
-        mount_override = compute_combo_mount(
+        mount_override = compute_combo_mount_from_price_per_hour(
             price_per_hour=combo.price_per_hour,
-            start_time=primary.start_time,
-            end_time=primary.end_time,
+            schedules=ordered_schedules,
         )
 
         field_summary = (
@@ -590,6 +638,7 @@ class RentService:
             else (get_schedule(self.db, rent.id_schedule) if rent.id_schedule else None)
         )
         original_field_ids = self._field_ids_for_rent(rent)
+        original_status = (rent.status or "").strip().lower()
 
         update_data = payload.model_dump(exclude_unset=True)
         payment_submission_requested = (
@@ -647,6 +696,11 @@ class RentService:
                 excluded_statuses=self._active_excluded_statuses(),
                 exclude_rent_id=rent.id_rent,
             )
+            self._ensure_field_window_clear_for_new_rent(
+                target_schedule,
+                exclude_schedule_id=target_schedule.id_schedule,
+                exclude_rent_id=rent.id_rent,
+            )
 
         if target_schedule is None:
             raise http_error(
@@ -665,6 +719,19 @@ class RentService:
             if target_schedule.id_field is not None
             else None
         )
+        mount_override = None
+        if self._schedule_link_count(rent) > 1 and original_schedules:
+            combo_price = booking_reader.find_field_combination_price_per_hour_by_fields(
+                self.db,
+                [sch.id_field for sch in original_schedules if sch.id_field is not None],
+            )
+            if combo_price is not None:
+                mount_override = compute_combo_mount_from_price_per_hour(
+                    price_per_hour=combo_price,
+                    schedules=original_schedules,
+                )
+            else:
+                mount_override = compute_combo_mount(schedules=original_schedules)
 
         apply_schedule_defaults(
             self.db,
@@ -673,6 +740,7 @@ class RentService:
             schedule_changed=schedule_changed,
             existing_rent=rent,
             field_summary=field_summary,
+            mount_override=mount_override,
         )
 
         for field, value in update_data.items():
@@ -687,19 +755,49 @@ class RentService:
 
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
-        if updated_rent is not None and notify_after_payment:
+        updated_status = (
+            (updated_rent.status or "").strip().lower()
+            if updated_rent is not None
+            else ""
+        )
+        verdict_status = bool(
+            updated_status
+            and updated_status != original_status
+            and updated_rent is not None
+            and updated_rent.id_payment is not None
+        )
+        if updated_rent is not None and (notify_after_payment or verdict_status):
+            event_types: List[str] = []
+            if notify_after_payment:
+                event_types.append("rent.payment_received")
+            if verdict_status:
+                if updated_status == RENT_RESERVED_STATUS_CODE:
+                    event_types.append("rent.approved")
+                elif updated_status.startswith("rejected_"):
+                    event_types.append("rent.rejected")
+                else:
+                    event_types.append("rent.verdict")
+
             if background_tasks is not None:
-                background_tasks.add_task(
-                    RentNotificationPublisher.publish_by_id,
-                    rent_id=updated_rent.id_rent,
-                    event_type="rent.payment_received",
-                )
+                if len(event_types) == 1:
+                    background_tasks.add_task(
+                        RentNotificationPublisher.publish_by_id,
+                        rent_id=updated_rent.id_rent,
+                        event_type=event_types[0],
+                    )
+                else:
+                    background_tasks.add_task(
+                        RentNotificationPublisher.publish_events_by_id,
+                        rent_id=updated_rent.id_rent,
+                        event_types=event_types,
+                    )
             else:
                 publisher = RentNotificationPublisher(self.db)
-                publisher.publish(
-                    rent=updated_rent,
-                    event_type="rent.payment_received",
-                )
+                for event_type in event_types:
+                    publisher.publish(
+                        rent=updated_rent,
+                        event_type=event_type,
+                    )
 
         new_field_ids = self._field_ids_for_rent(updated_rent)
         for fid in set(original_field_ids) | set(new_field_ids):
@@ -774,6 +872,12 @@ class RentService:
             excluded_statuses=self._active_excluded_statuses(),
             exclude_rent_id=rent.id_rent,
         )
+        if "id_schedule" in update_data:
+            self._ensure_field_window_clear_for_new_rent(
+                target_schedule,
+                exclude_schedule_id=target_schedule.id_schedule,
+                exclude_rent_id=rent.id_rent,
+            )
 
         prev_primary = self._primary_schedule_id(rent)
         schedule_changed = prev_primary is None or target_schedule.id_schedule != prev_primary
@@ -783,6 +887,19 @@ class RentService:
             if target_schedule.id_field is not None
             else None
         )
+        mount_override = None
+        if self._schedule_link_count(rent) > 1 and original_schedules:
+            combo_price = booking_reader.find_field_combination_price_per_hour_by_fields(
+                self.db,
+                [sch.id_field for sch in original_schedules if sch.id_field is not None],
+            )
+            if combo_price is not None:
+                mount_override = compute_combo_mount_from_price_per_hour(
+                    price_per_hour=combo_price,
+                    schedules=original_schedules,
+                )
+            else:
+                mount_override = compute_combo_mount(schedules=original_schedules)
 
         update_data["customer_notes"] = apply_admin_note(
             update_data.get("customer_notes", rent.customer_notes)
@@ -797,6 +914,7 @@ class RentService:
             schedule_changed=schedule_changed,
             existing_rent=rent,
             field_summary=field_summary,
+            mount_override=mount_override,
         )
 
         for field, value in update_data.items():
@@ -819,6 +937,8 @@ class RentService:
         verdict_status = bool(
             updated_status
             and updated_status != original_status
+            and updated_rent is not None
+            and updated_rent.id_payment is not None
         )
         if updated_rent is not None and (notify_after_payment or verdict_status):
             event_types = []

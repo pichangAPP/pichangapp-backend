@@ -316,10 +316,13 @@ def field_has_active_rent_in_range(
     end_time: datetime,
     excluded_statuses: Optional[Sequence[str]] = None,
     exclude_schedule_id: Optional[int] = None,
+    exclude_rent_id: Optional[int] = None,
 ) -> bool:
     excluded_rent_ids: Set[int] = set()
     if exclude_schedule_id is not None:
-        excluded_rent_ids = _rent_ids_tied_to_schedule(db, exclude_schedule_id)
+        excluded_rent_ids.update(_rent_ids_tied_to_schedule(db, exclude_schedule_id))
+    if exclude_rent_id is not None:
+        excluded_rent_ids.add(int(exclude_rent_id))
 
     status_clause = _status_filter_clause(excluded_statuses or ())
 

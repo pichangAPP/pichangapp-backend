@@ -1,6 +1,7 @@
 """Mapping helpers that hydrate rent models into API responses."""
 from __future__ import annotations
 
+from datetime import date, datetime, time
 from itertools import groupby
 from typing import List, Optional, Sequence
 
@@ -19,6 +20,23 @@ from app.models.schedule import Schedule
 from app.repository import schedule_repository
 from app.schemas.rent import RentResponse, ScheduleSummary
 from app.schemas.schedule import FieldSummary, UserSummary
+
+
+def _campus_view_row_sort_key(row: dict) -> tuple:
+    """Order campus view rows: newest ``date_create`` first, then rent id, primary, schedule."""
+    dc = row.get("date_create")
+    if isinstance(dc, datetime):
+        neg_ts = -dc.timestamp()
+    elif isinstance(dc, date):
+        neg_ts = -datetime.combine(dc, time.min).timestamp()
+    else:
+        neg_ts = float("inf")
+    return (
+        neg_ts,
+        int(row["id_rent"]),
+        not bool(row.get("rent_schedule_is_primary", True)),
+        int(row["id_schedule"]),
+    )
 
 
 def ordered_schedules_for_rent(db: Session, rent: Rent) -> List[Schedule]:
@@ -113,14 +131,7 @@ class RentHydrator:
         if not rows:
             return []
 
-        sorted_rows = sorted(
-            rows,
-            key=lambda r: (
-                r["id_rent"],
-                not r.get("rent_schedule_is_primary", True),
-                r["id_schedule"],
-            ),
-        )
+        sorted_rows = sorted(rows, key=_campus_view_row_sort_key)
         responses: List[RentResponse] = []
         for _rent_id, group in groupby(sorted_rows, key=lambda r: r["id_rent"]):
             grp = list(group)
