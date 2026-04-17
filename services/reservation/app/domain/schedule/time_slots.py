@@ -14,6 +14,8 @@ from app.core.status_constants import (
     SCHEDULE_BLOCKING_STATUS_CODES,
     SCHEDULE_EXPIRED_STATUS_CODE,
 )
+from app.domain.schedule.weekly_closure import naive_weekly_closure_block
+from app.integrations.booking_reader import list_weekly_closure_rules_for_field
 from app.repository import rent_repository, schedule_repository
 from app.schemas.schedule import FieldSummary
 
@@ -77,10 +79,19 @@ def build_time_slots_by_date(
         excluded_statuses=_EXCLUDED_RENT_STATUSES,
     )
 
-    # Rangos ocupados en el día (schedules + rents activos).
+    # Rangos ocupados en el día (schedules + rents activos + cierres semanales admin).
     # Nota: esto se evalúa con overlaps O(n*m). Para alto volumen se puede
     # ordenar rangos y hacer sweep-line o construir un timeline por slots.
     reserved_ranges = []
+    for rule in list_weekly_closure_rules_for_field(db, field.id_field):
+        for anchor in (target_date - timedelta(days=1), target_date):
+            blk = naive_weekly_closure_block(anchor, rule)
+            if blk is None:
+                continue
+            seg_start = max(blk[0], day_start)
+            seg_end = min(blk[1], day_end)
+            if seg_start < seg_end:
+                reserved_ranges.append((seg_start, seg_end))
     price_by_range = {}
     for schedule in schedules:
         start_time = _as_naive_local(schedule.start_time)

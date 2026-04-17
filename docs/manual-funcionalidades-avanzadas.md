@@ -123,6 +123,34 @@ sequenceDiagram
 | `services/reservation/app/services/rent_service.py` | `create_rent_combo`. |
 | `services/reservation/app/integrations/booking_reader.py` | Lectura de combinación para reservación. |
 
+**Esquema en base de datos:** las tablas `booking.field_combination` y `booking.field_combination_member` deben existir en la BD **antes** de desplegar el servicio. El arranque de **booking** ya **no** ejecuta DDL automático (evita `CREATE TABLE IF NOT EXISTS` en producción si el esquema ya está versionado por vosotros). Referencia DDL para migraciones manuales:
+
+```sql
+CREATE TABLE IF NOT EXISTS booking.field_combination (
+    id_combination BIGSERIAL PRIMARY KEY,
+    id_campus BIGINT NOT NULL
+        REFERENCES booking.campus (id_campus) ON DELETE CASCADE,
+    name VARCHAR(200) NOT NULL,
+    description TEXT,
+    status VARCHAR(50) NOT NULL DEFAULT 'active',
+    price_per_hour NUMERIC(10, 2) NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ
+);
+
+CREATE TABLE IF NOT EXISTS booking.field_combination_member (
+    id_combination BIGINT NOT NULL
+        REFERENCES booking.field_combination (id_combination) ON DELETE CASCADE,
+    id_field BIGINT NOT NULL
+        REFERENCES booking.field (id_field) ON DELETE CASCADE,
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (id_combination, id_field)
+);
+
+CREATE INDEX IF NOT EXISTS ix_field_combination_member_field
+    ON booking.field_combination_member (id_field);
+```
+
 ---
 
 ## 3. Integración Rasa (vista para frontend y backend)
@@ -164,7 +192,7 @@ Tras la consolidación de README en la raíz del repo, la siguiente tabla sustit
 | Microservicio | Directorio dominio | Contenido típico |
 | --- | --- | --- |
 | Auth | `services/auth/app/domain/` | Hash de contraseñas, JWT, sesiones, Google OAuth, auditoría. |
-| Booking | `services/booking/app/domain/` | Validaciones de negocio, campus, canchas, imágenes, disponibilidad. |
+| Booking | `services/booking/app/domain/` | Validaciones de negocio, campus, canchas, imágenes, disponibilidad. El solape UTC ↔ cierres semanales para lecturas SQL está en **`app/core/weekly_schedule_closure_overlap.py`** (utilidad pura, no en `domain`). |
 | Reservation | `services/reservation/app/domain/` | Rentas, validación de schedules, time slots, pagos/notificaciones asociados a rent. |
 | Payment | `services/payment/app/domain/` | Reglas de pagos y métodos de pago. |
 

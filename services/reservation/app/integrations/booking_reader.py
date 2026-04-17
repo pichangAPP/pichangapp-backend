@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import time
 from decimal import Decimal
-from typing import Iterable, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple
 
 from sqlalchemy import bindparam, text
 from sqlalchemy.dialects.postgresql import ARRAY, BIGINT
@@ -38,6 +39,15 @@ class CampusSummary:
     id_manager: Optional[int]
     email_contact: Optional[str]
     phone_contact: Optional[str]
+
+
+@dataclass(frozen=True)
+class WeeklyClosureRuleRow:
+    """Row from ``booking.weekly_schedule_closure`` applicable to one field."""
+
+    weekday: int
+    local_start_time: Optional[time]
+    local_end_time: Optional[time]
 
 
 @dataclass(frozen=True)
@@ -120,6 +130,34 @@ def find_field_combination_price_per_hour_by_fields(
     if row is None or row["price_per_hour"] is None:
         return None
     return Decimal(str(row["price_per_hour"]))
+
+
+def list_weekly_closure_rules_for_field(
+    db: Session,
+    field_id: int,
+) -> List[WeeklyClosureRuleRow]:
+    """Active campus-wide and field-specific weekly closures for ``field_id``."""
+    query = text(
+        """
+        SELECT c.weekday, c.local_start_time, c.local_end_time
+        FROM booking.weekly_schedule_closure c
+        JOIN booking.field f
+          ON f.id_field = :field_id
+         AND f.id_campus = c.id_campus
+        WHERE c.is_active = true
+          AND (c.id_field IS NULL OR c.id_field = f.id_field)
+        ORDER BY c.weekday, c.id
+        """
+    )
+    rows = db.execute(query, {"field_id": field_id}).mappings().all()
+    return [
+        WeeklyClosureRuleRow(
+            int(row["weekday"]),
+            row["local_start_time"],
+            row["local_end_time"],
+        )
+        for row in rows
+    ]
 
 
 def get_field_summary(db: Session, field_id: int) -> Optional[FieldSummary]:
@@ -206,10 +244,12 @@ def update_field_status(db: Session, field_id: int, status: str) -> bool:
 
 __all__ = [
     "CampusSummary",
+    "WeeklyClosureRuleRow",
     "FieldCombinationForReservation",
     "find_field_combination_price_per_hour_by_fields",
     "get_field_combination_for_reservation",
     "get_campus_summary",
+    "list_weekly_closure_rules_for_field",
     "get_field_ids_by_campus",
     "get_field_summary",
     "get_field_summaries",

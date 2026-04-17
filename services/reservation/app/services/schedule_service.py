@@ -18,6 +18,10 @@ from app.core.status_constants import (
 )
 from app.domain.schedule.hydrator import ScheduleHydrator
 from app.domain.schedule.time_slots import build_time_slots_by_date
+from app.domain.schedule.weekly_closure import (
+    raise_if_window_blocked_by_weekly_closure,
+    schedule_overlaps_weekly_closure,
+)
 from app.domain.schedule.validations import (
     ensure_field_not_reserved,
     ensure_start_time_in_future,
@@ -130,6 +134,12 @@ class ScheduleService:
 
             if reuse is not None:
                 ensure_start_time_in_future(payload.start_time)
+                raise_if_window_blocked_by_weekly_closure(
+                    self.db,
+                    field_id=field.id_field,
+                    start_time=payload.start_time,
+                    end_time=payload.end_time,
+                )
                 if payload.status != SCHEDULE_PENDING_STATUS_CODE:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
@@ -166,6 +176,13 @@ class ScheduleService:
                 excluded_rent_statuses=_EXCLUDED_RENT_STATUSES,
             )
         ensure_start_time_in_future(payload.start_time)
+        if field is not None:
+            raise_if_window_blocked_by_weekly_closure(
+                self.db,
+                field_id=field.id_field,
+                start_time=payload.start_time,
+                end_time=payload.end_time,
+            )
 
         if payload.status != SCHEDULE_PENDING_STATUS_CODE:
             raise HTTPException(
@@ -237,6 +254,12 @@ class ScheduleService:
                 excluded_schedule_statuses=_CONFLICT_SCHEDULE_EXCLUDED_STATUSES,
                 excluded_rent_statuses=_EXCLUDED_RENT_STATUSES,
             )
+            raise_if_window_blocked_by_weekly_closure(
+                self.db,
+                field_id=field.id_field,
+                start_time=start_time,
+                end_time=end_time,
+            )
 
         for attribute, value in update_data.items():
             setattr(schedule, attribute, value)
@@ -272,7 +295,17 @@ class ScheduleService:
             status_filter=status_filter,
             exclude_rent_statuses=exclude_rent_statuses,
         )
-        return hydrator.hydrate_schedules(schedules)
+        filtered = [
+            s
+            for s in schedules
+            if not schedule_overlaps_weekly_closure(
+                self.db,
+                field_id=s.id_field,
+                start_time=s.start_time,
+                end_time=s.end_time,
+            )
+        ]
+        return hydrator.hydrate_schedules(filtered)
 
     def list_time_slots_by_date(
         self,

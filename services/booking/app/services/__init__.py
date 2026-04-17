@@ -5,6 +5,7 @@ from .campus_service import CampusService
 from .characteristic_service import CharacteristicService
 from .field_service import FieldService
 from .image_service import ImageService
+from .weekly_schedule_closure_service import WeeklyScheduleClosureService
 
 __all__ = [
     "BusinessService",
@@ -14,4 +15,5 @@ __all__ = [
     "CharacteristicService",
     "FieldService",
     "ImageService",
+    "WeeklyScheduleClosureService",
 ]

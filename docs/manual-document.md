@@ -190,10 +190,94 @@ Ver `services/reservation/tests/test_time_slots.py` (pytest, mocks de repositori
 | Schedules API | `services/reservation/app/services/schedule_service.py` |
 | Rentas API | `services/reservation/app/services/rent_service.py` |
 | Slots UI | `services/reservation/app/domain/schedule/time_slots.py` |
+| Cierres semanales (reglas + DDL) | **§ 10** y rutas booking listadas allí. |
+| Inventario de tests por microservicio | [`mapa-tests-microservicios.md`](./mapa-tests-microservicios.md) |
 | Códigos error | `services/reservation/app/core/error_codes.py` |
 
 ---
 
-## 10. Manual extendido
+## 10. Cierres semanales administrables (`booking.weekly_schedule_closure`)
+
+Los administradores pueden definir **ventanas recurrentes por día de la semana** en las que **no se permiten reservas** (equivalente a “cerrado” o “bloqueado” en horario local). Aplica a:
+
+- **Todo el campus:** reglas con `id_field` **NULL** (ej.: los miércoles no atienden).
+- **Una cancha concreta:** reglas con `id_field` **NOT NULL** (ej.: los sábados de 14:00 a 17:00 solo en cancha 3).
+
+La lógica se evalúa en **reservation** (crear/actualizar rentas y schedules, listados disponibles, slots por fecha) y en **booking** al listar schedules disponibles por campus; usa la variable de entorno **`TIMEZONE`** de cada servicio (deben coincidir en despliegue, p. ej. `America/Lima`).
+
+### Convenciones
+
+| Campo | Significado |
+|--------|-------------|
+| **`weekday`** | Igual que **Python `date.weekday()`**: **0 = lunes** … **6 = domingo**. |
+| **`local_start_time` / `local_end_time`** | Hora local del cierre. **Ambas NULL** = **todo el día** de ese `weekday`. Con las dos informadas: si `fin > inicio`, franja el mismo día; si `fin < inicio` o `fin == inicio`, la franja **cruza medianoche** hasta el día siguiente (misma idea que `open_time` / `close_time` de cancha: cierre en la mañana del día siguiente o 24h si abre y cierra a la misma hora). No hay `CHECK` en BD sobre estas horas. |
+| **`is_active`** | `false` desactiva la regla sin borrarla. |
+
+### API (booking, requiere auth como el resto del router v1)
+
+Prefijo: `/api/pichangapp/v1/booking`
+
+| Método | Ruta |
+|--------|------|
+| `GET` | `/campuses/{campus_id}/weekly-schedule-closures` |
+| `POST` | `/campuses/{campus_id}/weekly-schedule-closures` |
+| `PUT` | `/weekly-schedule-closures/{closure_id}` |
+| `DELETE` | `/weekly-schedule-closures/{closure_id}` |
+
+### Errores en reservation
+
+Si un usuario o admin intenta reservar o publicar un schedule en una ventana cubierta por una regla activa, la API responde **409** con código **`SCHEDULE_WEEKLY_CLOSURE`**.
+
+### DDL: crear la tabla en base de datos (manual)
+
+**No** se crea esta tabla al arrancar el servicio booking. Debes ejecutar el siguiente SQL **una vez** (o equivalente vía migración propia) en la base compartida:
+
+```sql
+CREATE TABLE IF NOT EXISTS booking.weekly_schedule_closure (
+    id BIGSERIAL PRIMARY KEY,
+    id_campus BIGINT NOT NULL
+        REFERENCES booking.campus (id_campus) ON DELETE CASCADE,
+    id_field BIGINT NULL
+        REFERENCES booking.field (id_field) ON DELETE CASCADE,
+    weekday SMALLINT NOT NULL,
+    local_start_time TIME NULL,
+    local_end_time TIME NULL,
+    reason VARCHAR(500),
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ,
+    CONSTRAINT chk_weekly_closure_weekday
+        CHECK (weekday >= 0 AND weekday <= 6)
+);
+
+CREATE INDEX IF NOT EXISTS ix_weekly_schedule_closure_campus
+    ON booking.weekly_schedule_closure (id_campus);
+
+CREATE INDEX IF NOT EXISTS ix_weekly_schedule_closure_field
+    ON booking.weekly_schedule_closure (id_field)
+    WHERE id_field IS NOT NULL;
+```
+
+Si la tabla ya existía con el `CHECK` antiguo, quítalo en base de datos:
+
+```sql
+ALTER TABLE booking.weekly_schedule_closure
+    DROP CONSTRAINT IF EXISTS chk_weekly_closure_times;
+```
+
+### Referencias de código
+
+| Tema | Ubicación |
+|------|-----------|
+| Modelo / CRUD booking | `services/booking/app/models/weekly_schedule_closure.py`, `weekly_schedule_closure_repository.py`, `weekly_schedule_closure_service.py`, `api/v1/weekly_schedule_closure_routes.py` |
+| Lectura de reglas desde reservation | `services/reservation/app/integrations/booking_reader.py` (`list_weekly_closure_rules_for_field`) |
+| Solape UTC ↔ reglas locales (incl. cierre que cruza medianoche / 24h) | `services/reservation/app/domain/schedule/weekly_closure.py` (`naive_weekly_closure_block`) |
+| Solape en booking (listados campus) | `services/booking/app/core/weekly_schedule_closure_overlap.py`, `integrations/reservation_reader.py` |
+| Slots por fecha | `services/reservation/app/domain/schedule/time_slots.py` |
+| Horario de cancha que cruza medianoche (`open_time` / `close_time`) | `services/reservation/app/domain/schedule/validations.py` — `validate_schedule_window` (alineado con slots en `time_slots.py` § 7). |
+
+---
+
+## 11. Manual extendido
 
 Diagramas, flujos reserva y tabla de errores: `docs/manual-funcionalidades-avanzadas.md` (§ **6.8** y enlaces).

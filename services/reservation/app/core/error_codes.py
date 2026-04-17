@@ -43,6 +43,11 @@ SCHEDULE_CONFLICT = ErrorCode(
     message="El campo ya tiene un horario en ese rango.",
     status_code=status.HTTP_409_CONFLICT,
 )
+SCHEDULE_WEEKLY_CLOSURE = ErrorCode(
+    code="SCHEDULE_WEEKLY_CLOSURE",
+    message="Este horario no está disponible por un cierre recurrente del campus o cancha.",
+    status_code=status.HTTP_409_CONFLICT,
+)
 RENT_ACTIVE_CONFLICT = ErrorCode(
     code="RENT_ACTIVE_CONFLICT",
     message="El campo ya tiene una reserva activa en ese rango.",

@@ -16,6 +16,11 @@ from .image import ImageCreate, ImageResponse, ImageUpdate
 from .manager import ManagerResponse
 from .schedule import CampusScheduleResponse
 from .sport import ModalityResponse, SportCreate, SportResponse, SportUpdate
+from .weekly_schedule_closure import (
+    WeeklyScheduleClosureCreate,
+    WeeklyScheduleClosureResponse,
+    WeeklyScheduleClosureUpdate,
+)
 
 __all__ = [
     "BusinessCreate",
@@ -46,4 +51,7 @@ __all__ = [
     "SportCreate",
     "SportResponse",
     "SportUpdate",
+    "WeeklyScheduleClosureCreate",
+    "WeeklyScheduleClosureResponse",
+    "WeeklyScheduleClosureUpdate",
 ]

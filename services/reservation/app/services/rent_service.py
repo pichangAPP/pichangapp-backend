@@ -64,6 +64,7 @@ from app.domain.rent.validations import (
     get_schedule,
 )
 from app.domain.schedule.validations import ensure_field_not_reserved
+from app.domain.schedule.weekly_closure import raise_if_schedule_blocked_by_weekly_closure
 from app.domain.status_resolver import resolve_status_id, resolve_status_pair
 
 class RentService:
@@ -246,6 +247,7 @@ class RentService:
             schedule.id_schedule,
             excluded_statuses=self._active_excluded_statuses(),
         )
+        raise_if_schedule_blocked_by_weekly_closure(self.db, schedule)
         self._ensure_field_window_clear_for_new_rent(
             schedule,
             exclude_schedule_id=schedule.id_schedule,
@@ -341,6 +343,7 @@ class RentService:
             schedule.id_schedule,
             excluded_statuses=self._active_excluded_statuses(),
         )
+        raise_if_schedule_blocked_by_weekly_closure(self.db, schedule)
         self._ensure_field_window_clear_for_new_rent(
             schedule,
             exclude_schedule_id=schedule.id_schedule,
@@ -452,6 +455,7 @@ class RentService:
                 sch.id_schedule,
                 excluded_statuses=self._active_excluded_statuses(),
             )
+            raise_if_schedule_blocked_by_weekly_closure(self.db, sch)
             self._ensure_field_window_clear_for_new_rent(
                 sch,
                 exclude_schedule_id=sch.id_schedule,
@@ -696,6 +700,7 @@ class RentService:
                 excluded_statuses=self._active_excluded_statuses(),
                 exclude_rent_id=rent.id_rent,
             )
+            raise_if_schedule_blocked_by_weekly_closure(self.db, target_schedule)
             self._ensure_field_window_clear_for_new_rent(
                 target_schedule,
                 exclude_schedule_id=target_schedule.id_schedule,
@@ -873,6 +878,7 @@ class RentService:
             exclude_rent_id=rent.id_rent,
         )
         if "id_schedule" in update_data:
+            raise_if_schedule_blocked_by_weekly_closure(self.db, target_schedule)
             self._ensure_field_window_clear_for_new_rent(
                 target_schedule,
                 exclude_schedule_id=target_schedule.id_schedule,

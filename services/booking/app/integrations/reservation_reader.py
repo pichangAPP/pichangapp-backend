@@ -5,12 +5,16 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime
 from decimal import Decimal
-from typing import Iterable
+from typing import Iterable, List
 
 from sqlalchemy import bindparam, text
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.core.weekly_schedule_closure_overlap import (
+    WeeklyClosureRule,
+    utc_interval_overlaps_weekly_closures,
+)
 
 
 @dataclass(frozen=True)
@@ -22,6 +26,36 @@ class ScheduleSummary:
     end_time: datetime
     price: Decimal
     status: str
+
+
+def _weekly_closure_rules_by_field(
+    db: Session,
+    field_ids: list[int],
+) -> dict[int, List[WeeklyClosureRule]]:
+    if not field_ids:
+        return {}
+    query = text(
+        """
+        SELECT f.id_field AS applies_field, c.weekday, c.local_start_time, c.local_end_time
+        FROM booking.weekly_schedule_closure c
+        JOIN booking.field f ON f.id_campus = c.id_campus
+        WHERE c.is_active = true
+          AND f.id_field IN :field_ids
+          AND (c.id_field IS NULL OR c.id_field = f.id_field)
+        """
+    ).bindparams(bindparam("field_ids", expanding=True))
+    rows = db.execute(query, {"field_ids": field_ids}).mappings().all()
+    out: dict[int, List[WeeklyClosureRule]] = {}
+    for row in rows:
+        fid = int(row["applies_field"])
+        out.setdefault(fid, []).append(
+            WeeklyClosureRule(
+                int(row["weekday"]),
+                row["local_start_time"],
+                row["local_end_time"],
+            )
+        )
+    return out
 
 
 def get_available_schedules(
@@ -54,7 +88,18 @@ def get_available_schedules(
             "status": status.lower(),
         },
     ).mappings().all()
-    return [ScheduleSummary(**row) for row in rows]
+    rules_by_field = _weekly_closure_rules_by_field(db, ids)
+    summaries = [ScheduleSummary(**row) for row in rows]
+    return [
+        s
+        for s in summaries
+        if not utc_interval_overlaps_weekly_closures(
+            s.start_time,
+            s.end_time,
+            rules_by_field.get(s.id_field, ()),
+            tz_name=settings.TIMEZONE,
+        )
+    ]
 
 
 def get_schedules_for_fields_on_date(
@@ -81,7 +126,18 @@ def get_schedules_for_fields_on_date(
         query,
         {"field_ids": ids, "target_date": target_date, "timezone": settings.TIMEZONE},
     ).mappings().all()
-    return [ScheduleSummary(**row) for row in rows]
+    rules_by_field = _weekly_closure_rules_by_field(db, ids)
+    summaries = [ScheduleSummary(**row) for row in rows]
+    return [
+        s
+        for s in summaries
+        if not utc_interval_overlaps_weekly_closures(
+            s.start_time,
+            s.end_time,
+            rules_by_field.get(s.id_field, ()),
+            tz_name=settings.TIMEZONE,
+        )
+    ]
 
 
 def field_has_upcoming_reservations(

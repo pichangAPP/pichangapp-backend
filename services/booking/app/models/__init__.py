@@ -8,6 +8,8 @@ from .field_combination import FieldCombination, FieldCombinationMember
 from .image import Image
 from .modality import Modality
 from .sport import Sport
+from .weekly_schedule_closure import WeeklyScheduleClosure
+
 __all__ = [
     "Business",
     "BusinessLegal",
@@ -20,4 +22,5 @@ __all__ = [
     "Image",
     "Modality",
     "Sport",
+    "WeeklyScheduleClosure",
 ]
