@@ -113,7 +113,7 @@ class KafkaConsumerWorker:
                     )
                     continue
 
-                if event_type == "rent.payment_received":
+                if event_type in ("rent.payment_received", "rent.booking_notice"):
                     self._retry_email_dispatch(
                         event_type=event_type,
                         email_action=lambda: self._email_service.send_rent_notification(

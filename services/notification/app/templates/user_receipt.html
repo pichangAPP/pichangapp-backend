@@ -10,12 +10,15 @@
         body { margin: 0; padding: 0; background-color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #0f172a; }
         .wrap { max-width: 600px; margin: 0 auto; padding: 24px 16px 40px; }
         .card { background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08); }
-        .hero { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #fff; padding: 28px 24px 32px; }
-        .hero-top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-        .hero-logo-wrap { width: 68px; height: 68px; border-radius: 16px; background: rgba(255,255,255,0.18); padding: 8px; display: inline-flex; align-items: center; justify-content: center; }
-        .hero-logo { width: 52px; height: 52px; border-radius: 12px; object-fit: contain; display: block; }
-        .hero h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
-        .hero p { margin: 10px 0 0; font-size: 15px; opacity: 0.95; line-height: 1.5; }
+        .hero { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #fff; padding: 28px 24px 32px; text-align: center; }
+        /* Bloques apilados + centrado: mejor soporte en Gmail/Outlook que flex en fila */
+        .hero-inner { width: 100%; max-width: 520px; margin: 0 auto; }
+        .hero-logo-row { margin: 0 0 20px; text-align: center; line-height: 0; }
+        .hero-logo-wrap { width: 68px; height: 68px; margin: 0 auto; border-radius: 16px; background: rgba(255,255,255,0.18); padding: 8px; display: inline-block; vertical-align: top; text-align: center; line-height: 0; }
+        .hero-logo { width: 52px; height: 52px; border-radius: 12px; object-fit: contain; display: block; margin: 0 auto; }
+        .hero-text { text-align: center; padding: 0 8px; }
+        .hero h1 { margin: 0 0 10px; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+        .hero p { margin: 0; font-size: 15px; opacity: 0.95; line-height: 1.5; }
         .body { padding: 28px 24px 32px; }
         .greet { font-size: 16px; line-height: 1.6; margin: 0 0 16px; }
         .cta-row { margin: 24px 0; text-align: center; }
@@ -43,11 +46,13 @@
     <div class="wrap">
         <div class="card">
             <div class="hero">
-                <div class="hero-top">
+                <div class="hero-inner">
                     {% if brand_logo_src %}
-                    <span class="hero-logo-wrap"><img class="hero-logo" src="{{ brand_logo_src }}" alt="{{ app_brand }}" width="52" height="52" /></span>
+                    <div class="hero-logo-row">
+                        <span class="hero-logo-wrap"><img class="hero-logo" src="{{ brand_logo_src }}" alt="{{ app_brand }}" width="52" height="52" /></span>
+                    </div>
                     {% endif %}
-                    <div>
+                    <div class="hero-text">
                         <h1>{{ user_status_heading }}</h1>
                         <p>{{ app_brand }}</p>
                     </div>

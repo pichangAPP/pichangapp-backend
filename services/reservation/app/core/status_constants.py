@@ -24,16 +24,27 @@ RENT_HOLD_STATUS_CODES = (
     "needs_info",
 )
 
+# Estados cuyo aviso va con correo a usuario + manager (send_rent_notification).
+RENT_BOOKING_NOTICE_STATUS_CODES = (
+    RENT_PENDING_PAYMENT_STATUS_CODE,
+    RENT_UNDER_REVIEW_STATUS_CODE,
+    "pending_proof",
+    "proof_submitted",
+    "needs_info",
+)
+
 SCHEDULE_AVAILABLE_STATUS_CODE = "available"
 SCHEDULE_EXPIRED_STATUS_CODE = "expired"
 SCHEDULE_PENDING_STATUS_CODE = "pending"
 SCHEDULE_HOLD_PAYMENT_STATUS_CODE = "hold_payment"
+SCHEDULE_RESERVED_STATUS_CODE = "reserved"
 SCHEDULE_BLOCKED_ADMIN_STATUS_CODE = "blocked_admin"
 
 SCHEDULE_BLOCKING_STATUS_CODES = (
     SCHEDULE_PENDING_STATUS_CODE,
     SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
     SCHEDULE_BLOCKED_ADMIN_STATUS_CODE,
+    SCHEDULE_RESERVED_STATUS_CODE,
 )
 
 # Schedules in these statuses do not block POST/PUT of another row on the same field

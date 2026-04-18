@@ -452,7 +452,7 @@ El servicio completa periodo, montos y fechas a partir del horario cuando `statu
 
 #### `POST .../rents/combo` — Response
 
-Misma forma que `RentPaymentResponse`; en rentas combo, `schedules` incluye un elemento por cada horario vinculado.
+Misma forma que `RentPaymentResponse`; `schedules` es siempre una lista (una renta simple trae un elemento; combo trae uno por horario vinculado). El primario está en `id_schedule` en la raíz del rent.
 
 #### `POST .../rents/admin` — Request
 

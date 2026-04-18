@@ -17,6 +17,7 @@ from app.core.status_constants import (
     SCHEDULE_EXCLUDED_CONFLICT_STATUS_CODES,
     SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
     SCHEDULE_PENDING_STATUS_CODE,
+    SCHEDULE_RESERVED_STATUS_CODE,
 )
 from app.integrations import booking_reader
 from app.models.rent import Rent
@@ -50,6 +51,11 @@ from app.domain.rent.field_status import (
     reset_field_status_after_time,
 )
 from app.domain.rent.hydrator import RentHydrator
+from app.domain.rent.notification_triggers import (
+    notification_event_types_after_rent_create,
+    notification_event_types_after_rent_update_admin,
+    notification_event_types_after_rent_update_user,
+)
 from app.domain.rent.notifications import RentNotificationPublisher
 from app.domain.rent.payments import (
     build_payment_instructions,
@@ -135,6 +141,97 @@ class RentService:
             excluded_rent_statuses=self._active_excluded_statuses(),
             exclude_rent_id=exclude_rent_id,
         )
+
+    def _emit_rent_update_notifications(
+        self,
+        *,
+        updated_rent: Optional[Rent],
+        original_status: str,
+        rent_had_id_payment_before: bool,
+        notify_after_payment: bool,
+        is_admin_rent: bool,
+        background_tasks: Optional[BackgroundTasks],
+    ) -> None:
+        """Publish Kafka notification events after a rent PUT.
+
+        Admin and user flows use different pure rules in ``notification_triggers``.
+        """
+        if updated_rent is None:
+            return
+        if is_admin_rent:
+            event_types = notification_event_types_after_rent_update_admin(
+                original_status=original_status,
+                updated_status=updated_rent.status or "",
+                rent_had_id_payment_before=rent_had_id_payment_before,
+                rent_has_id_payment_after=updated_rent.id_payment is not None,
+            )
+        else:
+            event_types = notification_event_types_after_rent_update_user(
+                original_status=original_status,
+                updated_status=updated_rent.status or "",
+                notify_after_payment=notify_after_payment,
+                rent_has_id_payment_after=updated_rent.id_payment is not None,
+            )
+        if not event_types:
+            return
+
+        if background_tasks is not None:
+            if len(event_types) == 1:
+                background_tasks.add_task(
+                    RentNotificationPublisher.publish_by_id,
+                    rent_id=updated_rent.id_rent,
+                    event_type=event_types[0],
+                )
+            else:
+                background_tasks.add_task(
+                    RentNotificationPublisher.publish_events_by_id,
+                    rent_id=updated_rent.id_rent,
+                    event_types=event_types,
+                )
+        else:
+            publisher = RentNotificationPublisher(self.db)
+            for event_type in event_types:
+                publisher.publish(
+                    rent=updated_rent,
+                    event_type=event_type,
+                )
+
+    def _emit_rent_create_notifications(
+        self,
+        rent: Optional[Rent],
+        *,
+        background_tasks: Optional[BackgroundTasks],
+    ) -> None:
+        """Publish Kafka events after POST create (first persisted rent state)."""
+        if rent is None:
+            return
+        event_types = notification_event_types_after_rent_create(
+            status=rent.status or "",
+            rent_has_id_payment=rent.id_payment is not None,
+        )
+        if not event_types:
+            return
+
+        if background_tasks is not None:
+            if len(event_types) == 1:
+                background_tasks.add_task(
+                    RentNotificationPublisher.publish_by_id,
+                    rent_id=rent.id_rent,
+                    event_type=event_types[0],
+                )
+            else:
+                background_tasks.add_task(
+                    RentNotificationPublisher.publish_events_by_id,
+                    rent_id=rent.id_rent,
+                    event_types=event_types,
+                )
+        else:
+            publisher = RentNotificationPublisher(self.db)
+            for event_type in event_types:
+                publisher.publish(
+                    rent=rent,
+                    event_type=event_type,
+                )
 
     def list_rents(
         self,
@@ -318,6 +415,10 @@ class RentService:
             )
 
         persisted = rent_repository.get_rent(self.db, rent.id_rent)
+        self._emit_rent_create_notifications(
+            persisted,
+            background_tasks=background_tasks,
+        )
         rent_response = hydrator.hydrate_rent(persisted)
         instructions = build_payment_instructions(
             self.db,
@@ -392,11 +493,16 @@ class RentService:
             schedule_id=schedule.id_schedule,
             is_primary=True,
         )
-        schedule.status = SCHEDULE_HOLD_PAYMENT_STATUS_CODE
+        schedule_code = (
+            SCHEDULE_RESERVED_STATUS_CODE
+            if (rent_data.get("status") or "").strip().lower() == RENT_RESERVED_STATUS_CODE
+            else SCHEDULE_HOLD_PAYMENT_STATUS_CODE
+        )
+        schedule.status = schedule_code
         schedule.id_status = resolve_status_id(
             self.db,
             entity="schedule",
-            code=SCHEDULE_HOLD_PAYMENT_STATUS_CODE,
+            code=schedule_code,
         )
         schedule_repository.save_schedule(self.db, schedule)
 
@@ -415,6 +521,10 @@ class RentService:
             )
 
         persisted = rent_repository.get_rent(self.db, rent.id_rent)
+        self._emit_rent_create_notifications(
+            persisted,
+            background_tasks=background_tasks,
+        )
         return hydrator.hydrate_rent(persisted)
 
     def create_rent_combo(
@@ -541,6 +651,10 @@ class RentService:
                 )
 
         persisted = rent_repository.get_rent(self.db, rent.id_rent)
+        self._emit_rent_create_notifications(
+            persisted,
+            background_tasks=background_tasks,
+        )
         rent_response = hydrator.hydrate_rent(persisted)
         instructions = build_payment_instructions(
             self.db,
@@ -635,6 +749,7 @@ class RentService:
     ) -> RentResponse:
         hydrator = RentHydrator(self.db)
         rent = self._get_rent_model(rent_id)
+        rent_had_id_payment_before = rent.id_payment is not None
         original_schedules = ordered_schedules_for_rent(self.db, rent)
         original_schedule = (
             original_schedules[0]
@@ -760,49 +875,14 @@ class RentService:
 
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
-        updated_status = (
-            (updated_rent.status or "").strip().lower()
-            if updated_rent is not None
-            else ""
+        self._emit_rent_update_notifications(
+            updated_rent=updated_rent,
+            original_status=original_status,
+            rent_had_id_payment_before=rent_had_id_payment_before,
+            notify_after_payment=notify_after_payment,
+            is_admin_rent=False,
+            background_tasks=background_tasks,
         )
-        verdict_status = bool(
-            updated_status
-            and updated_status != original_status
-            and updated_rent is not None
-            and updated_rent.id_payment is not None
-        )
-        if updated_rent is not None and (notify_after_payment or verdict_status):
-            event_types: List[str] = []
-            if notify_after_payment:
-                event_types.append("rent.payment_received")
-            if verdict_status:
-                if updated_status == RENT_RESERVED_STATUS_CODE:
-                    event_types.append("rent.approved")
-                elif updated_status.startswith("rejected_"):
-                    event_types.append("rent.rejected")
-                else:
-                    event_types.append("rent.verdict")
-
-            if background_tasks is not None:
-                if len(event_types) == 1:
-                    background_tasks.add_task(
-                        RentNotificationPublisher.publish_by_id,
-                        rent_id=updated_rent.id_rent,
-                        event_type=event_types[0],
-                    )
-                else:
-                    background_tasks.add_task(
-                        RentNotificationPublisher.publish_events_by_id,
-                        rent_id=updated_rent.id_rent,
-                        event_types=event_types,
-                    )
-            else:
-                publisher = RentNotificationPublisher(self.db)
-                for event_type in event_types:
-                    publisher.publish(
-                        rent=updated_rent,
-                        event_type=event_type,
-                    )
 
         new_field_ids = self._field_ids_for_rent(updated_rent)
         for fid in set(original_field_ids) | set(new_field_ids):
@@ -832,6 +912,7 @@ class RentService:
     ) -> RentResponse:
         hydrator = RentHydrator(self.db)
         rent = self._get_rent_model(rent_id)
+        rent_had_id_payment_before = rent.id_payment is not None
 
         update_data = payload.model_dump(exclude_unset=True)
         if self._schedule_link_count(rent) > 1 and "id_schedule" in update_data:
@@ -839,11 +920,11 @@ class RentService:
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Cannot change schedule on a combined-field rent",
             )
-        notify_after_payment = (
-            "id_payment" in update_data
-            and update_data["id_payment"] is not None
-            and (rent.id_payment is None or rent.id_payment != update_data["id_payment"])
+        payment_submission_requested = (
+            "id_payment" in update_data and update_data["id_payment"] is not None
         )
+        if payment_submission_requested:
+            validate_payment(self.db, int(update_data["id_payment"]))
         original_status = (rent.status or "").strip().lower()
         if "status" in update_data or "id_status" in update_data:
             status_code, status_id = resolve_status_pair(
@@ -935,49 +1016,14 @@ class RentService:
 
         rent_repository.save_rent(self.db, rent)
         updated_rent = rent_repository.get_rent(self.db, rent_id)
-        updated_status = (
-            (updated_rent.status or "").strip().lower()
-            if updated_rent is not None
-            else ""
+        self._emit_rent_update_notifications(
+            updated_rent=updated_rent,
+            original_status=original_status,
+            rent_had_id_payment_before=rent_had_id_payment_before,
+            notify_after_payment=False,
+            is_admin_rent=True,
+            background_tasks=background_tasks,
         )
-        verdict_status = bool(
-            updated_status
-            and updated_status != original_status
-            and updated_rent is not None
-            and updated_rent.id_payment is not None
-        )
-        if updated_rent is not None and (notify_after_payment or verdict_status):
-            event_types = []
-            if notify_after_payment:
-                event_types.append("rent.payment_received")
-            if verdict_status:
-                if updated_status == RENT_RESERVED_STATUS_CODE:
-                    event_types.append("rent.approved")
-                elif updated_status.startswith("rejected_"):
-                    event_types.append("rent.rejected")
-                else:
-                    event_types.append("rent.verdict")
-
-            if background_tasks is not None:
-                if len(event_types) == 1:
-                    background_tasks.add_task(
-                        RentNotificationPublisher.publish_by_id,
-                        rent_id=updated_rent.id_rent,
-                        event_type=event_types[0],
-                    )
-                else:
-                    background_tasks.add_task(
-                        RentNotificationPublisher.publish_events_by_id,
-                        rent_id=updated_rent.id_rent,
-                        event_types=event_types,
-                    )
-            else:
-                publisher = RentNotificationPublisher(self.db)
-                for event_type in event_types:
-                    publisher.publish(
-                        rent=updated_rent,
-                        event_type=event_type,
-                    )
 
         for fid in self._field_ids_for_rent(updated_rent):
             refresh_field_status(

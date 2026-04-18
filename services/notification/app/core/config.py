@@ -16,9 +16,28 @@ def _to_bool(value: str, *, default: bool = False) -> bool:
     return lowered in {"true", "1", "yes", "y", "on"}
 
 
+def _public_api_base() -> str:
+    return (os.getenv("PUBLIC_API_BASE_URL") or "").strip().rstrip("/")
+
+
+def _reservation_pass_fallback_url() -> str:
+    direct = (os.getenv("RESERVATION_PASS_FALLBACK_BASE_URL") or "").strip()
+    if direct:
+        return direct
+    base = _public_api_base()
+    if base:
+        return f"{base}/api/pichangapp/v1/notification/notifications/reservation-pass"
+    return ""
+
+
 class Settings:
     PROJECT_NAME: str = os.getenv("NOTIFICATION_PROJECT_NAME", "Cuadra! Notifications")
     APP_BRAND_NAME: str = os.getenv("APP_BRAND_NAME", "Cuadra!")
+    # Logo en cabeceras HTML de correo (URL pública HTTPS; no adjuntar PNG inline).
+    EMAIL_BRAND_LOGO_URL: str = (
+        os.getenv("EMAIL_BRAND_LOGO_URL", "").strip()
+        or "https://cuadraipe.com/images/pichangapp-icon.png"
+    )
 
     # Misma base que auth (schema auth.user_devices).
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
@@ -64,9 +83,8 @@ class Settings:
     # Plantilla opcional del enlace del QR. Placeholders: {rent_id}, {schedule_day},
     # {user_email}, {token}. Si está vacía, se usa RESERVATION_PASS_FALLBACK_BASE_URL?token=...
     RESERVATION_PASS_URL_TEMPLATE: str = os.getenv("RESERVATION_PASS_URL_TEMPLATE", "")
-    RESERVATION_PASS_FALLBACK_BASE_URL: str = (
-        os.getenv("RESERVATION_PASS_FALLBACK_BASE_URL", "") or ""
-    ).strip()
+    PUBLIC_API_BASE_URL: str = _public_api_base()
+    RESERVATION_PASS_FALLBACK_BASE_URL: str = _reservation_pass_fallback_url()
     RESERVATION_PASS_TOKEN_SECRET: str = (
         os.getenv("RESERVATION_PASS_TOKEN_SECRET", "") or "change-me-reservation-pass-secret"
     ).strip()

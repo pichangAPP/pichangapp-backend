@@ -2,10 +2,48 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from decimal import Decimal
+from typing import Any, Dict, Optional, Sequence
 
-from sqlalchemy import text
+from sqlalchemy import bindparam, text
 from sqlalchemy.orm import Session
+
+
+def get_payment_summaries(
+    db: Session,
+    payment_ids: Sequence[int],
+) -> Dict[int, Dict[str, Any]]:
+    """Return payment rows keyed by ``id_payment`` (empty if none or DB miss).
+
+    Used by: RentHydrator to embed ``payment`` on ``RentResponse``.
+    """
+    unique = sorted({int(x) for x in payment_ids if x is not None})
+    if not unique:
+        return {}
+    query = text(
+        """
+        SELECT id_payment, amount, currency, method, status, type, paid_at,
+               transaction_id, reference
+        FROM payment.payment
+        WHERE id_payment IN :pids
+        """
+    ).bindparams(bindparam("pids", expanding=True))
+    rows = db.execute(query, {"pids": unique}).mappings().all()
+    out: Dict[int, Dict[str, Any]] = {}
+    for row in rows:
+        pid = int(row["id_payment"])
+        out[pid] = {
+            "id_payment": pid,
+            "amount": row["amount"] if isinstance(row["amount"], Decimal) else Decimal(str(row["amount"])),
+            "currency": row["currency"],
+            "method": row["method"],
+            "status": row["status"],
+            "type": row["type"],
+            "paid_at": row["paid_at"],
+            "transaction_id": int(row["transaction_id"]),
+            "reference": row["reference"],
+        }
+    return out
 
 
 def get_payment_status(db: Session, payment_id: int) -> Optional[str]:
@@ -53,4 +91,4 @@ def get_campus_digital_wallets(
         "updated_at": row["updated_at"],
     }
 
-__all__ = ["get_payment_status", "get_campus_digital_wallets"]
+__all__ = ["get_campus_digital_wallets", "get_payment_status", "get_payment_summaries"]

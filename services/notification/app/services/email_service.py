@@ -18,7 +18,7 @@ from app.domain.notification.attachments import (
     build_reservation_pass,
     upload_pass_to_firebase,
 )
-from app.domain.notification.branding import BRAND_LOGO_CONTENT_ID, get_brand_logo_bytes
+from app.core.config import settings
 from app.domain.notification.context import build_common_context
 from app.domain.notification.templates import (
     build_manager_subject,
@@ -54,25 +54,8 @@ class EmailService:
     def _with_email_extras(self, context: Dict[str, Any], *, pass_link: str) -> Dict[str, Any]:
         merged = dict(context)
         merged["pass_link"] = pass_link
-        # Gmail suele bloquear data: URLs en <img>; usamos adjunto inline (CID) en el repositorio.
-        merged["brand_logo_src"] = (
-            f"cid:{BRAND_LOGO_CONTENT_ID}" if get_brand_logo_bytes() else ""
-        )
+        merged["brand_logo_src"] = (settings.EMAIL_BRAND_LOGO_URL or "").strip()
         return merged
-
-    @staticmethod
-    def _logo_inline_attachments() -> list[EmailAttachment]:
-        raw = get_brand_logo_bytes()
-        if not raw:
-            return []
-        return [
-            EmailAttachment(
-                filename="cuadra-logo.png",
-                content_type="image/png",
-                data=raw,
-                content_id=BRAND_LOGO_CONTENT_ID,
-            )
-        ]
 
     def _render_template(self, template_name: str, context: Dict[str, Any]) -> str:
         try:
@@ -114,7 +97,7 @@ class EmailService:
 
         user_html, user_text = select_user_templates(payload.rent.status)
         include_pass_assets = not self._is_rejected_status(payload.rent.status)
-        user_attachments = [*self._logo_inline_attachments()]
+        user_attachments: list[EmailAttachment] = []
         reservation_pass = None
         if include_pass_assets:
             reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
@@ -149,7 +132,7 @@ class EmailService:
         manager_context["recipient"] = payload.manager
         manager_html, manager_text = select_manager_templates(payload.rent.status)
 
-        manager_attachments = [*self._logo_inline_attachments()]
+        manager_attachments: list[EmailAttachment] = []
         if include_pass_assets and reservation_pass is not None:
             manager_qr = build_qr_attachment(
                 pass_link,
@@ -196,7 +179,7 @@ class EmailService:
 
         user_html, user_text = select_user_templates(payload.rent.status)
         include_pass_assets = not self._is_rejected_status(payload.rent.status)
-        user_attachments = [*self._logo_inline_attachments()]
+        user_attachments: list[EmailAttachment] = []
         if include_pass_assets:
             reservation_pass = build_reservation_pass(payload, pass_link=pass_link)
             upload_pass_to_firebase(attachment=reservation_pass, payload=payload)

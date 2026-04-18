@@ -8,6 +8,8 @@ x-common-env: &common-env
   AUTH_INTERNAL_API_KEY: "${AUTH_INTERNAL_API_KEY}"
   AUTH_SERVICE_URL: ${AUTH_SERVICE_URL:-http://auth:8000}
   AUTH_SERVICE_TIMEOUT: ${AUTH_SERVICE_TIMEOUT:-10}
+  # URL pública HTTPS (Nginx → gateway); enlaces en emails / fallbacks que salen al cliente.
+  PUBLIC_API_BASE_URL: "${PUBLIC_API_BASE_URL:-https://api.cuadraipe.com}"
   KAFKA_BOOTSTRAP_SERVERS: ${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
   ERROR_LOGS_TOPIC: ${ERROR_LOGS_TOPIC:-error.logs}
 # Límites de recursos (VM): definir en .env en la raíz del repo, p. ej. RASA_MEM_LIMIT=4g
@@ -278,7 +280,7 @@ services:
       MANAGER_CONFIRMATION_SUBJECT: "${MANAGER_CONFIRMATION_SUBJECT}"
       USER_RECEIPT_SUBJECT: "${USER_RECEIPT_SUBJECT}"
       APP_BRAND_NAME: "${APP_BRAND_NAME:-Cuadra!}"
-      RESERVATION_PASS_FALLBACK_BASE_URL: "${RESERVATION_PASS_FALLBACK_BASE_URL:-http://31.97.95.61:9000/api/pichangapp/v1/notification/notifications/reservation-pass}"
+      RESERVATION_PASS_FALLBACK_BASE_URL: "${RESERVATION_PASS_FALLBACK_BASE_URL:-https://api.cuadraipe.com/api/pichangapp/v1/notification/notifications/reservation-pass}"
       RESERVATION_PASS_TOKEN_SECRET: "${RESERVATION_PASS_TOKEN_SECRET}"
       RESERVATION_PASS_TOKEN_EXPIRE_DAYS: "${RESERVATION_PASS_TOKEN_EXPIRE_DAYS:-14}"
       RESERVATION_PASS_RATE_LIMIT_PER_MINUTE: "${RESERVATION_PASS_RATE_LIMIT_PER_MINUTE:-40}"
@@ -408,7 +410,7 @@ services:
       ANALYTICS_SERVICE_URL: http://analytics:8005
       CHATBOT_SERVICE_URL: http://rasa:8006
     ports:
-      - "9000:9000"
+      - "127.0.0.1:9000:9000"
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9000"]
     restart: unless-stopped
     networks:

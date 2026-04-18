@@ -87,7 +87,7 @@ Algunos campus venden **dos o más canchas físicas como una unidad lógica** (p
 
 **Paso 5 — Persistencia y efectos en horarios.** Se crea **una** renta enlazada a **varios** schedules (tabla de vínculos interna). Los horarios involucrados pasan a estado de **espera de pago** (hold), y se refresca el estado agregado de cada cancha. Pueden programarse tareas en segundo plano para revertir estados tras el fin del evento.
 
-**Paso 6 — Respuesta al cliente.** Igual que la renta simple exitosa en modo pago pendiente: objeto `rent` (con `schedules` múltiples y `schedule` primario) más `payment_instructions` (código, mensaje, datos Yape/Plin si aplican).
+**Paso 6 — Respuesta al cliente.** Igual que la renta simple exitosa en modo pago pendiente: objeto `rent` (con `schedules[]`, uno o más ítems; el primario sigue en `id_schedule` en la raíz) más `payment_instructions` (código, mensaje, datos Yape/Plin si aplican).
 
 ### 2.4. Qué debe hacer el frontend
 
@@ -353,6 +353,48 @@ En paralelo se comprueba **`field_has_active_rent_in_range`**: rentas que no est
 
 **Nota de producto:** al actualizar una renta **combo**, el servicio puede recalcular campos derivados desde el schedule primario; si solo se actualiza pago/estado, conviene no enviar `mount` salvo que el negocio quiera forzar un valor explícito.
 
+#### 6.9.1. Notificaciones por correo/push (Kafka): renta vs pago
+
+El microservicio **notification** consume el topic configurado (p. ej. `reservation.notifications`) y envía correos/push según `event_type`. Las reglas de **cuándo** publica el servicio **reservation** están centralizadas en código puro:
+
+| Artefacto | Ubicación |
+| --- | --- |
+| Reglas (sin BD) | `services/reservation/app/domain/rent/notification_triggers.py` |
+| Orquestación tras POST/PUT | `services/reservation/app/services/rent_service.py` (`_emit_rent_create_notifications`, `_emit_rent_update_notifications`) |
+| Tests de reglas | `services/reservation/tests/test_rent_notification_triggers.py` |
+| Consumidor email/push | `services/notification/app/core/kafka.py` |
+
+**Dos conceptos distintos**
+
+1. **Estado de la renta** (`rent.status` en reservación): es lo que cuenta para “hubo un cambio de negocio” en la reserva.
+2. **Estado o datos del pago** (registro en el microservicio **payment**, tablas propias): pueden cambiar (monto, estado interno del cobro, etc.) **sin** pasar por `PUT …/rents` o `PUT …/rents/admin/…`. Esas mutaciones **no** disparan por sí solas las reglas anteriores; solo lo hace el flujo que persiste la **renta** y evalúa los triggers.
+
+**Tras `PUT …/rents/admin/{id}` (solo admin)**
+
+Función: `notification_event_types_after_rent_update_admin`.
+
+- Al final del PUT la renta debe tener **`id_payment` no nulo** para cualquier publicación.
+- **Cambio de `rent.status`:** con `id_payment` presente, un evento según el **nuevo** estado: `reserved` → `rent.approved`; `rejected_*` → `rent.rejected`; estados en `RENT_BOOKING_NOTICE_STATUS_CODES` → `rent.booking_notice`; otros → `rent.verdict`.
+- **Primera vinculación de `id_payment`** (antes `null`, después no) **sin** cambiar `rent.status` → `rent.booking_notice` (p. ej. renta creada en `pending_payment` y luego PUT que solo enlaza el pago). Sustituir `id_payment` cuando la renta ya tenía uno, sin cambio de estado, no emite.
+
+**Tras `PUT …/rents/{id}` (renta normal / jugador)**
+
+Función: `notification_event_types_after_rent_update_user` (disparos clásicos distintos del admin).
+
+- Si en el body se **asigna o cambia** el `id_payment` de la renta respecto al valor previo → **`rent.payment_received`** (independiente de si en el mismo request cambia el estado).
+- Si tras el PUT la renta tiene `id_payment` y **`rent.status`** cambió respecto al valor previo → se añade un segundo evento según el nuevo estado (misma tabla de mapeo que arriba: approved / rejected / booking_notice / verdict). Sin `id_payment` en la renta no hay eventos por solo cambio de estado.
+- Cambiar solo el registro de **payment** en el microservicio payment (sin tocar la renta) no ejecuta estas reglas.
+
+**Tras `POST` creación de renta (normal, admin o combo)**
+
+- Para avisar **pago pendiente** u otros estados en `RENT_BOOKING_NOTICE_STATUS_CODES`, sí puede enviarse `rent.booking_notice` **aunque** `id_payment` sea aún `null` (p. ej. modal admin “aún no cobró”).
+- `reserved` / `rejected_*` en creación siguen exigiendo `id_payment` en la renta para `rent.approved` / `rent.rejected`.
+
+**Eventos en notification**
+
+- `rent.booking_notice` y `rent.payment_received` (legacy) se tratan igual en el consumer: `send_rent_notification`.
+- `rent.approved`, `rent.rejected`, `rent.verdict`: `send_user_confirmation` + push según política actual.
+
 ### 6.10. Cancelar renta (`PUT …/reservation/rents/{id}/cancel`)
 
 - Solo en estados “de retención” (`RENT_HOLD_STATUS_CODES`, p. ej. `pending_payment`, `under_review`, …).
@@ -360,7 +402,7 @@ En paralelo se comprueba **`field_has_active_rent_in_range`**: rentas que no est
 
 ### 6.11. Listados y campus (`get_rents_by_campus`)
 
-La función SQL puede devolver **varias filas** por la misma renta (una por cada schedule vinculado). El hidratador **agrupa por `id_rent`** y arma `schedules[]` más `schedule` (primario) en la respuesta.
+La función SQL puede devolver **varias filas** por la misma renta (una por cada schedule vinculado). El hidratador **agrupa por `id_rent`** y arma **`schedules[]`** (uno o más elementos); el horario primario coincide con **`id_schedule`** en la raíz del objeto rent.
 
 ### 6.12. Integración con Payment
 
@@ -398,7 +440,7 @@ Recomendación de producto: si el cliente **ya conoce** `id_schedule` libre (p. 
 | Tema | Archivos |
 | --- | --- |
 | Creación / reutilización schedule | `services/reservation/app/services/schedule_service.py`, `services/reservation/app/repository/schedule_repository.py`, `domain/schedule/validations.py` |
-| Renta simple y combo | `services/reservation/app/services/rent_service.py`, `domain/rent/combo.py`, `domain/rent/defaults.py`, `repository/rent_repository.py` |
+| Renta simple y combo | `services/reservation/app/services/rent_service.py`, `domain/rent/combo.py`, `domain/rent/defaults.py`, `domain/rent/notification_triggers.py`, `repository/rent_repository.py` |
 | Time slots | `domain/schedule/time_slots.py` |
 | Schemas API | `services/reservation/app/schemas/rent.py`, `schemas/schedule.py` |
 | Estados | `services/reservation/app/core/status_constants.py` |

@@ -158,6 +158,20 @@ class RentAdminUpdate(BaseModel):
     payment_reviewed_by: Optional[int] = None
 
 
+class RentPaymentSummary(BaseModel):
+    """Snapshot of ``payment.payment`` when the rent has ``id_payment``."""
+
+    id_payment: int
+    amount: Decimal
+    currency: str
+    method: str
+    status: str
+    type: str
+    paid_at: datetime
+    transaction_id: int
+    reference: Optional[str] = None
+
+
 class ScheduleSummary(BaseModel):
     """Schedule information included when returning rents."""
 
@@ -179,8 +193,9 @@ class RentResponse(RentBase):
     """Rent data returned to API clients."""
 
     id_rent: int
+    # All linked slots (one or more). Primary id is also ``id_schedule`` on the rent.
     schedules: List[ScheduleSummary]
-    schedule: ScheduleSummary
+    payment: Optional[RentPaymentSummary] = None
 
     class Config:
         from_attributes = True

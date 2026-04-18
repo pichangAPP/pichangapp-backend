@@ -14,11 +14,11 @@ from app.core.error_codes import (
     SCHEDULE_NOT_FOUND,
     http_error,
 )
-from app.integrations import auth_reader, booking_reader
+from app.integrations import auth_reader, booking_reader, payment_reader
 from app.models.rent import Rent
 from app.models.schedule import Schedule
 from app.repository import schedule_repository
-from app.schemas.rent import RentResponse, ScheduleSummary
+from app.schemas.rent import RentPaymentSummary, RentResponse, ScheduleSummary
 from app.schemas.schedule import FieldSummary, UserSummary
 
 
@@ -101,6 +101,9 @@ class RentHydrator:
                 detail=str(exc),
             ) from exc
 
+        payment_ids = [int(r.id_payment) for r in rents if r.id_payment is not None]
+        payments_raw = payment_reader.get_payment_summaries(self.db, payment_ids)
+
         responses: List[RentResponse] = []
         for rent in rents:
             ordered = ordered_schedules_for_rent(self.db, rent)
@@ -120,7 +123,12 @@ class RentHydrator:
                         user=user,
                     )
                 )
-            responses.append(self._build_rent_response(rent, summaries))
+            pay: Optional[RentPaymentSummary] = None
+            if rent.id_payment is not None:
+                row = payments_raw.get(int(rent.id_payment))
+                if row is not None:
+                    pay = RentPaymentSummary(**row)
+            responses.append(self._build_rent_response(rent, summaries, pay))
         return responses
 
     def build_rent_responses_from_rows(self, rows: Sequence[dict]) -> List[RentResponse]:
@@ -132,6 +140,8 @@ class RentHydrator:
             return []
 
         sorted_rows = sorted(rows, key=_campus_view_row_sort_key)
+        pay_ids = [int(r["id_payment"]) for r in sorted_rows if r.get("id_payment")]
+        payments_raw = payment_reader.get_payment_summaries(self.db, pay_ids)
         responses: List[RentResponse] = []
         for _rent_id, group in groupby(sorted_rows, key=lambda r: r["id_rent"]):
             grp = list(group)
@@ -177,6 +187,11 @@ class RentHydrator:
                 )
             first = grp[0]
             primary = schedule_summaries[0]
+            pay: Optional[RentPaymentSummary] = None
+            if first.get("id_payment") is not None:
+                prow = payments_raw.get(int(first["id_payment"]))
+                if prow is not None:
+                    pay = RentPaymentSummary(**prow)
             responses.append(
                 RentResponse(
                     id_rent=first["id_rent"],
@@ -205,7 +220,7 @@ class RentHydrator:
                     customer_notes=first.get("customer_notes"),
                     id_schedule=primary.id_schedule,
                     schedules=schedule_summaries,
-                    schedule=primary,
+                    payment=pay,
                 )
             )
         return responses
@@ -242,6 +257,7 @@ class RentHydrator:
     def _build_rent_response(
         rent: Rent,
         schedule_summaries: List[ScheduleSummary],
+        payment: Optional[RentPaymentSummary],
     ) -> RentResponse:
         """Build the final RentResponse object.
 
@@ -275,7 +291,7 @@ class RentHydrator:
             customer_notes=rent.customer_notes,
             id_schedule=primary.id_schedule,
             schedules=schedule_summaries,
-            schedule=primary,
+            payment=payment,
         )
 
 
