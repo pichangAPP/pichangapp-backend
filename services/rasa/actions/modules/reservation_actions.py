@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from rasa_sdk import Action, Tracker
@@ -20,6 +21,7 @@ from ..domain.chatbot.preferences import (
 from ..domain.chatbot.reservation import (
     describe_slot_availability as _describe_slot_availability,
     match_slot_status as _match_slot_status,
+    normalize_reservation_status as _normalize_reservation_status,
     rent_end_time as _rent_end_time,
     rent_start_time as _rent_start_time,
     select_target_rent as _select_target_rent,
@@ -32,6 +34,38 @@ from ..domain.chatbot.time_utils import (
     parse_date_value as _parse_date_value,
     parse_time_value as _parse_time_value,
 )
+
+_MONTH_ABBREV_ES = {
+    1: "ene",
+    2: "feb",
+    3: "mar",
+    4: "abr",
+    5: "may",
+    6: "jun",
+    7: "jul",
+    8: "ago",
+    9: "sep",
+    10: "oct",
+    11: "nov",
+    12: "dic",
+}
+
+
+def _format_es_datetime(value: Optional[datetime]) -> Optional[str]:
+    """Return '<day> <mon_abbrev>' in Spanish for the given datetime."""
+
+    if value is None:
+        return None
+    return f"{value.day} {_MONTH_ABBREV_ES.get(value.month, value.strftime('%b'))}"
+
+
+def _resolve_schedule(rent: Dict[str, Any]) -> Dict[str, Any]:
+    schedule = rent.get("schedule") or {}
+    if not schedule:
+        schedules = rent.get("schedules") or []
+        if schedules:
+            return schedules[0] or {}
+    return schedule
 
 
 class ActionReprogramReservation(Action):
@@ -191,4 +225,144 @@ class ActionReprogramReservation(Action):
         return []
 
 
-__all__ = ["ActionReprogramReservation"]
+class ActionListUserReservations(Action):
+    """List the authenticated player's upcoming reservations."""
+
+    def name(self) -> str:
+        return "action_list_user_reservations"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> List[EventType]:
+        latest_message = tracker.latest_message or {}
+        metadata = _coerce_metadata(latest_message.get("metadata"))
+        session_id = tracker.get_slot("chatbot_session_id")
+        user_token = _extract_token_from_metadata(metadata)
+
+        user_id: Optional[int] = None
+        user_id_slot = tracker.get_slot("user_id")
+        if user_id_slot:
+            try:
+                user_id = int(str(user_id_slot).strip())
+            except ValueError:
+                user_id = None
+        if user_id is None:
+            user_id = _coerce_user_identifier(
+                metadata.get("user_id") or metadata.get("id_user")
+            )
+
+        if user_id is None:
+            response_text = (
+                "No logro identificar tu cuenta. "
+                "Inicia sesión nuevamente para revisar tus reservas."
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=None,
+                response_text=response_text,
+                response_type="user_reservations_error",
+            )
+            return []
+
+        history = await _fetch_user_rent_history(
+            user_id, token=user_token, status="reserved"
+        )
+        if not history:
+            await asyncio.sleep(0.35)
+            history = await _fetch_user_rent_history(
+                user_id, token=user_token, status="reserved"
+            )
+        if not history:
+            history = await _fetch_user_rent_history(user_id, token=user_token)
+            history = [
+                rent
+                for rent in history
+                if _normalize_reservation_status(rent.get("status")) == "reserved"
+            ]
+
+        now = datetime.now(timezone.utc)
+        upcoming: List[Dict[str, Any]] = []
+        for rent in history:
+            start_dt = _rent_start_time(rent)
+            if start_dt is None or start_dt < now:
+                continue
+            upcoming.append(rent)
+        upcoming.sort(key=lambda rent: _rent_start_time(rent) or datetime.max.replace(tzinfo=timezone.utc))
+
+        if not upcoming:
+            response_text = (
+                "No encuentro reservas activas a futuro en tu historial. "
+                "¿Quieres que te ayude a encontrar una cancha?"
+            )
+            dispatcher.utter_message(text=response_text)
+            await _record_intent_and_log(
+                tracker=tracker,
+                session_id=session_id,
+                user_id=user_id,
+                response_text=response_text,
+                response_type="user_reservations_empty",
+            )
+            return []
+
+        items: List[str] = []
+        rent_summaries: List[Dict[str, Any]] = []
+        for index, rent in enumerate(upcoming[:5], start=1):
+            start_dt = _rent_start_time(rent)
+            end_dt = _rent_end_time(rent)
+            schedule = _resolve_schedule(rent)
+            field_info = schedule.get("field") or {}
+            field_name = field_info.get("field_name") or "cancha"
+            campus_name = (
+                field_info.get("campus_name")
+                or (field_info.get("campus") or {}).get("campus_name")
+                or rent.get("campus_name")
+            )
+            date_label = _format_es_datetime(start_dt) or "fecha por confirmar"
+            start_label = start_dt.strftime("%H:%M") if start_dt else "--:--"
+            end_label = end_dt.strftime("%H:%M") if end_dt else "--:--"
+            campus_part = f" ({campus_name})" if campus_name else ""
+            items.append(
+                f"{index}. {date_label} {start_label}-{end_label} — {field_name}{campus_part}"
+            )
+            rent_summaries.append(
+                {
+                    "rent_id": rent.get("id_rent"),
+                    "field_name": field_name,
+                    "campus_name": campus_name,
+                    "start_time": start_dt.isoformat() if start_dt else None,
+                    "end_time": end_dt.isoformat() if end_dt else None,
+                }
+            )
+
+        response_text = (
+            "Estas son tus próximas reservas:\n"
+            + "\n".join(items)
+            + "\nSi quieres reprogramar o cancelar alguna, dime cuál."
+        )
+        response_metadata = {
+            "response_type": "user_reservations",
+            "reservations": rent_summaries,
+            "total": len(upcoming),
+        }
+        dispatcher.utter_message(
+            text=response_text,
+            metadata=response_metadata,
+            custom={"reservations": rent_summaries},
+        )
+        await _record_intent_and_log(
+            tracker=tracker,
+            session_id=session_id,
+            user_id=user_id,
+            response_text=response_text,
+            response_type="user_reservations",
+            message_metadata=response_metadata,
+        )
+        return []
+
+
+__all__ = ["ActionReprogramReservation", "ActionListUserReservations"]

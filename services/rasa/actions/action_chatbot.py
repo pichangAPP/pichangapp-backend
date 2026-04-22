@@ -7,6 +7,7 @@ from .modules import (
     ActionDefaultFallback,
     ActionEnsureUserRole,
     ActionHandleFeedbackRating,
+    ActionListUserReservations,
     ActionLogFieldRecommendationRequest,
     ActionLogUserIntent,
     ActionProvideAdminCampusTopClients,
@@ -19,7 +20,6 @@ from .modules import (
     ActionSessionStart,
     ActionShowRecommendationHistory,
     ActionSubmitFieldRecommendationForm,
-    ValidateAdminMetricsForm,
     ValidateFieldRecommendationForm,
 )
 
@@ -30,6 +30,7 @@ __all__ = [
     "ActionDefaultFallback",
     "ActionEnsureUserRole",
     "ActionHandleFeedbackRating",
+    "ActionListUserReservations",
     "ActionLogFieldRecommendationRequest",
     "ActionLogUserIntent",
     "ActionProvideAdminCampusTopClients",
@@ -42,6 +43,5 @@ __all__ = [
     "ActionSessionStart",
     "ActionShowRecommendationHistory",
     "ActionSubmitFieldRecommendationForm",
-    "ValidateAdminMetricsForm",
     "ValidateFieldRecommendationForm",
 ]

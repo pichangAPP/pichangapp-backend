@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from datetime import date
 from typing import Any, Dict, List, Optional
 from sqlalchemy import text
 
@@ -63,5 +64,25 @@ async def fetch_revenue_metrics_from_analytics(
     campus_id: int,
     *,
     token: Optional[str] = None,
+    traffic_mode: Optional[str] = None,
 ) -> Optional[Dict[str, Any]]:
-    return await analytics_client.get_campus_metrics(campus_id, token=token)
+    return await analytics_client.get_campus_metrics(
+        campus_id, token=token, traffic_mode=traffic_mode
+    )
+
+
+async def fetch_active_reservations_from_analytics(
+    campus_id: int,
+    *,
+    token: Optional[str] = None,
+    target_date: Optional[date] = None,
+    field_name: Optional[str] = None,
+    limit: int = 100,
+) -> Optional[Dict[str, Any]]:
+    return await analytics_client.get_active_reservations(
+        campus_id,
+        token=token,
+        target_date=target_date,
+        field_name=field_name,
+        limit=limit,
+    )

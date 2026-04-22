@@ -215,6 +215,8 @@ La lógica se evalúa en **reservation** (crear/actualizar rentas y schedules, l
 
 ### API (booking, requiere auth como el resto del router v1)
 
+**Especificación para frontend** (pantallas, bodies JSON, casos de uso, errores): [`frontend-cierres-semanales.md`](./frontend-cierres-semanales.md).
+
 Prefijo: `/api/pichangapp/v1/booking`
 
 | Método | Ruta |
@@ -223,6 +225,10 @@ Prefijo: `/api/pichangapp/v1/booking`
 | `POST` | `/campuses/{campus_id}/weekly-schedule-closures` |
 | `PUT` | `/weekly-schedule-closures/{closure_id}` |
 | `DELETE` | `/weekly-schedule-closures/{closure_id}` |
+
+### Errores en booking (alta o edición de cierres)
+
+Si el resultado efectivo del **POST** o **PUT** deja la regla **activa** (`is_active` true) y su ventana recurrente intersecta en el tiempo con al menos una renta en estado **`reserved`** en alguna cancha alcanzada por la regla (toda la sede o una cancha concreta), booking responde **409** con código **`WEEKLY_CLOSURE_CONFLICTS_RESERVED_RENT`**. La comprobación usa lectura directa del esquema **`reservation`** desde el servicio booking (`reservation_reader`). No aplica al **solo** desactivar (`is_active` false).
 
 ### Errores en reservation
 
@@ -272,7 +278,7 @@ ALTER TABLE booking.weekly_schedule_closure
 | Modelo / CRUD booking | `services/booking/app/models/weekly_schedule_closure.py`, `weekly_schedule_closure_repository.py`, `weekly_schedule_closure_service.py`, `api/v1/weekly_schedule_closure_routes.py` |
 | Lectura de reglas desde reservation | `services/reservation/app/integrations/booking_reader.py` (`list_weekly_closure_rules_for_field`) |
 | Solape UTC ↔ reglas locales (incl. cierre que cruza medianoche / 24h) | `services/reservation/app/domain/schedule/weekly_closure.py` (`naive_weekly_closure_block`) |
-| Solape en booking (listados campus) | `services/booking/app/core/weekly_schedule_closure_overlap.py`, `integrations/reservation_reader.py` |
+| Solape en booking (listados campus + conflicto cierre ↔ rentas `reserved`) | `services/booking/app/core/weekly_schedule_closure_overlap.py`, `integrations/reservation_reader.py` (`list_reserved_rent_time_windows_for_fields`, `find_reserved_rent_id_conflicting_with_weekly_rule`) |
 | Slots por fecha | `services/reservation/app/domain/schedule/time_slots.py` |
 | Horario de cancha que cruza medianoche (`open_time` / `close_time`) | `services/reservation/app/domain/schedule/validations.py` — `validate_schedule_window` (alineado con slots en `time_slots.py` § 7). |
 

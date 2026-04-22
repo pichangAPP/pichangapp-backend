@@ -42,13 +42,6 @@ class ImageUpdate(BaseModel):
     id_business: Optional[int] = None
     id_field: Optional[int] = None
 
-    @field_validator("image_url")
-    @classmethod
-    def _validate_image_url_optional(cls, value: Optional[str]) -> Optional[str]:
-        if value is None:
-            return None
-        return validate_https_image_url(value)
-
 
 class ImageResponse(ImageBase):
     model_config = ConfigDict(from_attributes=True)

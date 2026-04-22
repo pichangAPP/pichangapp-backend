@@ -48,6 +48,11 @@ RENT_ACTIVE_CONFLICT = ErrorCode(
     message="El campo ya tiene una reserva activa en ese rango.",
     status_code=status.HTTP_409_CONFLICT,
 )
+WEEKLY_CLOSURE_CONFLICTS_RESERVED_RENT = ErrorCode(
+    code="WEEKLY_CLOSURE_CONFLICTS_RESERVED_RENT",
+    message="No se puede definir el cierre: existe una reserva en estado reservada que intersecta este bloqueo recurrente.",
+    status_code=status.HTTP_409_CONFLICT,
+)
 RENT_SCHEDULE_STARTED = ErrorCode(
     code="RENT_SCHEDULE_STARTED",
     message="La reserva ya comenzó. Elige otro horario.",

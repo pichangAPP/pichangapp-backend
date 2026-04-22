@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from typing import Any, Dict, Optional
 
 from rasa_sdk import Tracker
@@ -12,7 +13,12 @@ from ...domain.chatbot.async_utils import run_in_thread
 from ...domain.chatbot.context import coerce_metadata, coerce_user_identifier
 
 LOGGER = logging.getLogger(__name__)
-ACTION_SIDE_LOGGING_ENABLED = False
+ACTION_SIDE_LOGGING_ENABLED = os.getenv("ACTION_SIDE_LOGGING_ENABLED", "false").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 
 
 async def record_intent_and_log(
@@ -45,12 +51,17 @@ async def record_intent_and_log(
     intent_id: Optional[int] = None
     try:
         intent_id = await run_in_thread(
-            chatbot_service.get_intent_id,
+            chatbot_service.ensure_intent,
             intent_name,
+            [user_message or intent_name],
+            response_text,
+            confidence=confidence,
+            detected=(intent_name != "nlu_fallback"),
+            false_positive=(intent_name == "nlu_fallback"),
         )
     except DatabaseError:
         LOGGER.exception(
-            "[Analytics] Unable to resolve intent=%s for conversation=%s",
+            "[Analytics] Unable to ensure intent=%s for conversation=%s",
             intent_name,
             tracker.sender_id,
         )

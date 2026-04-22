@@ -107,6 +107,70 @@ class RentService:
             return int(rent.schedule_links[0].id_schedule)
         return None
 
+    def _schedules_for_admin_transition(
+        self,
+        *,
+        rent: Rent,
+        original_schedules: List[Schedule],
+        target_schedule: Schedule,
+        schedule_changed: bool,
+    ) -> List[Schedule]:
+        """Return schedules affected by an admin status transition."""
+        if schedule_changed and self._schedule_link_count(rent) <= 1:
+            return [target_schedule]
+        if original_schedules:
+            return original_schedules
+        return [target_schedule]
+
+    def _ensure_schedules_reusable_for_reservation(
+        self,
+        *,
+        rent: Rent,
+        schedules: List[Schedule],
+    ) -> None:
+        """Ensure schedules can be reused before setting a rent to reserved."""
+        for schedule in schedules:
+            status_value = (schedule.status or "").strip().lower()
+            if status_value != SCHEDULE_AVAILABLE_STATUS_CODE:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=(
+                        f"Schedule {schedule.id_schedule} is not available. "
+                        "Only available schedules can be reserved by admin."
+                    ),
+                )
+            ensure_schedule_available(
+                self.db,
+                schedule.id_schedule,
+                excluded_statuses=self._active_excluded_statuses(),
+                exclude_rent_id=rent.id_rent,
+            )
+            raise_if_schedule_blocked_by_weekly_closure(self.db, schedule)
+            self._ensure_field_window_clear_for_new_rent(
+                schedule,
+                exclude_schedule_id=schedule.id_schedule,
+                exclude_rent_id=rent.id_rent,
+            )
+
+    def _set_schedules_status(
+        self,
+        *,
+        schedules: List[Schedule],
+        status_code: str,
+    ) -> None:
+        """Persist the same status on all provided schedules."""
+        status_id = resolve_status_id(
+            self.db,
+            entity="schedule",
+            code=status_code,
+        )
+        for schedule in schedules:
+            if (schedule.status or "").strip().lower() == status_code:
+                continue
+            schedule.status = status_code
+            schedule.id_status = status_id
+            schedule_repository.save_schedule(self.db, schedule)
+
     def _get_rent_model(self, rent_id: int) -> Rent:
         rent = rent_repository.get_rent(self.db, rent_id)
         if rent is None:
@@ -968,6 +1032,22 @@ class RentService:
 
         prev_primary = self._primary_schedule_id(rent)
         schedule_changed = prev_primary is None or target_schedule.id_schedule != prev_primary
+        next_status = (
+            (update_data.get("status") or rent.status or "")
+            .strip()
+            .lower()
+        )
+        schedules_for_transition = self._schedules_for_admin_transition(
+            rent=rent,
+            original_schedules=original_schedules,
+            target_schedule=target_schedule,
+            schedule_changed=schedule_changed,
+        )
+        if next_status == RENT_RESERVED_STATUS_CODE:
+            self._ensure_schedules_reusable_for_reservation(
+                rent=rent,
+                schedules=schedules_for_transition,
+            )
 
         field_summary = (
             booking_reader.get_field_summary(self.db, target_schedule.id_field)
@@ -1012,6 +1092,12 @@ class RentService:
                 self.db,
                 rent_id=rent.id_rent,
                 new_schedule_id=target_schedule.id_schedule,
+            )
+
+        if next_status == RENT_RESERVED_STATUS_CODE:
+            self._set_schedules_status(
+                schedules=schedules_for_transition,
+                status_code=SCHEDULE_RESERVED_STATUS_CODE,
             )
 
         rent_repository.save_rent(self.db, rent)

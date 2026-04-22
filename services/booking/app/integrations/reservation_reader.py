@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime
 from decimal import Decimal
-from typing import Iterable, List
+from typing import Iterable, List, Optional
 
 from sqlalchemy import bindparam, text
 from sqlalchemy.orm import Session
@@ -140,6 +140,67 @@ def get_schedules_for_fields_on_date(
     ]
 
 
+def list_reserved_rent_time_windows_for_fields(
+    db: Session,
+    field_ids: list[int],
+) -> list[tuple[int, datetime, datetime]]:
+    """Rent rows in ``reserved`` status (not ended) touching any of ``field_ids`` (primary or M:N schedule)."""
+    if not field_ids:
+        return []
+    query = text(
+        """
+        SELECT DISTINCT r.id_rent, r.start_time, r.end_time
+          FROM reservation.rent r
+         WHERE lower(trim(r.status)) = 'reserved'
+           AND r.start_time IS NOT NULL
+           AND r.end_time IS NOT NULL
+           AND r.end_time >= now()
+           AND (
+                EXISTS (
+                    SELECT 1
+                      FROM reservation.schedule s
+                     WHERE s.id_schedule = r.id_schedule
+                       AND s.id_field IN :field_ids
+                )
+                OR EXISTS (
+                    SELECT 1
+                      FROM reservation.rent_schedule rs
+                      JOIN reservation.schedule s ON s.id_schedule = rs.id_schedule
+                     WHERE rs.id_rent = r.id_rent
+                       AND s.id_field IN :field_ids
+                )
+           )
+        """
+    ).bindparams(bindparam("field_ids", expanding=True))
+    rows = db.execute(query, {"field_ids": field_ids}).mappings().all()
+    out: list[tuple[int, datetime, datetime]] = []
+    for row in rows:
+        rid = int(row["id_rent"])
+        st = row["start_time"]
+        en = row["end_time"]
+        if st is not None and en is not None:
+            out.append((rid, st, en))
+    return out
+
+
+def find_reserved_rent_id_conflicting_with_weekly_rule(
+    db: Session,
+    *,
+    field_ids: list[int],
+    rule: WeeklyClosureRule,
+) -> Optional[int]:
+    """Return ``id_rent`` of a reserved rent whose window overlaps the recurring closure, or ``None``."""
+    for rid, st, en in list_reserved_rent_time_windows_for_fields(db, field_ids):
+        if utc_interval_overlaps_weekly_closures(
+            st,
+            en,
+            [rule],
+            tz_name=settings.TIMEZONE,
+        ):
+            return rid
+    return None
+
+
 def field_has_upcoming_reservations(
     db: Session,
     field_id: int,
@@ -177,6 +238,8 @@ def field_has_upcoming_reservations(
 __all__ = [
     "ScheduleSummary",
     "field_has_upcoming_reservations",
+    "find_reserved_rent_id_conflicting_with_weekly_rule",
     "get_available_schedules",
     "get_schedules_for_fields_on_date",
+    "list_reserved_rent_time_windows_for_fields",
 ]

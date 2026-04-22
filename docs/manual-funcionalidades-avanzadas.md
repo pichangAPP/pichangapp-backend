@@ -2,11 +2,11 @@
 
 **Versión orientada a documentación formal** (importación a Microsoft Word u otros editores). Complementa el [README principal](../README.md), que concentra la lista de endpoints y ejemplos HTTP.
 
-| Campo | Contenido |
-| --- | --- |
-| **Objetivo** | Describir paso a paso cómo funcionan los flujos más complejos y para qué sirven, para equipos de frontend y de integración. |
-| **Alcance** | Time slots por fecha, ciclo completo schedule→renta→pago→cancelación, validaciones y conflictos, canchas combinadas (combo), visión de integración del chatbot Rasa. |
-| **Audiencia** | Desarrolladores que consumen la API o replican reglas en cliente. |
+| Campo         | Contenido                                                                                                                                                            |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Objetivo**  | Describir paso a paso cómo funcionan los flujos más complejos y para qué sirven, para equipos de frontend y de integración.                                          |
+| **Alcance**   | Time slots por fecha, ciclo completo schedule→renta→pago→cancelación, validaciones y conflictos, canchas combinadas (combo), visión de integración del chatbot Rasa. |
+| **Audiencia** | Desarrolladores que consumen la API o replican reglas en cliente.                                                                                                    |
 
 ---
 
@@ -44,10 +44,10 @@ El endpoint `GET /api/pichangapp/v1/reservation/schedules/time-slots` expone la 
 
 ### 1.5. Archivos clave
 
-| Archivo | Rol |
-| --- | --- |
-| `services/reservation/app/api/v1/schedule_routes.py` | Expone `time-slots`. |
-| `services/reservation/app/services/schedule_service.py` | Orquesta lectura de cancha y slots. |
+| Archivo                                                  | Rol                                  |
+| -------------------------------------------------------- | ------------------------------------ |
+| `services/reservation/app/api/v1/schedule_routes.py`     | Expone `time-slots`.                 |
+| `services/reservation/app/services/schedule_service.py`  | Orquesta lectura de cancha y slots.  |
 | `services/reservation/app/domain/schedule/time_slots.py` | Algoritmo de generación y ocupación. |
 
 ---
@@ -116,11 +116,11 @@ sequenceDiagram
 
 ### 2.6. Archivos clave
 
-| Archivo | Rol |
-| --- | --- |
-| `services/booking/app/api/v1/field_combination_routes.py` | CRUD combinaciones. |
-| `services/reservation/app/domain/rent/combo.py` | Validación y monto combo. |
-| `services/reservation/app/services/rent_service.py` | `create_rent_combo`. |
+| Archivo                                                   | Rol                                      |
+| --------------------------------------------------------- | ---------------------------------------- |
+| `services/booking/app/api/v1/field_combination_routes.py` | CRUD combinaciones.                      |
+| `services/reservation/app/domain/rent/combo.py`           | Validación y monto combo.                |
+| `services/reservation/app/services/rent_service.py`       | `create_rent_combo`.                     |
 | `services/reservation/app/integrations/booking_reader.py` | Lectura de combinación para reservación. |
 
 **Esquema en base de datos:** las tablas `booking.field_combination` y `booking.field_combination_member` deben existir en la BD **antes** de desplegar el servicio. El arranque de **booking** ya **no** ejecuta DDL automático (evita `CREATE TABLE IF NOT EXISTS` en producción si el esquema ya está versionado por vosotros). Referencia DDL para migraciones manuales:
@@ -185,30 +185,231 @@ Estructura modular de helpers de acciones: **[services/rasa/actions/domain/chatb
 
 ---
 
+## Analytics: `revenue-metrics` y `active-reservations`
+
+Esta sección documenta cómo consumir los endpoints de analíticas del campus que suelen usarse en dashboards operativos.
+
+### Filtros reutilizables (patrón común)
+
+Los nuevos endpoints de analíticas comparten estos filtros para evitar duplicar APIs por cada vista:
+
+| Parámetro                | Tipo                                       | Uso                                                                           |
+| ------------------------ | ------------------------------------------ | ----------------------------------------------------------------------------- |
+| `period`                 | `today \| week \| month \| date \| custom` | Ventana temporal de cálculo.                                                  |
+| `target_date`            | `YYYY-MM-DD`                               | Requerido cuando `period=date`.                                               |
+| `start_date`, `end_date` | `YYYY-MM-DD`                               | Requeridos cuando `period=custom` (inclusive).                                |
+| `campus_id`              | integer                                    | Filtro por sede.                                                              |
+| `field_id`               | integer                                    | Filtro por cancha/espacio deportivo.                                          |
+| `sport_id`               | integer                                    | Filtro por deporte.                                                           |
+| `status`                 | string                                     | Filtro por estado de renta (por ejemplo `reserved`, `pending_payment`, etc.). |
+
+### Endpoint 1 — Métricas de ingresos
+
+`GET /api/pichangapp/v1/analytics/campuses/{campus_id}/revenue-metrics`
+
+**Parámetros**
+
+| Parámetro      | Ubicación | Tipo    | Requerido | Descripción                                                                                     |
+| -------------- | --------- | ------- | --------- | ----------------------------------------------------------------------------------------------- |
+| `campus_id`    | Path      | integer | Sí        | Identificador del campus.                                                                       |
+| `traffic_mode` | Query     | string  | No        | Modo para `last_seven_days_rent_traffic`. Valores: `monthly_weekday` (default) o `daily_last7`. |
+
+**Modos de `traffic_mode`**
+
+| Valor             | Comportamiento en `last_seven_days_rent_traffic`                                                                                         |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `monthly_weekday` | Devuelve 7 fechas consecutivas (hasta hoy), pero cada `rent_count` es el acumulado del mes para ese día de semana (lunes, martes, etc.). |
+| `daily_last7`     | Devuelve 7 fechas consecutivas (hasta hoy) con conteo real por fecha.                                                                    |
+
+**Ejemplos**
+
+```http
+GET /api/pichangapp/v1/analytics/campuses/1/revenue-metrics
+```
+
+```http
+GET /api/pichangapp/v1/analytics/campuses/1/revenue-metrics?traffic_mode=monthly_weekday
+```
+
+```http
+GET /api/pichangapp/v1/analytics/campuses/1/revenue-metrics?traffic_mode=daily_last7
+```
+
+### Endpoint 2 — Reservas activas por fecha
+
+`GET /api/pichangapp/v1/analytics/campuses/{campus_id}/active-reservations`
+
+**Parámetros**
+
+| Parámetro     | Ubicación | Tipo         | Requerido | Descripción                                                                      |
+| ------------- | --------- | ------------ | --------- | -------------------------------------------------------------------------------- |
+| `campus_id`   | Path      | integer      | Sí        | Identificador del campus.                                                        |
+| `target_date` | Query     | `YYYY-MM-DD` | No        | Fecha a inspeccionar. Si no se envía, se usa la fecha actual local del servicio. |
+| `field_name`  | Query     | string       | No        | Filtro parcial por nombre de cancha.                                             |
+| `limit`       | Query     | integer      | No        | Máximo de registros a devolver. Rango válido: `1..300`. Default: `100`.          |
+
+**Ejemplos**
+
+```http
+GET /api/pichangapp/v1/analytics/campuses/1/active-reservations
+```
+
+```http
+GET /api/pichangapp/v1/analytics/campuses/1/active-reservations?target_date=2026-04-21
+```
+
+```http
+GET /api/pichangapp/v1/analytics/campuses/1/active-reservations?target_date=2026-04-21&field_name=futbol&limit=50
+```
+
+```
+{
+    "campus_id": 3,
+    "campus_name": "Campus Surco - SOCCERPLEX",
+    "target_date": "2026-04-22",
+    "total_active_reservations": 1,
+    "reservations": [
+        {
+            "rent_id": 109,
+            "rent_status": "reserved",
+            "field_id": 9,
+            "field_name": "Cancha Sintética Norte",
+            "start_time": "2026-04-22T11:00:00-05:00",
+            "end_time": "2026-04-22T13:00:00-05:00",
+            "user_id": 15
+        }
+    ]
+}
+```
+
+### Endpoint 3 — Métricas reutilizables de reservas e ingresos
+
+`GET /api/pichangapp/v1/analytics/metrics/rents`
+
+Este endpoint unifica conteo de reservas + ingresos con agrupación dinámica.
+
+| Parámetro adicional | Tipo                                                         | Descripción                                |
+| ------------------- | ------------------------------------------------------------ | ------------------------------------------ |
+| `group_by`          | `day \| week \| month \| status \| campus \| field \| sport` | Dimensión de agrupación de los resultados. |
+
+Ejemplos:
+
+```http
+GET /api/pichangapp/v1/analytics/metrics/rents?period=month&group_by=campus
+```
+
+```http
+GET /api/pichangapp/v1/analytics/metrics/rents?period=week&group_by=field&campus_id=1
+```
+
+```http
+GET /api/pichangapp/v1/analytics/metrics/rents?period=date&target_date=2026-04-21&group_by=status&campus_id=1
+```
+
+### Endpoint 4 — Ocupación de sedes/canchas
+
+`GET /api/pichangapp/v1/analytics/metrics/occupancy`
+
+Devuelve:
+
+- resumen global de ocupación (`total_fields`, `occupied_fields`, `occupancy_rate`, `total_schedules`, `total_reservations`, `total_income`)
+- detalle por cancha (`is_occupied`, rentas, horarios, ingresos)
+
+Ejemplos:
+
+```http
+GET /api/pichangapp/v1/analytics/metrics/occupancy?period=today&campus_id=1
+```
+
+```http
+GET /api/pichangapp/v1/analytics/metrics/occupancy?period=date&target_date=2026-04-21&field_id=12
+```
+
+### Endpoint 5 — Top ocupación (ranking)
+
+`GET /api/pichangapp/v1/analytics/rankings/top-occupancy`
+
+| Parámetro adicional | Tipo                       | Descripción                 |
+| ------------------- | -------------------------- | --------------------------- |
+| `scope`             | `campus \| field \| sport` | Nivel del ranking.          |
+| `limit`             | integer                    | Máximo de filas (`1..100`). |
+
+Ejemplos:
+
+```http
+GET /api/pichangapp/v1/analytics/rankings/top-occupancy?scope=campus&period=month&limit=10
+```
+
+```http
+GET /api/pichangapp/v1/analytics/rankings/top-occupancy?scope=field&period=week&sport_id=1&limit=20
+```
+
+```http
+GET /api/pichangapp/v1/analytics/rankings/top-occupancy?scope=sport&period=date&target_date=2026-04-21
+```
+
+### Endpoint 6 — Horarios pico e intersecciones
+
+`GET /api/pichangapp/v1/analytics/metrics/peak-hours`
+
+Este endpoint entrega:
+
+- `hourly_distribution`: reservas por hora (`0..23`)
+- `top_intersections`: cruces `día_semana + hora` con más reservas
+
+| Parámetro adicional | Tipo                              | Descripción                              |
+| ------------------- | --------------------------------- | ---------------------------------------- |
+| `scope`             | `all \| campus \| field \| sport` | Alcance del análisis.                    |
+| `limit`             | integer                           | Máximo de intersecciones top (`1..100`). |
+
+Ejemplos:
+
+```http
+GET /api/pichangapp/v1/analytics/metrics/peak-hours?scope=all&period=month&limit=10
+```
+
+```http
+GET /api/pichangapp/v1/analytics/metrics/peak-hours?scope=campus&campus_id=1&period=week
+```
+
+```http
+GET /api/pichangapp/v1/analytics/metrics/peak-hours?scope=sport&sport_id=2&period=custom&start_date=2026-04-01&end_date=2026-04-21
+```
+
+**Notas de integración**
+
+- `active-reservations` solo devuelve reservas activas dentro de la ventana del día consultado.
+- `traffic_mode` inválido en `revenue-metrics` devuelve error de validación de negocio (`ANALYTICS_INVALID_TRAFFIC_MODE`).
+- Para `period=date`, enviar `target_date`.
+- Para `period=custom`, enviar ambos `start_date` y `end_date`.
+- Los endpoints de analíticas corren en transacción `READ ONLY` para evitar escrituras accidentales y reducir contención.
+
+---
+
 ## 4. Tabla resumen de archivos de dominio (referencia rápida)
 
 Tras la consolidación de README en la raíz del repo, la siguiente tabla sustituye la orientación que antes estaba repartida en `services/*/app/domain/README.md`.
 
-| Microservicio | Directorio dominio | Contenido típico |
-| --- | --- | --- |
-| Auth | `services/auth/app/domain/` | Hash de contraseñas, JWT, sesiones, Google OAuth, auditoría. |
-| Booking | `services/booking/app/domain/` | Validaciones de negocio, campus, canchas, imágenes, disponibilidad. El solape UTC ↔ cierres semanales para lecturas SQL está en **`app/core/weekly_schedule_closure_overlap.py`** (utilidad pura, no en `domain`). |
-| Reservation | `services/reservation/app/domain/` | Rentas, validación de schedules, time slots, pagos/notificaciones asociados a rent. |
-| Payment | `services/payment/app/domain/` | Reglas de pagos y métodos de pago. |
+| Microservicio | Directorio dominio                 | Contenido típico                                                                                                                                                                                                   |
+| ------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Auth          | `services/auth/app/domain/`        | Hash de contraseñas, JWT, sesiones, Google OAuth, auditoría.                                                                                                                                                       |
+| Booking       | `services/booking/app/domain/`     | Validaciones de negocio, campus, canchas, imágenes, disponibilidad. El solape UTC ↔ cierres semanales para lecturas SQL está en **`app/core/weekly_schedule_closure_overlap.py`** (utilidad pura, no en `domain`). |
+| Reservation   | `services/reservation/app/domain/` | Rentas, validación de schedules, time slots, pagos/notificaciones asociados a rent.                                                                                                                                |
+| Payment       | `services/payment/app/domain/`     | Reglas de pagos y métodos de pago.                                                                                                                                                                                 |
 
 ---
 
 ## 5. Glosario breve
 
-| Término | Significado |
-| --- | --- |
-| **Schedule** | Bloque de tiempo asociado a una cancha (estado, precio, usuario opcional). |
-| **Rent** | Reserva confirmada o en flujo de pago, ligada a uno o más schedules. |
-| **Combo** | Renta que bloquea simultáneamente varias canchas de una combinación lógica. |
-| **Time slot** | Intervalo de presentación (aquí 1 h) derivado de políticas de apertura y ocupación. |
-| **Metadata Rasa** | Diccionario enviado al motor NLU/dialogo con contexto de usuario y token. |
-| **`rent_schedule`** | Tabla puente M:N entre una renta y varios schedules (renta combo). |
-| **`field_combination`** | Catálogo en booking de grupos de canchas combinables con precio agrupado. |
+| Término                 | Significado                                                                         |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| **Schedule**            | Bloque de tiempo asociado a una cancha (estado, precio, usuario opcional).          |
+| **Rent**                | Reserva confirmada o en flujo de pago, ligada a uno o más schedules.                |
+| **Combo**               | Renta que bloquea simultáneamente varias canchas de una combinación lógica.         |
+| **Time slot**           | Intervalo de presentación (aquí 1 h) derivado de políticas de apertura y ocupación. |
+| **Metadata Rasa**       | Diccionario enviado al motor NLU/dialogo con contexto de usuario y token.           |
+| **`rent_schedule`**     | Tabla puente M:N entre una renta y varios schedules (renta combo).                  |
+| **`field_combination`** | Catálogo en booking de grupos de canchas combinables con precio agrupado.           |
 
 ---
 
@@ -325,13 +526,13 @@ Ver sección 2; puntos críticos:
 
 Función `validate_schedule_window` (`domain/schedule/validations.py`). Restricciones principales:
 
-| Regla | Efecto si falla |
-| --- | --- |
-| `end_time > start_time` | `400` rango inválido |
-| Mismo día civil (no cruzar medianoche en el tramo reservado) | `400` no cruzar día |
+| Regla                                                                     | Efecto si falla        |
+| ------------------------------------------------------------------------- | ---------------------- |
+| `end_time > start_time`                                                   | `400` rango inválido   |
+| Mismo día civil (no cruzar medianoche en el tramo reservado)              | `400` no cruzar día    |
 | Dentro de `open_time` / `close_time` de la cancha (incluye caso nocturno) | `400` fuera de horario |
-| Alineación de minutos/segundos al `open_time` de la cancha | `400` alineación |
-| Duración en **horas enteras** (múltiplo de 3600 s) | `400` duración |
+| Alineación de minutos/segundos al `open_time` de la cancha                | `400` alineación       |
+| Duración en **horas enteras** (múltiplo de 3600 s)                        | `400` duración         |
 
 Además, **`ensure_start_time_in_future`**: el inicio del schedule debe ser **estrictamente posterior** a “ahora” en la zona `TIMEZONE` del servicio.
 
@@ -357,12 +558,12 @@ En paralelo se comprueba **`field_has_active_rent_in_range`**: rentas que no est
 
 El microservicio **notification** consume el topic configurado (p. ej. `reservation.notifications`) y envía correos/push según `event_type`. Las reglas de **cuándo** publica el servicio **reservation** están centralizadas en código puro:
 
-| Artefacto | Ubicación |
-| --- | --- |
-| Reglas (sin BD) | `services/reservation/app/domain/rent/notification_triggers.py` |
+| Artefacto                  | Ubicación                                                                                                                  |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Reglas (sin BD)            | `services/reservation/app/domain/rent/notification_triggers.py`                                                            |
 | Orquestación tras POST/PUT | `services/reservation/app/services/rent_service.py` (`_emit_rent_create_notifications`, `_emit_rent_update_notifications`) |
-| Tests de reglas | `services/reservation/tests/test_rent_notification_triggers.py` |
-| Consumidor email/push | `services/notification/app/core/kafka.py` |
+| Tests de reglas            | `services/reservation/tests/test_rent_notification_triggers.py`                                                            |
+| Consumidor email/push      | `services/notification/app/core/kafka.py`                                                                                  |
 
 **Dos conceptos distintos**
 
@@ -410,13 +611,13 @@ La función SQL puede devolver **varias filas** por la misma renta (una por cada
 
 ### 6.13. Errores frecuentes (referencia)
 
-| Situación | Código / HTTP | Causa típica |
-| --- | --- | --- |
+| Situación                                     | Código / HTTP                        | Causa típica                                                                                            |
+| --------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------- |
 | Cancelar y luego `POST schedules` mismo rango | `409` antes del fix de reutilización | Ya existía fila `available`; el POST intentaba duplicar. Tras reutilización: se reactiva la misma fila. |
-| `POST schedules` con hora ya pasada | `400` | `ensure_start_time_in_future` |
-| `POST rents` con schedule ya con renta activa | `409` | `ensure_schedule_available` |
-| Combo con distinta ventana entre canchas | `400` | `validate_combo_schedules` |
-| `PUT rents` combo con `id_schedule` | `400` | política explícita en servicio |
+| `POST schedules` con hora ya pasada           | `400`                                | `ensure_start_time_in_future`                                                                           |
+| `POST rents` con schedule ya con renta activa | `409`                                | `ensure_schedule_available`                                                                             |
+| Combo con distinta ventana entre canchas      | `400`                                | `validate_combo_schedules`                                                                              |
+| `PUT rents` combo con `id_schedule`           | `400`                                | política explícita en servicio                                                                          |
 
 ---
 
@@ -437,10 +638,10 @@ Recomendación de producto: si el cliente **ya conoce** `id_schedule` libre (p. 
 
 ## 8. Actualización de la tabla de archivos (reservas ampliadas)
 
-| Tema | Archivos |
-| --- | --- |
-| Creación / reutilización schedule | `services/reservation/app/services/schedule_service.py`, `services/reservation/app/repository/schedule_repository.py`, `domain/schedule/validations.py` |
-| Renta simple y combo | `services/reservation/app/services/rent_service.py`, `domain/rent/combo.py`, `domain/rent/defaults.py`, `domain/rent/notification_triggers.py`, `repository/rent_repository.py` |
-| Time slots | `domain/schedule/time_slots.py` |
-| Schemas API | `services/reservation/app/schemas/rent.py`, `schemas/schedule.py` |
-| Estados | `services/reservation/app/core/status_constants.py` |
+| Tema                              | Archivos                                                                                                                                                                        |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Creación / reutilización schedule | `services/reservation/app/services/schedule_service.py`, `services/reservation/app/repository/schedule_repository.py`, `domain/schedule/validations.py`                         |
+| Renta simple y combo              | `services/reservation/app/services/rent_service.py`, `domain/rent/combo.py`, `domain/rent/defaults.py`, `domain/rent/notification_triggers.py`, `repository/rent_repository.py` |
+| Time slots                        | `domain/schedule/time_slots.py`                                                                                                                                                 |
+| Schemas API                       | `services/reservation/app/schemas/rent.py`, `schemas/schedule.py`                                                                                                               |
+| Estados                           | `services/reservation/app/core/status_constants.py`                                                                                                                             |

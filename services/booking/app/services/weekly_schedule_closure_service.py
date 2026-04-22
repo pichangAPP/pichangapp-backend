@@ -1,10 +1,14 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, time, timezone
+from typing import Optional
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.core.error_codes import WEEKLY_CLOSURE_CONFLICTS_RESERVED_RENT, http_error
+from app.core.weekly_schedule_closure_overlap import WeeklyClosureRule
+from app.integrations.reservation_reader import find_reserved_rent_id_conflicting_with_weekly_rule
 from app.models import WeeklyScheduleClosure
 from app.repository import campus_repository, field_repository, weekly_schedule_closure_repository
 from app.schemas.weekly_schedule_closure import (
@@ -17,6 +21,37 @@ from app.schemas.weekly_schedule_closure import (
 class WeeklyScheduleClosureService:
     def __init__(self, db: Session):
         self.db = db
+
+    def _field_ids_for_scope(self, campus_id: int, id_field: Optional[int]) -> list[int]:
+        if id_field is not None:
+            return [int(id_field)]
+        fields = field_repository.list_fields_by_campus(self.db, campus_id)
+        return [int(f.id_field) for f in fields]
+
+    def _raise_if_rule_conflicts_reserved_rents(
+        self,
+        *,
+        campus_id: int,
+        id_field: Optional[int],
+        weekday: int,
+        local_start_time: Optional[time],
+        local_end_time: Optional[time],
+        is_active: bool,
+    ) -> None:
+        if not is_active:
+            return
+        field_ids = self._field_ids_for_scope(campus_id, id_field)
+        rule = WeeklyClosureRule(weekday, local_start_time, local_end_time)
+        rid = find_reserved_rent_id_conflicting_with_weekly_rule(
+            self.db,
+            field_ids=field_ids,
+            rule=rule,
+        )
+        if rid is not None:
+            raise http_error(
+                WEEKLY_CLOSURE_CONFLICTS_RESERVED_RENT,
+                detail=f"id_rent={rid}",
+            )
 
     def list_for_campus(self, campus_id: int) -> list[WeeklyScheduleClosureResponse]:
         if campus_repository.get_campus(self.db, campus_id) is None:
@@ -46,6 +81,15 @@ class WeeklyScheduleClosureService:
                     detail="Field does not belong to this campus",
                 )
 
+        self._raise_if_rule_conflicts_reserved_rents(
+            campus_id=campus_id,
+            id_field=payload.id_field,
+            weekday=payload.weekday,
+            local_start_time=payload.local_start_time,
+            local_end_time=payload.local_end_time,
+            is_active=payload.is_active,
+        )
+
         data = payload.model_dump()
         data["id_campus"] = campus_id
         row = WeeklyScheduleClosure(**data)
@@ -72,6 +116,35 @@ class WeeklyScheduleClosureService:
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Field does not belong to this campus",
                 )
+
+        final_active = (
+            bool(update_data["is_active"])
+            if "is_active" in update_data
+            else bool(row.is_active)
+        )
+        if final_active:
+            final_weekday = (
+                int(update_data["weekday"]) if "weekday" in update_data else int(row.weekday)
+            )
+            final_ls = (
+                update_data["local_start_time"]
+                if "local_start_time" in update_data
+                else row.local_start_time
+            )
+            final_le = (
+                update_data["local_end_time"]
+                if "local_end_time" in update_data
+                else row.local_end_time
+            )
+            final_field = update_data["id_field"] if "id_field" in update_data else row.id_field
+            self._raise_if_rule_conflicts_reserved_rents(
+                campus_id=int(row.id_campus),
+                id_field=int(final_field) if final_field is not None else None,
+                weekday=final_weekday,
+                local_start_time=final_ls,
+                local_end_time=final_le,
+                is_active=True,
+            )
 
         for key, value in update_data.items():
             setattr(row, key, value)

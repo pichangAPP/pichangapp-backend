@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+    <title>{{ app_brand }} · Solicitud recibida</title>
+    <style>
+        body { margin: 0; padding: 0; background: #e2e8f0; color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        .wrap { max-width: 620px; margin: 0 auto; padding: 24px 16px 40px; }
+        .card { background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08); }
+        .hero { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; padding: 26px 24px; text-align: center; }
+        .hero img { width: 56px; height: 56px; border-radius: 14px; background: rgba(255,255,255,0.15); padding: 6px; margin-bottom: 12px; }
+        .hero h1 { margin: 0; font-size: 22px; line-height: 1.2; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+        .body { padding: 24px; line-height: 1.55; }
+        .details { margin-top: 18px; padding: 16px; border: 1px solid #dbeafe; border-radius: 12px; background: #f8fbff; }
+        .row { margin: 0 0 10px; font-size: 14px; }
+        .row b { color: #334155; }
+        .footer { color: #64748b; font-size: 12px; text-align: center; margin-top: 16px; }
+        @media (prefers-color-scheme: dark) {
+            body { background: #0b1220 !important; color: #e2e8f0 !important; }
+            .card { background: #0f172a !important; border: 1px solid #1e293b !important; box-shadow: none !important; }
+            .hero { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important; }
+            .details { background: #111c30 !important; border-color: #334155 !important; }
+            .row b { color: #93c5fd !important; }
+            .footer { color: #94a3b8 !important; }
+        }
+        [data-ogsc] .card { background: #0f172a !important; border: 1px solid #1e293b !important; box-shadow: none !important; }
+        [data-ogsc] .hero { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important; }
+        [data-ogsc] .details { background: #111c30 !important; border-color: #334155 !important; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="card">
+            <div class="hero">
+                {% if brand_logo_src %}
+                <img src="{{ brand_logo_src }}" alt="{{ app_brand }}" width="56" height="56" />
+                {% endif %}
+                <h1>Confirmacion de solicitud recibida</h1>
+            </div>
+            <div class="body">
+                <p>Hola <strong>{{ owner_name }}</strong>,</p>
+                <p>Recibimos correctamente tu solicitud para registrar el negocio <strong>{{ business_name }}</strong>.</p>
+                <p>Nuestro equipo revisara la informacion y te contactaremos por este mismo correo.</p>
+
+                <div class="details">
+                    <p class="row"><b>Fecha de solicitud:</b> {{ submitted_at }}</p>
+                    <p class="row"><b>Negocio:</b> {{ business_name }}</p>
+                    <p class="row"><b>Titular:</b> {{ owner_name }}</p>
+                    <p class="row"><b>Correo:</b> {{ email }}</p>
+                    <p class="row"><b>Telefono:</b> {{ phone }}</p>
+                </div>
+            </div>
+        </div>
+        <p class="footer">{{ app_brand }} · Gracias por confiar en nosotros.</p>
+    </div>
+</body>
+</html>

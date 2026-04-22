@@ -73,6 +73,45 @@ Este servicio de Rasa convierte al bot en un concierge deportivo: responde pregu
 - **`data/rules.yml`**: Reglas que responden preguntas frecuentes y activan formularios.
 - **`domain.yml`**: Intenciones, entidades, formularios, respuestas y acciones de Chato Bot.
 
+## 🏷️ Etiquetado de logs reales (admin)
+
+Para que cada release cierre el ciclo con datos reales, usa este flujo semanal:
+
+1. **Exportar fallbacks de admin** desde Postgres:
+   ```sql
+   SELECT id_chatbot_log,
+          message,
+          intent_detected,
+          intent_confidence,
+          metadata ->> 'user_role' AS user_role,
+          timestamp
+   FROM analytics.chatbot_log
+   WHERE timestamp >= NOW() - INTERVAL '5 days'
+     AND intent_detected = 'nlu_fallback'
+     AND (metadata ->> 'user_role') = 'admin'
+   ORDER BY timestamp DESC;
+   ```
+
+   También conviene capturar los turnos con `intent_confidence < 0.65`:
+   ```sql
+   SELECT id_chatbot_log, message, intent_detected, intent_confidence
+   FROM analytics.chatbot_log
+   WHERE timestamp >= NOW() - INTERVAL '7 days'
+     AND (metadata ->> 'user_role') = 'admin'
+     AND intent_confidence IS NOT NULL
+     AND intent_confidence < 0.65;
+   ```
+
+2. **Guardar en CSV** con cabeceras: `id_chatbot_log,message,suggested_intent,entities`.
+3. **Etiquetar manualmente** `suggested_intent` (usar solo intents ya existentes en `data/nlu.yml`) y si aplica, marcar entidades Rasa como `[Surco](location)` en el texto.
+4. **Appendear** los ejemplos etiquetados al intent correspondiente en `data/nlu.yml` (no crear intents nuevos sin alinear con `domain.yml`).
+5. **Reentrenar** (`rasa data validate` + `rasa train`) y verificar en staging con guion admin:
+   - "que reservaciones tengo" → `request_admin_reservations_overview`
+   - "cuál es la cancha más ocupada este mes" → `request_admin_field_usage`
+   - "cómo me fue hoy" → `request_admin_metrics`
+
+Meta por release: bajar el `fallback_rate` para user_role=admin y mantener `intent_confidence` promedio > 0.7.
+
 Los patrones heredados de Rasa Studio se conservan en `docs/patterns_backup/` como referencia. Allí encontrarás exactamente los archivos exportados desde Rasa Studio (no se usan en el entrenamiento de `rasa train`).
 
 Consulta `actions/actions.md` para entender el detalle de cada acción personalizada.
@@ -85,7 +124,15 @@ Tras cambios en dominio, reglas o historias, sigue los pasos de [docs/TRAINING_C
 
 El gateway del chatbot es el puerto **8006** (FastAPI). En despliegues reales conviene **no publicar** hacia Internet los puertos internos de Rasa (5005) ni del action server (5055); en `docker-compose.yml` del monorepo hay una nota junto al servicio `rasa` para revisar el mapeo `5055:5055` en producción.
 
-El servicio `rasa` monta **`./services/rasa/artifacts/models` → `/app/artifacts/models`**: la imagen no incluye los `.tar.gz` (ver `.dockerignore`); hay que tener modelos en ese directorio del host o entrenar antes de levantar el contenedor.
+El servicio `rasa` monta **`./services/rasa/artifacts/models` → `/app/artifacts/models`**: ese directorio es la fuente principal del modelo en runtime.
+
+Comportamiento del `entrypoint` al iniciar:
+
+1. Carga desde `/app/artifacts/models` (`RASA_MODEL_DIR`) y selecciona el `.tar.gz` más reciente.
+2. Si `artifacts/models` está vacío, toma el `.tar.gz` más reciente de `/app/models` (`RASA_FALLBACK_MODEL_DIR`, montado desde `./services/rasa/models`) y lo copia a `artifacts/models`.
+3. Si no encuentra modelo, falla el arranque con error claro (**no entrena automáticamente**).
+
+Por defecto se excluye `nlu_smoke_test.tar.gz` de la selección automática (`RASA_EXCLUDED_MODELS_REGEX`).
 
 **Kafka UI** ya no arranca por defecto: usa el perfil `messaging-debug` para depurar tópicos, por ejemplo:
 

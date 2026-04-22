@@ -36,6 +36,27 @@ def _coerce_int(value: Any) -> Optional[int]:
         return None
 
 
+def _extract_metadata_from_event(event: Any) -> Dict[str, Any]:
+    """Collect any metadata payload attached to a UserUttered event.
+
+    Rasa puts custom metadata in two different places depending on the channel:
+    - `event.metadata` (Rasa >= 3.x Pro)
+    - `event.parse_data["metadata"]` (classic rest channel)
+    """
+
+    combined: Dict[str, Any] = {}
+    raw_event_metadata = getattr(event, "metadata", None)
+    if isinstance(raw_event_metadata, dict):
+        combined.update(raw_event_metadata)
+    parse_data = getattr(event, "parse_data", None)
+    if isinstance(parse_data, dict):
+        nested = parse_data.get("metadata")
+        if isinstance(nested, dict):
+            for key, value in nested.items():
+                combined.setdefault(key, value)
+    return combined
+
+
 class ResilientSQLTrackerStore(SQLTrackerStore):
     """Extends the default SQL tracker store with analytics mirroring."""
 
@@ -141,6 +162,59 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
     # ------------------------------------------------------------------
     # Analytics mirroring helpers
     # ------------------------------------------------------------------
+    def _resolve_identity_from_events(
+        self, tracker: DialogueStateTracker
+    ) -> Dict[str, Any]:
+        """Scan recent UserUttered events to recover identity carried in metadata.
+
+        Mobile/web clients often send `user_id`/`id_user`, `user_role`/`id_role`
+        and `chatbot_session_id` only inside the message metadata during the
+        first turns, before those values become proper slots. Without this, the
+        mirror aborts and entire conversations never reach `chatbot_log`.
+        """
+
+        resolved: Dict[str, Any] = {}
+        events = list(getattr(tracker, "events", []) or [])
+        for event in reversed(events):
+            if not isinstance(event, UserUttered):
+                continue
+            payload = _extract_metadata_from_event(event)
+            if not payload:
+                continue
+
+            if "user_id" not in resolved:
+                candidate = _coerce_int(
+                    payload.get("user_id")
+                    or payload.get("id_user")
+                    or (payload.get("nlu_metadata") or {}).get("user_id")
+                    or (payload.get("nlu_metadata") or {}).get("id_user")
+                )
+                if candidate is not None:
+                    resolved["user_id"] = candidate
+
+            if "session_id" not in resolved:
+                candidate = _coerce_int(
+                    payload.get("chatbot_session_id")
+                    or payload.get("id_chatbot_session")
+                    or payload.get("session_id")
+                )
+                if candidate is not None:
+                    resolved["session_id"] = candidate
+
+            if "user_role" not in resolved:
+                role_value = (
+                    payload.get("user_role")
+                    or payload.get("role")
+                    or (payload.get("nlu_metadata") or {}).get("user_role")
+                )
+                if isinstance(role_value, str) and role_value.strip():
+                    resolved["user_role"] = role_value.strip()
+
+            if {"user_id", "session_id", "user_role"}.issubset(resolved.keys()):
+                break
+
+        return resolved
+
     def _mirror_events_into_analytics(self, tracker: DialogueStateTracker) -> None:
         sender_id = tracker.sender_id
         if not sender_id:
@@ -148,17 +222,42 @@ class ResilientSQLTrackerStore(SQLTrackerStore):
 
         session_id = _coerce_int(tracker.get_slot("chatbot_session_id"))
         user_id = _coerce_int(tracker.get_slot("user_id"))
-        if session_id is None or user_id is None:
+        role = tracker.get_slot("user_role")
+        theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
+
+        if user_id is None or session_id is None or not role:
+            fallback = self._resolve_identity_from_events(tracker)
+            if user_id is None:
+                user_id = fallback.get("user_id")
+            if session_id is None:
+                session_id = fallback.get("session_id")
+            if not role:
+                role = fallback.get("user_role") or "player"
+
+        if user_id is None:
+            LOGGER.warning(
+                "[TrackerStore] skipping mirror: no user_id resolved for sender=%s",
+                sender_id,
+            )
             return
 
-        theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
-        role = tracker.get_slot("user_role") or "player"
-
         try:
-            chatbot_service.ensure_chat_session(user_id, theme, role)
+            ensured_session_id = chatbot_service.ensure_chat_session(
+                user_id, theme, role or "player"
+            )
         except DatabaseError:
             LOGGER.exception(
                 "[TrackerStore] Unable to ensure chat session for user_id=%s", user_id
+            )
+            return
+
+        if session_id is None:
+            session_id = _coerce_int(ensured_session_id)
+
+        if session_id is None:
+            LOGGER.warning(
+                "[TrackerStore] skipping mirror: no session_id after ensure for user_id=%s",
+                user_id,
             )
             return
 

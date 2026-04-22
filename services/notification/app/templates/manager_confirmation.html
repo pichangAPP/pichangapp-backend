@@ -10,14 +10,14 @@
         body { margin: 0; padding: 0; background-color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: #0f172a; }
         .wrap { max-width: 600px; margin: 0 auto; padding: 24px 16px 40px; }
         .card { background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08); }
-        .hero { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #fff; padding: 28px 24px 32px; text-align: center; }
+        .hero { background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%); color: #fff; padding: 28px 24px 32px; text-align: center; border-bottom: 1px solid rgba(191, 219, 254, 0.5); }
         .hero-inner { width: 100%; max-width: 520px; margin: 0 auto; }
         .hero-logo-row { margin: 0 0 18px; text-align: center; line-height: 0; }
         .hero-logo-wrap { width: 64px; height: 64px; margin: 0 auto; border-radius: 14px; background: rgba(255,255,255,0.14); padding: 7px; display: inline-block; vertical-align: top; text-align: center; line-height: 0; }
         .hero-logo { width: 50px; height: 50px; border-radius: 10px; object-fit: contain; display: block; margin: 0 auto; }
         .hero-text { text-align: center; padding: 0 8px; }
-        .hero h1 { margin: 0 0 8px; font-size: 21px; font-weight: 700; line-height: 1.25; }
-        .hero p { margin: 0; font-size: 14px; opacity: 0.9; line-height: 1.45; }
+        .hero h1 { margin: 0 0 8px; font-size: 21px; font-weight: 700; line-height: 1.25; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 1px 2px rgba(15, 23, 42, 0.36); }
+        .hero p { margin: 0; font-size: 14px; opacity: 0.9; line-height: 1.45; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; text-shadow: 0 1px 2px rgba(15, 23, 42, 0.28); }
         .body { padding: 28px 24px 32px; }
         .greet { font-size: 15px; line-height: 1.6; margin: 0 0 14px; }
         .campus-pill { display: inline-block; background: #f1f5f9; color: #0f172a; padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: 14px; margin-bottom: 18px; }
@@ -26,13 +26,32 @@
         .details { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-top: 12px; font-size: 14px; line-height: 1.5; }
         .row { margin-bottom: 12px; }
         .row strong { color: #64748b; font-weight: 600; display: inline-block; min-width: 160px; }
-        .time-callout { margin: 0 0 20px; padding: 20px 16px; border-radius: 14px; background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%); border: 1px solid #7dd3fc; text-align: center; }
-        .time-callout-label { margin: 0 0 6px; font-size: 11px; font-weight: 700; color: #0369a1; text-transform: uppercase; letter-spacing: 0.05em; }
-        .time-callout-value { margin: 0; font-size: 26px; font-weight: 800; color: #0f172a; line-height: 1.12; }
-        .time-callout-sub { margin: 12px 0 0; font-size: 13px; color: #334155; line-height: 1.45; }
+        .time-callout { margin: 0 0 20px; padding: 20px 16px; border-radius: 14px; background: linear-gradient(180deg, #dbeafe 0%, #bfdbfe 100%); border: 1px solid #60a5fa; text-align: center; }
+        .time-callout-label { margin: 0 0 6px; font-size: 11px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.05em; }
+        .time-callout-value { margin: 0; font-size: 26px; font-weight: 800; color: #0b1220; line-height: 1.12; }
+        .time-callout-sub { margin: 12px 0 0; font-size: 13px; color: #1e293b; line-height: 1.45; }
         .force-readability { color: #0f172a !important; -webkit-text-fill-color: #0f172a !important; }
         .force-readability-soft { color: #334155 !important; -webkit-text-fill-color: #334155 !important; }
         .footer { text-align: center; font-size: 12px; color: #94a3b8; margin-top: 24px; }
+        @media (prefers-color-scheme: dark) {
+            body { background-color: #0b1220 !important; color: #e2e8f0 !important; }
+            .card { background: #0f172a !important; border: 1px solid #1e293b !important; box-shadow: none !important; }
+            .hero { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important; border-bottom-color: rgba(147, 197, 253, 0.35) !important; }
+            .hero-logo-wrap { background: rgba(15, 23, 42, 0.36) !important; }
+            .hero h1, .hero p { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+            .time-callout { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important; border: 1px solid #334155 !important; }
+            .time-callout-label { color: #93c5fd !important; -webkit-text-fill-color: #93c5fd !important; }
+            .time-callout-value, .force-readability { color: #f8fafc !important; -webkit-text-fill-color: #f8fafc !important; }
+            .time-callout-sub, .force-readability-soft { color: #cbd5e1 !important; -webkit-text-fill-color: #cbd5e1 !important; }
+        }
+        [data-ogsc] .card { background: #0f172a !important; border: 1px solid #1e293b !important; box-shadow: none !important; }
+        [data-ogsc] .hero { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important; border-bottom-color: rgba(147, 197, 253, 0.35) !important; }
+        [data-ogsc] .hero-logo-wrap { background: rgba(15, 23, 42, 0.36) !important; }
+        [data-ogsc] .hero h1, [data-ogsc] .hero p { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+        [data-ogsc] .time-callout { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important; border: 1px solid #334155 !important; }
+        [data-ogsc] .time-callout-label { color: #93c5fd !important; -webkit-text-fill-color: #93c5fd !important; }
+        [data-ogsc] .time-callout-value, [data-ogsc] .force-readability { color: #f8fafc !important; -webkit-text-fill-color: #f8fafc !important; }
+        [data-ogsc] .time-callout-sub, [data-ogsc] .force-readability-soft { color: #cbd5e1 !important; -webkit-text-fill-color: #cbd5e1 !important; }
     </style>
 </head>
 <body>

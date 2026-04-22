@@ -9,6 +9,7 @@ from app.core.config import settings
 
 _lock = Lock()
 _by_ip: dict[str, list[float]] = defaultdict(list)
+_business_request_by_ip: dict[str, list[float]] = defaultdict(list)
 
 
 def _client_ip(forwarded: str | None, direct: str | None) -> str:
@@ -32,8 +33,27 @@ def reservation_pass_rate_limit_exceeded(client_ip: str) -> bool:
     return False
 
 
+def business_request_rate_limit_exceeded(client_ip: str) -> bool:
+    """True si la IP supero el cupo de solicitudes de negocio por minuto."""
+    limit = 10
+    window = 60.0
+    now = time.time()
+    cutoff = now - window
+    with _lock:
+        hits = _business_request_by_ip[client_ip]
+        hits[:] = [t for t in hits if t > cutoff]
+        if len(hits) >= limit:
+            return True
+        hits.append(now)
+    return False
+
+
 def client_ip_from_request(forwarded: str | None, direct: str | None) -> str:
     return _client_ip(forwarded, direct)
 
 
-__all__ = ["client_ip_from_request", "reservation_pass_rate_limit_exceeded"]
+__all__ = [
+    "client_ip_from_request",
+    "reservation_pass_rate_limit_exceeded",
+    "business_request_rate_limit_exceeded",
+]

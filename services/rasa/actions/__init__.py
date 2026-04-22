@@ -18,7 +18,6 @@ from .action_chatbot import (
     ActionSessionStart,
     ActionShowRecommendationHistory,
     ActionSubmitFieldRecommendationForm,
-    ValidateAdminMetricsForm,
     ValidateFieldRecommendationForm,
 )
 
@@ -40,6 +39,5 @@ __all__ = [
     "ActionSessionStart",
     "ActionShowRecommendationHistory",
     "ActionSubmitFieldRecommendationForm",
-    "ValidateAdminMetricsForm",
     "ValidateFieldRecommendationForm",
 ]

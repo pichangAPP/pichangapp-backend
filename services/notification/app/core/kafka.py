@@ -138,13 +138,12 @@ class KafkaConsumerWorker:
     @staticmethod
     def _dispatch_push(event_type: str, notification: NotificationRequest) -> None:
         """FCM independiente del correo: se intenta aunque el SMTP haya fallado."""
-        if not notification.id_user:
-            return
         db = SessionLocal()
         try:
             notify_user_from_event(
                 db,
                 id_user=notification.id_user,
+                id_campus=notification.rent.campus.id_campus,
                 event_type=event_type,
                 rent_id=notification.rent.rent_id,
                 schedule_day=notification.rent.schedule_day,

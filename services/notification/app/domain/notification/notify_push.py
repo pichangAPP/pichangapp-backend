@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.domain.notification.fcm import is_unregistered_fcm_error, send_push
@@ -74,18 +75,38 @@ def notify_user(
     return message_ids
 
 
+def _get_campus_manager_id(db: Session, id_campus: int | None) -> int | None:
+    if not id_campus:
+        return None
+    result = db.execute(
+        text(
+            """
+            SELECT id_manager
+            FROM booking.campus
+            WHERE id_campus = :id_campus
+            LIMIT 1
+            """
+        ),
+        {"id_campus": int(id_campus)},
+    )
+    row = result.first()
+    if row is None:
+        return None
+    manager_id = row[0]
+    return int(manager_id) if manager_id is not None else None
+
+
 def notify_user_from_event(
     db: Session,
     *,
     id_user: int | None,
+    id_campus: int | None,
     event_type: str,
     rent_id: int,
     schedule_day: str,
     status: str,
 ) -> None:
     """Mapea eventos de reserva a título/cuerpo y data string para la app."""
-    if not id_user:
-        return
     data = {
         "type": "rent",
         "event_type": event_type,
@@ -93,11 +114,28 @@ def notify_user_from_event(
         "schedule_day": schedule_day,
         "status": status,
     }
-    if event_type == "rent.payment_received":
-        title, body = ("Pago registrado", "Recibimos tu pago. Tu reserva esta en revision.")
-    else:
-        title, body = _push_message_for_status(status)
-    notify_user(db, id_user, title=title, body=body, data=data)
+    if id_user:
+        if event_type == "rent.payment_received":
+            title, body = ("Pago registrado", "Recibimos tu pago. Tu reserva esta en revision.")
+        else:
+            title, body = _push_message_for_status(status)
+        notify_user(db, id_user, title=title, body=body, data=data)
+
+    manager_id = _get_campus_manager_id(db, id_campus)
+    if manager_id is None or manager_id == id_user:
+        return
+
+    manager_title = "Actividad en tu campus"
+    manager_body = f"Nueva actualizacion de reserva ({status}) en {schedule_day}."
+    manager_data = dict(data)
+    manager_data["target_role"] = "manager"
+    notify_user(
+        db,
+        manager_id,
+        title=manager_title,
+        body=manager_body,
+        data=manager_data,
+    )
 
 
 __all__ = ["notify_user", "notify_user_from_event"]

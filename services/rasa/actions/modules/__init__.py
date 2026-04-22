@@ -9,14 +9,14 @@ from .admin_actions import (
 )
 from .feedback_actions import ActionCheckFeedbackStatus, ActionHandleFeedbackRating
 from .fallback_actions import ActionDefaultFallback
-from .forms import ValidateAdminMetricsForm, ValidateFieldRecommendationForm
+from .forms import ValidateFieldRecommendationForm
 from .intent_actions import ActionLogUserIntent
 from .recommendation_actions import (
     ActionLogFieldRecommendationRequest,
     ActionShowRecommendationHistory,
     ActionSubmitFieldRecommendationForm,
 )
-from .reservation_actions import ActionReprogramReservation
+from .reservation_actions import ActionListUserReservations, ActionReprogramReservation
 from .session_actions import ActionCloseChatSession, ActionEnsureUserRole, ActionSessionStart
 
 __all__ = [
@@ -30,12 +30,12 @@ __all__ = [
     "ActionCheckFeedbackStatus",
     "ActionHandleFeedbackRating",
     "ActionDefaultFallback",
-    "ValidateAdminMetricsForm",
     "ValidateFieldRecommendationForm",
     "ActionLogUserIntent",
     "ActionLogFieldRecommendationRequest",
     "ActionShowRecommendationHistory",
     "ActionSubmitFieldRecommendationForm",
+    "ActionListUserReservations",
     "ActionReprogramReservation",
     "ActionCloseChatSession",
     "ActionEnsureUserRole",

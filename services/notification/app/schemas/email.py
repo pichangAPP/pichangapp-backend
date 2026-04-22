@@ -45,8 +45,18 @@ class NotificationRequest(BaseModel):
     id_user: Optional[int] = Field(None, gt=0)
 
 
+class BusinessRequestNotification(BaseModel):
+    businessName: str = Field(..., min_length=2, max_length=200)
+    ownerName: str = Field(..., min_length=2, max_length=200)
+    email: EmailStr
+    phone: str = Field(..., min_length=6, max_length=50)
+    address: Optional[str] = Field(None, max_length=300)
+    description: Optional[str] = Field(None, max_length=2000)
+
+
 __all__ = [
     "NotificationRequest",
+    "BusinessRequestNotification",
     "RentDetails",
     "Person",
     "CampusSummary",

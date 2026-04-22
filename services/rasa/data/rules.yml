@@ -42,14 +42,6 @@ rules:
       - action: action_deactivate_loop
       - action: utter_what_can_you_do
 
-  - rule: help during admin metrics form
-    condition:
-      - active_loop: admin_metrics_form
-    steps:
-      - intent: help
-      - action: action_deactivate_loop
-      - action: utter_what_can_you_do
-
   - rule: admin-only flow guard
     condition:
       - slot_was_set:
@@ -151,6 +143,37 @@ rules:
     steps:
       - intent: show_previous_recommendations
       - action: action_show_recommendation_history
+
+  - rule: player asks about own reservations
+    steps:
+      - intent: request_user_reservations
+      - action: action_list_user_reservations
+
+  - rule: player guard admin reservations overview
+    condition:
+      - slot_was_set:
+          - user_role: "player"
+    steps:
+      - intent: request_admin_reservations_overview
+      - action: utter_admin_only_flow
+
+  - rule: route admin reservations overview
+    condition:
+      - slot_was_set:
+          - user_role: "admin"
+      - active_loop: null
+    steps:
+      - intent: request_admin_reservations_overview
+      - action: action_route_admin_request
+
+  - rule: admin reservations overview without role -> route
+    condition:
+      - slot_was_set:
+          - user_role: null
+    steps:
+      - intent: request_admin_reservations_overview
+      - action: action_ensure_user_role
+      - action: action_route_admin_request
 
   - rule: ask feedback status
     steps:
@@ -296,75 +319,6 @@ rules:
       - active_loop: null
     steps:
       - intent: nlu_fallback
-      - action: action_route_admin_request
-
-  - rule: submit admin metrics form
-    condition:
-      - active_loop: admin_metrics_form
-    steps:
-      - action: admin_metrics_form
-      - active_loop: null
-      - action: action_provide_admin_metrics
-      - action: action_admin_post_topic_followup
-
-  - rule: post followup after admin management tips
-    steps:
-      - action: action_provide_admin_management_tips
-      - action: action_admin_post_topic_followup
-
-  - rule: post followup after admin top clients
-    steps:
-      - action: action_provide_admin_campus_top_clients
-      - action: action_admin_post_topic_followup
-
-  - rule: post followup after admin field usage
-    steps:
-      - action: action_provide_admin_field_usage
-      - action: action_admin_post_topic_followup
-
-  - rule: post followup after admin demand alerts
-    steps:
-      - action: action_provide_admin_demand_alerts
-      - action: action_admin_post_topic_followup
-
-  - rule: fallback inside admin metrics form
-    condition:
-      - active_loop: admin_metrics_form
-    steps:
-      - intent: nlu_fallback
-      - action: action_deactivate_loop
-      - action: action_route_admin_request
-
-  - rule: switch from admin metrics form to top clients
-    condition:
-      - active_loop: admin_metrics_form
-    steps:
-      - intent: request_admin_top_clients
-      - action: action_deactivate_loop
-      - action: action_route_admin_request
-
-  - rule: switch from admin metrics form to field usage
-    condition:
-      - active_loop: admin_metrics_form
-    steps:
-      - intent: request_admin_field_usage
-      - action: action_deactivate_loop
-      - action: action_route_admin_request
-
-  - rule: switch from admin metrics form to demand alerts
-    condition:
-      - active_loop: admin_metrics_form
-    steps:
-      - intent: request_admin_demand_alerts
-      - action: action_deactivate_loop
-      - action: action_route_admin_request
-
-  - rule: switch from admin metrics form to management tips
-    condition:
-      - active_loop: admin_metrics_form
-    steps:
-      - intent: request_admin_recommendation
-      - action: action_deactivate_loop
       - action: action_route_admin_request
 
   - rule: fallback outside forms for player

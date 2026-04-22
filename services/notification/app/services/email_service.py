@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional, Sequence
 
@@ -11,7 +12,7 @@ from jinja2 import Environment, FileSystemLoader, TemplateNotFound, select_autoe
 
 from app.models import EmailAttachment, EmailContent
 from app.repository import EmailRepository
-from app.schemas import NotificationRequest
+from app.schemas import BusinessRequestNotification, NotificationRequest
 from app.domain.notification.attachments import (
     build_pass_link,
     build_qr_attachment,
@@ -73,6 +74,7 @@ class EmailService:
         text_template: str,
         context: Dict[str, Any],
         attachments: Sequence[EmailAttachment] | None = None,
+        reply_to: Optional[str] = None,
     ) -> EmailContent:
         html_body = self._render_template(html_template, context)
         text_body = self._render_template(text_template, context)
@@ -81,6 +83,7 @@ class EmailService:
             recipients=[recipient],
             html_body=html_body,
             text_body=text_body,
+            reply_to=reply_to,
             attachments=tuple(attachments or ()),
         )
 
@@ -201,6 +204,63 @@ class EmailService:
             "Reservation confirmation sent to user %s for rent %s",
             user_email.primary_recipient(),
             payload.rent.rent_id,
+        )
+
+    def send_business_request_notification(
+        self,
+        payload: BusinessRequestNotification,
+    ) -> None:
+        """Send business-request confirmation to applicant and internal review mailbox."""
+
+        now_local = datetime.now(timezone(timedelta(hours=-5)))
+        internal_recipient = (settings.SMTP_FROM_EMAIL or "").strip()
+        if not internal_recipient:
+            raise RuntimeError("SMTP_FROM_EMAIL must be configured to send internal review email")
+
+        context = {
+            "app_brand": settings.APP_BRAND_NAME,
+            "brand_logo_src": (settings.EMAIL_BRAND_LOGO_URL or "").strip(),
+            "submitted_at": now_local.strftime("%d/%m/%Y %I:%M %p"),
+            "business_name": payload.businessName,
+            "owner_name": payload.ownerName,
+            "email": str(payload.email),
+            "phone": payload.phone,
+            "address": payload.address or "No especificada",
+            "description": payload.description or "Sin descripcion",
+        }
+
+        requester_email = self._build_email(
+            subject="Confirmacion de solicitud recibida",
+            recipient=str(payload.email),
+            html_template="business_request_user_confirmation.html",
+            text_template="business_request_user_confirmation.txt",
+            context=context,
+        )
+        internal_email = self._build_email(
+            subject="Nueva solicitud de negocio",
+            recipient=internal_recipient,
+            html_template="business_request_internal_review.html",
+            text_template="business_request_internal_review.txt",
+            context=context,
+            reply_to=str(payload.email),
+        )
+
+        def _send(content: EmailContent) -> None:
+            self._repository.send_email(content)
+
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            futures = (
+                pool.submit(_send, requester_email),
+                pool.submit(_send, internal_email),
+            )
+            for fut in as_completed(futures):
+                fut.result()
+
+        logger.info(
+            "Business request emails sent: requester=%s internal=%s business=%s",
+            requester_email.primary_recipient(),
+            internal_email.primary_recipient(),
+            payload.businessName,
         )
 
 

@@ -42,6 +42,8 @@ intents:
 
   # Funcionalidades de seguimiento
   - show_previous_recommendations
+  - request_user_reservations
+  - request_admin_reservations_overview
   - ask_feedback_status
 
   # Feedback del usuario
@@ -331,10 +333,6 @@ slots:
     mappings:
       - type: from_entity
         entity: metric_type
-      - type: from_text
-        conditions:
-          - active_loop: admin_metrics_form
-            requested_slot: admin_metric_type
 
   admin_metric_period:
     type: text
@@ -342,10 +340,6 @@ slots:
     mappings:
       - type: from_entity
         entity: metric_period
-      - type: from_text
-        conditions:
-          - active_loop: admin_metrics_form
-            requested_slot: admin_metric_period
 
   admin_topic_detected:
     type: text
@@ -443,10 +437,6 @@ forms:
       - sport
       - time
       - date
-  admin_metrics_form:
-    required_slots:
-      - admin_metric_type
-      - admin_metric_period
 
 # ===============================================
 # RESPONSES - Respuestas del bot
@@ -504,10 +494,8 @@ responses:
           name: user_role
           value: admin
       text: |
-        Estoy aquí para apoyar con gestión. Puedo:
-        - Indicarle quiénes rentan frecuentemente sus espacios.
-        - Traer información de métricas ocupación y alquiler.
-        - Sugerir acciones para balancear ocupación y precios.
+        Puedo darte respuestas directas de gestión: ingresos, ocupación, reservas activas (hoy/mañana), clientes frecuentes y uso de canchas por sede.
+        Puedes cambiar de tema en cualquier momento y sigo la conversación sin reiniciar formulario.
     - condition:
         - type: slot
           name: user_role
@@ -559,13 +547,17 @@ responses:
     - text: "Estoy aquí para lo que necesites 😊"
     - text: "¿Alguna otra duda?"
 
+  # Se muestra a usuarios con rol player cuando intentan flujos que son exclusivos de administrador
+  # (métricas, uso de canchas, clientes frecuentes, etc.).
   utter_admin_only_flow:
-    - text: "Ese flujo está reservado para administradores. Si querés buscar cancha, avísame que eres player o hacé login desde una cuenta admin."
-    - text: "Estoy en modo administrador y no puedo ejecutar recomendaciones de jugador para este perfil."
+    - text: "Ese flujo es exclusivo para administradores. Si necesitas buscar cancha como jugador, dime qué quieres y te ayudo enseguida."
+    - text: "Esa funcionalidad está reservada para cuentas admin. Puedo ayudarte con recomendaciones, reservas y promociones como jugador."
 
+  # Se muestra a usuarios con rol admin cuando piden acciones pensadas solo para players
+  # (recomendarse una cancha, pedir una reserva propia, etc.).
   utter_player_only_flow:
-    - text: "Esa funcionalidad es exclusiva para administradores. Si necesitás ayuda de player, decime qué cancha querés y sigo ahí."
-    - text: "Para proteger la experiencia, los consejos de admins solo los reciben cuentas con rol admin, así que sigo ayudando como player."
+    - text: "Estoy en modo administrador y ese flujo es de jugador. Dime si quieres revisar métricas, ocupación, ingresos o clientes frecuentes de tus sedes."
+    - text: "Esa acción está pensada para jugadores. Desde tu cuenta admin puedo darte reportes, reservas activas o tendencias de tus canchas."
 
   utter_anything_else:
     - condition:
@@ -1008,6 +1000,7 @@ actions:
   - action_show_recommendation_history
   - action_log_urgent_request
   - action_reprogram_reservation
+  - action_list_user_reservations
 
   # Acciones de administrador
   - action_route_admin_request
@@ -1024,7 +1017,6 @@ actions:
 
   # Acciones de formulario
   - validate_field_recommendation_form
-  - validate_admin_metrics_form
   - action_deactivate_loop
 
   # Acciones de utilidad

@@ -350,6 +350,7 @@ services:
       - "5055:5055"
     volumes:
       - ./services/rasa/artifacts/models:/app/artifacts/models
+      - ./services/rasa/models:/app/models:ro
     networks:
       - pichangapp-network
     depends_on:

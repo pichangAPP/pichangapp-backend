@@ -10,6 +10,10 @@ from rasa_sdk.types import DomainDict
 from ..services.chatbot_service import DatabaseError, chatbot_service
 from ..services.chatbot.intent_logging import record_intent_and_log as _record_intent_and_log
 from ..domain.chatbot.async_utils import run_in_thread
+from ..domain.chatbot.context import (
+    coerce_metadata as _coerce_metadata,
+    resolve_secured_actor as _resolve_secured_actor,
+)
 from ..domain.chatbot.time_utils import coerce_datetime as _coerce_datetime
 
 
@@ -25,6 +29,17 @@ class ActionHandleFeedbackRating(Action):
         tracker: Tracker,
         domain: DomainDict,
     ) -> List[EventType]:
+        latest_metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+        user_id_raw = tracker.get_slot("user_id")
+        if not user_id_raw:
+            actor = _resolve_secured_actor(
+                tracker,
+                latest_metadata,
+                for_admin_action=False,
+            )
+            if actor.user_id is not None:
+                user_id_raw = str(actor.user_id)
+
         rating_raw = tracker.get_slot("feedback_rating")
         normalized = str(rating_raw).strip().lower() if rating_raw else ""
 
@@ -42,7 +57,7 @@ class ActionHandleFeedbackRating(Action):
         await _record_intent_and_log(
             tracker=tracker,
             session_id=tracker.get_slot("chatbot_session_id"),
-            user_id=tracker.get_slot("user_id"),
+            user_id=user_id_raw,
             response_text=response_text,
             response_type=response_type,
         )
@@ -62,6 +77,15 @@ class ActionCheckFeedbackStatus(Action):
         domain: DomainDict,
     ) -> List[EventType]:
         user_id_raw = tracker.get_slot("user_id")
+        latest_metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+        if not user_id_raw:
+            actor = _resolve_secured_actor(
+                tracker,
+                latest_metadata,
+                for_admin_action=False,
+            )
+            if actor.user_id is not None:
+                user_id_raw = str(actor.user_id)
         role_slot = (tracker.get_slot("user_role") or "player").lower()
         user_role = "admin" if role_slot == "admin" else "player"
         session_id = tracker.get_slot("chatbot_session_id")

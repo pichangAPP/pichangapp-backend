@@ -1022,6 +1022,40 @@ nlu:
       - Dame el ranking de los equipos nocturnos
       - dame los clientes que mas reservan esta semana
       - quiero el top de clientes por sede
+      - quién reserva más
+      - quien reserva mas
+      - cuántos clientes frecuentes tengo
+      - cuantos clientes frecuentes tengo
+      - cuántos clientes fijos tengo
+      - cuantos clientes fijos tengo
+      - cuáles son mis caseros
+      - cuales son mis caseros
+      - mis caseros
+      - quiénes son mis caseros
+      - quienes son mis caseros
+      - mis clientes fijos
+      - mis clientes estrella
+      - quiénes vienen más seguido
+      - quienes vienen mas seguido
+      - quiénes juegan más
+      - quienes juegan mas
+      - quién me alquila más
+      - quien me alquila mas
+      - clientes top
+      - mis top clientes
+      - mis mejores clientes
+      - top 5 clientes
+      - top 10 clientes
+      - dame nombres de mis top clientes
+      - los que más rentan
+      - los que mas rentan
+      - los que más me pagan
+      - los que mas me pagan
+      - quiénes dejan más plata
+      - quienes dejan mas plata
+      - quién usa más mis canchas
+      - quien usa mas mis canchas
+
   - intent: request_admin_field_usage
     examples: |
       - dame uso de canchas
@@ -1074,6 +1108,40 @@ nlu:
       - Muéstrame el ranking de campos más alquilados
       - campos mas usados hoy
       - dame el uso por campo de esta semana
+      - qué cancha se usa más
+      - que cancha se usa mas
+      - cuál es la cancha más usada
+      - cual es la cancha mas usada
+      - cuál es mi cancha top
+      - cual es mi cancha top
+      - cuál cancha jala más
+      - cual cancha jala mas
+      - cuál cancha es la estrella
+      - cual cancha es la estrella
+      - mi mejor cancha
+      - mi cancha más rentable
+      - mi cancha mas rentable
+      - la cancha más ocupada
+      - la cancha mas ocupada
+      - cuál es la cancha más ocupada este mes
+      - cual es la cancha mas ocupada este mes
+      - dime la cancha más pedida
+      - dime la cancha mas pedida
+      - qué cancha tira más plata
+      - que cancha tira mas plata
+      - qué canchas tiran más este mes
+      - que canchas tiran mas este mes
+      - top 3 canchas
+      - top 5 canchas
+      - top de canchas de la semana
+      - ranking de canchas hoy
+      - mis canchas más usadas
+      - mis canchas mas usadas
+      - mis canchas estrella
+      - cómo van las canchas
+      - como van las canchas
+      - cómo van mis canchas este mes
+      - como van mis canchas este mes
   - intent: request_admin_demand_alerts
     examples: |
       - dame alertas de demanda
@@ -1166,6 +1234,64 @@ nlu:
       - muéstrame [ingresos](metric_type), después [ocupación](metric_type)
       - qiero ver [ingresos](metric_type) de [esta semana](metric_period)
       - kiero [ocupación](metric_type) de [hoy](metric_period)
+      - reservas activas de hoy
+      - reservas activas de mañana
+      - dime las reservas activas de hoy en mi sede
+      - ocupación de mi cancha principal hoy
+      - ocupación de mi sede surco mañana
+      - ingresos de hoy en campus surco
+      - cómo me fue hoy
+      - como me fue hoy
+      - cómo me fue ayer
+      - como me fue ayer
+      - cómo va el negocio
+      - como va el negocio
+      - cómo vamos este mes
+      - como vamos este mes
+      - cómo va Surco este mes
+      - como va surco este mes
+      - cuánta plata entró hoy
+      - cuanta plata entro hoy
+      - cuánta plata hicimos hoy
+      - cuanta plata hicimos hoy
+      - cuánto vendí hoy
+      - cuanto vendi hoy
+      - cuánto se movió hoy
+      - cuanto se movio hoy
+      - cuánto facturé esta semana
+      - cuanto facture esta semana
+      - facturación de hoy
+      - facturacion de hoy
+      - facturación de la semana
+      - facturacion de la semana
+      - ingresos de la semana
+      - ingresos del mes
+      - [ingresos](metric_type) del día
+      - [ingresos](metric_type) del mes
+      - mira mis [ingresos](metric_type) de [hoy](metric_period)
+      - pásame las [ingresos](metric_type)
+      - pasame las [ingresos](metric_type) porfa
+      - qué tal la [ocupación](metric_type) [hoy](metric_period)
+      - que tal la [ocupacion](metric_type) [hoy](metric_period)
+      - cómo está la [ocupación](metric_type)
+      - como esta la [ocupacion](metric_type)
+      - está lleno hoy
+      - esta lleno hoy
+      - resumen del día
+      - resumen del dia
+      - resumen de la semana
+      - resumen del mes
+      - reporte de hoy
+      - reporte de la semana
+      - reporte de este mes
+      - dame el kpi de hoy
+      - kpis de esta semana
+      - dashboard de mi sede
+      - dashboard de mis sedes
+      - status del negocio
+      - cómo pinta el mes
+      - como pinta el mes
+
   - intent: SetSlots
     examples: |
       - __set_slots__
@@ -1484,6 +1610,145 @@ nlu:
       - cuánto cuesta reservar con poquito tiempo
       - qué tanto hay que pagar para bloquear la cancha ya
 
+  - intent: request_user_reservations
+    examples: |
+      - qué reservas tengo
+      - que reservas tengo
+      - qué reservaciones tengo
+      - que reservaciones tengo
+      - cuáles son mis reservas
+      - cuales son mis reservas
+      - cuáles son mis reservaciones
+      - mis reservas
+      - mis reservaciones
+      - mis reservas activas
+      - mis reservaciones activas
+      - mis reservas pendientes
+      - mis reservas próximas
+      - mis reservas proximas
+      - ver mis reservas
+      - ver mis reservaciones
+      - mostrar mis reservas
+      - muéstrame mis reservas
+      - muestrame mis reservas
+      - dime mis reservas
+      - listame mis reservas
+      - lístame mis reservas
+      - cuántas reservas tengo
+      - cuantas reservas tengo
+      - tengo alguna reserva
+      - tengo alguna reservación
+      - tengo reservas
+      - tengo reservaciones
+      - tengo reservas hoy
+      - tengo reservas mañana
+      - tengo reservas manana
+      - tengo reservas esta semana
+      - qué reservas tengo hoy
+      - que reservas tengo hoy
+      - qué reservas tengo mañana
+      - mis reservas de hoy
+      - mis reservas de mañana
+      - mis reservas de esta semana
+      - mis reservas del fin de semana
+      - reservas que tengo
+      - reservas mías
+      - reservas mias
+      - puedo ver mis reservas
+      - podría ver mis reservas
+      - podria ver mis reservas
+      - revisar mis reservas
+      - checar mis reservas
+      - chequear mis reservas
+      - mi reserva de hoy
+      - mi reserva próxima
+      - mi proxima reserva
+      - mi próxima reserva
+      - mi siguiente reserva
+      - mi cancha reservada
+      - qué canchas tengo reservadas
+      - que canchas tengo reservadas
+      - qué canchas reservé
+      - qué canchas reserve
+      - reservas confirmadas
+      - mis reservas confirmadas
+      - mostrar reservas activas
+      - reservasiones que tengo
+      - reservasiones mias
+      - mi reserva de oy
+      - reservas hoy
+      - que tengo reservado
+      - qué tengo reservado
+      - tengo canchas reservadas
+      - me puedes decir mis reservas
+      - puedes decirme mis reservas
+      - porfa mis reservas
+      - dame mis reservas
+      - enseñame mis reservas
+      - enséñame mis reservas
+
+  - intent: request_admin_reservations_overview
+    examples: |
+      - reservas de la sede hoy
+      - reservas de la sede mañana
+      - reservas de la sede manana
+      - reservas de mi sede
+      - reservas de mis sedes
+      - reservas de mis canchas
+      - reservas activas de mi sede
+      - reservas activas de mis sedes
+      - reservas activas en mis sedes
+      - cuántas reservas tengo en mi sede
+      - cuantas reservas tengo en mi sede
+      - cuántas reservas activas tengo en Surco
+      - cuantas reservas activas tengo en surco
+      - reservas activas hoy en mi sede
+      - reservas activas hoy en mis sedes
+      - reservas activas mañana en mi sede
+      - reservas de hoy en mis canchas
+      - reservas de mañana en mis canchas
+      - cuántas reservaciones tengo activas
+      - cuantas reservaciones tengo activas
+      - ver reservas activas de mi sede
+      - ver reservas de la sede
+      - mostrame las reservas de la sede
+      - muéstrame las reservas activas de mi sede
+      - panorama de reservas de hoy
+      - panorama de reservas mañana
+      - resumen de reservas activas
+      - listado de reservas activas
+      - dame las reservas activas
+      - dime las reservas activas
+      - dime cuantas reservas hay hoy en mi sede
+      - cuánta gente tengo reservada hoy
+      - cuanta gente tengo reservada hoy
+      - qué tan lleno estoy hoy
+      - que tan lleno estoy hoy
+      - cómo están las reservas hoy
+      - como estan las reservas hoy
+      - revisar reservas de mi sede
+      - checar reservas de mi sede
+      - reservaciones actuales de mi sede
+      - reservaciones de mis canchas hoy
+      - reservas del día en mi sede
+      - reservas del dia en mi sede
+      - reservaciones activas por sede
+      - status de reservas
+      - estado de reservas de mi sede
+      - cómo van las reservas hoy
+      - como van las reservas hoy
+      - reservas confirmadas en mi sede
+      - cuántos clientes reservaron hoy
+      - cuantos clientes reservaron hoy
+      - quienes reservaron hoy en mi sede
+      - quiénes reservaron hoy en mi sede
+      - reservas de la semana en mi sede
+      - reservaciones esta semana en mi sede
+      - pichangas reservadas hoy
+      - pichangas reservadas mañana
+      - reservas hoy por sede
+      - reservas por cancha hoy
+
   - intent: show_previous_recommendations
     examples: |
       - muéstrame mi historial
@@ -1511,9 +1776,6 @@ nlu:
       - las que me mostraste
       - opciones previas
       - sugerencias pasadas
-      - mis reservas
-      - reservas anteriores
-      - historial de reservas
       - mis canchas
       - dónde he jugado
       - dónde jugué antes

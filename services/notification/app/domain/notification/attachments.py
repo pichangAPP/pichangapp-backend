@@ -23,7 +23,12 @@ from app.core.firebase import get_firebase_app
 from app.domain.notification.branding import get_brand_logo_path
 from app.models import EmailAttachment
 from app.schemas import NotificationRequest
-from app.domain.notification.context import format_datetime, format_decimal, humanize_rent_status
+from app.domain.notification.context import (
+    format_date_range,
+    format_datetime,
+    format_decimal,
+    humanize_rent_status,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -235,7 +240,11 @@ def build_reservation_pass(payload: NotificationRequest, *, pass_link: str) -> E
         ("Campo", rent.field_name),
         (
             "Horario",
-            f"{format_datetime(rent.start_time)} – {format_datetime(rent.end_time)}",
+            format_date_range(
+                rent.start_time,
+                rent.end_time,
+                schedule_day=rent.schedule_day,
+            ),
         ),
         ("Periodo", rent.period),
         ("Estado", humanize_rent_status(rent.status)),

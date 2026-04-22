@@ -1,0 +1,14 @@
+Hola {{ owner_name }},
+
+Recibimos correctamente tu solicitud para registrar el negocio "{{ business_name }}".
+Nuestro equipo revisara la informacion y te contactaremos por este mismo correo.
+
+Resumen:
+- Fecha de solicitud: {{ submitted_at }}
+- Negocio: {{ business_name }}
+- Titular: {{ owner_name }}
+- Correo: {{ email }}
+- Telefono: {{ phone }}
+
+Gracias,
+{{ app_brand }}

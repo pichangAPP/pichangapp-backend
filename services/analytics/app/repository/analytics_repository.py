@@ -10,6 +10,8 @@ from sqlalchemy.orm import Session
 
 from app.integrations import auth_reader
 ALLOWED_INTERVALS = {"day", "week", "month"}
+ALLOWED_GROUP_BYS = {"day", "week", "month", "status", "campus", "field", "sport"}
+ALLOWED_TOP_SCOPES = {"campus", "field", "sport"}
 
 
 class AnalyticsRepositoryError(RuntimeError):
@@ -459,14 +461,442 @@ def fetch_campus_top_fields(
     return entries
 
 
+def fetch_campus_active_reservations(
+    db: Session,
+    *,
+    campus_id: int,
+    start_at: datetime,
+    end_at: datetime,
+    field_name: Optional[str] = None,
+    limit: int = 100,
+) -> List[Dict[str, object]]:
+    """Return active reservations for a campus in the requested time window."""
+
+    query = text(
+        """
+        SELECT
+            rent.id_rent AS rent_id,
+            rent.status AS rent_status,
+            schedule.start_time AS start_time,
+            schedule.end_time AS end_time,
+            field.id_field AS field_id,
+            field.field_name AS field_name,
+            schedule.id_user AS user_id
+        FROM reservation.rent AS rent
+        JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
+        JOIN booking.field AS field ON field.id_field = schedule.id_field
+        WHERE field.id_campus = :campus_id
+          AND schedule.start_time >= :start_at
+          AND schedule.start_time < :end_at
+          AND LOWER(rent.status) IN ('reserved', 'pending_payment', 'under_review')
+          AND (
+              :field_name IS NULL
+              OR LOWER(field.field_name) LIKE LOWER(:field_name_pattern)
+          )
+        ORDER BY schedule.start_time ASC, field.field_name ASC
+        LIMIT :limit
+        """
+    )
+    try:
+        result = db.execute(
+            query,
+            {
+                "campus_id": campus_id,
+                "start_at": start_at,
+                "end_at": end_at,
+                "field_name": field_name,
+                "field_name_pattern": f"%{field_name.strip()}%" if field_name else None,
+                "limit": int(limit),
+            },
+        )
+    except SQLAlchemyError as exc:
+        raise AnalyticsRepositoryError(str(exc)) from exc
+
+    entries: List[Dict[str, object]] = []
+    for row in result:
+        entries.append(
+            {
+                "rent_id": int(row.rent_id),
+                "rent_status": row.rent_status,
+                "start_time": row.start_time,
+                "end_time": row.end_time,
+                "field_id": int(row.field_id),
+                "field_name": row.field_name,
+                "user_id": int(row.user_id) if row.user_id is not None else None,
+            }
+        )
+    return entries
+
+
+def _to_decimal(value: object) -> Decimal:
+    if value is None:
+        return Decimal("0")
+    if isinstance(value, Decimal):
+        return value
+    return Decimal(str(value))
+
+
+def fetch_grouped_rent_metrics(
+    db: Session,
+    *,
+    start_at: datetime,
+    end_at: datetime,
+    group_by: str,
+    campus_id: Optional[int] = None,
+    field_id: Optional[int] = None,
+    sport_id: Optional[int] = None,
+    status: Optional[str] = None,
+) -> List[Dict[str, object]]:
+    """Return reusable grouped reservation/income metrics with common filters."""
+
+    if group_by not in ALLOWED_GROUP_BYS:
+        raise ValueError(f"Unsupported group_by '{group_by}'")
+
+    if group_by == "day":
+        key_expr = "to_char(date_trunc('day', rent.date_log), 'YYYY-MM-DD')"
+        label_expr = key_expr
+        group_expr = "date_trunc('day', rent.date_log)"
+        order_expr = group_expr
+    elif group_by == "week":
+        key_expr = "to_char(date_trunc('week', rent.date_log), 'IYYY-IW')"
+        label_expr = key_expr
+        group_expr = "date_trunc('week', rent.date_log)"
+        order_expr = group_expr
+    elif group_by == "month":
+        key_expr = "to_char(date_trunc('month', rent.date_log), 'YYYY-MM')"
+        label_expr = key_expr
+        group_expr = "date_trunc('month', rent.date_log)"
+        order_expr = group_expr
+    elif group_by == "status":
+        key_expr = "lower(rent.status)"
+        label_expr = "initcap(replace(lower(rent.status), '_', ' '))"
+        group_expr = "lower(rent.status)"
+        order_expr = "lower(rent.status)"
+    elif group_by == "campus":
+        key_expr = "campus.id_campus::text"
+        label_expr = "campus.name"
+        group_expr = "campus.id_campus, campus.name"
+        order_expr = "campus.name"
+    elif group_by == "field":
+        key_expr = "field.id_field::text"
+        label_expr = "field.field_name"
+        group_expr = "field.id_field, field.field_name"
+        order_expr = "field.field_name"
+    else:  # sport
+        key_expr = "sport.id_sport::text"
+        label_expr = "sport.sport_name"
+        group_expr = "sport.id_sport, sport.sport_name"
+        order_expr = "sport.sport_name"
+
+    query = text(
+        f"""
+        SELECT
+            {key_expr} AS group_key,
+            {label_expr} AS group_label,
+            COUNT(rent.id_rent) AS reservation_count,
+            COALESCE(SUM(rent.mount), 0) AS income_total
+        FROM reservation.rent AS rent
+        JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
+        JOIN booking.field AS field ON field.id_field = schedule.id_field
+        JOIN booking.campus AS campus ON campus.id_campus = field.id_campus
+        JOIN booking.sports AS sport ON sport.id_sport = field.id_sport
+        WHERE rent.date_log >= :start_at
+          AND rent.date_log < :end_at
+          AND (:campus_id IS NULL OR campus.id_campus = :campus_id)
+          AND (:field_id IS NULL OR field.id_field = :field_id)
+          AND (:sport_id IS NULL OR sport.id_sport = :sport_id)
+          AND (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+        GROUP BY {group_expr}
+        ORDER BY {order_expr} ASC
+        """
+    )
+    try:
+        result = db.execute(
+            query,
+            {
+                "start_at": start_at,
+                "end_at": end_at,
+                "campus_id": campus_id,
+                "field_id": field_id,
+                "sport_id": sport_id,
+                "status": status,
+            },
+        )
+    except SQLAlchemyError as exc:
+        raise AnalyticsRepositoryError(str(exc)) from exc
+
+    rows: List[Dict[str, object]] = []
+    for row in result:
+        rows.append(
+            {
+                "group_key": str(row.group_key),
+                "group_label": str(row.group_label),
+                "reservation_count": int(row.reservation_count),
+                "income_total": _to_decimal(row.income_total),
+            }
+        )
+    return rows
+
+
+def fetch_field_occupancy_snapshot(
+    db: Session,
+    *,
+    start_at: datetime,
+    end_at: datetime,
+    campus_id: Optional[int] = None,
+    field_id: Optional[int] = None,
+    sport_id: Optional[int] = None,
+    status: Optional[str] = None,
+) -> List[Dict[str, object]]:
+    """Return occupancy/income/reservation metrics per field for the time window."""
+
+    query = text(
+        """
+        SELECT
+            campus.id_campus AS campus_id,
+            campus.name AS campus_name,
+            field.id_field AS field_id,
+            field.field_name AS field_name,
+            field.status AS field_status,
+            sport.id_sport AS sport_id,
+            sport.sport_name AS sport_name,
+            COUNT(DISTINCT schedule.id_schedule) AS total_schedules,
+            COUNT(DISTINCT rent.id_rent) FILTER (
+                WHERE (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+            ) AS reservation_count,
+            COALESCE(
+                SUM(rent.mount) FILTER (
+                    WHERE (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+                ),
+                0
+            ) AS income_total,
+            COUNT(DISTINCT rent.id_rent) FILTER (
+                WHERE (
+                    (:status IS NOT NULL AND LOWER(rent.status) = LOWER(:status))
+                    OR (
+                        :status IS NULL
+                        AND LOWER(rent.status) IN ('reserved', 'pending_payment', 'under_review')
+                    )
+                )
+            ) AS active_reservation_count
+        FROM booking.field AS field
+        JOIN booking.campus AS campus ON campus.id_campus = field.id_campus
+        JOIN booking.sports AS sport ON sport.id_sport = field.id_sport
+        LEFT JOIN reservation.schedule AS schedule
+            ON schedule.id_field = field.id_field
+           AND schedule.start_time >= :start_at
+           AND schedule.start_time < :end_at
+        LEFT JOIN reservation.rent AS rent ON rent.id_schedule = schedule.id_schedule
+        WHERE (:campus_id IS NULL OR campus.id_campus = :campus_id)
+          AND (:field_id IS NULL OR field.id_field = :field_id)
+          AND (:sport_id IS NULL OR sport.id_sport = :sport_id)
+        GROUP BY
+            campus.id_campus,
+            campus.name,
+            field.id_field,
+            field.field_name,
+            field.status,
+            sport.id_sport,
+            sport.sport_name
+        ORDER BY campus.name ASC, field.field_name ASC
+        """
+    )
+    try:
+        result = db.execute(
+            query,
+            {
+                "start_at": start_at,
+                "end_at": end_at,
+                "campus_id": campus_id,
+                "field_id": field_id,
+                "sport_id": sport_id,
+                "status": status,
+            },
+        )
+    except SQLAlchemyError as exc:
+        raise AnalyticsRepositoryError(str(exc)) from exc
+
+    rows: List[Dict[str, object]] = []
+    for row in result:
+        rows.append(
+            {
+                "campus_id": int(row.campus_id),
+                "campus_name": str(row.campus_name),
+                "field_id": int(row.field_id),
+                "field_name": str(row.field_name),
+                "field_status": str(row.field_status or ""),
+                "sport_id": int(row.sport_id),
+                "sport_name": str(row.sport_name),
+                "total_schedules": int(row.total_schedules or 0),
+                "reservation_count": int(row.reservation_count or 0),
+                "income_total": _to_decimal(row.income_total),
+                "active_reservation_count": int(row.active_reservation_count or 0),
+            }
+        )
+    return rows
+
+
+def fetch_top_occupancy_entities(
+    db: Session,
+    *,
+    start_at: datetime,
+    end_at: datetime,
+    scope: str,
+    limit: int,
+    campus_id: Optional[int] = None,
+    field_id: Optional[int] = None,
+    sport_id: Optional[int] = None,
+    status: Optional[str] = None,
+) -> List[Dict[str, object]]:
+    """Return top entities by reservation count and income for the selected scope."""
+
+    if scope not in ALLOWED_TOP_SCOPES:
+        raise ValueError(f"Unsupported scope '{scope}'")
+
+    if scope == "campus":
+        entity_id_expr = "campus.id_campus"
+        entity_name_expr = "campus.name"
+        group_expr = "campus.id_campus, campus.name"
+        campus_select = "NULL::bigint AS campus_id, NULL::text AS campus_name"
+    elif scope == "field":
+        entity_id_expr = "field.id_field"
+        entity_name_expr = "field.field_name"
+        group_expr = "field.id_field, field.field_name, campus.id_campus, campus.name"
+        campus_select = "campus.id_campus AS campus_id, campus.name AS campus_name"
+    else:  # sport
+        entity_id_expr = "sport.id_sport"
+        entity_name_expr = "sport.sport_name"
+        group_expr = "sport.id_sport, sport.sport_name"
+        campus_select = "NULL::bigint AS campus_id, NULL::text AS campus_name"
+
+    query = text(
+        f"""
+        SELECT
+            {entity_id_expr} AS entity_id,
+            {entity_name_expr} AS entity_name,
+            {campus_select},
+            COUNT(rent.id_rent) AS reservation_count,
+            COALESCE(SUM(rent.mount), 0) AS income_total
+        FROM reservation.rent AS rent
+        JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
+        JOIN booking.field AS field ON field.id_field = schedule.id_field
+        JOIN booking.campus AS campus ON campus.id_campus = field.id_campus
+        JOIN booking.sports AS sport ON sport.id_sport = field.id_sport
+        WHERE rent.date_log >= :start_at
+          AND rent.date_log < :end_at
+          AND (:campus_id IS NULL OR campus.id_campus = :campus_id)
+          AND (:field_id IS NULL OR field.id_field = :field_id)
+          AND (:sport_id IS NULL OR sport.id_sport = :sport_id)
+          AND (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+        GROUP BY {group_expr}
+        ORDER BY reservation_count DESC, income_total DESC, entity_name ASC
+        LIMIT :limit
+        """
+    )
+    try:
+        result = db.execute(
+            query,
+            {
+                "start_at": start_at,
+                "end_at": end_at,
+                "campus_id": campus_id,
+                "field_id": field_id,
+                "sport_id": sport_id,
+                "status": status,
+                "limit": int(limit),
+            },
+        )
+    except SQLAlchemyError as exc:
+        raise AnalyticsRepositoryError(str(exc)) from exc
+
+    rows: List[Dict[str, object]] = []
+    for row in result:
+        rows.append(
+            {
+                "entity_id": int(row.entity_id),
+                "entity_name": str(row.entity_name),
+                "campus_id": int(row.campus_id) if row.campus_id is not None else None,
+                "campus_name": str(row.campus_name) if row.campus_name is not None else None,
+                "reservation_count": int(row.reservation_count or 0),
+                "income_total": _to_decimal(row.income_total),
+            }
+        )
+    return rows
+
+
+def fetch_peak_hour_intersections(
+    db: Session,
+    *,
+    start_at: datetime,
+    end_at: datetime,
+    campus_id: Optional[int] = None,
+    field_id: Optional[int] = None,
+    sport_id: Optional[int] = None,
+    status: Optional[str] = None,
+) -> List[Dict[str, object]]:
+    """Return reservation counts grouped by (weekday, hour)."""
+
+    query = text(
+        """
+        SELECT
+            EXTRACT(ISODOW FROM schedule.start_time)::int AS isodow,
+            EXTRACT(HOUR FROM schedule.start_time)::int AS hour,
+            COUNT(rent.id_rent) AS reservation_count
+        FROM reservation.rent AS rent
+        JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
+        JOIN booking.field AS field ON field.id_field = schedule.id_field
+        JOIN booking.campus AS campus ON campus.id_campus = field.id_campus
+        JOIN booking.sports AS sport ON sport.id_sport = field.id_sport
+        WHERE schedule.start_time >= :start_at
+          AND schedule.start_time < :end_at
+          AND (:campus_id IS NULL OR campus.id_campus = :campus_id)
+          AND (:field_id IS NULL OR field.id_field = :field_id)
+          AND (:sport_id IS NULL OR sport.id_sport = :sport_id)
+          AND (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+        GROUP BY isodow, hour
+        ORDER BY reservation_count DESC, isodow ASC, hour ASC
+        """
+    )
+    try:
+        result = db.execute(
+            query,
+            {
+                "start_at": start_at,
+                "end_at": end_at,
+                "campus_id": campus_id,
+                "field_id": field_id,
+                "sport_id": sport_id,
+                "status": status,
+            },
+        )
+    except SQLAlchemyError as exc:
+        raise AnalyticsRepositoryError(str(exc)) from exc
+
+    rows: List[Dict[str, object]] = []
+    for row in result:
+        rows.append(
+            {
+                "isodow": int(row.isodow),
+                "hour": int(row.hour),
+                "reservation_count": int(row.reservation_count or 0),
+            }
+        )
+    return rows
+
+
 __all__ = [
     "AnalyticsRepositoryError",
     "fetch_campus_daily_income",
     "fetch_campus_daily_rent_traffic",
     "fetch_campus_income_total",
     "fetch_campus_overview",
+    "fetch_campus_active_reservations",
     "fetch_campus_top_clients",
     "fetch_campus_top_fields",
+    "fetch_grouped_rent_metrics",
+    "fetch_field_occupancy_snapshot",
+    "fetch_top_occupancy_entities",
+    "fetch_peak_hour_intersections",
     "fetch_revenue_grouped_totals",
     "fetch_revenue_summary",
 ]

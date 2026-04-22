@@ -16,6 +16,7 @@ from ..domain.chatbot.async_utils import run_in_thread
 from ..domain.chatbot.context import (
     coerce_metadata as _coerce_metadata,
     redact_metadata_for_logging as _redact_metadata_for_logging,
+    resolve_secured_actor as _resolve_secured_actor,
 )
 from ..domain.chatbot.budget import (
     detect_rating_focus as _detect_rating_focus,
@@ -75,6 +76,24 @@ class ActionSubmitFieldRecommendationForm(Action):
         theme = tracker.get_slot("chat_theme") or "Reservas y alquileres"
         role_slot = (tracker.get_slot("user_role") or "player").lower()
         user_role = "admin" if role_slot == "admin" else "player"
+
+        # In some channels, session start may run before user metadata is attached.
+        # Recover identity from the current message metadata/token if the slot is empty.
+        if not user_id_raw:
+            actor = _resolve_secured_actor(
+                tracker,
+                latest_metadata,
+                for_admin_action=False,
+            )
+            if actor.user_id is not None:
+                user_id_raw = str(actor.user_id)
+                if actor.role == "admin":
+                    user_role = "admin"
+                LOGGER.info(
+                    "[ActionSubmitFieldRecommendationForm] recovered user_id=%s from metadata/token (token_valid=%s)",
+                    user_id_raw,
+                    actor.token_valid,
+                )
 
         LOGGER.info(
             "[ActionSubmitFieldRecommendationForm] incoming message=%s user_slot=%s role=%s metadata=%s",
@@ -549,7 +568,16 @@ class ActionLogFieldRecommendationRequest(Action):
             return []
 
         session_id = tracker.get_slot("chatbot_session_id")
+        latest_metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
         user_id = tracker.get_slot("user_id")
+        if not user_id:
+            actor = _resolve_secured_actor(
+                tracker,
+                latest_metadata,
+                for_admin_action=False,
+            )
+            if actor.user_id is not None:
+                user_id = str(actor.user_id)
 
         reset_slots = [
             "preferred_sport",
@@ -565,7 +593,7 @@ class ActionLogFieldRecommendationRequest(Action):
         inferred_preferences = _guess_preferences_from_context(tracker)
         inferred_preferences = _apply_default_preferences(
             inferred_preferences,
-            _coerce_metadata(tracker.latest_message.get("metadata")),
+            latest_metadata,
         )
 
         slot_events: List[EventType] = []
@@ -613,6 +641,15 @@ class ActionShowRecommendationHistory(Action):
     ) -> List[EventType]:
         session_id = tracker.get_slot("chatbot_session_id")
         user_id_raw = tracker.get_slot("user_id")
+        latest_metadata = _coerce_metadata(tracker.latest_message.get("metadata"))
+        if not user_id_raw:
+            actor = _resolve_secured_actor(
+                tracker,
+                latest_metadata,
+                for_admin_action=False,
+            )
+            if actor.user_id is not None:
+                user_id_raw = str(actor.user_id)
         role_slot = (tracker.get_slot("user_role") or "player").lower()
         user_role = "admin" if role_slot == "admin" else "player"
         events: List[EventType] = []

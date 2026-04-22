@@ -22,11 +22,6 @@ def sync_campus_images(
     incoming_ids: set[int] = set()
 
     for image_data in images_data:
-        try:
-            validate_image_url_in_mapping(dict(image_data))
-        except ValueError as exc:
-            raise http_error(BOOKING_BAD_REQUEST, detail=str(exc)) from exc
-
         id_campus = image_data.get("id_campus")
         id_field = image_data.get("id_field")
         if id_campus != campus.id_campus:
@@ -56,15 +51,23 @@ def sync_campus_images(
             }
             for attr, value in updated_fields.items():
                 if attr == "image_url" and value is not None:
+                    normalized_url = str(value).strip()
+                    current_url = (image.image_url or "").strip()
                     try:
-                        validate_https_image_url(str(value))
+                        if normalized_url != current_url:
+                            validate_https_image_url(normalized_url)
                     except ValueError as exc:
                         raise http_error(BOOKING_BAD_REQUEST, detail=str(exc)) from exc
+                    value = normalized_url
                 setattr(image, attr, value)
         else:
             new_image_data = {
                 key: value for key, value in image_data.items() if key != "id_image"
             }
+            try:
+                validate_image_url_in_mapping(new_image_data)
+            except ValueError as exc:
+                raise http_error(BOOKING_BAD_REQUEST, detail=str(exc)) from exc
             campus.images.append(Image(**new_image_data))
 
     for image in list(campus_images):

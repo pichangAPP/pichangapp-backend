@@ -87,7 +87,12 @@ class CampusRevenueMetricsResponse(BaseModel):
         ..., description="Daily income entries for the current month."
     )
     last_seven_days_rent_traffic: List[RentTrafficPoint] = Field(
-        ..., description="Daily rent traffic for the last seven days."
+        ...,
+        description=(
+            "Seven consecutive dates ending today. By default each rent_count is "
+            "the month-to-date total for that weekday; with traffic_mode="
+            "'daily_last7', each rent_count is the real total for that date."
+        ),
     )
     fields: FieldAvailability = Field(..., description="Field availability summary for the campus.")
 
@@ -134,6 +139,153 @@ class CampusFieldUsageResponse(BaseModel):
     )
 
 
+class ActiveReservation(BaseModel):
+    """Active reservation detail for a campus/date window."""
+
+    rent_id: int = Field(..., description="Identifier of the rent.")
+    rent_status: str = Field(..., description="Status of the reservation.")
+    field_id: int = Field(..., description="Identifier of the field.")
+    field_name: str = Field(..., description="Name of the field.")
+    start_time: datetime = Field(..., description="Reservation start datetime.")
+    end_time: datetime = Field(..., description="Reservation end datetime.")
+    user_id: Optional[int] = Field(None, description="Identifier of the renter user.")
+
+
+class CampusActiveReservationsResponse(BaseModel):
+    """Active reservations for a campus and target date."""
+
+    campus_id: int = Field(..., description="Identifier of the campus.")
+    campus_name: str = Field(..., description="Display name of the campus.")
+    target_date: date = Field(..., description="Date used to filter reservations.")
+    total_active_reservations: int = Field(
+        ..., ge=0, description="Total active reservations in the selected date."
+    )
+    reservations: List[ActiveReservation] = Field(
+        ..., description="Active reservations sorted by start time."
+    )
+
+
+class AnalyticsPeriodWindow(BaseModel):
+    """Resolved datetime window used by metrics endpoints."""
+
+    period: str = Field(..., description="Requested period mode.")
+    start: datetime = Field(..., description="Start datetime (inclusive).")
+    end: datetime = Field(..., description="End datetime (exclusive).")
+
+
+class AnalyticsAppliedFilters(BaseModel):
+    """Normalized filters applied to a metrics query."""
+
+    campus_id: Optional[int] = Field(None, description="Campus filter.")
+    field_id: Optional[int] = Field(None, description="Field filter.")
+    sport_id: Optional[int] = Field(None, description="Sport filter.")
+    status: Optional[str] = Field(None, description="Rent status filter.")
+
+
+class AggregatedMetricRow(BaseModel):
+    """Aggregated row for grouped reservation/income metrics."""
+
+    group_key: str = Field(..., description="Stable grouping key.")
+    group_label: str = Field(..., description="Human-friendly label.")
+    reservation_count: int = Field(..., ge=0, description="Reservations in the group.")
+    income_total: Decimal = Field(..., ge=Decimal("0"), description="Income for the group.")
+
+
+class RentMetricsResponse(BaseModel):
+    """Reusable grouped metrics for reservations and income."""
+
+    period_window: AnalyticsPeriodWindow
+    group_by: str = Field(..., description="Dimension used for grouping.")
+    filters: AnalyticsAppliedFilters
+    total_reservations: int = Field(..., ge=0)
+    total_income: Decimal = Field(..., ge=Decimal("0"))
+    rows: List[AggregatedMetricRow]
+
+
+class OccupancyFieldPoint(BaseModel):
+    """Per-field occupancy snapshot inside a period window."""
+
+    campus_id: int
+    campus_name: str
+    field_id: int
+    field_name: str
+    sport_id: int
+    sport_name: str
+    field_status: str
+    total_schedules: int = Field(..., ge=0)
+    reservation_count: int = Field(..., ge=0)
+    active_reservation_count: int = Field(..., ge=0)
+    income_total: Decimal = Field(..., ge=Decimal("0"))
+    is_occupied: bool
+
+
+class OccupancySummary(BaseModel):
+    """Global occupancy values for the selected filters/window."""
+
+    total_fields: int = Field(..., ge=0)
+    occupied_fields: int = Field(..., ge=0)
+    occupancy_rate: Decimal = Field(..., ge=Decimal("0"))
+    total_schedules: int = Field(..., ge=0)
+    total_reservations: int = Field(..., ge=0)
+    total_income: Decimal = Field(..., ge=Decimal("0"))
+
+
+class OccupancyMetricsResponse(BaseModel):
+    """Occupancy metrics by field with global summary."""
+
+    period_window: AnalyticsPeriodWindow
+    filters: AnalyticsAppliedFilters
+    summary: OccupancySummary
+    fields: List[OccupancyFieldPoint]
+
+
+class TopOccupancyEntity(BaseModel):
+    """Top entity row for occupancy rankings."""
+
+    scope: str = Field(..., description="Ranking scope: campus/field/sport.")
+    entity_id: int = Field(..., ge=1)
+    entity_name: str
+    campus_id: Optional[int] = None
+    campus_name: Optional[str] = None
+    reservation_count: int = Field(..., ge=0)
+    income_total: Decimal = Field(..., ge=Decimal("0"))
+
+
+class TopOccupancyResponse(BaseModel):
+    """Top occupancy ranking response."""
+
+    period_window: AnalyticsPeriodWindow
+    scope: str
+    limit: int = Field(..., ge=1)
+    filters: AnalyticsAppliedFilters
+    rows: List[TopOccupancyEntity]
+
+
+class PeakHourPoint(BaseModel):
+    """Reservations grouped by hour."""
+
+    hour: int = Field(..., ge=0, le=23)
+    reservation_count: int = Field(..., ge=0)
+
+
+class PeakIntersectionPoint(BaseModel):
+    """Top weekday + hour intersection row."""
+
+    weekday: str
+    hour: int = Field(..., ge=0, le=23)
+    reservation_count: int = Field(..., ge=0)
+
+
+class PeakHoursResponse(BaseModel):
+    """Peak-hours analytics with hourly distribution and intersections."""
+
+    period_window: AnalyticsPeriodWindow
+    scope: str
+    filters: AnalyticsAppliedFilters
+    top_intersections: List[PeakIntersectionPoint]
+    hourly_distribution: List[PeakHourPoint]
+
+
 __all__ = [
     "CampusRevenueSummary",
     "CampusRevenueMetricsResponse",
@@ -147,4 +299,18 @@ __all__ = [
     "CampusFrequentClientsResponse",
     "FieldUsage",
     "CampusFieldUsageResponse",
+    "ActiveReservation",
+    "CampusActiveReservationsResponse",
+    "AnalyticsPeriodWindow",
+    "AnalyticsAppliedFilters",
+    "AggregatedMetricRow",
+    "RentMetricsResponse",
+    "OccupancyFieldPoint",
+    "OccupancySummary",
+    "OccupancyMetricsResponse",
+    "TopOccupancyEntity",
+    "TopOccupancyResponse",
+    "PeakHourPoint",
+    "PeakIntersectionPoint",
+    "PeakHoursResponse",
 ]

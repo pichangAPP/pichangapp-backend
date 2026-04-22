@@ -22,6 +22,10 @@ ANALYTICS_INVALID_LIMIT = ErrorCode(
     code="ANALYTICS_INVALID_LIMIT",
     message="El límite debe estar entre 1 y 100.",
 )
+ANALYTICS_INVALID_TRAFFIC_MODE = ErrorCode(
+    code="ANALYTICS_INVALID_TRAFFIC_MODE",
+    message="El modo de tráfico no es válido.",
+)
 CAMPUS_NOT_FOUND = ErrorCode(
     code="CAMPUS_NOT_FOUND",
     message="Campus no encontrado.",

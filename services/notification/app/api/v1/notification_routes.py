@@ -1,10 +1,11 @@
 """Routes for handling notification related requests."""
 
-from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
+from fastapi import APIRouter, HTTPException, Request, Response, status
 from fastapi.concurrency import run_in_threadpool
 
 from app.core.database import SessionLocal
 from app.core.reservation_pass_ratelimit import (
+    business_request_rate_limit_exceeded,
     client_ip_from_request,
     reservation_pass_rate_limit_exceeded,
 )
@@ -14,7 +15,7 @@ from app.domain.notification.attachments import (
     build_reservation_pass,
     parse_pass_token,
 )
-from app.schemas import NotificationRequest
+from app.schemas import BusinessRequestNotification, NotificationRequest
 from app.services import EmailService
 
 router = APIRouter(prefix="/notifications", tags=["notifications"])
@@ -44,7 +45,7 @@ async def send_rent_approved_notification(
 async def send_push_notification(
     payload: NotificationRequest,
 ) -> dict[str, str]:
-    """Send a push notification to the authenticated reservation user."""
+    """Send push notification to reservation user and campus manager (when available)."""
     if payload.id_user is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -58,6 +59,7 @@ async def send_push_notification(
             notify_user_from_event(
                 db,
                 id_user=payload.id_user,
+                id_campus=payload.rent.campus.id_campus,
                 event_type="rent.verdict",
                 rent_id=payload.rent.rent_id,
                 schedule_day=payload.rent.schedule_day,
@@ -68,6 +70,30 @@ async def send_push_notification(
 
     await run_in_threadpool(_dispatch_push)
     return {"detail": "Push notification dispatched"}
+
+
+@router.post("/business-request", status_code=status.HTTP_202_ACCEPTED)
+async def send_business_request_notification(
+    request: Request,
+    payload: BusinessRequestNotification,
+) -> dict[str, str]:
+    """Send applicant confirmation email and internal review email for business requests."""
+
+    ip = client_ip_from_request(
+        request.headers.get("x-forwarded-for"),
+        request.client.host if request.client else None,
+    )
+    if business_request_rate_limit_exceeded(ip):
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Demasiadas solicitudes. Intenta de nuevo en un minuto.",
+        )
+
+    await run_in_threadpool(_email_service.send_business_request_notification, payload)
+    return {
+        "message": "Solicitud recibida correctamente",
+        "status": "queued",
+    }
 
 
 @router.get("/reservation-pass")

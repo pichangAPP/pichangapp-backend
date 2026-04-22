@@ -63,6 +63,49 @@ pipeline:
     retrieval_intent: faq
     constrain_similarities: true
 
+  # Reranker determinístico: promueve intents cuando el mensaje contiene
+  # keywords pivote (reservaciones, ingresos, ocupación, etc.) y DIET
+  # está dudoso. Se ejecuta ANTES del FallbackClassifier para que el
+  # intent correcto llegue al top con confidence >= threshold.
+  - name: components.keyword_reranker.KeywordIntentReranker
+    max_gap: 0.25
+    min_top_confidence: 0.9
+    promoted_confidence: 0.85
+    ignore_accents: true
+    rules:
+      - pattern: "\\b(reservaciones?|mis reservas|reservas que tengo|tengo reservas?|reservas proximas|proximas reservas)\\b"
+        intent: request_user_reservations
+      - pattern: "\\b(recomendaciones? (previa|anterior|hecha|pasada)s?|historial de (sugerencias|recomendaciones)|mis sugerencias (previas|anteriores))\\b"
+        intent: show_previous_recommendations
+      - pattern: "\\b(reservas? activas?|reservas? de (hoy|manana|el dia)|cuantas reservas|resumen de reservas|reservas del dia)\\b"
+        intent: request_admin_reservations_overview
+      - pattern: "\\b(ingresos?|facturacion|ganancias?|recaudado|cuanto (genere|generamos|cobramos|facturamos)|ventas del (dia|mes|semana))\\b"
+        intent: request_admin_metrics
+      - pattern: "\\b(ocupacion|que tan (llena|lleno|ocupada|ocupado)|porcentaje de (uso|ocupacion)|nivel de ocupacion)\\b"
+        intent: request_admin_metrics
+      - pattern: "\\b(tendencia|grafica semanal|ultimos 7 dias|ultima semana|evolucion semanal)\\b"
+        intent: request_admin_metrics
+      - pattern: "\\b(canchas? (mas|menos) (usada|ocupada|alquilada|reservada)s?|top canchas?|ranking de canchas?|canchas? mas populares)\\b"
+        intent: request_admin_field_usage
+      - pattern: "\\b(clientes? (frecuentes?|top|mas (fieles|recurrentes?|asiduos?)|leales?|vip)|jugadores? frecuentes?|quienes? vienen mas)\\b"
+        intent: request_admin_top_clients
+      - pattern: "\\b(reprogramar|cambiar (la |mi )?reserva|mover (la |mi )?reserva|pasar (la |mi )?reserva a otr[ao])\\b"
+        intent: ask_reprogram_reservation
+      - pattern: "\\b(como (se )?cancela|politica de cancelacion|cancelar reserva|anular reserva|quiero cancelar|puedo cancelar)\\b"
+        intent: ask_cancellation_policy
+      - pattern: "\\b(modificar reserva|cambiar (los )?(datos|horario) de (la |mi )?reserva|editar reserva)\\b"
+        intent: ask_modify_reservation
+      - pattern: "\\b(recomienda(me)?|sugiere(me)?|busca(me)? cancha|donde (puedo|podemos) jugar|necesito una cancha)\\b"
+        intent: request_field_recommendation
+      - pattern: "\\b(demanda|alertas? de demanda|sedes (llenas|saturadas)|horarios pico|cuando hay mas gente)\\b"
+        intent: request_admin_demand_alerts
+      - pattern: "\\b(promociones?|ofertas?|descuentos?|promos?)\\b"
+        intent: show_promotions
+      - pattern: "\\b(como reservo|como hago (una|la) reserva|proceso de reserva|pasos para reservar)\\b"
+        intent: ask_reservation_process
+      - pattern: "\\b(precios?|tarifas?|cuanto cuesta|cuanto cobran|costo de (la |una )?reserva)\\b"
+        intent: ask_pricing_info
+
   # Clasificador de fallback para baja confianza
   - name: FallbackClassifier
     threshold: 0.7 # Confianza mínima para aceptar predicción

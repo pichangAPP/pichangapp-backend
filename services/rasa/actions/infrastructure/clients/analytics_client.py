@@ -5,7 +5,9 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
+from datetime import date
 from typing import Any, Dict, Optional
+from urllib.parse import urlencode
 
 import httpx
 
@@ -92,9 +94,14 @@ class AnalyticsClient:
         campus_id: int,
         *,
         token: Optional[str] = None,
+        traffic_mode: Optional[str] = None,
     ) -> Optional[Dict[str, Any]]:
+        endpoint = f"/analytics/campuses/{campus_id}/revenue-metrics"
+        if traffic_mode:
+            query = urlencode({"traffic_mode": traffic_mode})
+            endpoint = f"{endpoint}?{query}"
         return await self._get_json(
-            f"/analytics/campuses/{campus_id}/revenue-metrics",
+            endpoint,
             token=token,
         )
 
@@ -117,6 +124,26 @@ class AnalyticsClient:
     ) -> Optional[Dict[str, Any]]:
         return await self._get_json(
             f"/analytics/campuses/{campus_id}/top-fields",
+            token=token,
+        )
+
+    async def get_active_reservations(
+        self,
+        campus_id: int,
+        *,
+        token: Optional[str] = None,
+        target_date: Optional[date] = None,
+        field_name: Optional[str] = None,
+        limit: int = 100,
+    ) -> Optional[Dict[str, Any]]:
+        params: Dict[str, str] = {"limit": str(limit)}
+        if target_date is not None:
+            params["target_date"] = target_date.isoformat()
+        if field_name:
+            params["field_name"] = field_name.strip()
+        query = f"?{urlencode(params)}" if params else ""
+        return await self._get_json(
+            f"/analytics/campuses/{campus_id}/active-reservations{query}",
             token=token,
         )
 

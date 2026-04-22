@@ -32,6 +32,30 @@ def get_status_by_entity_code(
     return query.first()
 
 
+def list_statuses_by_code(
+    db: Session,
+    *,
+    code: str,
+    is_active: Optional[bool] = None,
+) -> list[StatusCatalog]:
+    query = db.query(StatusCatalog).filter(StatusCatalog.code == code)
+    if is_active is not None:
+        query = query.filter(StatusCatalog.is_active == is_active)
+    return query.order_by(StatusCatalog.id_status).all()
+
+
+def get_status_by_code(
+    db: Session,
+    *,
+    code: str,
+    is_active: Optional[bool] = None,
+) -> Optional[StatusCatalog]:
+    query = db.query(StatusCatalog).filter(StatusCatalog.code == code)
+    if is_active is not None:
+        query = query.filter(StatusCatalog.is_active == is_active)
+    return query.order_by(StatusCatalog.id_status.desc()).first()
+
+
 def list_statuses(
     db: Session,
     *,

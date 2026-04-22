@@ -159,14 +159,6 @@ stories:
       - action: action_log_abandonment
       - action: utter_help
 
-  - story: usuario cancela formulario de métricas
-    steps:
-      - action: admin_metrics_form
-      - active_loop: admin_metrics_form
-      - intent: deny
-      - action: action_deactivate_loop
-      - action: utter_help
-
   - story: confirmación positiva después de recomendación
     steps:
       - action: action_submit_field_recommendation_form

@@ -196,6 +196,9 @@ nlu:
       - ocupacion y alertas
       - qiero ingresos semana
       - kiero ocupacion hoy
+      - reservas activas hoy
+      - reservas activas manana
+      - ocupacion cancha 1 hoy
 
   - intent: ask_reservation_process
     examples: |

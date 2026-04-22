@@ -27,19 +27,11 @@ def resolve_status_pair(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Status id {status_id} is not defined in status_catalog",
             )
-        if status_item.entity != entity:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=(
-                    f"Status id {status_id} does not belong to entity {entity!r}"
-                ),
-            )
         if status_code is not None and status_item.code != status_code:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=(
-                    f"Status id {status_id} does not match status {status_code!r} "
-                    f"for entity {entity!r}"
+                    f"Status id {status_id} does not match status {status_code!r}"
                 ),
             )
         return status_item.code, int(status_item.id_status)
@@ -54,24 +46,31 @@ def resolve_status_pair(
 
 
 def resolve_status_id(db: Session, *, entity: str, code: str) -> int:
-    """Resolve a status id from an entity/code pair.
+    """Resolve a status id from a code (entity-agnostic).
 
     Used by: rent and schedule workflows when applying status transitions.
     """
-    status_item = status_catalog_repository.get_status_by_entity_code(
+    status_item = status_catalog_repository.get_status_by_code(
         db,
-        entity=entity,
         code=code,
+        is_active=True,
     )
-    if status_item is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=(
-                f"Status code {code!r} for entity {entity!r} "
-                "is not defined in status_catalog"
-            ),
-        )
-    return int(status_item.id_status)
+    if status_item is not None:
+        return int(status_item.id_status)
+
+    # Fallback to any row by code (including inactive) for legacy catalogs.
+    fallback_item = status_catalog_repository.get_status_by_code(
+        db,
+        code=code,
+        is_active=None,
+    )
+    if fallback_item is not None:
+        return int(fallback_item.id_status)
+
+    raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail=f"Status code {code!r} is not defined in status_catalog",
+    )
 
 
 __all__ = ["resolve_status_pair", "resolve_status_id"]

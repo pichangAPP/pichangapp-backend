@@ -245,13 +245,73 @@ def _claims_from_enriched_metadata(metadata: Dict[str, Any]) -> Optional[Dict[st
     return claims if isinstance(claims, dict) else None
 
 
+def resolve_effective_role_for_slot(
+    metadata: Dict[str, Any],
+    current_slot_role: Optional[str],
+) -> str:
+    """Resuelve un rol estable para el slot `user_role` sin flapear admin -> player.
+
+    Prioridad:
+    1. Claims del JWT si se pudieron decodificar (fuente autoritativa).
+    2. Rol actual del slot si ya está resuelto como admin o player (evita flapeo).
+    3. Rol declarado en la metadata (el gateway ya autenticó al usuario).
+    4. Fallback: ``player``.
+
+    Cuando ``ENFORCE_JWT_FOR_ADMIN_ACTIONS`` está activo y la metadata dice admin pero
+    no se pudo verificar el token, se registra una advertencia clara en lugar de
+    silenciosamente bajar al usuario a ``player``. La defensa profunda para acciones
+    sensibles la sigue haciendo ``resolve_secured_actor``.
+    """
+
+    claims = _claims_from_enriched_metadata(metadata)
+    if isinstance(claims, dict):
+        role = extract_role_from_claims(claims)
+        if role in {"admin", "player"}:
+            return role
+
+    enforce = get_settings().ENFORCE_JWT_FOR_ADMIN_ACTIONS
+    meta_role = normalize_role_from_metadata(metadata)
+
+    if current_slot_role in {"admin", "player"}:
+        if meta_role is None or meta_role == current_slot_role:
+            return current_slot_role
+        if enforce and meta_role == "admin" and current_slot_role != "admin":
+            LOGGER.warning(
+                "[Role] metadata declares admin but JWT could not be verified; "
+                "keeping slot role=%s. Check SECRET_KEY alignment.",
+                current_slot_role,
+            )
+            return current_slot_role
+        return meta_role
+
+    if meta_role in {"admin", "player"}:
+        if enforce and meta_role == "admin":
+            LOGGER.warning(
+                "[Role] metadata declares admin but JWT could not be verified; "
+                "trusting gateway-authenticated metadata role=admin."
+            )
+        return meta_role
+
+    return "player"
+
+
 def resolve_secured_actor(
     tracker: "Tracker",
     raw_metadata: Any,
     *,
     for_admin_action: bool = False,
 ) -> SecuredActor:
-    """Resuelve rol e id_user para acciones; admin requiere JWT válido si enforce está activo."""
+    """Resuelve rol e id_user para acciones.
+
+    Prioridad:
+    1. Claims del JWT si se pudieron decodificar (fuente autoritativa, ``token_valid=True``).
+    2. Si ``ENFORCE_JWT_FOR_ADMIN_ACTIONS`` está activo y el JWT no se pudo verificar,
+       pero tanto la metadata como el slot ``user_role`` coinciden en ``admin`` y hay
+       token presente, se confía en la autenticación del gateway (se registra una
+       advertencia clara). Esto evita que admins reales se vean degradados a player
+       por un desalineamiento de ``SECRET_KEY`` entre servicios.
+    3. Caso contrario: usa slot/metadata pero deniega admin para acciones sensibles.
+    """
     metadata = enrich_metadata_with_token(dict(coerce_metadata(raw_metadata)))
     enforce = get_settings().ENFORCE_JWT_FOR_ADMIN_ACTIONS
     claims = _claims_from_enriched_metadata(metadata)
@@ -270,7 +330,18 @@ def resolve_secured_actor(
             enriched_metadata=metadata,
         )
 
-    if enforce and for_admin_action:
+    slot_role = tracker.get_slot("user_role")
+    meta_role = normalize_role_from_metadata(metadata)
+    token_present = extract_token_from_metadata(metadata) is not None
+
+    gateway_trusted_admin = (
+        for_admin_action
+        and slot_role == "admin"
+        and meta_role == "admin"
+        and token_present
+    )
+
+    if enforce and for_admin_action and not gateway_trusted_admin:
         return SecuredActor(
             user_id=None,
             role="player",
@@ -279,7 +350,23 @@ def resolve_secured_actor(
             enriched_metadata=metadata,
         )
 
-    role_raw = tracker.get_slot("user_role") or normalize_role_from_metadata(metadata) or "player"
+    if gateway_trusted_admin:
+        LOGGER.warning(
+            "[Role] Admin action proceeding with gateway-authenticated metadata "
+            "(JWT could not be verified locally). Check SECRET_KEY alignment."
+        )
+        uid = coerce_user_identifier(
+            metadata.get("id_user") or metadata.get("user_id") or tracker.get_slot("user_id")
+        )
+        return SecuredActor(
+            user_id=uid,
+            role="admin",
+            token_valid=False,
+            admin_authorized=True,
+            enriched_metadata=metadata,
+        )
+
+    role_raw = slot_role or meta_role or "player"
     role_name = role_raw.lower() if isinstance(role_raw, str) else "player"
     if role_name not in ("admin", "player"):
         role_name = "player"

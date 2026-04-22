@@ -11,6 +11,7 @@ from app.core.error_codes import (
     EMAIL_ALREADY_REGISTERED,
     GOOGLE_EMAIL_MISSING,
     INVALID_CREDENTIALS,
+    INVALID_GOOGLE_TOKEN,
     INVALID_REFRESH_TOKEN,
     http_error,
 )
@@ -62,7 +63,7 @@ class AuthService:
         )
 
         user_db = user_repository.create_user(self.db, new_user)
-        
+
         if not user_db or not user_db.id_user:
             record_audit_log(
                 self.db,
@@ -184,6 +185,19 @@ class AuthService:
                 detail="Google token does not contain an email",
             )
 
+        if decoded_token.get("email_verified") is not True:
+            raise http_error(
+                INVALID_GOOGLE_TOKEN,
+                detail="Google account email is not verified",
+            )
+
+        provider = (decoded_token.get("firebase") or {}).get("sign_in_provider")
+        if provider != "google.com":
+            raise http_error(
+                INVALID_GOOGLE_TOKEN,
+                detail="Token sign-in provider is not Google",
+            )
+
         user = user_repository.get_user_by_email(self.db, email)
 
         if not user:
@@ -196,8 +210,8 @@ class AuthService:
 
             user = User(
                 name=first_name,
-            lastname=last_name,
-            email=email,
+                lastname=last_name,
+                email=email,
                 imageurl=decoded_token.get("picture") or None,
                 phone=decoded_token.get("phone_number") or "000000000",
                 birthdate=None,
@@ -205,10 +219,10 @@ class AuthService:
                 gender="other",
                 city=None,
                 district=None,
-            password_hash=random_password,
-            id_role=settings.DEFAULT_SOCIAL_ROLE_ID,
-            status="active",
-        )
+                password_hash=random_password,
+                id_role=settings.DEFAULT_SOCIAL_ROLE_ID,
+                status="active",
+            )
 
             # On first login we provision the user locally with the default social role so later
             # requests can reuse the same auth flow without duplicating rows.

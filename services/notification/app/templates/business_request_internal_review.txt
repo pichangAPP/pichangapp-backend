@@ -1,0 +1,9 @@
+Nueva solicitud de negocio
+
+Fecha de solicitud: {{ submitted_at }}
+Negocio: {{ business_name }}
+Titular: {{ owner_name }}
+Correo: {{ email }}
+Telefono: {{ phone }}
+Direccion: {{ address }}
+Descripcion: {{ description }}

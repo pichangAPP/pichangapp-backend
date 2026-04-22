@@ -10,6 +10,7 @@ from app.core.error_codes import (
     FIELD_NOT_FOUND,
     http_error,
 )
+from app.core.image_url_validation import validate_https_image_url
 from app.models import Image
 from app.repository import field_repository, image_repository
 from app.schemas import ImageCreate, ImageUpdate
@@ -131,6 +132,16 @@ class ImageService:
                 image.campus = field.campus
             else:
                 image.field = None
+
+        if "image_url" in update_data and update_data["image_url"] is not None:
+            normalized_url = str(update_data["image_url"]).strip()
+            current_url = (image.image_url or "").strip()
+            if normalized_url != current_url:
+                try:
+                    validate_https_image_url(normalized_url)
+                except ValueError as exc:
+                    raise http_error(BOOKING_BAD_REQUEST, detail=str(exc)) from exc
+            update_data["image_url"] = normalized_url
 
         for attr, value in update_data.items():
             setattr(image, attr, value)
