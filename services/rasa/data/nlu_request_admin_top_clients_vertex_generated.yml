@@ -1,0 +1,1145 @@
+version: "3.1"
+
+nlu:
+  - intent: request_admin_top_clients
+    examples: |
+      - ¿Quiénes son los clientes que más me generan ingresos?
+      - Listado de clientes con mayor frecuencia de alquiler.
+      - Quiénes son los que alquilan más a menudo mis canchas?
+      - Necesito la relación de clientes más importantes.
+      - Dame el reporte de los clientes con más reservas.
+      - ¿Quiénes son los que siempre reservan?
+      - Clientes que me traen más negocio.
+      - Los usuarios que más utilizan mis instalaciones.
+      - Hazme una lista de los clientes recurrentes.
+      - ¿Cuáles son los usuarios premium?
+      - Los que alquilan más veces.
+      - ¿Podrías decirme quiénes son mis clientes más leales?
+      - Quiero saber quiénes son mis clientes que más utilizan mis servicios.
+      - ¿Quiénes son los usuarios que siempre están alquilando?
+      - Relación de los clientes que más facturan.
+      - Dime los diez clientes principales.
+      - Necesito el top de clientes que hacen más reservas.
+      - Quiero ver a los clientes que más me traen ingresos.
+      - ¿Cuáles son los clientes que más se repiten en mis registros?
+      - Dame los clientes con la mayor actividad en mi plataforma.
+      - Qué usuarios son los que más alquilan en mis sedes.
+      - Muéstrame el listado de los que reservan más seguido.
+      - Quiénes son los que hacen más reservas en general?
+      - Los que siempre pagan a tiempo y reservan seguido, ¿quiénes son?
+      - ¿Podrías darme la info de mis clientes más valiosos?
+      - Necesito saber cuáles clientes me generan más volumen.
+      - Dime el top de mis clientes más fieles.
+      - Quiero una lista de los que reservan habitualmente.
+      - ¿Quiénes son los clientes que tienen mayor recurrencia?
+      - Muéstrame a los que más alquilan campos.
+      - Dame los datos de los usuarios que más rentan mis canchas.
+      - Necesito ver quiénes son mis clientes principales.
+      - Quiero saber quiénes son los que más me usan mis espacios.
+      - ¿Cuáles son mis clientes VIP que más utilizan?
+      - Lista de usuarios con más historial de reservas.
+      - Muéstrame los clientes que más frecuentan.
+      - Quiénes son los que más ingresos me dan?
+      - Necesito saber los que más me reservan.
+      - Quiero una lista de mis top clientes por actividad.
+      - ¿Quiénes son los clientes con más antigüedad y reservas?
+      - Dame el ranking de clientes que más rentan semanalmente.
+      - Muéstrame a los que más alquilan en mi complejo.
+      - Clientes que reservan cada fin de semana, ¿quiénes son?
+      - ¿Cuáles son los que me alquilan más en las mañanas?
+      - Necesito saber cuáles son los clientes con mayor volumen de reservas.
+      - Dime los nombres de los que más usan mis canchas techadas.
+      - Los usuarios que siempre me eligen.
+      - Quiero saber quiénes son los que más gastan.
+      - Muéstrame a los que tienen más reservas activas.
+      - Dame la lista de los que me han generado más ganancias.
+      - ¿Quiénes son los clientes que más se mantienen fieles?
+      - Necesito la información de los clientes más asiduos.
+      - Cuáles son los clientes que tienen más presencia.
+      - Muéstrame los usuarios que más frecuentan mi local.
+      - Dime los que me alquilan más seguido.
+      - Quiero el listado de mis clientes con mayor impacto.
+      - ¿Quiénes son los que más me recomiendan y reservan?
+      - Dame un vistazo a los clientes que más movimiento generan.
+      - Necesito saber cuáles son mis clientes de alto valor.
+      - ¿Cuáles son los que siempre están ahí?
+      - Muéstrame los clientes con más volumen de alquiler.
+      - Dime qué clientes son los más constantes.
+      - Quiero una lista de los que me alquilan más.
+      - Los usuarios que me traen más grupos.
+      - ¿Quiénes son los que más reservan por adelantado?
+      - Dame el ranking de clientes que más aportan.
+      - Necesito ver a los que me son más rentables.
+      - Muéstrame los clientes que más contribuyen.
+      - Dime los que alquilan más a menudo.
+      - Quiero saber cuáles son mis clientes preferenciales.
+      - ¿Quiénes son los que tienen mayor número de alquileres?
+      - Dame un reporte de los que más reservan.
+      - Necesito la información de los usuarios que más visitan mis instalaciones.
+      - Muéstrame a los usuarios que más reservas hacen.
+      - Dime cuáles son los que me dan más trabajo.
+      - Quiero saber quiénes son los que me mantienen el negocio.
+      - Los que siempre eligen mis espacios.
+      - ¿Puedes darme la lista de los clientes más activos?
+      - Quienes son los mas movidos en mis locales.
+      - Los clientes que me generan más ingresos, por favor.
+      - Dime los clientes más rentables que tengo.
+      - Necesito una lista de los ususarios con mayor rendimiento.
+      - Quiero ver a los que más invierten en mis canchas.
+      - Muéstrame la gente que más alquila mis losas.
+      - Dame los nombres de los que me generan más ganancia.
+      - ¿Cuáles son los clientes que más se quedan?
+      - ¿Quiénes son los que me dan más beneficio?
+      - Pasame el reporte de los clientes con mayor valor.
+      - Quiero saber quiénes son mis clientes de oro.
+      - Dame los que contribuyen más a mi ingreso.
+      - Necesito saber cuáles son mis clientes de alta lealtad.
+      - Muéstrame a los que hacen los gastos más altos.
+      - Dime quiénes son los usuarios que me aportan más económicamente.
+      - ¿Quiénes son los que retornan a alquilar mis espacios?
+      - Dame la lista de los que potencian mis ganancias.
+      - Quiero ver a los clientes que tienen más compromiso.
+      - ¿Puedes darme los usuarios que más visitan mis locales?
+      - Necesito el listado de los que me generan mayor capital.
+      - Muéstrame los clientes con reservas recurrentes.
+      - Dime los que tienen mayor actividad de uso.
+      - ¿Quiénes son los que reservan mucho?
+      - Dame el ranking de los que tienen más reservas confirmadas.
+      - Quiero saber cuáles clientes son mis principales generadores.
+      - ¿Puedes darme un informe de los usuarios más importantes?
+      - Necesito la relación de los clientes que me benefician más.
+      - Muéstrame los que tienen el mayor volumen de negocios.
+      - Dime los nombres de los que me dan más valor añadido.
+      - ¿Quiénes son los que tienen el mayor impacto en mis resultados?
+      - Dame la lista de los clientes que más me convienen.
+      - Quiero ver a los usuarios con mayor capacidad de compra.
+      - ¿Puedes darme los que se mantienen activos en mis canchas?
+      - Necesito saber quiénes son los que me visitan más.
+      - Muéstrame a los clientes con más poder adquisitivo.
+      - Dime los que tienen el mayor gasto promedio.
+      - ¿Quiénes son los que me producen más ingresos recurrentes?
+      - Dame la lista de los que usan mis servicios con más constancia.
+      - Quiero ver a los clientes que me son más rentables.
+      - ¿Puedes darme los que me ayudan a mantener el negocio?
+      - Necesito el reporte de los clientes que más contribuyen.
+      - Muéstrame los usuarios que me dan más estabilidad.
+      - Dime los que tienen el mayor nivel de fidelización.
+      - ¿Quiénes son los que hacen reservas por más tiempo?
+      - Dame la lista de los clientes que más me recomiendan.
+      - Quiero ver a los usuarios que se mantienen activos.
+      - ¿Puedes darme los que generan más capital por alquiler?
+      - Necesito saber quiénes son los que tienen más peso en mis ingresos.
+      - Muéstrame los clientes que más me apoyan económicamente.
+      - Dime los que tienen el mayor ciclo de vida.
+      - ¿Quiénes son los que tienen mayor valor para mi empresa?
+      - Dame la lista de los clientes que me hacen crecer.
+      - Quiero ver a los usuarios que más me traen referencias.
+      - ¿Puedes darme los que tienen la mayor participación?
+      - Necesito saber cuáles clientes son mi motor económico.
+      - Muéstrame los que me dan más seguridad financiera.
+      - Dime los nombres de los que son estratégicos para mi negocio.
+      - ¿Quiénes son los que mas estan alquilando ahora?
+      - Dame los clientes que tienen un alto impacto.
+      - Quiero ver a los que me aseguran el futuro.
+      - ¿Puedes darme los usuarios que tienen un alto valor?
+      - Necesito el listado de los que me producen más.
+      - Muéstrame los clientes con mayor retorno de inversión.
+      - Dime los que hacen un uso intensivo de mis canchas.
+      - ¿Quiénes son los que me dan mas garantias?
+      - Dame la lista de los que tienen mas importancia.
+      - Quiero ver a los usuarios con mas historial de alquileres.
+      - ¿Puedes darme los que me traen el mayor beneficio?
+      - Necesito saber quiénes son los que mas me rinden.
+      - Muéstrame los que tienen un alto indice de uso.
+      - Dime los que hacen la mayor cantidad de rentas.
+      - ¿Quiénes son los que me mantienen en el mercado?
+      - Dame la lista de los que me dan más prestigio.
+      - Quiero ver a los clientes que son mi pilar.
+      - ¿Puedes darme los que tienen una gran influencia?
+      - Necesito saber cuáles clientes son mis pilares.
+      - Muéstrame los que me generan más conexión.
+      - Dime los usuarios que son la base de mi negocio.
+      - ¿Quiénes son los que me hacen crecer como empresa?
+      - Dame la lista de los que son los mejores.
+      - Quiero ver a los que me impulsan.
+      - ¿Puedes darme los que me hacen ir para adelante?
+      - Pásame la data de los clientes paja, pe.
+      - Necesito saber quiénes son los usuarios más chéveres.
+      - Muéstrame a los que tienen la mayor acogida.
+      - Dime los clientes que son la movida de mi local.
+      - ¿Quiénes son los que me dan más cancha?
+      - Quiero ver a los que me hacen la taquilla.
+      - ¿Puedes darme los que son la voz en mi negocio?
+      - Quisiera conocer a mis clientes más dedicados.
+      - Dime quiénes son los que usan más mis servicios.
+      - Sácame una lista de mis clientes más activos.
+      - Necesito saber cuáles son los usuarios más comprometidos, pe.
+      - Quiénes son los clientes que mantienen mis canchas ocupadas?
+      - Muéstrame a los que más contribuyen a mi negocio, causa.
+      - Dame el ranking de los que alquilan más veces.
+      - ¿Cuáles son los usuarios con mayor fidelidad?
+      - Quiero ver a mis clientes más importantes.
+      - Pásame la relación de los clientes que más me rinden.
+      - ¿Me dices quiénes son mis usuarios más recurrentes?
+      - Necesito saber la gente que más reserva conmigo.
+      - Quiénes son los que siempre están pidiendo cancha, eh?
+      - Muéstrame a los que tienen más reservas acumuladas.
+      - Dame un reporte de los que más usan las instalaciones deportivas.
+      - ¿Puedes indicarme quiénes son mis clientes premium?
+      - Quiero la lista de los que me dan más movimiento.
+      - Saber quiénes son los usuarios con más actividad, por favor.
+      - ¿Quiénes son los que más me hacen reservas, mano?
+      - Necesito un listado de los usuarios más asiduos.
+      - Dame los nombres de los que más alquilan campos.
+      - Muéstrame quiénes son los clientes que más se repiten por acá.
+      - Quiero identificar a mis usuarios más valorados.
+      - ¿Podrías decirme quiénes son los que más me facturan?
+      - Necesito conocer a mis principales clientes.
+      - Dime quiénes son los que más alquilan mis espacios.
+      - Pásame la data de los clientes que más reservan.
+      - Muéstrame quiénes son los que más contribuyen, porfa.
+      - Quisiera ver el historial de los que más me contratan.
+      - Dame una lista de los que siempre vuelven a reservar.
+      - ¿Quiénes son los clientes con más historial de uso?
+      - Necesito los datos de los que usan mis servicios a menudo.
+      - Dime los nombres de mis clientes más fieles, porfa.
+      - Quiero saber quiénes son los usuarios que más frecuentan mis locales.
+      - ¿Me das la info de los clientes que más me apoyan?
+      - Muéstrame los clientes que tienen más presencia en mis registros.
+      - Pásame un informe de los que más utilizan mis canchas.
+      - ¿Cuáles son los usuarios que más me generan reservas?
+      - Necesito la lista de los clientes con mayor movimiento.
+      - Dime quiénes son los que más rentan los espacios deportivos.
+      - Quiero ver quiénes son los que más reservan mis instalaciones.
+      - Dame un resumen de los clientes más activos.
+      - ¿Quiénes son los clientes que más tiempo se quedan jugando?
+      - Muéstrame a los que más aprovechan mis servicios, al toque.
+      - Pásame los datos de los usuarios más importantes.
+      - ¿Cuáles clientes tienen la mayor cantidad de alquileres?
+      - Necesito saber quiénes son los más constantes en sus reservas.
+      - Dime los nombres de los que me dan más chamba.
+      - Quiero ver los usuarios con más historial de consumo.
+      - Dame un listado de los que me compran más seguido.
+      - ¿Quiénes son los clientes que más me rentan mis servicios?
+      - Muéstrame los usuarios que me generan más ganancias.
+      - Pásame la lista de los clientes con más antigüedad y frecuencia.
+      - ¿Cuáles son los clientes que más me usan las canchas?
+      - Necesito saber quiénes son los clientes top de verdad.
+      - Dime los que tienen el mayor volumen de reservas.
+      - Quiero identificar a los que más me alquilan, chévere.
+      - Dame la info de los que siempre están ahí, pe.
+      - ¿Quiénes son los usuarios más comprometidos con mis espacios?
+      - Muéstrame la gente que más me reserva, porfa.
+      - Pásame los nombres de los que me rinden más, mano.
+      - ¿Cuáles clientes son los que más se repiten en mis bookings?
+      - Necesito saber quiénes son los clientes más estables.
+      - Dime los que me generan más ingresos constantes.
+      - Quiero ver a los clientes que más me dan movida.
+      - Dame la lista de los usuarios que tienen más reservas.
+      - ¿Quiénes son los que más me alquilan las canchas?
+      - Muéstrame los clientes con más frecuencia de uso.
+      - Pásame el registro de los que más me contratan.
+      - ¿Cuáles usuarios son mis principales generadores de negocio?
+      - Necesito saber quiénes son los clientes más rentables.
+      - Dime los nombres de los usuarios más activos en mi plataforma.
+      - Quiero ver la lista de los que siempre están activos.
+      - Dame los clientes con la mayor recurrencia de reservas.
+      - ¿Quiénes son los que siempre me alquilan sin falta?
+      - Muéstrame los que más me dan trabajo con las canchas.
+      - Pásame el listado de los usuarios con más reservas hechas.
+      - ¿Cuáles son mis clientes que me generan más impacto?
+      - Necesito saber cuáles son los que me usan más los campos.
+      - Dime los nombres de los que siempre regresan a reservar.
+      - Quiero ver los clientes que tienen mayor engagement.
+      - Dame los datos de los que me producen más ingresos.
+      - Pásame el listado de mis clientes más valiosos.
+      - Dime qué clientes son los más frecuentes en mi sistema.
+      - Dame la lista de los clientes que alquilan con más constancia.
+      - Quiero saber quiénes son los que más pichangas arman.
+      - Muéstrame la gente que siempre viene a mis canchas.
+      - ¿Cuáles son los usuarios que más chamba me dan?
+      - Necesito un listado de mis clientes más asiduos.
+      - Dime quiénes son los que no fallan con su reserva.
+      - Pásame la relación de los clientes que más me alquilan.
+      - ¿Quiénes son los clientes que mas usan mis instalaciones deportivas?
+      - Quiero ver qué usuarios me generan más movimiento.
+      - Dame un informe de los que mueven más mis canchas.
+      - ¿Quiénes son los clientes más estables en reservas?
+      - Muéstrame los nombres de los que me eligen más seguido.
+      - Necesito conocer a los clientes que más me alquilan espacio.
+      - Podrías darme la data de los que reservan con regularidad?
+      - Quiero saber la gentita que más reserva.
+      - ¿Qué usuarios tienen el registro de más alquileres?
+      - Dame una vista de mis usuarios que más rotan.
+      - Muéstrame los que más reservan canchas, porfa.
+      - Necesito el listín de los clientes que más reservan horarios.
+      - ¿Quiénes son los que más participan en mis torneos?
+      - Quiero saber a los que siempre me separan la cancha.
+      - Dame los nombres de los que me dan más ingresos por alquiler.
+      - ¿Cuáles son los que reservan sus partidos con más frecuencia?
+      - Muéstrame el top de usuarios que reservan en la de grass.
+      - Necesito una lista de mis clientes más fieles al deporte.
+      - Dime los usuarios que son como mis 'caseritos' pero top.
+      - Quienes son los clientes que me apoyan más con reservas?
+      - Quiero la relación de los clientes que no me fallan.
+      - Dame los nombres de los que paran reservando mis espacios.
+      - Muéstrame a los que más tiempo de alquiler tienen acumulado.
+      - ¿Quiénes son los usuarios que más frecuentemente hacen pichangas aquí?
+      - Necesito saber quiénes son los clientes que mas me traen grupos.
+      - Pásame un reporte de los que más usan mis campos.
+      - Quiero ver los clientes que son 'habitué' de mis canchas.
+      - Dame la lista de los que siempre me buscan para alquilar.
+      - Muéstrame los clientes con mayor volumen de alquileres.
+      - ¿Cuáles son los usuarios que mas reservan la noche?
+      - Necesito la info de los clientes que mas movimiento hacen.
+      - Dime los nombres de los equipos que más alquilan.
+      - Quienes son los clientes que tienen mas agendamientos?
+      - Dame una lista de los que tienen más historia de reservas.
+      - Muéstrame a los que más alquilan con descuento.
+      - ¿Quiénes son los clientes que me aseguran las reservas?
+      - Necesito el dato de los usuarios que siempre me eligen.
+      - Quiero saber quiénes son los clientes que mas me alquilan en fin de semana.
+      - Dame los clientes con la mayor constancia en alquileres.
+      - Muéstrame los usuarios que más reservan en mis sedes principales.
+      - ¿Cuáles son los clientes que hacen más reservas adelantadas?
+      - Necesito saber los que más reservan mi espacio de futsal.
+      - Dime los usuarios que tienen un patrón de reserva frecuente.
+      - Quiero ver los clientes que me traen más ganancia.
+      - Dame el detalle de los clientes que tienen alta actividad.
+      - Muéstrame los que más me alquilan la cancha de barrio.
+      - ¿Quiénes son los clientes que mantienen mis canchas ocupadas?
+      - Necesito la data de los clientes que mas reservan para eventos.
+      - Pásame la lista de los que mas me alquilan el complejo.
+      - Quiero saber los nombres de los que me alquilan siempre.
+      - Dame la información de los usuarios que alquilan con mayor frecuencia.
+      - Muéstrame los clientes que mas reservan la mañana.
+      - ¿Cuáles son los usuarios que más invierten en mis canchas?
+      - Necesito ver los clientes que tienen un alto índice de reservas.
+      - Dime los que mas usan mis campos de forma constante.
+      - Quiero la lista de los clientes que más se repiten.
+      - Dame el ranking de los usuarios que alquilan más horas.
+      - Muéstrame a los clientes que son mis 'inamovibles'.
+      - ¿Quiénes son los que me hacen más reservas al mes?
+      - Necesito saber los que mas alquilan mis áreas deportivas.
+      - Pásame el informe de los clientes más dedicados.
+      - Quiero ver los usuarios que mas vienen a mi complejo.
+      - Dame los que mas reservan mis ambientes deportivos.
+      - Muéstrame los clientes que tienen más presencia en mis espacios.
+      - ¿Cuáles son los usuarios que con mayor frecuencia me alquilan?
+      - Necesito la información de los clientes que muestran más lealtad.
+      - Dime los que son los 'pesos pesados' en reservas.
+      - Quiero un listado de los usuarios que más me rinden.
+      - Dame los nombres de los que se aparecen más por aquí.
+      - Muéstrame la gente que mas me alquila sin problemas.
+      - ¿Quiénes son los clientes que siempre mantienen su actividad?
+      - Necesito saber a los que mas me alquilan en la semana.
+      - Pásame la lista de los clientes que tienen más antigüedad en reservas.
+      - Necesito saber cuáles son los usuarios que con más frecuencia están en mis instalaciones.
+      - Muéstrame la lista de la gente que nos prefiere.
+      - Dime los nombres de los que suelen alquilar más en mi local.
+      - Quiero conocer a los clientes con más antigüedad en mis sedes.
+      - Pásame el registro de los que más usan las canchas, pe'.
+      - Hazme un listado de los que siempre regresan a mi negocio.
+      - Podrías darme la información de los que más contratan mis servicios?
+      - Quiénes son los clientes que tienen mayor apego a mis canchas?
+      - Necesito saber cuáles son los más asiduos.
+      - Dame un resumen de los que más invierten en mis espacios.
+      - Quiero saber qué usuarios nos eligen con más constancia.
+      - Muéstrame a los que participan más en mi complejo.
+      - Indícame los que tienen el historial de alquiler más largo.
+      - La gente que más viene, ¿quiénes son?
+      - Dime quiénes son los que mayor compromiso muestran con mis instalaciones.
+      - Dame la relación de los usuarios que más generan actividad.
+      - Cuáles son los que tienen más engagement con mis canchas?
+      - Necesito la data de los que más alquilan semanalmente.
+      - Quiero saber cuáles son los clientes más estables en mi negocio.
+      - Pásame la lista de los que siempre están ocupando mis campos.
+      - Muéstrame los nombres de los que se aparecen más en mis sedes.
+      - Los que aportan más a mis canchas, ¿quiénes son?
+      - Podrías indicarme los que más confían en mis servicios?
+      - Necesito los clientes con mayor volumen de contratación.
+      - Dame un reporte de los que más utilizan mis facilidades.
+      - Quiénes son los que más me eligen para sus partidos?
+      - Quiero ver los datos de los que siempre vienen a alquilar.
+      - Dime qué usuarios son los que más contribuyen a mi centro deportivo.
+      - Muéstrame los clientes con más transacciones en mi sistema.
+      - Listado de los que siempre están activos en mis espacios.
+      - Los que más frecuentan mis ambientes, ¿cuáles son?
+      - Necesito saber quiénes son los que demuestran más lealtad.
+      - Dame una relación de los que más apuestan por mis canchas.
+      - Quienes son los q mas nos apoyan con sus reservas?
+      - Pásame la data de los que más se repiten alquilando, porfa.
+      - Muéstrame a los clientes que más se identifican con mi marca.
+      - Quisiera ver un informe de los usuarios más devotos a mis instalaciones.
+      - Dame los nombres de los que tienen más permanencia en mi local.
+      - Necesito saber quiénes son los clientes que generan mayor movimiento.
+      - Cuáles son los usuarios con mayor preferencia por mis canchas, dime.
+      - Dime los clientes que tienen más trayectoria con nosotros.
+      - Podrías darme la lista de los que más me eligen?
+      - Quiero saber los clientes que más se acercan a mi establecimiento.
+      - Muéstrame los que más han alquilado este mes.
+      - Dame la info de los usuarios que más visitan mis sedes.
+      - Necesito ver cuáles son los que más pagan por mis canchas.
+      - Dime cuáles clientes son los que tienen mayor número de alquileres.
+      - Quiero saber la gente que más veces ha venido a mi local.
+      - Pásame los datos de los que suelen alquilar mis espacios, brother.
+      - Quiénes son los que siempre reservan la cancha?
+      - Pasame la lista de los clientes más recurrentes, porfa.
+      - Necesito saber quienes son mis clientes más chéveres, los que siempre vienen.
+      - Dime qué equipos son los que más alquilan mis losas.
+      - Quiero ver el listado de los usuarios que más frecuentan mis instalaciones.
+      - Los que alquilan siempre ¿quiénes son?
+      - ¿Que patas son los que más reservan los domingos?
+      - Pasa el dato de los clientes VIP que más usan.
+      - Me puedes dar la relación de los clientes que mas contratan mis canchas, por favor.
+      - Quisiera ver el ranking de los que más usan los campos deportivos.
+      - Muestrame a los que más repiten en el local de San Borja.
+      - ¿Cuáles son los usuarios que siempre estan pidiendo canchas?
+      - Dame la data de los clientes que más se paran en mis sedes.
+      - Quienes son los que más nos traen ingresos de forma recurrente?
+      - Quiero la nómina de los usuarios más activos.
+      - Los que alquilan cada semana, ¿quiénes son?
+      - Hazme un listado de los que siempre vuelven a reservar.
+      - ¿Qué gente es la que mas me alquila?
+      - Dime los nombres de los que más nos contratan canchas.
+      - Necesito el top de los usuarios que más me reservan los findes.
+      - Muéstrame a los clientes que tienen mas reservas históricas.
+      - ¿Quienes son los equipos que más usan nuestras instalaciones deportivas?
+      - Dame la info de los que siempre están ahí, jugando.
+      - Los usuarios que tienen más veces reservado, ¿cuales son?
+      - Quiero saber quienes son mis clientes bandera, los que más alquilan.
+      - Quisiera ver a los usuarios con mayor recurrencia, porfa.
+      - ¿Me podrías pasar el listado de los clientes que más me consumen?
+      - Necesito saber quiénes son mis clientes que siempre regresan.
+      - Muéstrame a los más bravos que me alquilan las canchas.
+      - ¿Cuáles son los que más plata me dejan en alquileres?
+      - Dame la relación de los usuarios con mayor actividad en mis sedes.
+      - Pásame la info de los clientes más importantes que tengo.
+      - Quiero un resumen de los clientes que más se repiten, los constantes.
+      - ¿Podrías decirme quiénes son los usuarios que más frecuentemente me reservan?
+      - Necesito el ranking de los clientes que más utilizan mis instalaciones.
+      - Muéstrame a los clientes VIP que más me generan movimiento.
+      - Los que más me alquilan, ¿me los puedes listar?
+      - Dame la lista de los clientes que más facturan en mi local.
+      - ¿Quiénes son los que tienen mayor continuidad en sus reservas?
+      - Quiero ver los clientes que me son más rentables.
+      - Pásame el top de clientes, los que siempre están ahí.
+      - Necesito conocer a los usuarios que más valor le añaden a mi negocio.
+      - Muéstrame la gente que más me reserva espacios, los fijos.
+      - ¿Cuáles son los clientes que más recurren a mis servicios?
+      - Dime los nombres de los que me alquilan más veces.
+      - Quiero saber la lista de los usuarios que siempre tienen cancha conmigo.
+      - Dame los datos de los clientes más leales que tengo.
+      - Necesito una relación de los que más usan mis campos.
+      - ¿Me puedes mostrar quiénes son los que más reservan de forma habitual?
+      - Los clientes que más me rinden, ¿quiénes son?
+      - ¿Quiénes son los que meten más reservas en mis canchitas?
+      - Pásame la relación de los clientes más recurrentes, porfa.
+      - ¿Cuáles son mis clientes bacanes, los que siempre vienen a alquilar?
+      - Necesito la lista de los que más usan mis áreas de juego, la firme.
+      - Muéstrame a los fieles, los que nunca fallan con sus alquileres.
+      - Dame la info de los que más rentan los findes en mi local.
+      - ¿Quiénes son los que me traen más billete con sus reservas constantes?
+      - Quiero ver a los clientes bravos, los que siempre están ahí alquilando.
+      - Saca la lista de los que me alquilan más seguido las canchas, pe.
+      - ¿Podrías decirme quiénes son los usuarios que más frecuentan mis locales deportivos?
+      - quienes han reservado mas, necesito saber eso al toque
+      - muéstrame los top clientes que tenemos en el sistema
+      - dame un listado de los clientes frecuentes, por favor
+      - quiero ver quién reserva mas, los más asiduos
+      - cuáles son mis clientes top de todas las sedes
+      - necesito el ranking de clientes que más usan nuestros servicios
+      - quiénes son los usuarios que más han alquilado este año, pe'
+      - dame los clientes top que registran mayor actividad
+      - quisiera una relación de los clientes frecuentes
+      - cuál es el pata que más reserva en mis instalaciones
+      - mis clientes top, los que siempre están ahí, quiero verlos
+      - hazme un ranking de los usuarios que nos dan más chamba
+      - quienes son los que han hecho más reservas en general
+      - quiero ver a los clientes top por el volumen de reservas
+      - dame los datos de los clientes que nos visitan más seguido
+      - quiénes son los que más alquilan las canchas
+      - los clientes que más reservan, ¿quiénes son?
+      - muéstrame el top de clientes que usan mis servicios
+      - necesito la lista de los clientes con más reservas
+      - averigua quiénes son los que más nos agendan citas
+      - los clientes top, muéstrame sus nombres
+      - dame un ranking de los usuarios más activos, por favor
+      - quienes han hecho más reservas en mis campos deportivos
+      - quiero el listado de los clientes más recurrentes
+      - dime cuáles son los clientes que más nos generan ingresos, los top
+      - el usuario que mas reserva, ¿quién es?
+      - los clientes top de este mes, necesito verlos
+      - muéstrame la gente que más nos reserva, la frecuente
+      - necesito el ranking de quienes han reservado más veces
+      - quienes son los clientes que más fielmente reservan
+      - dame la lista de los clientes estrella que tengo
+      - quiero saber quién es el cliente que más reserva en mi negocio
+      - los clientes mas frecuentes, quiero sus nombres
+      - muéstrame el listado de los top clientes que tengo
+      - necesito saber quiénes son mis clientes que más consumen
+      - dime quienes son los que han hecho mas reservas en total
+      - cuál es el ranking de mis clientes más importantes
+      - quién reserva más a menudo, dame la info
+      - mis clientes top que se repiten siempre
+      - lista de los clientes más fieles, por favor
+      - quienes son los clientes frecuentes, los que siempre vienen
+      - dame el reporte de los clientes que más alquilan mis espacios
+      - quiero ver a los que han reservado mas que nadie
+      - los clientes con mas reservas, cuál es su lista
+      - quiénes son los clientes que más utilizan nuestras canchas
+      - muéstrame a los usuarios top que más nos visitan
+      - necesito identificar a mis clientes más activos, los top
+      - dime cuáles son los clientes que han reservado más veces en el sistema
+      - quiero la clasificación de los clientes con mayor número de reservas
+      - los clientes que más nos eligen, quienes son
+      - generame un reporte de los top clientes de siempre
+      - muéstrame los clientes que frecuentemente hacen reservas
+      - quienes han hecho la mayor cantidad de reservas
+      - dame un listado de los que más reservan, los frecuentes
+      - quiero ver quiénes son los mejores clientes que tengo
+      - mis clientes más recurrentes, por favor
+      - el ranking de los clientes top, necesito verlo
+      - quienes son los que han reservado mas, pásame ese dato
+      - dime los top clientes, los que siempre están ahí
+      - quiero una lista de los clientes frecuentes de mi negocio
+      - muéstrame los usuarios que más alquilan mis sedes
+      - necesito saber quienes son mis clientes más valiosos
+      - dame el ranking de los que mas me han reservado
+      - quién es el cliente que más nos elige para reservar
+      - los clientes top, la gente que siempre nos prefiere
+      - lista de los clientes frecuentes, al toque
+      - quienes han hecho más reservas en todo el historial
+      - dame los datos de mis clientes más leales
+      - quiero ver un informe de los clientes top
+      - muéstrame a los que más usan mis instalaciones deportivas
+      - necesito saber la relación de clientes que reservan con más frecuencia
+      - quien reserva mas, dime el nombre
+      - mis clientes top que nos traen más plata
+      - dame la lista de los clientes asiduos, por favor
+      - quiero el ranking de los usuarios que han hecho más reservas
+      - muéstrame a los clientes top que más utilizan nuestros servicios
+      - quienes son mis clientes frecuentes que siempre vuelven
+      - dime cuáles son los clientes que han reservado más veces
+      - necesito el top 10 de clientes con más reservas
+      - quiénes son los que más alquilan mis espacios deportivos
+      - dame la info de los clientes que más reservan nuestras canchas
+      - quiero saber quiénes son mis clientes más activos en reservas
+      - muéstrame el listado de los top clientes recurrentes
+      - quienes han hecho el mayor número de reservas, quiero ver eso
+      - Necesito saber quiénes son los clientes que han reservado más veces.
+      - Dame la relación de mis clientes top, por su frecuencia de reserva.
+      - Quiero un ranking de los clientes que más reservan seguido.
+      - Muéstrame los usuarios que son clientes frecuentes y han reservado bastante.
+      - Quiénes son los que más han reservado este año, los top clientes?
+      - Podrías darme la lista de quienes reserva más, los que se repiten?
+      - Identifica a mis clientes top por el volumen de reservas que han hecho.
+      - Quiero el reporte de los clientes frecuentes, los que alquilan más.
+      - Hazme un ranking de los usuarios que han reservado mas en mis locales.
+      - Dime cuáles son mis clientes top que siempre están agendando.
+      - Los clientes que han reservado mas veces, ¿quiénes son?
+      - Necesito la data de los top clientes que reservan con mucha frecuencia.
+      - Quiero ver el ranking de los que reservan más seguido.
+      - Muéstrame a los clientes frecuentes que han hecho más reservas.
+      - Quiénes son mis clientes top por la cantidad de reservas?
+      - Dame un listado de los que reservan mas en mi negocio.
+      - Cuáles son los clientes que han reservado mas en todo el historial?
+      - Necesito conocer a mis clientes frecuentes que han reservado más.
+      - Quiero que me digas el ranking de clientes que mas alquilan.
+      - Muéstrame a los top clientes que se mantienen reservando.
+      - Dime los usuarios que han reservado mas en los últimos meses.
+      - Podrías pasarme los nombres de mis clientes top y frecuentes?
+      - Quien reserva mas en mi centro, pásame la lista.
+      - Necesito un análisis de quienes han reservado mas veces.
+      - Hazme un reporte de mis clientes frecuentes que son top reservadores.
+      - Quiero el ranking de los que reservan mas, esos clientes top.
+      - Dime quiénes son los clientes que han reservado mas y son mis favoritos.
+      - Muéstrame los clientes top que reservan con mucha asiduidad.
+      - Quienes reservan mas en mi plataforma, podrías indicarme?
+      - Necesito la lista de los clientes frecuentes que han generado más reservas.
+      - Dame el ranking de los top clientes que siempre vuelven a reservar.
+      - Cuáles son mis clientes top que han reservado mas en total?
+      - Quiero saber quienes son los que reservan mas habitualmente.
+      - Muéstrame los clientes frecuentes con el mayor número de reservas.
+      - Dime los nombres de los top clientes que han hecho más reservas.
+      - Necesito un listado de los clientes que han reservado mas, para considerarlos top.
+      - Quien reserva mas en el último semestre, indícalo porfa.
+      - Hazme un ranking de los clientes frecuentes y sus reservas.
+      - Quiero conocer a mis clientes top que tienen un alto historial de reservas.
+      - Dame los clientes que han reservado mas en mis sedes, los top.
+      - Muéstrame a los que reservan mas y son clientes frecuentes.
+      - Necesito saber quiénes son mis clientes top, los más recurrentes.
+      - Dime quienes han reservado mas y son considerados clientes frecuentes.
+      - Quiero el ranking de los que reservan mas en mi sistema.
+      - Pásame la relación de los clientes top que han reservado más veces.
+      - Cuáles son mis clientes frecuentes que más han reservado?
+      - Quiero saber quien reserva mas en general.
+      - Dame un informe de mis clientes top que tienen un ranking alto de reservas.
+      - Muéstrame los usuarios que han reservado mas y son los que siempre vuelven.
+      - Necesito la lista de clientes frecuentes, los que reservan a menudo.
+      - Quiénes son los clientes top que me traen más negocio por reservas?
+      - Quiero el ranking de los clientes que han reservado mas y son mis fieles.
+      - Dime los nombres de los clientes que reservan mas, los top.
+      - Muéstrame los clientes que han reservado mas veces y son frecuentes.
+      - Necesito saber quienes son mis clientes top que reservan consistentemente.
+      - Podrías darme la relación de quienes reservan mas, los clientes frecuentes?
+      - Quiero un informe de los clientes que han reservado mas y están en el top.
+      - Dame el ranking de los clientes top, los que reservan siempre.
+      - Cuáles son los clientes frecuentes que han reservado mas en mi base de datos?
+      - Muéstrame a los que reservan mas frecuentemente, mis top clientes.
+      - Dime quienes han reservado mas y son los clientes vip.
+      - Necesito el listado de mis clientes top, los que tienen más reservas.
+      - Quiero saber quien reserva mas en todos mis locales.
+      - Hazme un ranking de los clientes que han reservado mas veces, los frecuentes.
+      - Dame los top clientes que han reservado mas seguido.
+      - Muéstrame a los clientes frecuentes que reservan mas.
+      - Quiénes son mis clientes top que han hecho más reservas en la historia?
+      - Quiero la relación de quienes han reservado mas y son clientes top.
+      - Necesito saber quiénes son los clientes frecuentes con el ranking más alto.
+      - Dime los usuarios que reservan mas, esos que son top clientes.
+      - Muéstrame un reporte de los clientes que han reservado mas y son frecuentes.
+      - Quiero el listado de los top clientes que han reservado mas en mi gestión.
+      - Dame un ranking de quienes reservan mas, los clientes top.
+      - Cuáles son mis clientes frecuentes que han reservado mas veces?
+      - Necesito saber quiénes son mis clientes top y cuánto han reservado.
+      - Podrías darme la lista de quienes han reservado mas, los frecuentes?
+      - Quiero ver los clientes que reservan mas seguido, los top.
+      - Hazme un informe de los clientes top que tienen el mejor ranking de reservas.
+      - Dime los nombres de quienes han reservado mas, mis clientes top.
+      - Muéstrame a los clientes frecuentes que han hecho mas reservas en este año.
+      - ¿Me puedes dar el listado de la gente que más chamba me da con reservas?
+      - Quisiera ver a los usuarios más recurrentes de mis espacios, porfa.
+      - Necesito saber quiénes son mis clientes que reservan más a menudo.
+      - Dime, ¿cuáles son los clientes más importantes en términos de reserva?
+      - Quiero ver los 'top clientes' de mi negocio, los que siempre están ahí.
+      - Hazme un ranking de los usuarios que han separado más veces.
+      - ¿Quiénes son los que han reservado mas en lo que va del año?
+      - Por favor, dame la lista de mis clientes más asiduos.
+      - Identifica a mis clientes top, los que más usan mis servicios, causa.
+      - ¿Puedes mostrarme quiénes son los usuarios que más reservan?
+      - Necesito el listado de los 'frecuentes' en mis instalaciones.
+      - Dame los nombres de la gente que más reservas ha hecho.
+      - Muéstrame a los clientes top que han generado más ingresos con sus reservas.
+      - Quisiera saber cuáles son los 'clientes frecuentes' de este mes.
+      - ¿Quién es el que reserva más, dame su info?
+      - Sácame un reporte de los que más han reservado en el último trimestre.
+      - Necesito la relación de los clientes que más utilizan mis canchas.
+      - Dame un 'ranking de clientes' por cantidad de reservas, porfa.
+      - Cuáles son mis clientes más fieles en cuanto a reservas se refiere.
+      - Quiero ver a los que siempre están reservando, mis 'clientes top'.
+      - ¿Quiénes son los que han hecho más reservas en general?
+      - Pásame la lista de los 'clientes frecuentes' que tengo, chévere.
+      - Hazme saber quiénes son mis 'mis clientes top' que más usan los espacios.
+      - Dime el 'ranking de clientes' según sus reservas.
+      - Necesito conocer a los clientes que más actividad tienen en reservas.
+      - Muéstrame quiénes son los 'top clientes' de mi sistema de reservas.
+      - Quiero saber quiénes son los usuarios que 'han reservado mas' en mi local.
+      - Dame la lista de los 'clientes frecuentes' con más reservas.
+      - ¿Puedes decirme 'quien reserva mas' en mis canchas?
+      - Presenta el 'ranking de clientes' según el número de sus reservas.
+      - Quisiera ver un informe de mis 'mis clientes top' en cuanto a fidelidad.
+      - Necesito saber cuáles son los 'clientes frecuentes' más activos.
+      - Muéstrame a los que 'han reservado mas' veces en el último semestre.
+      - Dame una relación de los 'top clientes' que siempre están separando.
+      - ¿Quiénes son los 'clientes frecuentes' que más ingresos me dejan?
+      - Pásame el listado de 'quien reserva mas' en mi plataforma, causa.
+      - Necesito los datos de mis 'mis clientes top' para una campaña.
+      - Hazme un 'ranking de clientes' con más reservas en el año.
+      - ¿Quiénes son los usuarios que 'han reservado mas' últimamente?
+      - Dame la info de los 'clientes frecuentes' más valiosos.
+      - Quisiera identificar a los 'top clientes' que me dan más movimiento.
+      - Muéstrame el 'ranking de clientes' con mayor recurrencia.
+      - Necesito saber 'quien reserva mas' mis espacios deportivos, broer.
+      - ¿Puedes darme la lista de 'mis clientes top' en general?
+      - Qué onda, ¿me pasas el 'ranking de clientes' con más reservas activas?
+      - Dime 'quienes han reservado mas' en este último periodo, porfa.
+      - Quiero saber el top 10 de clientes frecuentes.
+      - Por favor, la relación de 'mis clientes top' más activos.
+      - Sácame la lista de los usuarios que más han separado cancha.
+      - Cuáles son los 'top clientes' que más frecuentan mis instalaciones.
+      - Necesito un 'ranking de clientes' por cantidad de uso.
+      - ¿Quiénes son la gente que 'han reservado mas' en mis sedes?
+      - Dame los detalles de los 'clientes frecuentes' con más tiempo.
+      - Quisiera ver a 'mis clientes top' en un reporte, si se puede.
+      - Muéstrame los usuarios que más 'quien reserva mas' en mi centro.
+      - Necesito el listado de 'clientes frecuentes' para premiarlos.
+      - Hazme un 'ranking de clientes' que sean los más leales.
+      - Dime 'quienes han reservado mas' en los últimos seis meses.
+      - Quiero ver los 'top clientes' que me generan más movimiento en reservas.
+      - Pásame un informe de 'mis clientes top' por número de reservas.
+      - ¿Puedes mostrarme los 'clientes frecuentes' con más historial?
+      - Necesito saber 'quien reserva mas' en el horario prime.
+      - Dame la relación de los que 'han reservado mas' en mis locales.
+      - Muéstrame el 'ranking de clientes' que más han usado mis servicios.
+      - Quiero saber quiénes son los 'top clientes' que siempre están.
+      - Por favor, la lista de 'mis clientes top' con más reservas acumuladas.
+      - Dime 'quien reserva mas' en este momento, los más activos.
+      - Necesito ver 'clientes frecuentes' que hagan reservas grandes.
+      - Hazme un 'ranking de clientes' por volumen de reservas.
+      - ¿Quiénes son los que 'han reservado mas' y son super cumplidos?
+      - Quisiera ver los 'top clientes' que utilizan más mis espacios.
+      - Pásame el listado de 'clientes frecuentes' que siempre vuelven.
+      - Muéstrame 'mis clientes top' en un reporte detallado.
+      - Necesito identificar 'quien reserva mas' de forma constante.
+      - Dame el 'ranking de clientes' que tienen más reservas en curso.
+      - Dime 'quienes han reservado mas' y son los que más recomiendan.
+      - Quiero conocer a los 'clientes frecuentes' que me generan más ganancias.
+      - Hazme un informe de los 'top clientes' más leales de mi negocio.
+      - Por favor, dame la lista de 'mis clientes top' que más reservan por adelantado.
+      - Necesito saber 'quien reserva mas' y son los VIP.
+      - Muéstrame a los clientes que 'han reservado mas' durante la pandemia.
+      - Dame el 'ranking de clientes' que me han acompañado desde el inicio.
+      - Quiero ver los 'clientes frecuentes' que siempre pagan puntual.
+      - Pásame la relación de 'top clientes' que me traen más referidos.
+      - Dime cuáles son 'mis clientes top' con mayor volumen de reservas.
+      - Necesito el listado de 'quienes han reservado mas' para un reconocimiento.
+      - Quiero saber 'quien reserva mas' y que hacen reservas grupales.
+      - Muéstrame los 'clientes frecuentes' que más usan mis promos.
+      - Dame el 'ranking de clientes' que tienen mayor permanencia.
+      - Por favor, los 'top clientes' que siempre están con nosotros.
+      - Necesito saber 'quienes han reservado mas' y que siempre son buena onda.
+      - Pásame la data de quienes han reservado mas veces.
+      - Me podrías dar el ranking de clientes?
+      - Muéstrame quiénes son mis clientes top de toda la vida.
+      - Dime cuáles son los clientes frecuentes, por favor.
+      - Necesito saber quién reserva más a menudo.
+      - Quisiera un informe de los top clientes.
+      - Dame la lista de quienes han reservado mas en mi sistema.
+      - Podrías brindarme el ranking de los clientes que más nos usan.
+      - Quiero ver la relación de mis clientes top.
+      - Quiénes son los clientes frecuentes que tengo.
+      - A ver, quién es el que reserva más en mi negocio.
+      - Pásame la info de los top clientes que manejas.
+      - Necesito el registro de quienes han reservado mas.
+      - Hazme un ranking de los clientes más activos.
+      - Podrías indicarme cuáles son mis clientes top.
+      - Quiero los nombres de los clientes que vienen frecuentemente.
+      - Dime quién reserva más, para recompensarlo.
+      - Muéstrame el cuadro de los top clientes.
+      - Dame la estadística de quienes han reservado mas.
+      - Por favor, un ranking de clientes.
+      - Necesito ver mis clientes top para ver su comportamiento.
+      - Cuáles son mis clientes frecuentes que no fallan.
+      - Quién es el pata que reserva más seguido, la lista.
+      - Pásame la lista de los top clientes, porfa.
+      - Quiero el reporte de quienes han reservado mas veces.
+      - Bríndame el ranking de mis clientes más recurrentes, porfa.
+      - Dame los nombres de mis clientes top.
+      - Necesito los clientes frecuentes, los que siempre están.
+      - Quién reserva más los espacios de mis locales.
+      - Muéstrame el listado de los top clientes.
+      - Pásame los datos de quienes han reservado mas con nosotros.
+      - Quiero un ranking de los clientes que más se registran.
+      - Cuáles son mis clientes top en cuanto a uso.
+      - Dime los clientes frecuentes que maneja el sistema.
+      - Necesito saber quién ha reservado más veces.
+      - Podrías mostrarme los top clientes.
+      - Dame el historial de quienes han reservado mas.
+      - Hazme un ranking de clientes con la mayor cantidad de reservas.
+      - Quiero la relación de mis clientes top que mas usan.
+      - Quiénes son los clientes que reservan con frecuencia.
+      - A ver, quién reserva más de toda mi base de datos.
+      - Pásame el excel de los top clientes.
+      - Necesito la información de quienes han reservado mas.
+      - Bríndame el ranking de clientes que hacen más reservas.
+      - Dame los nombres de mis clientes top, para verlos.
+      - Cuáles son los clientes que me reservan frecuentemente.
+      - Quién es el que más reserva, dame ese dato.
+      - Muéstrame un consolidado de los top clientes.
+      - Pásame el listado de quienes han reservado mas veces en mi app.
+      - Quiero un ranking de clientes, los de mayor movimiento.
+      - Necesito ver quiénes son mis clientes top de verdad.
+      - Dime los clientes frecuentes, para una campaña.
+      - Quién es el usuario que más reserva, dame ese reporte.
+      - Podrías darme la relación de los top clientes.
+      - Dame los detalles de quienes han reservado mas.
+      - Hazme un ranking de clientes por su cantidad de reservas.
+      - Quiero saber quiénes son mis clientes top y cuánto usan.
+      - Quiénes son los clientes que constantemente reservan.
+      - Necesito el nombre de la persona que más reserva.
+      - Muéstrame un resumen de los top clientes.
+      - Pásame un informe sobre quienes han reservado mas.
+      - Bríndame el ranking de los clientes con mayor reincidencia.
+      - Dame los clientes top que tengo, la lista completa.
+      - Cuáles son los clientes que reservan de forma asidua.
+      - Quién reserva más, para darle un plus.
+      - Pásame la data de los top clientes.
+      - Necesito saber quienes han reservado mas, para mis estadísticas.
+      - Podrías darme el ranking de clientes, los que más movimiento tienen.
+      - Quiero conocer a mis clientes top.
+      - Dime los clientes frecuentes, quiero saber quiénes son.
+      - Quiénes son los que más reservan en la plataforma.
+      - Muéstrame los top clientes de nuestro negocio.
+      - Pásame el registro de quienes han reservado mas, porfa.
+      - Bríndame un ranking de clientes que destacan en reservas.
+      - Dame la información de mis clientes top.
+      - Necesito la lista de los clientes que reservan a menudo.
+      - Quién es el cliente que más reserva, pa' darle una oferta.
+      - Quiero un listado con los nombres de los top clientes.
+      - Muéstrame la lista de quienes han reservado mas.
+      - Pásame los nombres de los clientes frecuentes, chévere.
+      - Quisiera ver quienes son los que mas han separado canchas.
+      - Necesito el listado de mis clientes frecuentes, por favor.
+      - Podrías mostrarme a mis top clientes?
+      - Dime quién es el que más reserva mis espacios.
+      - Cuales son los usuarios que más alquilan?
+      - Dame un ranking de los clientes que más utilizan mis servicios.
+      - Me gustaría saber quienes han reservado mas veces.
+      - Los clientes que más separan, cuáles son?
+      - Dame la relación de mis clientes recurrentes.
+      - Quién alquila con más frecuencia acá?
+      - Muéstrame los clientes VIP.
+      - Hazme un listado de la gente que más viene.
+      - Quiero saber los nombres de los que más han reservado.
+      - Necesito los top clientes de este mes.
+      - Los clientes asiduos, quiénes son?
+      - Pásame la lista de mis clientes top, los que más movimiento traen.
+      - Quiero saber quienes han reservado mas veces en el último mes.
+      - Necesito un ranking de los que más frecuentan mis instalaciones para alquilar.
+      - ¿Cuáles son los clientes frecuentes que más se registran?
+      - Dime quién reserva mas en mi plataforma, los principales.
+      - Muéstrame a mis clientes top, los que siempre están ahí.
+      - Quienes han reservado más que los demás, quiero verlos.
+      - Dame un informe de los clientes frecuentes, los que no fallan.
+      - Necesito saber quiénes son los que hacen más reservas de mis canchas, porfa.
+      - ¿Podrías darme el ranking de los top clientes de mi negocio?
+      - Quiero ver los clientes que más reservas hicieron, los leales.
+      - Pásame la info de mis clientes top, esos que siempre vuelven.
+      - Dime quienes son los que reservan mas, los que más actividad tienen.
+      - Necesito el listado de los clientes frecuentes, los que me dan más retorno.
+      - Muéstrame un ranking de los usuarios que más reservas generan.
+      - Quienes han reservado mas de dos veces, por ejemplo.
+      - Dame los nombres de mis clientes top, los que más utilizan lo que ofrezco.
+      - ¿Cuáles son los clientes frecuentes con más historial de reservas?
+      - Quiero saber quien reserva mas veces en mis sedes, los más rentables.
+      - Pásame el top de clientes, los que me dan más chamba.
+      - Dime los que más reservas han hecho, esos clientes VIP.
+      - Necesito un ranking de los usuarios que siempre están haciendo reservas.
+      - Muéstrame a mis clientes top, los que tienen más peso en mi negocio.
+      - Quienes son los clientes frecuentes que más me convienen.
+      - Quiero saber quien reserva mas de una cancha, los que más invierten.
+      - Pásame la lista de mis clientes top, los que tienen más antigüedad.
+      - Dime los que han reservado más en el año, un consolidado.
+      - Necesito saber el ranking de clientes que nos visitan con más frecuencia.
+      - Muéstrame a los clientes frecuentes, los que siempre están activos.
+      - Quienes han reservado mas veces que el promedio, necesito esa data.
+      - Dame los top clientes que me llenan los horarios más difíciles.
+      - ¿Cuáles son los clientes frecuentes que más aprovechan mis espacios?
+      - Quiero saber quien reserva mas y con cuanta antelación.
+      - Pásame el top de clientes que hacen reservas corporativas.
+      - Dime los que han reservado más bloques, por ejemplo, los que alquilan por más tiempo.
+      - Necesito un ranking de los usuarios que pagan al toque y reservan seguido.
+      - Muéstrame a mis clientes top, los que me dejan mejores reseñas.
+      - Quienes son los clientes frecuentes que no me cancelan.
+      - Quiero saber quien reserva mas y trae más gente.
+      - Pásame la lista de mis clientes top, los que merecen una promoción especial.
+      - Dime los que han reservado más en la cancha de fulbito.
+      - Necesito un ranking de los usuarios que se anotan a todos mis torneos.
+      - Muéstrame a mis clientes top, los que siempre están a la mano.
+      - Quienes son los clientes frecuentes que mas me generan ventas.
+      - Quiero saber quien reserva mas en las noches, mis clientes nocturnos.
+      - Pásame el top de clientes por la constancia de sus reservas.
+      - Dime los que han reservado más veces en Miraflores.
+      - Necesito un ranking de los clientes que más se repiten en mis sedes.
+      - Muéstrame a mis clientes top, los que más usan mis locales.
+      - Quienes son los clientes frecuentes que más me recomiendan.
+      - Quiero saber quien reserva mas en la app, los que usan el sistema.
+      - Pásame la lista de mis clientes top, los que tienen más compromiso.
+      - Dime los que han reservado más en la temporada alta.
+      - Necesito un ranking de los usuarios que hacen reservas familiares.
+      - Muéstrame a mis clientes top, los que me generan más engagement.
+      - Quienes son los clientes frecuentes que mas me hacen crecer.
+      - Quiero saber quien reserva mas en el fin de semana.
+      - Pásame el top de clientes que tienen más flexibilidad para reservar.
+      - Dime los que han reservado más y pagan con Yape.
+      - Necesito un ranking de los clientes que me llenan la cancha temprano.
+      - Muéstrame a mis clientes top, los que me sacan de apuros con sus reservas.
+      - Quienes son los clientes frecuentes que más me consultan.
+      - Quiero saber quien reserva mas en fechas especiales.
+      - Pásame la lista de mis clientes top, los que son de mi círculo cercano.
+      - Dime los que han reservado más sin pedir descuentos.
+      - Necesito un ranking de los usuarios que siempre son puntuales.
+      - Muéstrame a mis clientes top, los que me dan confianza.
+      - Quienes son los clientes frecuentes que más tiempo se quedan.
+      - Quiero saber quien reserva mas y usa los servicios adicionales.
+      - Pásame el top de clientes que me hacen reservas grupales.
+      - Dime los que han reservado más con el mismo grupo de amigos.
+      - Necesito un ranking de los clientes que me traen nuevos usuarios.
+      - Muéstrame a mis clientes top, los que tienen más proyecciones de reserva.
+      - Quienes son los clientes frecuentes que siempre tienen buena onda.
+      - Quiero saber quien reserva mas y qué tan seguido lo hace.
+      - Pásame la lista de mis clientes top, los que me impulsan a mejorar.
+      - Dime los que han reservado más y siempre confirman su asistencia.
+      - Necesito un ranking de los usuarios que valoran mis instalaciones.
+      - Muéstrame a mis clientes top, los que son de la casa.
+      - Quienes son los clientes frecuentes que más me colaboran.
+      - Quiero saber quien reserva mas y son referentes para otros.
+      - Pásame el top de clientes que usan más de una sede.
+      - Dime los que han reservado más, los que siempre están presentes.
+      - Necesito un ranking de los clientes que me llenan la agenda constantemente.
+      - Muéstrame a mis clientes top, los que me aseguran la estabilidad.
+      - Quienes son los clientes frecuentes que más me aportan valor.
+      - Quiero saber quien reserva mas y de qué rubro vienen.
+      - Pásame la lista de mis clientes top, los que me generan más ingresos residuales.
+      - Dime los que han reservado más, los que tienen mayor tasa de retención.
+      - Necesito un ranking de los usuarios que me prefieren sobre la competencia.
+      - Muéstrame a mis clientes top, los que siempre tienen una buena actitud.
+      - Quienes son los clientes frecuentes que más me hacen recomendaciones.
+      - Quiero saber quien reserva mas y son mis embajadores.
+      - Pásame el top de clientes que tienen el mejor historial de pagos.
+      - Dime los que han reservado más, los que son mis mejores aliados.
+      - Necesito un ranking de los usuarios que siempre están contentos.
+      - Muéstrame a mis clientes top, los que tienen la mayor lealtad.
+      - Quienes son los clientes frecuentes que más me impulsan.
+      - Quiero saber quien reserva mas y son mis socios estratégicos.
+      - Pásame la lista de mis clientes top, los que me inspiran a seguir.
+      - ¿Podrías darme el listado de los usuarios que han realizado más reservas?
+      - Quisiera ver a mis top clientes para un análisis de rentabilidad, pe.
+      - Necesito un reporte de clientes frecuentes, por favor.
+      - Dime quién es el usuario que efectúa más reservas en el sistema.
+      - Muéstrame a mis clientes top, los que tienen una presencia constante.
+      - Dame el ranking de clientes con mayor volumen de actividad.
+      - ¿Quiénes han reservado más veces en el último trimestre?
+      - Quiero saber la data de mis clientes más frecuentes, ¿sí?
+      - Pásame el listado de los top clientes que tengo registrados.
+      - Necesito un ranking de los usuarios que nos visitan con mayor regularidad.
+      - Qué tal, me puedes decir quién reserva más en general en la sede?
+      - Quisiera ver a los clientes top que más aportan al negocio.
+      - Dame una relación de mis clientes frecuentes para lanzar promociones.
+      - ¿Quiénes son los que han reservado más campos deportivos este año?
+      - Muéstrame el ranking de clientes más importantes para nuestra operación.
+      - Necesito la lista de mis clientes top para diseñar programas de fidelización.
+      - Dime quiénes son los que reservan con mayor constancia, porfa.
+      - Quiero identificar a mis clientes frecuentes, los que son constantes en sus reservas.
+      - Podrías generarme un listado de los clientes top de este mes?
+      - ¿Cuál es el ranking de clientes con el mayor número de reservas realizadas?
+      - Me gustaría ver quiénes han reservado más en toda la historia del sistema.
+      - Pásame los datos de mis clientes top que realizan muchos alquileres.
+      - Necesito una lista de los clientes frecuentes que utilizan mis canchas regularmente.
+      - Dime quiénes son los que efectúan más reservas entre semana.
+      - Muéstrame a mis clientes top, esos que son muy fiables en sus reservas.
+      - Dame el ranking de clientes que acostumbran a hacer reservas programadas.
+      - ¿Quiénes han reservado más mediante mi plataforma online?
+      - Quiero saber cuáles son mis clientes frecuentes que alquilan por cada bloque disponible.
+      - Podrías darme la información de los top clientes de nuestras sedes?
+      - Necesito el ranking de los usuarios que más reservan los fines de semana en promedio.
+      - Dime quiénes son los clientes que concretan más reservas corporativas.
+      - Muéstrame a mis clientes top, los que me ayudan a maximizar la ocupación.
+      - Dame un listado de los clientes frecuentes que nos visitan con mucha frecuencia.
+      - ¿Quiénes han reservado más para torneos y eventos especiales?
+      - Quiero saber el ranking de clientes que son puntuales con sus pagos.
+      - Necesito la data de mis clientes top que suelen traer más personas.
+      - Podrías decirme quién reserva más en la zona sur de la ciudad?
+      - Dime cuáles son los clientes frecuentes que se repiten en nuestras estadísticas cada mes.
+      - Muéstrame a mis clientes top que efectúan reservas con anticipación.
+      - Dame el ranking de clientes que utilizan varios de nuestros servicios simultáneamente.
+      - ¿Quiénes han reservado más sin cancelar en el último año de operación?
+      - Quiero saber de mis clientes frecuentes, esos que son un punto fijo en la agenda.
+      - Pásame el listado de los top clientes más leales a nuestro establecimiento.
+      - Necesito el ranking de los usuarios que más alquilan en las mañanas.
+      - Dime quiénes son los que se mantienen activos constantemente en la plataforma.
+      - Muéstrame a mis clientes top, los que me dan buena rentabilidad.
+      - Dame una relación de mis clientes frecuentes que alquilan para equipos completos.
+      - ¿Quiénes han reservado más de una vez por semana con nosotros?
+      - Quiero saber el ranking de clientes por su regularidad de reserva.
+      - Necesito la lista de mis clientes top que utilizan más de un espacio a la vez.
+      - Podrías generarme un consolidado de quienes han reservado más bloques?
+      - Dime los nombres de los clientes frecuentes más valiosos para el negocio.
+      - Muéstrame a mis clientes top, los que generan el mayor movimiento.
+      - Dame el ranking de clientes que repiten reservas con mucha frecuencia.
+      - ¿Quiénes han reservado más bloques de canchas seguidos?
+      - Quiero saber qué clientes frecuentes me rentan con mayor regularidad.
+      - Necesito la data de mis top clientes basada en su historial de reservas.
+      - Podrías decirme quién reserva más en la cancha principal de mi local?
+      - Dime cuáles son los clientes frecuentes que nos recomiendan a sus amigos.
+      - Muéstrame a mis clientes top que tienen el mejor puntaje de asistencia.
+      - Dame un listado de los usuarios que han reservado más y por un periodo más largo.
+      - ¿Quiénes han reservado más en el último semestre de gestión?
+      - Quiero saber el ranking de clientes que no anulan sus reservas, o sea, los cumplidos.
+      - Necesito la información de mis clientes top que reservan para grupos numerosos.
+      - Podrías darme la lista de clientes frecuentes que me alquilan con constancia, eh?
+      - Dime quiénes son los que realizan más reservas en la mañana, por favor.
+      - Muéstrame a mis clientes top que me ayudan a llenar los horarios menos concurridos.
+      - Dame el ranking de clientes que usan mis canchas de fútbol con regularidad.
+      - ¿Quiénes han reservado más con un historial de buen comportamiento?
+      - Quiero saber de mis clientes frecuentes que acuden cada fin de semana.
+      - Necesito un listado de los top clientes de mi negocio, los que contribuyen más.
+      - Podrías generar el ranking de clientes que pagan con transferencia bancaria?
+      - Dime cuáles son los clientes frecuentes que se apuntan a todos los torneos que organizo.
+      - Muéstrame a mis clientes top que siempre dejan muy buenas reseñas.
+      - Dame una relación de quienes han reservado más y continúan haciéndolo.
+      - ¿Quiénes son los clientes que reservan con mayor asiduidad en mi sistema?
+      - Quiero saber la lista de mis clientes frecuentes que alquilan por las noches.
+      - Necesito la información de mis top clientes que me dan la mayor rentabilidad.
+      - Podrías darme el ranking de clientes por ingresos generados?
+      - Dime quiénes son los que han reservado más de dos veces al mes constantemente.
+      - Muéstrame a mis clientes top que utilizan mis canchas techadas.
+      - Dame los clientes frecuentes que me alquilan canchas de manera consistente.
+      - ¿Quiénes han reservado más para eventos especiales y torneos grandes?
+      - Quiero saber el ranking de clientes que me hacen reservas de gran magnitud.
+      - Necesito la data de mis top clientes que siempre pagan al contado.
+      - Podrías decirme quién reserva más en el turno de la noche, por favor?
+      - Dime cuáles son los clientes frecuentes que me refieren a otros usuarios.
+      - Muéstrame a mis clientes top que tienen varias reservas activas simultáneamente.
+      - Dame un listado de los usuarios que han reservado más a través de la app móvil.
+      - ¿Quiénes han reservado más en el área de gimnasio que ofrecemos?
+      - Quiero saber el ranking de clientes por su puntaje de lealtad, porfa.
+      - Necesito la información de mis clientes top que me eligen consistentemente.
+      - Podrías generarme un reporte de clientes frecuentes con mayor recurrencia de visita?
+      - Dime los nombres de quienes han reservado más en el último mes de operación.
+      - Muéstrame a mis clientes top, esos que nunca se cansan de hacer reservas.
+      - Dame el ranking de clientes que efectúan reservas para grupos grandes.
+      - ¿Quiénes han reservado más utilizando el plan anual de membresía?
+      - Quiero saber los clientes frecuentes que me llenan la agenda constantemente.
+      - Necesito la lista de mis top clientes que consistentemente me prefieren.
+      - Podrías darme la relación de los clientes que han reservado más y tienen un buen historial?
+      - Dime quiénes son los clientes que reservan con mayor anticipación posible.
+      - Muéstrame a mis clientes top que me generan el mayor volumen de negocio.
+      - Dame un informe de los clientes frecuentes que son habituales de mi local.
+      - ¿Quiénes han reservado más en el área de pádel?
+      - Quiero saber el ranking de clientes por su constancia de reservas, por favor.
+      - Necesito la información de mis clientes top que me son fieles desde el inicio.
+      - ¿Podrías decirme quiénes son los que realizan más alquileres en mis espacios?
+      - Dime los nombres de quienes han reservado más en total a lo largo del tiempo.
+      - Podrías decirme quienes an reservado mas en lo que va del año?
+      - Necesito saber quienes son mis clientes top para unos beneficios.
+      - Quiero ver la lista de los clientes frecuentes, por favor.
+      - Dime quien reserva mas, quiero premiarlo.
+      - Pásame la relación de mis clientes top de este mes.
+      - Muestrame el ranking de clientes que mas alquilan.
+      - Quiero un informe sobre quienes han reservado mas mis canchas.
+      - Los top clientes, ¿quienes son?
+      - Qué onda, dime cuales son mis clientes frecuentes.
+      - Checa quien reserva mas seguido por favor.
+      - Mis clientes top, ¿me pasas esa info?
+      - Necesito el ranking de clientes con más reservas.
+      - Me puedes dar el listado de quienes han reservado mas últimamente?
+      - Los clientes top de la semana, ¿quienes fueron?
+      - Quisiera ver a los clientes frecuentes para un programa de lealtad.
+      - Deseo saber quien reserva mas en mi local.
+      - Los mis clientes top, ¿me los puedes listar?
+      - Genera el ranking de clientes, porfa.
+      - Quisiera saber quienes han reservado mas mis instalaciones.
+      - Muéstrame a mis top clientes del último trimestre.
+      - Necesito conocer a los clientes frecuentes de mis locales deportivos.
+      - Podrías indicarme quien reserva mas en las mañanas?
+      - Dame la lista de mis clientes top, esos que siempre vienen.
+      - El ranking de clientes, ¿lo tienes actualizado?
+      - Quiero identificar a quienes han reservado mas este semestre.
+      - Cuáles son mis clientes top que más utilizan mis servicios?
+      - Pásame el dato de los clientes frecuentes, los que siempre están.
+      - Hazme una lista de quien reserva mas en mi plataforma.
+      - Mis clientes top del año, ¿podrías darme la relación?
+      - Obtenme el ranking de clientes que más reservas acumulan.
+      - Deseo un reporte de quienes an reservado mas en mis sedes.
+      - Los top clientes, quiero sus nombres para contactarlos.
+      - Me pasas la info de los clientes frecuentes, por favor?
+      - Quién es el que reserva mas en todas mis canchas?
+      - Quiero la relación de mis clientes top por volumen de alquiler.
+      - Dame el ranking de clientes que más pagan.
+      - Necesito saber quienes an reservado mas veces mi cancha principal.
+      - Cuáles son los top clientes que me generan más ingresos?
+      - Listado de los clientes frecuentes que tengo.
+      - Dime quien reserva mas seguido en Miraflores.
+      - Me podrías dar los nombres de mis clientes top?
+      - El ranking de clientes, esos que siempre vienen.
+      - Quiero ver los datos de quienes han reservado mas.
+      - Muestrame a los top clientes de la zona norte.
+      - Clientes frecuentes, necesito su lista para un evento.
+      - Quién es el que reserva mas y trae más gente?
+      - Pásame el top de mis clientes más fieles.
+      - Generame el ranking de clientes que más horas han alquilado.
+      - Quisiera saber quienes an reservado mas en horario nocturno.
+      - Dime cuáles son los top clientes de mi sistema.
+      - Dame la lista de los clientes frecuentes por sede.
+      - Quien reserva mas en mi academia, ¿lo sabes?
+      - Quiero la relación de mis clientes top que más invierten.
+      - Necesito el ranking de clientes, pero solo los del fin de semana.
+      - Identifica a quienes han reservado mas consecutivamente.
+      - Muéstrame los top clientes con mayor antigüedad.
+      - Los clientes frecuentes, ¿cuántos son y quiénes?
+      - Me gustaría saber quien reserva mas en mi app.
+      - Podrías indicarme mis clientes top por monto de compra?
+      - Dame el ranking de clientes que mas usan mis espacios.
+      - Quiero un listado de quienes an reservado mas en la última semana.
+      - Cuáles son mis top clientes corporativos?
+      - Relación de los clientes frecuentes de mis instalaciones.
+      - Dime quien reserva mas en las sedes de provincia.
+      - Necesito la información de mis clientes top para un reconocimiento.
+      - Pásame el ranking de clientes VIP.
+      - Me gustaría saber quienes han reservado mas mis aulas.
+      - Los top clientes de mis centros deportivos, ¿quienes son?
+      - Dame un listado de clientes frecuentes por sucursal.
+      - Quién reserva mas en mis canchas de fútbol 7?
+      - Quiero ver los nombres de mis clientes top que me recomiendan.
+      - El ranking de clientes con mayor número de transacciones.
+      - Puedes decirme quienes an reservado mas en el complejo?
+      - Muéstrame la lista de mis top clientes más rentables.
+      - Quiero la data de los clientes frecuentes para un sorteo.
+      - Quién es el que reserva mas temprano en mis canchas?
+      - Mis clientes top, quiero saber cuantos tengo.
+      - Genera el ranking de clientes que mas puntos han acumulado.
+      - Necesito saber quienes an reservado mas para el torneo.
+      - Cuáles son mis top clientes del gimnasio?
+      - Lista de clientes frecuentes que utilizan mi piscina.
+      - Quién reserva mas en el horario de 6 a 8 pm?
+      - Quiero la relación de mis clientes top que siempre cancelan a tiempo.
+      - El ranking de clientes de mis espacios de co-working.
+      - Podrías mostrarme quienes han reservado mas en el último mes?
+      - Dime los nombres de mis top clientes que repiten reservaciones.
+      - Quiero ver a los clientes frecuentes que vienen cada semana.
+      - Quién reserva mas los domingos en mis sedes?
+      - Dame la información de mis clientes top, por favor.
+      - Pásame el ranking de clientes más activos.
+      - Necesito la lista de quienes an reservado mas en mis salas.
+      - Muéstrame los top clientes que me generan más valor.
+      - Quiero conocer a los clientes frecuentes de mi escuela.
+      - Quién es el que reserva mas, puedes informarme?
+      - Mis clientes top, ¿me puedes hacer un listado con ellos?
+      - El ranking de clientes según su promedio de reservas.
+      - Quisiera ver quienes han reservado mas, necesito esa estadística.
+      - Cuáles son los top clientes de mis instalaciones deportivas?
+      - Dame la relación de clientes frecuentes que tengo.
+      - Quién reserva mas en general, dame el dato.
+      - ¿quiénes son los clientes que más reservan por acá?
+      - dame un listado de los usuarios más activos, pe.
+      - necesito saber quiénes son mis clientes top de este mes.
+      - los clientes frecuentes, ¿cuáles son sus nombres?
+      - muéstrame el ranking de clientes que más usan mis canchas.
+      - quiero ver la lista de quienes han reservado mas últimamente.
+      - qué pata reserva más seguido, ¿me puedes decir?
+      - dame los clientes más recurrentes de mi negocio.
+      - quiénes son los top clientes que me dan más chamba.
+      - necesito identificar a los clientes con más reservas, porfa.
+      - me gustaría saber cuáles son mis clientes frecuentes que alquilan siempre.
+      - podrías darme el ranking de los que reservan más seguido.
+      - los que han reservado mas, ¿quiénes son?
+      - dame la nómina de mis clientes top, porfa.
+      - quién es el cliente que más arrienda mis espacios.
+      - quiero la relación de clientes frecuentes que tengo.
+      - muéstrame los usuarios que más me generan reservas.
+      - necesito el listado de quienes han reservado mas en lo que va del año.
+      - dime los top clientes que siempre me elijen.
+      - quién es mi cliente que más frecuenta las instalaciones.
+      - quiero ver los nombres de mis clientes top para darles un descuento.
+      - dame el ranking de clientes que hacen reservas grandes.
+      - quién reserva mas que los demás, ¿me podrías decir?
+      - me interesa saber quiénes son mis clientes frecuentes más leales.
+      - dime los usuarios que mas han reservado mas de una vez.
+      - listado de top clientes, por favor.
+      - quién es el que más alquila en mis sedes, un informe, porfa.
+      - dame el reporte de mis clientes habituales.
+      - quiero conocer a los top clientes del mes pasado.
+      - muéstrame a los que más usan mis servicios, los frecuentes.
+      - quienes han reservado mas que nadie, ¿un listado?
+      - dame los nombres de los clientes que me llenan más los horarios.
+      - quiero ver el ranking de los que reservan siempre.
+      - qué clientes son los más importantes, los top, pues.
+      - los usuarios que mas han reservado, dame sus datos.
+      - necesito una tabla de mis clientes frecuentes.
+      - dime quién reserva mas que el resto.
+      - quiero la relación de mis clientes top de la temporada.
+      - muéstrame los clientes que más recurren a mis locales.
+      - quienes son los caushas que han reservado mas veces.
+      - dame los datos de los clientes más asiduos.
+      - quiero el listado de mis top clientes, porfa.

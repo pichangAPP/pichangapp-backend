@@ -1,0 +1,1021 @@
+version: "3.1"
+
+nlu:
+  - intent: affirm
+    examples: |
+      - Conforme
+      - Listo para empezar
+      - Apruebo la iniciativa sin problemas
+      - Mi respuesta es positiva
+      - Así se tiene que hacer
+      - De toque
+      - Fijo que se da
+      - Pucha, me conviene esta propuesta
+      - La hago, no te preocupes
+      - Lo ejecutaré con gusto
+      - Estoy a favor
+      - Ciertamente, me parece lo mejor
+      - Cuentas con mi apoyo en esto
+      - Así sucederá
+      - Hágase
+      - Qué tal la propuesta, me agrada un montón
+      - Es lo que corresponde
+      - Lo doy por válido
+      - Concedido el deseo
+      - Lo tengo presente
+      - Requetecontra a favor de la moción
+      - Dicho y hecho, así será
+      - De todas maneras, lo haremos
+      - Sin objeción alguna
+      - No hay ningún problema con eso
+      - Me parece lo adecuado en este caso
+      - Coincido plenamente contigo
+      - Es un hecho innegable
+      - Se arma la juerga
+      - Me uno a tu propuesta
+      - Estoy para eso, para apoyar
+      - Me parece acertado el punto que tocaste
+      - Es la pura verdad
+      - Así lo veo yo
+      - Es mi punto de vista y me agrada
+      - Me parece lo más justo para todos
+      - Estoy convencido de esta decisión
+      - Estoy en la misma sintonía que tú
+      - Sin más dilación, ejecutemos
+      - Estoy preparado para ello
+      - Con esa idea, lo podemos lograr juntos
+      - Estoy en la misma onda
+      - Es mi objetivo principal
+      - Cuenta con mi respaldo total
+      - Me animo a participar
+      - Es lo óptimo para todos
+      - Lo tomo como una señal
+      - A eso le apunto con todo
+      - Mi voto es favorable a la propuesta
+      - No te preocupes, me encargo yo de todo
+      - Es precisamente lo que buscaba
+      - Dalo por realizado
+      - Así lo cerramos entonces
+      - No hay objeciones por mi parte
+      - Lo encuentro apropiado para la situación
+      - Me parece una magnífica idea
+      - Estoy convencidísimo de que es lo mejor
+      - De cajón, lo hacemos de una
+      - Me subo a este proyecto
+      - Lo ratifico una vez más
+      - Con toda certeza
+      - Se hace y punto, no hay más que decir
+      - Estoy a tu lado en esto
+      - Puedes contar con mi ayuda siempre
+      - Lo apruebo sin reparos
+      - Es un suceso que debemos aprovechar
+      - Es la solución final para este problema
+      - No hay pierde con esa opción
+      - Me va la idea
+      - No hay que darle más vueltas al asunto
+      - Mi aprobación esta mas que garantizada
+      - Es lo que necesito justo ahora
+      - Es mi postura y la mantengo firme
+      - En total conformidad con lo planteado
+      - Es lo ideal para nosotros en este momento
+      - Me gusta la ide
+      - Estoy dispuesto a contribuir
+      - Por mi parte, no hay impedimento alguno
+      - La decisión esta tomada, no hay mas que hacer
+      - Estoy al 100% con este plan
+      - Es la voz, mi pana.
+      - Es lo que busco, lo acepto.
+      - Confirmadazo, eso se hace.
+      - De cajón, no hay pierde.
+      - Me parece súper, adelante.
+      - Claro pe, así es como debe ser.
+      - Sí, eso está genial.
+      - Con eso, me convences.
+      - Sí, me parece una gran idea.
+      - Lo hacemos, cuenta con eso.
+      - Por mí, no hay roche, dale.
+      - Estoy conforme con la propuesta.
+      - Así será, de ley.
+      - Me convense tu planteamiento.
+      - Es un hecho, no hay vuelta que darle.
+      - Muy bien, podemos avanzar.
+      - Estoy más que conforme.
+      - Cuenta con mi visto bueno.
+      - Con gusto acepto la propuesta.
+      - Es una gran oportunidad, sí.
+      - Recontrachevere, me gusta eso.
+      - Pues sí, es lo más sensato.
+      - Dalo por hecho, de fijo.
+      - Sí, estoy de tu lado en esto.
+      - Me apunto, vamos pa' lante.
+      - Si, causa.
+      - Por mi parte, todo bien.
+      - De una ves.
+      - Va acá.
+      - Ni que hablar.
+      - De todas maneras.
+      - Con fe.
+      - Ai estamos.
+      - Me late.
+      - Esta de lujo.
+      - Le metemos nomas.
+      - Esa es la actitud.
+      - Firme, sí.
+      - Chevere pues.
+      - Asi es la cosa.
+      - Ya, esta bien pe.
+      - Me apunto.
+      - Con toda la fe.
+      - Asi es nomas.
+      - Por su pollo.
+      - Sin roche.
+      - Eso de ahí sí.
+      - Me convence.
+      - Lo veo bien.
+      - Me agrada la idea.
+      - Eso tiene mi sello de aprobación.
+      - Esa propuesta tiene mi respaldo.
+      - Estamos listos para avanzar.
+      - Lo veo con buenos ojos.
+      - Estoy en el barco.
+      - Es el camino a seguir.
+      - Mi veredicto es favorable.
+      - Esa es la voz, hagámoslo.
+      - Doy mi consentimiento.
+      - La idea me calza.
+      - si ps asi es
+      - d fijo pe
+      - eso kiero
+      - ya toy ahi
+      - asi mero
+      - duna asi nomas
+      - asi es la voz
+      - ta confirmado
+      - ta bien ah
+      - m parece bien
+      - si, por surco
+      - ahi por surco es
+      - si, cerca mio
+      - por aca cerca mio
+      - si, aca a mi alrededor
+      - la cancha libre a las 8pm
+      - en villa salvador
+      - si, toy en esa
+      - es verda loq dices
+      - si, hagamoslo ya
+      - q se haga pe
+      - ya, de una ps
+      - asi lo kiero hacer
+      - si, es la jugada
+      - ta ok mi broer
+      - si toy por alla alas 8pm sin falta
+      - si, por surco me caeria chevere
+      - si, x vill salvador me queda mas cerca
+      - toy deacuerdo con loq dices mano
+      - siempre es mejor x aca a mi alrededor
+      - ya ps normal, vamos a darle a esa hora
+      - si, la cancha libre alas 8pm esta mas q bien
+      - esoo es lo q kiero q hagamos en verdad
+      - d fijo q lo hacemos como tu dices causa
+      - si, por surco ta mas tranki para ir
+      - si toy x aca a mi alrededor esperando ya
+      - la hago, no hay problema con eso ah
+      - me parece bien lo q planteas tu
+      - si, asi como me dices esta perfect
+      - duna, asi debe ser la vaina
+      - por surco nos vemos
+      - cerca d mi jato, ok
+      - aca a mi alrrededor, siono
+      - cancha libre 8pm hoy
+      - vill salvador es el point
+      - siono, broer
+      - asi nomas se hace
+      - juega, pe
+      - con todo el power
+      - ese es el rumbo
+      - la hora q sea
+      - se da la idea, mano
+      - me vacila la vibra
+      - avanza con eso
+      - todo caleta
+      - es lo q se espera
+      - con fe, se arma
+      - la nota es esa
+      - encuentro asegurado
+      - me anoto, ps
+      - no hay pierde, broer
+      - pensamos igualito
+      - pa arrancar, ya
+      - esta d pm, causa
+      - toy metido en eso
+      - se arma la cosa
+      - ahi te caigo
+      - ya esta escrito
+      - me vacila la jugada
+      - se armo el party
+      - la pura firme
+      - es la real, ps
+      - es la unica salida
+      - ahi qedamos
+      - arrancamos, mi rey
+      - si
+      - sip
+      - s
+      - yes
+      - claro ps
+      - dale ps
+      - de una pe
+      - va
+      - vaa
+      - okas
+      - ok todo bien
+      - me parece
+      - correcto ps
+      - confirmado pe
+      - aprobado
+      - ta bien pe
+      - listo entonces
+      - procede ps
+      - ya confirmado
+      - asi va la vaina
+      - bien parado eso
+      - ya quedo, ps
+      - q siga nomas
+      - todo a la orden
+      - vamo a darle
+      - fijo k si
+      - al toke lo hago
+      - claro q ta bien
+      - de 10
+      - es lo k va
+      - me parece buena idea
+      - asi es como kiero
+      - ya me apunto
+      - estoy dentro
+      - cuenta conmigo
+      - si xq ya ps
+      - ta bien eso
+      - es lo q necesito
+      - justo lo q buscaba
+      - confirma tu nomas
+      - de ley que si
+      - no hay falla
+      - todo listo ps
+      - ahi q darle
+      - mandale nomas
+      - ya, cerca mio
+      - si es, aca a mi alrededor
+      - bacansazo
+      - recontra chevere
+      - si es a las 8pm
+      - vill salvador, ahi ps
+      - con todo nomas
+      - si, fijo la hago
+      - ya, eso si
+      - confirmadisimo
+      - listo pa salir
+      - asi me gusta
+      - es justo lo q queria
+      - no hay pierde
+      - vamos con esa
+      - es mi desicion
+      - ya pe, metele
+      - cancha libre 8pm si
+      - duna
+      - ahi nomas
+      - asi es la cosa
+      - siiiii, pue
+      - ta weno pue
+      - x aca nomas
+      - siii, xfa
+      - asi, a la firme
+      - listo ps
+      - ese tonazo
+      - si, mas tarde
+      - por el cono sur
+      - con fe pue
+      - me apunto de cabeza
+      - ta bn pa hoy
+      - sisisi, ya fue
+      - fijo en la cancha
+      - si, mañana
+      - dems
+      - ya, esa
+      - me parece paja
+      - avisa ps
+      - asi qda
+      - si, en sjl
+      - la hacemos
+      - x fin ps
+      - ya, entendi
+      - si, 10 am
+      - por puente piedra
+      - con eso
+      - firme, si
+      - si, en el parque
+      - es lo justo
+      - asi sin mas
+      - ya, normal
+      - si, hoy mismo
+      - ahi en la chamba
+      - con to' y caña
+      - siiiii
+      - klaro pe mano
+      - fijo q hacemos eso
+      - asi no ma pss
+      - es lo q kiero hacer hoy
+      - si x villamaria
+      - dile q si no mas
+      - sii esta bien esa
+      - vamos a meterle
+      - confirma todo pe
+      - sisisisi q si
+      - ya ps amigo
+      - toy deacuerdo con eso
+      - sii de una vez ps
+      - dale con fe nomas
+      - si por surco pe
+      - si alas 8pm
+      - cerca a mi casa si ps
+      - villa el salvador si x ahi
+      - siiii ese mismo lugar
+      - es lo q se necesita
+      - toy listo ya
+      - si con ganas
+      - ese es el camino
+      - si asi se hara
+      - klaro q si pe
+      - dale nomas pe
+      - si claro causa
+      - esa es la firme
+      - si a esa hora fija
+      - sisi me parece bien eso
+      - obio q acepto todo
+      - estoy conforme con la idea
+      - vamos a hacerla
+      - si al toke ahorita
+      - mas q seguro q si
+      - la hacemos sin problemas
+      - segurisisisisimo
+      - si me apunto contigo
+      - x supuesto q si en el callao
+      - a ver dale nomas
+      - esa es la voz
+      - dame ps lo que quiero
+      - al toque lo hago
+      - ta bien para mi
+      - es lo que kiero ps
+      - asi sera mi causa
+      - cuenta conmigo pa eso
+      - ese es el plan maestro
+      - justo eso pensaba yo
+      - por aqui no mas lo consigo
+      - de ley pues
+      - buena idea lo haremos
+      - ta confirmado para hoy
+      - en una lo hacemos
+      - xq no? si se puede
+      - ahi nos vemos mas tarde
+      - ya pues al toque
+      - esa es mi pata de confianza
+      - como digas tu nomas
+      - me apunto de una vez
+      - sisisisi lo quiero
+      - tal como dices la firme
+      - asi lo haremos sin falta
+      - lo veo bien ese asunto
+      - si es posible para ahora
+      - ahi te busco sin problemas
+      - de una vez por todas
+      - es lo mejor que hay
+      - por surco me parece bien
+      - cerca mio esta la tienda
+      - vill salvador es la voz
+      - ya de una pe
+      - es lo que hay que hacer
+      - como sea lo consigo
+      - todo oki para mi
+      - vamos ps de frente
+      - a lo que venga
+      - asi es ps
+      - claro pe esa es
+      - si fijo, asi debe ser
+      - d una, sin pensarlo
+      - ta bien, hacemos eso
+      - esoo! justo lo q esperaba
+      - ya po q esperas, dale ya
+      - por surco me keda a la firme
+      - sisisisi, me agrada un monton
+      - okis entonces, vamos a por eso
+      - dale con esa, ya era hora
+      - aca nomas pe, cerca a mi jato
+      - xq no? si es lo mejor
+      - me late la idea, si
+      - fijo alas 8pm pa jugar
+      - si es, no hay mas q decir
+      - bacan ps, me parece chevere
+      - va esa, estoy listo pa empezar
+      - cerca mio esta perfecto, no molesta
+      - d ley pe, sin ningun problema
+      - si, vill salvador ok, llego al toque
+      - mmm ya, dale con eso pues
+      - sipo, asi es la vaina en verdad
+      - si, a mi alrrededor todo bien por aca
+      - ok, pa esa, me apunto con ganas
+      - siono? esa es la voz pe
+      - si ps, esa nota me vacila
+      - fijo q si, no lo dudes ni un cacho
+      - yaps, asi quedamos entonces ya
+      - d una, x la cancha, me gusta la idea
+      - ta bien, 8pm es la hora justa
+      - si, esto es lo q kiero pues
+      - asi nomas, no hay nada mas q agregar
+      - ya, me convence tu propuesta ahora
+      - de ley, sin roche, todo listo para eso
+      - q chevere! asi me gusta un monton
+      - sisi, todo ok para mi parte ahora
+      - me apunto a esa, no lo pienso mucho
+      - si, asi mismo es, la justa nomas
+      - 8pm, sin falta, fijo que llego
+      - q si
+      - verdad ps
+      - toy bien con esa vaina q me dices
+      - asi mismo es lo q toy pensando hacer
+      - fijo q va a salir de lo mejor ps
+      - sin roche
+      - claro ps causa, es la mejor opcion pa todos
+      - se puede hacer
+      - se arma
+      - si, q asi kede la cosa de una vez
+      - ta bien ps
+      - si tu en verdad lo kieres, normal pe
+      - yo tmb kiero eso, me conviene full ahora
+      - no hay problema
+      - d verda
+      - es asi
+      - si, me parece chevere para hacerlo ahora mismo
+      - si p, toy listo para cuando me digas la hora
+      - a esa hora
+      - en esa zona
+      - si lo hacemos
+      - xq no, si al final nos va a convenir a todos
+      - de ley esto se tiene q hacer si o si
+      - recontra ok
+      - a seguirle
+      - ya fue, mejor hagamoslo de una vez sin pensar mucho
+      - sabs q si, es lo mas logico q podemos hacer
+      - a la fija
+      - por mi si, no tengo ningun problema en aceptarlo
+      - q se haga de una vez y no pensar en nada mas
+      - es la voz, no hay otra mejor opcion q esa
+      - si, justo ahi es el lugar ideal para encontrarnos
+      - confirmado la hora
+      - si, me conviene
+      - si d cajon
+      - como no
+      - va en esa
+      - aca mismito
+      - en vill el salvador
+      - si con fe
+      - es verdad
+      - si lo logramos
+      - x aca cerk
+      - a las 9 en punto
+      - si x la tardecita
+      - estoy ready pe
+      - si la idea es buena
+      - por ahi nomas
+      - si pa eso sirve
+      - si es lo mejor para todos
+      - ya esta decidio
+      - no hay falla ps
+      - si por mi normalazo
+      - q se haga y punto
+      - si x ahi es el camino
+      - si para ir al partido
+      - si con eso es suficiente
+      - si es lo q buscaba
+      - si es la posta manito
+      - si en el cono sur
+      - si x alla nos vemos
+      - si antes del mediodia
+      - si despues de la chama
+      - si en la canchita 8pm
+      - si es la voz de la calle
+      - si a lo q vinimos
+      - si x san juan de miraflores
+      - si en el agustino
+      - si por chorrillos
+      - si para el evento de la noche
+      - ahi es la vaina
+      - asi la hacemos ps
+      - fijo q lo consigo
+      - ya con esa si
+      - cerca mio pa mi
+      - por surco mismo es
+      - en esa toy
+      - la cancha a las 8
+      - villa el salvador p
+      - kiero esa opcio
+      - palante con todo
+      - estoy con el plan
+      - dale q hay
+      - asi lo dejamos ya
+      - todo trankilo ahi
+      - confirmado la juntada
+      - de ley se logra
+      - ta bien ps la idea
+      - ya x mi normalazo
+      - recontra firmeza
+      - esa si la veo
+      - si esa es la jugada
+      - ps si ya esta lista
+      - vamoh a darle duro
+      - dale ps sin dramas
+      - sii me parece dpm
+      - es la pura vdd
+      - ese es el acuerdo
+      - ya hacemos esa
+      - klaro q me apunto
+      - fijo k se cumple
+      - pucha, esa es
+      - con esa idea voy
+      - d una vez lo cierro
+      - ta bien pa la gente
+      - afirmo lo del punto
+      - si es por ahi no mas
+      - listo pa la accion
+      - dale con ganas
+      - asi es lo k pido
+      - de ley pe
+      - asi es mi choche
+      - ya ps a esa hr
+      - fijo q sale
+      - claro ps mi king
+      - cerca d aka
+      - ahi en villa s
+      - a las 8 en punto
+      - es lo k kiero pe
+      - toy dacuerdo bro
+      - obvio ps mi rey
+      - de una pe causa
+      - frente a ti choche
+      - bacanazo eso
+      - cheverazo causa
+      - confirmadisimo bro
+      - asi hacemos pz
+      - siempre ps asi
+      - okis causa
+      - asi nomas q sea
+      - claro peee
+      - ahi te doy la razon
+      - es lo q toca ahora
+      - fija pe fijo
+      - acepto pe brother
+      - dale con fe ps
+      - por alla alas 8
+      - ahi la cancha a las 8
+      - vill el salvador nomas
+      - ahi en surco ps
+      - perfecto choche
+      - asi es broder
+      - listo pal party
+      - esa es la actitu
+      - ta bien x mi
+      - asi sera ps
+      - sin dudas bro
+      - ahi es el point
+      - eso es la vdd
+      - confirmo la info q me das
+      - de una vez lo hacemos
+      - sii eso kiero pa hoy
+      - ya po, de una nos vamos
+      - eso esta bien ps, dale
+      - vamo a darle con todo
+      - listo, x surco nos vemos
+      - ok por mi zona, no hay drama
+      - si, aca nomas a la vuelta
+      - confirmo 8pm cancha libre
+      - vill salvador es el lugar
+      - ta bien la idea, me late
+      - claro q si mi broer, dale
+      - ps claro, sin roche
+      - x supuesto q podemos ir
+      - eso mismo causa, no hay falla
+      - si, asi no mas debe ser
+      - ahi le damos con fe
+      - ta ok, la hora esta perfecta
+      - es verdad eso q dices
+      - sipi, lo aremos mañana
+      - esa opcion me va mas
+      - dale, en la cancha a las 7
+      - confirmo todo lo q me dices
+      - si, esta bien todo ps
+      - ahi te veo 8pm por chaclacayo
+      - de una por alla en comas
+      - eso esta firme, sin duda
+      - kiero eso ps, ya de una
+      - listo, voy x ahi en el agustino
+      - asi debe ser siempre
+      - si, la hora ta bien a las 9
+      - x villa el salvador, si pe
+      - cerca ala cuadra, a la mano
+      - ahy ahy, es la voz, confirmo
+      - confirmo pa ir al evento
+      - si, todo trankilo
+      - ta bien, hagamoslo sin miedo
+      - sii esta bien ps mi causa
+      - d toqe nomas, no le des mas vueltas
+      - si asi es, x aca nos vemos
+      - ya pues, d una, la hacemos como quedamos
+      - okey, la hacemos en la cancha alas 8pm
+      - por surco si, en el parque al frente d la tienda
+      - cerca mio ta bien, en la eskina del chifa
+      - aca a mi alrededor si, por el mercado nomas
+      - la cancha alas 8pm, si, ahi estaremos esperando
+      - vill salvador si ps, esa zona es mejor para mi
+      - obio k sii, no hay pierde con eso
+      - confirmo, d una, asi va a ser la cosa
+      - sabs k si, lo q sea para ayudarte
+      - ta bien ps, no hay otra forma de hacerlo
+      - claro k sii, brother, cuenta conmigo
+      - si x ai nomas, en la casa del vecino
+      - a esa hora sta bien, a las 7 de la noche
+      - dale, vamonos, no hay q perder tiempo
+      - si lo hacemos, es la mejor opcion
+      - no hay problema, x mi normal
+      - si, ese es el plan k tenemos q seguir
+      - deacuerdo, sigamos con lo pactado
+      - bkn, hacemos esa de una vez
+      - si, me parece lo mas adecuado x ahora
+      - asi lo quiero yo, sin cambiar nada
+      - si, la hacemos en surco, donde nos encontramos siempre
+      - a mi alrededor si, aki cerca del cole
+      - 8pm en la cancha, si, no llegues tarde
+      - vill salvador esta bien ps, esa zona me agrada
+      - si poe, asi es la vida mi pata
+      - k si, d toq, pa q mas
+      - obio, k si, eso es lo correcto
+      - dale, ta bien, lo espero con ansias
+      - a mi lado si, no tengo problema con eso
+      - si, asi es mi causa, tu sabes
+      - ya, x eso te digo, es la posta
+      - es lo k digo, siempre tuvimos la razon
+      - ta bien, d toq, no hay q pensarla mas
+      - si, nos vemos a las 8, no te olvides
+      - confirmo lo d villa, esa es la hora y el lugar
+      - sep
+      - weno ya
+      - listo pue
+      - va ps
+      - de ley broer
+      - fijo fijo
+      - clarines
+      - ahi mismo es
+      - todo chevere
+      - por aqui dale
+      - confirmo al toque
+      - asi sea ps
+      - es lo q qeria
+      - por chorrillos si
+      - ahi a la cancha
+      - de acuerdo con eso
+      - me parece bien eso
+      - va por ahi la cosa
+      - lo hacemos ps
+      - tal cual lo dijiste
+      - es la posta
+      - asies mano
+      - vamoh causa
+      - esa es la hora
+      - cerca a mi jermu
+      - pa mi esta bien
+      - ya pe ptm
+      - en vill maria
+      - listo para la cancha
+      - segurazo
+      - eso era pues
+      - con esa idea si
+      - de uno
+      - ta bacan eso
+      - lo acepto pe
+      - es lo q toca
+      - ala firme
+      - por ahi mismo
+      - q si ps
+      - asi mismo es pe
+      - fijo ps
+      - de ley broder
+      - ahi nomas estamos
+      - vamo a darle con todo ps
+      - si pe causa
+      - dale con fe
+      - ta bien ahi
+      - claro q yes
+      - ya esta dicho todo
+      - es la voz mano
+      - porsupuesto pe
+      - a huevo eso
+      - si, asi es la vida misma pe
+      - verdad d la buena
+      - confirmo eso mismo
+      - total q si pues
+      - x supuesto pe
+      - asi se va hacer
+      - de una vez pe
+      - vamo por eso mismo
+      - ta mas q claro esto ya sabes
+      - q se haga nomas
+      - de acuerdo causa
+      - ahi estamos recontra bien
+      - listo pa eso
+      - ya pues x mi normal, no hay problema
+      - es lo q kiero justo ahorita para empezar
+      - todo correcto ahi
+      - vamo adelante ps
+      - asi va a ser ya
+      - de toque lo hacemos
+      - la hacemos si o si
+      - eso es lo q buscaba siempre para mi
+      - cerca mio no mas
+      - aca a mi alrededor tamos listos pa salir
+      - cancha libre 8pm esta mas q confirmada
+      - vill salvador ahi es el punto q kiero
+      - dile q si
+      - por ahi d ley
+      - por san juan
+      - cerca de aca
+      - en la eskina es
+      - ala hora indicada
+      - cancha 9pm si
+      - villa el salvador confirmada
+      - si, como sea
+      - ak lo veo
+      - si cerca tuyo
+      - si x mi barrio
+      - si a las 7
+      - asi keda ps
+      - a mi me late
+      - asi como dices
+      - si en la hora
+      - a la orden
+      - si es por alla
+      - x la victoria
+      - la canchita 8pm
+      - vill maria si
+      - q sea asi
+      - x ahi es
+      - en el sitio
+      - si, en el centro
+      - por mi k si
+      - si, a las 5
+      - es por ahi
+      - si es la fija
+      - si, por miraflores
+      - en comas es
+      - cerca al puente
+      - la pichanga a las 6
+      - ahi estoy
+      - confirmao oe
+      - si pss
+      - ya pe man
+      - por surco si
+      - es la voz
+      - fijo q si
+      - listo broer
+      - ahi es
+      - con fe no mas
+      - este si
+      - bacansote
+      - a la firme si
+      - si causa
+      - ok ahi
+      - de aki a nada
+      - si mi choche
+      - es asi nomas
+      - toy de acuerdo csm
+      - se hace
+      - ala 8pm esta bien
+      - vill salvador si me late
+      - cerca mio esta perfecto
+      - por ahi va la cosa
+      - cancha libre si confirmo
+      - es verda man
+      - lo q digas esta bien
+      - siii al toke
+      - asi keda la cosa
+      - por mi no hay lio broer
+      - d una vez ps
+      - si kiero aser eso
+      - es lo justo pe
+      - esta de pelos
+      - todo good ahi
+      - asi s la vaina
+      - ese es el fin
+      - la vdd m gusta
+      - x aca es ps
+      - a esa hora si o si
+      - ta weno el plan
+      - es eso nomas causa
+      - m vacila un monton
+      - buenazo asi como dices
+      - ya estamos listos ya
+      - ahi mismo lo hacemos
+      - pa esa fecha dale
+      - esto se cumple
+      - x ahi la llevo
+      - cerca mio kiero q sea
+      - en surco sta bien pe
+      - villa el salvador es la voz
+      - a las 8 p.m. se puede
+      - cancha libre a esa hora pe
+      - la hacemos x ese lado
+      - con esa me kedo
+      - eso kiero yo
+      - asi lo lograremos
+      - esta dpm la idea
+      - ahi se qeda
+      - ese es el trato ps
+      - aca a mi alrededor ta bien
+      - ahi se arma la cosa
+      - todo listo y dispuesto
+      - con esa opcion me voy
+      - eso me convence al toque
+      - x ese motivo es
+      - este es el rumbo
+      - x el camino correcto causa
+      - pa eso kiero
+      - esa hora me va
+      - ahi qeda todo zanjado
+      - sii pe
+      - ovio q si
+      - si va
+      - recontra si
+      - asi sera
+      - toy deacuerdo
+      - bien hecho
+      - fijo pe
+      - dale duna
+      - ya pues si
+      - confirmo todo
+      - xq no
+      - lo hacemos
+      - si ta bien
+      - eso mismito
+      - si por ahi
+      - 8pm esta bien
+      - vill salvador si
+      - si esa
+      - si esa es la voz
+      - ah ya sbs
+      - si al toque
+      - ya al toke
+      - pucha si, eso es lo q keria
+      - dale lo hacemos sin roche
+      - ahi por surco podemos ir
+      - justo en mi barrio lo haremos
+      - si es para las 8pm
+      - de acuerdo contigo mi causa
+      - ya ps asi quedamos
+      - toy listo para eso si
+      - eso era justo lo q buscaba
+      - siiiii q buena esa
+      - asi ta bien ps
+      - d una causa, fijo lo hacemos
+      - ta mostro x mi causa
+      - lo hacemos sin falta hermano
+      - asi qeda entons, al toque
+      - normal nomas pe
+      - todo tranqui x mi lado
+      - x aca x surco, esa es
+      - cerca mio nomas, facilazo
+      - aca a mi alrededor, todo listo
+      - cancha libre 8pm, va quedando
+      - vill salvador alla, sin problema
+      - vamoa ir ps mano, d cabeza
+      - esa es la voz causa, pa darle
+      - asi como dices esta, x mi super
+      - se hace sin roche, no hay miedo
+      - cuenta con eso mano, d fijo
+      - asi nomas q sea, no le movemos
+      - x mi no hay clavo, ta tranquilo
+      - fijo q lo consigo, no te preocupes
+      - esa era la idea pe, lo máximo
+      - sin pena le metemos, con todo
+      - de cabeza le damos, sin dudar
+      - con esa fijo sale, ya veras
+      - qedo en eso, no se me olvida
+      - ahi mismo lo hacemos, al toque
+      - ya entendi d una, vamos pa alla
+      - a esa vamos, sin pensarlo mucho
+      - de eso se trata ps, la firme
+      - lo q tu digas, yo te apoyo
+      - q se haga nomas, no hay mas vueltas
+      - asi se va a dar, tenlo x seguro
+      - es un fijo ps, de una mano
+      - sin dudar lo hago, q te parece
+      - me parece asi, mas conveniente
+      - es lo q hay ps, hay q darle
+      - con ganas le entro, sin roche
+      - x eso no te agüites, tranqui
+      - con fe le damos, no hay pierde
+      - sii broer
+      - con esa
+      - deley
+      - fijo
+      - exacto asi
+      - ya mano
+      - sii ps
+      - justo eso q kiero
+      - dale entonces
+      - confirmo la vaina
+      - sii pe mano
+      - esta bien por mi
+      - q si causa
+      - si o si
+      - es recontra cierto
+      - dela ps
+      - si es verdad pe
+      - segurito
+      - ya ta ps
+      - si x villa
+      - es por surco si
+      - si a mi alrededor
+      - cancha libre alas 8pm si
+      - sii pues mi pana
+      - es cierto
+      - dley ps
+      - asi mismo
+      - si ps la hago
+      - lo hago al toque
+      - qsi pe
+      - es x ahi
+      - todo ok
+      - ahi toy
+      - asi keda
+      - con fe
+      - me apunto
+      - yo tmb
+      - la vdd
+      - es verda
+      - buena esa
+      - normal
+      - de ley
+      - ahi vamos
+      - contigo
+      - a las 8
+      - en la cancha
+      - por ahi
+      - mañana sin falta
+      - en mi casa
+      - dalo por echo
+      - toy de acuerdo
+      - no hay roche
+      - por mi normal
+      - me parece bn
+      - mismo dia
+      - siempre asi
+      - como dices
+      - es la nota
+      - ahi nos vemos
+      - vamo con todo
+      - de cabeza
+      - asi nomas es la cosa
+      - duna hagamoslo de una vez
+      - al toke ma, no hay problema
+      - ta bien ps, me parece ok
+      - es lo justo y necesario
+      - si eso kiero hacer ahora
+      - dale con fe, q todo saldra bien
+      - todo bacan, no te preocupes
+      - toy conforme con esa idea
+      - obio ps, no hay duda de eso
+      - en miraflores, ahi nos vemos
+      - cerca d mi jaba, a la espalda
+      - a la vuelta nomas, facil llego
+      - ahi mismo pe, donde acordamos
+      - por el centro fijo, es lo mejor
+      - si esa es la ruta, x ahi voy
+      - a las 8pm, puntual ahi estare
+      - mañana nomas la hacemos, tranquilo
+      - en la mañana si, a primera hora
+      - la cancha libre es la que quiero
+      - para alla vamos, sin pensarlo
+      - esa direccion si, la que me diste
+      - si en el paradero, justo ahi
+      - por mi casa queda, no es lejos
+      - en la esquina es, ahi te veo
+      - a esa hora sin falta, no falto
+      - ok a las 7pm, nos vemos ahi
+      - si por ahi cerca, no hay pierde
+      - esa fecha si me va, la tengo libre
+      - dale para hoy pe, hay que apurar
+      - mañana fijo lo hacemos, de una
+      - si es ese el lugar, lo conozco
+      - en mi jato a la firme, no hay problema
+      - a esa cancha vamos, la de siempre
+      - x la plaza si, por el kiosko
+      - si en el parque queda, es mas fresco
+      - por la zona tranquila, sin bulla
+      - a la hora pactada, no hay cambios
+      - a esa fecha confirmas, para organizar

@@ -1,0 +1,1022 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - hola
+      - holi
+      - hey
+      - buenas
+      - buenos días
+      - buenas tardes
+      - buenas noches
+      - qué tal
+      - qué tal bot
+      - hola bot
+      - saludos
+      - aló
+      - oye bot
+      - hola, cómo estás
+      - hola, todo bien
+      - qué hubo
+      - qué fue
+      - hola de nuevo
+      - aquí estoy
+      - presente
+      - me conecté
+      - ya llegué
+      - buen día
+      - buenas buenas
+      - habla causa
+      - habla bro
+      - oe bot
+      - qué dices
+      - cómo va
+      - qué más
+      - hola pichangapp
+      - hola chato
+      - cómo andas
+      - qué onda
+      - saludos bot
+      - hola equipo
+      - volví
+      - regresé
+      - estamos listos
+      - arrancamos
+      - oe chibolo
+      - q haces ps
+      - todo bien x aca
+      - aki ando
+      - ya llegamos
+      - q cuentas mi gente
+      - habla mi broder
+      - toy por surco
+      - cerca mio pe
+      - listo pa jugar
+      - aca en vill salvador
+      - ya estamos operativos
+      - wep pe
+      - aparecio el pata
+      - toy ready
+      - como esta la gentita
+      - todo fresh x aki
+      - llegue pa 8pm
+      - oe pichanguero
+      - toy cerkita d la cancha
+      - llegue a la cancha
+      - hablaa
+      - q mas se sabe
+      - toy activao ya
+      - listo pa empezar
+      - q pasa mi barrio
+      - por aca andamos tranqui
+      - toy x la victoria
+      - buenas vibras ps
+      - listo pe mi chibolo
+      - ya toy por aki
+      - q es d la vida
+      - oe bot pichanga
+      - como va el dia
+      - llegue por la plaza
+      - ya me apunte
+      - saludos d la zona
+      - aca en mi barrio
+      - q tal mi gentita
+      - oe compare
+      - oe k tal la vida
+      - saludos a la gente del barrio
+      - q xvr verte
+      - buenas vibras pa todos
+      - q hay ps
+      - aki mi rey
+      - q tal por estos lares
+      - holangas pe
+      - wena mi gente
+      - aparecí por aca
+      - q tal causa todo tranki
+      - buenas mi pez
+      - q dice la calle
+      - todo bien pe
+      - ya apareci
+      - q onda mi people
+      - oe varon
+      - holas a todos
+      - buena tarde mi bro
+      - q tal x mi barrio
+      - salu2 a la firme
+      - wenaas noches mi gente
+      - q hay por aca gente
+      - toy aki ps
+      - la buena causa
+      - q tal gentita de la zona
+      - q mas mi king
+      - holas desde mi base
+      - buenas pa la pichanga
+      - estoy x este lado
+      - q tal desde vill el salvador
+      - todo fresh por aca
+      - buenas las noches pe
+      - saludos a la gentita de surco
+      - holita mi bro
+      - q tal la gente de cono norte
+      - ya estamos activos
+      - pe
+      - oeee
+      - hablas
+      - gentita
+      - aki toy
+      - firmes causa
+      - srs x aca
+      - dime pue
+      - al habla
+      - mi gente
+      - conectado
+      - activo
+      - toy disponible
+      - buenas vibras
+      - x el barrio
+      - cerca d mi
+      - acaa a mi alrededor
+      - llegamos pue
+      - q mas gente
+      - listo pe
+      - a la espera
+      - wsp
+      - q hay por aki
+      - pasando x aca
+      - hablame
+      - q tal todo
+      - toy x mi zona
+      - q es de tu vida
+      - q hay en la calle
+      - alante
+      - pa empezar
+      - ya estoy conectado
+      - todo good x ak
+      - saludando pe
+      - q se cuenta
+      - a la carga
+      - oeee tu
+      - q tal gente
+      - habla pe causa
+      - oe mi gente
+      - buenas aki
+      - q tal por aca
+      - saludando ps
+      - hola mi pata
+      - toy por el agustino
+      - habla barrio
+      - to bien
+      - oe k onda
+      - llego el pichanguero
+      - aki toy pa la pichanga
+      - buenas caushita d noche
+      - q tal hoy x surco
+      - oe mano
+      - hola a la gente
+      - toy aca cerk
+      - q tal la vida
+      - habla mi bro
+      - qe se cuenta
+      - aki en la jato
+      - q tal ps
+      - toy esperando la pichanga
+      - buenas alas 8
+      - hola mi people
+      - saludos desde villa el salvador
+      - oe todo trankilo
+      - toy cerca de la cancha
+      - habla vecino
+      - q tal el barrio
+      - aki estoy en la cuadra
+      - buenas pe
+      - hola mis panas
+      - ya llegue pe
+      - habla chaval
+      - q tal el dia
+      - toy listo pa hoy
+      - qe mas se hace
+      - oe causita
+      - firmes?
+      - todo piola?
+      - wena gente
+      - saludando a todos los broders q estan aqui en la cancha
+      - firmes mano
+      - buenas noches p
+      - toy aki
+      - q hay d nuevo pe
+      - q se dice x aki
+      - saludando a la gente
+      - q onda con la vida
+      - hola broder
+      - como anda la cosa
+      - todo chilling?
+      - q se cuenta hoy
+      - a los tiempos
+      - firmes o q
+      - habla tu
+      - wenos dias
+      - como va esa
+      - q se sabe de ti
+      - hey bot
+      - hola ps
+      - holaaa ps
+      - holaaa
+      - q tal botcito
+      - bot tas ahi
+      - alooo
+      - ola
+      - q tal pe
+      - buenas bot
+      - aki reportandome
+      - presente pe
+      - hola de nuev
+      - llego causa
+      - q fue bot
+      - toy online
+      - me conecte recien
+      - listo para hablar
+      - q tal hoy
+      - saludos ps
+      - x aca todo bien
+      - q haces por estos laos
+      - ta to chevere
+      - wsp q haces
+      - q hay pa' hacer
+      - chevere q estas conectado despues de tiempo
+      - oe quien anda x ahi
+      - alguien x ahi
+      - como los vees
+      - habla pueh
+      - que milagro
+      - buenas noches mi gente
+      - oe mano, q me cuentas de la vida por tu barrio
+      - q es de tu vida mi causa, espero q todo bien
+      - buenas madrugadas a toda la gente q madruga aca
+      - q hay de bueno, dime tu como va todo por tu lado
+      - wenaas pe
+      - hola mi gente
+      - aki andamos
+      - q tal mi causa
+      - dimelo ps
+      - manito q tal
+      - salu2 desde aka
+      - listo ya
+      - toy activo
+      - a ver q hay
+      - por surco pe
+      - a mi alrededor
+      - cancha libre a las 8pm
+      - vill salvador aki
+      - kieres hablar?
+      - a la firme q plan
+      - como t ta yendo
+      - k onda mi pata
+      - q tal todo por alla
+      - q se dice la people
+      - aki esperando novedades
+      - ya vine pe
+      - dime q necesitas
+      - q fue d tu vida
+      - todo bien por aca
+      - buena tardecita
+      - a los años
+      - q haces tu
+      - toy libre para chatear
+      - hablamos cuando puedas
+      - q tal tus cosas
+      - wenaaas bot
+      - ya empezo todo?
+      - como va esa vaina
+      - oe q es ps
+      - wena gentita
+      - oe como andamios
+      - wena vibra
+      - wena, ando x aki d nuevo pa ver q se hace
+      - to bn
+      - q novedades
+      - habla chamo
+      - wena wena ps
+      - oe, q se dice por tu zona, todo xvr?
+      - oe q dice la vida, andas con buenas vibras?
+      - aca ando ps
+      - q es la buena
+      - llegue al toque
+      - habla mi barrio
+      - q haces tu x aca, todo fresh por tu lado?
+      - como stas causa
+      - oe, como esta el día, todo en orden por alla?
+      - saludo a la gentita
+      - wena noches
+      - q se cuenta de nuevo
+      - estoy online
+      - wena x surco
+      - aca a mi alrededor todo fresh
+      - habla pa la cancha libre alas 8
+      - wena gente d vill salvador
+      - oe q hay de tu vida, hace tiempo q no te veo
+      - wena pe causa
+      - salu2
+      - q se cuenta mi bro
+      - tamos aki
+      - q cuenta la vida
+      - wena gente del barrio
+      - como van las cosas por tu barrio, todo andando bien?
+      - oe q es d tu vida
+      - aca toy
+      - wena vibra mi gente
+      - wena pe
+      - buena man
+      - toy aca por la zona del mercado
+      - q tl gente
+      - wena broer
+      - wena x aki
+      - q cuentas
+      - ya toi
+      - ps, toy aki
+      - wena, todo ok?
+      - aca x la victoria esperando la pichanga de hoy
+      - listos pa hoy
+      - q novedades x alla
+      - ps, hablamos?
+      - causa, wena
+      - kmo andan
+      - estamos on
+      - wena x miraflores
+      - toy por el paradero cerca a tu casa
+      - toy x la molina en la cancha libre
+      - listo pa la pichanga
+      - habla gente
+      - aca esperando la hora para la pichanga
+      - wena, k se hace
+      - oye pe
+      - toy listo pa jugar hoy en la noche
+      - toy free 7pm
+      - aca en vill el salvador
+      - eh man
+      - wena, toi listo
+      - wena x san isidro
+      - wena, toy
+      - wena bro
+      - oe q hay
+      - ke haces
+      - hola pichanga
+      - bueenas
+      - ya toy aka
+      - kiero saber
+      - q fue broer
+      - ahi stamos
+      - ke cuentas
+      - stas ahi
+      - q paso bateria
+      - q mas pe
+      - oe
+      - ya
+      - ps
+      - q pex
+      - hola gente
+      - como va todo
+      - ahi va
+      - q onda ps
+      - habla q tal
+      - ke me dices
+      - oe causa q tal
+      - q hay d nuevo x aca
+      - q tal la noche
+      - q vas a hacer
+      - eyyy q onda
+      - aki presente
+      - q hubo pe, q tal x aki
+      - buenas noches broer, q haces
+      - holas q se cuenta x tu barrio
+      - habla tu causa, todo chevere
+      - oe q tal, stoy x vill salvador
+      - bns dias, espero este todo ok
+      - saludame ps, como andamos hoy
+      - stoy aki, cerca a la cancha
+      - oe q tal x aca, todo fresh
+      - pe causa x surco, tienes cancha libre
+      - k tal mano, q hay d nuevo
+      - bnas tardesss, esperando la pichanga
+      - yala q pasa, por donde andas tu
+      - oe q te cuentas, todo tranquilo x aca
+      - wenos dias, ya listos pa jugar
+      - holiwis ps, dime q tal el dia
+      - q hay bot, me escuchas bien xfa
+      - peee q dices, estoy cerca mio
+      - causa q tal todo, hay algo pa hoy
+      - wenaas, q se hace por aca
+      - tu bro q tal, la vida como va
+      - chevere q tal, tienes algun dato
+      - sldos, q tal la noche ayer
+      - holi q tal, ya stoy conectado
+      - oe como tas, todo tranqui x tu zona
+      - wenas noches, ya listo pal partido
+      - q tal la vida, por tu lado todo bien
+      - pe causa cerca mio, cancha libre alas 8
+      - habla xfa, dime algo rapidito
+      - bnas, hay pichanga por aqui
+      - oe tu, q me cuentas hoy
+      - q pasa ps, ya stoy listo pa entrar
+      - aca a mi alrededor, todo listo ya
+      - holap como stas, hay partido hoy
+      - pichanga libre alas 8, avisame ps
+      - pe q tal vill salvador, todo ok
+      - q se cuenta el barrio, alguna novedad
+      - oe q tal tu, hay planes pal finde
+      - habla bot stoy x aki, avisame q hay
+      - holassss, q tal el ambiente x alla
+      - habla mi gente
+      - q tal x ahi
+      - oe causa
+      - salu2 desde comas
+      - como andas por aca
+      - holitas mi gente
+      - q me dices
+      - a los q se unen
+      - saludos a la family
+      - wena mi king
+      - como stamos
+      - ke onda
+      - dime pe
+      - hablamos
+      - q hubo pss
+      - q hay gentita
+      - listos pa la pichanga 8pm
+      - como va la cosa
+      - td bn?
+      - wena ps
+      - dime bro
+      - q se comenta
+      - habla pe barrio
+      - llegue pa jugar
+      - q fue mi compare
+      - saludos desde vill salvador
+      - aki cerca mio
+      - estoy x aca
+      - como te va pe
+      - q plan para hoy
+      - q se cuenta por alli
+      - q tal x surco
+      - wena mi barrio
+      - ya llegamo
+      - saliendo ya
+      - en camino broder
+      - todo ok x aka
+      - por aca todo chevere
+      - llegando a surco
+      - ya en villa el salvador
+      - pa la pichanga a las 8
+      - aca en el point
+      - toque ya
+      - toy libre
+      - ya caigo
+      - chevere causa
+      - reportandose el team
+      - empezamo ya
+      - ya por surco
+      - cerca del punto
+      - aca x mi zona
+      - listo pa la cancha 8pm
+      - vill salvador al toque
+      - manito firme
+      - y bien
+      - q se arma
+      - firmes ahi
+      - con todo pe
+      - habla mi brother
+      - listos o no
+      - estoy esperandote
+      - toy con ganas
+      - todo joya
+      - firmes pal partido
+      - dimelo
+      - toy al tanto
+      - aca estamos firmes
+      - hablame pues chibolo
+      - q es d la vida mi king
+      - salu2 desde surco
+      - toy llegando ya
+      - que fue causa mia
+      - la firme toy ak
+      - que hay de weno
+      - toy activado
+      - buenas pa la gente
+      - q tal la zona
+      - estamo firme
+      - x aca todo tranki
+      - habla con fe
+      - q hay con tu vida
+      - yaya pe
+      - hola desde vill el salvador
+      - toy x el callao
+      - listo pa arrancar 8pm
+      - q cuentas tu
+      - llegando cerka mio
+      - buen inicio gente
+      - x fin pe
+      - q tal tu domingo
+      - todo fine
+      - ke es
+      - apareciendo x aki
+      - saludo a la family
+      - alóo
+      - que hay de la vida
+      - hola mi causita
+      - como andamo
+      - q fue varon
+      - qe tal ps
+      - saluos pe
+      - holasa
+      - q hay gente
+      - hablas mi causa
+      - buenas gentita
+      - llegue x aqui
+      - todo trankilo
+      - q se dice
+      - holita
+      - wuenos dias
+      - aqui estoy pe
+      - saludando
+      - presente nomas
+      - q cuentan
+      - wena broder
+      - q tal causa nomas
+      - q hay x ahi
+      - llegue d nuevo
+      - toy por aca
+      - q onda pe causa
+      - wenaaas
+      - q pasa mi gente
+      - holiiis
+      - holanda
+      - habla botito
+      - hola gente d surco
+      - wena gente x vill salvador
+      - salu2 desde aca
+      - toy cerca x aqui
+      - q tal la tarde
+      - apareci
+      - q tal todo por casa
+      - habla compare ps
+      - oe q tal la noche
+      - q haces por aki
+      - habla gentita de surco
+      - buenas, aki andamos firmes
+      - q onda mi gente x vill salvador
+      - oe, q tal andamos
+      - holi causa, ya llegaste
+      - q paso causa, te perdiste
+      - oeee, estas por mi barrio
+      - aki stoy pe, cerca mio
+      - wena broder, q tal va
+      - habla gente de barrio
+      - q es de tu vida, como estas
+      - q hay de nuevo por el sur
+      - wena pe, ya te extrañaba
+      - hablas, q haces por aca
+      - como andamos por aca
+      - q tal mi pana
+      - wena gente, listos para la pichanga 8pm
+      - q tal la semanita
+      - q tal todo, listo para entrenar
+      - hola ps, q cuentas tu
+      - buenas q tal, por aca tranqui
+      - hey bro, q tal tu dia
+      - q tal mi gente, espero q bien
+      - q tal gentita, despertando
+      - oeee ps, q tal el findesemana
+      - q tal mi gente por surco
+      - wena, estoy cerca mio
+      - oe q tal x vill salvador
+      - aki a mi alrededor, todo tranqui wena
+      - q tal, la gente de la cancha libre
+      - wena, las pichangas de siempre
+      - hablaa gentita
+      - oe q tal pa hoy 8pm el partido
+      - habla, por aqui
+      - q es de tu vida, q haces
+      - holap
+      - wenas
+      - eoo ps
+      - qien x ahi
+      - stoy x aca
+      - hablame causita
+      - q mas hay
+      - wena mano
+      - k es
+      - stoy ready
+      - oee ps
+      - ya toy on
+      - pepepe
+      - q hacemos
+      - q es ps
+      - q x aca
+      - holas mi gente pichangapp
+      - q es de la pichanga de hoy
+      - stoy x ak cerca de ti pa ver q sale
+      - wenas noches ya toy ready pa lo q salga
+      - q es de tu vida por vill salvador
+      - holap robot como te va el dia
+      - eoo stoy cerca mio hay algo pa hacer x aqui
+      - q novedades hay de lo q ha pasado estos dias
+      - wenas x aca en surco todo trankilo por ahora
+      - ya toy aki alas 8 pm pa jugar pichanga
+      - q novedades amigazo espero q todo este bien
+      - como estuvo la juerga del fin de semana por alli
+      - wenas soy nuevo x aca q me recomiendas
+      - wenas tardes a todos los presentes en el chat
+      - eoo ps kiero saber si hay cancha libre para ahora
+      - q novedades pe gente q tenemos x el barrio
+      - wenas stoy en vill salvador cerca de la losa deportiva
+      - como esta todo trankilo por aca por san juan
+      - eoo estoy buscando un equipo pa jugar hoy
+      - wenas estoy disponible pa la pichanga de hoy en la noche
+      - q es de los cupos para la pichanga de las 8
+      - holas, toy x surco
+      - cerca mio, todo ok
+      - mi gente d vill salvador
+      - aca a mi alrededor pe
+      - aparecio el choche
+      - oe q cuentas
+      - al toque, toy en linea
+      - un saludito pa la bandita
+      - ya toy conectado
+      - holas, pa la cancha libre 8pm
+      - toy x el barrio
+      - oe, q novedades
+      - por aca el pata
+      - a los tiempos ps
+      - mando un holas
+      - toy en el punto
+      - el ambiente x aca
+      - reportandome ps
+      - listos pal juego
+      - toy ya en el spot
+      - aparecio el causa
+      - mandando buena vibra
+      - oe choche, la movida
+      - holas, cancha libre alas 8
+      - toy x vill salvador, todo ok
+      - apareciendo x el surco
+      - toy x aca nomas
+      - pe mano, listo
+      - aca la gente chevere
+      - holas, firme
+      - el broder llegando
+      - el barrio x mi zona
+      - alerta x aqui
+      - q novedades ps
+      - toy listo pa arrancar
+      - x aca, listo
+      - oe, la voz
+      - holas a todos x vill salvador
+      - x aca andamos
+      - vengo x aki
+      - alguno x alli
+      - aparecido x el barrio
+      - llegando al toque
+      - todo x casa bien
+      - aki me tienen
+      - buenaza la people
+      - hablando desde mi jato
+      - todo ok x aki
+      - pa la gente de villa
+      - q chevere q apareces
+      - listo pa la noche
+      - desde la cuadra
+      - x aca mi cholo
+      - x fin llego la hora
+      - que chevere verte
+      - estamos ready
+      - pasando x la gentita
+      - todo fresh pe
+      - de vuelta al ruedo
+      - la gente de smp
+      - aca a mi alrededor bien
+      - alguien vivo
+      - con la bateria firme
+      - ya conectados
+      - desde mi cuadra de porres
+      - por mi zona todo bien pe
+      - todo bacan x la people de aca
+      - ando x villa el salvador con los panas
+      - pasando el rato x aca en el barrio
+      - por el agustino todo tranki con los causas
+      - de vuelta a la carga despues de tiempo
+      - apareciendo de la nada para saludar
+      - desde el cono norte mi gente como andan
+      - listo pa lo q venga mi gente hoy
+      - llegamo pa ver q se cocina x ahi
+      - aca con la gente del barrio viendo la cancha
+      - q hay por surco
+      - wena por vill salvador
+      - pe causa cerca mio
+      - q pz
+      - q haces x aqui
+      - habla mano
+      - k hay x aca
+      - pe causita
+      - q onda broer
+      - k m cuentas
+      - q paso x aca
+      - wenas noches
+      - como andamos
+      - q hay por ahi
+      - hola x ahi
+      - k onda p
+      - q es d tu vida
+      - a q hora
+      - q hubo causa
+      - q tal p
+      - q tal broder
+      - k tal causita
+      - a la firme
+      - q tal mi gente
+      - q tal mi bro
+      - wena gentita como andamos
+      - k pasa x tu barrio
+      - hablas pe al toke
+      - q ondi x aca
+      - k tal tu dia man
+      - to bien por alla
+      - q cuentas de nuevo
+      - habla pe causita q tal
+      - oe q tal stas x mi zona
+      - wenos dias para todos
+      - wenaas tardes aca cerca
+      - wenaas noches ya x villa
+      - yala ps, tas despierto
+      - q hacemos ahora pe
+      - stas ahi causa, responde
+      - toy x aki esperandote
+      - q tal x tu cuadra hoy
+      - wena pe, habla x wsp
+      - hablamo mas tarde o q
+      - q dice la gentita de surco
+      - tas x aca cerca mio
+      - q hay pe, todo tranki
+      - k m cuentas de pichanga
+      - como andamos, todo chill
+      - to tranki pa la noche
+      - q fumaste, estas por alla
+      - habla pex, como va el dia
+      - q onda broder, q fue
+      - stamos bien o no pe
+      - q tal la noche, ya listos
+      - kieres hablar de lo de ayer
+      - oe q se dice x alla
+      - sabs algo de la cancha
+      - q paso x tu zona hoy
+      - habla ps, q hacemos mañana
+      - q haces ah, ya en casa
+      - qe fuee compare, toy x ahi
+      - com estas hoy manito
+      - alow, tamos listos para ir
+      - a ver si te conectas ahora
+      - oe k tal
+      - buenas, x aqui
+      - q paso mi broer
+      - kmo stas
+      - q dices mi gentita
+      - holiwis x aca
+      - oe mi rey
+      - buenas noches x la victoria
+      - habla mi choche
+      - qe pasa men
+      - aki firme
+      - holasss
+      - wenas tardes por sjl
+      - toy libre 8pm
+      - q tal toos
+      - salu2 gentita
+      - holis pe
+      - ya toy aki pe
+      - k tal mi gente
+      - oe porfa
+      - buenas, x mi barrio
+      - habla causa x aca
+      - q tal x la canchita
+      - aloz
+      - qe tal mi bro
+      - hola desde ventanilla
+      - q paso pichangapp
+      - aki en vill salvador
+      - toy x tu zona
+      - buenas alas 7
+      - qe haces amio
+      - hola q haces
+      - oe pe
+      - q tal mi broer
+      - habla choche
+      - salu2 ps
+      - ke tal causa
+      - holi gente
+      - todo fresh
+      - q fue mano
+      - buenas mi king
+      - aka toy pe
+      - habla, stas ahi
+      - q hay de bueno
+      - oe mi pana
+      - bna noche
+      - hola botcito
+      - q dice la people
+      - oe causa, q tal
+      - toy conectao
+      - habla causa, estoy por surco
+      - buenas noches mi gentita de vill salvador
+      - q onda mi gente, todo bien x aca
+      - oe amiguito, q tal la vida por ahi
+      - saludos desde cerca mio, como la pasas
+      - salu2 pa la gente de la cancha libre 8pm
+      - holaa, q se cuenta por aca a mi alrededor
+      - buenas tardes ps, q novedades hay por tu lado
+      - oe chato, q tal el dia y la chamba
+      - toy x tu zona pe, pasando a saludar rapidito
+      - q mas se sabe bot, todo tranqui por alla
+      - habla bro, estoy pasando a saludar no mas
+      - holi a todos los presentes, q tal el ambiente
+      - buenas noches mi broer, espero q todo vaya bien
+      - salu2 desde mi cel, q me cuentas de ti
+      - oe mi causa, como te trata el trafico hoy
+      - q tal pe mano, estoy ak para lo q se ofrezca
+      - hola bot, queria saber si estas conectado ya
+      - buenas mi gentita, aca con ganas de pichanguear
+      - oe, q tal, todo bien por tu lado
+      - q asess
+      - oe chato to bn x aca como andas
+      - oe dime
+      - chevere
+      - q hay pue
+      - q plan pue
+      - causa
+      - q ondis
+      - habla pe chato
+      - estamos x aca
+      - aki pe
+      - q tal tu dia como t esta llendo
+      - mi bro
+      - oee ya estoy listo pa arrancar la pichanga
+      - bn dia bot
+      - saludo
+      - pue
+      - buens tardes
+      - hola x surko
+      - serca mio
+      - oe bot bn dia aca a mi alreedor q haces
+      - vill salbador
+      - q hay d nuevo pe bot estamos para la pichanga
+      - q tal causaa
+      - ola k ase
+      - tamo ready
+      - q paxa
+      - hola gent
+      - buenas noches a todos ustedes xq quiero jugar
+      - al toke
+      - q me kuentas como va todo x tu barrio
+      - oe bot estoy para la pichanga q hacemos
+      - habla pue chato
+      - q pasa pe
+      - k pasa
+      - holaa
+      - eey
+      - toi aki
+      - ya ps
+      - aloooo
+      - k tal pe
+      - k hubo
+      - wena
+      - x acá
+      - q dicess
+      - aki ste
+      - k tal mano
+      - stoy aca
+      - wnos dias
+      - wenaass
+      - oie
+      - hola qm cuentas
+      - aiiuuda
+      - stoy x surko
+      - cancha libre alas 8
+      - vill salvador disponible
+      - xfa dime q hay
+      - ke haces tu
+      - a k hora abren
+      - aqi cerca mio
+      - aki x mi ksa
+      - buenas a todos
+      - oe chamo
+      - q talaso
+      - toy x aca
+      - llegue yaa
+      - mira ps
+      - ya dale
+      - q talaso mano
+      - chevere pe
+      - todo chilling
+      - aparecio
+      - x aki
+      - q me cuentas
+      - q hay pe
+      - vamo a ver
+      - alerta
+      - toy on
+      - pe mano
+      - q se sabe
+      - oe amix
+      - q hay mi gente
+      - todo good por aca
+      - llegamos al punto
+      - q ha sido de ti
+      - vamo pa lante
+      - ya toy esperando a ver q me cuentas ahora ps
+      - a ver q nos traes de bueno para esta semana
+      - listo ps ya estamos aqui para comenzar de una
+      - oe ya estamos por aqui para ver si jugamos
+      - q tienes pa contar pe para ir de una vez
+      - ya estamos operativos para lo q se venga hoy
+      - a ver si nos pones al tanto de la jugada
+      - todo fresh x aca
+      - aloha pe bro
+      - k onda la people
+      - q tal, todo tranki por ahi?
+      - oe causa, como te va
+      - habla ps mi choche
+      - q se dice el barrio
+      - como andamos x esta cuadra
+      - q fue pe mi broder
+      - wena gentee, q tal todo
+      - q hubo, q hay de bueno x aqui
+      - tas x ahi bot?
+      - oiga, q tal su dia
+      - q tal la noche pe
+      - q tal la vaina ps
+      - q se cuenta la zona
+      - buenaza, como andas tu
+      - holi holi mi estimado
+      - oe, q tal el ambiente
+      - q tal mi gente, todo bacan
+      - habla broder, q fue
+      - todo chevere por aqui?
+      - q se hace por la tarde
+      - q hay de nuevo x la vida
+      - oe, estas conectado?
+      - q tal por mi barrio
+      - wenaaa pe, q tal
+      - q dice la gentita
+      - como stas ps, mi pata
+      - holiwis, q tal todo
+      - habla mi choche, q tal el dia
+      - q tal la nota x aqui
+      - q tal pe, q tal el finde
+      - como andamos x el cono
+      - buen dia mi gente x ahi
+      - q tal el dia, q tal la noche
+      - holas ps, q tal
+      - wena ps causa, como te va
+      - q tal todo por aca
+      - wenaa ps
+      - aki toy ps
+      - ya llegue ps
+      - a ver que pasa
+      - estoy x aqui
+      - x surco aca
+      - cerca de mi casa
+      - aca al toque
+      - cancha 8pm
+      - listos pe
+      - q cuentas ps
+      - hablaa bot
+      - todo trankilo por aca
+      - q se hace hoy
+      - llegue a ver
+      - empezamos ya
+      - q miras pe
+      - x el callao hoy
+      - la noche recien
+      - saludos desde mi barrio
+      - toy x el rimac ahora
+      - a la firme ya
+      - q hacemos con esto
+      - wenaa mi broer
+      - ready pa todo
+      - mañana x ate ps
+      - q hay con la cancha
+      - q tal x los olivos
+      - ya pe comenzemos
+      - buen dia x aqui
+      - q hora es para jugar
+      - desde miraflores ps
+      - como la pasas por ahi
+      - q hay por santa anita
+      - habla ps
+      - q tal broer
+      - holas k tal
+      - gente como va la cosa
+      - salu2 a la gente
+      - q se dice por aca
+      - buena mi gente
+      - q onda con la pichanga
+      - toy aca pe
+      - todo bien x ahi

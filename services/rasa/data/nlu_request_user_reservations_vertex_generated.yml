@@ -1,0 +1,145 @@
+version: "3.1"
+
+nlu:
+  - intent: request_user_reservations
+    examples: |
+      - Quiero consultar mis citas.
+      - Me podrías decir mis programaciones?
+      - Hay algo agendado para mí?
+      - Consulta mis próximos eventos.
+      - Necesito ver mi agenda personal.
+      - Qué tengo separado a mi nombre?
+      - Mis próximos compromisos, por favor.
+      - Podrías ver qué tengo agendado?
+      - Quisiera saber mis futuros bookings.
+      - Hay algo pendiente en mi cuenta?
+      - Mis planes agendados.
+      - Información sobre lo que tengo aparte.
+      - Qué figuro teniendo en tu sistema?
+      - Podrías verificar mis próximos usos?
+      - Quiero revisar mi lista de apartados.
+      - Hay alguna actividad a mi nombre?
+      - Un favor, mis citas pendientes.
+      - Qué tal, algo para mí en los registros?
+      - Me ayudas a ver mis programaciones futuras?
+      - Por favor, mi horario de uso.
+      - Podrías decirme qué tengo separado para los siguientes días.
+      - Averigua si tengo algo agendado.
+      - Necesito confirmar mis próximos eventos.
+      - Mis bookings que vienen.
+      - Quisiera ver mis planificaciones.
+      - Qué tengo en mi calendario?
+      - Información de mis futuros apartados.
+      - Hay alguna fecha agendada a mi nombre?
+      - Podrías mostrarme mis pendientes?
+      - Mi lista de espera o de agendados.
+      - Qué tengo registrado en mi perfil?
+      - Me pasas la info de mis citas?
+      - Hay algo a mi nombre en el sistema?
+      - Podrías ver si he apartado algo?
+      - Quiero consultar lo que tengo aparte.
+      - Mis próximas citas y eventos.
+      - Algo que tenga programado para los siguientes días?
+      - Mi programación de actividades.
+      - Necesito saber si tengo algo agendado para esta semana.
+      - Qué hay para mí en el calendario?
+      - Me muestras mis futuras actividades?
+      - Confirmar lo que tengo agendado.
+      - Qué tengo por usar en el sistema?
+      - Listado de mis próximos apartados.
+      - Hay algún registro a mi nombre?
+      - Mis eventos próximos, please.
+      - Quisiera saber si hay algo pendiente conmigo.
+      - Verifica mis agendados.
+      - Mi cronograma de usos.
+      - Qué tengo planificado?
+      - Podrías decirme mis citas programadas?
+      - Me informas sobre mis compromisos agendados?
+      - Hay algo anotado para mí en el sistema?
+      - Consulta mis eventos futuros.
+      - Mis próximos turnos.
+      - Quiero ver los apartados a mi nombre.
+      - Qué onda, tienes lo que tengo agendado?
+      - Podrías ver qué tengo a futuro?
+      - Me indicas lo que tengo separado?
+      - Lista de lo que he programado.
+      - Hay algo en la agenda a mi nombre?
+      - Ver mis citas pendientes.
+      - Mis bookings a la vista.
+      - Qué tengo planificado para los siguientes días?
+      - Un favor, qué hay en mi cuenta?
+      - Podrías confirmarme mis horarios agendados?
+      - Quiero saber si tengo algún espacio apartado.
+      - Mis próximas programacioness, porfas.
+      - Qué actividades tengo anotadas?
+      - Me dices si tengo algo para el finde?
+      - Averigua si hay algo a mi nombre en los registros.
+      - Quiero ver los ítems que aparte.
+      - Qué planes tengo agendados?
+      - Mis próximos usos del servicio.
+      - Hay algún compromiso conmigo?
+      - Me muestras la lista de lo que agendé?
+      - Quiero saber los espacios que separé.
+      - Qué onda con lo mío?
+      - Podrías checkar si hay algo para mi?
+      - Lo que tengo anotado en el sistema.
+      - Una checadita a lo mío, si se puede.
+      - Me gustaría saber mi estado de actividades.
+      - Mis cosas confirmadas, tienes algo?
+      - Quiero ver qué gestiones tengo ya inscritas.
+      - Hay algo pre-agendado para mí?
+      - Qué hay para mi cuenta, en el registro?
+      - Me das el rol de mis citas?
+      - Podrías informarme sobre mis previsiones?
+      - Quiero consultar mi agenda de turnos.
+      - Muestrame lo que tengo apuntado contigo.
+      - Hay alguna entrada prevista a mi nombre?
+      - Mis citas ya hechas, cuáles son?
+      - Me das el estado de mis bookings actuales?
+      - Mis coordinaciones, qué tal van?
+      - Podrías darme la relación de mis ocupaciones?
+      - Mis pendientes con fecha, cuáles son?
+      - Me pasas lo de mis próximos encuentros?
+      - Me confirmas qué tengo asignado?
+      - Quiero mi balance de actividades.
+      - Mis entradas futuras, cuáles son?
+      - Dime lo que tengo agendado y validado.
+      - Puedes revisar mis planes de uso?
+      - A ver si me indicas mis compromisos pactados.
+      - Qué figuraciones tengo para los próximos días?
+      - Quisiera ver mis gestiones próximas.
+      - ¿Qué tengo pactado, causa?
+      - Mis ocupaciones siguientes, porfa.
+      - Mis turnos ya acordados, por favor.
+      - Quisiera saver qué he coordinado.
+      - Dime qué me toca hacer hoy.
+      - A ver lo mío, qué hay para mí.
+      - Las cosas que tengo arregladas para la semana.
+      - Necesito verificar mis acuerdos futuros.
+      - Mi crograma personal, un favor.
+      - ¿Qué tengo planificado, pe'?
+      - Mis asignaciones para estos días.
+      - Podrías decirme qué me espera en el día?
+      - Quiero ver mis pautas fijadas.
+      - Mis gestiones concertadas.
+      - ¿Hay algo ya definido para mí?
+      - Me pasas la info de mis encuentros porfa.
+      - Los cupos que he asegurado.
+      - Mis coordinaciones en resumen.
+      - Mi itinerario para la semana que viene.
+      - ¿Qué onda con las movidas que tengo, mano?
+      - Dime los horarios que ocupo.
+      - Me puedes decir lo que he ajustado?
+      - A ver mis cosas conversadas.
+      - Necesito saber mi disposición de tiempo.
+      - Mi croquis de lo que se viene.
+      - Quiero saber mis movidas a futuro, ¿me ayudas?
+      - ¿Qué tal, hay algo a mi nombre en su sistema de gestión?
+      - Necesito chequear mi cuadro de actividades.
+      - Porfa, un resumen de mis próximos eventos programados.
+      - Dime qué me toca en estos días.
+      - ¿Podrías indicarme mis planes de aquí en adelante?
+      - A ver, ¿qué tengo programao pa' la semana?
+      - Quisiera ver mi rol de compromisos.
+      - Me pasas lo que tengo organizado, por favor.
+      - ¿Hay alguna cosa que haya fijado con ustedes?

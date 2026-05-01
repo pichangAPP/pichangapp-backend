@@ -1,0 +1,3834 @@
+version: "3.1"
+
+nlu:
+  - intent: help
+    examples: |
+      - ¿Podrías darme una mano con esto?
+      - Quisiera saber cómo operar este sistema.
+      - Dime de qué eres capaz, por favor.
+      - Estoy un poco desorientado, ¿me podrías guiar?
+      - ¿Cómo se maneja esta plataforma?
+      - Indícame las opciones disponibles.
+      - Necesito claridad en esto.
+      - Dame una pauta para empezar.
+      - Estoy buscando orientación.
+      - Explícame tus alcances, por favor.
+      - ¿Me das una idea de cómo proceder?
+      - Quiero saber cómo puedo sacarle provecho.
+      - Desearía entender tus funciones.
+      - Necesito un instructivo o algo parecido.
+      - ¿Qué opciones tengo con este programa?
+      - Me gustaría aprender a usarlo.
+      - ¿Podrías ilustrarme sobre el uso?
+      - Dame un norte, por favor.
+      - Necesito que me indiques los pasos.
+      - ¿Cómo se utiliza esto, causa?
+      - Estoy medio perdido, ¿me das la mano?
+      - Explícame la jugada, pe'.
+      - A ver, dime qué haces, mi rey.
+      - Necesito una pista de cómo va la cosa.
+      - ¿Cuáles son tus características principales?
+      - Quisiera saber tus potencialidades.
+      - Bríndame detalles sobre cómo empezar.
+      - Hazme un resumen de tus habilidades.
+      - Estoy en blanco, ¿puedes iluminarme?
+      - Necesito un panorama general.
+      - ¿Cómo puedo sacarle el jugo a esto?
+      - Dime qué puedo lograr contigo.
+      - Quiero sacarme la duda de cómo va.
+      - Estoy entrampado, ¿una ayudita?
+      - ¿Me podrías explicar qué onda con esto?
+      - Quisiera conocer el alcance de tus posibilidades.
+      - Necesito una explicación para tontos, porfa.
+      - ¿En qué áreas me puedes ser útil?
+      - Dime qué me ofreces, compare.
+      - Estoy confundio, no entiendo ná.
+      - Guíame por este laberinto, por favor.
+      - Dame un jalón con esto.
+      - Qué onda contigo, ¿qué se te da bien?
+      - Necesito entender la mecánica de esto.
+      - ¿Me das una mano con la config?
+      - Estoy bloqueado, ¿me das luz?
+      - Qué onda con lo que sabes hacer?
+      - Dame las fijas de cómo usar esto.
+      - Quisiera una orientación de tus prestaciones.
+      - Necesito que me bajes la info.
+      - Dime para qué estás hecho.
+      - Estoy varado, ¿cómo salgo de aquí?
+      - ¿Podrías darme un empujón?
+      - Necesito un empujoncito.
+      - Ilumíname, porfa.
+      - ¿Cómo se supone que hago esto?
+      - Necesito el ABC de cómo funciona.
+      - Dime cómo se cocina esto.
+      - Estoy con la duda, ¿me la resuelves?
+      - ¿Qué capacidades tienes para apoyarme?
+      - Necesito entender el meollo del asunto.
+      - ¿Me puedes explicar la vaina?
+      - ¿Cómo le hago para usarlo bien?
+      - Estoy trabado, ¿qué hago ahora?
+      - Dame los tips para manejar esto.
+      - Quiero saber cómo sacarle la máxima utilidad.
+      - Necesito que me des una guía rápida.
+      - A ver, explícame la movida.
+      - Estoy en aprietos, ¿me echas una mano?
+      - Dime qué se puede hacer aquí, pe.
+      - Necesito una dirección clara.
+      - ¿Puedes darme una idea general?
+      - Quisiera que me orientes un poco.
+      - ¿Me explicas las funcionalidades?
+      - Necesito los pormenores de uso.
+      - ¿Podrías brindarme un recorrido por tus aptitudes?
+      - Estoy desorientao, ¿me das un cable?
+      - Dime qué onda con tus funcionalidades.
+      - Quisiera conocer tus bondades, bot.
+      - Necesito que me digas qué tengo que hacer.
+      - Podrías darme un tip para empezar?
+      - Necesito un empujón con esto, choche
+      - Estoy naufragando con la app, ayudaa
+      - Explícame cómo va la movida acá, pe
+      - No sé por dónde empezar con el sistema
+      - Cuál es tu chamba principal, ah?
+      - Estoy en nada, causa, ¿qué se hace?
+      - Qué se supone q hago en esta plataforma?
+      - Me puedes dar un alcance de cómo funciona?
+      - Estoy más perdido que cuy en tobogán, me ayudas?
+      - Una guía rápida, por favor, estoy apurado
+      - ¿Qué tal, me explicas tus funciones principales?
+      - No la hago con esto, una guía, porfa
+      - Podrías darme una idea general de cómo opera esto?
+      - Necesito entender el manejo de esta vaina
+      - Estoy trancado con un proceso, cómo sigo?
+      - Cómo me puedo beneficiar de tus servicios?
+      - Quiero saber cómo te desenvuelves, qué tal eres?
+      - Me das una breve explicación de lo que haces?
+      - Estoy perdido con el procedimiento, ¿qué hago?
+      - Necesito un manual de uso simplificado, si es posible
+      - Explicame la funcionalidad de esto, porfa, no entiendo
+      - Estoy en apuros, necesito dirección y claridad
+      - Dime qué tipo de problemas me puedes resolver
+      - Necesito que me ilumines con la info, estoy en cero
+      - Hola, me gustaría saber sobre tus aptitudes.
+      - ¿Podrías darme un empujón con esto?
+      - ¿Qué cosas puedes manejar?
+      - Estoy medio perdido, ¿me indicas el camino?
+      - Necesito claridad sobre cómo seguir.
+      - Qué tienes para mí para arrancar?
+      - Quisiera enterarme de qué se trata todo esto.
+      - Estoy con una duda, ¿me la resuelves?
+      - Echa un ojo a mi situación.
+      - Necesito desentrañar esta situación.
+      - ¿Me explicas tus bondades?
+      - Hola, me gustaría saber cómo puedo interactuar contigo.
+      - Necesito un toke de info, porfa.
+      - Tengo un impase, ¿me echas una mano?
+      - ¿Podrías darme un empujón con la info?
+      - Estoy trabado, ¿cuál es el siguiente paso?
+      - Enséñame un poco sobre tu operatividad.
+      - Necesito que me eches un cable.
+      - Q haces, cholo, ¿me explicas algo?
+      - Dime qué tal eres en esto.
+      - Dame un cable, no atino a naa.
+      - ¿Podrías darme una idea de cómo va la vaina?
+      - Necesito un respaldo, por favor.
+      - Estoy en veremos, ¿qué debería hacer?
+      - Hola, me gustaría saber un poco más sobre ti.
+      - Necesito que me eches una mano con un tema.
+      - Dime qué me permites hacer.
+      - Estoy medio perdido, ¿me indicas cómo es la movida?
+      - Deseo entender qué facilidades brindas.
+      - ¿Me explicas el manejo de la app?
+      - Nesecito una explicación para entender mejor.
+      - Estoy aprendiendo, ¿me indicas la onda?
+      - Estoy enredado, ¿me das un cable?
+      - A ver, cuéntame qué sabes hacer, mi pana.
+      - Cuéntame cómo me puedes ser de utilidad.
+      - ¿Podrías decirme cómo utilizar esto?
+      - Necesito una explicación de tus funcionalidades.
+      - ¿En qué me podrías dar una mano?
+      - Estoy con una duda, ¿me la despejas?
+      - Quisiera saber qué puedo hacer por acá.
+      - Dame una idea de cómo se procede.
+      - Por favor, una ayuda con este tema.
+      - No entiendo bien esta vaina, qué onda.
+      - Me siento un poco en el aire, ¿me orientas?
+      - Aclárame el panorama, porfa.
+      - Necesito que me expliques la movida.
+      - ¿Me das una pista de cómo empezar?
+      - Un empujón para entender el sistema, por favor.
+      - Cuentame tus habilidades, porfa.
+      - Quisiera saber cuáles son tus ventajas.
+      - Ayudame, no se que aser aki.
+      - Estoy medio frito con esto, ¿me podrías auxiliar?
+      - Guíame un toque, pe'.
+      - Necesito que me ilumines en este asunto.
+      - No tengo idea de por dónde arrancar.
+      - ¿Qué chvr es lo que haces?
+      - Necesito desengancharme de esta intriga.
+      - Dime qué te hace especial, causa.
+      - ¿Para qué me sirve esta herramienta?
+      - Estoy medio perdido, ¿cómo le entro a esto?
+      - Asísteme, no logro comprender.
+      - Necesito una guía sobre cómo funciona.
+      - Explícame al detalle tus bondades.
+      - Necesito comprender tus alcances, señorita.
+      - Hola, quisiera entender cómo te manejas.
+      - Estoy medio atracado, ¿me echas una mano?
+      - ¿Qué hago para que esta vaina funcione?
+      - Hazme un alcance de cómo va.
+      - ¿Cómo se maneja el chanchullo este?
+      - No le agarro la onda, ¿hay un truco?
+      - Quiero el dato para empezar.
+      - Estoy en la nebulosa, ¿me aclaras el panorama?
+      - ¿Me das una ayudadita con el procedimiento?
+      - Necesito saber cómo se manipula esto.
+      - Quiero saber cómo va la mano.
+      - ¿Cómo va la movida acá?
+      - Necesito un rumbo para esta vaina.
+      - Me echas la mano para esto, por favor.
+      - ¿Cómo le meto mano a la plataforma?
+      - No entiendo ni michi, ¿qué se supone que haga?
+      - Quiero agarrarle el hilo a la cosa.
+      - ¿Hasta dónde llega la capacidad de esto?
+      - Estoy con la soga al cuello, ¿cómo hago?
+      - Dame un adelanto de cómo usarlo.
+      - ¿Qué pasos son los correctos?
+      - Me podrías desglosar las opciones?
+      - Quiero una visión rápida de esto.
+      - ¿Qué le saco a esto?
+      - Me brindas un apoyo, porfa.
+      - No me ubico, ¿qué hago acá?
+      - A ver, suéltame la pepa de cómo va.
+      - Necesito que me des la posta.
+      - ¿Qué pex con esto?
+      - Estoy en jaque, ¿me orientas un cachito?
+      - Quisiera entender el tejemaneje.
+      - Hola, no sé por dónde empezar, ¿me echas una mano?
+      - Qué onda, tengo una consulta.
+      - Necesito tu apoyo para algo.
+      - Podrías darme la fija de cómo usar esto?
+      - Estoy un poco volado, ¿me puedes aterrizar?
+      - Quiero saber cómo puedo manejarme acá.
+      - A ver, suelta la pepa de tus servicios.
+      - Necesito una luz sobre este asunto.
+      - ¿Cómo es la cosa con tus funcionalidades?
+      - Me encuentro en un callejón sin salida, ¿me orientas?
+      - No le agarro la onda a esto.
+      - Estoy más perdido que huevo frito en ceviche, ¿me ayudas?
+      - Un toquecito, ¿me explicas lo básico?
+      - Checa, necesito un norte para empezar.
+      - ¿Me aclaras el panorama de lo que ofreces?
+      - Estoy en tinieblas con esto, ¿me ilustras?
+      - Dame una pauta de lo que puedo hacer contigo.
+      - Disculpa, ¿me puedes dar la mano con un problemita?
+      - Quiero chambear con esto, pero no sé cómo.
+      - Me estoy quebrando la cabeza, ¿me das un alcance?
+      - chevere q haces?
+      - no capto bien
+      - como se usa la app?
+      - una manito porfa
+      - q es esto mano
+      - estoy medio en la luna
+      - dime la firme ps
+      - como arranco con esto
+      - necesito q me digas todo
+      - guia para novatos aki
+      - q onda con todo esto
+      - orientame un toke
+      - como hago pa pedir
+      - explikame de una vez
+      - no entiendo ni jota
+      - dime q puedo lograr
+      - me das la seña ps
+      - q cosas hace este robot
+      - estoy medio perdido x aca
+      - dime q puedo hacer causa
+      - como se patea esto?
+      - una explicacion rapidita
+      - toy ciego con la info
+      - me das un cable
+      - q se supone q haga?
+      - estoy en off
+      - explicame facilito
+      - no doy pie con bola
+      - q funka tiene esto
+      - ayudame pe con el proceso
+      - guia pa la app
+      - cómo lo muevo
+      - dame la posta de esto
+      - no capto la idea
+      - orientación q estoy patinando
+      - no se k hacer causa
+      - komo funsiona esta vaina
+      - kiero una mano
+      - me puedes apoyar con eso
+      - no capto nada
+      - estoy medio perdido
+      - komo hago mi pedido
+      - no entiendo q me dices
+      - me guias ps
+      - dime q tengo q hacer
+      - explikame rapido
+      - no entiendo nada de esto
+      - una ayudadita
+      - apoyame con esto
+      - como se usa esto broer
+      - k onda con esto
+      - q puedo hacer aca
+      - no entendi
+      - estoy en nada
+      - orientame porfa
+      - q hago con esta vaina
+      - komo empiezo
+      - una ayuda rapido
+      - no le entiendo bien
+      - q tengo q hacer pa esto
+      - dame una luz ps
+      - dime komo va
+      - no se como es
+      - me das una ayuda
+      - no estoy entendiendo
+      - como busco cancha por surco
+      - q onda con la cancha libre 8pm
+      - no c q hacer cerca mio
+      - ayudame con lo de vill salvador
+      - q tengo q hacer aca a mi alrededor
+      - no c como va esto
+      - dime q se hace
+      - kiero saber komo usar esta vaina
+      - explikame rapido p
+      - una guia xfis
+      - estoy re perdido aca
+      - q hago en la app
+      - me das un toque
+      - no le agarro la onda
+      - como lo pido x surco
+      - no c q escribir chato
+      - komo pido aca a mi alrededor
+      - kiero una mano pe
+      - orientame xq no entiendo
+      - esto komo funka
+      - para q es esta plataforma
+      - dame info ps
+      - estoy mas confuso q laura
+      - un empujon ps
+      - komo se usa lo del vill salvador
+      - no se usar esto bien
+      - una ayudadita en la app
+      - como ago con el horario 8pm
+      - q onda con esta cosa
+      - dime como empiezo
+      - kiero saber pa q sirves
+      - explikame bien la jugada
+      - necesito q me orientes
+      - estoy en nada con esto
+      - me das una pista
+      - komo lo hago desde mi cel
+      - q puedo hacer aki man
+      - no c q mas poner
+      - un jalon pofavo
+      - explicate p, no entiendo ni michi
+      - q se hace aca
+      - toy perdio d verdad
+      - como se usa sta vaina
+      - no c usar el sistema
+      - no entiendo nada d esto
+      - la app como funka
+      - explicame como un pe
+      - qiero una guia
+      - cmo pido la cancha
+      - toy mareado aki
+      - dnd clickeo
+      - orientame a la volada
+      - kiero saber mas
+      - q pasos hago
+      - dime a q te dedicas
+      - toy trabao
+      - un alcance rapido
+      - no se q poner
+      - q se supone q haga
+      - necesito info
+      - q cosas haces
+      - como arranco
+      - q hay pa mi
+      - estoy en 0
+      - a ver explica
+      - esto no se entiende
+      - tengo dudas
+      - q cosas se pueden
+      - no lo capto
+      - cmo sigo
+      - dame luz
+      - no me ubico
+      - necesito un paro
+      - q se hace en esta app
+      - dime q chambas haces
+      - no c q escribir
+      - explica esta nota
+      - una ayuda ps
+      - enseñame a usar
+      - donde empiezo con esto
+      - como pido una cancha x surco
+      - pasame la voz de como va
+      - q info me das
+      - estoy mareado con la app
+      - no tengo idea de q hacer
+      - un favorazo causa
+      - como es el proceso aca
+      - dame las directrices
+      - q show haces
+      - no entendi ni michi
+      - me guias para pedir
+      - dime q tal chambeas
+      - a ver, explicame
+      - no encuentro nada aca
+      - como aprovecho lo q tienes
+      - q cosas puedo hacer por el callao
+      - dime como va el tema
+      - me das una luz
+      - q tal esta vaina
+      - como funciona tu sistema
+      - no entiendo xq es asi
+      - como se utiliza esta vaina
+      - me enseñas a operar
+      - cuentame q sabes hacer
+      - estoy en nada aqui
+      - q hago si no se
+      - dime pa q sirves en mi barrio
+      - no entiendo ni michi
+      - q es esta vaina
+      - estoy mas perdido q chicharra en Navidad
+      - no le agarro la patita
+      - dame un alcance pe
+      - explica esta webada
+      - no entiendo ni una
+      - estoy en la luna con esto
+      - dime como va la mano
+      - como le hago cerca mio
+      - no entiendo un mango
+      - dame la papa
+      - toy volando con lo q haces
+      - un empujoncito bro
+      - como lo busco por vill salvador
+      - no entiendo ni una pizca
+      - q puedo hacer con esta nota
+      - dime los trucos
+      - estoy enredao con esto
+      - como hago para ver canchas alas 8pm
+      - no entiendo un carajo
+      - q rollo con la app
+      - dame el tip para usar esto
+      - estoy varao aca
+      - no entiendo un krl
+      - que onda con el plan
+      - explícame el rollo
+      - no le entro a esto
+      - q onda esto
+      - cm funciona la app
+      - dime q acer pe
+      - no se q apretar
+      - explica ps
+      - q es esta web
+      - como lo uso
+      - dime como se hace
+      - orientame un poko
+      - ayuda kon esto
+      - no capto ni una
+      - q hago aora
+      - como c usa esta vaina
+      - q se puede aser aki
+      - q onda kon el sistema
+      - q es esto hermano
+      - me explicas un toke
+      - no c q onda con la web
+      - kiero saber d q va
+      - q ago aki causa
+      - como busco algo por surco
+      - dime k aser en la app
+      - como se pide una cancha
+      - kiero saber como funciona esto
+      - explicame bien ps
+      - dame la info de la web
+      - nesesito saber como empiezo
+      - no le entiendo a esto
+      - apoyame pe con la app
+      - q onda q puedes aser tu
+      - apoyo xfa con esto
+      - dime la info rapido
+      - no entiendo la web q onda
+      - guia para este programa
+      - como empiezo a buscar cancha
+      - como le doy pa reservar
+      - q tal esta app q hace
+      - no se usarlo para nada
+      - me orientas para vill salvador
+      - como hago pe
+      - estoy perdidazo mi rey
+      - explicame el rollo
+      - una mano xfita
+      - q tengo q hacer aki
+      - no se q poner causa
+      - orientame un toq
+      - kiero entender esto
+      - q puedo hacer en esta app
+      - toy atorao
+      - como consigo canchas en surco
+      - para q es esta cosa
+      - dame el dato
+      - como se usa p
+      - toy hecho un ocho
+      - como busco cancha libre 8pm
+      - una guia ps
+      - no capto la jugada
+      - q me dices tu
+      - q hago pa pedir
+      - iluminame un poco porfa
+      - estoy en el aire, mano
+      - explicame como le hago
+      - q tengo q escribir
+      - echame una mano, chamo
+      - necesito saber bien
+      - como procedo ahora
+      - guíame por acá
+      - no entiendo un comino
+      - estoy confundido con la app
+      - q hago despues de esto
+      - como encuentro cerca mio
+      - como va la onda aca
+      - q onda con el sistema
+      - explicame la cosa
+      - para q sirve esta webada
+      - toy mas perdido que huevo en cebiche
+      - q se hace pa pedir
+      - q onda esto no entiendo na
+      - como se usa esta vaina
+      - dime q puedo hacer aca
+      - necesito ayuda pa entender
+      - explicame como funciona ps
+      - q hago aqui
+      - como pido mis cosas
+      - orientame xq toy perdido
+      - no le capto bien
+      - dame una mano ps
+      - para q sirves realmente
+      - q mas se puede hacer
+      - q cosas se pueden hacer
+      - me puedes guiar
+      - no entiendo el proceso
+      - como hago pa reservar
+      - explicame todo
+      - dame mas info
+      - como es la jugada
+      - no se como empezar
+      - q gano con esto
+      - me ayudas con mi duda
+      - dime en sencillo
+      - como se hace un pedido
+      - quiero entender esto
+      - q es esto
+      - dame una pauta de uso
+      - como se usa porfa
+      - estoy mas perdido que adan el dia de la madre
+      - q hago pa encontrar
+      - no entiendo q hace este bot
+      - me das una explicacion
+      - q es eso d las promociones
+      - como se usa eso d cancha libre 8pm
+      - como es la opcion d cerca mio
+      - q significa aca a mi alrededor
+      - como pongo mi zona x surco
+      - necesito q me digas q onda
+      - kiero saber q haces
+      - no agarro la onda
+      - no le agarro
+      - explicame ps
+      - q debo poner aqui
+      - como pido una cancha
+      - no entiendo ni maiz
+      - dime el toque ps
+      - dime la fija como es
+      - cual es tu gracia
+      - q me da esto
+      - como consigo cancha libre 8pm
+      - no capto ni michi
+      - nesesito un empujon
+      - como te funka esta app
+      - q cosas haces x mi
+      - kiero entender q hacer
+      - como encuentro lo q busco
+      - x q existe esto
+      - q me brinda este programa
+      - a ver, q se hace aki
+      - como se pideaqui
+      - q me recomiendas hacer
+      - toy mas perdido q huevo frito en ceviche
+      - pasame el dato
+      - como se usa aca cerca mio
+      - explica nomas ps
+      - me enseñas como es
+      - no le encuentro la maña
+      - como hallo x vill salvador
+      - q tengo q hacer primero
+      - me explicas asi facilito
+      - como me resuelves esto
+      - q es esto choche
+      - no se como manejarme
+      - dime como pido x surco
+      - q ventajas me das
+      - pasame la voz
+      - como uso esto pe
+      - no entiendo nada broer
+      - dame una guia
+      - como pido una cosa
+      - q puedo hacer aki
+      - no se q onda con esto
+      - dame una ayudita
+      - ando perdido
+      - dime pa donde voy
+      - pa q sirve esto choche
+      - dame la info ps
+      - puedes darme la mano
+      - q cosas hay pa hacer
+      - estoy bien perdido
+      - dame una mano broer
+      - no c q tengo q pedir x vill salvador
+      - q onda con esta vaina
+      - ayuda causa
+      - q se hace x aca
+      - no entiendo esta vaina
+      - q me ofreces tu
+      - como funciona ps
+      - dime q debo hacer
+      - dame una explicacion
+      - como le hago
+      - me ayudas con esta vaina
+      - dame una luz pe
+      - no c q haces
+      - pa q sirves tu
+      - dame las instrucciones
+      - como se usa ps
+      - no se q se supone q haga
+      - no entiendo como busco una cancha libre 8pm
+      - necesito q me expliques
+      - dime q es lo q haces
+      - no entiendo na de esto
+      - dime como es la jugada
+      - ayudame a entender pe
+      - como pido algo x este lado
+      - explicame q es esto
+      - necesito una orientacion rapida
+      - pa q sirve esta aplicacion
+      - como hago pa usar tu servicio
+      - kiero saber como se maneja
+      - me puedes explicar paso a paso
+      - no le agarro la onda a esta vaina
+      - como hago con mi reserva de cancha
+      - dame las fijas para poder usar esto
+      - como empiezo a buscar canchas
+      - q se hace en este programa
+      - estoy mas perdido q Adán en el Día de la Madre
+      - como busco una cancha por villa salvador
+      - q funciones tienes tu bot
+      - no c como usar este sistema chato
+      - dime como reservo la cancha
+      - como pido cancha alas 8 de la noche
+      - orientame en esto xfavor
+      - como hago para un alquiler cerca mio
+      - quiero saber q puedo hacer en la app
+      - explicame esto de cero
+      - dame un norte con la app
+      - estoy en blanco con este programita
+      - como reservo un lugar pa jugar
+      - q mas se puede hacer aparte de canchas
+      - como funciona toda la vaina
+      - ayu pa usar esta cosita
+      - q es lo q tu haces exactamente
+      - no entiendo el sistema que tienes
+      - q debo escribir aki pa q me entiendas
+      - pa q estas hecho tu
+      - orientacion, estoy varado
+      - como se usa esto, por donde empiezo
+      - no c ni pio de esto
+      - explicame de una vez como es la cosa
+      - q hago con esta cosa
+      - necesito un norte rapido
+      - como entro a esta app
+      - no entiendo q me pides
+      - q se hace x estos lares
+      - dame una mano xfa
+      - explicame un toque
+      - como funka esta webada
+      - q hay para hacer
+      - no me aparece nada
+      - q consigo con el bot
+      - como va la cosa x aca
+      - como me muevo en la app
+      - una ayuda pe
+      - dime la secuencia
+      - esto es dificil pe
+      - ayudame con el sistema
+      - no se como usar esto ps
+      - q tengo q saber primero
+      - dame un cable compare
+      - no se q hacer aki causa
+      - q onda con la app x surco
+      - ayuda con lo de vill salvador
+      - como veo lo de cerca mio
+      - no se como progresar
+      - guiame con la reserva para 8pm
+      - estoy perdido total
+      - xfa explikame q es
+      - esta vaina no la agarro
+      - no se q datos poner
+      - orientame bien xfa
+      - ayudame a entender
+      - como ubico la cancha libre
+      - q se hace aca a mi alrededor
+      - dame una clave
+      - estoy bloqueado ps
+      - como me asistes
+      - q hago aki choche
+      - como se usa esto pe causa
+      - dime q es esta vaina
+      - no la hago con esto
+      - necesito q me digas bien
+      - toy perdio no c q hacer
+      - q debo hacer pa buscar x surco
+      - q apreto para ver lo q kiero
+      - no me ubico en esta app
+      - q onda con esta app
+      - me das un dato de como empezar
+      - estoy en nada no c como seguir
+      - explica ps pa entender
+      - no me va bien con la plataforma
+      - como hago pa reservar cerca mio
+      - dime q tengo q hacer bro
+      - un consejo de como se maneja
+      - no doy pie con bola con esto
+      - q puedo hacer en esta cosa
+      - dame la fija de como arrancar
+      - como funciono con esta vaina
+      - la verdad no le agarro la onda
+      - q se supone q debo hacer aqui
+      - explica como si fuera mi causa
+      - necesito q me indiques q boton tocar
+      - como pido una cancha en villa salvador
+      - no tengo idea de q sirve esto
+      - dime q hago ps mi rey
+      - este sistema como funciona ah
+      - q significa esta vaina no c
+      - guíame q toy perdio
+      - como ubico canchas libres a las 8pm
+      - me estoy mareando con todo esto
+      - dame un tip para usarlo bien
+      - explica con peras y manzanas choche
+      - no c como hacer mi primera reserva
+      - no c q se puede hacer aca a mi alrededor
+      - dime como le doy pa adelante compare
+      - no entiendo nada pe
+      - como empiezo con el bot?
+      - dime como es la vaina
+      - q puedo hacer contigo?
+      - una manito x fa
+      - como se busca x surco?
+      - q puedo pedir x aca?
+      - orientame un poco
+      - estoy mas perdido q huevo en cebiche
+      - como funca esta app?
+      - kiero saber q hago
+      - dame la ruta, pe
+      - es mi primera vez, como le hago?
+      - estoy en cero, q hago?
+      - como reservo un lugar?
+      - q cosas hago con esto?
+      - estoy medio mareado
+      - como busco cancha?
+      - pa q eres bueno?
+      - como veo lo q esta cerca mio?
+      - enseñame a usar el programa
+      - q alternativas tengo?
+      - me puedes guiar xfa?
+      - como hablo contigo?
+      - q haces exactamente?
+      - q sabes hacer tu?
+      - como sigo?
+      - ta dificil entender
+      - como reservo pa las 8?
+      - q se puede hacer en vill salvador con esto?
+      - no se bien pa q sirve
+      - explicame el sistema, broer
+      - como opera el chatbot?
+      - dame un consejo rapido
+      - necesito la pepa, como se usa?
+      - q ondas con esto de la app?
+      - como hago pa buscar canchas libres?
+      - como hago pa separar?
+      - no se q preguntar, tu dime
+      - como funcionas ps?
+      - q hago aki pe
+      - no se q boton apretar
+      - esto es dificil pa mi
+      - q onda con la app esta
+      - no entiendo xq no me sale
+      - q onda con estos msjs
+      - ayuda con la app mano
+      - no agarro la idea
+      - como hago pa usarlo
+      - me explicas como funciona
+      - como hago la reserva aka
+      - no se q poner aqui
+      - kiero entender como va
+      - q se hace ahora
+      - estoy medio perdido aca
+      - necesito una señal
+      - como empiezo con esto
+      - no capto bien q es
+      - dame una mano choche
+      - necesito saber q puedo hacer
+      - esta wea como se usa
+      - como pido mi cancha
+      - estoy en cero no se nada
+      - q se hace despues
+      - necesito ayuda ahorita
+      - como reservo mi partido 8pm
+      - dame una luz con esto
+      - no entiendo este sistema
+      - explicate mejor xfa
+      - como funciona tu bot
+      - no me ubico en la pagina
+      - dame un norte con esto
+      - q mas puedo hacer
+      - dime q onda con lo q haces
+      - como se pide una cita
+      - no entiendo los pasos
+      - q puedo hacer por aca
+      - q hago aca
+      - como hago esto, no entiendo bien
+      - dime como se usa esta aplicacion
+      - explicame como funciona ps, no se nada
+      - una manito xfa, estoy algo confundido
+      - toy perdido, q ago para avanzar
+      - orientame un toq con lo q se hace
+      - dime q puedo hacer aki, estoy sin saber
+      - kiero una guia rapida de los primeros pasos
+      - no entiendo na de esto, explicame mejor
+      - xq no me sale lo q kiero hacer
+      - dame un dato de como va, estoy varado
+      - pa q sirve esta app en verdad
+      - q es esto y como lo uso de una vez
+      - me apoyas con una duda sobre el sistema
+      - como manejo esta vaina, no le agarro
+      - indicame los pasos principales, xfa
+      - explica lo basico pe, estoy en las nubes
+      - kiero saber q onda con todo esto
+      - como miro esto q me dijiste antes
+      - dame soporte xfa, necesito tu ayuda
+      - necesito apoyo rapido con este problema
+      - q hago despues de esto, cual es el siguiente
+      - no se como empezar, ni por donde ir
+      - mi pata no entiende nada de lo q se hace
+      - como le digo por surco para buscar canchas
+      - cerca mio como busco algo ahora mismo
+      - aca a mi alrededor hay algo disponible
+      - cancha libre 8pm como pido, me ayudas
+      - vill salvador hay algo, necesito esa info
+      - me explicas xq no entendi casi nada
+      - dame el dato pa usar esto de forma correcta
+      - q puedo hacer con esto oe, dame opciones
+      - estoy en cero, ayudame con todo el proceso
+      - una explicacion para gente como yo, sencilla
+      - no se ni k hacer con la app, estoy perdido
+      - dime q onda con la app, q hace realmente
+      - como va esta cosa causa, me puedes guiar
+      - una ayuda para entender el funcionamiento
+      - kiero la info pa entender como es todo
+      - q ago kon esto
+      - q onda es esto
+      - q onfa con esto
+      - una manita pe
+      - no se q mas hay aki
+      - una ayuda compare
+      - dime k puedo aser aki
+      - esto no jala en mi cel
+      - mi cel no agarra la app
+      - la app esta rara como se arregla
+      - no le capto nd
+      - q significa esta wada
+      - dame una explicacion xfa
+      - q ago con la app
+      - un paso a paso ps
+      - nesecito saber q funsiona aki
+      - orientame chibolo
+      - como funsiona la app no c
+      - q ago por aca no se
+      - no se como entrar a las canchas
+      - dame una luz d como va
+      - por dnd arranco
+      - q puedo ver en la app
+      - q se ase de primero
+      - una guia rapida pe
+      - no se ps toy en nada
+      - dame una mano por surco
+      - como entro a ver mi reserva
+      - como le meto mas saldo
+      - q hago pa usarlo bien
+      - dime q ago para reservar
+      - como veo las canchas libres
+      - q significa eso de 8pm
+      - q puedo hacer aki cerca mio
+      - como pido una cancha en vill salvador
+      - no capto la idea de la app
+      - no se q escribir
+      - como sigo
+      - explikame
+      - dime como es la nota
+      - q pasa si pongo esto
+      - no c q boton es
+      - como muevo esto
+      - q significa
+      - me puedes decir
+      - no entendi bien
+      - una explicacion ps
+      - dame un dato
+      - cual es el siguiente paso
+      - q tengo q hacer
+      - estoy medio liao
+      - como jalo la info
+      - kiero saber de esto
+      - como se hace pe
+      - quiero saber q es
+      - como me ubico
+      - dime la movida
+      - para q sirve este boton
+      - quiero aprender
+      - explicame rapido
+      - q puedo preguntar
+      - dime tus opciones
+      - no la chapo
+      - necesito algun tip
+      - algo para empezar
+      - no me sale
+      - q se hace
+      - estoy trabado
+      - q ondas con todo esto
+      - como empiezo
+      - cual es la vaina
+      - dime pa q es
+      - q hago ak
+      - como se usa esta vaina ps
+      - m explica bien xfa
+      - kisiera saber q rollo
+      - una preguntita xq no capto
+      - q puedo hacer con esto mi pata
+      - como encuentro algo aca a mi alrededor
+      - nesecito q me des las pautas
+      - dame la info caleta
+      - estoy mas perdido q chancho en misa
+      - q debo hacer pa arrancar
+      - como hago click para avanzar
+      - explikame todo el chismografo
+      - no entendi nada compare
+      - dime q chamba haces
+      - como hago funcionar esto mi causa
+      - hola estoy recontra volado
+      - q opciones hay para buscar
+      - no se como manejar esto bro
+      - una ayudadita al toke
+      - q debo teclear aqui
+      - q se hace en este punto
+      - como busco una cancha libre 8pm en surco
+      - no entiendo q dato poner
+      - como hago para reservar facil
+      - q significa esta luz
+      - una duda rapidita
+      - no se como darle inicio
+      - como hablo contigo
+      - me dices q cosas se te dan bien
+      - quiero saber tus usos mi rey
+      - me indicas el camino
+      - no se usar esta aplicacion
+      - explikame la movida bien
+      - q es lo q puedes hacer tu
+      - dime como te saco provecho
+      - necesito q me tires un dato
+      - q mas puedo ver aca
+      - estoy medio cojudo dime q onda
+      - q pido aca choche
+      - como empiezo con esta app
+      - esto como lo muevo
+      - no c q se puede hacer
+      - una manito xfavor
+      - q es lo primero
+      - no capto el sistema
+      - quiero buscar canchita
+      - me explicas al toque
+      - estoy medio volao q hago
+      - q puedo lograr aca
+      - dime el manejo
+      - necesito un empujon
+      - no agarro la señal
+      - como es el teje
+      - como le hago chata
+      - para q sirve la vaina
+      - dame data de mi barrio
+      - no se ni como prenderlo
+      - dame un norte x ak
+      - quiero entender el proceso
+      - una aclaracion sencilla
+      - q beneficio trae
+      - como se usa esto pue
+      - q es lo q me ofreces tu
+      - a ver si me guias
+      - necesito una guia
+      - como hago una reserva
+      - dime tu funcion
+      - me lo explicas bien simple
+      - estoy perdido en esto
+      - no agarro nada
+      - q puedo ver aca
+      - dame la posta pe
+      - como hago el pedido
+      - q me puedes dar
+      - dime en q me ayudas
+      - pata como es la jugada
+      - q se hace por vill salvador
+      - como pido algo
+      - q digo
+      - como es la cosa
+      - dime de esto
+      - no c q poner
+      - q se hace ps
+      - dime q va
+      - a ver choche
+      - no entiendo tu
+      - para usar q hago
+      - no capto naa
+      - q se ace aki
+      - como inicio pe
+      - me explikas
+      - dime xfa manito
+      - dime tu chamba
+      - dame una manito compare
+      - ayudame xfi
+      - no se como usar el cel
+      - q tengo q aser ahora
+      - estoy medio perdido x ak
+      - me guias un toq
+      - dame el dato pe
+      - como funcionas tu
+      - no entiendo q pedir
+      - q ago para reservar la cancha
+      - nesecito apoyo brother
+      - como le ago pe
+      - q ases tu x mi
+      - no se la jugada pa
+      - explikame el flow
+      - como se usa esta app
+      - kiero saber q puedes hacer
+      - ayudame a entender esto
+      - me das una mano a buscar
+      - como puedo pedir cancha x surco
+      - nesecito apoyo rapido
+      - q ago si no entiendo bien
+      - dime como hago el pedido
+      - como se reserva una cancha
+      - orientame para el futbol
+      - no entiendo la app chato
+      - dame las fijas de como es
+      - q puedo aser contigo brother
+      - me explicas los pasos
+      - como se usa la plataforma
+      - no entiendo bien esta cosa
+      - puedes desirme q ago
+      - nesecito q me digas q onda
+      - como pido mi cancha en sjl
+      - me ayudas con el proceso
+      - q hago para empezar
+      - estoy enredado
+      - como le meto la mano
+      - me dices como funka
+      - q tengo q aser
+      - una ayudita xfa
+      - nesecito instrucsiones
+      - no capto como es la cosa
+      - dime q onda causa
+      - guia pe
+      - q funciones tienes
+      - como se maneja esta vaina
+      - estoy re perdido
+      - dime en q me apoyas
+      - como se puede usar esto
+      - kiero entender
+      - q debo aser aki
+      - explicame a mi causa
+      - no se nada d esto
+      - me orientas un toqe
+      - como se hace la reserva
+      - dame los tips
+      - pa q sirve esto
+      - nesecito una guia
+      - q puedo pedirte
+      - como te uso pe
+      - me das la mano en vill el salvador
+      - q aces x mi chato
+      - dime los pasos
+      - como se avanza
+      - kiero entender el sistema
+      - me enseñas como
+      - nesecito ayuda pa reservar
+      - como pido en mi barrio
+      - me dices q tienes
+      - dame la info de uso
+      - como hago con la canxa
+      - q opciones tengo aki
+      - orientame xfis
+      - dame la mano con la reserva
+      - no entiendo como pedir cancha libre
+      - q se ace aki bot
+      - ayuda kon lo basiko
+      - como puedo usar esta cosa
+      - nesecito la explicacion
+      - dame un manualito
+      - dime como funka tu app
+      - estoy confundida con la app
+      - me explicas q opciones hay
+      - q chamba ases tu
+      - como lo hago en mi cel
+      - me ayudas con el sistema
+      - q puedo hacer con esto
+      - nesesito q me guies
+      - dame la base de como usarlo
+      - q tal causa q se hace
+      - q puedo hacer aka
+      - dime q se hace ps
+      - una mano con lo de la cancha
+      - como reservo por surco
+      - no c ni donde darle
+      - explicame pues
+      - como hago el proceso
+      - q se hace en esta cosa
+      - dime como funciona esta vaina
+      - toytalmente perdido
+      - nesecito algun dato
+      - como pido una cancha libre 8pm
+      - no me hallo aca
+      - q puedo aser compare
+      - como busco cancha por vill salvador
+      - dime q show con esto
+      - n entiendo bien este sistema
+      - puedes desir algo
+      - dime q tienes pa mi
+      - q hago pa reservar
+      - dnd estan las canchas cerca mio
+      - como interactuo contigo
+      - q onda con el futbol 7
+      - como le doy inicio
+      - n c q picar
+      - explica xfa
+      - como va la movida esta
+      - dime el dato
+      - q hay de nuevo por aca
+      - necesito saber algo
+      - y ahora q hago
+      - como es la onda ak
+      - dime tus poderes
+      - q tal broer q haces
+      - como consigo una cancha
+      - estoy en nada bot
+      - como me muevo aqui
+      - q haces tu x mi
+      - n entiendo tu me diras
+      - pasame la clave de esto
+      - pa q eres bueno
+      - explicame facil
+      - dime q ondas
+      - q consigo con esto
+      - dond busco partidos
+      - q hay para mi en esto
+      - estoy en la luna, bot
+      - como le doy
+      - algo rapido pa entender
+      - no c como cliquear
+      - dime q hacer xfa
+      - q pito tocas aca
+      - una mano con la aplicasion
+      - como va la cosa x mi zona
+      - dime como va todo
+      - q servicios tienes ps
+      - q opciones hay aca
+      - no entendi la ultima
+      - q hago pa las 9pm
+      - como reservo por san juan
+      - no se q hacer broer
+      - q tienes para ofrecer
+      - como me inscribo
+      - q onda con los precios
+      - me guias un toque
+      - como entro ak
+      - estoy en cero
+      - q hay que saber
+      - como se utiliza
+      - como hago para ver las canchas
+      - no la entiendo bien
+      - q me dices de esto
+      - como le doy uso
+      - estoy en la nada
+      - una instruccion xfa
+      - q onda la reserva
+      - dime como sigo
+      - que cosas haces tu
+      - no entiendo tu rol
+      - como busco una pichanga
+      - q se hace para entrar
+      - como se maneja este sistema pe
+      - dime q puedo aser con esta cosa
+      - no se que boton apretar
+      - q me cuentas bot
+      - como busco canchas por aca a mi alrededor
+      - q informacion hay aca
+      - como se usa
+      - q tal como empiezo
+      - dime q haces
+      - estoy perdido aki
+      - una manito xfa
+      - no se como va la cosa
+      - q debo hacer
+      - dame una luz
+      - donde empiezo
+      - nesecito un consejo
+      - como t uso pe
+      - que se puede hacer aca
+      - como lo hago
+      - puedes guiarme
+      - dame unas fijas
+      - me das una idea
+      - como me muevo aca
+      - no se ni q poner
+      - explica un poco
+      - orientame xfa
+      - estoy confuso
+      - como va la jugada
+      - no tengo idea
+      - me das una mano ps
+      - como funca esta app
+      - soy nuevo aki
+      - dame una mano pe
+      - dime q tal
+      - q hay q hacer
+      - no entiendo casi nada
+      - q tal esto
+      - quiero saber mas
+      - q me ofreces en general
+      - no se como va esto
+      - dime q mas tienes
+      - explica simple
+      - pasame los tips
+      - estoy medio zonzo
+      - dame el floro
+      - q cosas ofreces tu
+      - como va la vaina esta
+      - quiero saber como es
+      - q cosas tengo q saber
+      - orientacion xfa
+      - dame unas pautas
+      - q puedo hacer aca ps
+      - estoy en el aire
+      - como se hace
+      - nesecito orientarme
+      - que me puedes dar
+      - no entiendo un joraca
+      - como se maneja esto
+      - dame info rapido
+      - dime q logras
+      - estoy en la luna
+      - q servicios manejas
+      - como empiezo x aqui
+      - me das una orientacion
+      - dime q cosas haces pe
+      - quiero una explicacion
+      - como se pide aki
+      - dame unas guias
+      - no se como usarlo
+      - dime todo lo q sabes
+      - q funcion cumples
+      - dame el resumen
+      - como hago para ver
+      - quiero saber tu chamba
+      - dame una senal
+      - q alcance tienes
+      - nesecito detalles
+      - q hago con esta app
+      - quiero un apoyo
+      - dime todo pe
+      - estoy desorientado
+      - como hago pa empezar
+      - q puedo hacer x aca
+      - q hago
+      - como aser esto
+      - ayudame xfa
+      - dime q aser
+      - q puedo hacer
+      - nesesito guia
+      - no se como usar
+      - guiame pe
+      - una mano con esto
+      - como se usa esto
+      - dime la ruta
+      - explika pe
+      - esto q es
+      - no me ubico bien
+      - dime como pido
+      - explikame mas
+      - como uso esta app
+      - ayudame con eso
+      - q es lo siguiente
+      - instrucsiones porfa
+      - dame los pasos
+      - q hago aki
+      - dime la clave
+      - nesesito saber bien
+      - una guia rapida
+      - q sigue ahora
+      - no veo na
+      - explika un toque
+      - como funsiona esta cosa
+      - como s hace
+      - q puedo lograr
+      - q tal es esto
+      - dime mas info
+      - no entiendo nada
+      - dime ps
+      - q se ase
+      - como opero esto
+      - una indicasion
+      - dime lo basico
+      - no capto
+      - como me guio
+      - dime para usar
+      - nesesito una guia rapida de la app
+      - como inicio
+      - dime lo q puedo aser
+      - estoy medio confundio
+      - nesesito apoyo
+      - q se puede hacer aca
+      - como es esto
+      - quiero saber como se usa la app
+      - q onda con esto
+      - no entiendo este bot
+      - nesecito informacion
+      - explikame bien
+      - como entro
+      - dame el camino
+      - q funciones tiene
+      - como lo ago
+      - q puedo aser con esto
+      - nesesito tu ayuda
+      - no se como usar esta vaina
+      - como se maneja esta app
+      - dime las funciones
+      - una explicacion simple
+      - no entiendo bien
+      - nesesito aclaracion
+      - dime como pido algo xfa
+      - q puedo pedir
+      - como hago para reservar
+      - dame un tip
+      - como consigo
+      - q significa esto
+      - no capto na de nada
+      - dame el dato exacto
+      - como lo prendo
+      - dime de q vas
+      - nesesito pasos claros
+      - oe como se usa esto
+      - no entiendo bien como funciona
+      - dime como empezar
+      - estoy perdio q hago
+      - explicame como va la vaina
+      - q se hace con este bot
+      - como le hago pa esto
+      - necesito una orientacion ps
+      - no se bien como va
+      - q onda dime q sabes
+      - como consigo una cancha cerca mio
+      - explicas como se pide
+      - q puedo hacer por aqui
+      - no entiendo naaa broer
+      - una guia rapidita
+      - como se usa pa buscar por surco
+      - q hay pa hacer
+      - como opero el sistema
+      - estoy en blanco con esto
+      - necesito una explicacion simple
+      - como es lo de vill salvador
+      - q se hace primero
+      - dame el dato de como
+      - necesito el manualito
+      - q puedes ofrecerme aparte
+      - dime tus alcances
+      - una explicacion para dummies
+      - como le saco el jugo
+      - q puedo lograr contigo
+      - como pido algo rapido
+      - como va esto de la cancha libre 8pm
+      - q cosas hay ps
+      - dame la clave
+      - un empujoncito pa entender
+      - necesito saber como jala
+      - como uso esta vaina
+      - dime q onda con todo esto
+      - estoy mas perdio q aguja en pajar
+      - como es el proceso
+      - quiero saber q hacer
+      - como hago una consulta
+      - como puedo interactuar
+      - necesito info basica
+      - como es el tema
+      - q hay de nuevo aca
+      - no entiendo las opciones
+      - me puedes indicar
+      - como avanzo con esto
+      - necesito un tip
+      - q tal como me guias
+      - estoy hecho un lio
+      - como va el proceso aca
+      - quiero aprender a usar esto
+      - como son tus servicios
+      - necesito un resumen de funciones
+      - q me puedes ofrecer causa
+      - no c como es
+      - dame la ruta
+      - q cosa haces bot
+      - como le pego el ojo a esto
+      - estoy atorado como sigo
+      - como se pide cerca mio
+      - q onda con lo q sabes
+      - dame tus fijas
+      - necesito la baja
+      - q puedes hacer x mi
+      - no se bien q es esto
+      - dame un norte rapido
+      - como arranco a buscar
+      - como pido por vill salvador
+      - necesito los pasos simples
+      - como utilizo tus comandos
+      - q tal funciona esto
+      - necesito un dato de como
+      - como le meto mano
+      - q hay que hacer primero
+      - como se procede
+      - me das la mano con la info
+      - q hago pa saber mas
+      - como pido algo xfa
+      - no entendi nada
+      - como es el manejo
+      - necesito un chispazo de ayuda
+      - como se hace pa la cancha
+      - q me puedes decir de esto
+      - no se q boton toco
+      - ayudita con esto
+      - dime kmo va la cosa
+      - orientame un toque pe
+      - q tengo q hacer ak
+      - explicame como pedir
+      - como hago mi encargo
+      - apóyame con eso
+      - q se supone q hago
+      - tirame un cable
+      - como inicio mi pedido
+      - q paso debo seguir
+      - kiero saber kmo funca
+      - no se como arrancar
+      - explicame la movida
+      - kmo consigo ayuda
+      - q hago si me pierdo
+      - necesito k me digas
+      - dime kmo llego
+      - dame el alcance causa
+      - kiero saber q va
+      - no me sale bien
+      - ayuda con el proceso
+      - q se hace para reservar
+      - no entiendo el sistema
+      - orientame con la app
+      - dame una luz aki
+      - como se hace el pedido
+      - apóyame brother
+      - no capto ni un pedazo
+      - kiero saber q botones
+      - q hago primero q nada
+      - no entiendo el celu
+      - ayudame en el cel
+      - como reservo x celu
+      - dame la fija compare
+      - q tengo q apretar
+      - explikame bien esta vaina
+      - kmo se hace la reserva
+      - problemas pa reservar
+      - no puedo reservar asi
+      - q hago para pedir
+      - dime kmo le hago
+      - kiero el procedimiento
+      - ayudame a terminar
+      - no se como cierro
+      - dame los pasos exactos
+      - estoy bloqueao ps
+      - q hago si me bloqueo
+      - dame una salida rapida
+      - kmo salgo de aqui
+      - no entiendo el flujo
+      - orientame con el flujo
+      - ayudame con el flujo
+      - q hago si no entendi
+      - dime q hacer luego
+      - no entiendo como busco canchas
+      - no encuentro cancha
+      - busco cancha aca
+      - dime kmo se busca
+      - no se buscar bn
+      - ayudame a encontrar lugar
+      - kmo encuentro mi cancha
+      - donde busco canchas cerca
+      - q se hace para encontrar rapido
+      - ayuda para encontrar esto
+      - kiero saber mas detalles
+      - mas info por favor
+      - dame mas datos pe
+      - explicate mejor broer
+      - dime los detalles completos
+      - kmo busco por surco
+      - no se q hora pongo
+      - q pongo en vill salvador
+      - como busco cerca mio
+      - orientame con la hora 8pm
+      - q debo hacer aca primero
+      - no se q poner en este campo
+      - orientame para pedir mi cancha
+      - ayuda para pedir algo
+      - kmo pido la cancha ahorita
+      - q puedo pedir en este momento
+      - explicate mejor chato
+      - necesito una orientacion clara
+      - dame las pautas para avanzar
+      - como hago aca
+      - q hago?
+      - como es esto ps
+      - estoy perdido bot
+      - guiame xfa
+      - kiero saber como usarlo
+      - explikame q onda
+      - como empiezo aki
+      - no se como funciona esto chato
+      - apoyame con la info
+      - no pesco como se usa
+      - como es la vaina
+      - explicame como para mi tio
+      - q me ofreces causa
+      - como busco una cancha por surco
+      - dime q onda con los horarios
+      - como se si hay cancha libre 8pm
+      - q mas tienes para mi
+      - bot como es el tema
+      - no c como arrancar
+      - dime como hago el tramite
+      - para q sirves tu
+      - estoy medio perdido ayudame
+      - no se donde ir
+      - explikame la jugada ps
+      - q me dices q haga
+      - dame las fijas de como funciona
+      - q puedo lograr con esto
+      - necesito q me digas los pasos
+      - q onda con la app
+      - quiero sacarle el jugo
+      - dime q puedo hacer contigo
+      - como hago para buscar en ate
+      - q me toca hacer ahora
+      - no se como seguir
+      - como va esto
+      - me explicas asi facil
+      - dame una guia rapida
+      - q servicios das
+      - dime q tal eres
+      - como hago lo de la reserva
+      - me indicas q puedo hacer
+      - estoy en blanco broer
+      - como encuentro canchas por mi zona
+      - q chucha hago
+      - dime tus opciones principales
+      - quiero entender bien esto
+      - explikame de q va
+      - como se maneja esta cosa
+      - no entiendo esto kiero ayuda
+      - dame las pautas
+      - como busco una cancha cerca mio
+      - explikame todo lo q haces
+      - no se como usar este chat
+      - q puedo preguntarte
+      - dime las instrucciones
+      - estoy confundio con esta app
+      - dime pa q sirves mano
+      - como puedo ver canchas en san juan
+      - no entiendo muy bien esto
+      - orientame ps
+      - q me ofreces para mi
+      - dame un consejo de uso
+      - no se como buscar alas 8
+      - como se usa el bot
+      - q puedes hacer por mi
+      - dime la forma de trabajar
+      - explikame q onda con todo
+      - me dices q se hace
+      - no entiendo la vaina
+      - dime tus funciones claras
+      - como es la busqueda de canchas
+      - quiero entender esto xfa
+      - pasame la info de como usarlo
+      - q mas hago despues
+      - explikame como si fuera un niño
+      - dame el resumen de tus opciones
+      - estoy recontra perdido
+      - bot ayudame a entender
+      - quiero saber tus capacidades
+      - como puedo buscar algo por aca a mi alrededor
+      - dame un empujon con la app
+      - como le hago para buscar canchas
+      - no entiendo nada de esta webada
+      - q puedo preguntar al bot
+      - explicame de manera simple
+      - que debo hacer para usarlo
+      - quiero saber como reservar
+      - q hago aki ps
+      - no c q hacer
+      - como s usa esta vaina
+      - explicame al toke
+      - q funciones tiene el bot
+      - necsito q me digas
+      - q es este programa
+      - no entiendo nada, hermano
+      - me pierdo en la plataforma
+      - pasame la voz, broer
+      - un tip xfa
+      - como empiezo mano
+      - me guias un ratito
+      - q se hace por aqui
+      - kiero saber mas d ti
+      - explikame pa captar bien
+      - me das una mano con esto
+      - ayudame a usarlo bien
+      - q tan bueno eres
+      - pa q sirves en mi vida
+      - d q eres capas tu
+      - q cosas hace el bot
+      - q se puede lograr con esto
+      - dime tus funciones principales
+      - q tal eres con lo q haces
+      - d q va esta app pue
+      - para q me sirves tu
+      - cuentame d ti, pe
+      - q sabes hacer en vrdd
+      - q servicios hay aki
+      - dime q puedo hacer yo aca
+      - q funciones tiene esta cosa
+      - q ofreces a los clientes
+      - dime tus caracteristicas
+      - q alcanzas a hacer con esto
+      - d q eres capaz mi rey
+      - no entiendo como funciona
+      - q es lo q haces exactamente
+      - quiero aprender a usarlo
+      - como configuro esto
+      - dime la verdad ps
+      - un manual d uso xfa
+      - estoy perdido aca dentro
+      - necsito q me informes
+      - como busco lo q yo kiero
+      - q haces en este sistema
+      - explikame bien choche
+      - no entendi nada d nada
+      - como hago para q sirva
+      - dame un adelanto
+      - no c q preguntar
+      - me das una pauta
+      - q puedo esperar d este bot
+      - como ingreso a los servicios
+      - orientame un poquito
+      - no veo las opciones claras
+      - dime como es todo el proceso
+      - como pido la cancha xfa
+      - quiero ayuda con la plataforma
+      - como funciona pa la gente d surco
+      - q hago si estoy cerca d mi casa
+      - en villa el salvador q se puede hacer
+      - cancha libre a las 8pm como es la vaina
+      - como hago para reservar una cancha
+      - explikame a detalle, mano
+      - me das la mano con esto d aki
+      - estoy recontra confundido
+      - no se por donde empezar a usar
+      - como funciona pa mi caso
+      - dime tus ventajas
+      - q es lo q das tu
+      - ayudame con esta confusion
+      - dame una orientacion ps
+      - q opciones d ayuda tengo
+      - me das una luz sobre esto
+      - no capto bien lo q dices
+      - q se puede hacer con el bot
+      - me das una direccion
+      - q puedo hacer usando el bot
+      - como t empleo para mi
+      - q me puedes ofrecer a mi
+      - una explicacion para dummies xfa
+      - quiero entender lo q haces
+      - q hago en este lugar
+      - no le agarro el punto
+      - como se realiza eso
+      - q tipo d asistencia das
+      - explicame un toque mas
+      - me das un alcance
+      - como puedo usarlo bien
+      - la verdad no la capto
+      - como es el rollo compare
+      - dime q pides
+      - una mano xfa
+      - orientame pe
+      - no la veo claro
+      - explica bien xfa
+      - q significa eso d por surco
+      - dime pa q es lo d cerca mio
+      - como uso lo d vill salvador
+      - q es cancha libre 8pm
+      - no c como va
+      - estoy recontra volado
+      - q onda con tus cosas
+      - dame la pauta
+      - como es la jugada ps
+      - dame una guia xfavor
+      - toy en el aire
+      - como hago pa esto
+      - q cosa es esto d aca a mi alrededor
+      - dime tus ventajas chato
+      - no la entiendo nada
+      - dame un empujon con esto
+      - q puedo conseguir contigo
+      - como la uso pues
+      - explicame sin tanto lio
+      - dime q tan util eres
+      - me puedes aclarar esto
+      - q sabes hacer pe
+      - la fija d como usar esto
+      - dime tus funciones compare
+      - como es tu chamba
+      - no c ni por donde empezar
+      - dame el dato clave
+      - quiero entenderte bien
+      - no entiendo esto d las alas 8
+      - q hago con la opcion de reco
+      - dame un alcance
+      - q pucha hago
+      - como es lo d la 8pm
+      - no c como es la figura
+      - q onda mano
+      - quiero una explicacion breve
+      - toy enredado
+      - como lo uso sin complicarme
+      - dame luz con esto
+      - q es lo principal q haces
+      - no c na d esto
+      - explicame para novatos
+      - q tal chamba haces
+      - dame un resumen d lo tuyo
+      - necesito q me digas la verdad
+      - q tipo d servicio das
+      - dame indicaciones claras
+      - no entiendo xq esto
+      - toy mas perdido q huevo frito
+      - q sabes hacer man
+      - q hago con la 8pm
+      - quiero una orientacion rapidita
+      - q rol cumples
+      - como es la movida
+      - q significa reco
+      - dime q puedo hacer yo
+      - q cosa es esto ps
+      - orientame un poco pe
+      - q opciones tengo aca
+      - dame la info necesaria
+      - explica facil
+      - no la capto todavia
+      - q es la hora 8pm
+      - me dices q hacer
+      - estoy como palo
+      - q son tus habilidades
+      - no c ni papa
+      - explicame para q sirve
+      - como te uso mejor
+      - dame un consejo
+      - ayudame causa
+      - q significa eso d cerca
+      - explica lo d la cancha libre
+      - como funciona todo esto
+      - q me traes
+      - q es esto d 8pm
+      - no la veo nada
+      - dime tus fortalezas
+      - guiame un toque
+      - q se hace en este bot
+      - dame un mapa
+      - como es la vaina ps
+      - necesito q me explikes
+      - me guias un toke
+      - no entiendo esta nota
+      - como se usa esto, oe
+      - dame el dato ps
+      - estoy en cero no c
+      - explica como es
+      - q se hace primero aca
+      - estoy mas perdido
+      - dime tus funciones, causa
+      - como te manejo
+      - necesito indicaciones claras
+      - q onda con el programa
+      - no le agarro la maña
+      - me das un jalon
+      - q puedo hacer con la app
+      - estoy medio volado, no entiendo
+      - dime la fija como se usa
+      - como va la cosa aqui
+      - necesito q me asesores
+      - estoy fregao, no entiendo
+      - q tal, en q me apoyas
+      - no se q tocar
+      - explícame sin roche
+      - q se hace con esta vaina
+      - estoy chipi, me guias
+      - dime como se opera
+      - necesito q me bajes la info
+      - como funciona esta movida
+      - estoy en apuros no entiendo
+      - q puedes hacer tu x mi
+      - me das las pautas
+      - no le encuentro el sentido a esto
+      - dime de q sirves
+      - necesito q me saques de dudas
+      - no c como seguir pe
+      - explica de una
+      - q tal tu chamba
+      - estoy bloqueao no avanzo
+      - dame el norte pa usar esto
+      - necesito como empezar
+      - como es el manejo de esto
+      - q onda, q haces
+      - no le entiendo ni michi
+      - me das la clave
+      - q puedo preguntar aqui
+      - estoy enredao con la info
+      - dime lo q se puede
+      - necesito q me des tips
+      - como uso esta plataforma
+      - q tal, q servicios tienes
+      - no se q hay q hacer
+      - me explicas porfa
+      - estoy en tinieblas no entiendo
+      - dame un consejo, oe
+      - necesito q me orientes bien
+      - como es la movida de la app
+      - q hago si no entiendo
+      - no entiendo un pio
+      - me das un empujon con esto
+      - q tal pe, explícame todo
+      - estoy medio lerdo no entiendo
+      - necesito una mano urgente
+      - como funka esto
+      - q tal tu programa
+      - no le veo el chiste, explica
+      - me guias xfa
+      - q puedo usar de aki
+      - estoy en un laberinto con esto
+      - dime los pasos pa usar
+      - necesito entender como va
+      - como activo la vaina
+      - q se hace en la app
+      - no le llego a entender bien
+      - estoy perdido q hago
+      - dime como le doy
+      - necesito soporte con esto
+      - como operar el bot
+      - q tal, como te uso
+      - no se q boton es
+      - me orientas porfa
+      - estoy volando con esto
+      - dime bien lo q sabes
+      - necesito un manual ps
+      - como arranco la app
+      - q tal ayuda puedes dar
+      - me explicas de cero
+      - q me ofreces tu oe
+      - estoy varado aca
+      - dame las fijas ps
+      - necesito q me explikes todo
+      - no cacho
+      - toy confuso
+      - una mano ps
+      - como hago
+      - no entiendo na
+      - explicame esta vaina
+      - q se hace aki
+      - apóyame en esto
+      - no la hago
+      - dame la info
+      - la fija ps
+      - toy perdido como llego
+      - como usar esta app
+      - una ayuda rapida
+      - no se q onda
+      - q va con esto
+      - q es esto q hago
+      - una ayuda causa
+      - dime como funca
+      - necesito entender
+      - como pido por vill el salvador
+      - estoy medio enredao
+      - q se hace con esto
+      - explicame nomaz
+      - toy en cero
+      - una explicacion
+      - q puedo hacer con esta cosa
+      - no se q decir
+      - como pido una cancha por reco
+      - q chamba hace este bot
+      - dame un norte
+      - como va la vaina
+      - ayuda con la app
+      - q hago primero
+      - explicame la jugada
+      - soy nuevo como es esto
+      - como pido a mi alrededor
+      - q paso sigue
+      - como funciona esta aplicacion
+      - q puedo hacer con vos
+      - no se como usar la plataforma
+      - q tipo de ayuda das
+      - como se pide una cancha libre 8pm
+      - explícame sencillo
+      - una mano pa esto
+      - como uso esto ps
+      - estoy en duda
+      - explícame todo
+      - no se como empezar aca
+      - dame un empujon
+      - q onda con este bot
+      - dime q tal es tu servicio
+      - no entiendo el rollo
+      - ayúdame a entender
+      - necesito comprender
+      - como utilizo esta vaina
+      - explica bien ps
+      - no se q se hace
+      - como hago la vaina
+      - como hago un pedido
+      - no entiendo lo q me pides
+      - q debo escribir aca
+      - ayuda pa empezar
+      - no se como seguir este paso
+      - orientame en lo basico
+      - hola pe, una ayuda
+      - k onda con esto d la app
+      - me explicas ps
+      - ayudame con el tema
+      - no c como usarlo
+      - dime como arrancar
+      - kiero saber como funciona
+      - toy re perdido aki
+      - pa q sirve esto chato
+      - explicate mejor
+      - tengo dudas ps
+      - como le sigo ahora
+      - necesito la fija
+      - como busco ps
+      - dame una pauta
+      - kiero info
+      - explicame la mecanica
+      - una ayudita causa
+      - no entiendo lo de cerca mio
+      - como hago pa reservar x surco
+      - dime q tal esto
+      - kieres ayudarme
+      - necesito q me guies
+      - no la hago solito
+      - dame luz ps
+      - a ver, dime
+      - q tal ps, me ayudas?
+      - explicamelo facilito
+      - q funciones tiene?
+      - esto es pa q?
+      - un empujón con esto
+      - como pido algo por aqui
+      - indícame paso a paso
+      - estoy medio desorientao
+      - kiero entender la app
+      - me das una mano rapido
+      - no se como seguirle
+      - guíame reyna
+      - xfa ayudame
+      - como es esto del vill salvador
+      - necesito una direccion
+      - estoy atascado
+      - como resuelvo esto
+      - me puedes dar una mano?
+      - una ayuda urgente
+      - q haces tu causa
+      - indícame los pasos
+      - esto no lo entiendo bien
+      - ayuda con lo basico
+      - q plan tengo
+      - explicame asi nomas
+      - no c como pedir
+      - y ahora q sigue
+      - q hago despues
+      - me explicas como es la cosa
+      - estoy trancado aca
+      - no entiendo la movida
+      - dame una orientacion
+      - necesito la info exacta
+      - no capto la onda
+      - dame un norte ps
+      - como es esto de las canchas
+      - necesito saber del servicio
+      - pa q sirve esta vaina
+      - ayudame a usar la app
+      - no entiendo bien los terminos
+      - dame el dato completo
+      - como es esto de las reservas
+      - no entiendo mucho esto
+      - como usar esta web
+      - tengo un problema
+      - como funciona x mi barrio
+      - necesito una pauta clara
+      - q hay para mi
+      - como te uso sin roche
+      - me das una mano aqui?
+      - no c
+      - no entiendo esto
+      - dime q onda
+      - dime la fija
+      - no agarro
+      - guia ps
+      - dime como va
+      - como salgo
+      - dame una mano
+      - apoyame
+      - la firme no se
+      - q hago con esto
+      - dime q es
+      - q procede
+      - como c hace
+      - como c pide
+      - explica bien
+      - no la tengo clara
+      - q mas hago
+      - dime xfa
+      - a ver, q se hace
+      - no se por dond empezar
+      - la firme no entiendo
+      - no se manejarlo
+      - me ayudas con info
+      - q pex con la app
+      - explica pe
+      - dime como t uso
+      - no se ni q decir
+      - q hay q apretar
+      - dime la rutina
+      - no la veo
+      - q hago en esto
+      - no entiendo el app
+      - q tal bot
+      - q hacemos aca
+      - q hay q saber
+      - ayudame con lo basico
+      - dime q mas
+      - q hago con esto de la app
+      - orientame xfavor
+      - q se hace en este lugar
+      - no c usar
+      - me siento perdido
+      - q onda con el tema
+      - no c q hacer ahora
+      - dime q se puede
+      - dime ps el camino
+      - q puedo hacer xfa
+      - explica paso a paso ps
+      - no se como funciona
+      - q se puede aca
+      - como pido la cancha
+      - toy perdido, ps
+      - q se hace aqui?
+      - me indicas q onda
+      - no agarro, causa
+      - dame la info ya
+      - no le llego, broer
+      - como reservo una
+      - una consulta rapida
+      - me dices q es esto
+      - no entiendo, ps
+      - dame el dato, pe
+      - no capto, mano
+      - no se nada de esto
+      - como funciona todo
+      - explicame de nuevo
+      - guia rapida, xfa
+      - dime q poner
+      - como es el paso
+      - q hago ahora, compare
+      - pasame la voz, bro
+      - una orientacion xfa
+      - no la veo clara
+      - me explicas?
+      - q es lo q sigue
+      - orientame un toque
+      - no entendi, pta
+      - pa q es esto, pe?
+      - dime q puedo consultar
+      - q hace este bot, ah?
+      - me das un empujon
+      - no se usar esto, causa
+      - me dices los pasos
+      - no se ni q preguntar
+      - pa q sirve esto, ps
+      - como empiezo a usar
+      - quiero entender mas
+      - me sacas de la duda
+      - q hago, chato
+      - no entiendo como empezar
+      - dime las opciones, pe
+      - q puedo pedir por aca
+      - como hago para pedir
+      - me das una pista, bro
+      - estoy en cero, pta
+      - q me dices q haga, mami
+      - no entendi, choche
+      - me aclaras la cosa
+      - quiero saber como se usa
+      - dime las fijas de esto
+      - como es la reserva, ah?
+      - no se que poner, pe
+      - me explicas mas o menos
+      - dame los tips, ps
+      - como es la navegacion
+      - q me toca hacer
+      - orientame con la reserva
+      - dime q puedo buscar
+      - no entiendo q hago x surco
+      - dime como pido una cerca mio
+      - q tengo q poner para una cancha libre 8pm
+      - como hago para reservar aca a mi alrededor
+      - me explicas q se hace con esto, pe
+      - dime q puedo hacer, mi causa
+      - no c como es la movida aqui
+      - orientame xfa con lo q hay
+      - q hago si no entiendo nah
+      - como se busca bien
+      - dime q debo escribir para pedir
+      - no entiendo q pedir, bro
+      - q se hace pa reservar, ah?
+      - me das una explicacion rapida
+      - dime como usar la app
+      - q puedo preguntar aca
+      - no capto como es la vaina, ps
+      - me indicas q va primero
+      - dime q botones apretar
+      - quiero info de q hacer
+      - estoy confundido con esto
+      - como hago para entender
+      - q me dices q ponga
+      - no se nada, orientame
+      - dame una pauta, broer
+      - como se usa esta cosa
+      - q hago si no c bien
+      - me das una idea de q es
+      - estoy perdido en la app
+      - como sigo despues de esto
+      - dime las opciones clave
+      - no c como usar
+      - dime como va la cosa
+      - q hago xfa
+      - ni idea q hacer
+      - me das la fija?
+      - no entiendo na brother
+      - estoy fresh no c q hacer
+      - cual es la jugada
+      - una guia porfa
+      - como pido por surco
+      - como pido cerca mio
+      - kiero pedir pero no se como
+      - como reservo x vill salvador
+      - pa pedir cancha 8pm
+      - como pido una cancha libre
+      - explikame como pido
+      - q hago pa pedir la cancha
+      - no c como buscar
+      - necesito q me digas como reservar
+      - como hago pa la reserva
+      - cual es el proceso pa pedir
+      - una ayudadita para reservar
+      - q hago para cancha en los olivos
+      - como se pide por mi casa
+      - kiero saber como pido
+      - explicame como es el sistema de reservas
+      - como pido en san juan
+      - no entiendo el pedido
+      - necesito como hacer mi pedido
+      - q sabes hacer tu
+      - q chamba haces
+      - cuales son tus cosas
+      - a ver q tal eres
+      - q haces bot
+      - en q me apoyas
+      - pa q me sirves
+      - q se puede hacer contigo
+      - explikame tus funciones principales
+      - cuales son tus capacidades
+      - q onda contigo flaco
+      - dime q sabes
+      - cual es tu chamba
+      - explikame tu rollo
+      - tus servicios pe
+      - q hago aca contigo
+      - explikame de nuevo
+      - estoy maleado no entiendo
+      - no veo como
+      - estoy a oscuras
+      - como funciona esta vaina
+      - explikame la mecánica
+      - una guia rapida xfa
+      - q debo hacer despues
+      - como sigo de aca
+      - no entiendo la info
+      - explikame con peras y manzanas
+      - dime q paso
+      - no entiendo como va la cosa
+      - me das una mano
+      - ayuda porfa
+      - auxilio pe
+      - necesito algo
+      - q hago ps
+      - dime broer
+      - no c pedir
+      - guia
+      - como le meto
+      - apóyame
+      - como le hago pa usar esto?
+      - q se hace aca?
+      - me explikas el uso?
+      - nesesito una guia rapida
+      - como funciona la vaina?
+      - dame un norte pe
+      - estoy perdido con esto
+      - que hago ahora con la app?
+      - bot explikame bien
+      - me das los pasos?
+      - como hago la reserva?
+      - ayudame a usar tu app
+      - q puedo hacer con el bot?
+      - dame una mano con la reserva
+      - como busco cancha cerca?
+      - no se como buscar x miraflores
+      - q hago pa encontrar canchas?
+      - explikame el procedimiento
+      - estoy confundio no se q hacer
+      - como pido cancha x surco?
+      - una ayuda para buscar por mi zona
+      - como uso este sistema?
+      - q tengo q hacer pa reservar?
+      - no se como seguir con la reserva
+      - dame las indicaciones
+      - ayudame a operar la app
+      - como le hago para empezar?
+      - q onda con el uso de esto?
+      - no entiendo tu plataforma
+      - me das una pauta?
+      - como busco en villa el salvador?
+      - q se puede hacer con la aplicacion?
+      - como se reserva cancha libre 8pm?
+      - explikame de 0
+      - no se donde ir aca
+      - q hago primero en la app?
+      - dame la fija de como usar
+      - ayudame con los pasos
+      - como busco algo cerca mio?
+      - no se como hacer un pedido
+      - q hago con esta cosa?
+      - me enseñas a usarlo?
+      - como pido una cancha en los olivos?
+      - una mano con la config
+      - estoy bloqueado como sigo?
+      - q opciones tengo aqui?
+      - dame un jalón con la app
+      - no lo capto bien
+      - explikame la jugada
+      - como hago mi reserva x el bot?
+      - nesesito entender el proceso
+      - como uso tu servicio?
+      - q onda con tus funciones?
+      - dame los datos para usar
+      - ayudame a reservar una cancha
+      - q es lo q haces bot?
+      - como busco canchas en la molina?
+      - nesesito orientacion pa esto
+      - estoy desorientado como busco?
+      - q hago si kiero reservar?
+      - explikame los detalles
+      - dame una guia para el bot
+      - no entiendo el flow
+      - como hago la busqueda?
+      - ayudame a entender la app
+      - q puedo lograr con esto?
+      - quiero reservar pero no se como
+      - como pido cancha cerca de mi?
+      - dame el truco para usarlo
+      - nesesito saber q onda con la reserva
+      - como funciona lo de la cancha?
+      - q hago para ver canchas disponibles?
+      - explikame como es la vaina
+      - no se como hacer mi primera reserva
+      - ayudame a buscar una cancha xfa
+      - como se usa este programa?
+      - q se puede hacer en el app?
+      - dame las instrucciones claras
+      - no entiendo lo del horario
+      - como hago para ver canchas en san juan de lurigancho?
+      - q hago para reservar por chorrillos?
+      - nesesito un empujon pa usarlo
+      - como busco cancha para hoy 8pm?
+      - dame un manual rapido
+      - ayudame con el funcionamiento
+      - q puedo consultar?
+      - como hago para pedir por distrito?
+      - no me sale la reserva
+      - explikame los pasos pa una cancha
+      - q se hace pa pedir cancha libre?
+      - dame los puntos clave
+      - no entiendo la configuracion
+      - como pido cancha aca a mi alrededor?
+      - nesesito una explicacion simple
+      - necesito orientacion broer
+      - q haces tu aca?
+      - como te hablo ps
+      - explicame de una
+      - estoy perdido aki causa
+      - dame la fija ps
+      - q puedo hacer contigo chato
+      - quiero saber como se reserva
+      - enseñame a usar esto
+      - q mas sabes hacer tu?
+      - necesito info de lo q haces
+      - ayudame pe porfa
+      - q onda con esto, no entiendo
+      - como es la jugada, dime
+      - soy nuevo, q debo hacer?
+      - no entiendo bien las funciones
+      - orientame un poco, porfa
+      - q debo hacer para reservar
+      - como hago un pedido de cancha
+      - explicame ps, no entiendo nada
+      - q funciones tiene este bot
+      - dame una mano con la app
+      - como uso el bot este
+      - q me puedes ofrecer aqui
+      - q ofreces de servicios
+      - como empiezo a usarlo?
+      - quiero saber como se hace esto
+      - como me ayudas por surco
+      - q hago con la cancha libre 8pm?
+      - q puedo hacer aca a mi alrededor
+      - ayudame con vill salvador
+      - como lo opero broer
+      - q onda bot, q haces
+      - como es la cosa con esto
+      - dame las pautas rapidito
+      - como le doy a esta vaina
+      - q puedo hacer ahora con la app
+      - dime como se hace un pedido
+      - explicame de nuevo, no entendi
+      - no entiendo q onda con esto
+      - q es esto y q hace
+      - q hago si quiero reservar
+      - como te pido una cancha
+      - dame la yapa de como usarlo
+      - explicame porfa q puedo hacer
+      - q opciones hay aqui
+      - q puedo usar en esta app
+      - estoy confundido pe, explicame
+      - q hago con la app, no entiendo
+      - q me dices q hace esto
+      - no entiendo las opciones q tengo
+      - como se hace esto broer, ayudame
+      - q es lo q me ofreces para mi
+      - como te manejo a ti
+      - q tengo q poner primero
+      - como pongo el pedido de cancha
+      - dame el dato de como usarlo
+      - q hago aqui en esta app
+      - q debo saber para empezar
+      - necesito entender bien como funciona
+      - como le hago para buscar
+      - q puedo pedir aca?
+      - q me ofreces xq no entiendo nada
+      - necesito saber usar este bot
+      - como funciona la vaina, explicame
+      - q servicios tienes ps para mi
+      - quiero ayuda con algo en la app
+      - no entiendo naaa de como se usa
+      - como se pide la vaina esta
+      - dame la info de lo q haces
+      - explicame q puedo hacer con el bot
+      - no entiendo q ago con la app
+      - como me guio en esta cosa
+      - q puedo hacer en este bot
+      - necesito saber como se reserva broer
+      - como hago para pedir algo ps
+      - q debo hacer pa empezar a usarlo
+      - no entiendo como le doy, ayudame
+      - ayudame con el bot, no entiendo
+      - q hago ps con la app esta
+      - necesito un norte para usar esto
+      - como se opera esto, dime
+      - q funcionalidades tienes para mi
+      - dame una guia de como funciona
+      - q hago con esta cosa de app
+      - como se pide una reserva de cancha
+      - q puedo hacer por aca en la app
+      - quiero saber como va la cosa
+      - ayudame a entender este bot
+      - q pasa si no se usarlo
+      - como puedo pedir algo aca
+      - q opciones tengo aca broer
+      - como encuentro algo por surco
+      - dame mas detalle de lo q haces
+      - no se como se pide una cancha
+      - q puedo consultar aqui
+      - quiero saber q haces con esto
+      - dame luz de como se usa esto
+      - explicame la cosa ps, no entiendo
+      - como hago la vaina para reservar
+      - q me ofreces a mi en la app
+      - no c q hacer con esta app
+      - q hay de bueno aca
+      - q opciones me das para buscar
+      - q debo hacer ahora mismo
+      - dime q se hace primero
+      - como pido algo x surco
+      - q hago con el bot alas 8 pm
+      - dame una guia rapida de uso
+      - como uso esta vaina pe
+      - no entiendo ni pincho
+      - dirigeme causa
+      - describeme esto
+      - pa q sirve esta app
+      - no c donde estoy
+      - q pongo aki en el chat
+      - indicame como es
+      - esto q significa pe
+      - este bot para q es
+      - q hago luego de esto
+      - dime q opciones hay
+      - estoy en nada ps
+      - mandame los datos
+      - como busco canchas por surco
+      - q se hace pues
+      - la movida como es
+      - el sistema como va ps
+      - q tengo q escribir para buscar
+      - un apoyo xfa
+      - q hago pa la reserva
+      - la reserva como la hago
+      - la app no la entiendo
+      - qiero aprender a usarlo
+      - un toke de guia
+      - como veo una cancha libre 8pm
+      - no c q escribir pa hacer un pedido
+      - q hago si qiero ver por vill salvador
+      - iluminame ps mi rey
+      - el funcionamiento como es
+      - como busco pa cerca mio
+      - esto es confuso pa mi
+      - q puedo hacer si no c
+      - como pido algo aca a mi alrededor
+      - un apoyo moral ps
+      - la jugada como es pe
+      - me siento perdido aki
+      - q tengo q apretar para avanzar
+      - como reservo x mi casa causa
+      - no c q poner con la fecha
+      - q opciones existen para reservar
+      - dame un empujon ps
+      - quiero entender como se usa
+      - q sabes hacer ps
+      - como pido una cancha en surco
+      - no entiendo como hago el pedido
+      - q hago con el horario de las canchas
+      - un soporte ps
+      - las funciones no las entiendo
+      - esta app como jala
+      - las cosas q se pueden hacer
+      - estoy en off ps
+      - como busco una cancha en vill salvador
+      - si me perdi q hago
+      - dime los trucos ps
+      - no entiendo ni una jota
+      - como pido pa un horario especifico
+      - q puedo hacer si no encuentro cancha
+      - dame un mapa ps
+      - no c q poner en el msj
+      - q se hace con los filtros de busqueda
+      - como busco algo cerca de mi barrio
+      - dame la posta de como se usa
+      - q hago pa ver las canchas disponibles
+      - la app no se usa bien
+      - qiero saber mas de esto
+      - q tengo q escribir aca pe
+      - q puedo hacer en este chat con ustedes
+      - como reservo una cancha a las 8
+      - este bot q tal es
+      - no c q preguntar sobre esto
+      - como funciona la busqueda x zona
+      - q hago si quiero cambiar mi reserva
+      - dame una indicacion
+      - el menu no lo entiendo bien
+      - q puedo hacer en esta conversacion
+      - como pido cancha por mi distrito
+      - q hago si no entiendo una palabra
+      - dame lo especifico
+      - no c q decirte
+      - como consigo la info q necesito
+      - q se hace si hay un problema
+      - necesito un cable xfa
+      - no entiendo la interface de esta cosa
+      - como pido una cancha libre a las 8pm
+      - q hago con los datos q me pide el bot
+      - un rumbito ps
+      - q se supone q hago pues
+      - como veo las opciones de cancha en la app
+      - q hago pa contactar con alguien
+      - como me explicas esta vaina
+      - no entiendo q hago
+      - komo pido aca
+      - ayudame porfa
+      - q hago pe
+      - no se como funciona esta vaina
+      - una mano con esto bro
+      - dime q puedo aser
+      - toy perdido, dame un norte
+      - instruksiones para usarlo
+      - q debo escribir para iniciar
+      - ayudita con el chat por aqui
+      - komo arranco ak en el sistema
+      - pasos para empezar, porfis
+      - q botones son los q debo usar
+      - dime q aser primero en el bot
+      - no entiendo nada, pe, estoy en blanco
+      - q me das tu como ayuda
+      - no c q preguntar mas, orientame
+      - kiero saber q sabes aser por mi
+      - una manito xfa, pa empezar a entender
+      - no se q onda con el bot, es nuevo
+      - dame una luz, estoy medio perdido
+      - explikame todo, causa, no entiendo
+      - no la agarro bien a esta vaina
+      - q se puede aser aca en esta app
+      - komo empiezo a usar el sistema
+      - necesito saber los pasos a seguir
+      - dime q se hace en esta plataforma
+      - q puedo pedir al bot, porfa
+      - no c q escribir, bro, dame una idea
+      - ayudin porfa, no entiendo la cosa
+      - kiero ayuda, pe, no se como avanzar
+      - q es esto, me explicas rapido
+      - no le entiendo, chato, como uso
+      - komo se usa este bot, dame una pauta
+      - necesito saber mas de las funciones
+      - q hay q aser aca para q funcione
+      - no tengo ni idea de que hacer
+      - q ago aki en esta app, estoy confundido
+      - dame una guia rapida, please
+      - q es este chat, mi rey, explikame
+      - dime los pasos a seguir para usarlo
+      - no entiendo ni jota de esto, ayúdame
+      - komo le doy con esto, no arranca
+      - necesito una mano, mi causa, para avanzar
+      - q mas puedo aser por aca, dime opciones
+      - no entiendo bien esto, es complicado
+      - q puedo aser contigo en este momento
+      - kiero saber q cosas haces por los usuarios
+      - una manito xfa, pa empezar a usar la app
+      - q onda con este chat, explikame su fin
+      - no se q poner ahora, dame una pista
+      - dime q puedo aser en esta interaccion
+      - no se como seguir, estoy atascado
+      - una luz para este embrollo, porfavor
+      - dame la info q necesito pe, asi rapido
+      - q es esto d aqui, explikame, no c nada
+      - no c ni x donde empezar en esta app
+      - instruksiones para el uso de esta vaina
+      - dame el dato completo de como funka
+      - komo me muevo ak en el bot, no entiendo
+      - q se puede aser en este chat, bro, dime
+      - no le agarro el truco a la app, q hago
+      - kiero entender la dinamica de este bot
+      - ayudita urgente, porfis, estoy perdido
+      - dime q tal te va, o q puedo esperar
+      - no se q mas pedir, ayúdame a pensar
+      - q puedo hacer yo con esto, dame ideas
+      - una guia rapida, please, para no perder
+      - explikame la cosa, mi pata, asi entiendo
+      - q onda pe, dame una mano para avanzar
+      - dime la justa de como usarlo, sin rodeos
+      - no me entra en la cabeza esto, explikame
+      - ayudame un poco, porfis, es complicado
+      - no se nada de como arrancar, estoy en 0
+      - dame pistas de q aser, no entiendo bien
+      - q es lo q haces en verdad, explikame todo
+      - dame una mano, causa, no entiendo nada
+      - no entiendo un mango de esto, es raro
+      - q es lo k hay para mi aca, las opciones
+      - kiero saber mas de ti, pe, dame info
+      - komo arranco en este chat, porfa, desde cero
+      - q ondas, estoy perdido, como sigo
+      - dime q se puede hacer x aqui, paso a paso
+      - ayudame a entender esta app, no la capto
+      - no veo q hacer por ningun lado, guiame
+      - dame las pautas pa' empezar con esto
+      - ayudita con el sistema, porfis, lo necesito
+      - explikame la vaina, bro, no me queda claro
+      - q botones presiono para esto, en orden
+      - no se ni papa de como usarlo, estoy ciego
+      - q mas hay pa ver o hacer, mas opciones
+      - dime todo lo q se puede, no escondas nada
+      - komo usar esta vaina de aca, enseñame
+      - q es lo q tengo q hacer ahora, los pasos
+      - ayudame con el sistema, porfa, es urgente
+      - komo le hago pa funcionar bien la app
+      - q se puede aser ak en el bot, chato, todo
+      - dame una ayuda grande, bro, no se nada
+      - no entiendo naa de nada, porfavor explica
+      - q es lo tuyo, explikame en q eres bueno
+      - una guia para esto, rapido, lo necesito
+      - no se ni pio de como usarlo, ayudame pe
+      - komo empiezo bien, porfa, sin errores
+      - dime bien los pasos, chato, para no fallar
+      - q hay q saber pa usarlo, lo principal
+      - ayudame un toke con esto, es un lio
+      - no entiendo ni michi, pe, q esta pasando
+      - dame las directrices rapidas y claras
+      - q me dices, necesito ayuda urgente
+      - komo arrancar el chat, bro, desde el inicio
+      - necesito saber q onda con esto, en general
+      - q tengo q teclear pa seguir, dime el texto
+      - una mano con la interface, pe, es confusa
+      - no c ni x donde arrancar, chato, estoy ciego
+      - q es este programa, explikame su funcion
+      - ayudame a comprender esta aplicacion nueva
+      - no entiendo como es
+      - como hago la chamba
+      - kiero saber como se usa
+      - ayudame pe varon
+      - estoy perdidazo
+      - explicame como funka
+      - orientame mi rey
+      - q tal con esto
+      - guia mi compare
+      - para q estas hecho tu
+      - q es lo tuyo
+      - no se como pedir por surco
+      - aca a mi alrededor q hay ps
+      - cancha libre alas 8pm como pido
+      - vill salvador como lo encuentro
+      - estoy en cero man
+      - como hago la reserva
+      - necesito auxilio
+      - a q te dedicas tu
+      - cual es la funcion
+      - explicame al toque
+      - q me brindas
+      - dame las alternativas
+      - como se hace este lio
+      - toy trancado
+      - dame luz pe
+      - no cacho bien
+      - q se supone q toque
+      - explicame como es la cosa
+      - q pido en este sitio
+      - no hallo lo q busco
+      - kiero ayuda ya
+      - q se puede solicitar
+      - como funciona este rollo
+      - me puedes dar la ruta
+      - como busco por vill maria del triunfo
+      - cerca de mi casa q opciones hay
+      - explicame la enredadera
+      - no entiendo el sistema este
+      - como hago para buscar la cancha
+      - q p2 con la app
+      - necesito q me instruyas
+      - explicame como se procede
+      - no se usar la app
+      - dame mas detalles
+      - adonde tengo q ir
+      - cual es el siguiente paso chato
+      - no entiendo nada de nada de verdad
+      - q cosas puedo hacer contigo
+      - como funciona esto amigo
+      - ayudame con este problema
+      - no entiendo como pedir algo
+      - q es esta cosa
+      - dame la voz mi pata
+      - q puedo hacer con esta herramienta
+      - no se q se hace en esta app
+      - como le saco el jugo a esto
+      - dame una explicacion rapida
+      - toy perdido en la pantalla
+      - q tan util es esto
+      - necesito un empujon para empezar
+      - no se q hacer por donde arranco
+      - q mas opciones tengo
+      - como lo manejo
+      - no entiendo ni papa
+      - q me puedes ofrecer
+      - explicame como pido mi cancha
+      - como buscar en la molina pa un fulbito
+      - por cercado de lima como hago para buscar
+      - q hay por el cono norte de opciones
+      - necesito una mano pa esto
+      - no se x donde arrancar
+      - como hago para captar
+      - q tengo q hacer ahora
+      - como hago un encargo
+      - no entiendo esta webada
+      - dame informacion clave
+      - explicame los puntos
+      - q puedo hacer en chorrillos un lunes
+      - cerca al callao como busco un local
+      - como encuentro canchas libres
+      - explicate bien ps
+      - q onda con lo q haces
+      - no c q es esto
+      - q plan tienes
+      - mano una ayuda
+      - toy en nada
+      - necesito q me digas
+      - echame la mano
+      - dime q hacer
+      - explikame ps
+      - no se q pto hacer
+      - orientacion ps
+      - q funcionas
+      - asistencia
+      - soporte tecnico
+      - alguien q ayude
+      - explica mejor
+      - no entendi el sistema
+      - ayudita
+      - la fija?
+      - que onda con esto
+      - como se hace eso
+      - estoy perdido bro
+      - dime q hay
+      - como reservo x surco
+      - ayudame cerca mio
+      - como uso aka a mi alrededor
+      - ayuda para cancha libre 8pm
+      - no entiendo vill salvador
+      - dame la mano pe
+      - necesito explicacion
+      - explikame con manzanas
+      - como hago para empezar
+      - una manito
+      - dime las reglas
+      - pa q sirves tu ah
+      - toy mas perdido q huevo en cebiche
+      - como pido una cancha en callao
+      - me indicas xfa
+      - cual es el truco
+      - explikame todo
+      - pa q es esto
+      - guianos
+      - explikame la funcion
+      - dame detalles
+      - no entiendo mi bro
+      - como uso tu sistema
+      - ayuda con esto ps
+      - dame alcance
+      - toy bloqueado
+      - dime q hay de nuevo
+      - necesito saber mas
+      - ayudame chato
+      - q debo hacer ahora
+      - no entiendo la interfaz
+      - como se navega aca
+      - guianos en esto
+      - necesito indicaciones
+      - q se puede hacer x aqui
+      - ayuda bro
+      - ayudame con el uso
+      - necesito tu ayuda al toke
+      - explica a ver
+      - dame una guia xfa
+      - no entiendo q hacer
+      - ayudame con esta vaina
+      - como pido algo aca
+      - no se usar el bot
+      - como funka esta cosa
+      - kiero saber tus funciones
+      - echame un cable
+      - estoy perdido ak
+      - como empiezo con la app
+      - dime como pido reserva
+      - ayuda con el uso
+      - orientacion para novatos
+      - no encuentro como
+      - explica simple xfa
+      - como va la gestion
+      - q hago en este paso
+      - como me oriento aca
+      - no se por donde ir
+      - dame el manual ps
+      - como funciona pa vill salvador
+      - q puedo hacer cerca mio
+      - no le atino
+      - ayudame con la info
+      - como me apoyas tu
+      - q es lo q ofrecen
+      - no tengo idea q hacer
+      - guia porfa
+      - como uso tus cosas
+      - explica todo ps
+      - dime q mas haces
+      - q hay para mi aca
+      - me ayudas a ubicarme
+      - no entiendo esta interfaz
+      - dame las fijas de esto
+      - no se como operar
+      - dime como va esto
+      - asisteme xfa
+      - no lo entiendo bien
+      - como es el proceso de reserva
+      - q tengo q saber del bot
+      - no c como seguir
+      - ayuda con el registro
+      - como usarlo bien
+      - dame los pormenores
+      - q hago en mi primera vez
+      - como es para cancha libre 8pm
+      - orientame sobre tus servicios
+      - no se que significa esto
+      - dime las opciones de ayuda
+      - q hacer si estoy confundido
+      - como se hace la solicitud
+      - necesito soporte tecnico
+      - q onda con las reservas
+      - dame un norte de uso
+      - como me desenvuelvo aca
+      - no entiendo este modulo
+      - explica de forma sencilla
+      - q puedo hacer en la plataforma
+      - ayuda para configurar
+      - dime para q sirve esto
+      - como hago los tramites
+      - q puedo buscar aca
+      - no le agarro el truco
+      - como me guio en la app
+      - q es lo principal q hace
+      - ayudame a entender la logica
+      - no se como ir
+      - dime tus posibilidades
+      - q necesito saber
+      - como me asesoro
+      - no entiendo la pantalla
+      - q opciones hay para mi
+      - dame el alcance de esto
+      - no capto la vaina
+      - q hago x aki
+      - cmo le doy a esto
+      - toy perdido ps
+      - dime cmo le hago
+      - q hago pa seguir
+      - cmo funciona el celu aca
+      - apóyame con la app
+      - cmo hago pa pedir cancha
+      - q puedo hacer ps
+      - toy en nada con esta vaina
+      - una orientacion broer
+      - la movida cual es
+      - cmo se reserva una cancha
+      - quiero saber cmo usarlo
+      - q es lo q debo hacer
+      - a ver, cuentame cmo va
+      - dame una guia ps
+      - estoy confundio aca
+      - necesito q me des una mano
+      - cmo se configura esto
+      - no encuentro la opcion
+      - dime cmo empezar
+      - un cable con esto
+      - cmo se busca canchas
+      - toy en el aire con esto
+      - cual es el proceso aca
+      - no se cual es el rumbo
+      - q puedo hacer aqui
+      - dame una idea clara
+      - no se por dnd picar
+      - estoy mas perdido q ají
+      - cmo le meto mano a esto
+      - quiero entender la app
+      - estoy varado broer
+      - cmo se programa esto
+      - q hay q hacer pe
+      - apóyame con la configuracion
+      - q hago para ver canchas
+      - no se q se hace aki
+      - cmo hago pa entender
+      - explicate mejor ps
+      - estoy bloqueado chato
+      - dame los pasos ps
+      - no capto bien la onda
+      - cmo se ve la info
+      - estoy hecho un nudo
+      - no se cmo sigo
+      - q hago con esta opcion
+      - dame una pauta rapida
+      - estoy mareado de tanto texto
+      - q debo hacer exactamente
+      - no se cual es mi siguiente paso
+      - cmo pido el servicio
+      - cual es la onda aqui
+      - estoy en la luna con la app
+      - dame el secreto pe
+      - cmo se gestiona la reserva
+      - no se si toy bien
+      - q hago con los datos
+      - explícame la movida
+      - quiero saber q tal es esto
+      - cmo se maneja esta vaina
+      - necesito q me des una pista
+      - estoy en cero con esto
+      - q me dices de tus funciones
+      - cmo pido una cancha en vill salvador
+      - no entiendo na con esta app
+      - quiero entender la cosa
+      - cmo hago pa ubicar cancha cerca mio
+      - estoy enredado bro
+      - q debo presionar
+      - no se por dond empezar a buscar
+      - cmo hago pa reservar una cancha 8pm
+      - q es esto q veo
+      - dame un empujoncito
+      - estoy medio lento con esto
+      - toy perdido, hermano
+      - explicame pe
+      - como s usa esto
+      - q hago ahora broer
+      - una guia xfa
+      - como empiezo?
+      - q cosas sabes hacer tu
+      - ayudame con lo q sea
+      - como va esto?
+      - dame las fijas
+      - q es esto causa
+      - una manito ps
+      - iluminame
+      - q funcion tienes
+      - como t uso?
+      - estoy reconfundido
+      - bot dime algo
+      - no c ni pa q es
+      - una ayudadita bro
+      - explicame de nuev
+      - no comprendo
+      - necesito tu apoyo
+      - aclarame la vaina
+      - ayudita porfa
+      - explicame a mi pata
+      - no se q va primero
+      - me ayudas con lo basico
+      - dame un paso a paso
+      - q onda con este sistema
+      - echame una mano
+      - explica bien pe
+      - dime tus talentos
+      - no entiendo esto x villa el salvador
+      - dime q onda aqui en san juan
+      - como le hago por surco
+      - dame una pauta clara
+      - no se ni q es esto
+      - ayudame un poco
+      - me indicas xfavor
+      - dame tus truquitos
+      - necesito entenderte
+      - toy hecho un lio
+      - no me queda claro nada
+      - como pido bien
+      - me ayudas con la info
+      - estoy trancado
+      - dime el camino
+      - pa q sirves tu pe
+      - como se usa tu sistema
+      - que hago para q funcione
+      - necesito instruccion
+      - no c q hacer pa seguir
+      - dime q hago ps
+      - ayudame con las opciones
+      - q puedes ofrecerme aqui
+      - no le encuentro sentido
+      - guiame porfa
+      - dame el mapa
+      - no c por donde ir
+      - explica la jugada
+      - estoy rebotando
+      - no se q hacer brother
+      - dime tus funciones
+      - q mas tienes
+      - como uso esto
+      - no entiendo ni mela
+      - nesesito saver q aser
+      - como busco cancha
+      - q tengo q aser primero
+      - dame info xfa
+      - necesito ayuda con lo basico
+      - explikame el proceso
+      - guia rapida porfavor
+      - q cosas puedo aser
+      - nesesito las intrucciones
+      - dime para q sirves
+      - q debo teclear para empezar
+      - como hago la reserva de cancha libre 8pm
+      - explikame el bot
+      - orientame aca
+      - cm busco por surco
+      - q hay que hacer
+      - necesito saber los pasos
+      - no me queda claro esto
+      - como se usa pa' encontrar cancha
+      - q se puede hacer cerca mio
+      - no se cm avanzarr
+      - como se usa en villa el salvador
+      - explikame en sencillo
+      - q puedo aser aca
+      - q es lo primero q ago
+      - una ayudita porfa
+      - como encuentro una cancha libre
+      - explikame q es esto
+      - nesesito saber q hago
+      - estoy volando con la app
+      - como manejo el sistema
+      - no entiendo q botones apretar
+      - q puedo aser aca a mi alrededor
+      - explicame como es la jugada
+      - dame las fijas para usar esto
+      - q onda con el uso de la app
+      - nesesito q me expliques paso a paso
+      - estoy en blanco total
+      - quiero entender como funciona
+      - dame una guia completa
+      - no se como empezar a usar
+      - q me puedes ofrecer aca
+      - explikame las opciones
+      - nesesito saber como pido cancha cerca mio
+      - q debo saber para usar
+      - como hago la vaina esta
+      - me explicas rapido
+      - estoy trankado no entiendo
+      - q cosas puedo preguntar
+      - no c como moverme en la app
+      - explicame como funciona la reserva por surco
+      - q onda con el uso
+      - nesesito apoyo con esto
+      - como se usa pa' una cancha 8pm
+      - q hay q tener en cuenta
+      - quiero saber tus funciones
+      - dime como me puedes ayudar
+      - estoy varado no entiendo
+      - q se puede lograr con la app
+      - nesesito saber q mas hay
+      - explicame el funcionamiento
+      - como hago para usarlo bien
+      - q me recomiendas para empezar
+      - dame una mano para configurar
+      - no entiendo na de na
+      - q tengo q hacer para buscar en villa
+      - explicame el modo de uso
+      - quiero entender las bases
+      - nesesito ayuda pa entender
+      - como se hace pa reservar 8pm en surco
+      - q debo hacer con el bot
+      - como va esta vaina
+      - q debo poner
+      - toy perdio aki
+      - q ago si no entiendo
+      - necesito un jalón
+      - como hago la reserva x surco
+      - q onda con esto causa
+      - q puedo obtener
+      - me das la mano pe
+      - dime el rollo
+      - q cosas haces tu
+      - como pido alas 8pm
+      - no se por donde arrancar
+      - dime q puedo pedir
+      - estoy mas perdido q garrapata
+      - como le hago brother
+      - q se hace con esta app
+      - dame la info al toke
+      - q haces mano
+      - como llego aca a mi alrededor
+      - la firme no entendi nada
+      - q me ofreces pe
+      - quiero q me digas
+      - no c como es esto
+      - toy bloqueao no entiendo
+      - como te uso chato
+      - q me puedes enseñar
+      - explikame asi rapido
+      - dame las claves
+      - q tipo de cosas haces
+      - no la capto bien
+      - como le doy click
+      - q botones presiono
+      - me das el dato ps
+      - toy mas perdido q pulpo en garaje
+      - q se hace aca causa
+      - q cosas me das
+      - como lo configuro
+      - necesito saber q onda
+      - q es esto broder
+      - como consigo lo q quiero
+      - me puedes guiar un poco
+      - toy un poco confundio
+      - explikame el asunto
+      - q beneficios tengo
+      - como encuentro algo
+      - no entiendo pa na
+      - q hago en este lio
+      - q puedo esperar
+      - dame mas ideas
+      - explikame la forma
+      - no c como es la mecanica
+      - q cosas me puedes dar
+      - como lo pongo
+      - me puedes aclarar
+      - dame la posta
+      - como reservo x sjl
+      - dame las instrucciones ps
+      - q me das de ventaja
+      - me puedes guiar xfa
+      - como accedo al servicio
+      - toy en la luna
+      - q es lo q se puede
+      - dame los pasos clave
+      - como hago esto rapido
+      - q opciones me quedan
+      - no la entiendo
+      - q se tiene q hacer
+      - explicame como un amigo
+      - q hay pa mi aki
+      - me das un mapa
+      - q onda con los menus
+      - dime q es lo tuyo
+      - q tengo q hacer aca
+      - kmo se usa esto
+      - no capto na brother
+      - explkame ps
+      - toy perdido en esta vaina
+      - dame una mano cnmigo
+      - dame una guia pe
+      - kiero saber kmo empezar
+      - dime pa q sirves
+      - dime q puedes hacer por mi
+      - necesito un apoyo
+      - hablame q haces
+      - no se q es esto
+      - kmo reservo una cancha por surco
+      - explicame bien ps pa no perderme
+      - como consigo una cancha alas 8pm
+      - como va el sistema
+      - necesito ayuda con este tema
+      - estoy confunido q hago
+      - dime la fija de como va
+      - kmo funciona esta app
+      - cual es la jugada aca
+      - dime q
+      - q hago yo
+      - a ver ps
+      - q tal
+      - kien eres
+      - explicate
+      - necesito apoyo
+      - kmo se hace esto
+      - q tengo q marcar
+      - q boton apreto
+      - q pasos debo seguir
+      - necesito saber como
+      - como pido x mi zona
+      - toy mareado no entiendo
+      - como busco cancha en vill salvador
+      - explicame tus cosas
+      - dime todo ps
+      - kmo te uso causa
+      - necesito tu chamba
+      - necesito q me apoyes
+      - estoy desorientado aca
+      - kmo es el tramite
+      - dime q pasos doy
+      - como hago para reservar cerca mio
+      - explicame de cero
+      - no se ni kien eres
+      - hola q tal q me explikas
+      - q me puedes decir tu
+      - toy en dudas q hago
+      - como hago mi reserva
+      - q me ofreces ahora
+      - kiero saber q es esto
+      - dame una info
+      - necesito una ayuda rápida
+      - dime kmo funciona esta cosa
+      - como funciona la reserva pa el sabado 8pm
+      - no agarro un comino
+      - q cosa es esto
+      - estoy en ceros
+      - necesito una guia simple
+      - q puedo hacer por aca en surquillo
+      - dime q tienes tu
+      - me puedes explicar
+      - q tengo q saber
+      - kmo me muevo aqui
+      - q cosas haces tú
+      - dame la idea
+      - kmo va el tema
+      - necesito una respuesta
+      - como se reserva en cancha libre
+      - q funsiones tienes
+      - una explicacion xfa
+      - ayudame pe
+      - como pido mi kancha
+      - q puedo aser
+      - toy perdido man
+      - para q sirves bro
+      - q cosas sabes aser
+      - mi brother orientame
+      - como jala esto
+      - me explicas
+      - q hago si quiero una cancha
+      - q se puede hacer aki
+      - no encuentro el camino
+      - guíame un toq
+      - d q eres capaz
+      - tus capaccidades
+      - q tal explikame
+      - xfavor dame info
+      - indicame q hago
+      - un paso a paso
+      - como puedo pedir x surco
+      - se puede buscar cerca mio
+      - como busco por vill salvador
+      - si kiero una cancha libre alas 8pm
+      - q hago si es d noche
+      - como se pide x villa el salvador
+      - xplicame la jugada
+      - toy mareado
+      - tus servicios kuales son
+      - q hacemos ps
+      - estoy trankado
+      - como salir de esto
+      - kiero aprender a usarlo
+      - me das una guia
+      - q se puede hacer por aca
+      - dame la nota
+      - q plan puedo usar
+      - una orientacion general
+      - q tal explicas
+      - q mas haces
+      - q posibilidades tengo
+      - dame una explicacion chato
+      - estoy medio zoneado
+      - kiero entender como funsiona
+      - me das la fija
+      - la vdd no entiendo
+      - como te pido algo
+      - q se hace kon esto
+      - una mano con la aplicacion
+      - como puedo usar tu app
+      - me ayudas a entender la plataforma
+      - q cosas puedo hacer en esta app
+      - dame un alcancito
+      - no se el proceso
+      - me das la ruta
+      - q cosas hay para hacer
+      - kiero saber tus opciones
+      - como te pido cerca mio
+      - q hago si kiero algo pa la noche
+      - como te uso para mi zona
+      - no capto como va
+      - explikame de q se trata
+      - q tal todo, una explicacion
+      - una ayuda de emergencia
+      - dime las opciones
+      - como es la mecanica
+      - q puedo hacer con esto en san juan
+      - una guiada xfa
+      - como lo utilizo
+      - no la capto bien esto d aca
+      - dime q hago aca pe
+      - cmo se usa esta vaina compare
+      - dame una mano ps causa
+      - explica la jugada, porfa
+      - q se hace x aqui primero
+      - no entiendo na de lo q veo
+      - dime cmo funciona esto del todo
+      - toy mas perdido q huevo en ceviche
+      - orientacion xfa rapido
+      - q onda con este bot pe
+      - pasame la data q necesito al toke
+      - q hago primero con esto
+      - cmo pido un algo x aca
+      - no c q hacer en la app
+      - tirame la cuerda ps, una ayuda
+      - no me ubico bien donde estoy
+      - q puedo hacer contigo en este momento
+      - dame los pasos ps para seguir
+      - mandate tu floro ps
+      - ayudame porfa bateria
+      - cmo me apoyas tu en esto
+      - q es esto d aqui q no entiendo
+      - no me sale nada de lo q kiero
+      - dame luz pe con lo q veo
+      - q me estas ofreciendo ahora
+      - cmo hago para esto pe
+      - explica cmo se hace la vaina
+      - no entendi lo q dices hace un rato
+      - cuales son mis opciones por aca
+      - ayuda con esto xfa causa
+      - dime q puedo lograr con tu ayuda
+      - quiero entender cmo va la cosa
+      - cmo arranco con esto d una vez
+      - no c por donde ir para empezar
+      - q me dices q haga ahorita
+      - dame la fija de una vez pe
+      - cuales son tus funciones principales
+      - no entiendo q pedir por aqui
+      - q sabes hacer tu chato
+      - ayuda compare ps
+      - cmo me guias en la app
+      - no se usarlo bien esto
+      - q deberia hacer aca pe
+      - explicame rapido y claro
+      - cmo puedo ver las opciones
+      - no veo claro q hacer ahora
+      - dame una guia ps para avanzar
+      - necesito q me expliques todo
+      - cuales son los pasos a seguir
+      - q es lo q me recomiendas hacer
+      - no se bien q tengo q decirte
+      - pasame la informacion al toke ps
+      - cmo hago para este proceso pe
+      - dame el detalle xfa de lo q haces
+      - q tipo de ayuda das tu
+      - no se donde clickear en la pantalla
+      - cmo se maneja toda esta plataforma
+      - toy en la luna con lo q veo
+      - dime cmo te uso bien
+      - dime q hay disponible para mi
+      - dame ejemplos ps de lo q hace
+      - no capto bien la idea de la app
+      - una explicacion sencilla xfa
+      - q es lo q tengo q hacer exactamente
+      - cmo sigo la cosa por aqui
+      - pasame las fijas de cmo se usa
+      - necesito saber mas info
+      - cmo va el asunto este
+      - ilustrame sobre esta vaina pe
+      - no entiendo q poner aqui
+      - q puedo preguntar yo
+      - q me aconsejas hacer
+      - dame un norte para guiarme xfa
+      - no c usar esta app bien
+      - dime q mas hay de opciones
+      - dime tus potencialidades bot
+      - cmo puedo empezar con este rollo
+      - no estoy entendiendo bien q es lo q me pides
+      - guianos en esta parte causa
+      - necesito una instruccion rapida
+      - q es lo q hay q hacer aqui
+      - dime todo el procedimiento paso a paso
+      - q onda con el sistema este de aqui
+      - dame la pauta para empezar esto
+      - estoy bloqueado y no se q hacer
+      - cmo le doy para q funcione esto
+      - dame el camino a seguir ps
+      - no encuentro la forma de avanzar
+      - explicame tus usos y capacidades
+      - dime para q eres bueno bot
+      - q onda con la interfaz esta de la app
+      - cmo hago para desatascarme de esto
+      - necesito ayuda con la vaina esta
+      - q funciones tienes para ayudarme
+      - cuales son tus capacidades para esto
+      - no se q mover en esta pantalla
+      - dime las opciones de ayuda q me das
+      - q onda para usarlo al toque
+      - ayuda con el manejo de la app ps
+      - no c q hacer ahora mismo aqui
+      - como hago esto oe
+      - ayudame ps
+      - nesesito saber
+      - explikame porfis
+      - cmo pido un servicio
+      - estoy perdio aqui
+      - una explicacion rapida
+      - dime q puedo aser contigo
+      - no encuentro la forma
+      - no se k aser
+      - cmo empiezo
+      - explika bien pe
+      - toy en nada aca
+      - ayuda x vill salvador
+      - no entiendo por surco
+      - cmo busco cerca mio
+      - q hago a mi alrededor
+      - cancha libre 8pm cmo se reserva
+      - explicame como se usa este wsp
+      - nesesito ayuda con mi problema
+      - dame una idea de como usar
+      - q me ofreces manito
+      - ayuda pa entender
+      - como consigo info
+      - dime cmo te aprovecho
+      - explikame tus cosas
+      - nesesito un camino
+      - ayudame a resolver
+      - explicame con peras y manzanas
+      - pa q sirves en verdad
+      - nesesito una manito extra
+      - no entiendo q hace
+      - dime q puedo encontrar
+      - una explicacion breve
+      - como le entro a esto
+      - ayudame a enfocarme
+      - estoy mas perdido q chupete en arena
+      - ayuda con la interfaz
+      - que sabes hacer bot
+      - como se interactua
+      - nesesito un instructivo
+      - no entiendo q pides
+      - guianos porfavor
+      - nesesito saber q onda
+      - como funciona tu app
+      - ayudita con esto rapido
+      - q mas hay aqui
+      - nesesito entender lo basico
+      - cuales son las opciones de uso
+      - no entiendo el menu
+      - como se usa bien
+      - una guia completa
+      - nesesito una pauta
+      - dime la movida de esto
+      - explicame todo porfa
+      - ayuda pa navegar
+      - como es el rollo
+      - nesesito una senal
+      - como te pregunto
+      - no entiendo esta parte
+      - ayudame a descubrir
+      - stoy volando
+      - dime pa k
+      - como pido esto
+      - una ayuda xfa
+      - kiero saber como
+      - nidea de esto
+      - instruyeme
+      - mi pata dice q pida
+      - como sigo aca
+      - kiero ayuda ps
+      - no se moverme
+      - explikame chato
+      - stoy en ceros
+      - q se puede hacer
+      - dime q hago yo
+      - cual es la logica
+      - q se puede logra
+      - un apoyo pe
+      - orientacion rapida
+      - estoy quemao
+      - la verdad no c
+      - una luz ps
+      - q puedo hacer kn el
+      - xq no entiendo
+      - pa q sirve
+      - un favorcito
+      - no c como empezar
+      - guiarme porfa
+      - como puedo pedir
+      - stoy un poco perdido
+      - q cosas tiene este bot
+      - dime las cosas q puedes hacer
+      - como consigo un apoyo
+      - no se bien como es el proceso
+      - puedes darme una manito
+      - necesito como hacer mi reserva
+      - dame una idea de lo q se hace
+      - orientame x el sur
+      - q tal una guia pa novatos
+      - como es para buscar cancha
+      - estoy volando como una cometa
+      - q puedo hacer en vill salvador
+      - como pido algo cerca mio
+      - ayudita x la molina
+      - una manito kn esto del futbo
+      - no c q escribir aca
+      - q se hace por san juan
+      - como puedo hacer pa reservar una cancha libre
+      - estoy mas perdido q ajuga
+      - q se hace kn esta app
+      - orientame para las 8pm
+      - dame una mano con la busqueda
+      - como se hace pa una cancha
+      - dime q puedo hacer x la noche
+      - q haces por san miguel
+      - como pido pa cancha libre
+      - no c como es la jugada
+      - explicame q onda con las reservas
+      - necesito apoyo para el mediodia
+      - no entiendo la config
+      - dame los pasos para empezar
+      - kiero entender como funka
+      - stoy en nada con esto
+      - un favor para cancha
+      - no entiendo ni jota esto
+      - como hago p usar esta app
+      - ayudame no c q hacer
+      - q pongo aqui bro
+      - habla q onda como funciona
+      - explicame todo ps
+      - no entiendo bien como se pide
+      - como le hago pa reservar
+      - ayudame con lo del horario
+      - q se escribe para buscar
+      - habla bot no entiendo q pides
+      - explicame la movida de las canchas
+      - no entiendo como se hace pa pagar
+      - como hago pa confirmar
+      - ayudame con el registro ps
+      - q pongo si kiero ver disponibilidad
+      - habla ps como te uso
+      - explicame de cero pe
+      - no c ni x donde empezar
+      - dame una mano no entiendo nada
+      - q dato te doy
+      - habla explicame como busco por vill salvador
+      - explikame como se pide cancha por surco
+      - no entiendo q poner si es cerca mio
+      - como le hago si busco cancha libre alas 8pm
+      - ayudame a entender el sistema este
+      - q escribo para q me entiendas
+      - habla quiero una cancha, como es
+      - no entiendo q debo hacer
+      - una ayuda con los campos
+      - q pongo para mi zona
+      - habla ps, no capto
+      - explicame facilito pe
+      - no entiendo ni un carajo
+      - como se pide cancha pa hoy
+      - q pongo pa ver precios
+      - habla como va la cosa
+      - explicame pa reservar bien
+      - no c como pedir aca
+      - como le hago para buscar uno libre
+      - ayudame a usar este bot
+      - q escribo pa la fecha
+      - habla q opciones tengo
+      - explicame lo de la hora
+      - no entiendo como se confirma
+      - como hago pa cancelar
+      - una ayuda con mis datos
+      - q pongo en la direccion
+      - habla no entiendo de verdad
+      - explicame q puedo hacer contigo
+      - como hago para hablar con alguien
+      - ayudame xq toy perdido
+      - q pongo para q me guies
+      - habla man como funcionas
+      - explicame como si fuera un niño
+      - no entiendo q significa eso
+      - como hago pa modificar mi reserva
+      - ayudame con cualquier cosa
+      - q pongo si kiero info gral
+      - habla como obtengo una cancha
+      - explicame lo de la app
+      - no entiendo q va en el formulario
+      - como hago pa chatear
+      - ayudame a encontrar mi reserva
+      - q pongo para q me des ayuda
+      - habla causita como es la nota
+      - explicame como pido una cancha por surco
+      - no entiendo como le busco aca en mi barrio
+      - como hago pa buscar por vill salvador
+      - ayudame a ver las canchas q tienes disponibles
+      - q pongo si quiero una cancha libre alas 8pm
+      - habla no entiendo na de esto pe
+      - explicame los pasos para reservar una cancha cerca mio
+      - no entiendo q poner para q me muestres las canchas disponibles
+      - como hago para q me ayudes a reservar una cancha
+      - ayudame con la app
+      - q pongo aqui
+      - habla, explicame
+      - explicame bien
+      - q escribo ahora
+      - habla como le hago
+      - explicame la vaina
+      - q pongo pa empezar
+      - como hago pa la cancha
+      - ayudame oe
+      - q pongo para q funcione
+      - explicame lo basico
+      - ayudame broer
+      - q escribo pa buscar
+      - habla y dime
+      - como hago para seguir
+      - q pongo en el chat
+      - habla ps, como es
+      - no entiendo q ago
+      - ayudame con la chamba
+      - q pongo para entrar
+      - habla como le meto
+      - no entiendo q onda
+      - como hago esto
+      - ayudame man
+      - q pongo pa ver opciones
+      - habla, estoy perdido
+      - como hago pa surco
+      - ayudame con lo de ayer
+      - q pongo aca
+      - habla, q puedo hacer
+      - ayudame a buscar
+      - q pongo para cancha libre
+      - habla causa, dime
+      - explicame pa entender
+      - no entiendo xq no va
+      - como hago para 8pm
+      - ayudame con el bot
+      - q pongo pa ir a vill salvador
+      - habla como usar
+      - no entiendo bien esto
+      - como hago cerca mio
+      - ayudame con esta
+      - q pongo para el precio
+      - habla, q hago
+      - explicame el procedimiento
+      - ayudame con mi duda
+      - q pongo pa la ubicacion
+      - habla, orientame
+      - como hago para finalizar
+      - no entiendo naa
+      - una mano pe
+      - kiero saber como usar
+      - habla q pongo
+      - explikame como funciona
+      - no le entiendo a na
+      - como le hago causa
+      - q te tengo q decir
+      - explika pe xfa
+      - como lo hago por surco
+      - q escribo aca
+      - q pongo pa buscar
+      - habla q pasa
+      - explicame mas detallado
+      - no entiendo esto del bot
+      - como hago pa mi reserva
+      - dame una guia rapido
+      - habla q tienes
+      - toy perdio
+      - una mano pa empezar
+      - q tengo q poner
+      - habla q onda
+      - guiame un toke
+      - q debo digitar
+      - habla mi rey
+      - no entiendo la app
+      - como hago con la cancha libre 8pm
+      - ayudame por vill salvador
+      - q tengo q poner en el chat
+      - explicame bien pe
+      - no capto la info
+      - como hago pa encontrar
+      - habla q sabes hacer
+      - explicame la forma
+      - como me ubico aca a mi alrededor
+      - dame la mano con esto
+      - q pongo cerca mio
+      - habla compare
+      - explikame de frente
+      - como hago pa no perderme
+      - guiame un poco
+      - q le escribo al bot
+      - habla ps chato
+      - explicame con ejemplos
+      - como hago pa las alas 8
+      - q pongo si kiero buscar
+      - habla q tal esta la vaina
+      - explicame la chamba
+      - no se usarlo bien
+      - como hago pa ver las canchas
+      - dame una ayudadita
+      - q pongo pa la reco
+      - habla cual es la jugada
+      - explicame paso x paso
+      - q tengo q poner pa la hora
+      - habla explicame pe
+      - cmo es la cosa
+      - ayudame pe xfa
+      - q hago cuando no se
+      - habla q se supone haga
+      - explicame el manejo
+      - no entiendo lo de la reserva de cancha
+      - como hago pa pedir una cancha
+      - ayudame xq toy re perdido
+      - q pongo pa buscar canchas por surco
+      - habla cmo funciona este bot
+      - explicame como usarlo
+      - no entiendo na de esta app
+      - como hago si quiero cerca mio
+      - ayudame kon esto del programa
+      - q pongo si kiero cancha en vill salvador
+      - habla ps mi hermano no entiendo
+      - explicame los pasos a seguir
+      - no entiendo bien lo de ver las canchas
+      - como hago pa la hora tipo 8pm
+      - ayudame con mi busqueda de cancha
+      - q pongo para saber de canchas libres
+      - habla y dame una orientacion
+      - explicame q onda se hace aca
+      - no entiendo como pedir una cita
+      - como hago para reservar un dia
+      - ayudame a ubicarme en este chat
+      - q pongo pa encontrar cerca de mi
+      - habla pe, enseñame a usarlo
+      - explicame como es el flow
+      - no entiendo si cuesta o no
+      - como hago para ver horarios
+      - ayudame con el tema de la ubicacion
+      - q pongo si estoy en vill el salvador
+      - habla ps, dime q puedo hacer aqui
+      - explicame lo de la cancha libre
+      - no entiendo pa q sirve esta cosa
+      - como hago para filtrar por surco
+      - q pongo para una cancha a las 8pm
+      - habla broder, cmo se maneja
+      - explicame q son esos botones
+      - no entiendo la interfaz gráfica
+      - como hago para ver las canchas disponibles
+      - ayudame a poner la fecha de reserva
+      - q pongo si quiero algo por mi zona
+      - habla pe, ayúdame a usar el chat
+      - explicame xq toy bien confuso
+      - no entiendo bien lo de aca a mi alrededor
+      - como hago para consultar el costo
+      - ayudame con lo de la reserva por llamada
+      - q pongo para ver canchas en comas
+      - habla causa, cmo se usa esto
+      - explicame en corto
+      - no entiendo q me quieres decir
+      - como hago pa buscar cerca de mi jato
+      - ayudame a saber q tengo q escribir
+      - q pongo si no tengo ni idea
+      - habla ps, no se q preguntarte
+      - explicame el listado de opciones
+      - no entiendo cómo buscar en carabayllo
+      - como hago para confirmar una reserva
+      - ayudame si cometo un error
+      - q pongo si kiero informacion general
+      - habla como si habláramos en la calle
+      - explicame con palabras sencillas
+      - no entiendo q posibilidades me das
+      - como hago para anular la reserva
+      - ayudame con las normas del bot
+      - q pongo pa saber si hay multa
+      - habla claro ps
+      - q entiendes d mi ps
+      - como t uso este bot
+      - tus funciones q ace
+      - me entiendes o no ah
+      - q reportes tu das
+      - sabes d metricas o no
+      - ayuda p mi admin
+      - q cosa aces bot tu
+      - como se maneja la app
+      - estoy perdido q pongo
+      - q es lo q sabes tu
+      - no entiendo na d esto
+      - como t hago una pregunta
+      - q metricas entiendes bien
+      - m entiendes lo q t digo
+      - q funciones tiene esta vaina
+      - reportes admin q hay ps
+      - q sabes aser en si
+      - como usar esta app ah
+      - ayuda p el administrador
+      - q puedes aser en esto
+      - no c como empezar bien
+      - dime q reportes das aki
+      - metricas sabes dar tu
+      - m entiendes la onda o no
+      - como t uso para informacion
+      - q sabes d tus funciones
+      - q cosas tienes p aser aki
+      - reportes q das d mi admin
+      - q tal tu chamba bot
+      - m entiendes la consulta
+      - como se opera esto ps
+      - q reportes d admin ves
+      - no entiendo como pedir
+      - q funciones manejas tu
+      - q metricas puedes ver
+      - ayuda xq no entiendo na
+      - tu me entiendes osea
+      - q cosas puedes dar tu
+      - como t utilizo esta app d veras
+      - q se puede hacer aka
+      - q reporte me das
+      - entiendes lo q digo
+      - dime q funciones tienes
+      - q metrica entiendes
+      - para q eres util
+      - dame info
+      - necesito ayuda admin
+      - no entendi na
+      - como consigo reportes
+      - funciona cerca mio esto
+      - para q sirves porfa
+      - q ondas con las metricas
+      - bot explicame
+      - q cosa entiendes
+      - funciones q tienes
+      - orientame pofavor
+      - como llego a vill salvador con esto
+      - quiero saber q sabes
+      - para q sirve tu
+      - reportes de cancha 8pm
+      - ayuda pa ver canchas
+      - sabes de metricas
+      - no c q preguntas hacer
+      - explicame breve
+      - no me entiendes
+      - donde es surco con esto
+      - quiero ver tus funciones
+      - como t uso causa
+      - no entiendo ni jota ayudame
+      - q puedes hacer pe
+      - me entiendes o no ps
+      - q reportes das tu
+      - sabes de metricas admin
+      - ayuda para el admin
+      - q cosas sabes hacer
+      - como se pde pedir aca
+      - kiero ayuda nose q acer
+      - explicame tus funciones ps
+      - q cosa haces x mi

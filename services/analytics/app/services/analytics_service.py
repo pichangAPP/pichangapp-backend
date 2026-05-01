@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import date, datetime, time, timedelta, timezone
 from decimal import Decimal
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Sequence
 
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -222,6 +222,8 @@ class AnalyticsService:
         campus_id: int,
         *,
         traffic_mode: str = TRAFFIC_MODE_MONTHLY_WEEKDAY,
+        status: Optional[str] = None,
+        statuses: Optional[Sequence[str]] = None,
     ) -> CampusRevenueMetricsResponse:
         """Return detailed revenue metrics for the specified campus."""
         self._apply_read_only_tx_guards()
@@ -265,18 +267,24 @@ class AnalyticsService:
                 campus_id=campus_id,
                 start_at=start_of_today,
                 end_at=start_of_tomorrow,
+                status=status,
+                statuses=statuses,
             )
             week_total = fetch_campus_income_total(
                 self._db,
                 campus_id=campus_id,
                 start_at=week_start,
                 end_at=week_range_end,
+                status=status,
+                statuses=statuses,
             )
             month_total = fetch_campus_income_total(
                 self._db,
                 campus_id=campus_id,
                 start_at=month_start,
                 end_at=month_range_end,
+                status=status,
+                statuses=statuses,
             )
 
             weekly_daily_income_rows = fetch_campus_daily_income(
@@ -284,12 +292,16 @@ class AnalyticsService:
                 campus_id=campus_id,
                 start_at=week_start,
                 end_at=week_range_end,
+                status=status,
+                statuses=statuses,
             )
             monthly_daily_income_rows = fetch_campus_daily_income(
                 self._db,
                 campus_id=campus_id,
                 start_at=month_start,
                 end_at=month_range_end,
+                status=status,
+                statuses=statuses,
             )
 
             if traffic_mode == TRAFFIC_MODE_DAILY_LAST7:

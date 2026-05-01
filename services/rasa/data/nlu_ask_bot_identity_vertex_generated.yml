@@ -1,0 +1,65 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_bot_identity
+    examples: |
+      - cm te yamas
+      - tu nmbre cual
+      - kien eres tu k m atiendes
+      - eres el chato?
+      - con qien estoy hablando ahora
+      - komo te digo para hablarte
+      - eres bot ps
+      - q nombre tienes
+      - tu eres el asistente?
+      - qien me habla
+      - cm se dice tu
+      - con quien es esto
+      - eres maquina o gente
+      - dime tu gracia cual es
+      - eres el d pichangapp?
+      - kiero saber tu nombree
+      - tu noombre cual es
+      - eres de por aca?
+      - con qien chateo
+      - q bot eres tu
+      - este robot qien es
+      - como se te llama
+      - eres chato el d la cancha?
+      - quien eres de villa el salvador
+      - tu nombre es chiquito?
+      - como te identifico
+      - dime ps qien eres
+      - tu q bot eres xfa
+      - cn kien me comunico
+      - el q me habla quien es
+      - q nombre tienes?
+      - kmo te yamas
+      - kien ablo?
+      - tu nomvre cual es?
+      - eres un bot verdad?
+      - con kien estoy charlando?
+      - komo te digo yo?
+      - tu eres chato?
+      - kual es tu nombr mijo
+      - kien eres tu asi
+      - kon kien ablo?
+      - dime tu gracia ps
+      - kmo t yaman?
+      - eres el q ayuda?
+      - kien te puso el nomre
+      - tu nombre? asi no mas
+      - q bot eres causita?
+      - a kien le estoy escribiendo?
+      - tu eres d aca?
+      - komo te digo en mi barrio?
+      - cual es tu chapa?
+      - eres el asisten pa 8pm?
+      - kien eres el de la pichanga?
+      - con kien hablo por este medio?
+      - como t identifico
+      - tu nomre como se dice?
+      - a kien tengo aca?
+      - kien eres dime pues
+      - tu eres una maquina o q?
+      - dime tu nombre asi rapido

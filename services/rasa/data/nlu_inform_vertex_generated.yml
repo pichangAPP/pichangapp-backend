@@ -1,0 +1,4529 @@
+version: "3.1"
+
+nlu:
+  - intent: inform
+    examples: |
+      - en [Ate](location)
+      - por [Breña](location)
+      - en [Chorrillos](location)
+      - en [Jesús María](location)
+      - por [Rímac](location)
+      - en [San Juan de Miraflores](location)
+      - por [Comas](location)
+      - en [San Miguel](location)
+      - por [Pachacámac](location)
+      - en [Santa Anita](location)
+      - para [hoy](date)
+      - para [mañana](date)
+      - para [este sábado](date)
+      - para [el domingo](date)
+      - para [la próxima semana](date)
+      - para [el 21 de junio](date)
+      - para [el 15 de agosto](date)
+      - para [fin de mes](date)
+      - por la [tarde](time)
+      - por la [noche](time)
+      - por la [mañana](time)
+      - a las [18:00](time)
+      - a las [19:30](time)
+      - a las [20:00](time)
+      - después de las [9pm](time)
+      - antes de las [6pm](time)
+      - entre [18:00](time) y [20:00](time)
+      - para [fútbol](sport)
+      - para [fulbito](sport)
+      - para [vóley](sport)
+      - para [tenis](sport)
+      - para [básquet](sport)
+      - somos [6](num_players)
+      - somos [8](num_players)
+      - somos [10](num_players)
+      - somos [12](num_players)
+      - para [14](num_players) personas
+      - para [16](num_players) jugadores
+      - de [grass sintético](surface)
+      - de [grass natural](surface)
+      - de [losa deportiva](surface)
+      - de [losa de cemento](surface)
+      - con [duchas](amenities) disponibles
+      - con [estacionamiento](amenities) amplio
+      - con [vestuarios](amenities) limpios
+      - con [iluminación](amenities) buena
+      - con [camerinos](amenities)
+      - que tenga [baños](amenities)
+      - con [parrilla](amenities)
+      - que sea [techada](amenities)
+      - que incluya [graderías](amenities)
+      - que incluya [cafetería](amenities)
+      - con [tienda deportiva](amenities)
+      - que tenga [seguridad](amenities)
+      - con [estacionamiento privado](amenities)
+      - necesito [buena iluminación](amenities)
+      - tamaño [pequeña](field_size)
+      - tamaño [mediana](field_size)
+      - tamaño [grande](field_size)
+      - tamaño [completa](field_size)
+      - busco una cancha [pequeña](field_size)
+      - quiero un campo [grande](field_size)
+      - necesito una cancha [pequeña](field_size) para pocos jugadores
+      - prefiero una cancha [grande](field_size)
+      - una cancha [mediana](field_size) está bien
+      - que sea cancha [completa](field_size)
+      - algo [pequeña](field_size) para fulbito
+      - un campo [grande](field_size) para fútbol
+      - [S/60](budget) máximo
+      - [S/80](budget) de presupuesto
+      - tope de [S/100](budget)
+      - presupuesto [80 soles](budget)
+      - máximo [120 soles](budget)
+      - [fútbol](sport) en [Ate](location)
+      - [vóley](sport) en [San Miguel](location)
+      - [tenis](sport) por [Jesús María](location)
+      - [básquet](sport) en [Breña](location)
+      - [fulbito](sport) por [Comas](location)
+      - [hoy](date) por la [noche](time)
+      - [mañana](date) a las [20:00](time)
+      - [este sábado](date) por la [tarde](time)
+      - [fútbol](sport) para [10](num_players)
+      - [vóley](sport) para [8](num_players)
+      - [grass sintético](surface) con [duchas](amenities)
+      - [losa deportiva](surface) con [iluminación](amenities)
+      - [S/90](budget) en [Chorrillos](location)
+      - [S/70](budget) por [San Juan de Miraflores](location)
+      - [fútbol](sport), [hoy](date), [20:00](time)
+      - [tenis](sport), [mañana](date), [19:00](time)
+      - [vóley](sport), [este domingo](date), [18:30](time)
+      - [Ate](location), [grass sintético](surface), [S/80](budget)
+      - [Breña](location), [losa deportiva](surface), [S/60](budget)
+      - [Comas](location), [duchas](amenities), [20:00](time)
+      - [San Miguel](location), [estacionamiento](amenities), [S/100](budget)
+      - [Rímac](location), [iluminación](amenities), [fútbol](sport)
+      - [Pachacámac](location), [vestuarios](amenities), [vóley](sport)
+      - [Surco](location), cancha [grande](field_size), con [duchas](amenities)
+      - [Miraflores](location), cancha [mediana](field_size), con [estacionamiento](amenities)
+      - [Ate](location), cancha [pequeña](field_size), con [iluminación](amenities)
+      - [San Borja](location), cancha [completa](field_size), con [camerinos](amenities)
+      - me interesa el [balonmano](sport)
+      - juego [vóley](sport) los martes
+      - para un partido de [básquet](sport) chévere
+      - un campito para [futsal](sport) a la mano
+      - en [Ate](location) tienes algo?
+      - cerca a [Chorrillos](location) porfa
+      - en el [Callao](location) se puede?
+      - por [Breña](location) si hay
+      - en el [Rímac](location), si es posible
+      - el día [jueves](date) por la noche
+      - el [sábado 15](date) de diciembre
+      - para [este feriado](date)
+      - el [siguiente martes](date) por la tarde
+      - a eso de las [siete de la noche](time)
+      - tipo [9pm](time) el lunes
+      - después de las [10pm](time) de repente
+      - máximo [cien soles](budget)
+      - mi presupuesto es de [S/90](budget)
+      - pagaría hasta [setenta lucas](budget)
+      - somos [siete](num_players) personas
+      - para [nueve](num_players) patas
+      - un grupo de [seis](num_players) chibolos
+      - para [once](num_players) jugadores, si hay
+      - cancha de [tierra](surface) me da igual
+      - prefiero [pasto sintético](surface)
+      - que sea [losa](surface) deportiva por fa
+      - una canchita con luces
+      - que tenga camerinos y duchas
+      - con estacionamiento propio
+      - un local que tenga parrilla, bacán
+      - busco para fulbito en la noche
+      - mi deporte favorito es el vóley
+      - necesito una canchita por Chorrillos
+      - somos 9 patas para jugar
+      - que sea con cancha de cemento
+      - tengo unas setenta lucas para gastar
+      - puedo jugar el jueves por la tarde
+      - a eso de las 6 y media
+      - pa' la quincena de este mes
+      - en el Callao si hay
+      - pa' jugar tenis de mesa
+      - estamos buscando para 11 jugadores
+      - no quiero que pase de 90 soles
+      - me gustaría un campo de tierra
+      - a la hora punta, porfa
+      - para jugar el próximo domingo
+      - por el Cercado de Lima
+      - el deporte que practicamos es futsal
+      - somos un grupo de 15 personas
+      - necesito que tenga piso de parquet
+      - cuanto menos, mejor
+      - para la madrugada de mañana
+      - para la zona de Ate
+      - juego de paleta
+      - queremos ser 7 en cancha
+      - que tenga buena iluminación
+      - lo más barato posible, hermano
+      - cualquier día de esta semana
+      - por San Juan de Miraflores
+      - el deporte es el handball
+      - Busco una cancha para [vóley](sport).
+      - Quiero una en el distrito de [Chorrillos](location).
+      - Mi presuspuesto es de [noventa soles](budget).
+      - Preferimos cancha de [cemento](surface).
+      - Para unos [ocho jugadores](num_players).
+      - Por la zona de [Jesús María](location).
+      - Somos [doce personas](num_players) en el equipo.
+      - Busco una cancha con tribunas.
+      - Me gustaría que tenga buena iluminación.
+      - Con estacionamiento sería ideal.
+      - A eso de las [siete y media de la noche](time).
+      - Para el [jueves feriado](date).
+      - Superficie de [arena](surface).
+      - Unos [cien soles](budget) como máximo.
+      - Jugamos [vóley playa](sport).
+      - Para el [marte 20 de agosto](date).
+      - Para [diez jugadores](num_players).
+      - Desde las [seis de la tarde](time) hasta las [ocho de la noche](time).
+      - En el distrito de [San Martín de Porres](location).
+      - Una con vestuarios, porfa.
+      - Quiero jugar [tenis](sport).
+      - No más de [setenta soles](budget).
+      - Cancha [multipropósito](surface) de preferencia.
+      - Para la primera semana de [diciembre](date).
+      - Sería bueno que sea a las [18:45](time).
+      - Que tenga una pequeña tienda para comprar agua.
+      - Busco para un grupo de [quince amigos](num_players).
+      - Lo quiero pa [futbol sala](sport).
+      - El precio maximo es de [ciento cincuenta soles](budget).
+      - Necesito que tenga áreas verdes cercanas.
+      - Lo mío es el [fulbito](sport), pa'
+      - Tengo para gastar como [100 soles](budget), nada más
+      - Somos unos [7 u 8](num_players) jugadores, más o menos
+      - Preferiría que sea de [tierra](surface), si es posible
+      - Una canchita por el [Callao](location), si sabes
+      - Me gustaría el [miércoles](date), en la tardecita
+      - Para jugar [volley](sport) en [La Punta](location) el [sábado](date) en la [noche](time)
+      - Algo con camerinos, por favor
+      - Sí, esa opción me gusta
+      - Que no pase de [150 soles](budget) y somos [11](num_players)
+      - Un partido de [básket](sport), pero en [losa techada](surface)
+      - Pa' este [finde](date), el [domingo](date) a eso de las [4pm](time)
+      - Por el [Rímac](location), que tenga buen estacionamiento
+      - Te comento que somos [9](num_players) y queremos jugar [fútball sala](sport)
+      - Nos gustaría jugar el [miercoles](date), porfa
+      - Con un presupuesto de [cien lukas](budget), por [Santiago de Surco](location)
+      - De preferencia a partir de las [7](time), antes no puedo
+      - Para un picadito de [14](num_players), que sea al aire libre
+      - En el [Agustino](location), para un encuentro de [vóley](sport)
+      - Necesito el [23 de noviembre](date), a las [siete y media](time)
+      - Si hay canchas con buena iluminación, mejor
+      - Sí, ése horario me cae a pelo
+      - Una [pichanga](sport) de [5](num_players), en canchita chiquita
+      - Por [San Juan de Miraflores](location), por la [noche](time)
+      - Que no exceda los [90 soles](budget), y que sea de [cemento](surface)
+      - Somos [diez](num_players) y queremos jugar el [prox domingo](date)
+      - Necesito que sea techado sí o sí, llueve a veces
+      - Para un partido de [handboll](sport), máximo [S/130](budget)
+      - En [Chorrillos](location), alguna que tenga área para esperar
+      - [Este viernes](date), para [diez personas](num_players), en la [tarde](time) por [Miraflores](location), no más de [120 soles](budget), y que sea de [grass sintético](surface).
+      - por mi barrio nomas
+      - cerca d casa
+      - tipo 4 d la tarde
+      - pa fin de mes
+      - max 90 lucas
+      - kiero voley
+      - somos 5
+      - con gras artificial
+      - mañana en la nochecita
+      - 20 lucas x hora
+      - aqui cerca a mi
+      - para el 12 d dic
+      - cancha d losa
+      - para 7 personas
+      - otro dia ps
+      - el presupuesto es 75
+      - x ahi por la victoria
+      - a las 7:15
+      - para el 23 de nov
+      - unos 14 jugadores
+      - cancha techada
+      - solo 60 soles
+      - pa Villa Maria
+      - tipo 11pm
+      - la quincena
+      - jugar boli
+      - grama sintetica me gusta
+      - unos 11
+      - en el callao
+      - no tengo mucho presupuesto
+      - por las 9 y media
+      - cualquier dia
+      - cancha d cemento
+      - somos equipo completo
+      - cerca a la UTP
+      - el 28 d este mes
+      - max 50 soles
+      - a las 10y45am
+      - en san juan
+      - cerca al estadio
+      - por rimac
+      - a las diez
+      - pa el domingo
+      - cincuenta lucas
+      - solo 90
+      - voleybol
+      - somos seis
+      - en cañete
+      - tipo 8
+      - pa la prox semana
+      - maximo 100
+      - para 12
+      - por la molina
+      - en el agustino
+      - 9 de la noche
+      - este sabado en la tarde
+      - sesenta soles
+      - once patas
+      - cancha iluminada
+      - en ventanilla
+      - por ate
+      - alas 4pm
+      - el 20 del prox mes
+      - un 70
+      - solo futsal
+      - somos 8 y un suplente
+      - con pasto sintetico
+      - aqui nomas
+      - cerca mio
+      - aca a mi alrededor
+      - cancha libre 8pm
+      - vill salvador
+      - a las 7 d la noxe
+      - fulbito nomas
+      - pa 10 personas
+      - s/ 90 lucas
+      - mañna temprano
+      - grass sintetiko
+      - en la victoria
+      - por el cono norte
+      - pa este sabado
+      - tipo 8 d la noxe
+      - mi zona es breña
+      - pa 7 patas
+      - max 100 soles
+      - por chaclacayo
+      - a las 6pm ps
+      - en comas
+      - con luz
+      - canchita techada
+      - pa el miercoles
+      - aqui x la molina
+      - unos 8 jugadores
+      - cien lucas el max
+      - despue d las 5
+      - en san martin
+      - pa el 20 d dic
+      - x callao
+      - pa la prox sem
+      - alas 9:30 d la noxe
+      - somos 12 patas
+      - presu d 110
+      - zona centro
+      - x [mi ksa](location)
+      - por [el centro](location)
+      - en [la perla](location)
+      - x [smp](location)
+      - [chorrillos](location) p
+      - [surco viejo](location)
+      - por [pachacamac](location)
+      - en [la punta](location)
+      - a la [1pm](time:13:00)
+      - [tipo 11 d la noxe](time:23:00)
+      - pa las [4pm](time:16:00)
+      - a las [9 d la noxe](time:21:00)
+      - [tipo 6pm](time:18:00)
+      - alas [7](time:19:00)
+      - al [mediodia](time:12:00)
+      - [tempranito tipo 8](time:08:00)
+      - pa las [10am](time:10:00)
+      - entre [5 y 6 d la tarde](time:17:00-18:00)
+      - despues d las [9](time:21:00)
+      - antex d las [5](time:17:00)
+      - el [jueves q viene](date)
+      - pa el [sabado](date)
+      - la [otra semna](date)
+      - el [24](date)
+      - en [dic](date)
+      - [proximo mes](date)
+      - [fin d semna](date)
+      - en [un par d dias](date)
+      - este [lunes feriado](date)
+      - pa [pichanga](sport)
+      - somos [5](num_players) nomas
+      - pa [9](num_players)
+      - [11 patas](num_players:11)
+      - [cien lucas](budget:100)
+      - [sanjuan de miraflores](location) nomas
+      - por [vmt](location) ps
+      - [comas](location) xfa
+      - en [puente piedra](location) xfa
+      - a las [siete y media](time)
+      - [mañana](date) en la tarde
+      - max [ochenta luqitas](budget)
+      - somos [cinco](num_players)
+      - [surco](location) cerca a mi casa
+      - [ocho pm](time) libre
+      - el [sabado](date) temprano
+      - cancha en [ate](location)
+      - para [ocho personas](num_players)
+      - solo [sesenta soles](budget)
+      - despues de las [cinco](time)
+      - cerca mio en [smp](location)
+      - [esta noche](date)
+      - maximo [cien](budget)
+      - somos [diez](num_players) q kieren jugar
+      - aki a mi [alrededor](location)
+      - x [vill el salvador](location)
+      - a la [medianoche](time)
+      - el [viernes](date) en la mañana
+      - solo [noventa soles](budget)
+      - [ocho amigos](num_players)
+      - [grass artificial](surface)
+      - por [chorrillos](location) nomas
+      - antes de las [seis](time)
+      - el [domingo](date) sin falta
+      - [futbol campo](sport)
+      - hasta [setenta luqitas](budget)
+      - [siete jugadores](num_players)
+      - en la [noche](time) tipo [9](time)
+      - por chorrillos
+      - en ate vitarte
+      - x mi barrio
+      - alas 6pm
+      - maso a las 7
+      - tipo 9 d la noche
+      - en la mñna
+      - tempranito
+      - para el sabado
+      - este domigo
+      - la prox semana ps
+      - el 15 d este mes
+      - cuanto es la plata
+      - maximo 90 lucas
+      - presupuesto cien soles
+      - basket porfa
+      - pa 12 patas
+      - con grass natural
+      - quiero losa
+      - techada si o si
+      - disponible
+      - que sea libre
+      - lurin porfa
+      - rimac mi gente
+      - ventanilla
+      - cancha cerca a mi
+      - v.e.s. ps
+      - pa mañana en la tarde
+      - d las 5 a 7
+      - dos horas
+      - en la nochecita
+      - pa 8 patas
+      - fulbo
+      - para 6 jugadores
+      - mi deporte es box
+      - a las 5 y media
+      - pastito natural
+      - q sea cerrado
+      - en el centro
+      - presupuesto 75 luquitas
+      - pa 4x4
+      - a las 10 d la noxe
+      - el 31 de diciembre
+      - x chorrillos
+      - maximo 120
+      - pa fronton
+      - cancha con pasto
+      - somos 9 personas
+      - de 10am a 12m
+      - el 1ro de enero
+      - x san miguel
+      - con luces
+      - hasta 50 soles
+      - pa handball
+      - cancha con gras
+      - pa 14 jugadores
+      - el miercoles q viene
+      - por la victoria
+      - maximo ochenta
+      - voley playa
+      - superficie de tierra
+      - somos 12 chicas
+      - para la tarde-noche
+      - el feriado largo
+      - aca por lince
+      - con servicios
+      - pa el miercoles q viene
+      - cancha libre el juevez
+      - pa mañana en la tard
+      - tipo 7 d la noxe
+      - a las 9:30
+      - sesenta lucas x hora
+      - presio setenta lucas
+      - cerca de mi chamba
+      - aki nomas xfa
+      - pa once personas
+      - solo pa basket
+      - kiero jugar voley
+      - superficie d losa
+      - cancha con techo
+      - con iluminasion
+      - pa estacionar
+      - pa la otra semana
+      - antes d las 6
+      - como a las 8 y 45
+      - el lunes o martes
+      - pa las 10 d la mañana
+      - cincuenta soles maximo
+      - precio fijo
+      - barrio san clemente
+      - cerca al parqe
+      - pa fulbito nomas
+      - q sea techada
+      - pa nueve jugadores
+      - solo pa 7pm
+      - ochenta solcitos
+      - cerca al mercado
+      - a media tarde
+      - q sea pa sabado
+      - costo cien soles
+      - mi deporte es voley
+      - con gras natural
+      - a las 5pm xfa
+      - x Miraflores
+      - mañana ps
+      - tipo ocho
+      - futbito
+      - ochenta soles
+      - pa el martes
+      - unos 100 lucre
+      - d aqui a 3 dias
+      - a la nochecita
+      - volley
+      - maximo 60
+      - canchita d tierra
+      - San Juan d Miraflores
+      - domingo si o si
+      - las 6pm
+      - fronton
+      - mi presupuesto 90
+      - kiero d cemento
+      - en Callao
+      - pa fin d mes
+      - tipo 19h
+      - pelota
+      - unos 75 so
+      - por Surquillo
+      - miercoles en la tarde
+      - alas diez
+      - handball
+      - aca a la vuelta
+      - este jueves mismo
+      - a las cuatro d la tarde
+      - tenis d campo
+      - cerca mio ps
+      - por la zona
+      - aca cerka d mi
+      - 6 d la tarde
+      - pa la noxe tipo 7
+      - 8 y media nomas
+      - tempranito 7 am
+      - el dia juevs
+      - el marte
+      - prox semana nomas
+      - pa la primera d dic
+      - en unos dias
+      - 90 soles nomas
+      - maximo 110
+      - q no pase d 70
+      - algo baratito ps
+      - de basket
+      - quiza 10
+      - 12 x ahi
+      - 8 jugadores max
+      - pastito real
+      - piso d cemento
+      - techado si o si
+      - kiero con luces
+      - cancha al aire libre
+      - lince porfa
+      - santa anita city
+      - en jesus maria
+      - la molina x ahi
+      - callao x mi zona
+      - en bellavista
+      - tipo ocho y media
+      - solo el jueves
+      - pa sesenta soles
+      - fulbito causa
+      - q sea sintetico
+      - somos nueve
+      - cerca d mi jao
+      - por las siete y media
+      - pa el dia siguiente
+      - maximo ochenta lucas
+      - unos once patas
+      - en san juan de mira
+      - nueve en la noxe
+      - para el fds
+      - cien mangos
+      - basket pe
+      - losa nomas
+      - pa doce personas
+      - aca x mi ksa
+      - ocho libre
+      - pa el dominguin
+      - setenta soles
+      - kiero baloncest
+      - grama natural q sea
+      - solo diez ps
+      - a las seis y algo
+      - la prox semana na
+      - lo q sea de noventa
+      - de losa no mas
+      - pa ocho o nueve
+      - en lurin xfa
+      - a las cinco de la tarde
+      - para el veintitres
+      - cincuenta lukas
+      - por aca nomas
+      - en sjl
+      - chorrilos
+      - vill el salvador
+      - en lurin
+      - alas 7:30 xfa
+      - tipo 10 d la noxe
+      - a 8pm puede ser
+      - mas o menos alas 5
+      - antes d las 6pm
+      - tipo 11 am
+      - a la 1 y media
+      - pa las 6:30
+      - en la tarde
+      - despues de las 9
+      - el lunes en la tarde
+      - el domigo q biene
+      - quincena d dicimbre
+      - en enero
+      - la otra semana
+      - el 25 de este mes
+      - para agosto
+      - máximo 90 lukas
+      - mi presuspuesto es 70
+      - max 120
+      - solo quiero fulbito
+      - un voley
+      - de basket nomas
+      - somos 7
+      - pa 9 personas
+      - cancha sintetica
+      - aca en la victoria
+      - mi zona pues
+      - por ate vitarte
+      - por sjl pe
+      - cerca d mi casa
+      - x puente piedra
+      - alas 9 pm
+      - en la noche
+      - x la tarde
+      - mañanita
+      - tipo 6
+      - mas tarde
+      - en la tarde noche
+      - temprano en la mñna
+      - antes q oscurezca
+      - alas 8
+      - el finde
+      - la proxima semana
+      - pa este viernes
+      - el sabado k viene
+      - el otro dia
+      - el 15 nomas
+      - pa el 10
+      - d aca a tres dias
+      - cien soles
+      - 70 lukas
+      - lo mas barato
+      - maximo 80
+      - uno d 50 soles
+      - un precio comodo
+      - ciento veinte
+      - menos d 100
+      - 90
+      - q no sea caro
+      - pa las 9
+      - ocho y media
+      - mi casa ps
+      - por el rimac
+      - kiero fulbito
+      - maximo cien soles
+      - el proximo miercoles
+      - domingo q viene
+      - somos 7 tios
+      - para 11 jugadores
+      - canchita de losa
+      - en breña
+      - por cieneguilla
+      - a las 10am
+      - por la nochecita
+      - por ventanilla
+      - x la molina
+      - comas centro
+      - lo olivos
+      - barranco xfa
+      - pblo libre
+      - sjm
+      - callao
+      - por la perla
+      - ate vitarte
+      - si san isidro
+      - por sjl
+      - smp
+      - rimak
+      - miraflores ahi
+      - alas 8pm
+      - tipo 7pm
+      - ala 9 d la noche
+      - antes de las 6
+      - despues delas 10
+      - en la mañana temprano
+      - pal medio dia
+      - para este finde
+      - el domingo q viene
+      - este sabado
+      - el lunes nomas
+      - pa la semana q viene
+      - maximo 100 soles
+      - un ciento
+      - unos 70 lukas
+      - mi barrio ps, aca cerca
+      - x vill maria y al toke
+      - por sjl en la noxe
+      - ate vitarte pa mañana
+      - chorrillos para fulbito
+      - cono norte para el domingo ps
+      - pa el cono sur temprano como a las 5
+      - en pte piedra a las 6pm noma
+      - sjm a la ocho y cerca mio
+      - callao este finde, para 8
+      - mas tarde para basket con 100 lucas
+      - en la noxe, aca a mi alrededor
+      - al toke si hay cancha libre ps
+      - tipo 7 para 7 jugadores con grass
+      - 6pm pa el prox viernes en pte piedra
+      - a la ocho en dos dias mas, por aca
+      - temprano y techada por vill salvador
+      - 5 d la tarde para voley en mi zona
+      - x la mañana en mi chamba
+      - a las 9 con grass natural noma
+      - hoy dia con 60 lucas es mi max
+      - el sabado ps, somos 10
+      - pa el domingo cerca de mi jato
+      - la proxima semana en la victoria
+      - este finde pa 8 jugadores
+      - pa mañana y barato en la perla
+      - en dos dias mas ps con 70 noma
+      - el prox viernes en la noxe y techada
+      - pa el 24 de este mes, 8pm
+      - 60 lucas es mi max, cancha libre
+      - 110 soles no mas, con loza
+      - 70 noma pa mi gente
+      - barato ps, 50 soles maximo nomas
+      - max 90 lucas con loza y techada
+      - fulbito para 10, cualquier cancha
+      - basket en la perla, pa 7
+      - voley ps en la cuadra, temprano
+      - grass natural para 6 jugadores, aca
+      - cancha libre 8pm en surco
+      - vill salvador 7pm, pa 10
+      - alas 8 y 30
+      - para el jueves q viene
+      - q sea de grass
+      - somos 9 patas
+      - por sjm
+      - kiero pa la noche
+      - el 25 de dic
+      - un volley
+      - por ahi cercaa
+      - en mi barrio
+      - pa mañana xfa
+      - a las 7
+      - basket pa 10
+      - q tenga techo
+      - un billete de 50
+      - aca cerca mio
+      - el prox martes
+      - futbol sala
+      - en el rimac
+      - kiero losa
+      - pa 70 soles
+      - 11 jugadores
+      - ala 6pm
+      - este viernes
+      - cancha libre 9pm
+      - pa la tarde tipo 5
+      - d grass sintetiq
+      - solo 8
+      - el 10/11
+      - pa hoy mas tard
+      - doscientos soles
+      - balonmano
+      - a las siete y cuarto
+      - x [surco](location)
+      - [sjl](location) ps
+      - x el [callao](location)
+      - en [comas](location) mano
+      - [miraflores](location) xfa
+      - mi barrio es [ate](location)
+      - mas al norte
+      - en la noxe
+      - tipo [9 de la noxe](time)
+      - despues de las [9pm](time)
+      - entre [5](time) y [7](time)
+      - [oy](date) mismo
+      - [mñn](date) en la tarde
+      - el [viernes](date) pe
+      - el [10 de diciembre](date)
+      - la prox [semana](date)
+      - este [finde](date)
+      - [50 lucas](budget)
+      - max [70](budget)
+      - hasta [80](budget)
+      - [futsal](sport) ps
+      - [voley](sport) xfa
+      - [basquet](sport) nomas
+      - kiero [fronton](sport)
+      - unas [10 personas](num_players)
+      - para [8](num_players) q t parese
+      - [grass sintetico](surface) ps
+      - cancha de [loza](surface)
+      - q kiero jugar futbol con mis patas el domi
+      - por aca por mi casa x las siete esquinas
+      - necesito una cancha por el sur de lima
+      - somos como diez pero kiza vengan mas
+      - pa una hora tipo 9 de la noxe sta bien
+      - presupuesto maximo es de cien soles no mas
+      - el dia q sea posible pero q sea en la tarde
+      - busco algo con grass o con loza de cemento
+      - el deporte es voley pa jugar en la noche
+      - el dia 20 de este mes a ver si hay cancha
+      - pasado mañana ps
+      - a las nuebe
+      - presupuesto 70
+      - x la noche
+      - cerca del parq
+      - somos once patas
+      - grama sintetica
+      - alas seis
+      - hasta 60 soles
+      - en la maña
+      - por la av arequipa
+      - diez y media
+      - pa 80 lucas
+      - en loza
+      - el prox lun
+      - aca x comas
+      - tipo 7 y media
+      - micro futbol
+      - miercoles prox
+      - villamaria
+      - temprano ps
+      - sjm nomas
+      - por mi barrio
+      - aqui cerca d casa
+      - ventanilla xfa
+      - rimac x la tarde
+      - zona sur
+      - alas 7 d la noche
+      - a las 8 y media
+      - tipo 9
+      - pa la tarde
+      - 20:30 hrs
+      - media noche
+      - alas 6 o 7
+      - el finde q viene
+      - mañana en la noche
+      - sabado x la tarde
+      - el domingo d noche
+      - en la semana
+      - para noviembre
+      - el 23 de este mes
+      - martes o miercoles
+      - max 70 soles
+      - q no pase d 100
+      - unos 80 lucas
+      - lo mas comodo ps
+      - presupuesto 90
+      - basketbol
+      - grass nat
+      - pa los [olivos](location)
+      - pa el [miercoles](date) en la noxe
+      - con [cesped artificial](surface)
+      - somos [diez](num_players)
+      - pa este [domingo](date)
+      - por el [callao](location)
+      - las [siete](time) d la noxe
+      - pal [22](date)
+      - soles [cincuenta](budget)
+      - pa jugar [voley](sport)
+      - en [grass](surface)
+      - unas [once](num_players) personas
+      - cerca d [chorrillos](location)
+      - tipo [ocho y media](time) pm
+      - por [villa maria](location)
+      - q sea [techado](surface)
+      - somos [siete](num_players)
+      - el [18](date) d nov
+      - pa [san juan](location)
+      - el [proximo mes](date)
+      - a [siete y media](time)
+      - [cien](budget) lukas
+      - pa [vmt](location)
+      - para [baloncesto](sport)
+      - [losa](surface) d cemento
+      - los [trece](num_players)
+      - a las [once](time) en punto
+      - [noventa](budget) soles
+      - pa jugar [handball](sport)
+      - q sea [sin techar](surface)
+      - cerca a mi [kasa](location)
+      - [finde](date) xfa
+      - unos [cien soles](budget)
+      - gras
+      - somos [once](num_players)
+      - techado ps
+      - x aca a mi [alrededor](location)
+      - la sem q viene
+      - max [50 lucas](budget)
+      - [nueve](num_players) seremos
+      - el [10/12](date)
+      - no mas d [70](budget)
+      - tierra
+      - [seis](num_players) a mas
+      - con luz ps
+      - temprano nomas
+      - [primer sabado](date) del mes
+      - [cien](budget) ps
+      - loza
+      - [quince](num_players) aprox
+      - x [chorrillos](location) ala [7](time)
+      - mi distrito [sjm](location)
+      - futbol alas [8pm](time)
+      - voley pa [jueves](date)
+      - libre en [rimac](location)
+      - gras pa [nueve](time)
+      - max [60 lucas](budget)
+      - sintetico en [breña](location)
+      - en [Chorrillos](location) ps
+      - x el [centro de lima](location)
+      - en [Ate](location) xfa
+      - x mi jato
+      - en [Rimac](location)
+      - al fondo de [Villa María](location)
+      - en la [zona sur](location)
+      - alas [7pm](time)
+      - pa las [6](time)
+      - q sea en la noche
+      - mas tarde tipo [8:30](time)
+      - a la [tarde noche](time)
+      - cualkier hora ps
+      - [nueve de la mañana](time)
+      - pa tipo [10](time)
+      - desde las [cinco](time)
+      - pa el [jueves](date) en la noche
+      - el [martes](date) a la noche
+      - pal [domingo q viene](date)
+      - pa el [1ro de dic](date)
+      - el [24 de diciembre](date)
+      - pa [navidad](date)
+      - en [dos dias mas](date)
+      - el [veinticinco de este mes](date)
+      - el [sabado](date) a la tardecita
+      - el [2024-11-28](date)
+      - 80 lucas
+      - cuarenta soles
+      - algo para [50 luqitas](budget)
+      - soles [100](budget)
+      - maximo [90](budget)
+      - pa [70](budget)
+      - por donde vivo
+      - por alla
+      - mas o menos x aca
+      - x la villa
+      - san juan d lurigancho
+      - en puente piedra
+      - para las 7
+      - alas 9
+      - antes d las 8
+      - despues d las 5
+      - mas tarde ps
+      - x la mñn
+      - pa hoy
+      - el lunes q viene
+      - sabado o domingo
+      - pa el 15
+      - sesenta lukas
+      - somos 14 patas
+      - con techo
+      - ala 9pm
+      - 70 lucas max
+      - para 10 patas
+      - tipo 7:30
+      - grass sint
+      - voley nomas
+      - por san borja
+      - somos 8 gentes
+      - 100 soles d presupuesto
+      - pa la tarde-noche
+      - el proximo finde
+      - un sabado kualkiera
+      - baloncsesto
+      - en el callao ps
+      - 6 y media de la tarde
+      - pa el 12
+      - poko presupuesto
+      - q seamos 10
+      - losa noma
+      - 10am xfa
+      - un domingo x la mañana
+      - futbo
+      - 75 solcitos
+      - sm. de porres
+      - kiero grass natural
+      - alas 5 y media
+      - el proximo viernes
+      - cien lucas pa la canxa
+      - el lunesss
+      - grass no mas
+      - futbl ps
+      - a las nueve
+      - por la mñna
+      - este miercoles
+      - unos 5 jugadore
+      - solo basquet
+      - tipo mediodia
+      - menos d ochenta
+      - somos siet
+      - losa pe
+      - x la noxe
+      - proxima smana si
+      - pa 11 pe
+      - cerca d aca
+      - despue d las seis
+      - oy en la tarde
+      - somos seiss
+      - voley ps
+      - en sjm
+      - temprano 8am
+      - pa diez amigos
+      - de tierra ps
+      - solo los domingos
+      - x [chorrillos](location) pe
+      - [50 soles](budget)
+      - gras [sintetico](surface) ps
+      - en el ves
+      - por miraflores
+      - sjl nomas
+      - surco la bolichera
+      - la molina puede ser
+      - en san isidro
+      - lurigancho ps
+      - surquillo x ahi
+      - lince ps
+      - ves por villa maria
+      - san borja no, otro
+      - pueblo libre cerca
+      - en callao, ves
+      - chorrillos x ahi
+      - pachacamac nomas
+      - cieneguilla, x ahi cerca
+      - manana temprano
+      - noche ps
+      - el sabado
+      - xq hoy
+      - pasado manana
+      - para la noche
+      - a las 9 y media
+      - 8 y media
+      - domingo fijo
+      - cualquier hora
+      - para el viernes
+      - este lunes
+      - el martes
+      - el jueves
+      - prox semana
+      - 10 d la mañana
+      - mas temprano
+      - mañana por la tarde
+      - hoy x la noche
+      - el miercoles
+      - 8pm fijo en la noche
+      - solo futbol
+      - voley puede ser
+      - padel tmb
+      - futbol o voley
+      - padel nomas
+      - no solo futbol
+      - voley mejor
+      - quiero padel
+      - solo voley
+      - futbol de 7
+      - basket puede ser
+      - otro deporte
+      - fulbito ps
+      - solo de padel
+      - voley para el lunes
+      - futbol para 5
+      - de que hay?
+      - q otros deportes
+      - max 80
+      - hasta 50
+      - barato pe
+      - algo de 70
+      - no muy caro
+      - s/ 60
+      - 50 es lo q tengo
+      - mas comodo
+      - no tengo mucho
+      - un poco menos
+      - q sea barato
+      - menos de 80
+      - por 40 soles
+      - si ese
+      - no ese
+      - el de aca
+      - este ultimo
+      - futbol nomas
+      - barato ps
+      - x ahi cerca
+      - ese dia
+      - sjl hoy
+      - surco noche
+      - 8pm futbol
+      - voley barato
+      - padel manana
+      - max 80 en sjl
+      - hoy en surco
+      - noche en vill salvador
+      - futbol 8pm
+      - voley sjl
+      - padel barato
+      - manana max 80
+      - hoy noche
+      - surco 8pm
+      - sjl en la noche
+      - futbol aca
+      - voley hoy
+      - padel por surco
+      - barato x sjl
+      - max 80 en la noche
+      - 8pm manana
+      - o voley
+      - ese ps
+      - el otro
+      - cualkiera
+      - domingo
+      - sabado
+      - tarde o noche
+      - al toque
+      - a la hora q sea
+      - villa maria
+      - futbol en sjl
+      - voley en surco
+      - padel alas 8
+      - barato hoy
+      - max 80 mañana
+      - 8pm en la noche
+      - hoy en sjl
+      - mañana en surco
+      - noche de futbol
+      - voley alas 8pm
+      - padel economico
+      - max 80 x surco
+      - solo futbol hoy
+      - o voley manana
+      - ese dia y hora
+      - justo esa
+      - lo q sea de noche
+      - cancha libre hoy
+      - x mi casa barato
+      - padel en la noche
+      - futbol max 80
+      - voley manana sjl
+      - 8pm en sjl
+      - barato en surco
+      - hoy padel
+      - mañana futbol
+      - noche voley
+      - ese d surco
+      - el q esta x sjl
+      - el mas barato
+      - solo el precio
+      - la hora esa
+      - x el sur
+      - centro ps
+      - mañana tarde
+      - sjl
+      - noche
+      - ves sjl
+      - ala 8pm
+      - hoy mismo
+      - manana en sjl
+      - futbol x surco
+      - 8pm noche
+      - voley en sjl
+      - padel x la noche
+      - maximo 80 soles
+      - ves en surco
+      - hoy 8pm
+      - manana futbol
+      - noche padel
+      - ala 8pm x sjl
+      - futbol barato
+      - voley max 80
+      - futbol manana
+      - voley en la noche
+      - x sjl noche
+      - hoy futbol
+      - manana voley
+      - surco barato
+      - ves ps
+      - manana x sjl
+      - noche barata
+      - ala 8pm hoy
+      - futbol pa hoy
+      - voley pa manana
+      - padel en surco
+      - cerca a surco
+      - max 80 lucas
+      - ves sjl hoy
+      - 8pm d noche
+      - futbol cerca mio
+      - voley aca
+      - padel en vill salvador
+      - barato pa hoy
+      - surco pa la noche
+      - sjl pa manana
+      - ves surco manana
+      - manana 8pm
+      - noche futbol
+      - 8pm voley
+      - kiero barato
+      - futbol hoy 8pm
+      - voley manana noche
+      - padel cerca d aca
+      - barato max 80
+      - sjl 8pm
+      - surco hoy
+      - manana barato
+      - noche x sjl
+      - 8pm en surco
+      - futbol x la noche
+      - voley pa hoy
+      - vill salvador hoy
+      - aca a mi alrededor hoy
+      - max 80 soles ps
+      - ves sjl manana
+      - hoy 8pm futbol
+      - manana voley sjl
+      - noche padel surco
+      - ala 8pm barato
+      - futbol cerca d mio
+      - voley aca mismo
+      - padel en vill salvador noche
+      - barato pa la noche
+      - surco pa manana
+      - sjl pa hoy
+      - max 80 x sjl
+      - ves surco hoy
+      - hoy padel 8pm
+      - manana 8pm futbol
+      - noche voley sjl
+      - 8pm padel surco
+      - kiero barato ps
+      - futbol hoy cerca
+      - voley manana 8pm
+      - padel cerca d aca ps
+      - barato y max 80
+      - ahi en sjl
+      - pa hoy ps
+      - manana si
+      - pa las 8
+      - jugar fut
+      - de voley
+      - maximo 80 lukas
+      - aca x surco
+      - por sjl nomas
+      - hora de noche
+      - futbol profe
+      - 8pm xfa
+      - algo economico
+      - pa manana q tal
+      - x la zona d sjl
+      - no mas d 80
+      - horita 8pm
+      - en surko
+      - padel xfis
+      - ves city
+      - pa la noche 8pm
+      - d futbol pues
+      - barato xfa
+      - max 80 soles
+      - futbol a las 8pm
+      - a esa hora ps
+      - en sjl hoy
+      - surco si o si
+      - de voley no mas
+      - 8 d la noche
+      - hoy por surco
+      - padel hoy
+      - algo d 80 lukitas
+      - 8pm en punto
+      - el de voley
+      - surco por alla
+      - bien barato eh
+      - la noche 8pm
+      - en ves
+      - q sea futbol
+      - manana a las 8
+      - ahi por sjl
+      - padel q tal
+      - barato nomas
+      - ala 8 d la noche
+      - el de surco
+      - pa voley ps
+      - cancha d futbol
+      - 8pm fijo
+      - por ves
+      - noche d futbol
+      - manana x surco
+      - mas barato porfa
+      - 80 maximo
+      - en el surco
+      - sjl mañana
+      - juego de futbol
+      - 8 pm libre
+      - surco cerca
+      - 80 lukas max
+      - hoy por sjl
+      - futbol en la noche
+      - el d surco
+      - voley manana
+      - 8pm libre hoy
+      - ves cerca d mi
+      - 80 soles maximo
+      - hoy en la tarde 8pm
+      - sjl por ahi
+      - 8pm en ves
+      - surco manana
+      - padel x aca
+      - mas o menos 80
+      - futbol a estas 8pm
+      - 8pm x sjl
+      - no tan caro 80
+      - voley en ves
+      - algo de futbol hoy
+      - por sjl hoy 8pm
+      - cancha de voley en surco
+      - max 80 xfa
+      - padel en ves hoy
+      - hoi
+      - mañna pe
+      - futbol oe
+      - padel si
+      - max 80 lukas
+      - cerca mio manana
+      - aca al toque futbol
+      - cancha libre 8pm sjl
+      - vill salvador noche
+      - sjl para futbol
+      - noche de voley
+      - 8pm padel
+      - hoy con max 80
+      - mañana barato
+      - futbol cerca
+      - padel en sjl
+      - barato ps en surco
+      - max 80 x la noche
+      - surco o sjl
+      - ves hoy 8pm
+      - noche pa voley
+      - 8pm futbol fijo
+      - mañana voley
+      - solo padel
+      - max 80 pa hoy
+      - barato hoy noche
+      - surco q tal
+      - ves pe
+      - sjl cerca
+      - noche tardecita
+      - 8pm de ahi
+      - hoy alas 8
+      - mañna en surco
+      - futbol o nada
+      - voley si o si
+      - padel con 80
+      - max 80 pe
+      - barato y cerca
+      - por surco con 80
+      - cerca mio pa voley
+      - aca a mi alrededor manana
+      - cancha libre 8pm ves
+      - vill salvador futbol
+      - sjl noche barato
+      - 8pm en sjl pa padel
+      - hoy voley 8pm
+      - mañana futbol en surco
+      - solo padel hoy
+      - max 80 para voley
+      - barato hoy en sjl
+      - surco mañana noche
+      - ves 8pm futbol
+      - sjl hoy noche
+      - noche q tal
+      - 8pm fijo hoy
+      - hoy q sea
+      - mañana si
+      - futbol padel
+      - padel surco
+      - max 80 ves
+      - barato o na
+      - por surco manana
+      - aca a mi alrededor 8pm
+      - cancha libre hoy sjl
+      - vill salvador barato
+      - sjl para padel
+      - noche con 80
+      - futbol 8pm sjl
+      - voley noche surco
+      - padel ves hoy
+      - max 80 futbol
+      - barato voley
+      - surco y 8pm
+      - ves y hoy
+      - sjl y barato
+      - noche y futbol
+      - 8pm y voley
+      - hoy y padel
+      - mañana y 80
+      - futbol y surco
+      - x surco pe
+      - en sjl nomas
+      - vill salvador mi barrio
+      - surco x ak
+      - sjl cerca mio
+      - distrito sjl
+      - surco central
+      - cerca d sjl
+      - vill salvador alla xfa
+      - por surco viejo
+      - sjl a la vuelta
+      - pa vill salvador
+      - vill salvador zona sur
+      - sjl al toke
+      - hoy pe
+      - mañana nomas
+      - en la noche ps
+      - hoy x la tarde
+      - manana d noche
+      - hoy al toke
+      - pa mañana
+      - hoy mas tarde
+      - toda la noche
+      - 8pm o antes
+      - hoy en la mañana
+      - manana x la tarde
+      - noche d viernes
+      - justo a las 8pm
+      - mañana a esta hora
+      - noche tranqui
+      - 8pm ps
+      - voley pe
+      - padel ps
+      - padel x la mañana
+      - padel o nada
+      - futbol ps
+      - voley x aca
+      - padel en la tarde
+      - futbol para hoy
+      - voley mañanita
+      - padel al toke
+      - padel nuevo
+      - un voley rapido
+      - padel x el sur
+      - futbol d amigos
+      - padel pa hoy
+      - q no pase d 80
+      - precio barato
+      - 80 lucas max
+      - un tope d 80
+      - q ves?
+      - esa ves?
+      - la d sjl ves
+      - futbol 8pm ps
+      - 8pm futbol barato
+      - noche en surco
+      - ves alguna libre
+      - sjl hoy 8pm
+      - futbol en vill salvador
+      - padel barato cerca
+      - surco 8pm ps
+      - q tal ves esta
+      - hoy en la noche sjl
+      - mañana futbol surco
+      - voley cerca mio
+      - padel max 80 hoy
+      - cancha libre en surco
+      - futbol a las 8
+      - noche d voley
+      - q ves tu
+      - cancha libre mañana
+      - surco 8pm futbol
+      - sjl voley max 80
+      - hoy noche padel
+      - mañana 8pm surco
+      - vill salvador 8pm
+      - futbol barato en sjl
+      - surco nomas
+      - x surco ahorita
+      - surco pa hoy ps
+      - en surco tipo 8
+      - surco mañana futbol
+      - buscando futbol en surco por la noche tipo 8
+      - en sjl cerca
+      - sjl 8pm fut
+      - por sjl bien barato
+      - algo para voley barato en sjl pa mañana
+      - quiero padel cerca de mi barrio por la noche
+      - pahoy 8pm volei
+      - vill salvador futbol hoy si hay barato
+      - mañana voley en sjl
+      - mña alas 8
+      - en la noche nomas
+      - max 80 soles para futbol hoy en vill salvador
+      - 8pm ya ps
+      - q sea surco hoy noche 8pm de futbol
+      - futbol hoy surco
+      - voley no mas
+      - sjl mañana max 80 lucas para voley
+      - voley mañana max 80
+      - padel hoy noche
+      - bien barato para hoy
+      - barato para mañana
+      - 80 soles
+      - no mas de 80 lukas
+      - surco futbol 8pm noche
+      - sjl voley hoy barato
+      - padel mañana bien barato
+      - hoy 8pm futbol en surco
+      - max 80 por sjl cancha
+      - vill salvador hoy noche
+      - cerca mio pa hoy
+      - cancha libre para voley en surco mañana 8pm
+      - x ahi cerca ps
+      - x mi casa hoy
+      - x mi zona barato
+      - q tan barato esta el futbol para hoy en surco
+      - busco voley en sjl mañana en la noche tipo 8
+      - barato o intermedio
+      - hoy o mañana ps
+      - surco hoy futbol
+      - sjl noche voley
+      - futbol barato hoy
+      - voley max 80 mañana
+      - padel mañana en surco
+      - en surco pa hoy 8pm
+      - sjl x la noche
+      - fut en sjl 8pm
+      - volei barato hoy cerca
+      - padel cerca mio ps
+      - max 80 surco hoy
+      - hoy en vill salvador
+      - mañana x mi zona futbol
+      - 8pm futbol barato en surco
+      - noche voley sjl max 80
+      - aca en surco hoy
+      - mañana fut 8pm
+      - la noche 8pm futbol
+      - surco 8pm padel
+      - sjl barato voley
+      - futbol hoy noche surco
+      - voley mañana tarde sjl
+      - padel cerca barato
+      - 80 lukas nomas
+      - hoy nomas 8pm futbol
+      - surco barato voley
+      - sjl fut 8pm
+      - voley noche sjl max 80
+      - padel max 80 surco
+      - cerca por surco
+      - aca x sjl hoy
+      - cancha 8pm en sjl
+      - vill salvador hoy futbol
+      - x mi barrio barato
+      - hoy 8pm fut
+      - mañana noche voley
+      - futbol volei
+      - padel barato ps
+      - kiero futbol barato pa hoy en surco
+      - necesito padel cerca mio para mañana
+      - voley en sjl x la noche tipo 8pm
+      - aki en surco
+      - futbol hoy
+      - padel noche
+      - surko
+      - manana tarde
+      - noches
+      - vle
+      - economico
+      - 80 soles max
+      - villa salvador
+      - aki
+      - pa manana
+      - ocho d la noxe
+      - padel xfa
+      - no tan caro
+      - sjl manana
+      - villa noche
+      - max 80 padel
+      - en surco pa hoy
+      - sjl manana noche
+      - futbol barato en surco
+      - voley max 80 sjl
+      - hoy o manana
+      - barato o normal
+      - mi barrio
+      - ahorita ps
+      - mas tardecita
+      - 80 soles causa
+      - surco porfa
+      - vill salvador xfa
+      - aca cerkita
+      - x hoy
+      - x manana
+      - noche no mas
+      - lo mas barato ps
+      - surco noche futbol
+      - sjl hoy voley
+      - vill salvador 8pm padel
+      - max 80 manana surco
+      - padel noche barato
+      - cerca mio 8pm
+      - por surco para futbol
+      - vill salvador voley noche
+      - surco barato y hoy
+      - sjl 8pm futbol manana
+      - voley barato para hoy
+      - padel cerca mio noche
+      - max 80 futbol hoy
+      - en surco pa la noche
+      - sjl mañana 8pm
+      - vill salvador barato futbol
+      - hoy 8pm voley en surco
+      - manana padel max 80
+      - noche futbol cerca mio
+      - 80 soles pa hoy
+      - q no sea muy caro
+      - por sjl y barato
+      - ves tu
+      - dime ves
+      - el de sjl
+      - ese de vill salvador
+      - la noche 8
+      - voley xfis
+      - padel cerca
+      - maximo ochenta soles
+      - para hoy ps
+      - 8pm puede ser
+      - futbol quiero
+      - barato mano
+      - mañana ves
+      - padel un rato
+      - aca cerquita
+      - vill salvador pe
+      - martes x la tarde
+      - un sabado
+      - a las siete
+      - 9 d la noche
+      - por surco nomas
+      - mas barato
+      - 8pm exacto
+      - puro voley
+      - maximo 70
+      - cerca d mi jato
+      - pa vill el salvador
+      - martes oe
+      - a las 6 pm
+      - d 8 a 9
+      - futbol y nada mas
+      - con poco presupuesto
+      - por surco mano
+      - lunes a la noche
+      - despues d las 8
+      - antes d las 7
+      - futbol na mas
+      - voley pueh
+      - algo mas barato
+      - en sjl causa
+      - manana en la noche
+      - 8pm pero temprano
+      - x villa el salvador
+      - d 9 a 10
+      - futbolcito
+      - quiero voley
+      - barato como sea
+      - en surco por favor
+      - hoy en la manana
+      - manana en la tarde
+      - futbol para dos
+      - max 80 sps
+      - cerca d mi chamba
+      - jueves en la noche
+      - ocho pm
+      - de 7 a 8
+      - puro futbol
+      - voley con luz
+      - algo economico pe
+      - en surco xfa
+      - sjl noma
+      - para hoy en la noche
+      - 8pm puntual
+      - futbol d once
+      - max 75
+      - cerca a la av
+      - sabado en la noche
+      - 8pm hora peruana
+      - de 6 a 7
+      - futbol y voley
+      - padel con techo
+      - bien barato
+      - surco ves
+      - sjl o surco
+      - hoy en la ves
+      - manana d dia
+      - 8pm o 9
+      - vill salvador con luz
+      - x surco noma
+      - x surco ps
+      - la ves
+      - mañana es
+      - el padel
+      - futbol noche 8pm
+      - max 80 x ves
+      - futbol aca cerca
+      - voley pa hoy noche
+      - algo por sjl
+      - barato q tal
+      - manana x la mañana
+      - si, este
+      - asi es
+      - dale noma
+      - ese mismo
+      - el de futbol
+      - el q te dije
+      - si ps
+      - este, si
+      - q sea en surco
+      - voley x sjl
+      - noche 9pm
+      - pa mañana en ves
+      - la d futbol
+      - pa 8pm
+      - max sesenta
+      - en villa el
+      - temprano tipo 7
+      - en la manana
+      - pa el dia
+      - si, el domingo
+      - el q sea ps
+      - si ps, barato
+      - la del futbol
+      - mi presupuesto es 70
+      - si, padel
+      - el del padel
+      - voley, si
+      - nochecita 9
+      - max 60 soles
+      - pa jugar
+      - xq es tarde
+      - si hoy
+      - un buen horario
+      - la d volley
+      - por el sur
+      - noche mas
+      - dia siguiente
+      - por ahi d sjl
+      - surco, si
+      - futbol en ves
+      - hoy barato
+      - pa surco
+      - pa sjl
+      - pa ves
+      - la d mañana
+      - la d hoy
+      - el de 80
+      - la noche es
+      - a las 8 es
+      - la cancha es
+      - si, x la noche
+      - max cincuenta
+      - x mi casa
+      - san juan lurigancho
+      - en la ves
+      - voley 8pm
+      - surco padel
+      - el mas comodo
+      - mas o menos 70
+      - hoy futbol noche
+      - padel 8pm surco
+      - barato x ves
+      - max 80 hoy
+      - padel es mi sport
+      - surco, 8pm
+      - sjl, manana
+      - ves, hoy, noche
+      - padel x surco
+      - un fulbito
+      - solo 80 soles
+      - 80 es mi tope
+      - por 50
+      - miercoles en la noche
+      - distrito d surco
+      - pa el lunes
+      - martes 7pm
+      - temprano por sjl
+      - futbol en el ves
+      - voley d noche
+      - cerca al ves
+      - noche de fulbito
+      - padel x sjl
+      - 80 lucas es mi max
+      - solo 70 soles
+      - pa un voley
+      - por ahi en sjl
+      - un buen precio
+      - ves hoy
+      - domingo 8pm
+      - zona surco ps
+      - un futbol hoy
+      - pa manana en la ves
+      - futbol en surco, noche
+      - barato, por el sur
+      - cualkier dia
+      - cualkier distrito
+      - por donde sea
+      - max cien lucas
+      - pa un padel
+      - oy en surco
+      - manana d tarde
+      - q sea cerca
+      - en la ves ps
+      - pasado el jueves
+      - lunes por sjl
+      - futbol con 5
+      - voley con patas
+      - padel, hoy noche
+      - max 60
+      - 50 soles de presupuesto
+      - la noche ps
+      - para este findesemana
+      - martes ala noche
+      - otra fecha
+      - otra hora
+      - san isidro tambien
+      - comas ps
+      - barranco hoy
+      - para 9pm
+      - un domingo
+      - por el dia ps
+      - mañana es mejor
+      - en la tarde, 6pm
+      - solo 60
+      - max setenta
+      - mi deporte es fulbito
+      - kiero padel
+      - surco, lunes
+      - ves, 7pm
+      - sjl, 8pm, futbol
+      - pa jugar padel
+      - presupuesto bajo
+      - un lunes por la noche
+      - q no pase d sesenta
+      - q distrito es?
+      - surco
+      - x sjl
+      - 8pm pa hoy
+      - max 80 aca x sjl
+      - pa manana alas 8
+      - padel por surco ps
+      - q no pase de 80
+      - por sjl cerca mio
+      - alas 8 en ves
+      - max ochenta
+      - cerca por sjl
+      - futbl
+      - pa hoy noche
+      - presupuesto max 80
+      - futbol x sjl
+      - voley x ves
+      - manana tipo 8
+      - a las ocho pm
+      - pa mañana nomas
+      - deporte futbol
+      - deporte voley
+      - deporte padel
+      - por surco cerca
+      - baratito ps
+      - noche tipo 8
+      - oy en la noche
+      - voley manana barato
+      - padel en ves max 80
+      - 8pm x surco
+      - solo futbol pa hoy
+      - voley a las 8
+      - padel max 80
+      - surco de noche
+      - ves para mañana
+      - futbol a 8pm
+      - voley barato hoy
+      - padel max 80 manana
+      - aca en surco
+      - por ahi en surco
+      - que sea economico
+      - mañana a la noche
+      - cualquier deporte
+      - max 80 x aqui
+      - ocho de la noche
+      - pa mañana x sjl
+      - futbol en ves barato
+      - voley a las ocho
+      - padel por mi zona
+      - surco de dia
+      - sjl tempranito
+      - ves de tarde
+      - 8pm x ahi
+      - nochecita en surco
+      - manana a la tardecita
+      - futbol sin drama
+      - voley por mi barrio
+      - padel barato 8pm
+      - max 80 lukas hoy
+      - x sjl en la noche
+      - ves alas 8
+      - futbol y 8pm
+      - aka x sjl
+      - cerca d surco
+      - mi zona es sjl
+      - pa la ves
+      - x mi casa aka
+      - por aqui cerca
+      - aka a mi alrededor
+      - mi distrito surco ps
+      - por el barrio ese
+      - zona surco
+      - vill salvador nomas
+      - mi ubicacion actual
+      - ocho d la noche
+      - como a las ocho
+      - entre 7 y 9
+      - despues d las 6
+      - antes d la media noche
+      - a cualkier hora
+      - en la tarde noma
+      - pasao las 9pm
+      - alas 7 y media
+      - tipo diez am
+      - ahorita si se puede
+      - a esta hora
+      - masomenos a las ocho
+      - ocho en punto
+      - ala medianoche
+      - este mediodia
+      - pasao mañana
+      - otro dia cualkiera
+      - para cuando sea
+      - dia d semana
+      - fin d semana
+      - lunes o martes ps
+      - el prox miercoles
+      - no c la fecha exacta
+      - solo hoy
+      - el veinticinco
+      - doce d dic
+      - el uno d enero
+      - algo comodo
+      - hasta 80 lukas
+      - mi presupuesto cincuenta
+      - barato noma
+      - no mas d 70 soles
+      - poka plata
+      - no mas d cien
+      - solo cincuenta
+      - algo x treinta
+      - no tengo mucha platita
+      - max ochenta fichas
+      - solo lo minimo q se pueda
+      - voley noma
+      - un partidito
+      - padel kiero
+      - para pelotear
+      - mi deporte es futbol
+      - paddle
+      - algún deporte
+      - el clasico futbol
+      - para hacer deporte
+      - futbol con patas
+      - surco hoy noche futbol
+      - sjl manana barato
+      - voley noche cerca mio
+      - padel en la ves hoy
+      - max 80 pa el sabado
+      - futbol en sjl alas 8
+      - por surco ps
+      - distrito surco
+      - en san juan lurigancho
+      - paxa hoy
+      - mañana xfa
+      - pa la manana
+      - la noche
+      - a las ocho
+      - fut
+      - boli
+      - jugar padel
+      - barato
+      - reco barato
+      - hasta 80 lucas
+      - 80 ps
+      - nueve de la noche
+      - martes ps
+      - miercoles de ley
+      - viernes de fut
+      - sabado en la tarde
+      - domingo trankilo
+      - pa la proxima semana
+      - esta semanita
+      - solo fut
+      - prefiero boli
+      - tarde noche
+      - temprano pa
+      - en mi zona
+      - voley mixto
+      - padel con 2
+      - pa la tardecita
+      - la otra sema
+      - por mi cuadra
+      - san martin de porres
+      - por la 8pm
+      - alas 9pm
+      - a medio dia
+      - el deporte q kiero
+      - ese no, otro
+      - si hay ps
+      - no hay na
+      - solo ese pa
+      - solo manana
+      - dia jueves
+      - nochecita hoy
+      - solo 80 ps
+      - voley o padel
+      - el viernes en la tarde
+      - dnd estoy
+      - mañana a las 8
+      - x surco a las 8pm
+      - sjl pa futbol
+      - hoy a 8, x surco
+      - barato pa voley
+      - d noche x surco
+      - tipo 8pm futbol barato
+      - en vill salvador pa mañana
+      - sjl, voley y barato
+      - hoy 8pm, x surco
+      - padel, d noche
+      - solo futbol, max 80
+      - ves, a las 8
+      - mañana, tempranito, futbol
+      - q sea barato y cerca
+      - en mi barrio, 8pm
+      - sjl d noche pa fulbito
+      - hoy x sjl, 8pm, barato
+      - pa padel, d noche
+      - barato, cerca mio, hoy
+      - vill salvador, 8pm, voley
+      - futbol, hoy, x surco, max 80
+      - voley, mañana, sjl, barato ps
+      - futbol x aca
+      - padel d noche
+      - x surco, tipo 8
+      - sjl pa hoy, futbol
+      - voley barato x aca
+      - noche, 8pm, cerca
+      - futbol nomas pa hoy
+      - manana, 8pm, x sjl
+      - padel ps, barato
+      - max 80 aca, d noche
+      - cerca mio, barato, voley
+      - hoy, 8pm, sjl, futbol
+      - voley, manana, surco, max 80
+      - d noche, futbol, barato x aca
+      - en ves, 8pm, padel
+      - surco, pa padel, hoy
+      - 8 d la noche, futbol, sjl
+      - sjl, barato, hoy, voley
+      - max 80, cerca, padel
+      - padel d noche x surco, barato
+      - futbol, 8pm, vill salvador, hoy
+      - voley, mañana, barato, x sjl
+      - hoy, surco, 8pm, futbol
+      - sjl, d noche, futbol, max 80
+      - max 80, aca cerca, voley
+      - pa voley, manana, surco, barato
+      - padel, barato, hoy, sjl
+      - vill salvador, 8pm, futbol, d noche
+      - sjl, hoy, voley, barato, ps
+      - d noche, futbol, x surco, 8pm
+      - max 80 ps, mañana
+      - mañana, padel, sjl, barato
+      - hoy, 8pm, barato, cerca, futbol
+      - ves, futbol, 8pm, d noche
+      - surco, voley, manana, max 80
+      - d noche, max 80, sjl, padel
+      - cerca mio, padel, hoy, barato
+      - vill salvador, barato, 8pm, futbol
+      - futbol, hoy, sjl, max 80, d noche
+      - voley, manana, x surco, barato, ps
+      - padel, d noche, ves, 8pm
+      - hoy 8pm, sjl, futbol
+      - x surco, manana, voley, barato
+      - futbol, barato, d noche, max 80
+      - ves, max 80, hoy, padel
+      - sjl, padel, 8pm, d noche
+      - cerca, hoy, futbol, barato
+      - surco, voley, 8pm, manana
+      - manana, sjl, barato, voley
+      - padel, d noche, max 80, surco
+      - hoy, vill salvador, futbol, 8pm
+      - ves, 8pm, voley, barato
+      - surco, mañana, padel, max 80
+      - sjl, d noche, barato, futbol
+      - hoy, max 80, cerca, voley
+      - futbol, 8pm, en sjl, d noche
+      - voley, manana, por surco, barato
+      - padel, d noche, barato, max 80
+      - barato, cerca mio, futbol, hoy
+      - hoy, 8pm, vill salvador, voley
+      - mañana, sjl, voley, max 80
+      - max 80, surco, d noche, padel
+      - padel, hoy, ves, barato
+      - 8pm, futbol, cerca, manana
+      - voley, manana, max 80, sjl
+      - sjl, barato, d noche, padel
+      - hoy, padel, surco, 8pm
+      - vill salvador, 8pm, barato, voley
+      - manana entoncs
+      - noche tarde
+      - aca cerca
+      - alas 8 ok
+      - x san juan
+      - fulbito kiero
+      - mañana noche
+      - tipo ocho dela noche
+      - hoy temprano
+      - el 8 pm
+      - solo 80
+      - mañana d dia
+      - alas ocho
+      - hoy dia en la noche
+      - voley kiero
+      - barato q sea
+      - este x surco
+      - para 80
+      - futbol a esa hora
+      - para mañana o hoy
+      - max 80 luquitas
+      - 8pm en adelante
+      - en sjl y surco
+      - hoy o mañana
+      - presupuesto 80
+      - en la noche d hoy
+      - padel x alli
+      - solo hasta 80
+      - futbol si hay
+      - villasalvador
+      - 8 pm ya
+      - sjl si es posible
+      - cerca ala chamba
+      - despues d las 8pm
+      - para hoy en la tarde
+      - padel ahora
+      - entre 7 y 8pm
+      - surco o villa
+      - 80 es mi max
+      - futbol ala noche
+      - mañana x la tarde
+      - voley mañana
+      - antes d las 8pm
+      - x el surco
+      - para hoy d una vez
+      - sjl o ves
+      - no mas d 80 soles
+      - futbol con esa plata
+      - vill el salvador si hay
+      - nochecita ps
+      - qiero algo barato
+      - 8pm o 9pm
+      - manana
+      - ves
+      - s.j.l
+      - fubol
+      - futbol noche
+      - ahi x surco
+      - mi deporte es padel
+      - 8 d la noxe
+      - fubol 8pm
+      - cerca al vill salvador
+      - solo si es barato
+      - para manana tarde
+      - max 80 manana
+      - aqui cerca
+      - por 8pm
+      - fubol nomas
+      - voley 8 d la noche
+      - sjl noche 8pm
+      - padel x ahi
+      - presupuesto maximo 80
+      - barato en vill salvador
+      - manana a la noche
+      - deseo futbol
+      - voley hoy en ves
+      - kiero algo barato
+      - a las 8 d la noche
+      - fubol manana
+      - solo max 80
+      - presio bajo
+      - hoy x mi zona
+      - manana cerca
+      - k sea futbol
+      - q hay en padel
+      - costo max 80
+      - sjl en la noxe
+      - surco para hoy
+      - futbol manana noche
+      - padel x el vill salvador
+      - canchas baratas
+      - max 80 soles para hoy
+      - voley cerca mio hoy
+      - padel 8pm
+      - para hoy o manana
+      - barato x surco
+      - fubol y voley
+      - padel o futbol
+      - a esa hora en surco
+      - cerca al sjl
+      - mañana por la noche
+      - 8 d la noxe en sjl
+      - cerca d aki
+      - a 80 soles
+      - por sjl hoy
+      - surco noche barato
+      - fubol 8pm hoy
+      - padel x ahi 8pm
+      - vill salvador noma
+      - cancha libre alas 8pm
+      - para futbol
+      - padel si hay
+      - barato no mas
+      - tipo 9 de la noche
+      - futbolito
+      - fulbito noma
+      - voley playero
+      - basket tmb
+      - maximo 50 soles
+      - para 8
+      - somos 6 pz
+      - loza deportiva
+      - sintetico porfa
+      - techada si es posible
+      - rimac
+      - callao noma
+      - barranco cerca
+      - la molina ps
+      - jesus maria
+      - villa maria del triunfo
+      - pachacamac
+      - lurin
+      - martes por la noche
+      - jueves a las 6
+      - viernes en la manana
+      - sabado ps
+      - domingo tranquilo
+      - dia de semana
+      - de lunes a viernes
+      - solo fin de semana
+      - despues de las 8
+      - antes de las 7
+      - entre 6 y 8
+      - si es futbol mejor
+      - solo basket
+      - 70 lucas
+      - pa 12
+      - 7 jugadores
+      - max 9 personas
+      - por mi ksa
+      - a la vuelta
+      - no muy lejos
+      - vestuarios si hay
+      - en mi barrio noma
+      - al lado del parque
+      - por la plaza
+      - 8pm de noche
+      - futbol ahorita
+      - mañana por surco
+      - voley hoy 8pm
+      - padel por sjl
+      - surco aca no mas
+      - hoy en la nochecita
+      - alas 8 de la noche
+      - futbol cerca de mi
+      - sjl mas tarde
+      - ves si hay cancha
+      - mañana a primera hora
+      - voley por mi casa
+      - lo mas comodo
+      - que no pase los 80
+      - surco de nuevo
+      - hoy mismo porfa
+      - futbol pues
+      - sjl por la noche
+      - ves hay disponible
+      - mañana en la tarde noche
+      - voley alas 8
+      - padel d una vez
+      - presupuesto corto
+      - 80 lukitas no mas
+      - por surco x ahi
+      - hoy a la noche
+      - 8pm es la hora
+      - futbol en surco
+      - sjl solo hoy
+      - ves a esa hora
+      - mañana en villa el salvador
+      - voley que sea barato
+      - padel no mas de 80
+      - q sea economico
+      - surco cerca de la uni
+      - 8pm si es posible
+      - sjl en la madrugada
+      - ves mañana en la mañana
+      - mañana pa jugar voley
+      - padel por surco hoy
+      - de bajo presupuesto
+      - no debe pasar los 80
+      - cerca de surco viejo
+      - pa hoy en la tarde noche
+      - 8pm mas o menos
+      - futbol por ves
+      - sjl tipo 8pm
+      - ves a las 8 de la noche
+      - mañana pa padel
+      - padel que sea barato
+      - precio maximo 80 soles
+      - surco aca a mi lado
+      - hoy a las 8 en punto
+      - 8pm pa jugar
+      - sjl a las 8pm
+      - ves tipo 8pm
+      - mañana en la mañana no mas
+      - voley por sjl
+      - padel en ves
+      - lo mas economico posible
+      - aca en surco cerca
+      - pa hoy mismo nomas
+      - 8pm la hora ideal
+      - futbol pa hoy en la noche
+      - sjl por la noche a las 8
+      - ves mañana si se puede
+      - mañana noche en surco
+      - voley en ves por mi casa
+      - padel a las 8 pm
+      - que sea recontra barato
+      - no mas de 80 soles
+      - surco cerca de mi barrio
+      - hoy en la noche tipo ocho
+      - 8pm cancha libre
+      - futbol en ves porfa
+      - sjl a la tarde noche
+      - ves cerca de donde vivo
+      - mañana en la mañana o tarde
+      - voley por surco nomas
+      - padel en sjl pa hoy
+      - con poco billete pa la cancha
+      - maximo 80 lukitas
+      - surco por la 8 pm
+      - hoy ala noche en sjl
+      - 8pm jugar futbol en ves
+      - x surco nomas
+      - en surco ps
+      - aca en sjl
+      - voley cerca
+      - en surco cerca mio
+      - sjl no mas
+      - alas 8 en la noche
+      - max 80 sin falta
+      - algo barato hoy
+      - 8pm o mas tarde
+      - futbol en villa el salvador
+      - max 80 para manana
+      - voley noche
+      - barato ves
+      - 8pm sin falta
+      - futbol pa manana
+      - sjl cerca d mi casa
+      - padel aca
+      - alas 8 en sjl
+      - futbol ves
+      - max 80 y nada mas
+      - manana temprano ps
+      - barato en sjl
+      - padel pa manana
+      - 8pm tipo
+      - futbol d noche
+      - max 80 d dia
+      - voley mañna
+      - en vill salvador hoy
+      - cerca mio en sjl
+      - futbol por surco
+      - max 80 cerca
+      - manana ps
+      - barato para hoy
+      - surco xfa
+      - 8pm ves
+      - surco pe
+      - aca x sjl
+      - hoy en la noxe
+      - manana porfa
+      - 8pm libre
+      - futbol causa
+      - la villa hoy
+      - noche 8pm
+      - x aca cerca
+      - sjl barato
+      - futbol en la villa
+      - por surco 8pm
+      - sjl noxe futbol
+      - manana voley 8pm
+      - voley en la villa
+      - x aca en surco
+      - manana sjl
+      - surco voley
+      - sjl padel
+      - padel barato en surco
+      - max 80 no mas
+      - por sjl cerca
+      - surco libre
+      - la villa manana
+      - noche barato
+      - padel hoy en surco
+      - surco futbol
+      - sjl voley
+      - voley manana en la noche
+      - max 80 x aca
+      - la villa futbol
+      - hoy padel barato
+      - manana surco 8pm
+      - 8pm futbol sjl
+      - voley en surco hoy
+      - padel manana barato
+      - cerca mio futbol
+      - algo comodo para hoy
+      - hoy sjl 8pm
+      - manana vill salvador futbol
+      - noche en surco padel
+      - surco voley 8pm
+      - sjl futbol manana
+      - vill salvador padel hoy
+      - barato 8pm
+      - por aca futbol
+      - hoy voley en la villa
+      - manana surco barato
+      - 8pm padel sjl
+      - voley hoy no mas
+      - padel manana en surco
+      - max 80 hoy noche
+      - en surco hoy 8pm
+      - sjl voley barato
+      - vill salvador padel manana
+      - en surco pe
+      - sjl zona
+      - pal dia de hoy
+      - pal dia d mañana
+      - fucho
+      - pelota fulbo
+      - boli ps
+      - padelito
+      - pdel xfa
+      - 80 luquitas
+      - no mas de 80
+      - en villita salvador
+      - fulbo en surco
+      - padel hoy en la noche
+      - barato pal dia de hoy
+      - hasta 80 x surco
+      - manana en surco
+      - noche en villita salvador
+      - fulbo pal dia d mañana
+      - boli x sjl alas 8
+      - padel cerca mio hoy dia
+      - alas 8 en sjl ps
+      - algo barato en la noche
+      - 80 luquitas pal dia de hoy
+      - fulbo x surco alas 8
+      - voley en sjl manana mismo
+      - padel en villa el salvador noche
+      - algo barato aca cerca
+      - hoy dia en sjl alas 8
+      - manana x surco algo economico
+      - nochecita en villita salvador maximo ochenta
+      - fulbo cerca mio hoy mas tarde
+      - voley en sjl en la noche
+      - padel pal dia d mañana x surco
+      - barato en sjl alas 8
+      - 80 luquitas en villa el salvador
+      - a mi alrededor fulbo
+      - cancha libre alas 8 x sjl
+      - surco mañana en la noche
+      - sjl hoy dia alas 8
+      - villita salvador manana barato
+      - fulbo alas 8 hoy dia
+      - voley pa la noche cerca mio
+      - padel no mas de 80 en sjl
+      - barato hoy mas tarde x surco
+      - 8pm cerca mio fulbo
+      - manana en villita salvador
+      - noche en sjl 80 luquitas
+      - fulbo y barato hoy dia
+      - voley en surco pal dia d mañana
+      - padel aca cerca alas 8pm
+      - hoy dia alas 8 en villa el salvador
+      - manana x sjl bien barato
+      - noche en surco hasta 80
+      - fulbito pal dia de hoy en sjl
+      - boli cerca mio en la noche
+      - padel hoy mas tarde x sjl
+      - alas 8 y economico
+      - manana en sjl fucho
+      - maximo ochenta pa la noche
+      - cerca d aki hoy dia
+      - villita salvador alas 8
+      - fulbo en mi zona
+      - manana x la noche
+      - padel mañanita
+      - mañana 8
+      - padel hoy 8pm
+      - futbol voley o padel
+      - algo q sea barato
+      - aqui cerca mio
+      - q sea hoy ps
+      - 8 de la noche
+      - el padel xfa
+      - por aca ps
+      - presupuesto hasta 80
+      - ala 8pm d hoy
+      - manana alas 8pm
+      - pa jugar futbol
+      - super barato
+      - max 80 soles pe
+      - 8pm pa voley
+      - padel si o si
+      - no pasar de 80
+      - por el surco
+      - max 80 nomas
+      - aki cerca
+      - solo mañana
+      - bien economico
+      - q cueste 80
+      - hasta ochenta
+      - surco ala noche
+      - voley si hay
+      - padel lo mas
+      - algo de 80
+      - 8pm x sjl hoy
+      - pa futbol hoy en sjl
+      - voley en surco ala noche
+      - padel barato pa manana
+      - surco noma
+      - futbol d 8pm
+      - padel a las 9
+      - para este viernes
+      - lunes x la noche
+      - ves por ahi
+      - d noche
+      - maximo cincuenta
+      - miércoles temprano
+      - cienega nomas
+      - jueves 6pm
+      - no mas de 70
+      - el deporte es voley
+      - mañana x la mañana
+      - tipo noche
+      - padel para mañana
+      - económico ps
+      - x los olivos
+      - santo anita
+      - sjn
+      - futbol a las 10
+      - dame lo de hoy
+      - el del ves
+      - catorce soles
+      - la proxima noche
+      - mas barato nomas
+      - solo fulbito
+      - q sea para hoy
+      - entre las 7 y 9
+      - q sea domingo
+      - para el miercoles
+      - casi 80
+      - voley en la tarde
+      - zona norte
+      - la fecha de hoy
+      - el mejor precio
+      - padel de noche
+      - maximo setenta
+      - a las 5pm
+      - el domingo en la noche
+      - solo en la noche
+      - chorrillos ps
+      - algo cerca
+      - siguiente dia
+      - las 8 p m
+      - un buen presupuesto
+      - el de manana
+      - el voley
+      - en la madrugada
+      - el de padel
+      - el q sea mas barato
+      - sjl noche
+      - 8pm pa futbol
+      - noche en sjl
+      - un voley ps
+      - mas barato ps
+      - q sea hoy
+      - padel mas tarde
+      - voley por surco
+      - surco por aca
+      - algo barato ps
+      - max 80 pa futbol
+      - solo futbol en sjl
+      - un voley por surco
+      - padel manana 8pm
+      - q sea barato ps
+      - surco cerca a mi
+      - futbol en la tarde
+      - vill salvador manana noche
+      - solo padel barato
+      - futbol hoy en surco
+      - voley manana por sjl
+      - padel 8pm en vill salvador
+      - no mas 80 pa hoy
+      - surco noche 8pm
+      - voley en sjl mañana
+      - padel en surco 8pm
+      - max 80 pa voley
+      - vill salvador 8pm hoy
+      - solo futbol por surco
+      - un voley en la noche ps
+      - q sea hoy max 80
+      - en surco pa futbol 8pm
+      - sjl noche pa voley
+      - futbol manana en vill salvador
+      - voley barato hoy 8pm
+      - padel en sjl manana
+      - max 80 pa hoy en surco
+      - vill salvador 8pm pa futbol
+      - solo voley en surco noche
+      - un padel hoy 8pm barato
+      - q sea en sjl manana max 80
+      - futbol en surco hoy 8pm
+      - voley barato manana en sjl
+      - padel noche 8pm en vill salvador
+      - max 80 lucas pa futbol hoy
+      - en surco manana noche pa voley
+      - sjl 8pm barato pa padel
+      - vill salvador hoy futbol max 80
+      - solo voley en sjl manana 8pm
+      - futbol en surco pa manana alas 8pm
+      - noche d hoy
+      - 8pm hora fija
+      - x aca
+      - d aqui a nada
+      - d noche ps
+      - hoy nomas
+      - barato p sjl
+      - barato x vill
+      - ochenta max
+      - padel mañana
+      - esa cancha
+      - la q ves
+      - esta nomas
+      - si pe esa
+      - la otra
+      - por alli
+      - la d vill salvador
+      - barato surco
+      - 80 lucas ps
+      - este barrio
+      - el d siempre
+      - cual qeres
+      - el q me dijiste
+      - ese ya
+      - d aca
+      - por este lao
+      - la hora
+      - el dia
+      - esa fecha
+      - en sjl x la noche
+      - algo asi
+      - el d padel
+      - 80 pal futbol
+      - mañana en sjl
+      - d noche la cosa
+      - q sea padel
+      - mas o menos
+      - la d siempre
+      - la hora q kieres
+      - d una vez
+      - ese horario
+      - surco mañana
+      - el q me dejes
+      - la d aca
+      - en ese lugar
+      - la q tenias
+      - aca cerk
+      - por mi casa
+      - x comas
+      - en villa maria
+      - x barranco
+      - sjl pe
+      - cerca mio pz
+      - por los olivos
+      - san isidro no
+      - mi zona nomas
+      - cerca del mall
+      - por aca mismo
+      - mañna
+      - ala 8
+      - tarde pz
+      - a esta hr
+      - antes de las 8
+      - a la mañana
+      - despues de las 8pm
+      - pa mañna
+      - para fulbo
+      - para voli
+      - fut con patas
+      - voli con gente
+      - padel solo
+      - quiero fut
+      - kiero voli
+      - padel aqui
+      - futbol al toke
+      - voley rapido
+      - padelito en grupo
+      - mi deporte es fut
+      - ochenta nomas
+      - precio comodo
+      - 80 max
+      - cuenta nomas
+      - 80 a lo mas
+      - poca plata
+      - lucas 80
+      - no pasar 80
+      - pa mas
+      - por surco pz
+      - surco fulbo
+      - hoy voley
+      - x sjl y barato
+      - hoy max 80
+      - surco noche fut
+      - 8pm voley si
+      - padel quiero
+      - manana es
+      - a noche
+      - manana no
+      - como 8pm
+      - de noche
+      - noche si
+      - hoy por la tarde
+      - alas 8 xfa
+      - noche puede ser
+      - 8 de la noche hoy
+      - un barato
+      - 80 como maximo
+      - barato, eso
+      - 80 na mas
+      - surco hoy noche
+      - manana en surco 8pm
+      - noche futbol barato
+      - voley en sjl manana
+      - padel max 80 en surco
+      - a las 8 en sjl
+      - hoy voley en ves
+      - manana futbol barato
+      - ves barato hoy
+      - futbol alas 8
+      - voley surco manana
+      - padel 80 lucas
+      - surco para manana
+      - ves en la noche
+      - 8pm d futbol
+      - barato pa jugar
+      - max 80 en ves
+      - ves 8pm
+      - voley hoy en sjl
+      - 80 lucas pa hoy
+      - surco cerca nomas
+      - sjl mi zona
+      - ves cancha
+      - voley pa la noche
+      - donde dices surco
+      - q tal sjl
+      - para 8pm
+      - ves nomas
+      - kiero voley barato
+      - pa hoy 8pm
+      - ves barato
+      - sjl alas 8
+      - futbol hoy tarde
+      - en surco o sjl
+      - hoy manana o noxe
+      - cerca mio x surco
+      - pa hoy barato
+      - manana en ves
+      - kiero futbol hoy
+      - voley x la noxe
+      - sjl noxe 8pm
+      - ves pa manana
+      - padel hoy noxe
+      - pa hoy o manana
+      - en surco 8pm
+      - ves economico
+      - voley manana noxe
+      - padel barato x surco
+      - 8pm x aca
+      - max 80 para ves
+      - padel 8pm en surco
+      - aca cerca y barato
+      - hoy o manana 8pm
+      - surco sjl o ves
+      - kiero max 80
+      - futbol noxe barato
+      - padel pa hoy 8pm
+      - x surco max 80
+      - ves o sjl
+      - manana en la noxe
+      - alas 8 pm
+      - futbol hoy x surco
+      - voley barato x ves
+      - max 80 soles aca
+      - pa hoy nomas
+      - sjl x la noxe
+      - x ves o surco
+      - max 80 x la noxe
+      - cancha libre x aca
+      - 8pm barato
+      - sjl x aca
+      - kiero en surco
+      - max 80 pa manana
+      - futbol x la noxe
+      - padel barato hoy
+      - a la noche
+      - manana sin falta
+      - jueves prox
+      - en la mañana tipo 9
+      - lunes a las 8
+      - voley ball
+      - bajo presupuesto
+      - solo sjl
+      - mañana porfa
+      - a las diez pm
+      - canchita de futbol
+      - por el distrito
+      - basket nomas
+      - este finde semana
+      - de 6 a 8pm
+      - lunes de noche
+      - por ahi de las 7
+      - volei
+      - solo barato
+      - a las 9 de la noche
+      - fulbito 5
+      - con poco billete
+      - cerca de la casa
+      - este fin
+      - el deporte es futbol
+      - hasta 70 soles
+      - el deporte padel
+      - q no supere 80
+      - ala 7 pm
+      - el futbol
+      - sin mucho gasto
+      - sjl porfa
+      - pasao manana
+      - 10 de la noche
+      - solo volei
+      - algo q no pase de 80
+      - la proxima semana ps
+      - tipo 8 y media
+      - 19:30
+      - tipo nueve pm
+      - manana a la tarde
+      - 21:00
+      - solo fulbo
+      - por villa el salvador
+      - en surko ps
+      - la villa
+      - surco por ahi
+      - sjl la zona
+      - en sjl ps
+      - d donde estoy
+      - jueves nomas
+      - en la tarde masomenos
+      - temprano xfa
+      - por la tardecita
+      - padel causa
+      - algo de fulbito
+      - voley es lo mio
+      - padel o tennis
+      - fulbito d noche
+      - poca plata nomas
+      - menos de 60
+      - surco futbol hoy
+      - padel cerca mio
+      - futbol noche 80
+      - hoy 8pm surco
+      - este d aca
+      - el primero
+      - ese q me dices
+      - el del video
+      - el q vi ayer
+      - cualquiera nomas
+      - el mas cercano
+      - el q este libre
+      - la q tenga 8pm
+      - el q esta en sjl
+      - 8pm por surco
+      - aca en la noche
+      - hoy nomas ps
+      - el de la villa
+      - el de surco 8pm
+      - cancha libre x ahi
+      - futbol despues
+      - el d la vuelta
+      - el mas cerca
+      - q sea en sjl
+      - si hay voley
+      - algo barato 8pm
+      - hoy surco
+      - el d la noche ps
+      - x la tarde mejor
+      - no tan lejos
+      - el sabado xfa
+      - el d la 8
+      - en surco hoy
+      - 8pm nomas
+      - en sjl barato
+      - futbol aqui
+      - el d la mañana
+      - d la tarde
+      - el q este bien
+      - si es en surco
+      - cerca del mercado
+      - el d la av
+      - en el parque
+      - el mas grande
+      - voley x la noche
+      - maximo 80 pa hoy
+      - ala hora q sea
+      - cualquier hora hoy
+      - el mas cercano a sjl
+      - el q tengas
+      - el q keda
+      - en la villa hoy
+      - mi barrio nomas, sjl
+      - en ves, si
+      - mi zona, surco
+      - el ves nomas
+      - aca por mi cuadra
+      - en sjl xfa
+      - surco o ves
+      - cerca mio en ves
+      - por aca en sjl
+      - si, en surco
+      - 8pm, si
+      - kiero 8pm
+      - si, manana
+      - de noche si
+      - para noche
+      - alas 8, max
+      - si es hoy
+      - noche, nomas
+      - voley si
+      - para voley
+      - el fulbito
+      - ese, padel
+      - el voleybol
+      - 80 soles nomas
+      - si, barato
+      - si, 80
+      - sjl hoy, 8pm
+      - surco manana, futbol
+      - ves, padel, barato
+      - 80 lucas, sjl
+      - futbol, noche, 8pm
+      - voley, manana, barato
+      - padel, hoy, max 80
+      - en surco, 8pm
+      - sjl, de noche
+      - hoy, futbol, 80
+      - si, ese
+      - no, el otro
+      - este de aca
+      - justo ese
+      - el k es 8pm
+      - solo ese
+      - no, ese no
+      - este d ak
+      - el otro ps
+      - hoy en mi sjl
+      - futbol a 80 lucas
+      - voley en ves hoy dia
+      - surco noma ps
+      - futbol hoy noche
+      - max 80 soles fijo
+      - surco ala 8pm
+      - noche a las 8pm
+      - padel max ochenta
+      - economico pa hoy
+      - sjl cerca de mi
+      - futbol noma
+      - padel pa jugar
+      - surco hoy alas 8
+      - noche de futbol en surco
+      - padel a las 8pm barato
+      - voley max 80 por sjl
+      - hoy futbol en vill salvador
+      - manana voley cerca mio
+      - noche padel aca
+      - alas 8pm para futbol
+      - barato para voley hoy
+      - max 80 pa padel manana
+      - surco nomas ps
+      - sjl pe q dices
+      - vill salvador cerca
+      - aca a mi alrededor nomas
+      - barato para jugar hoy
+      - max 80 por surco hoy
+      - surco hoy a las 8
+      - sjl manana a la noche
+      - manana cerca mio
+      - noche aca a mi alrededor
+      - alas 8pm futbol q dices
+      - q sea de voley hoy
+      - padel o futbol barato
+      - maximo 80 por sjl
+      - surco cerca mio ps
+      - sjl por mi casa
+      - aca en surco alas 8
+      - kiero futbol hoy en sjl
+      - un voley manana barato
+      - padel x la noche max 80
+      - barato en surco hoy
+      - max 80 en sjl manana
+      - surco pa jugar 8pm
+      - sjl pa el voley noche
+      - vill salvador futbol hoy
+      - cerca mio padel manana
+      - aca a mi alrededor voley
+      - alas 8pm en surco
+      - q sea futbol barato
+      - un padel max 80
+      - surco o sjl hoy
+      - manana o noche padel
+      - futbol o voley en surco
+      - barato o economico pa sjl
+      - max 80 o menos
+      - ves ps q tal
+      - q ves pa hoy
+      - hoy en la tarde ps
+      - manana a primera hora
+      - nochecita nomas
+      - 8pm si o si
+      - futbol es mi deporte
+      - voley con las patas
+      - padel con el broder hoy
+      - barato y bueno en sjl
+      - sjl por ahi cerca
+      - hoy o nunca
+      - manana de noche
+      - noche bien tarde
+      - 8pm puntual hoy
+      - voley en la manana
+      - padel en la noche surco
+      - barato para los panas
+      - max 80 para la gente
+      - fut bol
+      - voley no +
+      - padell
+      - surkito ps
+      - en el sjl
+      - v salvador cerca
+      - el ves
+      - deport padel
+      - max 80 ps
+      - sjl y hoy
+      - manana y noxe
+      - 8pm y futbol
+      - barato y voley
+      - max 80 y padel
+      - padel cerca mio en la noxe
+      - futbol maximo ochenta lucas pa hoy
+      - voley por sjl mañana en la tarde
+      - aca a mi alrededor tipo 8pm fijo
+      - en surco pa hoy ps y q sea barato
+      - max 80 lucas para el ves en sjl
+      - kiero jugar fut bol en mi barrio
+      - solo voley en villa salvador, no tan caro
+      - para padel en la noxe x mi zona
+      - mañana por la mañana en surco y q sea barato
+      - d donde vivo aca
+      - sjl por alli
+      - villa el salvador x aki
+      - mañna x la mñna
+      - por la madrugada
+      - kiero fut
+      - economico q sea
+      - plata x 80
+      - surco alas 8
+      - sjl hoy tarde
+      - barato y x surco
+      - cerca mio hoy
+      - futbol por aca
+      - padel en el ves
+      - en mi zona 8pm
+      - hoy x surkito
+      - la noxe, 8pm
+      - futbol, max 80
+      - voley, barato ps
+      - de 8pm a mas
+      - mañna temprano x sjl
+      - ves x la noxe
+      - surco no mas
+      - futbol y punto
+      - hoy tarde ps
+      - mañna noxe ps
+      - x surco alas 8
+      - sjl y fut
+      - cerca mio y hoy
+      - en la noxe, surco
+      - pa hoy en sjl
+      - futbol pa las 8
+      - aca al lado
+      - x la casa
+      - en sjl, tarde ps
+      - surco, noxe
+      - hoy x aca
+      - mañna x alla
+      - 8pm en mi barrio
+      - voley en la noxe
+      - barato pa mañna
+      - hoy pa jugar
+      - mañna ps q sea
+      - fulbol ps
+      - en surco noma
+      - noche causa
+      - cerca ves
+      - hoy mismo ps
+      - solo ochenta soles
+      - x surco cerca
+      - fulbito en la noche
+      - manana fijo
+      - padel recontra
+      - a las siete pm
+      - el de ves
+      - sjl pa ti
+      - hoy al toque
+      - como a las 8
+      - lo mas barato posible
+      - sjl mi barrio
+      - ochenta maximo
+      - fulbol alas nueve
+      - manana en la mañana
+      - padel pa la noche
+      - 7 a 8 de la noche
+      - algo bien barato
+      - sjl con canchas
+      - hoy o el sabado
+      - ochenta lucas
+      - fulbito pa manana
+      - voley el finde
+      - a las seis pm
+      - en el distrito sjl
+      - ese esta barato
+      - aca en sjl pe
+      - para la nochecita
+      - casi 80 soles
+      - x surco al toque
+      - el de fulbol
+      - tipo siete pm
+      - cerca de ves
+      - ese barato ps
+      - sjl y punto
+      - hoy a la fija
+      - 80 nomas causa
+      - surco la zona
+      - fulbito manana
+      - padel pa hoy mismo
+      - 7pm o un poco mas tarde
+      - en ves nomas
+      - barato na mas
+      - sjl al este
+      - hoy mas tarde pe
+      - surco cerca mia
+      - fulbito tipo ocho
+      - padel a las siete
+      - cancha alas ocho pm
+      - ves por alla
+      - sjl centro
+      - surco zona sur
+      - futbol pa la noche
+      - voley despues
+      - a las ocho de la noche
+      - x ves nomas
+      - sjl por aca
+      - solo ochenta
+      - surco zona centro
+      - fulbito pa la noche
+      - voley a la fija
+      - recontra barato
+      - por surko ps
+      - tipo 8 d la noche
+      - pdel kiero
+      - 80 soles ps
+      - mña en la noche
+      - surco barato ps
+      - mañana 8pm
+      - 8pm max 80
+      - sjl mañana noche 8pm
+      - por sjl pa mañana
+      - pa la noche ps
+      - fubol hoy
+      - la pichanga pa hoy
+      - x ahi por surco
+      - pa fulbito hoy
+      - 80 lucas nomas
+      - mañana por surko
+      - max 80 pal fulbito
+      - pa voley mañana
+      - fubol en la noche
+      - voley mañana en sjl
+      - padel a las 8
+      - hoy en sjl ps
+      - por surko mañana noche
+      - 80 lucas para fubol
+      - pa hoy alas 8
+      - max 80 pa la pichanga
+      - volei en surco
+      - solo padel mañana
+      - la de mañana ps
+      - en sjl a las 8pm
+      - fubol max 80
+      - mañana pa la noche 8pm
+      - surco y barato
+      - voley 80 soles
+      - hoy a las 8 en sjl
+      - maximo 80 en surco
+      - pa voley alas 8
+      - fubol mañana ps
+      - la noche 8pm x surco
+      - solo 8pm
+      - manana en surko
+      - 80 lucas para hoy
+      - pa padel en sjl
+      - fubol 8pm en surco
+      - algo barato en sjl
+      - hoy para fulbito
+      - noche 8pm en vill salvador
+      - voley max 80 hoy
+      - padel mañana 8pm
+      - x surco hoy 8pm
+      - solo fubol barato
+      - sjl para voley
+      - max 80 pa mañana
+      - 8pm en sjl la noche
+      - pa la pichanga 8pm
+      - voley x surco hoy
+      - 80 soles pa futbol
+      - mañana noche en vill salvador
+      - libre alas 8pm
+      - surco ps
+      - noche nomas
+      - presu bajo
+      - surco es
+      - sjl xfa
+      - manana por la tarde
+      - pa la nochecita
+      - voley ahi
+      - ochenta soles top
+      - a las ocho noche
+      - en ves si
+      - aki surco
+      - voley solo
+      - padel yaso
+      - ocho pm fijo
+      - sjl a la mano
+      - para hoy dia
+      - manana al toke
+      - noche cita
+      - ese padel
+      - algo mas economico
+      - en vill el salvador cerca
+      - x sjl si
+      - surco sur
+      - noche de hoy
+      - futbol si
+      - maximo 80 pe
+      - barato pa mi
+      - a las 8 en surco
+      - ves no mas
+      - fulbo con patas
+      - ochenta es mi tope
+      - sjl cerca de aca
+      - manana por la manana
+      - surco y sjl
+      - ves por la noche
+      - manana mismo
+      - q sea max 80
+      - un padel en ves
+      - max ochenta lucas
+      - para hoy en surco
+      - en ves pe
+      - padel tambien
+      - por vill el salvador
+      - solo futbol ahora
+      - voley para noche
+      - sjl no
+      - ves si
+      - futbool
+      - el surco
+      - hoy en ves
+      - noche a las 8
+      - sjl x ahi
+      - hoy alas 8pm
+      - un lugar barato
+      - x vill salvador nomas
+      - tipo 8 pe
+      - padel x ak
+      - ves noche
+      - 80 es el tope
+      - aki en surco xfa
+      - futbol ahora
+      - surco mañana 8pm
+      - futbol y padel
+      - padel barato sjl
+      - en la noche hoy
+      - mañana a las ocho
+      - a la altura d surco
+      - aki en ves
+      - sjl bajo
+      - manana xfa
+      - mñna
+      - 8 nomas
+      - la d las 8
+      - barato si
+      - lo mas barto
+      - k sea barto
+      - 80 soles el tope
+      - surco x la noche
+      - sjl hoy en la noche
+      - padel, barto
+      - manana, surco
+      - noche, max 80
+      - futbol, surco, hoy
+      - voley, sjl, noche
+      - padel, ves, manana
+      - 8pm, barto
+      - surco, 8pm, futbol
+      - sjl, noche, voley
+      - hoy, barato
+      - manana, max 80
+      - noche, futbol
+      - ves, 8pm, padel
+      - x surco, 8pm
+      - sjl, pa la noche
+      - futbol, hoy, en surco
+      - voley, manana, sjl
+      - padel, 8pm, ves
+      - barato, hoy, sjl
+      - max 80, manana, surco
+      - canchita pa hoy
+      - zona este
+      - cualkier cancha
+      - la mas cercana
+      - para 5 personas
+      - bien temprano
+      - por la noxe
+      - fin de semana
+      - cancha de losa
+      - sin techo
+      - alumbrado
+      - 8pm ta bien
+      - manana q ves
+      - voley pz
+      - futbol kiero
+      - padel mejor
+      - k sea barato
+      - alas 8 fijo
+      - max 60 lukas
+      - cerca al centro
+      - para hoy 8pm
+      - mañana tipo 7
+      - sjl en la tarde
+      - barato q ves
+      - max 50 nada mas
+      - en la noche 9pm
+      - manana despues d 6
+      - q sea accesible
+      - x surco barato
+      - futbol este finde
+      - max 80 lukitas
+      - q no pase los 80
+      - alrededor mio
+      - pa las 9 d la noche
+      - x surco masomeno
+      - sjl barrio
+      - padel o voley
+      - futbol o fulbito
+      - barato si o si
+      - cerca a mi chamba
+      - futbol surco noche
+      - voley sjl 8pm
+      - maximo 60 soles
+      - q sea econmico
+      - por sjl pz
+      - noche antes d 9
+      - manana dia
+      - futbol si ves
+      - voley si ves
+      - padel disponible
+      - max 80 pa mi
+      - cualkier hora d noche
+      - cuando sea hoy
+      - sjl mejor
+      - 8pm mas tarde
+      - noche ya
+      - voley pa la gente
+      - padel divertido
+      - precio max 80
+      - q no sea tan caro
+      - en mi cuadra
+      - fultbol hoy
+      - sjl ahorita
+      - de fultbol
+      - de voley pa
+      - en sjl pe
+      - presupuesto ochenta
+      - de padel
+      - q sea 80
+      - sjl mañana tarde
+      - futbol a las ocho
+      - voley la noche
+      - algo q no pase 80
+      - pa jugar hoy
+      - de futbol
+      - 80 máximo
+      - a futbol
+      - 80 o menos
+      - max 80 sol
+      - sjl a la noche
+      - ocho de la noche hoy
+      - hoy tarde
+      - ocho p m
+      - surco por alli
+      - sjl temprano
+      - alas ocho pm
+      - voley q sea
+      - barato hoy mismo
+      - cerca de surco
+      - sjl por favor
+      - hoy a las 8
+      - futbol para mañana
+      - aki en sjl
+      - sjl la libertad
+      - hoy ps
+      - para manana nomas
+      - algo de padel
+      - bara
+      - q este bara
+      - x la ves
+      - villa el salvador cerca
+      - padel seria
+      - manana tempranito
+      - sjl me qeda
+      - futbol xfa
+      - q no pase d 80 lucas
+      - x la ves mas cerca
+      - aca nomas
+      - fut para hoy
+      - padel en la noxe
+      - bien bara xfa
+      - este 8pm
+      - este hoy
+      - este manana
+      - no mas d ochenta
+      - en ves por ahi
+      - mi zona surco
+      - mi zona sjl
+      - para el futbol
+      - para el voley
+      - para padel
+      - hoy en la noche alas 8pm
+      - manana cerca d las 8
+      - q sea baratito
+      - k no sea tan caro
+      - tope 80
+      - surco la molina
+      - el futbol de hoy
+      - el voley d manana
+      - el padel x la noxe
+      - bara x aki
+      - 80 sol nomas
+      - en la ves hay
+      - sjl alas 8pm
+      - manana en la tardecita
+      - hoy en la mananita
+      - fut d noche
+      - voley d dia
+      - padel d tarde
+      - 80 soles lucas
+      - en sjl x la noxe
+      - ves ahora
+      - futbol nomas hoy
+      - a la noxe 8
+      - x mi distrito sjl
+      - en surco por mi casa
+      - algo d fut pa hoy
+      - fulbo nomas
+      - surco mi barrio
+      - pichanga de fulbo
+      - el agustino ves
+      - por sjl porfa
+      - magdalena no mas
+      - san borja asi
+      - la victoria mi gente
+      - lince cerca
+      - surquillo ps
+      - manana alas 8
+      - futbol x ves
+      - presio max 80
+      - para furbol
+      - volei hoy
+      - ves cerca
+      - max 80 x voley
+      - noche pa jugar
+      - por surco oe
+      - preciox 80
+      - para las 8pm
+      - algo d 80
+      - noche 8pm surco
+      - futbol mañana 8pm
+      - mañana pa sjl
+      - noche d mañana
+      - mañana en ves
+      - el presio es 80
+      - pdel barato
+      - hoy en la noche 8pm
+      - el sjl
+      - 8pm la hora
+      - para manana
+      - futbol no mas
+      - voley hoy noche
+      - por sjl 8pm
+      - hoy futbol surco
+      - manana voley ves
+      - 8pm padel barato
+      - mi presupuesto 80
+      - la mas barata
+      - no pase de 80
+      - futbolazo
+      - d padel
+      - deporte fut
+      - el depore
+      - aki al toke
+      - por mi jato
+      - mi zona
+      - en mi cono
+      - aki no mas
+      - mas tardecito
+      - manana noche
+      - despues de 7
+      - bien noche
+      - ya tarde
+      - la noche de hoy
+      - hoy no mas
+      - es para hoy
+      - barato, xfa
+      - max 70 lucas
+      - kiero padel ps
+      - 8pm x ves
+      - padel el sabado
+      - presu 80
+      - pal dia
+      - fut 8pm
+      - mas o menos 80 lucas
+      - el de hoy
+      - kiero fut hoy
+      - padel a las 7
+      - un poco de plata
+      - x la mañana
+      - q sea en ves
+      - padel el finde
+      - kiero algo de fulbito para hoy
+      - en mi barrio por la noche
+      - hoy en la tarde x sjl
+      - presupuesto max 80 lucas
+      - maximo 50 lucas no mas
+      - mi zona es surco
+      - p or sjl
+      - ves x alla
+      - donde vivo
+      - por condevilla
+      - en la molina kiero
+      - miraflores puede ser
+      - los olivos x ahi
+      - mi barranco
+      - magdalena
+      - comas norte
+      - el prox viernes
+      - dia sabado
+      - en la tardecita
+      - temprano
+      - en la mañanita
+      - martes k viene
+      - miercoles xfa
+      - dia lunes
+      - para el 15
+      - fines de semana
+      - un futbol
+      - pal basket
+      - maximo 70 soles
+      - q sea comodo
+      - max cien
+      - no mas de 60
+      - noche en ves
+      - aca en ves
+      - hoy x la noxe
+      - alas 8 pe
+      - cerca mi casa
+      - dnd sea x ves
+      - el lunes ps
+      - la noche en ves
+      - en sjl dnd
+      - hoy por ahi
+      - surko noma
+      - mas tarde hoy
+      - mañana no tan tarde
+      - 9pm cerka
+      - ves pa mañana
+      - 7pm en punto
+      - mañana mas
+      - padel noma
+      - barato ah
+      - padel x la noxe
+      - max 50
+      - futbol de noche
+      - 60 lucas
+      - solo futbol pe
+      - 70 maximo
+      - ves mañana
+      - q sea cerca y barato
+      - x mi barrio hoy
+      - vill salvador pa manana
+      - a la noxe
+      - hoy a la tarde
+      - manana en la manana
+      - sjl mañana noxe
+      - ves hoy tarde
+      - voley 7pm
+      - padel x aki
+      - en surco p
+      - surco este
+      - por sjl barrio
+      - aqui alrededor
+      - mi distrito surco
+      - zona ves
+      - mañana tmb
+      - de noche xq
+      - manana hora 8
+      - hoy dia si
+      - padel p
+      - de futbol nomas
+      - voleyball si
+      - voley en cancha
+      - padel rapido
+      - barato p
+      - menos d 80
+      - ochenta a lo mas
+      - con 80
+      - ves manana futbol
+      - hoy futbol barato
+      - voley hoy noche 8pm
+      - aca padel
+      - sjl para hoy
+      - noche fulbito
+      - el d hoy
+      - para ves
+      - mañana alas 8
+      - 8pm y ya
+      - barato por sjl
+      - max 80 en surco
+      - en la noche en surco
+      - futbo ps
+      - sjl futbol noche
+      - ves voley barato
+      - padel 8pm sjl
+      - barato en ves
+      - sjl a las 8
+      - mañana a las 8pm
+      - voley por ves
+      - padel pa mañana
+      - algo barato x surco
+      - 8pm pa futbo
+      - padel pa 8pm
+      - surco a las 8
+      - ves pa la noxe
+      - max ochenta ps
+      - pa surco hoy
+      - pa sjl 8pm
+      - pa ves en la noche
+      - voley barato pa hoy
+      - padel 8pm mañana
+      - [oy](date)
+      - [manana](date) ya
+      - un [padel](sport)
+      - tipo [surco](location)
+      - [voleyball](sport) pues
+      - [surco city](location)
+      - [sanjuan](location)
+      - [villa el salvador](location) es
+      - el [padel](sport) quiero
+      - pa [surco](location) alas [8pm](time)
+      - [max 80](budget) pa [oy](date)
+      - [ves](location) x la [noche](time)
+      - [8pm](time) para [voley](sport)
+      - [oy](date) o [manana](date)
+      - [noche](time) o [8pm](time)
+      - [max 80](budget) si o si
+      - [manana](date) pa [padel](sport)
+      - [sjl](location) con [futbito](sport)
+      - [8pm](time) pa [surco](location)
+      - un [voley](sport) [barato](budget)
+      - [max 80](budget) pa [ves](location)
+      - [cerca mio](location) [oy](date) [noche](time)
+      - [futbol](sport) alas [8pm](time) [manana](date)
+      - [padel](sport) en [sjl](location) [barato](budget)
+      - [surco](location) [manana](date) [8pm](time)
+      - [oy](date) [voley](sport)
+      - [sjl](location) [max 80](budget)
+      - [manana](date) la [noche](time)
+      - [8pm](time) [oy](date) [surco](location)
+      - [voley](sport) pa [sjl](location) [barato](budget)
+      - solo [padel](sport) [cerca](location)
+      - [ves](location) [manana](date) [barato](budget)
+      - [max 80](budget) [futbol](sport) [oy](date)
+      - [sjl](location) [8pm](time) [voley](sport)
+      - [surco](location) pa [hoy](date)
+      - un [futbito](sport) en [sjl](location)
+      - [voley](sport) cerca d [aca](location)
+      - ves xfa
+      - manana noxe
+      - surko nomas
+      - futbol x la tarde
+      - ves hoy mismo
+      - q hora es? 8pm
+      - xq no manana
+      - por surko pe
+      - sjl causa
+      - voley o algo
+      - 70 soles max
+      - sjl manana noxe
+      - ves x la tarde
+      - 60 es mi max
+      - mi barrio surco
+      - ves pa hoy
+      - futbito nomas
+      - padel o futbito
+      - 85 soles tope
+      - x ahi en surco
+      - al rededor
+      - la victoria tmb
+      - barranco puede ser
+      - en lince
+      - tardecita
+      - a las 6
+      - despues d 7
+      - a la tardecita
+      - tipo 10 am
+      - a media noche
+      - manana nomas
+      - prox finde
+      - finde semana
+      - fulbito con mis patas
+      - 60 lukas
+      - hasta 70
+      - 80 soles a lo mucho
+      - lukitas
+      - 40 soles
+      - futbol en sjl mañana
+      - padel barato x ves
+      - por mi barrio surco
+      - x mi zona sjl
+      - donde siempre en surco
+      - la q keda en ves
+      - mi local en sjl
+      - surco x jockey
+      - en el ves al fondo
+      - sjl por metro
+      - canchita en surco
+      - para alla en sjl
+      - alla en ves
+      - al toque en surco
+      - aca al toque en sjl
+      - ala noche ps
+      - mas tarde en la noche
+      - temprano manana
+      - 8 en punto
+      - partido d futbol
+      - pal voley
+      - unas d padel
+      - voley de barrio
+      - presu max 80
+      - un poquito barato
+      - surco hoy 8pm
+      - ves futbol noche
+      - sjl hoy barato
+      - manana 8pm en ves
+      - noche futbol surco
+      - sjl pa manana 8pm
+      - ves futbol barato
+      - padel hoy max 80
+      - futbol en surco ala noche
+      - sjl hoy d noche
+      - manana 8pm en ves cerca
+      - noche futbol surco cerca mio
+      - padel max 80 x ves
+      - futbol en sjl manana
+      - aca
+      - cerca
+      - xfa
+      - ves pa la noche
+      - x la manana
+      - otro dia
+      - pal mes
+      - cuesta 50
+      - un poco mas
+      - la noche buena
+      - el dia completo
+      - todo el dia
+      - solo tarde
+      - futbol en surco hoy
+      - voley sjl manana 8pm
+      - padel ves noche barato
+      - sjl futbol pa la noche
+      - ves voley cerca mio
+      - 8pm padel barato aca
+      - hoy en sjl futbol 8pm
+      - manana surco voley max 80
+      - noche ves padel cerca
+      - cancha surco 8pm
+      - barato hoy en ves
+      - max 80 sjl manana
+      - futbol x mi barrio 8pm
+      - voley pa el sabado barato
+      - padel cerca mio pa noche
+      - hoy futbol x surco
+      - manana voley sjl barato
+      - noche padel ves 8pm
+      - pa hoy 8pm max 80
+      - surco ah
+      - pa mi zona
+      - proximo sabado
+      - miercoles ps
+      - pa este jueves
+      - futbol pe
+      - fultbol ps
+      - menos d 50
+      - hasta 70 lukas
+      - en surco manana
+      - ahi en surco
+      - manana padel
+      - q sea barato pe
+      - aca mismo
+      - la cancha ps
+      - esa misma
+      - la q te dije
+      - la de la esquina
+      - la del parque
+      - ahora xfa
+      - la hora q dices
+      - el dia d hoy
+      - q sea para manana
+      - ese deporte
+      - con ese presupuesto
+      - uno comodo
+      - algo tranqui
+      - no tan tarde
+      - antes d la cena
+      - despues d la chamba
+      - 9 noche
+      - pasao maña
+      - x sjl hoy
+      - voley mañana temprano
+      - barato x mi zona
+      - canchita padel ves
+      - el domingo fijo
+      - lunes o martes
+      - cancha futsal
+      - ves de noche
+      - maximo 80 lucas
+      - futbol max 60
+      - surco este finde
+      - sjl noche 9
+      - hoy mismo en la noche
+      - pa el viernes
+      - cancha fut
+      - x la chamba
+      - 8y30pm
+      - en la mañana ps
+      - presupuesto ajustado
+      - ves pa el sabado
+      - max 90
+      - 9 d la noxe
+      - voley cn mis amigos
+      - padel maña
+      - el lunes xfa
+      - voley ves
+      - padel x mi casa
+      - maximo 70 lucas
+      - noche de fut
+      - surco q no pase d 80
+      - ves pa el domingo
+      - surco, max 80
+      - futbol, q sea barato
+      - padel mañana en la noche
+      - en surco, cerca d mi casa
+      - pa futbol en sjl
+      - voley, mañana 8pm
+      - padel en surco, max 80
+      - hoy en ves, ala noche
+      - q sea barato y en surco
+      - futbol ps, x la noche
+      - voley, max 80 lucas
+      - 8pm en sjl pa futbol
+      - mañana, pa voley
+      - surco, max 80 y barato
+      - futbol, mañana 8pm
+      - voley en sjl, hoy
+      - padel, ala noche ps
+      - en ves, futbol barato
+      - surco, a las 8pm
+      - mañana x la noche
+      - en sjl, hoy noche
+      - kiero voley hoy
+      - surco, mañana 8pm
+      - max 80, en ves
+      - futbol, cerca mio
+      - noche, en sjl
+      - pa padel, barato
+      - hoy, max 80
+      - voley, en surco
+      - mañana, pa futbol
+      - sjl, noche barato
+      - surco, ala 8
+      - ves, hoy 8pm
+      - futbol, alas 8
+      - padel, x la noche
+      - voley, maximo 80
+      - pa jugar futbo
+      - es hoy
+      - sjl es mi barrio
+      - ves cerca mio
+      - surko cerca
+      - manana x la noxe
+      - surco aca alrededor
+      - plata max 80
+      - en sjl noma
+      - ves x aca
+      - 80 lucas el tope
+      - surco vill el salvador
+      - futboll pa hoy
+      - sjl cerca a mi casa
+      - ves por mi casa
+      - x surko x mi barrio
+      - kiero sjl
+      - ves en mi zona
+      - padel pa este finde
+      - max 80 pal presupuesto
+      - alas ocho d la noxe
+      - futboll pa la noxe
+      - economico porfa
+      - hoy si es posible
+      - sjl cerca d aca
+      - vill el salvador xfa
+      - q no sea tan caro 80
+      - surco x ahi
+      - futbo en la noxe
+      - sjl x el mercado
+      - 80 soles si o si
+      - manana a esta hora
+      - surco cerca a mi chamba
+      - en mi barrio pz
+      - ves pz
+      - por callao
+      - la vdd hoy
+      - q sea noche
+      - una pichanga
+      - a jugar futbol
+      - q no pase 80
+      - solo 80 lukitas
+      - ochenta
+      - ves pa futbol
+      - manana voley barato
+      - hoy por mi ksa
+      - ves para la noche
+      - sjl 8 d la noche
+      - futbol max ochenta
+      - voley en surco 8pm
+      - padel mananita
+      - hoy noche barato
+      - ves pa las 8
+      - padel maximo 80
+      - hoy noche en surco
+      - manana en sjl 8pm
+      - futbol para 8pm
+      - voley hoy barato
+      - padel en mi zona 8pm
+      - sjl barato padel
+      - ves hoy voley
+      - sjl xfis
+      - pal padel
+      - ves futbol
+      - futbol mañana
+      - surco cerca mio
+      - surco pz
+      - ves xfis
+      - oy porfa
+      - ves manana
+      - pa hoy en surco
+      - pa manana x sjl
+      - nochesita surco
+      - padel x noche
+      - el sabado q viene
+      - domingo ps
+      - algo d futbol
+      - pa jugar surco
+      - x sjl a la noche
+      - villa el salvador ps
+      - manana x tarde
+      - futbol en surco 8pm
+      - voley sjl barato
+      - la cancha x aca
+      - mi barrio ps
+      - alrededor d aca
+      - la nochecita
+      - pa mi fulbo
+      - padel tranqui
+      - futbol voley padel
+      - max 80 surco
+      - donde es barato
+      - algo rapido hoy
+      - por surco a la noche
+      - sjl manana 8pm
+      - ves pa fulbito
+      - manana voley max 80
+      - padel cerca mio hoy
+      - pa la noche barato
+      - fulbito en sjl
+      - 80 pa hoy
+      - x la noche en ves
+      - barato pa padel
+      - surco cerca d plaza
+      - sjl por las flores
+      - ves cerca al mercado
+      - hoy voley tarde
+      - manana fulbito noche
+      - padel en ves 8pm
+      - el dia d hoy ps
+      - pa el finde
+      - canchita x ves
+      - x sjl barato hoy
+      - noche d fulbo
+      - x ves
+      - mi barrio sjl
+      - por ahi cerka
+      - ps en sjl
+      - tarde
+      - despues d 8
+      - antes d la noche
+      - hoy si
+      - a eso d las 8
+      - no tan karo
+      - fut en ves
+      - max 80 noche
+      - ves hoy temprano
+      - cerca mio barato
+      - aca alas 8
+      - en mi zona hoy
+      - por surco fut
+      - sjl voley manana
+      - ves padel 8pm
+      - voley 8pm sjl
+      - padel manana surco
+      - x mi barrio alas 8
+      - mañana fut
+      - sjl aca
+      - surco si
+      - voley na mas
+      - hoy 8pm ps
+      - por sjl barato
+      - cerca de casa
+      - sjl 80 lucas
+      - aca cerka
+      - por este barrio
+      - donde haya
+      - lo que este libre
+      - 8pm hoy ps
+      - surco 80 pe
+      - futbol con luz
+      - la cancha hoy
+      - pa la noche 7pm
+      - como a las 7
+      - 7 30 pe
+      - futbol solo
+      - voley ahora
+      - surco en la noche
+      - cualkier hora
+      - en cualkier sitio
+      - lo q kede
+      - algo q este disponible
+      - lo que salga
+      - en sjl 8pm
+      - sjl para mañana
+      - ves noche 8pm
+      - surco max 80
+      - voley 8pm hoy
+      - padel sjl barato
+      - ves por la tarde
+      - futbol 7pm
+      - 50 soles max
+      - fulbol en ves
+      - noche alas 9
+      - cerca en surco
+      - sjl xk es barato
+      - surco pa la tarde
+      - sjl 7pm
+      - ves que sea barato
+      - 75 max
+      - padel en sjl alas 8
+      - manana voley en surco
+      - ves la noche
+      - sjl padel barato
+      - surco hoy fulbito
+      - voley 8pm ves
+      - padel manana tarde
+      - 70 soles
+      - futbol 8pm surco
+      - manana padel sjl
+      - surco noche 7pm
+      - sjl voley hoy
+      - padel 8pm cerca mio
+      - futbol manana 6pm
+      - voley max 60
+      - sjl padel economico
+      - hoy surco voley
+      - manana ves padel
+      - 80 max en sjl
+      - futbol noche 7pm
+      - surco alas 9
+      - ves padel hoy
+      - 70 soles maximo
+      - noche en surco futbol
+      - hoy sjl voley
+      - surco aca
+      - futbol en mi zona
+      - padel manana noche
+      - 65 lucas
+      - hoy sjl fulbito
+      - manana ves voley
+      - surco padel tarde
+      - ves voley manana tarde
+      - padel 7pm en surco
+      - futbol barato sjl
+      - 70 max para padel
+      - noche 8pm en sjl
+      - hoy surco futbol
+      - manana ves voley 6pm
+      - mañana fijo
+      - max 80 sjl
+      - hoy futbol 8pm
+      - mañana voley sjl
+      - pa mañana barato
+      - pa la noche max 80
+      - futbito pa hoy
+      - x surco 8pm
+      - x sjl barato
+      - x ves max 80
+      - por ves barato
+      - aqui cerca 8pm
+      - voley pa manana noche
+      - cancha libre surco
+      - cancha libre sjl
+      - cancha libre ves
+      - 8pm futbito
+      - mañana voley ps
+      - noche padel fijo
+      - ves padel
+      - ahi por surco
+      - un futbito
+      - sjl prox semana
+      - ves 8 d la noche
+      - voley noche barato
+      - cancha libre noche
+      - futbol ala 8
+      - voley en sjl barato
+      - hoy voley max 80
+      - manana padel surco
+      - sjl p
+      - vill salvador pue
+      - hoy dia pe
+      - manana mas tarde
+      - en la noche p
+      - padel o q
+      - el ves noma
+      - futbool quiero
+      - algo barato pe
+      - en sjl pa hoy
+      - noche pa padel
+      - max 80 xq no tengo mas
+      - cerca de mi en la noche
+      - 8pm surco
+      - pa futbol max 80
+      - sjl por la tarde
+      - ves temprano
+      - alas 8 o 9
+      - no mas d 80 lucas
+      - en sjl a la firme
+      - vill salvador p
+      - noche noche
+      - alas 8 o 7
+      - fulbito p
+      - padel porfa
+      - lo mas barato pue
+      - 80 no mas
+      - por mi caasa
+      - noche tipo 8pm
+      - domingo sera
+      - breña pe
+      - comas pa hoy
+      - chorrillos a las 8
+      - independencia kiero
+      - san juan de miraflore
+      - la victoria barrio
+      - callao cerca mio
+      - lince p
+      - puente piedra pue
+      - san miguel de noche
+      - santa anita hoy
+      - carabayllo barato
+      - santa rosa max 80
+      - surquillo pa voley
+      - lurin 8pm
+      - futvol
+      - voley pss
+      - barato kiero
+      - ves x ahi
+      - en surco x la noche
+      - este mismo
+      - esa opcion
+      - la primera
+      - la segunda
+      - si, esa
+      - el lugar
+      - en una
+      - el precio
+      - cuanto es
+      - pa cuanto
+      - el costo
+      - lo q cuesta
+      - futvol hoy
+      - ves max 80
+      - solo noche
+      - barato x aqui
+      - pa el findesemana
+      - al rato
+      - surco no+e
+      - sjl pss
+      - ves mi barrio
+      - kiero futbol o voley
+      - en surco pa manana
+      - esa ta bien
+      - la q sea
+      - la ultima opcion
+      - hoy en mi zona
+      - futvol cerca
+      - padel maximo ochenta
+      - mañana pue
+      - ochopm
+      - la del voley
+      - nochesita en sjl
+      - surco q sea
+      - en ves a las 8
+      - q sea x sjl
+      - algo de voley
+      - nochesito
+      - la de voley
+      - 80 es mi limite
+      - en ves manana
+      - noche con amigos
+      - q sea a las 8pm
+      - padel para hoy
+      - un precio bajo
+      - no mas de ochenta
+      - surco noma 8pm
+      - mañana pa voley
+      - mañana 8pm voley
+      - noche 8pm padel
+      - 80 es lo maximo
+      - sjl ala noche
+      - ves en el dia
+      - 80 mi tope
+      - noche por ves
+      - cancha futbol 80
+      - cancha padel barato
+      - kiero jugar futbol en surco mañana
+      - un voley pa hoy en sjl alas 8
+      - padel en ves bien economico por la noche
+      - presu maximo 80 lukas pa un futbol aca
+      - q sea en surco cerca mio porfa
+      - la cancha de voley para hoy en la noche
+      - para mañana 8pm padel en sjl
+      - busco futbol por ves que no pase de 80
+      - alas 8 en surco pa jugar voley
+      - necesito cancha pa hoy de padel max 80
+      - pa ves hoy
+      - futbol en sjl pa manana
+      - voley hoy x la noche
+      - barato max 80 pe
+      - manana a las 7pm
+      - noche tipo 9
+      - fulbito x sjl
+      - basket barato
+      - quiero futbol
+      - en surco nomas
+      - ves tarde
+      - padel x ves
+      - surco para padel
+      - sjl mañana a las 7
+      - voley barato x la noche
+      - max 80 lucas x sjl
+      - 8pm y en ves
+      - pa futbol hoy max 70
+      - barato en surco noche
+      - padel manana por sjl
+      - ves para voley hoy
+      - max 60 lucas 8pm
+      - futbol cerca mio barato
+      - sjl pa hoy noche
+      - voley maximo 80 soles
+      - 8pm en ves para futbol
+      - barato hoy noche sjl
+      - max 70 xfa en ves
+      - surco mañana 8pm padel
+      - sjl pa voley hoy tarde
+      - 8pm max 60
+      - futbol en ves mañana
+      - barato hoy en surco
+      - voley x sjl noche
+      - hoy en surco pa futbol
+      - sjl barato para voley
+      - ves mañana noche padel
+      - 8pm futbol max 70
+      - barato y hoy x sjl
+      - voley en surco mañana
+      - padel 8pm en ves
+      - max 60 lucas hoy
+      - futbol cerca mio mañana
+      - sjl pa hoy barato
+      - voley noche en ves
+      - padel 8pm x surco
+      - hoy en ves para futbol
+      - sjl mañana noche voley
+      - barato 8pm en surco
+      - padel max 70 lucas
+      - futbol hoy x la noche en sjl
+      - voley en ves mañana tarde
+      - surco 8pm max 80
+      - padel barato para hoy
+      - sjl cerca mio hoy noche
+      - ves mañana 8pm futbol
+      - barato para voley 7pm
+      - max 80 soles en surco
+      - padel hoy en ves
+      - futbol mañana x sjl
+      - voley 8pm barato
+      - max 70 lucas hoy noche
+      - surco pa futbol mañana
+      - sjl voley 8pm
+      - ves padel barato hoy
+      - 8pm max 80 en surco
+      - futbol hoy en ves xfa
+      - mañana noche sjl voley
+      - padel barato cerca mio
+      - max 70 lucas para mañana
+      - surco 8pm futbol barato
+      - sjl voley hoy noche
+      - ves padel max 80
+      - 8pm mañana futbol
+      - padel ves mañana
+      - max 70 lucas futbol
+      - hoy noche en sjl
+      - surco voley barato
+      - ves 8pm padel
+      - futbol max 80 mañana
+      - jueves en la tarde
+      - martes
+      - por ahi cerca
+      - distrito ves
+      - tipo 10am
+      - solo en la tarde
+      - solo en la mañana
+      - ves pue
+      - fultbol pss
+      - hoy x surco
+      - ves manana tarde
+      - barato pue
+      - 8pm cerca
+      - max 75 soles
+      - cerca de sjl
+      - ves ya
+      - cancha 8pm hoy
+      - x surco noche
+      - padel cerca max 80
+      - 8pm y x sjl
+      - max 80 por ves
+      - padel profe
+      - hoy ves 8pm
+      - futbol en ves manana
+      - 8pm sjl
+      - hoy futbol x sjl
+      - futbol ves hoy
+      - por sjl en la noche
+      - padel manana x surco
+      - kiero futbol barato
+      - hoy 8pm en ves
+      - x surco ala 8pm
+      - barato hoy sjl
+      - manana 8pm en sjl
+      - voley manana x la noche
+      - futbol 80 soles
+      - hoy sjl barato
+      - surco futbol 8pm
+      - q no pase de 80 hoy
+      - ves por favor
+      - sjl pa la noche
+      - voley manana en sjl
+      - hoy noche futbol en surco
+      - padel hoy barato
+      - surco 80 lucas
+      - barato pa futbol
+      - hoy x ves
+      - manana noche 8pm
+      - surco padel barato
+      - ves voley hoy
+      - futbol manana sjl
+      - padel 80 soles
+      - ves noche futbol
+      - manana futbol x ves
+      - padel en sjl noche
+      - 8pm en sjl barato
+      - noche padel x surco
+      - futbol hoy max 80
+      - sjl hoy padel
+      - ves 80 soles
+      - manana futbol 8pm
+      - surco hoy voley
+      - 8pm futbol en ves
+      - hoy sjl 80 lucas
+      - futbol en surco manana
+      - ves padel noche
+      - manana voley en sjl
+      - padel hoy 8pm barato
+      - surco max 80 futbol
+      - por surco a las 8
+      - futbol en surco noche
+      - mañana 8pm por surco
+      - q sea barato en sjl
+      - hoy en sjl max 80
+      - voley pa hoy barato
+      - ves alas 8pm
+      - quiero futbol en surco
+      - padel por aqui cerca
+      - la cancha por surco
+      - en ves a la noche
+      - el futbol hoy
+      - el voley manana
+      - 80 soles como max
+      - quiero futbol pa hoy
+      - hoy por ves
+      - voley por aca
+      - por surco por la noche
+      - en ves pa manana
+      - futbol o padel
+      - ves mañana futbol
+      - hoy noche 8pm
+      - max 80 en la villa
+      - voley por ves hoy
+      - futbol barato noche
+      - quiero futbol pa la noche
+      - hoy 8pm por aca
+      - 80 soles el voley
+      - surco en ves
+      - sjl por surco
+      - el futbol hoy en sjl
+      - padel 8pm barato
+      - voley hoy por ves
+      - surco barato 80
+      - mañana voley 8pm
+      - por sjl noche
+      - surco en 8pm
+      - futbol 8pm barato
+      - sjl mañana padel
+      - 80 soles la hora
+      - pa hoy por surco
+      - futbol por sjl
+      - quiero futbol 8pm
+      - cerca d mi casa surco
+      - en ves 8pm
+      - surco nomas barato
+      - el voley barato
+      - x sjl ps
+      - ves x mi casa
+      - hoy tipo 8pm
+      - max 80 aca
+      - alas 8 kiero voley
+      - en ves la noche
+      - pa hoy fut

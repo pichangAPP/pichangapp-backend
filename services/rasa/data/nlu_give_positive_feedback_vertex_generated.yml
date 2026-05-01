@@ -1,0 +1,60 @@
+version: "3.1"
+
+nlu:
+  - intent: give_positive_feedback
+    examples: |
+      - excelente, gracias
+      - muy buena ayuda
+      - me sirvió bastante
+      - quedó clarísimo
+      - buenísimo, gracias
+      - perfecto, justo eso
+      - me ayudaste mucho
+      - todo claro, gracias
+      - súper útil
+      - gran atención
+      - muy buena respuesta
+      - quedó resuelto
+      - ya entendí todo
+      - de lujo, gracias
+      - impecable
+      - todo perfecto
+      - buen trabajo
+      - me encantó la ayuda
+      - de primera
+      - excelente servicio, gracias
+      - fue de mucha ayuda
+      - justo lo que necesitaba
+      - quedó todo solucionado
+      - muy conforme
+      - gracias, excelente soporte
+      - muy buena explicación
+      - respuesta acertada
+      - así da gusto
+      - me salvaste
+      - gran soporte
+      - muy satisfecho
+      - muy satisfecho con la atención
+      - gracias por la rapidez
+      - gracias por la claridad
+      - excelente orientación
+      - buen dato
+      - la mejor ayuda
+      - qué buena atención
+      - todo correcto
+      - quedé contento
+      - respuesta top
+      - buen trato
+      - se entiende perfecto
+      - muy bien explicado
+      - servicio A1
+      - te doy [4](rating) estrellas
+      - te doy [5](rating) estrellas
+      - mi calificación es [5](rating)
+      - lo califico con [5](rating)
+      - le pongo [4](rating) puntos
+      - le doy [5](rating) de [5](rating)
+      - una nota de [5](rating)
+      - mi rating es [5](rating)
+      - excelente, [5](rating) estrellas
+      - muy bueno, [4](rating) estrellas

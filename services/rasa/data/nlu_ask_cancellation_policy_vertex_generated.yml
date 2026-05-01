@@ -1,0 +1,1004 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_cancellation_policy
+    examples: |
+      - ¿Cuál es la normativa si no puedo asistir?
+      - Si me arrepiento, ¿hay algún problema con la reserva?
+      - ¿Cómo es el tema si decido no ir finalmente?
+      - Necesito saber las pautas para desistir de un servicio.
+      - ¿Qué pasa con mi plata si ya no quiero la reserva?
+      - ¿Con cuánto tiempo de antelación se avisa si uno no va?
+      - Si anulo a último minuto, ¿hay alguna penalidad?
+      - Explícame cómo funciona si doy de baja el cupo.
+      - ¿Hay devolución de lo pagado si no asisto?
+      - Quisiera entender las condiciones de no asistencia.
+      - ¿Cuáles son los requerimientos para no concretar una reserva?
+      - Si por algún motivo no puedo llegar, ¿qué debo hacer?
+      - ¿Puedo cambiar la fecha o me obligan a anular?
+      - Cuáles son los términos si desisto de mi cita.
+      - ¿Se pierde todo el dinero si no voy a la hora pactada?
+      - Dime los detalles sobre la no ejecución de una reserva.
+      - ¿Hay un límite de tiempo para avisar que no participaré?
+      - Si me surge un contratiempo, ¿cómo manejo la situación?
+      - ¿Cuál es el proceso para declinar mi participación?
+      - Quiero conocer las reglas en caso de que no pueda asistir.
+      - ¿Qué se hace si uno ya no quiere el servicio?
+      - Me gustaría saber qué implica el desistimiento.
+      - ¿Hasta cuándo puedo echarme para atrás sin problemas?
+      - ¿Me cobran algo si decido no tomar la reserva?
+      - Dame información sobre la flexibilidad para no asistir.
+      - Si me enfermo, ¿puedo anular sin costo?
+      - ¿Cómo es la figura si no puedo ir a la cita?
+      - Quisiera entender la política de inasistencia.
+      - ¿Hay alguna exención si es por emergencia?
+      - Si ya pagué, ¿cuánto me devuelven si no voy?
+      - ¿Cuáles son los pasos a seguir para no hacer uso de mi reserva?
+      - ¿Qué tal es la política para anular un compromiso?
+      - ¿Con cuánto tiempo debo comunicar mi ausencia?
+      - Si no puedo cumplir con la reserva, ¿qué se hace?
+      - ¿Cuál es el trato si me retracto de la reserva?
+      - Indícame los principios para el desistimiento.
+      - ¿Hay multa si aviso con poca antelación que no iré?
+      - Quiero saber si hay alguna flexibilidad para no asistir.
+      - Si me palteo a último momento, ¿pierdo mi plata?
+      - ¿Cómo es la vaina para no ir si ya reservé?
+      - ¿Hay chance de que me devuelvan algo si no asisto?
+      - Quisiera saber las directrices para no hacer efectiva la reserva.
+      - ¿Qué hay que tener en cuenta si decido no seguir con la reserva?
+      - Si no puedo asistir, ¿cuál es el procedimiento?
+      - ¿Existe algún cargo por no presentarse?
+      - Necesito detalles sobre las implicaciones de no ir.
+      - ¿Hasta cuándo se puede desistir de la reserva?
+      - Si me sale algo imprevisto, ¿hay forma de no perder la plata?
+      - Explícame el manejo de las no asistencias.
+      - ¿Se puede obtener un reembolso si uno se echa para atrás?
+      - Dame info sobre las condiciones de baja.
+      - Si ya no quiero la chamba, ¿qué onda con mi adelanto?
+      - ¿Cómo es el asunto si no puedo concretar la visita?
+      - Quisiera saber los lineamientos si no puedo ir.
+      - ¿Cuánto tiempo tengo para avisar que no podré asistir?
+      - Si no asisto, ¿hay alguna tarifa por no show?
+      - ¿Puedo reprogramar en lugar de anular, o qué?
+      - Cuáles son las consideraciones si me ausento.
+      - ¿Se puede postergar la reserva si hay un impedimento?
+      - Dime cómo es el tema si no hago uso del servicio.
+      - Si decido no tomar el cupo, ¿cuáles son las reglas?
+      - Necesito saber qué tan estricta es la política de no presentarse.
+      - ¿Hay alguna cláusula por si no se puede asistir?
+      - Si anulo a tiempo, ¿me regresan lo que pagué?
+      - ¿Qué medidas toman si uno no va a la cita?
+      - ¿Con cuánto tiempo de anticipación tengo que comunicar mi no asistencia?
+      - Si me enfermo gravemente, ¿hay un trato especial?
+      - ¿Cómo es la figura del desistimiento en este caso?
+      - Quisiera los pormenores de la anulación.
+      - ¿Me permiten anular a último momento sin costo alguno?
+      - Si no me presento, ¿qué pasa con mi pago inicial?
+      - ¿Qué requisitos hay para no ir y no perder todo?
+      - ¿Con cuánta anticipación debo notificar mi no asistencia?
+      - Si hay un percance, ¿cómo funciona lo de no asistir?
+      - Cuáles son las normas para no concretar el servicio.
+      - ¿Hay flexibilidad en caso de emergencia para no asistir?
+      - Me gustaría saber las opciones si no puedo ir.
+      - ¿Es posible evitar perder dinero si no voy?
+      - Dime los criterios para la no ejecución de la reserva.
+      - Si no voy, ¿cómo se aplica la política?
+      - Cómo está la mano con las anulaciones, pe?
+      - Me podrían decir los lineamientos para dejar sin efecto una reserva?
+      - Si no voy, me reintegran lo que pagué o ya fue?
+      - Cuál es el protocolo si desisto del servicio?
+      - Qué onda con los plazos para no asistir a la cita?
+      - Si me retracto de la reserva, hay alguna penalización?
+      - Explíquenme cómo es la movida para desestimar mi cupo.
+      - Hasta cuándo es el tope para notificar que no voy a asistir?
+      - Si por ahí no puedo asistir, qué pierdo o me devuelven algo?
+      - Cuál es la disposición para anular una cita?
+      - A ver, cuál es la figura si al final no me animo a ir?
+      - Hay algún cargo si desactivo mi reserva?
+      - Qué tengo que saber si no puedo ir?
+      - Me gustaría saber qué onda con la reversión de la reserva.
+      - Cuál es la forma de proceder si ya no iré?
+      - Cuánto tiempo antes tengo que avisar si me echo pa' atrás?
+      - Las condiciones para cancelar el paquete, cuáles son?
+      - Si no llego, hay algún costo extra?
+      - Me podrías indicar los términos y condiciones para anular?
+      - Qué pasa con mi adelanto si al final no tomo el servicio?
+      - Cuándo es el último día para decir que no voy?
+      - Si por fuerza mayor no puedo ir, hay alguna excepción?
+      - La política de retractación, me la puedes explicar?
+      - Hay forma de evitar el cobro si desisto de mi reserva?
+      - Cómo es la movida si al final no confirmo mi asistencia?
+      - ¿Qué me dices sobre cómo es la cancelación acá?
+      - A ver, su política para anular, ¿cómo es la cosa?
+      - ¿Podrías aclararme sobre la gestión de anulaciones?
+      - Estoy viendo si cancelo, ¿cuáles son los lineamientos?
+      - ¿Cuáles son las disposiciones para desistir de la reserva?
+      - Si no puedo ir, ¿qué onda con la reserva?
+      - ¿La plata que puse, la recupero si me echo para atrás?
+      - Si no puedo asistir, ¿hay forma de que el dinero abonado no se pierda del todo?
+      - Si no asisto, ¿me regresan algo del pago?
+      - ¿Qué pasa con mi adelanto si al final no puedo ir?
+      - ¿Me aplican alguna tarifa por echarme para atrás?
+      - Si desisto, ¿qué pasa con mi inversión?
+      - ¿Con cuánto tiempo de aviso es lo de la anulación?
+      - ¿Hasta qué momento puedo cancelar sin roche?
+      - ¿Hay un período para avisar si ya no quiero la reserva?
+      - ¿Cuánto tiempo antes debo decir si ya no la hago?
+      - ¿Qué lapso tengo para poder anular sin complicaciones?
+      - Si quiero anular, ¿cómo tengo que proceder?
+      - ¿Qué gestiones debo hacer para no mantener la reserva?
+      - ¿Cuál es el trámite si decido no usar mi reserva?
+      - ¿Cómo es la mecánica para deshacer la reserva?
+      - Si me arrepiento, ¿qué se hace para dejar sin efecto la reserva?
+      - Si me sale un percance, ¿puedo anular sin drama?
+      - ¿Qué sucede si no llego a asistir por fuerza mayor?
+      - En caso de que no pueda asistir, ¿qué criterios manejan?
+      - ¿Qué parámetros rigen la anulación de un servicio?
+      - Si desisto de mi cupo, ¿hay algún cargo extra?
+      - ¿Hasta cuándo tengo para echarme atrás con la reserva?
+      - Necesito saber cómo opera el proceso si no puedo usar lo que separé.
+      - ¿Me devolverán algo de mi billete si no voy?
+      - ¿Cuáles son las reglas de juego si decido no tomar el servicio?
+      - Dame un toque sobre las estipulaciones para anular, porfa.
+      - Si ya no quiero el servicio, ¿cómo le hago?
+      - ¿Hay algún detalle a considerar si me arrepiento de lo que contraté?
+      - ¿Qué sucede con mi adelanto si al final no voy?
+      - ¿Qué onda con la política de anulación?
+      - Necesito saber cómo es el tema si decido no venir.
+      - Si me arrepiento de la reserva, ¿qué pasa con mi plata?
+      - ¿Cuáles son las reglas para no tomar el servicio al final?
+      - Quiero entender el procedimiento para echarme para atrás.
+      - ¿Hay algún tipo de penalización si cancelo a última hora?
+      - Dime todo sobre la anulación de servicios.
+      - ¿Cómo funciona eso de cancelar sin que me cobren?
+      - Si tengo un imprevisto y no puedo asistir, ¿qué me dice la política?
+      - ¿Hasta cuándo puedo avisar que ya no quiero la reserva?
+      - ¿Me devuelven el 100% si desisto con tiempo?
+      - Quisiera averiguar sobre las condiciones para desistir de la reserva.
+      - ¿Hay un plazo para arrepentirse sin perder el dinero?
+      - ¿Cómo va el asunto si no puedo ir a la cita programada?
+      - Explícame la normativa para cancelar una reserva hecha.
+      - Si no llego a la fecha, ¿tengo opción de reembolso?
+      - ¿Qué implicaciones tiene si decido no seguir con lo reservado?
+      - ¿Con cuánta anticipación debo comunicar que no usaré el servicio?
+      - Dame los detalles sobre la política de desistimiento.
+      - ¿Es posible anular sin ningún cargo extra?
+      - Quiero saber las pautas para una cancelación efectiva.
+      - ¿Cómo es la figura legal si uno no puede asistir a la reserva?
+      - ¿Existe alguna tarifa por cancelar una reserva ya confirmada?
+      - Necesito información sobre el reglamento de anulaciones.
+      - ¿Qué pasa si por A o B no puedo ir y tengo que cancelar?
+      - ¿Hasta cuándo es el límite para poder cancelar sin costo?
+      - ¿Qué tengo que hacer para que no me cobren si cancelo la reserva?
+      - Explíqueme cómo se maneja la suspensión de una reserva.
+      - ¿Podría indicarme los términos y condiciones de anulación?
+      - Si me enfermo y no puedo asistir, ¿se aplica alguna excepción?
+      - ¿Cuál es el protocolo para anular mi reserva sin problemas?
+      - ¿Con cuánto tiempo de antelación debo informar mi no asistencia?
+      - ¿Hay alguna fecha tope para retractarse de la reserva?
+      - Quiero saber si hay devoluciones por cancelación anticipada.
+      - ¿Cómo es el proceso si me arrepiento de haber reservado?
+      - ¿Qué políticas tienen para cuando alguien no se presenta?
+      - ¿Existe un período de gracia para cancelar sin penalidad?
+      - Necesito los requisitos para dejar sin efecto una reserva.
+      - ¿Qué onda si ya no quiero la vaina y deseo anular?
+      - ¿Qué sucede si no puedo cumplir con lo que reservé?
+      - ¿Me podrían explicar las normas para anular un cupo?
+      - Deseo saber qué pasa si no puedo asistir a mi cita.
+      - ¿Cuál es el procedimiento para dar de baja mi servicio?
+      - Si decido no ir, ¿hasta cuándo tengo para avisar?
+      - Quiero entender bien los términos para desistir de la reserva.
+      - ¿Hay algún recargo si me echo para atrás?
+      - ¿Me devuelven la plata si no hago uso de la reserva?
+      - Por favor, infórmenme sobre las directrices de anulación.
+      - ¿Qué acciones debo tomar si tengo que dejar sin efecto mi reserva?
+      - ¿Cuál es la flexibilidad en caso de que no pueda presentarme?
+      - Necesito saber si pierdo el monto pagado si no voy.
+      - ¿Cómo es la figura si desisto del plan?
+      - Me gustaría conocer las disposiciones para no asistir.
+      - ¿Hay un plazo máximo para notificar que no iré?
+      - Si me sale un roche y no puedo ir, ¿qué onda con mi dinero?
+      - Dime cuáles son los requisitos para anular el servicio.
+      - ¿Cuál es la consecuencia si doy de baja mi cupo a último momento?
+      - Quisiera información sobre el manejo de inasistencias.
+      - ¿Tengo que pagar algo si finalmente no asisto?
+      - Explícame las condiciones para no llevar a cabo la reserva.
+      - ¿Es posible recuperar mi inversión si no uso el servicio?
+      - Dame los detalles sobre la posibilidad de anular una inscripción.
+      - ¿Se puede hacer la anulación sin problemas?
+      - Me puedes indicar las pautas para cancelar mi reservación.
+      - ¿Cómo funsiona la anulación de servicios contratados?
+      - Si me arrepiento de la reserva, ¿qué devo hacer?
+      - ¿Hay alguna compensación si no puedo ir a mi cita?
+      - Quiero saber cuánto tiempo antes puedo avisar que no podré asistir.
+      - Qué sucede con mi pago si decido no tomar el servicio.
+      - ¿Cuáles son los términos para echarme para atrás?
+      - Si por x motivos no llego, ¿cuál es el manejo?
+      - Dime todo lo relacionado a la anulación de mi reservación.
+      - ¿Hay alguna penalidá si desisto?
+      - Me interesa saber las reglas para no tomar la reserva.
+      - Qué tengo que saber sobre el proceso de desistimiento.
+      - ¿Se me devuelve el dinero si no puedo ir el día acordado?
+      - Dame la info sobre cómo anular un compromiso.
+      - ¿Qué tan flexible son con la no asistencia?
+      - Si me palteo y ya no quiero ir, ¿pierdo todo mi cash?
+      - Cuéntame las condiciones para no validar mi reserva.
+      - ¿Qué onda con la baja de reservas, hay un reglamento?
+      - Necesito saber la nota para anular mi espacio.
+      - Si ya no puedo ir, ¿me devuelven las fichas que adelanté?
+      - ¿Con cuánto tiempo de antelación se comunica si uno se echa para atrás?
+      - ¿Si cambio de opinión, tengo que pagar algo por la anulación?
+      - Explícame cómo va el rollo de las anulaciones, por favor.
+      - ¿Puedo desistir de mi cupo sin que me afecte el bolsillo?
+      - ¿Cuáles son los lapsos para no asistir y no tener palta?
+      - Me salió una chamba, ¿cómo se gestiona la anulación en esos casos?
+      - ¿Qué tan abierta es la política para que uno no concrete el servicio?
+      - Quiero informarme sobre los puntos clave para echarme atrás de una reserva.
+      - ¿Si ya no quiero la chamba, me retornan parte de lo que pagué?
+      - ¿Hasta cuándo tengo para decir 'ya no va' sin complicaciones?
+      - Si por razones de fuerza mayor no asisto, ¿hay algún trato especial?
+      - ¿Qué pormenores tiene cancelar con muy poca anticipación?
+      - Necesito detalles sobre el proceso de reembolso si anulo.
+      - ¿Puedo reprogramar la cita en vez de cancelarla por completo?
+      - Si no me aparezco, ¿qué onda con el adelanto que dejé?
+      - Dime las directrices para que me devuelvan el dinero si desisto del plan.
+      - ¿Cuál es el tiempo tope para anular sin que me cobren penalidad?
+      - Quiero saber si hay algún cargo adicional por rescindir mi participación.
+      - Si ya no puedo asistir, ¿me reembolsan todo o solo una fracción?
+      - ¿Cómo opera la anulación de un servicio ya pactado?
+      - Me vendría bien saber los parámetros para anular.
+      - ¿Cuáles son los términos para retractarme sin recargos?
+      - Si cancelo mi reserva con algunos días, ¿se genera algún inconveniente?
+      - Dime qué se necesita para anular una inscripción correctamente.
+      - ¿Hay alguna disposición especial para anular si es por motivos de salud?
+      - Quisiera saber hasta qué fecha puedo cambiar de parecer sin incurrir en gastos.
+      - Si no llego a la fecha establecida, ¿la reserva queda sin efecto automáticamente?
+      - ¿Me puedes explicar el esquema para dar de baja un compromiso?
+      - Necesito saber si hay alguna política para ausencias sin previo aviso.
+      - ¿Con cuánto tiempo de antelación debo informar mi desvinculación?
+      - Si decido no ir, ¿qué sucede con la seña que entregué?
+      - ¿Cuál es el proceso para dejar sin efecto una reserva?
+      - Quiero conocer las condiciones si tengo que 'tirarme para atrás' de la reserva.
+      - ¿Se me imputará algún costo si anulo en el último instante?
+      - Dime cómo funciona lo de las devoluciones si decido cancelar.
+      - ¿Hay alguna cláusula de excepción a la norma de cancelación en situaciones especiales?
+      - Si ya no puedo asistir, ¿existe la opción de ceder mi reserva a otro?
+      - ¿Qué tal si al final no me doy abasto para ir?
+      - ¿Hay alguna política sobre el no-presentismo?
+      - Si fallo en asistir, ¿me restituyen el dinero abonado?
+      - Explícame el mecanismo para abandonar mi reservación.
+      - ¿Hay un plazo máximo para avisar que no podré participar?
+      - Si por A o B no llego, ¿cuáles son las consecuencias?
+      - ¿Cómo se maneja el cobro si decido no tomar el servicio?
+      - Necesito info sobre la política de desafectación.
+      - ¿Me penalizan si no me aparezco a la cita?
+      - ¿Qué ocurre con el adelanto si decido no seguir?
+      - ¿Hasta qué fecha tope tengo para echarme atrás?
+      - Si tengo un inconveniente, ¿cómo aplico la no asistencia?
+      - ¿Hay algún costo asociado a la renuncia del servicio?
+      - ¿Cómo se gestiona el abandono de una reserva?
+      - ¿Qué pasa con mi plata si me palteo y no voy?
+      - ¿Me devuelven algo si no cumplo el compromiso?
+      - ¿Cuáles son los términos para no validar mi reserva?
+      - ¿Hay un margen de tiempo para desistir sin cargo?
+      - Si me arrepiento, ¿qué implicancias tiene?
+      - ¿Cómo hago el proceso para liberar mi cupo?
+      - Dime las condiciones para no honrar la reserva.
+      - Si por fuerza mayor no puedo venir, ¿qué opciones hay?
+      - ¿Hay alguna cláusula por si no me presento?
+      - ¿Qué debo saber si no puedo mantener mi compromiso?
+      - ¿Hay algún retorno monetario si me ausento?
+      - Explícame los criterios para la desestimación de una reserva.
+      - ¿Cuánto tiempo antes debo anunciar que no iré?
+      - Si no llego a tiempo, ¿se pierde todo?
+      - ¿Cómo es el mecanismo para no ejecutar la reserva?
+      - ¿Qué sucede si no puedo llegar a la cita?
+      - ¿Hay alguna penalidad económica por no asistir?
+      - Quiero informarme sobre la rescisión de reservas.
+      - ¿Hay un período de gracia para cambios de planes?
+      - Si me arrepiento a último momento, ¿hay solución?
+      - ¿Qué debo considerar si desisto de mi participación?
+      - ¿Se puede cancelar sin sufrir una deducción?
+      - Dame los puntos clave sobre la no comparecencia.
+      - Si tengo que retirar mi reserva, ¿hay algún cargo?
+      - ¿Hasta cuándo puedo desistir sin que me afecte?
+      - ¿Cuál es el proceso si me quiero bajar de esto?
+      - Quisiera saber las normativas para no venir.
+      - Cuál es la política para anular sin problemas?
+      - Necesito entender bien cómo es esto de las anulaciones.
+      - Hay alguna reglamentación para cuando uno ya no quiere el servicio?
+      - A ver, suéltenme la info de qué pasa si me arrepiento.
+      - Los términos y condiciones para cancelar, porfa.
+      - Qué onda con la cancelacion?
+      - Me gustaría saber los pormenores de la política de cancelación.
+      - Hay alguna letra chica para las cancelaciones?
+      - Cuáles son los lineamientos para no asistir?
+      - Me devuelven algo de mi plata si no voy?
+      - Si cancelo, hay alguna penalidá?
+      - Se pierde todo el billete si no llego?
+      - Con cuánto me quedo si cancelo?
+      - Hay algún cobro por cancelar?
+      - Me reintegran mi pago si me echo pa'trás?
+      - Qué porcentaje me devuelven si anulo?
+      - La tarifa de cancelación es fija o varía?
+      - El reembolso es total o parcial?
+      - Qué pasa con mi adelanto si no confirmo?
+      - Hasta qué fecha puedo echarme para atrás?
+      - Con cuántos días de anticipasión debo avisar?
+      - Puedo cancelar un día antes y no tener problemas?
+      - Hay algún límite de horas para avisar que no voy?
+      - A partir de cuándo es muy tarde para anular?
+      - Se puede cancelar el mismo día del servicio?
+      - Cuánto tiempo tengo para decidir si cancelo?
+      - Cual es el plazo maximo para cancelar?
+      - Hasta cuándo es válido cancelar sin recargo?
+      - Hay un tiempo mínimo para dar de baja?
+      - No voy a poder ir, qué debo hacer con la reserva?
+      - Me surgió un imprevisto, ¿cómo anulo?
+      - Si no puedo asistir, cuál es el tramite?
+      - Por motivos personales no podré asistir, qué onda con mi reserva?
+      - Se me complicó, necesito saber cómo deshacer la reserva.
+      - Si no puedo llegar a la hora pactada, ¿se considera cancelación?
+      - Tengo que faltar, cómo es el proceso para que no me cobren?
+      - Me enfermé, puedo cancelar sin que me cobren?
+      - Por un tema familiar tengo que cancelar, cómo funciona eso?
+      - No me dará tiempo de ir, díganme qué puedo hacer.
+      - Quería saber sobre la política de anulación.
+      - ¿Me podrías informar acerca de la cancelacion de reservas?
+      - ¿Qué debo considerar si decido anular lo que separé?
+      - Consulta: ¿cuáles son los términos para no seguir con la reserva?
+      - Necesito entender las condiciones de desistimiento.
+      - Si ya no puedo ir, ¿hay alguna directriz que deba seguir?
+      - ¿Cómo va el tema de anular un servicio?
+      - Explíqueme cómo proceder si deseo retirar mi reserva.
+      - ¿Hay alguna sanción por cancelar a último minuto, pe?
+      - ¿Qué tan flexible es su política de cancelaciones?
+      - Si me arrepiento, ¿hasta cuándo puedo avisar?
+      - Quiero saber las reglas de juego si no asisto.
+      - ¿Hay un monto que se pierda si anulo?
+      - Me gustaría saber si me devuelven algo de plata.
+      - ¿Qué pasa si me enfermo y no puedo asistir?
+      - ¿Cómo es el procedimiento si me retracto de mi cita?
+      - Indíqueme los requisitos para cancelar una reserva.
+      - ¿Qué plazos tengo para arrepentirme sin costo?
+      - Si tengo un percance y no puedo ir, ¿qué hago?
+      - ¿Puedo postergar mi reserva en vez de cancelar, osea?
+      - Dígame por favor la política de desistimiento.
+      - Quiero ver las condiciones para no usar mi reserva.
+      - ¿Cuál es el manejo si uno ya no quiere el cupo?
+      - Necesito info sobre cómo se manejan las anulaciones.
+      - ¿Se puede cancelar sin que me cobren extra?
+      - Si no llego, ¿hay alguna compensación o pérdida?
+      - ¿Qué debo saber si desisto de una reserva?
+      - Explíqueme los lineamientos para no ir.
+      - ¿Hasta cuándo puedo cambiar de opinión sobre mi reserva?
+      - ¿Cómo funciona el tema de las cancelaciones en su servicio?
+      - Deme todos los detalles sobre cómo echarse para atrás con una reserva.
+      - Quisiera averiguar sobre las condiciones de anulacion.
+      - ¿Con qué antelación se debe comunicar la cancelación?
+      - Si por 'x' motivos no puedo ir, ¿qué debo hacer, ah?
+      - ¿Qué implicaciones tiene cancelar mi reserva?
+      - Necesito saber si hay algún cargo por anular.
+      - ¿Hay un tiempo límite para revertir la reserva?
+      - Me gustaría entender la política de no presentación.
+      - ¿Qué onda con la cancelacion? ¿Pierdo todo?
+      - Si no se puede concretar el servicio, ¿cómo es la normativa?
+      - ¿Qué onda con la cancelación de una reserva?
+      - Si ya no quiero la reserva, ¿cómo procedo?
+      - ¿Me puedes decir sobre el tema de desistir de la reserva?
+      - ¿Hay alguna forma de anular sin perder la plata?
+      - ¿Con cuánta anticipación debo avisar para no ir?
+      - Si me arrepiento de ir, ¿cuáles son las condiciones?
+      - ¿Qué implicancias tiene si decido no tomar el servicio?
+      - Necesito saber las pautas si no puedo asistir.
+      - ¿Cómo es el trato si uno se baja de la reserva?
+      - ¿Me puedes informar si hay penalidad por cancelar?
+      - ¿Cuáles son los lineamientos para una anulación?
+      - ¿Qué ocurre si tengo que cancelar mi cita?
+      - ¿Qué tan flexible es la política de anulación?
+      - Si me sale un imprevisto, ¿puedo deshacer la reserva?
+      - ¿Me regresan la guita si anulo?
+      - ¿Hasta qué momento puedo cambiar de idea con la reserva?
+      - Quisiera saber las reglas para no concretar una reserva.
+      - Si no voy, ¿se pierde todo el dinero o hay algún reembolso?
+      - ¿Me das los detalles sobre la política de no presentarse?
+      - ¿Qué se hace si ya no puedo ir por fuerza mayor?
+      - ¿Hay algún cargo si no asisto a la hora pactada?
+      - ¿Cuál es el proceso para declinar una reserva?
+      - Si ya no quiero el cupo, ¿cómo es la movida?
+      - ¿Es posible anular la reserva y que me devuelvan algo?
+      - ¿Qué tal si necesito cancelar, cómo le hago?
+      - ¿Hasta cuándo tengo para retractarme de la reserva?
+      - ¿Me cobran por cancelar si lo hago con tiempo?
+      - Si me arrepiento, ¿hay chance de que no pierda mi plata?
+      - Dame info sobre la política de "no show".
+      - ¿Si no llego, qué pasa con mi pago?
+      - ¿Cuáles son las consecuencias de una anulación de última hora?
+      - ¿Hasta qué punto puedo anular la reserva sin problema?
+      - Necesito saber los términos si no puedo asistir.
+      - ¿Me pueden explicar cómo se manejan las cancelaciones?
+      - Si cambio de planes, ¿cómo funciona el proceso de anulación?
+      - ¿Hay algún período de gracia para cancelar sin costo?
+      - ¿Qué pasa si cancelo un día antes, hay algún recargo?
+      - Quisiera entender los derechos al cancelar una reserva.
+      - ¿Qué tal es la política para los que no se presentan?
+      - Si me bajo de la reserva, ¿qué devo saver?
+      - ¿Qué sucede si al final no me es posible acudir?
+      - Quiero saber cómo procede el asunto si no confirmo.
+      - ¿Hay alguna repercusión si decido no tomar el servicio?
+      - Dime qué implicancias tiene el no asistir a la reserva.
+      - ¿Hasta cuándo tengo para modificar mi asistencia sin consecuencias?
+      - Si mis planes cambian, ¿qué me espera?
+      - ¿Cómo se maneja si opto por no ir?
+      - Necesito entender las directrices si me ausento.
+      - Si no utilizo lo separado, ¿hay un monto a cubrir?
+      - Si no me presento, ¿hay posibilidad de recuperar lo adelantado?
+      - ¿Cuál es el procedimiento si decido no seguir con la programación?
+      - ¿Me puedes explicar el manejo si no asisto a la hora fijada?
+      - ¿Hasta cuándo puedo avisar que no voy sin problema?
+      - Si mis planes cambian, ¿cómo informo y qué sucede?
+      - ¿Qué tengo que saber si no confirmo mi asistencia?
+      - ¿Qué condiciones aplican si no hago uso del servicio?
+      - Si modifico la fecha a última hora, ¿hay un recargo?
+      - Dime qué implica no presentarme al compromiso.
+      - ¿Existe alguna política respecto a los abandonos de reserva?
+      - ¿Cuál es el criterio si cambio de opinión y no participo?
+      - ¿Qué pautas existen si al final no puedo tomar mi cupo?
+      - ¿Hay alguna cláusula si decido no continuar con el servicio?
+      - Si hay un tema de salud, ¿puedo evitar perder el pago?
+      - ¿Me explican sobre el procedimiento si ya no lo quiero?
+      - ¿Cuáles son los lineamientos para no usar lo que aparté?
+      - ¿Hasta cuándo puedo decir que no iré sin repercusiones?
+      - ¿Qué ocurre con mi pago si no me presento el día indicado?
+      - ¿Hay alguna norma si uno se desdice de lo programado?
+      - Quiero saber cómo funciona si ya no necesito la reserva.
+      - Si no asisto, ¿hay forma de recuperar una parte del pago?
+      - ¿Cuál es la política para no presentarse al evento?
+      - ¿Qué estipulaciones hay si no puedo cumplir lo agendado?
+      - ¿Hay un recargo si aviso con muy poca anticipación que no voy?
+      - Necesito información sobre cómo no asistir sin generar inconvenientes.
+      - Si me desanimo, ¿qué tengo que hacer?
+      - Si no acudo, ¿hay un retorno de lo abonado?
+      - ¿Cuál es la forma de proceder si ya no quiero lo que contraté?
+      - ¿Pueden decirme las reglas si no voy a asistir?
+      - ¿Cómo informo si me es imposible concurrir?
+      - ¿Existe algún beneficio por avisar con tiempo que no iré?
+      - Me gustaría entender las pautas para anular mi reserva.
+      - ¿Qué sucede si decido no tomar el servicio?
+      - Podrías detallarme cómo es el proceso si me retracto de la reserva?
+      - ¿Cuál es el procedimiento a seguir si no puedo asistir finalmente?
+      - Si ya no quiero la reserva, ¿qué estipula la empresa?
+      - Necesito saber qué opciones tengo si no puedo hacer uso de mi reserva.
+      - ¿Hay algún formato o requisito especial para anular?
+      - Qué implicaciones tiene deshacer mi reserva.
+      - Si aviso con tiempo, ¿es diferente a si lo hago a último momento?
+      - Si no asisto, ¿cómo se maneja el dinero que ya pagué?
+      - Desearía conocer los términos sobre la anulación de servicios.
+      - ¿Existe alguna penalidad si cancelo mi cita?
+      - Quisiera información sobre la reversión de mi agendamiento.
+      - ¿Cuál es el marco para desistir de la reserva?
+      - Si me arrepiento de mi compra, ¿qué procede?
+      - Para anular, ¿cuántos días antes debo avisar?
+      - Cómo funciona el sistema si quiero dejar sin efecto la reserva.
+      - ¿Hay alguna cláusula por la que pueda anular sin costo?
+      - Qué condiciones aplican si no concreto la reserva.
+      - ¿Se devuelve el dinero si no utilizo lo que pagué?
+      - Necesito saber los lineamientos sobre la no asistencia.
+      - ¿Cuál es el protocolo para dar de baja mi reserva?
+      - Si ya no puedo asistir, ¿qué debo considerar?
+      - ¿Qué trámites se requieren para anular una reserva?
+      - Dame los alcances sobre la cancelación de servicios.
+      - ¿Hasta qué plazo puedo cambiar de opinión sin consecuencias?
+      - Cómo está regulado el tema de si no puedo ir a mi cita.
+      - Si tengo un imprevisto y no puedo ir, ¿qué opciones hay?
+      - ¿Qué pasa con el monto abonado si decido no participar?
+      - Me podrías indicar las directrices para anular.
+      - ¿Cuáles son las estipulaciones para una cancelación?
+      - Si finalmente no hago uso de la reserva, ¿hay algún cargo?
+      - Si no voy, ¿hay alguna otra opción además de anular?
+      - Qué documentos necesito para una anulación.
+      - Cómo es la reglamentación si no me aparesco.
+      - Si cancelo con antelación, ¿recupero algo de mi pago?
+      - Explica cómo se manejan las anulasiones.
+      - ¿Qué tengo que hacer para que mi reserva quede sin efecto?
+      - ¿Me puedes informar sobre la gestión de cancelaciones?
+      - Qué implica el desestimiento del servicio.
+      - ¿Qué tal, me podrías dar informacion sobre cómo es la cancelación acá?
+      - Necesito saber cómo anular mi reserva, ¿cuáles son las reglas?
+      - Oye, si quiero cancelar mi viaje, ¿hay algún cargo?
+      - ¿Hay chance de que me devuelvan la plata si no puedo ir?
+      - ¿Hasta cuándo puedo cambiar de parecer sin que me cobren?
+      - Quisiera saber el proceso si ya no deseo la reserva.
+      - ¿Cómo es el tema de los reembolsos si anulo?
+      - Si me surge un problema, ¿puedo cancelar sin penalidad?
+      - Dime todo lo relacionado a la anulación de reservas, por favor.
+      - ¿Cuál es la politica de cancelaciones que manejan?
+      - Me gustaría saber si se pierde el dinero si no asisto.
+      - ¿Con cuánta anticipacion es que debo avisar si ya no voy?
+      - ¿Hay alguna excepción para cancelar por emergencia?
+      - Explícame si hay multa por no presentarse a la reserva.
+      - ¿Qué pasa si anulo a último momento, pierdo todo?
+      - Necesito info sobre cómo desistir de la reserva.
+      - ¿Puedo cancelar gratis antes de cierta fecha?
+      - ¿Qué tal es la normativa para las anulaciones?
+      - Si por 'A' o 'B' no puedo ir, ¿cómo anulo?
+      - ¿Me reintegran algo de lo pagado si cancelo?
+      - ¿Hasta que fecha limite tengo para anular y me devuelvan la plata?
+      - Dame detalles sobre la flexibilidad de cancelación.
+      - ¿Hay un costo fijo por cancelar la reserva?
+      - ¿Qué debo saber si decido no tomar el servicio?
+      - Quiero entender bien los términos para cancelar.
+      - ¿Se puede anular sin costo si aviso con tiempo?
+      - ¿Qué política aplican si uno ya no quiere la reserva?
+      - Si no puedo asistir, ¿aún puedo recuperar mi dinero?
+      - ¿Hasta cuándo puedo echarme atrás sin inconvenientes?
+      - ¿Cómo funciona el tema de las cancelaciones en su sistema?
+      - Necesito la información sobre anular un cupo.
+      - ¿Me cobran si cancelo con poca anticipación?
+      - ¿Hay alguna posibilidad de reem-bolso si no asisto?
+      - Dime las reglas si tengo que cancelar mi cita.
+      - ¿Qué pasa si cancelo un día antes, hay penalidad?
+      - Quisiera saber si la cancelación tiene algún costo.
+      - ¿Cuál es el tiempo mínimo para avisar de una cancelación?
+      - Si me palteo y no quiero ir, ¿qué hago con la reserva?
+      - ¿Tienen una política clara para cuando uno no puede ir?
+      - Explícame sobre la posibilidad de canselar sin pagar extra.
+      - ¿Cuál es la normativa sobre anular la reserva?
+      - Quisiera saber cómo es el tema si decido no asistir, pe.
+      - ¿Me reintegran mi plata si cancelo con tiempo?
+      - Explícame, porfa, las directrices para una anulación.
+      - ¿Existe alguna penalidad si me arrepiento de ir?
+      - ¿Hasta cuándo tengo chance de rajarme de la reserva?
+      - Si no puedo ir por un imprevisto, ¿qué procede?
+      - Necesito conocer los lineamientos de no asistencia.
+      - ¿Hay algún cargo si desisto del servicio?
+      - ¿Qué pasa si anulo a último momento? ¿Pierdo todo?
+      - Información sobre la política de desistimiento, por favor.
+      - ¿Se puede anular sin costo adicional?
+      - ¿Con cuánto tiempo de anticipación debo comunicar que no voy?
+      - Quisiera saber los términos para cancelar mi cita.
+      - ¿Hay reembolso parcial si anulo la reserva?
+      - Dime cómo funciona el proceso si decido no ir.
+      - ¿Qué conlleva el anular una reserva que ya hice?
+      - Me gustaría entender las cláusulas de cancelación.
+      - ¿Cuándo es el plazo máximo para cambiar de opinión sin problema?
+      - Si me enfermo, ¿la anulación tiene algún tratamiento especial?
+      - ¿Cuáles son las condiciones para no realizar la reserva?
+      - Necesito saber si me devuelven mi dinero si no puedo asistir.
+      - ¿Hay un coste asociado a la renuncia de la reserva?
+      - Explíquenme la movida de las anulaciones, por favor.
+      - ¿Qué tengo que hacer si me echo para atrás con mi reserva?
+      - ¿Hasta qué momento puedo cancelar sin pagar recargo?
+      - Dame info sobre la flexibilidad para no asistir a mi cita.
+      - Si no me presento, ¿cómo es la vaina con el pago?
+      - ¿Qué tal si me sale algo y tengo que anular? ¿Qué pierdo?
+      - Quisiera averiguar sobre el manejo de las cancelaciones.
+      - ¿Tienen alguna política en caso de fuerza mayor para anular?
+      - Me gustaría saber si me devuelven algo de lo que pagué si no voy.
+      - ¿Cuál es la regla para el desistimiento de un servicio?
+      - Explícame bien las bases para cancelar la reserva.
+      - ¿Hay alguna fecha límite para la anulación sin que me afecte?
+      - Si me palteo a último momento, ¿hay devolución de dinero?
+      - ¿Cómo es el protocolo si decido no tomar el servicio?
+      - Dame los detalles sobre la renuncia a mi reserva.
+      - ¿Qué documentos o información necesito si anulo mi cita?
+      - Quisiera informarme sobre las regulaciones para cancelar algo.
+      - ¿Qué onda si al final no voy?
+      - ¿Cómo va el asunto de las anulaciones?
+      - Me interesa saber los términos para desistir de lo apartado.
+      - ¿Hay alguna sanción si doy marcha atrás con la reservación?
+      - ¿Qué sucede con mi pago si desisto de la atencion?
+      - ¿Hasta cuándo tengo para retractarme y que no me caiga un cobro?
+      - A ver, ¿cuánto tiempo tengo para retractarme de la cita?
+      - Si no puedo ir, ¿me descuentan algo o me debolven todo?
+      - ¿Hay una politica clara para cuando uno no puede presentarse?
+      - ¿Qué pasa si por A o B no puedo asistir?
+      - Explicame como va eso de la bajada de la reserva.
+      - ¿Con cuánta anticipación debo avisar que no podré ir?
+      - ¿Hay margen para cambiar de opinión sobre la reserva?
+      - ¿Se pierde toda la inversión si decido no usar el servicio?
+      - Dime las condisiones pa' no ir a la reserva.
+      - ¿Cuánto tiempo antes es el tope para ya no tomar el servicio?
+      - Si me surge un imprevisto, ¿cómo manejo lo de la anulación?
+      - ¿Qué pautas se siguen si no se va a poder ir a la cita?
+      - ¿Hay forma de que me regresen algo si ya no quiero lo apartado?
+      - ¿Cómo se procede si me arrepiento de haberla sacado?
+      - Necesito saber si hay alguna flexibilidad al cancelar la atención.
+      - ¿Hay alguna fecha límite para deshacer la reserva sin penalidad?
+      - ¿Qué tal si me enfermo y no puedo ir, hay un trato especial?
+      - Si anulo con poco tiempo, me cobran alguna tarifa?
+      - ¿Cuáles son las condiciones si decido no tomar el turno?
+      - Quiero savver la forma de desistir de la reserva.
+      - ¿Qué implica no asistir a la hora que se separó?
+      - ¿Hay algun costo asociado si no cumplo con la reserva?
+      - Dime los detalles de la política de retracto.
+      - ¿Cuánto me cobran si echo pie atrás con la cita?
+      - Si no llego, ¿cuánto dinero pierdo de lo que ya pagué?
+      - ¿Cual es el proceso para cambiar de idea y no tomar el servicio?
+      - ¿Puedo simplemente no ir y no pagar nada?
+      - Dame la info de que pasa si al final no voy.
+      - ¿Me devuelven la plata si cancelo un día antes?
+      - Si no puedo llegar a mi reserva, cuales son las repercuciones?
+      - ¿Es posible anular sin que me genere un cobro?
+      - Quiero saber si hay un plazo para la anulación sin recargo.
+      - ¿Qué hago si me echo pa' atrás con la reserva?
+      - Quisiera entender si la reserva me da chance de anular sin problemas.
+      - Dime, ¿qué tan fácil es cancelar una reserva?
+      - Explícame el protocolo para anular mi booking.
+      - Qué hago si me es imposible llegar a la fecha de reserva?
+      - Si no voy, ¿hay reembolso total o parcial?
+      - Me urge conocer las reglas para anular un servicio ya confirmado.
+      - Si me surge un contratiempo y no puedo ir, ¿qué política tienen?
+      - Cuál es el plazo mínimo para avisar que no podré usar lo reservado?
+      - Quisiera saber las condiciones si no me presento a mi cita agendada.
+      - Si decido no tomar el servicio, ¿existe algún cobro adicional?
+      - Me gustaría saber cómo manejan el tema de las anulaciones.
+      - Cómo hago para que una reserva quede sin validez?
+      - Si me desanimo, ¿cuál es el manejo para mi reserva?
+      - Qué sucede con mi dinero si echo para atrás mi booking?
+      - Podrías detallarme las normas si me retiro del cupo?
+      - Cuál es el plazo máximo para desistir sin incurrir en costos?
+      - Indícame los lineamientos para cuando tenga que anular mi reservación.
+      - De no presentarme, ¿qué consecuencias acarrea mi reserva?
+      - Cómo debo proceder para anular una reserva sin inconvenientes?
+      - Quiero saber cómo es el proceso de devolución de la plata si anulo.
+      - En caso de enfermedad y no poder asistir, ¿existe alguna política excepcional?
+      - Cuáles son los términos para no aceptar finalmente una reserva?
+      - Hasta cuándo tengo para anular sin que me cobren nada?
+      - Podrías aclararme sobre la devolución si no utilizo la reserva?
+      - En caso de arrepentirme, ¿cómo procedo para el reintegro de mi dinero?
+      - Hay algún recargo si anulo mi reserva a última hora?
+      - Me informas sobre las directrices para anular con poca anticipación?
+      - De no ir, ¿qué pasa con el dinero que ya di?
+      - Cuál es el manejo del reembolso si al final no concreto mi visita?
+      - Dame los pormenores de la política de no presentación.
+      - Detállame las normas si decido no participar más.
+      - Qué información relevante debo tener si ya no deseo la reserva?
+      - Puedo anular sin incurrir en algún gasto?
+      - Se cobra algo si decido no mantener mi reserva?
+      - Cuál es la fecha límite para anular sin penalización?
+      - Si surge un inconveniente y no puedo ir a mi reserva, ¿qué procede?
+      - Existe alguna excepción para las cancelaciones por causas de fuerza mayor?
+      - Si me atraso o no cumplo con la fecha, ¿puedo anular sin perder mi dinero?
+      - Me gustaría saber la normativa si no puedo realizar mi viaje.
+      - Quisiera saber qué tan flexibles son sus políticas de anulación.
+      - Podrían indicarme si hay reintegro de mi dinero al cancelar?
+      - ¿Cuáles son los términos para no seguir con la reserva?
+      - Si ya no puedo ir, ¿cómo es la cosa con la reserva?
+      - ¿Qué pautas debo seguir si desisto de mi cupo?
+      - ¿Hay alguna chance de que me devuelvan algo si no asisto al evento?
+      - ¿Me pueden explicar cómo es el tema si decido no tomar el servicio?
+      - Si me enfermo y no puedo llegar, ¿qué procede con mi reserva?
+      - ¿Existe alguna opción para no perder toda la plata si no voy?
+      - ¿Con cuánto tiempo de anticipación máxima se puede anular sin problemas?
+      - Quisiera saber los pasos a seguir para no hacer efectiva mi reserva.
+      - ¿Cuál es el procedimiento si no puedo cumplir con mi asistencia?
+      - Oye, ¿y si me sale un imprevisto y no puedo ir, hay alguna penalidad?
+      - ¿Me informan sobre el reglamento para el desistimiento de reservas?
+      - Si por 'x' motivos ya no puedo, ¿hay algún cargo por no ir?
+      - ¿Cómo se maneja la devolución de dinero si no asisto a mi cita?
+      - ¿Hasta qué momento tengo para avisar que no podré ir?
+      - ¿Se puede anular la asistencia sin que me cobren extra?
+      - ¿Qué documentación se necesita para cancelar una reservación?
+      - Si ya no quiero el servicio, ¿cuál es el protocolo para dar de baja?
+      - ¿Hay alguna fecha límite para retractarse de la reserva?
+      - ¿Qué pasa con el adelanto si decido no usar la reserva?
+      - Causa, ¿si no puedo ir al final, me devuelven algo de lo que pagué?
+      - ¿Cómo es la política para los que se arrepienten a último minuto?
+      - ¿Existe un costo por no presentación a la reserva?
+      - Necesito conocer las condiciones para declinar una reserva.
+      - ¿A cuánto asciende la multa si no doy preaviso?
+      - Si tengo un cambio de planes, ¿cómo puedo gestionar la no asistencia?
+      - ¿Me puedes decir si hay devolución parcial si anulo?
+      - ¿Hasta cuándo puedo echarme para atrás sin que me hagan roche?
+      - ¿Qué directrices hay para aquellos que no pueden asistir?
+      - ¿Cómo funciona el reintegro si no utilizo el servicio contratado?
+      - ¿Hay alguna penalidad si aviso con poco tiempo que no iré?
+      - Quisiera saber la forma de proceder si ya no quiero el compromiso.
+      - ¿Con cuánto tiempo de antelación es aconsejable avisar si no voy?
+      - Si me sale un viaje de emergencia, ¿puedo anular sin costo alguno?
+      - ¿Qué pasa si no puedo asistir y no avise con tiempo?
+      - ¿Es complicado anular un servicio ya confirmado?
+      - ¿Existe un límite de tiempo para cambiar de idea sobre la reserva?
+      - ¿Me explican las reglas sobre la no comparecencia?
+      - Causa, ¿si me 'palteo' para ir, me cobran por eso?
+      - ¿Cómo es el acuerdo si me retracto de mi participación?
+      - ¿Me podrías explicar bien lo de las anulaciones?
+      - Necesito info sobre cómo se cancelan las reservas, porfa.
+      - ¿Qué tal es la política de no asistir, hay mucha rocha?
+      - Si ya no puedo ir, ¿qué onda con mi reserva?
+      - Quisiera saber sobre las condiciones para anular un encuentro.
+      - ¿Me devuelven mi china si cancelo a tiempo?
+      - ¿Hasta cuándo puedo echarme para atrás sin roche?
+      - Si me enfermo, ¿hay algún trato especial para no pagar penalidad al cancelar?
+      - ¿Cómo es el tema de las anulaciones si ya pagué algo?
+      - ¿Hay un plazo mínimo para avisar que no podré ir, o es al instante?
+      - Quiero ver cómo es la movida pa' cancelar sin perder todo mi billete.
+      - ¿Me pueden dar detalles sobre la anulación de reservas porfa?
+      - ¿Que se hace si no puedo llegar a la hora de mi reserva por x motivo?
+      - Me gustaría saber la normativa para desistir del servicio que contraté.
+      - ¿Cuales son las implicancias de no ir a la reserva que hice?
+      - ¿Si cancelo a última hora, me cobran algo adicional?
+      - Dime los puntos clave de su política de no asistencia, por favor.
+      - ¿Puedo cambiar de parecer y anular sin problemas o hay alguna traba?
+      - ¿Hay alguna exepción si el motivo es de fuerza mayor para cancelar?
+      - Información sobre cómo se manejan las cancelaciones, por favor.
+      - ¿Qué pasa si ya no quiero el servicio y deseo anularlo completamente?
+      - ¿Cómo es el proceso si me arrepiento y no voy a la reserva?
+      - Necesito entender bien lo de la cancelación anticipada, cómo funciona.
+      - ¿Si doy de baja la reserva, me reintegran la plata que ya pagué?
+      - ¿Cuáles son los términos para no concretar mi visita que tengo programada?
+      - Quiero saber el tema de las penalidades al cancelar una reserva, si hay.
+      - ¿Qué debo tener en cuenta si decido anular mi cita ya pactada?
+      - Si no puedo asistir por un impravisto, ¿qué hago con mi reserva?
+      - ¿Cómo es la política de devolución por cancelación de un servicio?
+      - ¿Me puedes decir hasta cuándo tengo tiempo para anular sin ningún cargo?
+      - Necesito saber si puedo cancelar mi reserva sin problemas económicos mayores.
+      - ¿Hay alguna fecha tope para cancelar sin que me cobren extra?
+      - Si tengo una emergencia, ¿cómo puedo anular mi reserva sin problema?
+      - ¿Cuáles son los pormenores de la cancelación de un servicio contratado?
+      - Dime las reglas sobre el desistimiento de la reserva que hice hace poco.
+      - ¿Es posible anular una reserva y que me devuelvan el monto completo?
+      - Me gustaría saber si hay flexibilidad para los casos de no asistencia inesperada.
+      - ¿Cuánto tiempo antes debo notificar si no voy a ir a la reserva?
+      - Explícame sobre la anulación de mi reserva y las condiciones actuales.
+      - ¿Qué pasa con el pago si decido no usar la reserva al final de cuentas?
+      - ¿Qué me dicen sobre la política de anulación?
+      - A ver, ¿cuáles son las condiciones para tumbarme la reserva?
+      - Necesito saber cómo es el tema si ya no voy a ir, ¿me devuelven la platita?
+      - ¿Con qué antelación debo avisar si no podré asistir?
+      - Si me arrepiento de mi reserva, ¿hay algún costo?
+      - Quiero entender las cláusulas de cancelación.
+      - ¿Hay algún periodo para poder desistir sin penalidad?
+      - ¿Qué sucede si un imprevisto me impide llegar?
+      - ¿Me pueden explicar sobre las políticas para anular una cita?
+      - Deseo informarme sobre la devolución de dinero si anulo.
+      - ¿Cuál es el procedimiento si quiero cambiar de opinión sobre la reserva?
+      - Si por fuerza mayor no puedo ir, ¿qué opciones tengo?
+      - ¿Tengo que pagar algo si cancelo a última hora?
+      - Me gustaría saber la política si ya no quiero el servicio.
+      - ¿Hay algún límite de tiempo para anular sin problemas?
+      - ¿Qué me conviene saber antes de cancelar mi cupo?
+      - ¿Cómo está el asunto de la cancelación para evitar broncas?
+      - ¿Qué pasa con mi plata si decido no tomar el servicio?
+      - Explíquenme las reglas de juego si me bajo de la reserva.
+      - ¿Puedo cancelar sin que me cobren algo si lo hago con tiempo?
+      - Necesito averiguar las normas sobre la no asistencia a una reserva.
+      - ¿Cuál es la política para renunciar a una reserva?
+      - ¿Qué tal el plan de cancelación si no puedo asistir?
+      - ¿Hay alguna flexibilidad si cancelo por una emergencia familiar?
+      - Quiero saber los pasos a seguir si ya no deseo la reserva.
+      - ¿Hasta cuándo tengo para darme de baja sin perder todo?
+      - ¿Si no voy, me devuelven mi adelanto?
+      - Explíquenme porfa, ¿cómo funciona esto de cancelar?
+      - ¿Hay alguna multa si aviso con poca anticipación mi cancelación?
+      - ¿Qué tengo que saber para no tener problemas al cancelar?
+      - ¿Cuál es el tiempo máximo para anular sin que me afecte?
+      - Me podrían informar sobre las condiciones de retractación?
+      - ¿Si me enfermo, puedo anular mi reserva sin costo adicional?
+      - ¿Cómo se maneja la situación si debo cancelar mi asistencia?
+      - Necesito la info de cómo dar de baja mi reserva sin roche.
+      - ¿Hay algún beneficio si cancelo con mucha anticipación?
+      - ¿Cuáles son los pormenores de la política de desestimiento?
+      - Si ya no puedo ir, ¿hay alguna forma de no perder mi dinero?
+      - Aver q tengo q hacer si me kiero bajar de la reserva.
+      - ¿Con cuántos días de anticipación debo cancelar para que no me cobren?
+      - ¿Cuáles son las condiciones para que no vaya a la reserva, porfa?
+      - ¿Qué onda si al final no puedo ir, hay algún problema con mi pago?
+      - Necesito entender el protocolo para desistir de mi reserva.
+      - Si me arrepiento de mi cita, ¿cómo es la movida para dejarla sin efecto?
+      - ¿Hay alguna sanción si no utilizo lo que reservé?
+      - ¿Con cuántos días de anticipación debo avisar si no voy a poder ir?
+      - ¿Qué pasa si no me presento el día de la reserva?
+      - ¿Me podrían decir los términos si decido no tomar el servicio?
+      - Si cancelo mi reserva, ¿pierdo toda mi plata?
+      - ¿Cómo se maneja el tema si uno decide no seguir con la reservación?
+      - ¿Hasta cuándo es el último día para decir que ya no voy?
+      - Quiero saber el teje y maneje de las devoluciones si me echo para atrás.
+      - ¿Hay algún recargo si cambio de parecer y no asisto?
+      - ¿Me explicas el procedimiento si no uso mi cupo?
+      - Si me surge una emergencia, ¿hay flexibilidad para no asistir?
+      - ¿Cuál es la política para no presentarse a la reserva?
+      - ¿Con cuánto tiempo de antelación se avisa si uno no puede cumplir con lo pactado?
+      - Si no voy, ¿me devuelven el 50% o nada?
+      - Quisiera saber los derechos que tengo si desisto del contrato de reserva.
+      - ¿Cuál es el reglamento si ya no deseo la reserva?
+      - Si no llego el día programado, ¿qué me cobran?
+      - ¿Hay un tiempo límite para retractarme sin que me penalicen?
+      - Necesito info sobre la anulación tardía, si es que hay.
+      - Si anulo mi reserva un día antes, ¿hay algún costo?
+      - ¿Cómo es la figura si no puedo asistir a mi cita?
+      - ¿Me pueden decir cuánto antes debo avisar si ya no quiero la reserva?
+      - Si no concreto la reserva, ¿se pierde el dinero o me regresan algo?
+      - Quisiera entender las directrices si me ausento de la reserva.
+      - ¿Hay alguna forma de no perder mi plata si decido no usar la reserva?
+      - ¿Cuál es el plan si tengo que faltar a la reserva?
+      - Si me enfermo y no puedo ir, ¿qué hago con mi reserva?
+      - ¿Me dices cómo funciona la devolución del dinero si no asisto?
+      - ¿Hasta cuándo puedo posponer o cancelar sin perder mi billete?
+      - Si me surge un problema y no puedo ir, ¿hay alguna consideración?
+      - Necesito saber si puedo mover la fecha o si tengo que anular y me cobran.
+      - ¿Cuáles son las pautas para una baja de reserva?
+      - Si no voy, ¿se pierde la seña o hay algún porcentaje de devolución?
+      - Me gustaría saber si me cobran si no voy por x motivo.
+      - ¿Cuál es el procedimiento si finalmente no puedo hacer uso de mi reserva?
+      - ¿Hay alguna excepción si el motivo para no ir es de fuerza mayor?
+      - ¿Cómo es la figura si no puedo ir a mi reserva?
+      - ¿Si desisto, me retornan algo del pago?
+      - Quiero saber las reglas pa' cancelar, porfa.
+      - ¿Hay algún cobro por echarse para atrás con la reserva?
+      - ¿Hasta qué momento puedo cancelar sin que me descuenten?
+      - Dime la normativa sobre la no asistencia.
+      - ¿Si me arrepiento, qué procede con mi reservación?
+      - ¿La anulación tiene algún costo asociado?
+      - Necesito los términos de la cancelación.
+      - ¿Si cancelo a último minuto, me cobran algo?
+      - ¿Existe alguna penalidad por no asistir?
+      - ¿Cuál es el tiempo limite para anular sin problemas?
+      - Quisiera entender el reglamento para anular una cita.
+      - ¿Se reembolsa el monto total si no asisto?
+      - Explícame sobre las bajas de reservas.
+      - ¿Con cuánta anticipación debo notificar si no puedo ir?
+      - ¿Hay flexibilidad para cancelar si tengo un imprevisto?
+      - ¿Qué sucede con mi dinero si decido no tomar la reserva?
+      - Infórmame sobre las condiciones para dar de baja una reserva.
+      - ¿Si desisto, hay algun recargo?
+      - ¿Puedo cancelar sin perder mi adelanto?
+      - Necesito saber los detalles de cómo cancelar.
+      - ¿Cuánto tiempo antes se puede anular una reservación?
+      - ¿Qué implicancias tiene anular mi reserva?
+      - Dime todo lo de la politica de cancelación, porfa.
+      - ¿Hay alguna excepción en la política si es por fuerza mayor?
+      - ¿Qué pasa si ya no quiero la reserva y ya pagué?
+      - Quiero saber las pautas para una cancelación.
+      - ¿Se puede cancelar el mismo día sin problema?
+      - ¿Cómo es el procedimiento para revertir una reserva?
+      - Dame la info de la política de anulaciones.
+      - ¿Existe un cargo por cancelar fuera de tiempo?
+      - ¿Qué ocurre si no me presento a mi reserva?
+      - Me gustaría saber la política de no presentación.
+      - ¿Qué tanto tiempo antes debo anular para que no me afecte?
+      - ¿Pierdo mi adelanto si anulo?
+      - Quisiera las condiciones para cancelar mi servicio.
+      - ¿Hay algun reintegro si no asisto?
+      - ¿Cómo funciona la cancelación si surge una emergencia?
+      - ¿Qué pautas se siguen si no me es posible ir?
+      - Necesito saber cómo se maneja si ya no quiero el servicio.
+      - ¿Hay alguna reglamentación para dejar sin efecto el acuerdo?
+      - Si decido no asistir, ¿cuál es el procedimiento?
+      - ¿Podrían indicarme sobre la figura del desistimiento?
+      - Quisiera entender las condiciones en caso de arrepentirme.
+      - ¿Se pierde toda la inversión si uno no se presenta?
+      - Información sobre el tiempo límite para avisar que no se usará.
+      - Si hay un contratiempo, ¿qué sucede con lo que pagué?
+      - ¿Existe algún cargo por no concretar mi asistencia?
+      - Me interesa saber las pautas para una no utilización.
+      - ¿Cómo es el tema de los reintegros si no hago uso?
+      - Si me palteo a última hora, ¿tienen alguna solución?
+      - ¿Hay alguna excepción en caso de fuerza mayor para no venir?
+      - Deseo conocer la flexivilidad para posponer en vez de anular.
+      - Si no llego, ¿cuáles son las consecuencias económicas?
+      - ¿Qué debo hacer si ya no podré aprovechar mi reservación?
+      - Explicame las dispocisiones sobre no asistir.
+      - Plazo máximo para notificar que no se asistirá.
+      - Si al final no puedo ir, ¿qué pasa con mi adelanto?
+      - Quisiera información sobre cómo desvincularse de la reserva.
+      - ¿Se aplican penalidades por no consumir el servicio?
+      - Averigua si hay posibilidades de no perder la plata si no llego.
+      - ¿Qué tal es el protocolo si desisto de mi cupo?
+      - Me gustaria saber si hay algo que hacer si no voy.
+      - ¿Cuál es el manejo si uno se arrepiente antes de la fecha?
+      - Si no llego al evento, ¿hay algún tipo de reembolso?
+      - ¿Qué políticas rigen el no uso del servicio contratado?
+      - Necesito entender las clausulas de no presentación.
+      - ¿Hasta qué fecha puedo avisar que no participo sin costo?
+      - Si me surge algo y no puedo cumplir, ¿qué opciones tengo?
+      - ¿Cuáles son los lineamientos para una revocación de la reserva?
+      - Si no puedo hacer uso, ¿hay alguna compensación?
+      - Quiero saber cómo evitar la perdida de mi pago si no asisto.
+      - Me informan sobre las estipulaciones de la no ejecución.
+      - ¿Es posible mover la fecha de mi cita sin anularla?
+      - Si no logro llegar, ¿me devuelven algo de platita?
+      - ¿Qué directrices se siguen ante la no asistencia del cliente?
+      - Necesito claridad sobre las normativas de desvinculación.
+      - ¿Cómo funciona el tema de la renuncia al servicio?
+      - Quisiera informarme sobre la gestión de cancelaciones.
+      - Si decido no tomar el servicio, ¿cuáles son los pasos a seguir?
+      - Me gustaría entender la letra chica si ya no quiero la reservación.
+      - ¿Se cobra algo si uno desiste de último momento?
+      - ¿Con qué antelación debo comunicar mi imposibilidad de asistir?
+      - Si desisto, ¿hay reintegro total del pago?
+      - Papi, ¿qué onda si al final no voy?
+      - Necesito info sobre si puedo reversar mi compra.
+      - ¿Cómo es el tema de las anulaciones si me pasa algo?
+      - Cuál es el plazo máximo para desistir sin incurrir en cargos?
+      - Si me palteo y no voy, ¿hay devolución de mi plata?
+      - Quisiera conocer el reglamento de desistimiento.
+      - ¿Hay algún recargo por suspender el servicio?
+      - Si no puedo cumplir con mi cita, ¿qué consecuencias hay?
+      - ¿Me sancionan si cancelo a última hora?
+      - Deseo consultar sobre las normas de baja de reservas.
+      - ¿Qué implicaciones tiene si decido no continuar con el servicio?
+      - Si no llego, ¿cuánto de mi dinero se pierde?
+      - Explícame las directrices para una eventual anulación.
+      - Si me desisto, ¿me reembolsan lo invertido?
+      - Una consulta, ¿cómo es eso de no asistir sin penalidad?
+      - ¿Cuál es el tiempo de espera para anular sin que me cobren?
+      - Si me surge un imprevisto fuerte, ¿puedo deshacer la reserva sin bronca?
+      - ¿Hay alguna cláusula si decido no tomar el cupo?
+      - Quiero saber cómo dar de baja una compra ya hecha.
+      - ¿Qué pasa si ya no quiero la vacante, hay devolución?
+      - Quiero informarme sobre cómo opera si no puedo presentarme.
+      - ¿Con cuánto tiempo de antelación se comunica que no se asistirá?
+      - ¿Cómo es el protocolo para suspender una reserva?
+      - Si no puedo cumplir el compromiso, ¿cuáles son mis opciones?
+      - ¿Hay alguna excepción para cancelaciones por fuerza mayor?
+      - ¿Cuánto es lo que pierdo si me retracto de la reservación?
+      - Papi, me palteé, ¿hay forma de que me devuelvan la money?
+      - Dime los puntos clave para desistir de un compromiso.
+      - ¿Qué pasa si aviso a última hora que no iré?
+      - Necesito conocer las normas para no hacer efectiva una reserva.
+      - ¿Cuál es el proceso para que me devuelvan lo que pagué si ya no quiero?
+      - ¿Hay algún límite de tiempo para cambiar de opinión y cancelar?
+      - Causa, si no llego, ¿qué pierdo de mi reserva?
+      - ¿Me pueden informar sobre el manejo de las anulaciones?
+      - ¿Podrían informarme acerca de la normativa para la cancelación de reservas?
+      - Necesito saber el proceso si me arrepiento de la reserva que hice.
+      - ¿Qué tal es la polita de devolución si no puedo asistir a mi reserva?
+      - Si por ahí no puedo llegar, ¿cuánto tiempo antes debo avisar para no perder mi plata?
+      - Oye, ¿cuáles son las condisiones para anular una reserva sin problemas?
+      - Me gustaría entender cómo funciona la cancelacion de una reserva en caso de un imprevisto.
+      - ¿Hay algún costo si decido no usar la reserva que ya tengo?
+      - Dime, ¿hasta qué fecha tengo para cancelar sin que me cobren algo?
+      - Si por equis motivos ya no voy, ¿qué porcentaje de mi pago me devuelven?
+      - ¿Cómo es el protocolo para deshacer una reserva ya confirmada?
+      - Quisiera saber las pautas si necesito anular mi participación.
+      - ¿Con cuánta antelación debo comunicar que no voy a poder usar mi reserva?
+      - En caso de emergencia, ¿hay flexibilidad para cancelar sin cargo alguno?
+      - Necesito detalles sobre el reintegro de dinero por cancelación de servicio.
+      - ¿Qué implicaciones tiene si decido revocar mi reserva a última hora?
+      - Explíquenme por favor, ¿cuál es el reglamento si quiero echarme para atrás con mi reserva?
+      - ¿Se cobra alguna tarifa de gestión si anulo la reserva?
+      - Si no puedo asistir, ¿cuánto es el tiempo máximo para avisar sin penalidad?
+      - Me gustaría saber si hay posibilidad de reembolso total si cancelo con anticipación.
+      - Si me veo obligado a cancelar, ¿hay algún trato preferencial?
+      - Dígame, ¿cómo es el tema de las anulaciones si uno ya pagó una parte?
+      - Quiero estar al tanto de los términos para anular mi cupo.
+      - ¿Hay algún límite de horas para cancelar antes de que sea tarde?
+      - Si por fuerza mayor no puedo ir, ¿qué opciones tengo con mi reserva?
+      - Necesito la info sobre las políticas de desistimiento de servicio.
+      - ¡Pucha! Si no llego, ¿me devuelven algo o pierdo todo lo invertido?
+      - ¿Qué sucede si anulo mi reserva un día antes de la fecha programada?
+      - ¿Cuáles son los requisitos si quiero cancelar sin que me afecte economicamente?
+      - Quiero conocer a fondo las normas sobre la revocación de una reserva.
+      - Si no puedo ir a mi cita, ¿cuáles son las consecuencias de cancelar?
+      - ¿Me pueden explicar cómo es el proceso si decido no tomar la reserva?
+      - ¿Con cuánta anticipasion es lo ideal para cancelar sin problemas?
+      - ¿Hay alguna distinción entre cancelar con mucho o poco tiempo de anticipación?
+      - Necesito saber si puedo anular mi reserva y recuperar el dinero.
+      - Dime los detalles de la política de no presentación y sus cargos.
+      - ¿Qué hago si tengo un impedimento y necesito cancelar mi reserva?
+      - Si ya pagué, ¿cuánto tiempo tengo para anular y obtener mi plata de vuelta?
+      - ¿Hay alguna sección en su web donde explique bien lo de las cancelaciones?
+      - Me gustaría saber si existe una política de cancelación gratuita para ciertos casos.
+      - ¿Cómo es la figura si decido no hacer uso de mi reserva y anularla?
+      - Consulta: ¿cuál es la política para desvincularme de la reserva?
+      - A ver, si ya no quiero mi reserva, ¿cómo es la movida?
+      - Necesito saber cómo es el procedimiento si me bajo del cupo.
+      - ¿Qué tal las condiciones para dejar sin efecto una reserva?
+      - Cuéntame sobre la normativa para no efectivizar la reserva.
+      - ¿Cuáles son los términos si ya no realizo el servicio?
+      - ¿Hay algún detalle si al final no me presento?
+      - Explícame los lineamientos para una anulación.
+      - ¿Qué se hace si por un viaje inesperado ya no asisto?
+      - ¿Hay alguna cláusula para cuando uno no se presenta?
+      - Quisiera información sobre el proceso si cambio de parecer.
+      - ¿Cuál es el tiempo mínimo para comunicar la anulación?
+      - ¿Cómo es la figura con el pago si decido no hacer la reserva efectiva?
+      - ¿Cómo se maneja la situación si finalmente no voy a utilizar mi reserva?
+      - ¿Cuáles son los requisitos para un descarte de reserva?
+      - Si no voy a poder cumplir con lo establecido, ¿cuáles son las indicaciones?
+      - Si me echo patrás, ¿cómo es la política?
+      - ¿Es posible disolver la inscripción?
+      - ¿Hay alguna disposición sobre el abandono de reserva?
+      - ¿Qué ocurre si cambio de opinión sobre la reserva?

@@ -1,0 +1,445 @@
+version: "3.1"
+
+nlu:
+  - intent: request_admin_field_usage
+    examples: |
+      - Infórmame sobre la utilización de las canchas.
+      - ¿Qué losas tienen más actividad?
+      - Necesito un reporte de los espacios deportivos con mayor rotación.
+      - Podrías decirme qué canchas están con más movimiento.
+      - Quisiera saber la demanda de cada campo.
+      - ¿Cuáles son las instalaciones deportivas que más se alquilan?
+      - Hazme un resumen de la popularidad de mis canchas.
+      - Me gustaría conocer el rendimiento de mis campos.
+      - ¿Qué recinto deportivo está generando más ingresos?
+      - Sácame un listado de las canchas con mayor preferencia.
+      - ¿Cuál es el campo que más se reserva?
+      - Dame info de las losas más concurridas.
+      - Averigua qué complejos deportivos están siendo más utilizados.
+      - ¿Qué áreas de juego tienen más reservas esta semana?
+      - Podrías indicarme la ocupación de los campos.
+      - Dime sobre la actividad de las canchas.
+      - Quiero un informe de qué canchas tienen más jale.
+      - Las canchas que más se usan, ¿cuáles son?
+      - Pásame el dato de los campos con mayor demanda.
+      - ¿Qué espacios son los más movidos?
+      - Necesito saber qué campos tienen más gente.
+      - Indícame cuáles son las canchas preferidas por los usuarios.
+      - Un consolidado de la utilización de mis instalaciones.
+      - ¿Cómo va la ocupación de mis recintos?
+      - Muestra la información de las losas con más tráfico.
+      - Quisiera el historial de uso de los campos.
+      - ¿Qué canchas están siendo más productivas?
+      - Podrías brindarme los datos de uso de los complejos.
+      - Dime cuáles son las canchas que tienen el mayor flujo de gente.
+      - Me puedes dar un balance de uso por cancha.
+      - ¿Cuáles son los campos que se alquilan con más frecuencia?
+      - Reporte de utilización de mis campos deportivos.
+      - ¿Qué canchas están a full?
+      - Necesito el reporte de ocupación de las losas.
+      - Dame un paneo del uso de los campos.
+      - ¿Cuáles son los espacios con más reservas recurrentes?
+      - ¿Qué canchas son las más rentables en términos de uso?
+      - Quisiera saber cuáles son los campos que tienen más turnos.
+      - Indícame los campos más activos este mes.
+      - Me podrías dar la estadística de uso de las canchas.
+      - ¿Qué recintos deportivos son los más populares?
+      - Necesito saber la preferencia de mis clientes por campo.
+      - Muéstrame qué losas son las más solicitadas.
+      - Cuáles son las instalaciones con mayor movimiento de reservas.
+      - Quiero el dato de las canchas con más reservas.
+      - ¿Qué campos se llenan más rápido?
+      - Podrías informar sobre la ocupación de cada campo.
+      - Dame información sobre la utilización de los espacios deportivos.
+      - A la firme, ¿qué canchas están siendo las más usadas?
+      - Dime cuáles son las canchas que la gente pide más.
+      - ¿Qué losas tienen mayor rotación en el día?
+      - Pásame el informe de las instalaciones con más actividad.
+      - Necesito saber qué campos están siempre ocupados.
+      - Cuál es el rendimiento de uso de mis canchas.
+      - ¿Qué complejos son los que tienen mayor demanda?
+      - Bríndame un informe de la preferencia de mis usuarios por cancha.
+      - ¿Cuáles campos están generando más reservas?
+      - Quiero ver la ocupación por cancha.
+      - ¿Qué losas se utilizan más frecuentemente?
+      - Necesito los datos de utilización de los espacios deportivos.
+      - Infórmame sobre la demanda actual de los campos.
+      - ¿Podrías darme la lista de las canchas más pedidas?
+      - Cuál es el patrón de uso de mis recintos.
+      - Dame un reporte de los espacios con mayor alquiler.
+      - ¿Qué canchas son las más populares entre mis clientes?
+      - Necesito un análisis del uso de los campos.
+      - Dime la estadística de qué canchas se usan más.
+      - ¿Cuáles son las áreas deportivas con más solicitudes?
+      - Podrías indicarme qué campos están teniendo más éxito.
+      - Quisiera saber qué losas son las más reservadas.
+      - A ver, ¿qué canchas están a tope esta semana?
+      - Necesito saber el uso de los complejos.
+      - ¿Qué campo tiene más solicitudes de alquiler?
+      - Dame la data de las canchas más chambeadoras.
+      - Infórmame sobre el movimiento de mis espacios deportivos.
+      - ¿Cuáles son las canchas con mayor índice de ocupación?
+      - Quiero conocer la estadística de uso por campo.
+      - Podrías decirme qué instalaciones están siendo las más activas.
+      - Dame un reporte sobre los campos que tienen más demanda.
+      - ¿Qué losas se llenan más rápido este mes?
+      - ¿Me das un resumen del uso de los campos deportivos?
+      - Quisiera ver un informe de la ocupación de mis canchas.
+      - Necesito saber qué espacios deportivos están generando más movimiento.
+      - Dime qué canchas son las mas requeridas por los usuarios.
+      - Muestra la estadística de utilización de las losas.
+      - Qué tal la demanda de mis campos este ultimo mes?
+      - Dame un vistazo rápido a la ocupación de las instalaciones.
+      - ¿Qué campos acumulan la mayor cantidad de reservas actualmente?
+      - Quiero conocer el ranking de los campos con mayor actividad.
+      - ¿Qué canchas me están generando mas beneficios?
+      - Me pasas la info de los espacios deportivos más requeridos?
+      - Dime cuáles losas registran la mayor demanda.
+      - Muéstrame un reporte de la utilizacion de canchas por cada campus.
+      - Necesito ver el desempeño de cada campo deportivo.
+      - ¿Cuales son los recintos que atraen a mas clientes?
+      - Me gustaría saber cuales canchas 'la rompen' más.
+      - Dame los datos de ocupacion de las áreas de juego.
+      - Qiero saber el historial de alquileres de los campos.
+      - ¿Qué tal va el flujo de reservas en mis canchas hoy?
+      - ¿Qué campos registran mas reservas en la semana?
+      - Podrías darme el ranking de canchas por nivel de ocupacion?
+      - Necesito una vision general del uso de mis canchas.
+      - Indícame qué instalaciones tienen mayor rotacion de usuarios.
+      - ¿Qué campos son los que tienen mayor frecuencia de alquiler?
+      - Dime cuáles de mis espacios deportivos tienen mas acogida.
+      - Muestra un analisis de la demanda de mis losas.
+      - Cual canchita es la que tiene mayor solicitud?
+      - Dame los indicadores de uso de mis recintos deportivos.
+      - ¿Cómo están las reservas de mis canchas ultimamente?
+      - Necesito el detalle de la actividad en mis campos.
+      - Informame sobre la preferencia de mis canchas por los clientes.
+      - Cuáles son las canchas que mas se llenan en mi sede?
+      - Quisiera consultar las cifras de uso de los campos.
+      - Me das los numeros de ocupación de las áreas de juego?
+      - Cuál es la cancha que genera mas rentabilidad?
+      - Muéstrame el historial de alquileres por cada campo.
+      - ¿Qué campos están generando un mayor numero de reservas?
+      - Dime qué recintos tienen la mayor actividad.
+      - Me gustaria saber el rendimiento individual de mis canchas.
+      - Pásame un consolidado de la utilizacion de las losas.
+      - ¿Qué campos tienen mayor indice de uso?
+      - Podrías indicarme cual cancha goza de mayor popularidad?
+      - Dame el informe de las canchas con mas afluencia.
+      - Necesito un reporte de las canchas mas frecuentadas.
+      - Dime qué campos son los mas concurridos por los clientes.
+      - Muestrame los datos de rendimiento de las losas.
+      - Quiero saber la performance de mis campos deportivos.
+      - ¿Qué canchas son las mas exitosas en terminos de uso?
+      - Dame un resumen de las reservas de mis canchitas.
+      - ¿Qué tal anda la ocupacion de los espacios deportivos este mes?
+      - ¿Cuales áreas de juego acumulan la mayor cantidad de alquileres?
+      - Informame sobre el nivel de actividad de las instalaciones deportivas.
+      - ¿Qué campos son los que atraen a mas usuarios?
+      - Muestrame el ranking de campos con mayor empleo en mis diferentes sedes.
+      - Pásame los datos de las canchas que estan full.
+      - ¿Cuales canchas son las que tienen el mayor volumen de reservas?
+      - Muestrame el resumen de la ocupación de cada campo.
+      - Necesito saber el uso promedio de mis canchas.
+      - Dame una relacion de los campos con mayor rotacion de uso.
+      - ¿Qué losas tienen mas movimiento de reservas?
+      - Quisiera saber la demanda especifica de mis canchas.
+      - ¿Podrías señalarme cuales campos son los mas frecuentados?
+      - Dime el top de mis instalaciones con mayor actividad.
+      - Enséñame cuáles canchitas son las que acumulan mas reservas.
+      - Necesito un informe de cuáles campos tienen mas reservas continuas.
+      - Dame los numeros de las áreas deportivas más usadas.
+      - ¿Cómo le esta yendo a mis campos en terminos de uso?
+      - Quiero ver los campos con mejor desempeño en reservas.
+      - Podrías darme la informacion de las losas mas requeridas por los clientes?
+      - ¿Qué campos de mi sede muestran mayor productividad?
+      - Muestrame una tabla con el uso de cada una de mis canchas.
+      - Necesito el reporte de las canchas con mayor indice de reservas.
+      - ¿Qué espacios deportivos reportan mas alquileres?
+      - Quiero conocer el nivel de popularidad de mis campos este trimestre.
+      - Me brindas datos sobre la ocupación de mis áreas de juego?
+      - Quiero saber qué canchas están aportando mas ingresos por su uso.
+      - Enséñame el reporte de los campos que registran la mayor utilizacion.
+      - Necesito conocer la actividad de las losas en mis sedes.
+      - Dame un resumen del uso de las canchitas en general.
+      - ¿Qué campos están registrando mas horas de uso?
+      - Quiero saber qué canchas están teniendo más acogida.
+      - Necesito saber cuáles son los campos que más se llenan en mis sedes.
+      - Dame la data de los espacios deportivos con mayor flujo de clientes.
+      - ¿Qué instalaciones están generando más reservas?
+      - A ver, cuáles de mis losas están con bastante actividad.
+      - Pásame la info de los recintos que tienen más cancha.
+      - ¿Cuáles son los campos que más pegan?
+      - Enséñame qué campos están siendo los más activos.
+      - Quisiera ver el desempeño de mis canchas en cuanto a alquileres.
+      - Dime los espacios que tienen mayor rotación de usuarios.
+      - ¿Cuál es el campo que más se solicita?
+      - Necesito conocer la performance de mis áreas de juego.
+      - Dame un pantallazo de los campos que tienen más solicitudes.
+      - ¿Qué canchas son las que más atraen clientes?
+      - A ver si me dices cuáles son las losas que están rompiéndola.
+      - Quiero saber cómo está la actividad en mis espacios deportivos.
+      - Cuáles son los campos que la gente más busca.
+      - Dame el informe de cuáles canchas están liderando en reservas.
+      - Necesito saber cuáles son los recintos con mayor afluencia.
+      - Qué campos están con más alquileres en este periodo.
+      - Pásame cuáles campos acumularon más reservas esta semana.
+      - Quisiera un resumen de las canchas que están funcionando mejor.
+      - Qué losas me están dando más ganancias?
+      - Dime la estadística de ocupación de mis canchas.
+      - Necesito ver cuáles son los campos que más facturan.
+      - Cuáles de mis espacios deportivos tienen la mayor afluencia.
+      - Pásame el dato de las canchas que están más solicitadas por la gente.
+      - Quiero saber cuáles campos que más piden los clientes.
+      - Dame la lista de las canchas que tienen más reservas.
+      - Infórmame sobre los campos que tienen mayor nivel de actividad.
+      - Cuáles son las canchas que tienen más adeptos?
+      - Necesito un detalle de los campos con más rotación de horarios.
+      - Pásame la información de las canchas que me dan mayor ingreso.
+      - Quiero saber cuáles campos tienen mayor cantidad de gente este mes.
+      - Muéstrame los campos que se alquilan más.
+      - ¿Cuáles son los campos que tienen alta demanda para alquilar?
+      - Dame el informe de la ocupación de mis canchas.
+      - Necesito saber cuáles canchas están recibiendo más solicitudes.
+      - Pásame la data de los campos que registran más alquileres.
+      - ¿Qué canchas tienen un alto nivel de uso?
+      - Quiero ver cuáles campos están marcando la pauta.
+      - Dame una vista rápida de los campos con más actividad de alquiler.
+      - Necesito saber qué campos tienen mayor número de reservas confirmadas.
+      - Cuáles son los campos que están siendo más reservados en mi sistema.
+      - Pásame el reporte de aprovechamiento de mis losas.
+      - ¿Qué canchas son las más buscadas por los deportistas?
+      - Quisiera ver el desempeño de los campos en cuanto a nivel de ocupación.
+      - Dime los campos que tienen más éxito.
+      - Necesito un informe sobre qué tan populares son mis campos.
+      - Cuáles son las canchas que están recibiendo más reservas.
+      - Pásame la info de los campos que están experimentando más demanda.
+      - ¿Qué espacios me están rindiendo más ganancias?
+      - Quiero saber cuáles campos atraen más jugadores.
+      - Dame el detalle de los campos con mayor cantidad de reservas vigentes.
+      - Necesito saber qué campos tienen el nivel de ocupación más alto por hora.
+      - Cuáles son los campos que están con mayor actividad de reserva.
+      - Pásame un resumen de las canchas con mejor performance.
+      - ¿Qué canchas están siendo las más utilizadas por los equipos?
+      - Quiero saber cuáles campos están destacando en mi negocio.
+      - Dame la información de los campos que registran más horas de uso.
+      - Necesito saber cuáles canchas acumulan más reservas.
+      - Cuáles son los campos que tienen el mayor flujo de alquileres.
+      - Pásame el reporte de las canchas con más movimiento de gente.
+      - ¿Qué canchas están dando más ganancias?
+      - Quiero saber cuáles campos están generando más impacto.
+      - Dame el informe de los campos con mayor popularidad.
+      - Necesito saber qué canchas tienen la mejor tasa de ocupación.
+      - Cuáles son los campos que están con mayor demanda de alquiler.
+      - Pásame la data de las canchas que están teniendo más afluencia.
+      - ¿Qué canchas son las más cotizadas?
+      - Quiero ver los campos con mayor cantidad de reservas.
+      - Dame la información de cuáles campos están aportando más dinero.
+      - Necesito saber qué canchas tienen el mayor porcentaje de ocupación.
+      - Cuáles son los campos que están teniendo más engagement.
+      - Pásame el detalle de las canchas con mayor registro de actividad.
+      - ¿Qué canchas están atrayendo más público?
+      - Quiero saber cuáles campos tienen mayor afluencia en las noches.
+      - Dame el informe de los campos que tienen más bookings.
+      - Necesito saber qué canchas están con la agenda más llena.
+      - Cuáles son los campos que tuvieron mayor dinamismo este mes.
+      - Pásame la data de las canchas que están generando más actividad comercial.
+      - ¿Qué canchas son las que están dando la hora?
+      - Quiero ver los campos que tienen el mejor flujo de caja.
+      - Dame el detalle de los campos con la mayor demanda de alquiler.
+      - Necesito saber qué canchas están produciendo más para mi negocio.
+      - Cuáles son los campos que tienen mayor visibilidad.
+      - Pásame un resumen de la actividad de mis espacios deportivos.
+      - Quisiera saber cómo va el movimiento de los campos.
+      - Dame un informe del desempeño de mis canchitas.
+      - ¿Qué tal está la dinámica de mis losas?
+      - Necesito ver el desempeño de mis recintos deportivos.
+      - A ver, ¿cuáles son los campos que tienen mejor 'performance'?
+      - Pásame la data de la intensidad de uso de las canchas.
+      - ¿Cómo está la movida de mis instalaciones?
+      - Quiero saber la actividad de mis campos de juego.
+      - Dame un vistazo a la utilización de mis espacios.
+      - ¿Cuáles son los campos que tienen más 'punch'?
+      - Necesito el reporte de las canchas con mayor fluidez.
+      - Avisame qué tal van las separaciones de mis canchas.
+      - ¿Qué campos son los que atraen más clientela?
+      - Hazme un consolidado del movimiento en mis losas deportivas.
+      - Quiero ver la estadística de la actividad en campos.
+      - Dime qué tal se mueven mis canchas.
+      - Enséñame las canchas con mayor frecuencia de booking.
+      - Dame un reporte de qué campos están a tope.
+      - ¿Cuáles son los campos con el mayor índice de utilización?
+      - Quisiera un panorama del dinamismo en mis áreas deportivas.
+      - ¿Qué campos están funcionando a full?
+      - Necesito información sobre la actividad en mis campos.
+      - Dime qué tal están siendo aprovechados mis espacios.
+      - Pásame el ranking de campos con más afluencia.
+      - Quiero ver los campos con mayor movimiento, porfa.
+      - Muéstrame la tendencia de actividad de mis canchas.
+      - ¿Cómo están los campos en cuanto a separaciones?
+      - Dame las cifras de utilización de mis recintos.
+      - ¿Qué campos tienen mayor frecuencia de arrendamiento?
+      - Necesito un detalle del movimiento de mis canchas.
+      - Cuéntame cómo van los campos deportivos.
+      - ¿Cuáles son los campos con más clientela?
+      - Dame un informe sobre la dinámica de mis espacios.
+      - Quiero saber el flujo de mis canchas.
+      - ¿Qué tan activos están mis campos?
+      - Necesito un reporte de performance de mis canchas.
+      - Dime cuáles campos están 'rompiéndola'.
+      - Pásame el estado de actividad de mis losas.
+      - Quisiera ver el historial de actividad de mis campos.
+      - ¿Cómo está el aprovechamiento de mis instalaciones deportivas?
+      - Dame un reporte de las canchas con más 'pegada'.
+      - Necesito saber la efectividad de mis campos.
+      - A ver, las canchas que más se mueven, ¿cuáles son?
+      - Quiero las estadísticas de actividad de mis recintos.
+      - ¿Qué campos tienen más actividad actualmente?
+      - Dime cómo está el flujo de mis canchas.
+      - Pásame un informe sobre la preferencia de campos.
+      - ¿Cuáles son las losas con mayor rendimiento?
+      - Necesito un análisis del comportamiento de mis instalaciones.
+      - Quiero ver qué tan activos son mis campos.
+      - Dame un resumen de la actividad de las canchas.
+      - ¿Cómo están funcionando mis espacios deportivos?
+      - Dime cuáles campos están en la mira de los usuarios.
+      - Pásame la info de las canchas con más flujo de gente.
+      - Quiero saber el nivel de actividad de mis campos.
+      - Necesito un informe sobre la intensidad de las canchas.
+      - A ver, los campos que más buscan, ¿cuáles son?
+      - Dame un reporte de los campos con mayor tracción.
+      - ¿Qué canchas están más 'prendidas' últimamente?
+      - Necesito el listado de las canchas con más 'rating'.
+      - Cuéntame cómo va la utilización de mis áreas.
+      - ¿Cuáles son los campos que están generando más actividad?
+      - Quiero un reporte de los campos que tienen más engagement.
+      - Dame los datos de la operación de mis complejos deportivos.
+      - Necesito saber qué campos tienen mayor recurrencia de uso.
+      - Dime cuáles campos son los que tienen más dinamismo.
+      - Pásame la información de qué campos tienen más separaciones.
+      - Quisiera ver el rendimiento y actividad de mis canchas.
+      - ¿Cómo se comportan mis campos en términos de utilización?
+      - Necesito un informe sobre la preferencia de los campos.
+      - Dame un reporte de los campos que están a full capacidad.
+      - ¿Cuáles son los campos que están teniendo más flujo de usuarios?
+      - Quiero saber la actividad de mis espacios deportivos.
+      - Dime cuáles campos son los que se están moviendo más.
+      - Pásame un resumen de las canchas con mayor actividad.
+      - Necesito ver qué canchas tienen la mayor 'chamba'.
+      - A ver el ranking de los campos con mayor acogida.
+      - Quisiera saber qué tan activos están mis recintos.
+      - Dame un informe sobre el 'performance' de mis canchas.
+      - Muéstrame un reporte de cómo están siendo utilizadas mis canchas.
+      - Quiero ver la eficiencia en el uso de mis instalaciones.
+      - Dime cómo se comportan mis áreas deportivas.
+      - Necesito un balance de la actividad en mis campos.
+      - Dame una perspectiva general del uso de canchas.
+      - ¿Cuáles son las canchas que tienen más vida?
+      - Pásame las métricas de utilización de mis losas.
+      - Quiero un resumen de la dinámica operativa de mis campos.
+      - Necesito entender la distribución de uso de mis espacios.
+      - ¿Qué campos son los más solicitados por los clientes?
+      - Quisiera saber qué canchas tienen mayor afluencia.
+      - Dame el reporte de las losas más alquiladas.
+      - ¿Cuál es el espacio deportivo con más actividad?
+      - Necesito conocer la ocupación de cada cancha.
+      - ¿Qué campos me están dando más ganancias?
+      - Dime cuáles son los recintos más concurridos.
+      - Muéstrame la cancha que los patitas usan más.
+      - Quiero ver qué instalaciones deportivas se llenan más rápido.
+      - ¿Cómo está el movimiento de mis campos?
+      - Pásame la info de los campos que más se reservan.
+      - ¿Qué canchas tienen más jale ahorita?
+      - ¿Cuáles son los espacios que más rinden?
+      - Deseo saber cuáles son las canchas que la gente prefiere.
+      - Dame la data de las losas más productivas.
+      - ¿Qué complejos deportivos generan más pichangas?
+      - Quisiera un resumen de las canchas con mayor demanda.
+      - ¿Me puedes decir qué campos están a full?
+      - ¿Cuál es el campo más solicitado en la sede de Chorrillos?
+      - Muestra las canchas que están haciendo más plata.
+      - Pásame los indicadores de performance de mis canchas.
+      - ¿Qué áreas deportivas tienen más movimiento?
+      - Dime cuáles son las canchas que más se eligen.
+      - ¿Cómo van las reservas de mis canchas?
+      - Indícame qué campos tienen mayor flujo de uso.
+      - Quisiera el informe de uso de canchas para este mes.
+      - ¿Qué canchas están siendo las más rentables?
+      - Muéstrame qué espacios deportivos están generando más ingresos.
+      - Necesito el reporte de las losas con más reservas.
+      - ¿Cuáles son los campos que tienen más solicitudes de alquiler?
+      - Quiero un estudio de la preferencia de mis canchas.
+      - ¿Qué canchas tienen más uso por parte de los socios?
+      - Quiero saber qué campos tienen mayor demanda de uso.
+      - Pásame la estadística de uso de las canchas.
+      - ¿Me puedes dar el top de canchas que más se alquilan?
+      - ¿Cuáles son las canchas con mayor ocupación en mis locales?
+      - Necesito ver qué campos son los preferidos del público.
+      - Dime qué espacios deportivos están con más actividad ahora.
+      - ¿Cómo está la utilización de mis campos deportivos?
+      - Quisiera saber cuáles son las canchas más rentadas.
+      - Dame la información de las losas más solicitadas.
+      - ¿Qué canchas tienen un alto nivel de reservas?
+      - Enséñame las canchas con mayor recambio de usuarios.
+      - Necesito el balance de uso de mis campos.
+      - ¿Cuáles son los campos que más generan ingresos?
+      - A ver, ¿qué canchas están moviendo más la aguja?
+      - ¿Cuáles son los campos que me dan más plata?
+      - Quiero saber qué canchas son las más cotizadas.
+      - Un reporte de los campos que tienen más 'chamba', porfa.
+      - ¿Qué tal va el uso de mis instalaciones deportivas?
+      - Dime cuáles son los espacios deportivos que más billete hacen.
+      - Necesito saber cuáles son los campos más rentables ahorita.
+      - Pásame la data de las canchas con más afluencia.
+      - ¿Qué áreas de juego tienen más actividad últimamente?
+      - Quisiera ver el rendimiento de cada cancha.
+      - Hazme un listado de los campos con más reservas.
+      - A ver, qué cancha me está dando más ganancias.
+      - ¿Cuáles son los campos que más atraen gente?
+      - Necesito un informe sobre la demanda de mis lozas.
+      - Dime los espacios deportivos más concurridos este mes.
+      - Muéstrame la ocupación de mis canchas, las que están a full.
+      - ¿Qué campos son los que tienen más rotación?
+      - Pásame el top de los campos que se alquilan más seguido.
+      - Quiero ver las estadísticas de uso de mis canchas.
+      - ¿Cuáles son los campos que tienen más reservas en general?
+      - Dime cuáles de mis canchas tienen mayor movimiento.
+      - Necesito saber qué canchas son las que más se facturan.
+      - Enséñame qué campos están generando más reservas.
+      - A cuánto estamos de uso en las canchas?
+      - Quisiera saber qué campos están siendo los más utilizados.
+      - Reporta la afluencia en mis canchas.
+      - Necesito saber cómo les va a mis recintos deportivos.
+      - Dime el nivel de actividad de los campos de juego.
+      - Muéstrame las estadísticas de uso de mis losas.
+      - Quiero conocer el detalle de la ocupación en mis instalaciones.
+      - Pásame el informe de los espacios más requeridos.
+      - ¿Qué tal se están usando mis pistas deportivas?
+      - Enséñame el consolidado de reservas por área.
+      - Quisiera ver cuáles campos tienen más movimiento de gente.
+      - Indícame cuáles son las canchas que generan más actividad.
+      - Dame un informe sobre el rendimiento de mis puntos de alquiler.
+      - ¿Cuáles son las zonas con mayor tráfico de usuarios?
+      - Necesito un resumen de la utilización de mis establecimientos.
+      - Dime qué canchas están teniendo más flujo de gente.
+      - Quisiera ver el desempeño de mis canchas de práctica.
+      - Enséñame los campos con mayor volumen de reservas.
+      - Pásame un reporte de los complejos con más pedidos.
+      - ¿Cómo va el flujo de ocupación de mis canchas?
+      - Necesito un detalle del nivel de concurrencia en mis espacios.
+      - Dime qué losas están teniendo bastante actividad.
+      - Quisiera ver las canchas que tienen más enganche.
+      - Pásame el registro de los lugares con mayor aforo.
+      - ¿Cuáles canchas están a tope de capacidad?
+      - Necesito ver el conteo de uso de cada área de juego.
+      - Indícame qué instalaciones están más operativas.
+      - ¿Qué canchas son las que la gente está pidiendo más para reservar?
+      - Quisiera saber qué campos concentran la mayoría de los usuarios.
+      - Dame una idea de cuáles losas están teniendo el mayor éxito en reservas.
+      - Necesito ver qué espacios están con su agenda llena casi siempre.
+      - ¿Qué canchas son las que están moviendo más la 'caja'?
+      - Pásame la data de los campos que registran más eventos deportivos.
+      - Dime cuáles son los recintos con mayor concurrencia de público.
+      - ¿Qué áreas deportivas están siendo las más demandadas por los equipos?
+      - Quiero un resumen de los campos que tienen el mayor flujo de deportistas.
+      - Muéstrame las losas que están teniendo una alta tasa de ocupación.

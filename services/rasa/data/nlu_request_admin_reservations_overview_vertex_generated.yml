@@ -1,0 +1,1045 @@
+version: "3.1"
+
+nlu:
+  - intent: request_admin_reservations_overview
+    examples: |
+      - Muéstrame el listado de reservaciones para la jornada actual.
+      - ¿Qué tal van las reservaciones de mis instalaciones hoy?
+      - Podrías darme un informe sobre las reservas programadas para el día?
+      - Quiero ver qué pichangas tengo agendadas para hoy.
+      - Necesito conocer el panorama de reservas de mis locales.
+      - ¿Cuál es la situación actual de las reservas en mis sedes?
+      - Por favor, indícame las reservaciones activas para mañana.
+      - Dame un reporte de las pichangas para esta semana.
+      - ¿Cómo se presentan las reservas de mis canchas para el fin de semana?
+      - Quisiera un resumen de los espacios reservados para los próximos días.
+      - Pásame la lista de reservas confirmadas para hoy.
+      - Me gustaría saber cuántas reservaciones hay activas ahora.
+      - ¿Puedes decirme el estado de mis reservas para la fecha?
+      - A ver, qué reservas tengo pendientes para esta noche.
+      - Las reservas de mis establecimientos, ¿cómo van?
+      - ¿Qué pichangas hay programadas para mañana en mis canchas?
+      - Dame el detalle de las reservas de mis sedes para hoy.
+      - ¿Cómo están los alquileres de espacios deportivos para esta semana?
+      - Revisa porfa las reservaciones para el día en mi local.
+      - Quiero ver las reservas para el 15 de marzo.
+      - Necesito un informe de las reservas que tengo activas.
+      - ¿Puedes mostrarme las pichangas confirmadas para la jornada?
+      - Dime cómo está mi agenda de reservas para hoy.
+      - ¿Cuáles son las reservas vigentes en mis instalaciones?
+      - Dame el reporte completo de reservas para hoy en mis sedes.
+      - ¿Qué reservaciones hay para el día de mañana en mi cancha?
+      - Por favor, una vista general de las reservas de esta semana.
+      - Quisiera saber las pichangas programadas para mi local hoy.
+      - Muéstrame el estado de ocupación de mis canchas para hoy.
+      - ¿Puedes darme un panorama de las reservaciones que tengo?
+      - Necesito ver las reservas activas en mis sedes para el fin de semana.
+      - ¿Qué onda con las reservas pa'l día?
+      - Pásame al toque las reservas de mi sede para hoy.
+      - Un toque, ¿cuántas reservas tengo pa' esta semana?
+      - Quiero un listado de las reservas en mis canchas para el día.
+      - ¿Cómo se ve la situación de las reservas de hoy?
+      - Dame el estado de mis reservaciones para hoy.
+      - ¿Qué reservas hay en mis locales para mañana?
+      - Necesito el reporte de reservas de mis sedes para el día.
+      - Muéstrame las reservaciones activas en mis canchas ahora.
+      - ¿Me puedes decir las pichangas que hay hoy?
+      - Quisiera saber cómo está la cosa con las reservas de hoy.
+      - Un resumen rápido de las reservas de mi sede.
+      - Chequea las reservas para esta noche en mis canchas.
+      - ¿Cuántas reservas tengo pa' el fin de semana en mis sedes?
+      - Por favor, las reservas de mis instalaciones para mañana.
+      - Dame un informe de las reservaciones para hoy.
+      - Quiero saber el total de reservas activas.
+      - ¿Qué tal las pichangas programadas para hoy?
+      - Necesito una vista de las reservas de mis locales para la semana.
+      - Muéstrame el estado de mis canchas para hoy.
+      - ¿Me indicas las reservas para esta tarde?
+      - Dame el detalle de las pichangas de hoy.
+      - Cuáles son las reservas confirmadas para mañana.
+      - Quisiera ver la ocupación de mis sedes para hoy.
+      - ¿Cómo andan las reservaciones de mis canchas el fin de semana?
+      - Necesito un reporte de los cupos reservados para hoy.
+      - Muéstrame las pichangas de mis locales para mañana.
+      - ¿Puedes darme un listado de las reservas de hoy?
+      - Quiero saber el estado general de mis reservaciones.
+      - ¿Qué reservas hay programadas para mis sedes esta semana?
+      - Dame un informe de las pichangas para hoy en mis canchas.
+      - Revisa las reservaciones de mis instalaciones para el día.
+      - ¿Cómo va la afluencia de reservas para hoy?
+      - Necesito el panorama de las pichangas de mi local.
+      - Muéstrame las reservas de los próximos días.
+      - ¿Puedes decirme las reservaciones de mis canchas para el día?
+      - Dame un resumen de las pichangas para hoy.
+      - Quisiera saber cuántos alquileres tengo para el fin de semana.
+      - ¿Qué tal el reporte de reservas de mis sedes para la fecha?
+      - Necesito ver las pichangas agendadas para el día.
+      - Muéstrame el estado de las reservaciones de hoy.
+      - ¿Me pasas las reservas de mis canchas para el 20 de abril?
+      - Dame la situación actual de los alquileres para hoy.
+      - Quiero saber las pichangas que hay para mañana.
+      - ¿Cómo está la agenda de reservas de mis locales para hoy?
+      - Necesito un listado de todas las reservas activas.
+      - Muéstrame las reservaciones para hoy en mis instalaciones.
+      - ¿Puedes darme el informe de las pichangas de hoy en mi sede?
+      - Quisiera ver el resumen de reservas pendientes para la semana.
+      - ¿Qué tal la agenda de mis locales?
+      - Necesito ver las booking de los espacios para hoy.
+      - Podrías darme un pantallazo de las reservaciones en general?
+      - ¿Cuál es la ocupación de mis centros deportivos?
+      - Indícame qué compromisos hay de canchas.
+      - Quiero saber el movimiento de hoy en mis sedes.
+      - Cómo está la chamba de reservas para el día?
+      - Pásame el registro de los alquileres para mis recintos.
+      - Qué tenemos programado para la fecha en las instalaciones?
+      - Un recuento de las pichangas para ahora, por favor.
+      - Quisiera verificar los agendamientos de mis establecimientos.
+      - Me das el informe de ingresos programados de canchas?
+      - Averigua las citas de mis salones deportivos para hoy.
+      - ¿Cómo va el cronograma de ocupación en mis complejos?
+      - Necesito el reporte de las programaciones para este momento.
+      - ¿Qué tal se presenta el flujo de reservaciones en mis sedes para el día?
+      - Dame una idea de las asignaciones de espacios.
+      - Por favor, dame las entradas de cancha para hoy.
+      - Qué compromisos hay en mis complejos deportivos para el fin de semana?
+      - Me interesa saber la lista de bookings para las próximas horas.
+      - Cuáles son las ocupaciones del día en mis locales?
+      - Quisiera revisar las pichangas que hay para la noche.
+      - Dame un resumen de las entradas de hoy en mis instalaciones.
+      - Necesito el estado de los arriendos de mis canchas para mañana.
+      - ¿Cómo andan los eventos agendados para este fin de semana?
+      - Qué tengo separado para hoy?
+      - Reporte de reservas para el día de hoy, por favor.
+      - Necesito saber cómo van las reservaciones de mis locales.
+      - Muéstrame las pichangas que hay para esta noche.
+      - Dame un consolidado de las reservas vigentes.
+      - Cuántas reservas tenemos programadas para mañana?
+      - Por favor, un informe de las ocupaciones para la jornada.
+      - Qué tal la cantidad de reservas para este fin de semana?
+      - Las reservas del centro deportivo, ¿cómo están pa' hoy?
+      - Quiero ver las separaciones activas de mis espacios.
+      - Balance de las pichangas para el día de hoy, un favor.
+      - Podrías darme una idea de las reservas actuales?
+      - Cómo pinta la movida de las reservaciones para mañan?
+      - Necesito el conteo de las reservas que tengo.
+      - Pásame el registro de reservas para esta semana.
+      - Qué hay de las reservaciones que ya se confirmaron?
+      - Las reservas para hoy en mis instalaciones, cuál es el estatus?
+      - Dime los cupos que tenemos vendidos para hoy.
+      - Un check de las pichangas agendadas para el día.
+      - Cuál es el panorama general de las reservaciones para este periodo?
+      - Qué tenemos reservado para la fecha de hoy?
+      - Puedes indicarme las pichangas ya separadas para mañana?
+      - Necesito un informe del volumen de reservas para hoy.
+      - Cuántas reservaciones están confirmadas para el día de hoy?
+      - Pásame la lista de alquileres de espacios deportivos para hoy.
+      - ¿Qué tal la ocupación de mis instalaciones para el día?
+      - Necesito saber qué eventos tengo agendados hoy.
+      - Un reporte de las pichangas que hay planificadas.
+      - Podrías informarme sobre el cronograma de uso de mis locales?
+      - ¿Cómo está el movimiento de la gente en mis canchas para mañana?
+      - Quisiera ver el detalle de las citas deportivas.
+      - Manejar la información de los espacios ocupados.
+      - Dame una idea de lo que tengo programado para esta noche.
+      - Qué tengo separado en mis establecimientos para el fin de semana?
+      - Por favor, el listado de los alquileres para hoy.
+      - Pásame un resumen de reservas para hoy, porfa.
+      - Quiero saber el número total de reservas que hay para hoy.
+      - ¿Cómo están las reservas totales en el campus Surco?
+      - Muéstrame las reservas en la cancha 1 para esta tarde.
+      - Dame el resumen de reservas por deporte, de fútbol para la semana.
+      - Necesito ver el conteo total de reservas para hoy.
+      - Checa las reservas totales para el campus de Surco de mañana.
+      - Qué onda con las reservas en la cancha 1 para la noche?
+      - Me interesa saber el resumen de reservas por deporte, específicamente de fútbol.
+      - Un toque, ¿cuántas son las reservas totales que tenemos para el día de hoy?
+      - Podrías darme la cantidad total de reservas de hoy en el campus Surco?
+      - Averigua las reservas en la cancha 1 para el 20 de mayo.
+      - Quisiera un resumen de las reservas de fútbol para este mes.
+      - Las reservas totales de hoy, ¿cómo van en general?
+      - Dame el dato del total de reservas en el campus Surco para el fin de semana.
+      - Mira las reservas que hay en la cancha 1 de tenis para hoy.
+      - Un resumen de reservas para todos los deportes, porfa.
+      - ¿Cuántas reservas totales tenemos para el campus Surco?
+      - Estado de reservas en la cancha 1 para el próximo lunes.
+      - ¿Qué tal el resumen de reservas de voley para hoy?
+      - Revisa el total de reservas para hoy, inclúyelas todas.
+      - Dame la cantidad total de reservas en el campus de Surco para el día de mañana.
+      - Pásame las reservas en la cancha 1 de la sede de Surco.
+      - Quiero un resumen de las reservas de básquet para esta semana.
+      - Necesito el conteo de las reservas totales para el día de hoy.
+      - Chequéame las reservas en el campus Surco para el martes.
+      - ¿Cuántas reservas hay en la cancha 1 para la fecha actual?
+      - Un resumen de reservas por deporte: fútbol y tenis, por favor.
+      - Las reservas totales para esta tarde, ¿cuántas resultan?
+      - ¿Cómo se ve la cantidad total de reservas en el campus Surco para esta semana?
+      - Muéstrame las reservas en la cancha 1 de fulbito para mañana.
+      - Resumen de reservas por deporte padel para hoy.
+      - Dame las reservas totales que hay para hoy.
+      - ¿Podrías darme el total de reservas del campus Surco para la semana entrante?
+      - Consulta las reservas en la cancha 1 del local de Miraflores.
+      - Un resumen de reservas de fútbol para el próximo mes.
+      - Quiero un reporte del total de las reservas de hoy.
+      - ¿Qué tal las reservas en el campus Surco para el viernes?
+      - Estado de las reservas en la cancha 1 de voley para hoy.
+      - Pásame el resumen de reservas por deporte para el campus Surco.
+      - Necesito el total de reservas de hoy, en todos los locales.
+      - A ver las reservas totales en el campus Surco para el domingo.
+      - ¿Cuántas reservas hay en la cancha 1 de squash para hoy?
+      - Resumen de reservas por deporte fútbol en Surco para hoy.
+      - Pásame el total de reservas para hoy en general.
+      - Chequéame el total de reservas en el campus Surco para pasado mañana.
+      - Quisiera ver las reservas en la cancha 1 de mi local.
+      - Un resumen de reservas para todos los campus y todos los deportes.
+      - Dime las reservas totales para el día de hoy.
+      - La cantidad total de reservas del campus Surco para hoy, porfa.
+      - Las reservas en la cancha 1 de vóley, ¿cómo van hoy?
+      - Resumen de reservas por deporte, las pichangas para hoy.
+      - Dame un pantallazo de las reservas totales para el día actual.
+      - ¿Cuántas reservas hay en el campus Surco para el 25 de abril?
+      - Muéstrame las reservas en la cancha 1 para la fecha actual.
+      - Quiero un resumen de reservas de padel y tenis para esta semana.
+      - Las reservas totales para hoy, dame el número exacto.
+      - Total de reservas del campus Surco, las correspondientes a este mes.
+      - ¿Cómo van las reservas en la cancha 1 para el próximo fin de semana?
+      - Necesito un resumen de reservas por deporte, para saber cómo estamos.
+      - Revisa las reservas totales para hoy, porfa.
+      - Pásame el total de reservas del campus Surco para la tarde de hoy.
+      - ¿Qué pichangas hay en la cancha 1 para mañana?
+      - Un resumen de las reservas de fútbol para el día de hoy.
+      - Dame el consolidado de reservas totales para el día de hoy.
+      - ¿Cuántas reservas hay en el campus Surco, específicamente en la cancha 1?
+      - Muéstrame el resumen de reservas por deporte para la jornada de hoy.
+      - Estado de las reservas totales para el día de hoy.
+      - Checa el total de reservas en el campus Surco en la cancha de fulbito.
+      - Reservas en la cancha 1 de básquet para el día de hoy.
+      - Un resumen de reservas para todos los deportes para hoy.
+      - Quisiera ver las reservas totales de hoy en el campus Surco.
+      - El total de reservas para el campus Surco, ¿lo tienes disponible?
+      - Pásame el estado de reservas en la cancha 1 para hoy.
+      - Resumen de reservas por deporte, para ver qué es lo que más se mueve.
+      - Dame las reservas totales de hoy de todas las canchas.
+      - ¿Cuántas reservas en el campus Surco de fútbol para esta semana?
+      - Muéstrame las reservas en la cancha 1 para todo este mes.
+      - Quiero un resumen de reservas por deporte fútbol en la cancha 1 para hoy.
+      - Necesito saber la cantidad total de reservas para hoy en el campus Surco y en la cancha 1.
+      - Dime el recuento total de reservas para el día.
+      - Pásame las reservas generales para hoy.
+      - Quiero un informe completo de las reservas de la jornada.
+      - ¿Cuál es el total de reservas que tenemos programadas para hoy?
+      - Necesito ver las reservas generales de esta facha.
+      - El total de pichangas reservadas para el día, porfa.
+      - Un consolidado de reservas para hoy.
+      - Qué tal están las reservas completas para esta fecha.
+      - Dame un overview de las reservas de hoy.
+      - Cuántas reservas hay en total para hoy.
+      - Quisiera el total de las reservaciones.
+      - Dame la cantidad global de reservas.
+      - ¿Cuántas reservas tenemos en general?
+      - Un conteo de todas las reservas.
+      - Podrías darme el monto total de reservas.
+      - Qué tal va el total de reservas para mañana.
+      - El total de reservas de la semana que viene.
+      - Cuántas reservas totales hay este mes.
+      - Informe de total de reservas para el 15 de marzo.
+      - Revisa el total de reservas que se tienen.
+      - Reservas totales en campuss Surco para el martes.
+      - Cuántas reservas hay en la sede de Surco esta semana.
+      - El total de reservaciones en Campus Surco para fútbol.
+      - Resumen de reservas en Surco para la cancha principal hoy.
+      - Las reservas de vóley en el campus de Surco para mañana.
+      - Qué tal las reservas en Surco para el fin de semana.
+      - Dame el total de pichangas en Surco por deporte futsal.
+      - En campus Surco, ¿cuántas reservas hay para padel?
+      - Necesito el resumen de reservas en el campus Surco para el mes.
+      - Cuántas reservas en el campus Surco, en general.
+      - Reservas totales en cancha 1 para la fecha actual.
+      - Resumen de reservas en la cancha uno para fútbol.
+      - Cuántas reservas en cancha 1, en el campus de Miraflores.
+      - Dame el total de reservas para la cancha 1 de básquet.
+      - En la cancha 1 de Surco, ¿qué reservas hay hoy?
+      - La cancha 1, ¿cuántas reservas tiene para mañana?
+      - Total de pichangas en cancha 1 para tenis esta semana.
+      - El resumen de reservas en la cancha 1 para el próximo mes.
+      - Qué tal están las reservas en cancha 1 por deporte vóley.
+      - Cuántas reservas en cancha 1, las generales.
+      - Reservas totales por deporte futboll para hoy.
+      - Dame el resumen de reservas de fútbol para la sede de Ate.
+      - Cuántas pichangas de fútbol hay en la cancha 2 para esta semana.
+      - Las reservas de fútbol en campus Surco para el 10 de abril.
+      - Total de reservas por deporte fútbol, en general.
+      - Qué tal las reservas de fútbol para mañana en la cancha principal.
+      - Pásame el listado de reservas de fútbol para este mes.
+      - Cuántas reservas por el lado del fútbol en Miraflores.
+      - Resumen de las reservas de fútbol para el próximo fin de semana.
+      - Dame el total de reservas de fútbol en la cancha de césped.
+      - Quisiera un resumen de las reservas.
+      - Dame un consolidado general de las reservas.
+      - Necesito un extracto de las reservas para hoy.
+      - Cuál es el resumen de reservas para mañana en la filial de Breña.
+      - El resumen de las reservas en la cancha sintética.
+      - Resumen de reservas por deporte futsal.
+      - Qué tal el resumen de las reservas para esta semana en Surco.
+      - Pásame el resumen de pichangas para el mes.
+      - Un resumen de todas las reservaciones en campus Surco.
+      - El resumen de las reservas para la cancha 3 para hoy.
+      - Un toquesito, ¿las reservas totales para el miércoles?
+      - Cómo van las reservas completas en la filial de La Molina para el 25 de junio.
+      - Pásame el recuento global de reservas en la cancha de grass para padel hoy.
+      - Quiero un informe del total de reservas de básquet en campus Surco para esta semana.
+      - Dame un resumen rápido de las pichangas de fútbol en la cancha 1 para mañana.
+      - ¿Cuántas reservaciones en total en el campus de Ate para la próxima semana?
+      - Las reservas completas por deporte tenis en Miraflores.
+      - Necesito ver el total de las reservas para la cancha dos este mes.
+      - Resumen general de las reservas de vóley en el campus de San Borja.
+      - Qué onda con las reservas totales para el lunes 12 de julio en cancha 3.
+      - Pásame el resumen de reservas de futsal en el local de Pueblo Libre hoy.
+      - Un chequeo de reservas totales para mañana en la cancha principal por deporte fútbol.
+      - Dime las reservas totales en campus Surco para la cancha de voley esta semana.
+      - Las reservas generales del campus de Barranco para el próximo mes.
+      - Cuéntame sobre el total de pichangas para hoy en la cancha de basket.
+      - Qué tal el resumen de reservas por deporte padel en la cancha de grass para el 1 de agosto.
+      - Dame un informe de reservas totales en la sede de Breña para la cancha de fútbol.
+      - Cuántas reservas hay en total para este viernes en la cancha de tenis.
+      - El resumen de reservas de futsal en campus Surco para la próxima quincena.
+      - Necesito un conteo de las reservas totales en la cancha principal de Miraflores para mañana.
+      - Quiero saber el total de reserbas de hoy.
+      - Pásame el consolidado de reservas en campus Surco para el viernes.
+      - Necesito ver el resumen de reservas en la cancha uno de Miraflores.
+      - ¿Cuántas reservas totales por deporte fútbol hay en la sede de Ate?
+      - Dame el total de pichangas para esta semana en campus Surco.
+      - Qué tal las reservas de vóley en la cancha 2 para el próximo martes.
+      - Un resumen de reservas de básquet en la sede de San Borja para hoy.
+      - El total de reservaciones en cancha principal por deporte futsal este mes.
+      - Cuéntame las reservas generales para el 30 de septiembre en campus Surco.
+      - Pásame el resumen de todas las pichangas en la cancha 1 para la tarde.
+      - Quisiera el total de reservas para [hoy](metric_period).
+      - ¿Cuántas reservas totales hay en el [campus Surco](location)?
+      - Pásame el resumen de reservas de [mañana](metric_period) en la cancha 1.
+      - Dame el total de reservas por deporte [fútbol](sport) para [hoy](metric_period).
+      - Necesito saber las reservas totales [esta semana](metric_period).
+      - Qué tal el total de reservas en [Surco](location) para [el sábado](metric_period)?
+      - Quiero ver las reservas totales de la cancha 2 de [Miraflores](location).
+      - Cuál es el número de reservas por [deporte voley](sport) para [este mes](metric_period)?
+      - Resumen de reservas totales en el [campus Surco](location) para [mañana](metric_period).
+      - Cuántas reservas hay [hoy](metric_period) en la cancha de grass sintético?
+      - Dame un resumen de reservas para [padel](sport) en [Ate](location) [hoy](metric_period).
+      - Cuál es el total de reservas de la cancha principal [el viernes](metric_period)?
+      - Necesito el total de reservas [este fin de semana](metric_period) en [San Borja](location).
+      - Quiero saber las reservas totales para [basket](sport) en la cancha 3.
+      - Un toque, las reservas de [fútbol](sport) en el [campus Surco](location) pa' [hoy](metric_period).
+      - ¿Podrías darme el resumen de reservas de la cancha 1 para [mañana](metric_period)?
+      - Cuál es el total de reservas en [Miraflores](location) por [voley](sport)?
+      - Necesito un panorama de las reservas totales de [tenis](sport) [la otra semana](metric_period).
+      - Cuántas reservas hay en el [campus Surco](location) [hoy](metric_period)?
+      - Dame el resumen de reservas para la cancha techada [el domingo](metric_period).
+      - Por favor, el total de reservas de [basket](sport) en [Surco](location) [mañana](metric_period).
+      - Qué onda con las reservas totales [esta semana](metric_period) en la cancha 1?
+      - Quiero saber el resumen de reservas por deporte [futbol](sport) [hoy](metric_period).
+      - Pásame el total de reservas en el [campus de Surco](location).
+      - Cuántas reservas hay para la cancha 5 [mañana](metric_period)?
+      - Dime el resumen de las reservas de [padel](sport) [este mes](metric_period).
+      - Necesito saber las reservas totales para [hoy](metric_period) en el [campus San Borja](location).
+      - Cuál es el total de pichangas de [futbol](sport) en la cancha 1?
+      - Dame un resumen de reservas en [Miraflores](location) para [hoy](metric_period) por [deporte basket](sport).
+      - Cuantas reservas totales hay en la cancha 3 para [mañana](metric_period)?
+      - Resumen de reservas [la semana que viene](metric_period) en [Surco](location).
+      - Dime el total de reservas para el [deporte voley](sport) en el [campus Surco](location).
+      - Quiero saber las reservas totales de la cancha 1 [hoy](metric_period).
+      - Cuál es el total de reservas en [Miraflores](location) para [el fin de semana](metric_period)?
+      - Pásame el resumen de las reservas para [tenis](sport) en la cancha principal.
+      - Necesito el total de reservas [este mes](metric_period) en el [campus Ate](location).
+      - Cuéntame las reservas totales de [padel](sport) en [Surco](location) [el martes](metric_period).
+      - Quisiera ver el resumen de reservas de la cancha 4 [mañana](metric_period).
+      - Dame el total de reservas por deporte [basketball](sport) para [la otra semana](metric_period).
+      - Cuántas reservas se hicieron en el [campus Surco](location) por [futbol](sport)?
+      - Quiero el resumen de reservas en la cancha 1 para [voley](sport) [hoy](metric_period).
+      - Necesito el total de reservas en [Surco](location) en la cancha 2 [el miércoles](metric_period).
+      - Dime las reservas totales para [padel](sport) [este fin de semana](metric_period).
+      - Cuál es el resumen de reservas en el [campus Miraflores](location) [hoy](metric_period)?
+      - Cuántas reservas hay en la cancha de frontón para [fútbol](sport)?
+      - Pásame el total de reservas [mañana](metric_period).
+      - Quiero un resumen de las reservas para el [campus Surco](location) [la otra semana](metric_period).
+      - Dame el número de reservas por [basket](sport) en la cancha principal [hoy](metric_period).
+      - Necesito saber cuántas reservas totales hay en [Surco](location) [este mes](metric_period) para [voley](sport).
+      - ¿Me das las reservas totales de [tenis](sport) en la cancha 1 para [el jueves](metric_period)?
+      - Quisiera el resumen de reservas de [fútbol](sport) en [Miraflores](location) para [mañana](metric_period).
+      - Cuántas reservas hay en la cancha techada de [Surco](location) para [hoy](metric_period)?
+      - Dame un resumen de reservas totales por [padel](sport) [el sábado](metric_period).
+      - Necesito el total de reservas para el [campus Surco](location) [esta semana](metric_period).
+      - Quiero saber las reservas de la cancha 1 en [Surco](location) por [fútbol](sport).
+      - Pásame el total de reservas para [voley](sport) [mañana](metric_period) en la cancha 2.
+      - Dime el resumen de reservas totales de [basket](sport) en [Ate](location) para [el jueves](metric_period).
+      - Cuántas reservas se hicieron [hoy](metric_period) en el [campus Surco](location) por [tenis](sport) en la cancha 3?
+      - Cuál es el total de reservas en [Miraflores](location) en la cancha de fronton para [padel](sport) [este fin de semana](metric_period)?
+      - Quiero un resumen de las reservas para [futbol](sport) [mañana](metric_period) en la cancha principal del [campus San Borja](location).
+      - Necesito el conteo de reservas para [hoy](metric_period).
+      - Dame un resumen del total de reservas en [Surco](location).
+      - Cuántas reservas hay en la cancha 1 para [hoy](metric_period)?
+      - Quiero saber el total de reservas por deporte [basket](sport) [este fin de semana](metric_period).
+      - Pásame el resumen de reservas en el [campus Surco](location) [mañana](metric_period).
+      - Dime cuántas pichangas hay [hoy](metric_period) en la cancha 2 de [Miraflores](location).
+      - Necesito el total de reservas de [padel](sport) en el [campus Ate](location) [el lunes](metric_period).
+      - Quisiera el total de reservas en la cancha de tenis para [tenis](sport) [esta semana](metric_period).
+      - Cuántas reservas hay en el [campus Surco](location) para [voley](sport) [el miércoles](metric_period)?
+      - Dame un resumen de reservas de [futbol](sport) en la cancha 1 para [el jueves](metric_period).
+      - Pásame el total de reservas [este mes](metric_period) en el [campus San Borja](location) por [basket](sport).
+      - Dime el resumen de reservas de [padel](sport) en la cancha techada [la otra semana](metric_period).
+      - Necesito el total de reservas para [hoy](metric_period) en el [campus Miraflores](location) en la cancha 5.
+      - Quisiera el total de reservas por deporte [futbol](sport) [este mes](metric_period) en [Surco](location) en la cancha 1.
+      - Cuántas reservas hay en la cancha 1 de [Ate](location) para [tenis](sport) [mañana](metric_period)?
+      - Dame un resumen de reservas totales para [voley](sport) [el fin de semana](metric_period) en el [campus Surco](location) en la cancha 2.
+      - Pásame el total de reservas [hoy](metric_period) en el [campus San Borja](location) en la cancha principal para [basket](sport).
+      - Necesito el resumen de reservas [la semana que viene](metric_period) en [Miraflores](location) en la cancha techada por [padel](sport).
+      - Dime las reservas totales [hoy](metric_period).
+      - Cuál es el total de reservas en el [campus Miraflores](location)?
+      - Cuántas reservas hay en la cancha principal [hoy](metric_period)?
+      - Quiero saber el total de reservas por deporte [voley](sport).
+      - Pásame el resumen de reservas de [mañana](metric_period) en el [campus Ate](location).
+      - Dime las reservas totales para [tenis](sport) en la cancha 2 [esta semana](metric_period).
+      - Necesito saber las reservas totales de [basket](sport) en [Surco](location) [el viernes](metric_period).
+      - Quiero el resumen de reservas de la cancha 3 [el domingo](metric_period).
+      - Cuántas reservas totales se han hecho [esta semana](metric_period) en el [campus Surco](location)?
+      - Dame un resumen de reservas de [futbol](sport) en [Miraflores](location) para [el lunes](metric_period).
+      - Pásame el total de reservas de [padel](sport) [este mes](metric_period) en la cancha techada.
+      - Dime las reservas totales para [voley](sport) en el [campus Ate](location) [la otra semana](metric_period).
+      - Necesito saber el resumen de reservas de la cancha 1 para [hoy](metric_period) por [basket](sport).
+      - Quisiera el total de reservas en [Surco](location) [este fin de semana](metric_period) por [tenis](sport) en la cancha principal.
+      - Cuántas pichangas hay en el [campus Miraflores](location) para [futbol](sport) [mañana](metric_period) en la cancha 3?
+      - Dame un resumen de las reservas [hoy](metric_period) en [Surco](location).
+      - Pásame el total de reservas en la cancha 1.
+      - Dime las reservas totales por [deporte futbol](sport) [esta semana](metric_period).
+      - Necesito saber el total de reservas [este mes](metric_period) en el [campus Surco](location).
+      - Quisiera el resumen de reservas de la cancha 2 para [basket](sport).
+      - ¿Podrías darme el total de reservas en [Miraflores](location) para [hoy](metric_period)?
+      - Cuántas reservas hay en la cancha techada para [padel](sport) [el martes](metric_period)?
+      - Dame un resumen de reservas de [tenis](sport) en el [campus Ate](location) [esta semana](metric_period).
+      - Necesito el total de reservas [mañana](metric_period) en el [campus San Borja](location) por [voley](sport).
+      - Quiero saber las reservas totales de [futbol](sport) en la cancha principal para [el jueves](metric_period).
+      - Pásame el resumen de reservas en [Surco](location) [este fin de semana](metric_period) en la cancha 4.
+      - Dime cuántas reservas totales hay de [basket](sport) [hoy](metric_period) en la cancha 1 de [Miraflores](location).
+      - Necesito el resumen de reservas por [padel](sport) [mañana](metric_period) en la cancha techada del [campus Surco](location).
+      - Quisiera saber el total de reservas [esta semana](metric_period) en el [campus Miraflores](location) en la cancha de fronton para [futbol](sport).
+      - Cuántas reservas hay para [hoy](metric_period) en el [campus Surco](location) en la cancha 1 por [voley](sport)?
+      - Dame un resumen de reservas totales para [basket](sport) [el fin de semana](metric_period) en el [campus San Borja](location) en la cancha 2.
+      - Pásame el total de reservas [este mes](metric_period) en [Ate](location) en la cancha principal para [tenis](sport).
+      - Dime el resumen de reservas [la otra semana](metric_period) en [Surco](location) en la cancha 5 por [futbol](sport).
+      - Necesito el total de reservas [hoy](metric_period) en el [campus Miraflores](location) en la cancha 2 para [padel](sport).
+      - Quisiera el total de reservas por deporte [voley](sport) [mañana](metric_period) en [Surco](location) en la cancha techada.
+      - Cuántas reservas hay en la cancha principal de [Ate](location) para [basket](sport) [este fin de semana](metric_period)?
+      - Dame un resumen de reservas totales de [tenis](sport) [este mes](metric_period) en el [campus San Borja](location) en la cancha 1.
+      - Pásame el total de reservas [la otra semana](metric_period) en [Miraflores](location) en la cancha 3 por [futbol](sport).
+      - Dime el resumen de reservas [hoy](metric_period) en el [campus Surco](location) en la cancha 1 para [padel](sport).
+      - Necesito el total de reservas [mañana](metric_period) en [Ate](location) en la cancha techada por [voley](sport).
+      - Quiero saber cuántas reservas totales hay de [basket](sport) [el miércoles](metric_period) en el [campus Miraflores](location) en la cancha principal.
+      - Cuántas reservas hay para [tenis](sport) [esta semana](metric_period) en [Surco](location) en la cancha 2?
+      - Dame un resumen de reservas totales de [futbol](sport) [el jueves](metric_period) en [San Borja](location) en la cancha 3.
+      - Pásame el total de reservas por [padel](sport) [este fin de semana](metric_period) en el [campus Ate](location) en la cancha 4.
+      - Dime el resumen de reservas de [voley](sport) [el domingo](metric_period) en [Surco](location) en la cancha 5.
+      - Necesito el total de reservas de [basket](sport) [la otra semana](metric_period) en el [campus Miraflores](location) en la cancha de fronton.
+      - Quisiera el resumen de reservas [este mes](metric_period) en [San Borja](location) en la cancha techada por [tenis](sport).
+      - Cuántas reservas totales se hicieron [hoy](metric_period) en el [campus Ate](location) en la cancha principal para [futbol](sport)?
+      - Dame un resumen de reservas de [padel](sport) [mañana](metric_period) en [Surco](location).
+      - Pásame el total de reservas [esta semana](metric_period) en la cancha 2.
+      - Dime las reservas totales por [voley](sport) en el [campus Miraflores](location).
+      - Necesito saber el resumen de reservas de [basket](sport) [el fin de semana](metric_period).
+      - Quisiera el total de reservas de [tenis](sport) [la otra semana](metric_period) en [Ate](location).
+      - Cuántas reservas hay en la cancha 3 de [San Borja](location) [este mes](metric_period)?
+      - Dame un resumen de reservas totales por [futbol](sport) [hoy](metric_period) en la cancha 1.
+      - Pásame el total de reservas [mañana](metric_period) en el [campus Surco](location) para [padel](sport).
+      - Dime el resumen de reservas de [voley](sport) en la cancha techada [el miércoles](metric_period).
+      - Necesito saber las reservas totales de [basket](sport) [el jueves](metric_period) en el [campus Miraflores](location).
+      - Quisiera el total de reservas de [tenis](sport) en la cancha 4 [este fin de semana](metric_period).
+      - ¿Cuántas reservas totales hubo en [Ate](location) [el lunes](metric_period) por [futbol](sport)?
+      - Dame un resumen de reservas de [padel](sport) [este mes](metric_period) en la cancha principal de [San Borja](location).
+      - Pásame el total de reservas [la semana que viene](metric_period) en [Surco](location) para [voley](sport) en la cancha 1.
+      - Dime el resumen de reservas de [basket](sport) [el domingo](metric_period) en el [campus Ate](location) en la cancha 2.
+      - Necesito el total de reservas de [tenis](sport) [hoy](metric_period) en el [campus Miraflores](location) en la cancha 3.
+      - Quisiera un resumen de las reservas para el [campus San Borja](location) [hoy](metric_period).
+      - Pásame la cifra total de reservas para el día de hoy, porfa.
+      - Quisiera ver el consolidado de reservas totales para mañana.
+      - Cuál es el total de reservas que tenemos en el campus Surco?
+      - Dame el número total de reservas en la cancha 1 para la fecha.
+      - Necesito saber el total de reservas por deporte, específicamente fútbol.
+      - Un resumen de reservas general, ¿cómo va la cosa?
+      - Muéstrame el panorama de reservas totales para esta semana.
+      - Chequea el total de pichangas reservadas en la sede de Surco para hoy.
+      - Cuántas reservas hay en total para vóley en la cancha 3 este fin de semana?
+      - Necesito un balance de las reservas de básquet del mes pasado.
+      - Dame el reporte de reservas totales en el campus de La Molina para el martes.
+      - Quisiera saber el total de reservas de tenis en todas las canchas para la tarde.
+      - Qué hay de las reservas de fulbito en cancha sintética para la noche?
+      - Un resumen ejecutivo de todas las reservas pendientes, por favor.
+      - Cuantas reservas en total tenemos el día 15 de marzo?
+      - Pásame el conteo de reservas para pádel en el campus Miraflores para mañana.
+      - Dime el total de reservas por deporte fútbol, en general.
+      - Cuál es el total de reservas en la cancha principal para este viernes?
+      - Podrías darme un resumen de las reservas para el campus de Surco en la semana?
+      - Necesito el número total de reservas de básquet para hoy.
+      - Muéstrame un consolidado de reservas de tenis en el campus de San Isidro.
+      - Cómo andan las reservas totales para el próximo mes?
+      - Dame la cantidad de reservas en la cancha techada para el día.
+      - Qué tal el total de reservas para fulbito en todas las sedes hoy?
+      - Quiero ver el estado general de reservas de vóley para la semana.
+      - Un resumen de reservas por campus, ¿es posible?
+      - Pásame el total de reservas de canchas de grass hoy en Surco.
+      - Cuántas reservas totales hay para el deporte frontón mañana?
+      - Necesito el balance de reservas para el campus de La Molina este mes.
+      - Dame el número total de reservas de natación para el 20 de abril.
+      - Cuál es la cifra de reservas en la cancha 2 para pasado mañana?
+      - Podrías darme un resumen de las reservas para fútbol en la sede de Jesús María?
+      - Cómo estamos con las reservas totales para el campus de Chorrillos en los próximos días?
+      - Quiero saber el total de reservas por deporte, excluyendo fútbol.
+      - Muéstrame el reporte de reservas en la cancha de fulbito para hoy.
+      - Pásame la cantidad total de reservas para el campus Pueblo Libre para el lunes.
+      - Necesito un resumen de reservas de pádel en el campus de Magdalena.
+      - Dime el total de reservas de vóley en la cancha 4 para este sábado.
+      - Cuál es el total de reservas de básquet para el campus Lince este fin de semana?
+      - Chequéame el resumen de reservas de tenis para el mes de mayo.
+      - Cuantas pichangas se han reservado en el campus de Barranco para hoy?
+      - Pásame la foto de las reservas totales en la cancha de grass para mañana.
+      - Necesito la cantidad de reservas por deporte en el campus de Comas.
+      - Dime el total de reservas para la cancha 5 para el 25 de junio.
+      - Muéstrame un resumen de las reservas en la sede de Los Olivos para el año.
+      - Cómo va el total de reservas de fulbito en el campus Villa María del Triunfo?
+      - Quiero un reporte de reservas de natación en la cancha principal para este verano.
+      - Pásame el total de reservas en el campus de Callao para el jueves.
+      - Necesito un consolidado de las reservas de básquet por cancha para el día.
+      - Dame la cifra total de reservas de tenis en el campus de Surco para la siguiente semana.
+      - Cuál es el resumen de reservas por deporte para el campus de Miraflores?
+      - Chequéame el total de pichangas en la cancha de fulbito del campus La Molina.
+      - Cuántas reservas hay en total para el deporte frontón en el campus San Isidro hoy?
+      - Necesito un informe de reservas totales de vóley en el campus de Jesús María.
+      - Dime el total de reservas en la cancha 6 para el 1 de julio.
+      - Muéstrame un resumen de las reservas para el campus de Chorrillos para el año pasado.
+      - Cómo va el total de reservas de pádel en el campus Pueblo Libre para este mes?
+      - Quiero saber el total de reservas por deporte, incluyendo solo fulbito y vóley.
+      - Pásame el reporte de reservas en la cancha 7 para el próximo domingo.
+      - Necesito la cantidad total de reservas para el campus de Magdalena el miércoles.
+      - Dame un resumen de reservas de natación en el campus Lince para la temporada.
+      - Cuál es la cifra de reservas totales de básquet en el campus Barranco para la fecha actual?
+      - Chequéame el total de pichangas en la cancha de grass del campus de Comas para este finde.
+      - Cuántas reservas totales hay para tenis en el campus Los Olivos el día de hoy?
+      - Necesito un informe de reservas de fulbito en el campus Villa María del Triunfo para mañana.
+      - Dime el total de reservas en la cancha 8 para el 15 de agosto.
+      - Muéstrame un resumen de las reservas por deporte en el campus de Callao.
+      - Cómo está el total de reservas de frontón en el campus Surco para el viernes?
+      - Quiero un reporte de reservas de pádel en la cancha 9 para este mes.
+      - Pásame el total de reservas en el campus Miraflores para la próxima semana.
+      - Necesito un consolidado de las reservas de vóley en el campus La Molina para el lunes.
+      - Dame la cifra total de reservas de básquet en el campus San Isidro para hoy.
+      - Cuál es el resumen de reservas por cancha para el campus de Jesús María?
+      - Chequéame el total de pichangas en la cancha 10 del campus de Chorrillos.
+      - Cuántas reservas totales hay para natación en el campus Pueblo Libre el 5 de septiembre?
+      - Necesito un informe de reservas de fútbol en el campus de Magdalena para el fin de semana.
+      - Dime el total de reservas en la cancha 11 para el 22 de octubre.
+      - Muéstrame un resumen de las reservas para el campus Lince para el 2023.
+      - Cómo va el total de reservas de tenis en el campus Barranco para la siguiente quincena?
+      - Quiero saber el total de reservas por deporte para el campus de Comas para este año.
+      - Pásame el reporte de reservas en la cancha 12 para el 3 de noviembre.
+      - Necesito la cantidad total de reservas para el campus Los Olivos el domingo.
+      - Dame un resumen de reservas de fulbito en el campus Villa María del Triunfo para la semana.
+      - Cuál es la cifra de reservas totales de pádel en el campus de Callao para el jueves?
+      - Chequéame el total de pichangas en la cancha 13 del campus Surco para mañana.
+      - Cuántas reservas totales hay para vóley en el campus Miraflores el 10 de diciembre?
+      - Necesito un informe de reservas de básquet en el campus La Molina para este feriado.
+      - Dime el total de reservas en la cancha 14 para la temporada navideña.
+      - Muéstrame un resumen de las reservas para el campus San Isidro del 2024.
+      - ¿Cuál es el conteo general de las reservas para hoy?
+      - Necesito saber el número total de reservaciones para el día.
+      - Pásame el consolidado de reservas de este día, porfa.
+      - Dame una vista rápida de las pichangas agendadas hoy.
+      - Cuántas reservas hay en total para esta jornada?
+      - Podrías darme la sumatoria de reservas programadas?
+      - Quisiera el recuento de todas las reservas de hoy.
+      - Muéstrame el informe global de reservaciones.
+      - Necesito un reporte del avance de reservas para hoy.
+      - Qué cantidad de reservas se han realizado hasta el momento?
+      - Solicito un informe sobre las reservaciones de la jornada.
+      - Pásame el balance de reservaciones para la jornada actual.
+      - Podrías decirme el total de alquileres para este día?
+      - Cuántas reservas acumula la jornada de hoy?
+      - Quiero ver la cifra total de reservas que tenemos.
+      - Indícame el consolidado de reservas de hoy en campus Surco.
+      - Cuántas reservaciones se hicieron en el campus Miraflores para el día?
+      - Total de reservas en la sede de San Isidro para esta jornada.
+      - Dame un resumen de las reservas para el campus de La Molina.
+      - Cuántas pichangas se registraron en la sede de Pueblo Libre?
+      - Muéstrame el conteo de reservas en la sede de Magdalena para esta fecha.
+      - Necesito saber las reservas totales en el campus Jesús María.
+      - Dime el estado de las reservas en la sede de San Borja hoy.
+      - Pásame el total de reservaciones del campus Comas para el día.
+      - Cuantas reservas hay en el local de Ate para la jornada?
+      - Un balance de las reservas en el campus Barranco para hoy, porfa.
+      - Quiero ver la cantidad de reservas en la sede de Chorrillos para esta fecha.
+      - Dime el total de alquileres en el campus del Callao para el día de hoy.
+      - Consolidado de pichangas en la sede del Rímac para esta jornada.
+      - Dime la cantidad total de reservas para la cancha 1 en el campus Surco este día.
+      - ¿Cuál es el volumen de reservas en la cancha principal para la fecha?
+      - Pásame el recuento de pichangas en la cancha techada de Miraflores.
+      - Dime el total de reservaciones en la cancha de césped de San Isidro.
+      - Resumen de reservas de la cancha de fútbol 7 en La Molina para hoy.
+      - Cuántas reservas de futsal se hicieron en la cancha de Pueblo Libre?
+      - Muéstrame el conteo de reservas en la cancha de básquet de Magdalena.
+      - Necesito saber las reservas totales en la cancha de vóley de Jesús María.
+      - Dime el estado de las reservas en la cancha 2 de San Borja para el día.
+      - Pásame el total de reservaciones de la cancha 3 en Comas para hoy.
+      - Cuántas reservas de canchas sintéticas hay en Ate para esta jornada?
+      - Un balance de las reservas en la cancha multiusos de Barranco hoy.
+      - Quiero ver la cantidad de reservas en la cancha de tenis de Chorrillos.
+      - Dime el total de alquileres en la cancha de pádel del Callao para hoy.
+      - Consolidado de pichangas en la cancha A del Rímac para el día.
+      - Cuántas reservas de fútbol tenemos en total para hoy?
+      - Pásame el recuento de reservas de básquet para el día.
+      - Dime el total de pichangas de vóley de esta jornada.
+      - Dame un informe condensado de las reservas de pádel para la jornada.
+      - Quisiera ver el consolidado de reservaciones para el día de hoy.
+      - Dame el conteo general de reservas para la sede de Surco.
+      - Necesito el panorama de las pichangas en la cancha uno para esta jornada.
+      - Cuántas reservas hay para el deporte de fútbol en total?
+      - Podrías pasarme el informe resumido de todas las reservas de hoy?
+      - Un consolidado global de las reservaciones de la filial Surco.
+      - Muestra la cantidad total de reservas para la cancha número uno.
+      - Cuál es el total de reservas referente a fútbol hoy?
+      - Dame el estado general de todas las reservaciones que tenemos.
+      - Estado de las reservaciones en nuestro campus de Surco para el día.
+      - Quiero saber el total de reservas asignadas para la cancha principal.
+      - Reporte consolidado de pichangas de fútbol, por favor.
+      - Cuántas reservaciones en total se esperan mañana en Surco?
+      - Podrías darme un resumen de todas las pichangas de la cancha 1 para la semana?
+      - Necesito el conteo total de reservas de fútbol para el fin de semana.
+      - Vista general de las reservaciones en el campus Surco para hoy día.
+      - Qué tal el consolidado de reservaciones para la cancha uno para hoy?
+      - Solicito el informe de las pichangas de fútbol de hoy.
+      - Dame las reservas acumuladas de todos los deportes en Surco para esta jornada.
+      - Cuántas reservaciones se han hecho para la cancha de fútbol 1 hoy?
+      - Ver el panorama de reservaciones generales en la filial Surco.
+      - Un informe de la cantidad completa de reservas en la cancha número uno.
+      - Pásame el total de reservaciones para fútbol en esta sede.
+      - Quisiera el conteo general de las reservas del día en el campus de Surco.
+      - Cuántas reservas se esperan en la cancha 1 para pasado mañana?
+      - Dame el resumen de pichangas de fútbol para el campus Surco.
+      - Necesito saber la cantidad total de reservas por deporte, especialmente fútbol, para mañana.
+      - Ver el consolidado de reservaciones en Surco.
+      - El conteo general de reservas para la cancha 1 esta semana.
+      - Resumen general de las pichangas de fútbol para el día.
+      - Cuántas reservaciones en total se han hecho hoy?
+      - Total de reservaciones para el campus Surco en este mes.
+      - Dame el resumen de reservas en la cancha 1 del día de ayer, osea ayer.
+      - Cuántas reservas de balompié tenemos en total?
+      - Podrías darme la cantidad total de reservas para el 25 de diciembre?
+      - Quisiera el estado general de reservaciones en el campus de Ate.
+      - Resumen de las reservas para la cancha techada hoy.
+      - Cuántas reservas de básquet hay en total en la sede Surco?
+      - Ver el conteo total de pichangas para el día siguiente.
+      - Necesito el total de reservas para la cancha de fulbito en La Molina.
+      - Dame un resumen de reservaciones de voley para esta semana.
+      - Cuántas reservas acumuladas hay en el campus de Miraflores?
+      - Pásame la cantidad total de reservas para la cancha principal hoy.
+      - Quisiera el panorama de reservaciones de pádel para mañana.
+      - Dime cuántas pichangas hay en total para hoy en Surco, oe.
+      - Total de reservas para la cancha 1 de tenis en la filial Barranco.
+      - Resumen global de reservaciones de frontón para esta fecha.
+      - Ver el consolidado de reservas en el campus principal en este momento.
+      - Cuántas reservas se han hecho para la cancha 2 para mañana?
+      - Dame el resumen total de pichangas de fútbol en La Molina.
+      - Necesito la cantidad total de reservaciones de básquet hoy en Surco.
+      - Pásame las reservaciones globales de hoy en el campus Surco.
+      - Qué tal el panorama general de reservas de la cancha 1?
+      - Cuántas pichangas globales de fútbol tenemos para mañana?
+      - Ver el total de reservas en la sede de VMT para este fin de semana.
+      - Un informe completo de reservaciones en la cancha de césped sintético.
+      - Dame el resumen de reservas de voley en Surco para la fecha actual.
+      - Cantidad total de reservas de tenis en el campus de San Isidro para esta fecha.
+      - Quisiera saber el consolidado de reservaciones para cancha 1 el lunes.
+      - Muestra el panorama de pichangas de fulbito para la sede Surco.
+      - Cuántas reservas globales hay para pádel hoy en Miraflores?
+      - Necesito el resumen de reservaciones por deporte, en especial baloncesto.
+      - Pásame la cantidad total de reservas para el 31 de diciembre en la cancha 1.
+      - Ver las reservas acumuladas del campus Surco para el próximo mes.
+      - Un resumen de todas las pichangas de fútbol en Ate para hoy.
+      - Cuántas reservas globales para la cancha techada este fin de semana?
+      - Dime el total de reservas de frontón en La Molina para el martes.
+      - Quisiera el resumen de reservaciones de voley para la cancha 2 en Barranco.
+      - Dame el consolidado de reservas globales para las canchas de Surco.
+      - Cuántas reservas se han hecho para fútbol en la sede principal?
+      - Pásame el resumen de pichangas para la cancha 1 de tenis en Miraflores.
+      - Necesito la cantidad total de reservas de básquet para el campus de Ate esta semana.
+      - Ver el estado general de las reservaciones de pádel en la filial Surco.
+      - Un informe de reservas completas para la cancha de fulbito mañana.
+      - Cuántas reservas acumuladas de frontón tenemos para el jueves?
+      - Dime el resumen de reservaciones de voley en la cancha principal de San Isidro.
+      - Quisiera saber la cantidad total de reservas de tenis hoy en la sede de VMT.
+      - Dame las reservas acumuladas de fútbol para la cancha 1 en Surco este mes.
+      - Cuántas reservas se han hecho para básquet en el campus de La Molina mañana?
+      - Pásame el panorama de reservas de pádel en la cancha 2 de Miraflores.
+      - Necesito el conteo total de reservaciones de frontón para el campus principal esta semana.
+      - Ver el consolidado de reservas acumuladas de voley en Barranco para hoy.
+      - Un informe de reservaciones globales de tenis en la cancha techada de Ate.
+      - Cuántas pichangas en total para fútbol en el campus Surco el sábado?
+      - Dime la cantidad total de reservas de básquet en la cancha 1 de San Isidro para el fin.
+      - Quisiera el resumen de reservaciones de pádel para la sede de VMT esta tarde.
+      - Dame el total de pichangas de frontón para el campus Miraflores de ayer.
+      - Cuántas reservas se han hecho para voley en La Molina el domingo?
+      - Pásame el resumen de reservaciones de tenis en el campus de Ate para la próxima semana.
+      - Necesito el conteo total de reservas de fútbol para la cancha principal en Barranco.
+      - Ver el estado general de las reservas de básquet en la sede Surco el 15 de marzo, aprox.
+      - Un informe de reservas globales de pádel en la cancha 1 de San Isidro.
+      - Cuántas reservaciones acumuladas de frontón tenemos para el campus de VMT?
+      - Dime el panorama de reservaciones de voley en la cancha de césped sintético en Miraflores.
+      - Quisiera saber el total de reservas de tenis para el campus La Molina hoy día.
+      - Dame las reservas acumuladas de fútbol en Ate para el día de hoy.
+      - Cuántas pichangas en total para básquet en la cancha techada de Barranco?
+      - Pásame el resumen de reservaciones de pádel en la sede Surco esta noche.
+      - Necesito el conteo total de reservas de frontón para la cancha 2 en San Isidro.
+      - Ver el consolidado de reservas acumuladas de voley en Miraflores para la fecha, ps.
+      - Un informe de reservaciones globales de tenis en el campus La Molina el viernes.
+      - Cuántas pichangas en total para fútbol en la sede de VMT para el martes?
+      - Dime la cantidad total de reservas de básquet en la cancha principal de Ate para hoy, porfa.
+      - Quisiera el resumen de reservaciones de pádel en el campus Barranco mañana.
+      - Dame el conteo total de reservas de frontón para la sede Surco el mes pasado.
+      - Cuántas reservas se han hecho para voley en la cancha 1 de San Isidro?
+      - Pásame el panorama de reservaciones de tenis en el campus Miraflores para el domingo, pe.
+      - Dame un resumen general de las reservas para [mañana](metric_period).
+      - Cómo andan las reservas de [este mes](metric_period)?
+      - Necesito el total de reservas hasta [pasado mañana](metric_period).
+      - Pásame un consolidado de las reservas [para la semana](metric_period).
+      - Podrías darme el resumen de las reservas para [el 20 de mayo](date)?
+      - Quiero ver el total de reservas para el día de [hoy](metric_period).
+      - Cuál es el total de reservas [en campus Surco](location)?
+      - Resumen de reservas del [campus de Miraflores](location) para [hoy](metric_period).
+      - Dime el total de reservas para [la sede de La Molina](location).
+      - Cómo van las reservas [en el campus de San Miguel](location) [esta semana](metric_period)?
+      - Quiero el detalle de las reservas de [Villa El Salvador](location).
+      - Total de reservas para [hoy](metric_period) en [Surco](location).
+      - Quiero el total de reservas de la cancha 1.
+      - Resumen de reservas de la cancha principal para [mañana](metric_period).
+      - Total de reservas para la cancha techada [este fin de semana](metric_period).
+      - Cómo andan las reservas de la cancha de grass sintético en [Surco](location)?
+      - Reservas para la cancha de futsal [hoy](metric_period).
+      - Total de reservas por deporte, especialmente [futbol](sport).
+      - Resumen de reservas de [voley](sport) para [hoy](metric_period).
+      - Cuántas reservas hay de [padel](sport) [este mes](metric_period)?
+      - Total de reservas de [basket](sport) en [Miraflores](location).
+      - Reservas de [tenis](sport) en la cancha 3 [mañana](metric_period).
+      - Oye, causa, el total de reservas pa' [hoy](metric_period) en el [campus Surco](location), ¿cómo está?
+      - Un resumen chevere de las reservas de [futbol](sport) en la cancha 1 para [esta semana](metric_period).
+      - Pásame la info de las reservas totales de [basket](sport) [en campus Surco](location) para [el 10 de octubre](date).
+      - Necesito saber las reservas de [voley](sport) en [La Molina](location) [para pasado mañana](metric_period).
+      - Dime el total de reservas del [campus San Miguel](location) en la cancha de futsal [hoy](metric_period).
+      - Quiero ver las reservas de la cancha 2 de [padel](sport) [mañana](metric_period).
+      - Cómo van las reservas de [futbol](sport) [en el campus de Villa](location) [este fin de semana](metric_period)?
+      - Un consolidado de las reservas en [Miraflores](location) [para la siguiente semana](metric_period).
+      - Dame el total de reservas en [Surco](location) por deporte [para el lunes](metric_period).
+      - Cheka las reservas de la cancha 5 en [San Isidro](location) [para hoy](metric_period).
+      - Por fa, un resumen de las reservas para [hoy](metric_period).
+      - Muéstrame las reservas totales de [mañana](metric_period).
+      - Quiero saber el resumen de las reservas de [esta semana](metric_period) en [Surco](location).
+      - Necesito las reservas totales del [campus de La Molina](location).
+      - Indícame las reservas de la cancha 2 para [hoy](metric_period).
+      - Cuál es el total de reservas de [voley](sport) [este mes](metric_period)?
+      - Dame un informe de las reservas de [futbol](sport) [en campus Surco](location).
+      - Quisiera un resumen de las reservas de [padel](sport) en la cancha 1.
+      - Cómo está el total de reservas [para el fin de semana](metric_period) en [Miraflores](location)?
+      - Un recuento de las reservas [para el miércoles](metric_period).
+      - Pásame el total de reservas [en el campus de San Juan](location) para [la próxima semana](metric_period).
+      - Muéstrame las reservas de la cancha techada de [basket](sport) [para pasado mañana](metric_period).
+      - El resumen de reservas de [tenis](sport) en [Surco](location), por favor.
+      - Qué onda con las reservas totales [hoy](metric_period) en [La Molina](location)?
+      - Cuántas reservas hay para [futbol](sport) en la cancha 4 [mañana](metric_period)?
+      - Dime el total de reservas de [voley](sport) [este año](metric_period) en [todas las sedes](location).
+      - Quiero un resumen de las reservas de [padel](sport) [para la quincena](metric_period).
+      - Total de reservas para [el 2 de febrero](date).
+      - El resumen de reservas [en campus Surco](location) de [basket](sport) [hoy](metric_period).
+      - Cuántas reservas hay en cancha 1 de [futbol](sport) [esta noche](metric_period)?
+      - Dame las reservas totales de [tenis](sport) [en Miraflores](location) [para el lunes](metric_period).
+      - Porfa, las reservas generales para [hoy](metric_period).
+      - Necesito el total de reservas [en La Molina](location).
+      - Un resumen de las reservas de cancha 3 [mañana](metric_period).
+      - Dame el total de reservas por deporte en [San Miguel](location) [este mes](metric_period).
+      - Total de reservas [en el campus de Surco](location) para [el martes](metric_period).
+      - Quisiera el consolidado de reservas de [futbol](sport) en la cancha principal [hoy](metric_period).
+      - Muéstrame las reservas [de voley](sport) [en Villa El Salvador](location) [esta semana](metric_period).
+      - Cuántas reservas totales hay de [padel](sport) [en el campus Miraflores](location) [pasado mañana](metric_period)?
+      - Dime las reservas de [basket](sport) en la cancha 2 [para el fin de semana](metric_period).
+      - Un resumen general de las reservas [para el 15 de marzo](date) en [todas las sedes](location).
+      - Total de reservas [para los próximos días](metric_period).
+      - Pásame el total de reservas [en el campus de Surco](location) [por deporte futbol](sport).
+      - Cuál es el resumen de reservas de cancha 1 [hoy](metric_period)?
+      - Indícame el total de reservas de [futbol](sport) [en Surco](location) [para mañana](metric_period).
+      - Reservas totales de [voley](sport) [en campus Miraflores](location) [este mes](metric_period).
+      - Necesito un resumen de las reservas de [padel](sport) en la cancha techada [para el lunes](metric_period).
+      - Cheka las reservas [en La Molina](location) [de basket](sport) [para pasado mañana](metric_period).
+      - Cuántas reservas hay en la cancha de grass de [tenis](sport) [hoy](metric_period)?
+      - El total de reservas [en el campus San Miguel](location) [por deporte](sport) [para la próxima semana](metric_period).
+      - Quiero un resumen de las reservas [para el 30 de abril](date).
+      - Dime el total de reservas [de futbol](sport) [en el campus Surco](location) [este fin de semana](metric_period).
+      - Pásame las reservas de [voley](sport) en la cancha 5 [mañana](metric_period).
+      - Un consolidado de las reservas [en Villa El Salvador](location) [hoy](metric_period).
+      - Cuántas reservas totales de [padel](sport) hay [en campus Surco](location) [este mes](metric_period)?
+      - Necesito el resumen de reservas de [basket](sport) en [Miraflores](location) [para el 1ro de enero](date).
+      - Muéstrame las reservas de [tenis](sport) en la cancha principal [para hoy](metric_period).
+      - Oye, el total de reservas pa' [hoy](metric_period)?
+      - Bacá, un resumen de reservas [en Surco](location) de [futbol](sport).
+      - Dame las reservas totales de cancha 1 [para mañana](metric_period).
+      - Cuántas reservas de [voley](sport) [en La Molina](location) [esta semana](metric_period)?
+      - Quiero ver las reservas de [padel](sport) [este mes](metric_period).
+      - Pásame el total de reservas [en San Miguel](location) [por deporte basket](sport).
+      - Un resumen de reservas [para el próximo mes](metric_period).
+      - Checa el total de reservas [en Surco](location) en la cancha 3 [hoy](metric_period).
+      - Cantos reservas hay [en Miraflores](location) de [tenis](sport) [para el jueves](metric_period)?
+      - Dime el resumen de reservas de [futbol](sport) [en Villa El Salvador](location) [este fin de semana](metric_period).
+      - Quisiera el total de reservas [para el 28 de julio](date).
+      - Dame las reservas totales [en campus Surco](location) de [voley](sport) [para mañana](metric_period).
+      - Un resumen de reservas de la cancha de futsal [hoy](metric_period).
+      - Necesito saber las reservas de [padel](sport) [en La Molina](location) [para el fin de semana](metric_period).
+      - Muéstrame el total de reservas en cancha 1 [por deporte futbol](sport).
+      - Cómo están las reservas generales [para este mes](metric_period)?
+      - Pásame un informe completo de las reservas [en Surco](location) [para hoy](metric_period).
+      - Cuántas reservas de [basket](sport) hay en la cancha 4 [esta semana](metric_period)?
+      - Quiero ver el resumen de reservas [en Miraflores](location) [para pasado mañana](metric_period).
+      - El total de reservas [por deporte tenis](sport) [en San Miguel](location) [hoy](metric_period).
+      - Necesito el total de reservas de [futsal](sport) [en Surco](location) [para el domingo](metric_period).
+      - Dame un resumen de las reservas de la cancha 2 de [basket](sport) [esta noche](metric_period).
+      - Quisiera ver el consolidado de reservas de [padel](sport) [en La Molina](location) [mañana](metric_period).
+      - Pásame el total de reservas del [campus San Isidro](location) [esta quincena](metric_period).
+      - Aver las reservas de [tenis](sport) en la cancha de grass [para el 5 de junio](date).
+      - Cuántas reservas hay para [voley](sport) en [Surco](location) [pasado mañana](metric_period)?
+      - El total de reservas [en el campus de Miraflores](location) [por deporte futbol](sport) [este mes](metric_period).
+      - Resumen de reservas de la cancha principal [hoy](metric_period) [de padel](sport).
+      - Dame el total de reservas [para el 24 de diciembre](date) en todas las canchas.
+      - Necesito un informe del total de reservas en cancha 1 [hoy](metric_period).
+      - Muéstrame las reservas de [futbol](sport) [en Villa El Salvador](location) [la próxima semana](metric_period).
+      - Cuántas reservas totales hay [en campus Surco](location) [para el 12 de octubre](date)?
+      - Quiero saber el resumen de reservas de [basket](sport) en la cancha techada [para el fin de semana](metric_period).
+      - Pásame el total de reservas de [tenis](sport) [en La Molina](location) [para pasado mañana](metric_period).
+      - Checa las reservas de [voley](sport) [en campus San Miguel](location) [este mes](metric_period).
+      - ¿Qué onda con las reservas del día?
+      - Pásame el consolidado de reservas pa' hoy, porfa.
+      - Necesito saber las reservas totales para el fin de semana.
+      - Dame un resumen de las reservas en campus Surco.
+      - ¿Cuántas pichangas se han reservado en la cancha 1?
+      - Quisiera ver el total de reservas por deporte, especialmente fútbol.
+      - Un informe de reservas para el lunes en San Isidro.
+      - Checa las reservas de la cancha sintética para mañana, porfa.
+      - El resumen de reservas de vóley en el campus de La Molina.
+      - ¿Cuántas reservas hay en total para este mes?
+      - Muéstrame las reservas de pádel en Chorrillos para hoy.
+      - Dame el total de reservas de básquet en la cancha 3.
+      - Listame las reservas para el 20 de mayo en el campus de Ate.
+      - Resumen de pichangas reservadas para el finde en Miraflores.
+      - ¿Cuántas reservas totales tenemos en la cancha principal mañana?
+      - ¿Qué tal van las reservas de tenis en el campus de Pueblo Libre?
+      - Un consolidado de reservas de frontón para la próxima semana.
+      - Muestra el total de reservas en el Callao para el 15 de marzo.
+      - ¿Cuántas canchas de fútbol están reservadas para pasado mañana?
+      - Dame un resumen de las reservas por deporte para este finde.
+      - Ver todas las reservas para este mes en Comas, porfa.
+      - ¿Qué hay de las reservas de la cancha multiusos para el jueves?
+      - Reporte de reservas de natación en la sede 2.
+      - Total de reservas para el 25 en Villa María del Triunfo.
+      - Necesito el listado de reservas para las canchas de grass hoy.
+      - ¿Cuál es el resumen de reservas de futsal en el campus principal?
+      - ¿Cuántas reservas hay para boxeo la próxima semana?
+      - Dame un vistazo general de las reservas para el próximo mes.
+      - Quiero saber las reservas en mi local de Surco para el sábado.
+      - Las reservas de la cancha 2 para vóley, ¿cómo van?
+      - Informe total de reservas para el día en el campus de Chorrillos.
+      - Chequear las reservas de las canchas de arena en Miraflores.
+      - Un resumen de reservas de badmintón para este mes.
+      - ¿Cuántas reservas tenemos para la cancha techada este finde?
+      - Dame el consolidado de reservas por deporte en San Isidro hoy.
+      - Total de reservas para pichangas en La Molina el 22 de marzo.
+      - Necesito saber el número de reservas de básquet para mañana.
+      - Muéstrame las reservas en la cancha 5 de Surco.
+      - ¿Qué resumen de reservas de tenis hay para la sede de Comas?
+      - Dame el total de reservas para el 1 de abril en Ate.
+      - ¿Cuántas reservas de fútbol hay en la cancha 1 del Callao?
+      - Un resumen de las reservas por campus para la próxima semana.
+      - Quiero ver las reservas de la cancha de pádel en Pueblo Libre hoy.
+      - Total de reservas para este trimestre en VMT.
+      - Estado de las reservas de la cancha de vóley en Surco.
+      - Pásame el total de reservas de frontón para el próximo mes.
+      - ¿Cuántas reservas tenemos para el campus principal mañana?
+      - Dame el resumen de reservas de futsal en Miraflores para este finde.
+      - Las reservas de la cancha 4 para fútbol, ¿cómo van?
+      - Total de reservas para el campus de La Molina el miércoles.
+      - ¿Qué tal las reservas de boxeo en Chorrillos para la semana que viene?
+      - Un listado de las reservas por deporte y campus para hoy.
+      - Necesito el total de reservas en la cancha 2 para el martes.
+      - Muestra las reservas de natación en Ate para este verano.
+      - Dame un resumen de reservas en el Callao para el 10 de junio.
+      - ¿Cuántas reservas totales hay en Comas para el feriado?
+      - Quiero ver las reservas de la cancha de grass en VMT para pasado mañana.
+      - Total de reservas de tenis en el campus de Pueblo Libre para el mes.
+      - Informe de reservas de baloncesto en San Isidro para esta noche.
+      - Un consolidado de reservas de las canchas techadas para el fin de semana.
+      - ¿Qué reservas de voleibol tenemos en Surco para el viernes?
+      - Dame el total de reservas en la cancha 1 de Miraflores para la tarde.
+      - Resumen de reservas de pádel en La Molina para el 28 de mayo.
+      - Necesito saber las reservas por deporte en Chorrillos para la próxima quincena.
+      - ¿Cuántas reservas hay para fútbol en la cancha 3 de Ate?
+      - Muéstrame el panorama de reservas en el Callao para el 5 de julio.
+      - Ver las reservas totales de las canchas multiusos en Comas.
+      - Dame un reporte de reservas de futsal en VMT para el 12 de junio.
+      - ¿Cuál es el resumen de reservas de badmintón en Pueblo Libre?
+      - Total de reservas de boxeo en San Isidro para el próximo semestre.
+      - ¿Qué tal las reservas de natación en Surco para la siguiente semana?
+      - Pásame el total de reservas en la cancha de arena de Miraflores.
+      - Informe de reservas de frontón en La Molina para el 18 de agosto.
+      - ¿Cuántas pichangas hay reservadas en Chorrillos para el sábado?
+      - Dame el resumen de reservas de tenis en Ate para los próximos días.
+      - Quiero ver las reservas por campus en el Callao para el 1 de octubre.
+      - Total de reservas de fútbol en la cancha 2 de Comas.
+      - Necesito el listado de reservas de voleibol en VMT para el 29 de septiembre.
+      - Muéstrame las reservas de pádel en Pueblo Libre para mañana.
+      - ¿Qué onda con las reservas de básquet en San Isidro para la noche?
+      - Dame un vistazo general de las reservas en Surco para el siguiente mes.
+      - Informe de reservas en la cancha 3 de Miraflores para el 14 de noviembre.
+      - ¿Cuántas reservas totales hay en La Molina para las fiestas?
+      - Resumen de reservas de futsal en Chorrillos para el 24 de diciembre.
+      - Quiero saber las reservas por deporte en Ate para fin de año.
+      - Ver las reservas de badmintón en el Callao para el primer trimestre.
+      - Total de reservas de boxeo en Comas para enero.
+      - Necesito el panorama de reservas en VMT para febrero.
+      - Muéstrame las reservas de natación en Pueblo Libre para marzo.
+      - Dame el total de reservas para el 7 de abril en San Isidro.
+      - ¿Qué tal las reservas de frontón en Surco para el 19 de mayo?
+      - Pásame el resumen de reservas en la cancha 5 de Miraflores para el 30 de junio.
+      - Informe de reservas de tenis en La Molina para julio.
+      - ¿Cuántas reservas hay para las canchas de grass en Chorrillos en agosto?
+      - Dame el resumen de reservas de fútbol en Ate para el 11 de septiembre.
+      - Quiero ver las reservas totales en el Callao para el 23 de octubre.
+      - Ver las reservas de voleibol en Comas para noviembre.
+      - Necesito el listado de reservas de pádel en VMT para el 8 de diciembre.
+      - Muéstrame las reservas de básquet en Pueblo Libre para el próximo año.
+      - Dame el consolidado de reservas en San Isidro para la temporada alta.
+      - ¿Qué onda con las reservas de futsal en Surco para la temporada baja?
+      - Pásame el total de reservas en Miraflores para la primera quincena de enero.
+      - Resumen de reservas de badmintón en La Molina para la segunda quincena de febrero.
+      - Informe de reservas de boxeo en Chorrillos para el inicio de clases.
+      - ¿Cuántas reservas de natación hay en Ate para la semana de exámenes?
+      - Dame el resumen de reservas de frontón en el Callao para fin de mes.
+      - Quiero saber las reservas de tenis en Comas para la siguiente temporada.
+      - Ver el total de reservas en VMT para el día de la madre.
+      - ¿Qué tal las reservas totales de hoy?
+      - Necesito el total de reservas en el campus Surco.
+      - Dame un resumen de reservas para cancha 1.
+      - Muéstrame las reservas totales de fútbol para hoy.
+      - Quisiera saber las reservas totales en la sede de Miraflores.
+      - Pásame un resumen de las reservas para mañana.
+      - Las reservas totales de voley en Surco, ¿cómo van?
+      - Dime el total de reservas en la cancha techada para esta semana.
+      - Necesito un resumen de reservas de pádel en el campus La Molina.
+      - Cómo está el panorama de reservas totales por deporte para el fin de semana?
+      - Las reservas totales de hoy en Surco, por favor.
+      - Quiero ver el resumen de reservas de basket en cancha 2.
+      - Enséñame el total de reservas en Villa El Salvador para el 15 de marzo.
+      - Pásame las reservas totales de frontón en Miraflores para la noche.
+      - Dame un resumen de reservas por campus para hoy.
+      - ¿Puedes darme el total de reservas de tenis en Surco?
+      - Necesito un informe de las reservas totales para este mes.
+      - El resumen de reservas de fútbol sala en cancha sintética, ¿lo tienes?
+      - Muéstrame las reservas totales para el lunes en La Molina.
+      - Qué onda con el total de reservas en cancha 3 hoy?
+      - Quisiera un resumen de reservas de voley en San Isidro para el martes.
+      - Dame las reservas totales de hoy en el campus de Miraflores.
+      - Necesito el total de reservas de pádel en la cancha principal.
+      - Pásame un resumen de reservas por cancha para mañana.
+      - Las reservas totales de basket en Villa El Salvador para el miércoles.
+      - Dime el total de reservas de frontón en Surco para esta semana.
+      - Muéstrame el resumen de reservas de tenis en cancha 1.
+      - Quiero saber las reservas totales para el 20 de abril en La Molina.
+      - Necesito el total de reservas de fútbol en Miraflores para la tarde.
+      - Dame un resumen de reservas de voley por campus.
+      - Las reservas totales en cancha 4 para el fin de semana, porfa.
+      - Pásame el resumen de reservas de pádel en Surco para hoy.
+      - Dime el total de reservas de basket en San Isidro para el jueves.
+      - Muéstrame las reservas totales de frontón en Villa El Salvador.
+      - Necesito un resumen de reservas de tenis para el próximo mes.
+      - Quisiera el total de reservas de fútbol en cancha techada.
+      - Dame el resumen de reservas por deporte de hoy.
+      - Las reservas totales de voley en La Molina para el 5 de mayo.
+      - Pásame el total de reservas de pádel en Miraflores para la noche.
+      - Dime un resumen de reservas de basket en Surco esta semana.
+      - Muéstrame las reservas totales de frontón en cancha 2.
+      - Necesito el total de reservas de tenis en San Isidro para el viernes.
+      - Quiero ver el resumen de reservas de fútbol en Villa El Salvador para el sábado.
+      - Dame las reservas totales por campus para este mes.
+      - Las reservas totales de voley en Surco para el domingo, ¿las tienes?
+      - Pásame un resumen de reservas de pádel en La Molina.
+      - Dime el total de reservas de basket en Miraflores para el 1 de junio.
+      - Muéstrame las reservas totales de frontón en cancha 3 hoy.
+      - Necesito el resumen de reservas de tenis en Villa El Salvador para la tarde.
+      - Quisiera el total de reservas de fútbol en San Isidro para mañana.
+      - Dame un resumen de reservas por cancha para este mes.
+      - Las reservas totales de voley en La Molina para la semana, porfa.
+      - Pásame el total de reservas de pádel en Surco para el lunes.
+      - Dime el resumen de reservas de basket en Miraflores hoy.
+      - Muéstrame las reservas totales de frontón en cancha 4 para el martes.
+      - Necesito el total de reservas de tenis en Villa El Salvador para el 10 de julio.
+      - Quiero ver el resumen de reservas de fútbol en San Isidro para el miércoles.
+      - Dame las reservas totales por deporte para la jornada actual.
+      - Las reservas totales de voley en Surco para el 25 de agosto, ¿cuántas?
+      - Pásame un resumen de reservas de pádel en cancha principal para el jueves.
+      - Dime el total de reservas de basket en La Molina para el viernes.
+      - Muéstrame las reservas totales de frontón en Miraflores para el sábado.
+      - Necesito el resumen de reservas de tenis en cancha techada para el domingo.
+      - Quisiera el total de reservas de fútbol en Villa El Salvador para el 1 de septiembre.
+      - Dame un resumen de reservas por campus de la semana.
+      - Las reservas totales de voley en San Isidro para la noche, porfa.
+      - Pásame el total de reservas de pádel en Surco para el martes.
+      - Dime el resumen de reservas de basket en La Molina para la tarde.
+      - Muéstrame las reservas totales de frontón en cancha 1 para hoy.
+      - Necesito el total de reservas de tenis en Miraflores para el 5 de octubre.
+      - Quiero ver el resumen de reservas de fútbol en Villa El Salvador este mes.
+      - Dame las reservas totales por deporte para la primera semana de noviembre.
+      - Las reservas totales de voley en San Isidro para el 15 de diciembre, ¿las tienes?
+      - Pásame un resumen de reservas de pádel en cancha 2 para el lunes.
+      - Dime el total de reservas de basket en Surco para el martes.
+      - Muéstrame las reservas totales de frontón en La Molina para el miércoles.
+      - Necesito el resumen de reservas de tenis en Miraflores hoy.
+      - Quisiera el total de reservas de fútbol en Villa El Salvador para el jueves.
+      - Dame un resumen de reservas por cancha de hoy.
+      - Las reservas totales de voley en San Isidro para el fin de semana, porfa.
+      - Pásame el total de reservas de pádel en cancha 3 para el viernes.
+      - Dime el resumen de reservas de basket en Surco para el sábado.
+      - Muéstrame las reservas totales de frontón en La Molina para el domingo.
+      - Necesito el total de reservas de tenis en Miraflores para el 20 de enero.
+      - Quiero ver el resumen de reservas de fútbol en Villa El Salvador para la tarde.
+      - Dame las reservas totales por campus para el próximo año.
+      - Las reservas totales de voley en San Isidro para la segunda semana de febrero.
+      - Pásame un resumen de reservas de pádel en cancha 4 hoy.
+      - Dime el total de reservas de basket en Surco para el lunes.
+      - Muéstrame las reservas totales de frontón en La Molina este mes.
+      - Necesito el resumen de reservas de tenis en Miraflores para el 1 de marzo.
+      - Quisiera el total de reservas de fútbol en Villa El Salvador para el 10 de marzo.
+      - Dame un resumen de reservas por deporte de esta semana.
+      - Las reservas totales de voley en San Isidro para la noche.
+      - Pásame el total de reservas de pádel en cancha 1 para hoy.
+      - Dime el resumen de reservas de basket en Surco para mañana.
+      - Muéstrame las reservas totales de frontón en La Molina para el fin de semana.
+      - Necesito el total de reservas de tenis en Miraflores para el 25 de abril.
+      - Quiero ver el resumen de reservas de fútbol en Villa El Salvador para el miércoles.
+      - Dame un resumen de reservas en cancha 2 para hoy.
+      - Quisiera el resumen de reservas de hoy en Miraflores.
+      - Dame el total de reservas para mañana en la cancha 1.
+      - Cómo están las reservas totales hoy en campus Surco?
+      - Necesito el consolidado de reservas por deporte fútbol para la semana.
+      - Pásame un resumen de reservas generales.
+      - A ver, cuántas reservas se hicieron en cancha 1 para voley?
+      - Quiero saber el total de reservas en la sede de San Isidro para el viernes.
+      - Un pantallazo de las reservas totales hoy, porfa.
+      - Qué hay de reservas para fulbito en el campus de Surco?
+      - Podrías darme un resumen de las reservas para el mes próximo?
+      - Las reservas totales hoy, pero solo las de básquet, dime.
+      - Muestra el total de reservas en la cancha 2 de Miraflores para pasado mañana.
+      - Quisiera ver el resumen de reservas en el campus de Barranco para tenis.
+      - Dame el detalle de las reservas totales para el día de hoy.
+      - Cómo van las reservas en cancha sintética de La Molina por deporte fútbol?
+      - El total de reservas para el fin de semana, por favor.
+      - Necesito el resumen de reservas en campus Surco para padel.
+      - Cuantas reservas se hicieron en la cancha 1 hoy?
+      - Dame el informe de reservas totales para el lunes en San Isidro.
+      - Revisa las reservas por deporte fútbol en la losa deportiva hoy.
+      - Quiero un resumen de las reservas que tenemos.

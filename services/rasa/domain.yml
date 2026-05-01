@@ -24,6 +24,8 @@ intents:
   - request_admin_field_usage
   - request_admin_demand_alerts
   - request_admin_metrics
+  - ask_bot_identity:
+      use_entities: []
 
   # Consultas informativas
   - ask_reservation_process:
@@ -77,6 +79,8 @@ entities:
   - recurrence
   - metric_type
   - metric_period
+  - field_name
+  - reservation_status
 
 # ===============================================
 # SLOTS - Almacenamiento de información
@@ -99,9 +103,6 @@ slots:
     mappings:
       - type: from_entity
         entity: sport
-      - type: from_intent
-        intent: inform
-        value: last_entity_value
 
   location:
     type: text
@@ -109,9 +110,6 @@ slots:
     mappings:
       - type: from_entity
         entity: location
-      - type: from_intent
-        intent: inform
-        value: last_entity_value
 
   time:
     type: text
@@ -119,9 +117,6 @@ slots:
     mappings:
       - type: from_entity
         entity: time
-      - type: from_intent
-        intent: inform
-        value: last_entity_value
 
   date:
     type: text
@@ -129,9 +124,6 @@ slots:
     mappings:
       - type: from_entity
         entity: date
-      - type: from_intent
-        intent: inform
-        value: last_entity_value
 
   budget:
     type: float
@@ -141,9 +133,6 @@ slots:
     mappings:
       - type: from_entity
         entity: budget
-      - type: from_intent
-        intent: inform
-        value: last_entity_value
 
   surface:
     type: categorical
@@ -341,6 +330,20 @@ slots:
       - type: from_entity
         entity: metric_period
 
+  admin_field_name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: field_name
+
+  admin_reservation_status:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: reservation_status
+
   admin_topic_detected:
     type: text
     influence_conversation: true
@@ -469,6 +472,8 @@ responses:
     - text: "¡Saludos! Dime qué necesitas y te consigo la mejor cancha 🎯"
     - text: "¡Bienvenido! Estoy aquí para que encuentres donde jugar 🏀"
     - text: "¡Hola! Cuenta conmigo para buscar cancha o resolver tus dudas."
+    - text: "Listo, dime zona y hora, y te paso opciones al toque."
+    - text: "Vamos directo: distrito, deporte y horario."
 
   utter_goodbye:
     - condition:
@@ -506,6 +511,16 @@ responses:
     - condition:
         - type: slot
           name: user_role
+          value: admin
+      text: |
+        Puedes pedirme directo:
+        - reservas totales hoy
+        - quiénes han reservado más
+        - uso de canchas este mes
+        y te respondo sin vueltas.
+    - condition:
+        - type: slot
+          name: user_role
           value: player
       text: |
         Puedo ayudarte con todo lo necesario para tu juego:
@@ -520,6 +535,14 @@ responses:
       text: |
         Te puedo ayudar a encontrar cancha, ver precios y resolver dudas rápidas.
         Dime qué necesitas y lo armamos.
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: |
+        También entiendo mensajes cortos tipo:
+        "por surco", "8pm", "cancha libre", "cerca mío".
+        Con eso te guío rápido.
     - text: |
         Puedo darte una mano con:
         - Recomendarte canchas según el barrio, horario y deporte que buscas.
@@ -552,12 +575,14 @@ responses:
   utter_admin_only_flow:
     - text: "Ese flujo es exclusivo para administradores. Si necesitas buscar cancha como jugador, dime qué quieres y te ayudo enseguida."
     - text: "Esa funcionalidad está reservada para cuentas admin. Puedo ayudarte con recomendaciones, reservas y promociones como jugador."
+    - text: "Esa consulta es para admin. Como jugador, te ayudo a buscar cancha por zona, horario y deporte."
 
   # Se muestra a usuarios con rol admin cuando piden acciones pensadas solo para players
   # (recomendarse una cancha, pedir una reserva propia, etc.).
   utter_player_only_flow:
     - text: "Estoy en modo administrador y ese flujo es de jugador. Dime si quieres revisar métricas, ocupación, ingresos o clientes frecuentes de tus sedes."
     - text: "Esa acción está pensada para jugadores. Desde tu cuenta admin puedo darte reportes, reservas activas o tendencias de tus canchas."
+    - text: "Ese pedido es de jugador. En modo admin te puedo dar reservas totales, top clientes, uso de canchas o métricas."
 
   utter_anything_else:
     - condition:
@@ -580,6 +605,11 @@ responses:
           name: user_role
           value: player
       text: "¿Buscamos otra opción o te ayudo con algo más?"
+    - condition:
+        - type: slot
+          name: user_role
+          value: player
+      text: "Si quieres, dime 'otra por surco' o 'más tarde' y sigo con la búsqueda."
     - text: "¿Hay algo más que pueda hacer por ti?"
     - text: "¿Necesitas ayuda con otra cosa?"
     - text: "¿Quieres que te ayude con algo más?"
@@ -794,6 +824,9 @@ responses:
         • horario
 
         ¿Qué buscas?
+    - text: |
+        Te cotizo rápido si me dices zona + deporte + hora.
+        Con eso te doy rango real de precios.
 
   utter_top_faqs:
     - text: |
@@ -820,6 +853,7 @@ responses:
         6. Servicios incluidos
 
         Pregúntame sobre cualquiera de estos temas.
+    - text: "Si quieres ir al grano, pregúntame: precios, cancelación, reprogramación, promos o cómo reservar."
 
   # --- Fallback ---
   utter_default_fallback:
@@ -830,6 +864,8 @@ responses:
     - text: "Mmm, no comprendí. Intenta con otras palabras por favor 🤔"
     - text: "Uy, se me pasó. ¿Me lo puedes explicar con otras palabras?"
     - text: "Perdón, no lo capté. ¿Cómo lo dirías de otra manera?"
+    - text: "Prueba corto: 'por surco', '8pm', 'precios', 'reservas totales hoy' o 'top clientes'."
+    - text: "No lo capté completo. Dame una frase directa y lo resolvemos rápido."
 
   utter_ask_rephrase:
     - text: "Lo siento, no capté eso. ¿Podrías decirlo de otra manera?"
@@ -840,15 +876,15 @@ responses:
     - text: "¿Qué te pareció mi ayuda? Califícame del 1 al 5"
       buttons:
         - title: "1"
-          payload: '/give_negative_feedback{"rating":"1"}}'
+          payload: '/give_negative_feedback{"rating":"1"}'
         - title: "2"
-          payload: '/give_negative_feedback{"rating":"2"}}'
+          payload: '/give_negative_feedback{"rating":"2"}'
         - title: "3"
-          payload: '/give_negative_feedback{"rating":"3"}}'
+          payload: '/give_negative_feedback{"rating":"3"}'
         - title: "4"
-          payload: '/give_positive_feedback{"rating":"4"}}'
+          payload: '/give_positive_feedback{"rating":"4"}'
         - title: "5"
-          payload: '/give_positive_feedback{"rating":"5"}}'
+          payload: '/give_positive_feedback{"rating":"5"}'
     - text: "¿Te fue útil mi ayuda? Déjame una valoración ⭐"
 
   utter_thanks_for_feedback:
@@ -953,6 +989,10 @@ responses:
 
   utter_admin_metrics_followup:
     - text: "¿Quieres otra métrica o revisar otra sede?"
+
+  utter_bot_identity:
+    - text: "Me llamo Chato. Soy el asistente de PichangApp y puedo ayudarte con recomendaciones de canchas, reservas y métricas de administración."
+    - text: "Soy Chato, el asistente virtual de PichangApp. En modo admin puedo revisar ingresos, ocupación, reservas, clientes frecuentes y uso de canchas por sede."
 
   # --- Validaciones y errores ---
   utter_invalid_time:

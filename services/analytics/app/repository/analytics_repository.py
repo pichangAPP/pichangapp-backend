@@ -2,7 +2,7 @@
 from __future__ import annotations
 from datetime import datetime
 from decimal import Decimal
-from typing import Dict, Iterable, List, Optional
+from typing import Dict, Iterable, List, Optional, Sequence
 
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
@@ -12,10 +12,34 @@ from app.integrations import auth_reader
 ALLOWED_INTERVALS = {"day", "week", "month"}
 ALLOWED_GROUP_BYS = {"day", "week", "month", "status", "campus", "field", "sport"}
 ALLOWED_TOP_SCOPES = {"campus", "field", "sport"}
+DEFAULT_CAMPUS_INCOME_STATUSES = ["reserved", "fullfilled"]
+DEFAULT_ACTIVE_RESERVATION_STATUSES = ["reserved"]
 
 
 class AnalyticsRepositoryError(RuntimeError):
     """Raised when the analytics repository cannot fulfill a request."""
+
+
+def _normalize_status_filters(
+    *,
+    status: Optional[str],
+    statuses: Optional[Sequence[str]],
+) -> Optional[List[str]]:
+    """Normalize status filters into a lowercase unique list."""
+
+    normalized: List[str] = []
+
+    if statuses:
+        for value in statuses:
+            candidate = (value or "").strip().lower()
+            if candidate and candidate not in normalized:
+                normalized.append(candidate)
+
+    single = (status or "").strip().lower()
+    if single and single not in normalized:
+        normalized.append(single)
+
+    return normalized or None
 
 
 def _execute_grouped_query(
@@ -153,8 +177,14 @@ def fetch_campus_income_total(
     campus_id: int,
     start_at: datetime,
     end_at: datetime,
+    status: Optional[str] = None,
+    statuses: Optional[Sequence[str]] = None,
 ) -> Decimal:
     """Return the total income for a campus in the given interval."""
+
+    status_filters = _normalize_status_filters(status=status, statuses=statuses)
+    if not status_filters:
+        status_filters = DEFAULT_CAMPUS_INCOME_STATUSES
 
     query = text(
         """
@@ -165,7 +195,7 @@ def fetch_campus_income_total(
         WHERE rent.date_log >= :start_at
           AND rent.date_log < :end_at
           AND field.id_campus = :campus_id
-          AND LOWER(rent.status) NOT IN ('available', 'pending', 'cancelled')
+          AND LOWER(rent.status) = ANY(:status_filters)
         """
     )
 
@@ -176,6 +206,7 @@ def fetch_campus_income_total(
                 "campus_id": campus_id,
                 "start_at": start_at,
                 "end_at": end_at,
+                "status_filters": status_filters,
             },
         )
     except SQLAlchemyError as exc:  # pragma: no cover - defensive programming
@@ -195,8 +226,14 @@ def fetch_campus_daily_income(
     campus_id: int,
     start_at: datetime,
     end_at: datetime,
+    status: Optional[str] = None,
+    statuses: Optional[Sequence[str]] = None,
 ) -> List[Dict[str, object]]:
     """Return the daily income entries for the specified campus and range."""
+
+    status_filters = _normalize_status_filters(status=status, statuses=statuses)
+    if not status_filters:
+        status_filters = DEFAULT_CAMPUS_INCOME_STATUSES
 
     query = text(
         """
@@ -209,7 +246,7 @@ def fetch_campus_daily_income(
         WHERE rent.date_log >= :start_at
           AND rent.date_log < :end_at
           AND field.id_campus = :campus_id
-          AND LOWER(rent.status) NOT IN ('available', 'pending', 'cancelled')
+          AND LOWER(rent.status) = ANY(:status_filters)
         GROUP BY period_start
         ORDER BY period_start ASC
         """
@@ -222,6 +259,7 @@ def fetch_campus_daily_income(
                 "campus_id": campus_id,
                 "start_at": start_at,
                 "end_at": end_at,
+                "status_filters": status_filters,
             },
         )
     except SQLAlchemyError as exc:  # pragma: no cover - defensive programming
@@ -253,6 +291,7 @@ def fetch_campus_daily_rent_traffic(
     end_at: datetime,
 ) -> List[Dict[str, object]]:
     """Return the number of rents per day for the campus in the given range."""
+    status_filters = DEFAULT_CAMPUS_INCOME_STATUSES
 
     query = text(
         """
@@ -265,6 +304,7 @@ def fetch_campus_daily_rent_traffic(
         WHERE rent.date_log >= :start_at
           AND rent.date_log < :end_at
           AND field.id_campus = :campus_id
+          AND LOWER(rent.status) = ANY(:status_filters)
         GROUP BY period_start
         ORDER BY period_start ASC
         """
@@ -277,6 +317,7 @@ def fetch_campus_daily_rent_traffic(
                 "campus_id": campus_id,
                 "start_at": start_at,
                 "end_at": end_at,
+                "status_filters": status_filters,
             },
         )
     except SQLAlchemyError as exc:  # pragma: no cover - defensive programming
@@ -345,6 +386,7 @@ def fetch_campus_top_clients(
     limit: int,
 ) -> List[Dict[str, object]]:
     """Return the most frequent clients for the specified campus."""
+    status_filters = DEFAULT_CAMPUS_INCOME_STATUSES
 
     query = text(
         """
@@ -355,7 +397,7 @@ def fetch_campus_top_clients(
         JOIN reservation.schedule AS schedule ON schedule.id_schedule = rent.id_schedule
         JOIN booking.field AS field ON field.id_field = schedule.id_field
         WHERE field.id_campus = :campus_id
-          AND LOWER(rent.status) NOT IN ('available', 'pending', 'cancelled')
+          AND LOWER(rent.status) = ANY(:status_filters)
         GROUP BY
             schedule.id_user
         """
@@ -364,7 +406,7 @@ def fetch_campus_top_clients(
     try:
         result = db.execute(
             query,
-            {"campus_id": campus_id},
+            {"campus_id": campus_id, "status_filters": status_filters},
         )
     except SQLAlchemyError as exc:  # pragma: no cover - defensive programming
         raise AnalyticsRepositoryError(str(exc)) from exc
@@ -418,6 +460,8 @@ def fetch_campus_top_fields(
     end_at: datetime,
     limit: int,
 ) -> List[Dict[str, object]]:
+    status_filters = DEFAULT_CAMPUS_INCOME_STATUSES
+
     query = text(
         """
         SELECT
@@ -430,7 +474,7 @@ def fetch_campus_top_fields(
         WHERE field.id_campus = :campus_id
           AND rent.date_log >= :start_at
           AND rent.date_log < :end_at
-          AND LOWER(rent.status) NOT IN ('available', 'pending', 'cancelled')
+          AND LOWER(rent.status) = ANY(:status_filters)
         GROUP BY field.id_field, field.field_name
         ORDER BY usage_count DESC, field.field_name ASC
         LIMIT :limit
@@ -443,6 +487,7 @@ def fetch_campus_top_fields(
                 "campus_id": campus_id,
                 "start_at": start_at,
                 "end_at": end_at,
+                "status_filters": status_filters,
                 "limit": limit,
             },
         )
@@ -471,6 +516,7 @@ def fetch_campus_active_reservations(
     limit: int = 100,
 ) -> List[Dict[str, object]]:
     """Return active reservations for a campus in the requested time window."""
+    active_status_filters = DEFAULT_ACTIVE_RESERVATION_STATUSES
 
     query = text(
         """
@@ -488,7 +534,7 @@ def fetch_campus_active_reservations(
         WHERE field.id_campus = :campus_id
           AND schedule.start_time >= :start_at
           AND schedule.start_time < :end_at
-          AND LOWER(rent.status) IN ('reserved', 'pending_payment', 'under_review')
+          AND LOWER(rent.status) = ANY(:active_status_filters)
           AND (
               :field_name IS NULL
               OR LOWER(field.field_name) LIKE LOWER(:field_name_pattern)
@@ -504,6 +550,7 @@ def fetch_campus_active_reservations(
                 "campus_id": campus_id,
                 "start_at": start_at,
                 "end_at": end_at,
+                "active_status_filters": active_status_filters,
                 "field_name": field_name,
                 "field_name_pattern": f"%{field_name.strip()}%" if field_name else None,
                 "limit": int(limit),
@@ -649,6 +696,10 @@ def fetch_field_occupancy_snapshot(
     status: Optional[str] = None,
 ) -> List[Dict[str, object]]:
     """Return occupancy/income/reservation metrics per field for the time window."""
+    status_filters = _normalize_status_filters(status=status, statuses=None)
+    if not status_filters:
+        status_filters = DEFAULT_CAMPUS_INCOME_STATUSES
+    active_status_filters = DEFAULT_ACTIVE_RESERVATION_STATUSES
 
     query = text(
         """
@@ -662,11 +713,11 @@ def fetch_field_occupancy_snapshot(
             sport.sport_name AS sport_name,
             COUNT(DISTINCT schedule.id_schedule) AS total_schedules,
             COUNT(DISTINCT rent.id_rent) FILTER (
-                WHERE (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+                WHERE LOWER(rent.status) = ANY(:status_filters)
             ) AS reservation_count,
             COALESCE(
                 SUM(rent.mount) FILTER (
-                    WHERE (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+                    WHERE LOWER(rent.status) = ANY(:status_filters)
                 ),
                 0
             ) AS income_total,
@@ -675,7 +726,7 @@ def fetch_field_occupancy_snapshot(
                     (:status IS NOT NULL AND LOWER(rent.status) = LOWER(:status))
                     OR (
                         :status IS NULL
-                        AND LOWER(rent.status) IN ('reserved', 'pending_payment', 'under_review')
+                        AND LOWER(rent.status) = ANY(:active_status_filters)
                     )
                 )
             ) AS active_reservation_count
@@ -710,7 +761,8 @@ def fetch_field_occupancy_snapshot(
                 "campus_id": campus_id,
                 "field_id": field_id,
                 "sport_id": sport_id,
-                "status": status,
+                "status_filters": status_filters,
+                "active_status_filters": active_status_filters,
             },
         )
     except SQLAlchemyError as exc:
@@ -749,6 +801,9 @@ def fetch_top_occupancy_entities(
     status: Optional[str] = None,
 ) -> List[Dict[str, object]]:
     """Return top entities by reservation count and income for the selected scope."""
+    status_filters = _normalize_status_filters(status=status, statuses=None)
+    if not status_filters:
+        status_filters = DEFAULT_CAMPUS_INCOME_STATUSES
 
     if scope not in ALLOWED_TOP_SCOPES:
         raise ValueError(f"Unsupported scope '{scope}'")
@@ -787,7 +842,7 @@ def fetch_top_occupancy_entities(
           AND (:campus_id IS NULL OR campus.id_campus = :campus_id)
           AND (:field_id IS NULL OR field.id_field = :field_id)
           AND (:sport_id IS NULL OR sport.id_sport = :sport_id)
-          AND (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+          AND LOWER(rent.status) = ANY(:status_filters)
         GROUP BY {group_expr}
         ORDER BY reservation_count DESC, income_total DESC, entity_name ASC
         LIMIT :limit
@@ -802,7 +857,7 @@ def fetch_top_occupancy_entities(
                 "campus_id": campus_id,
                 "field_id": field_id,
                 "sport_id": sport_id,
-                "status": status,
+                "status_filters": status_filters,
                 "limit": int(limit),
             },
         )
@@ -835,6 +890,9 @@ def fetch_peak_hour_intersections(
     status: Optional[str] = None,
 ) -> List[Dict[str, object]]:
     """Return reservation counts grouped by (weekday, hour)."""
+    status_filters = _normalize_status_filters(status=status, statuses=None)
+    if not status_filters:
+        status_filters = DEFAULT_CAMPUS_INCOME_STATUSES
 
     query = text(
         """
@@ -852,7 +910,7 @@ def fetch_peak_hour_intersections(
           AND (:campus_id IS NULL OR campus.id_campus = :campus_id)
           AND (:field_id IS NULL OR field.id_field = :field_id)
           AND (:sport_id IS NULL OR sport.id_sport = :sport_id)
-          AND (:status IS NULL OR LOWER(rent.status) = LOWER(:status))
+          AND LOWER(rent.status) = ANY(:status_filters)
         GROUP BY isodow, hour
         ORDER BY reservation_count DESC, isodow ASC, hour ASC
         """
@@ -866,7 +924,7 @@ def fetch_peak_hour_intersections(
                 "campus_id": campus_id,
                 "field_id": field_id,
                 "sport_id": sport_id,
-                "status": status,
+                "status_filters": status_filters,
             },
         )
     except SQLAlchemyError as exc:

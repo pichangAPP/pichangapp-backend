@@ -1,0 +1,3504 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_reservation_process
+    examples: |
+      - ¿Qué necesito hacer para separar mi cupo?
+      - Me explicas el mecanismo para las reservas?
+      - ¿Cuál es la forma de hacer una reserva aquí?
+      - ¿Qué pasos debo seguir para asegurar mi espacio?
+      - Necesito que me indiques la secuencia para reservar.
+      - ¿Puedes darme los detalles del procedimiento de reserva?
+      - ¿Cómo es el enrolamiento para reservar?
+      - ¿Hay algún instructivo para sacar una reserva?
+      - Quiero saber la dinámica para reservar.
+      - ¿Qué se tiene que hacer para conseguir un turno?
+      - No entiendo bien cómo va el proceso de reservación.
+      - Me gustaría entender cómo aparto mi cancha.
+      - ¿Qué pautas debo seguir para hacer mi reservación?
+      - Cuéntame el recorrido para hacer la reserva.
+      - ¿Cómo se procede para reservar un horario?
+      - Indícame los pasos para la separación.
+      - ¿Cuál es el flujo para reservar?
+      - Necesito que me enseñes a reservar.
+      - ¿Cómo hago pa' separar mi espacio?
+      - Estoy buscando saber el trámite para reservar.
+      - ¿Hay algún protocolo para la reserva?
+      - ¿Podrías explicarme el orden para reservar?
+      - No estoy familiarizado, ¿cómo se hace pa' reservar?
+      - ¿Qué debo considerar antes de reservar?
+      - ¿Me dices el proceso completo pa' reservar?
+      - ¿Qué tengo que hacer para que la reserva quede hecha?
+      - ¿Cómo hago pa' que mi reserva quede confirmada?
+      - ¿Cuál es la manera correcta de reservar?
+      - ¿Qué implica el proceso de reserva?
+      - Necesito entender bien cómo funciona el sistema de reservas.
+      - ¿Qué se hace para reservar una cita?
+      - Explícame cómo va el rollo de las reservas.
+      - ¿Hay alguna orientación para hacer una reserva?
+      - No sé por dónde empezar para reservar.
+      - ¿Cómo es el proceso desde el inicio hasta la confirmación?
+      - ¿Me explicas el paso a paso para conseguir mi cancha?
+      - ¿Qué se hace para formalizar la reserva?
+      - ¿Es complejo reservar o es sencillo?
+      - ¿Qué datos se necesitan para reservar?
+      - ¿Cómo hago el papeleo para la reserva?
+      - ¿Cuál es el camino para asegurar un horario?
+      - ¿Me puedes ilustrar cómo se reserva?
+      - No tengo ni idea de cómo se reserva aquí.
+      - ¿Qué sigue después de seleccionar el día?
+      - ¿Me explicas cómo finalizar la reserva?
+      - ¿Cómo es eso de reservar una cancha?
+      - ¿Qué se requiere para hacer la reserva?
+      - Dime el recorrido pa' asegurar el cupo.
+      - ¿Podrías indicarme el procedimiento para separar?
+      - Estoy perdido, ¿cómo se hace para separar?
+      - ¿Cuáles son los requisitos para reservar?
+      - Quiero saber el paso a seguir para reservar.
+      - ¿Cómo se asegura el turno?
+      - ¿Hay que crear una cuenta para reservar?
+      - ¿Es por web o por app la reserva?
+      - ¿Cómo hago para que mi reserva sea válida?
+      - ¿Me dices cómo se genera una reserva?
+      - ¿Cuál es la metología para reservar?
+      - ¿Qué se debe hacer para bookear?
+      - ¿Cómo se hace la gestion de una reserva?
+      - Necesito saber el proceso pa la reserva.
+      - ¿Qué pasos se siguen para reservar aca?
+      - Estoy intentando reservar, ¿cómo es la vaina?
+      - ¿Cómo hago pa' que me acepten la reserva?
+      - ¿Puedo reservar sin registrarme?
+      - ¿Cuál es el camino para completar una reserva?
+      - ¿Qué se necesita para confirmar la reserva?
+      - ¿Me explicas la forma de reservar un horario?
+      - ¿Hay que esperar confirmación o es automático?
+      - ¿Cómo hago para que la reserva quede fija?
+      - ¿Puedo reservar por teléfono o solo online?
+      - Necesito ayuda para entender el proceso de reservación.
+      - ¿Qué es lo primero que debo hacer para reservar?
+      - Quiero saber cómo armar mi reserva.
+      - ¿Cómo se ejecuta el proceso de reserva?
+      - ¿Hay alguna seccion de preguntas frecuentes sobre reservas?
+      - ¿Me puedes dar la hoja de ruta para reservar?
+      - ¿Cómo se hace el registro de una reserva?
+      - ¿Qué tal, cómo hago pa' reservar mi cancha?
+      - Estoy medio perdido con la reserva, ¿cómo le hago?
+      - ¿Qué chamba tengo que hacer para poder reservar?
+      - Necesito que me ilumines sobre cómo se asegura un cupo aquí.
+      - ¿Cómo es el teje y maneje para conseguir un espacio en la cancha?
+      - Dime qué tengo que hacer para que no se me escape mi reserva.
+      - ¿Cuál es la ruta a seguir para dejar una reserva hecha de forma correcta?
+      - ¿Me puedes explicar cómo se aplica su método para reservar?
+      - Quiero saber cómo se concreta una reserva, punto por punto.
+      - ¿Qué acciones debo ejecutar para sellar mi reserva de manera efectiva?
+      - ¿Cómo hago para que mi booking quede impecable?
+      - ¿Cuál es el modus operandi para llevar a cabo una reserva?
+      - Explícame cómo va la jugada para la separación de un horario.
+      - Quiero saber el recorrido completo, desde el inicio hasta el pago final de la reserva.
+      - ¿Existe algún camino específico para realizar una reserva online?
+      - Necesito orientación sobre cómo debo proceder con la reserva, estoy perdido.
+      - ¿Cómo se efectúa el registro de una reserva en su sistema?
+      - ¿Qué se necesita para que mi reserva quede lista y confirmada?
+      - ¿Puedes explicarme cómo funciona la plataforma para las reservas?
+      - Quisiera entender el alcance de los pasos para reservar un sitio.
+      - ¿Cómo es la figura para asegurar un turno en la cancha?
+      - Dime los detalles precisos de cómo se realiza una reserva por acá.
+      - ¿Qué pautas se siguen para concluir una reserva satisfactoriamente?
+      - Estoy interesado en reservar, ¿cuál es el paso que sigue al elegir el día?
+      - ¿Cómo se gestiona el proceso para separar mi lugar?
+      - ¿Podrías guiarme en el trámite para dejar separada mi cancha?
+      - Necesito saber la hoja de ruta para conseguir una reserva exitosa.
+      - ¿Cuál es la dinámica para separar mi espacio?
+      - Quisiera entender el mecanismo de reserva que manejan acá.
+      - ¿Cómo se lleva a cabo el procedimiento para bookear?
+      - Necesito que me expliques la secuencia para agendar mi hora.
+      - ¿Hay alguna guía para el proceso de separación?
+      - Dime cómo funciona todo lo de la reserva, porfa.
+      - Estoy un poco perdido, ¿cómo hago para asegurar mi cancha?
+      - ¿Cuáles son los pasos a seguir para una reserva exitosa?
+      - Me gustaría saber la ruta para hacer una reservación.
+      - ¿Qué se necesita para iniciar el proceso de reserva?
+      - Explícame el orden correcto para reservar un turno.
+      - Quisiera conocer el sistema que usan para las reservas.
+      - ¿Cómo se realiza la gestión para apartar una fecha?
+      - Estoy buscando info sobre cómo se concretan las reservas.
+      - ¿Me puedes detallar el recorrido para reservar?
+      - Cuéntame cómo es el floro para asegurar mi espacio.
+      - ¿Cuál es la serie de pasos para agendar un horario?
+      - Necesito orientación sobre cómo reservar acá.
+      - ¿Qué debo hacer para que mi reserva quede oficial?
+      - Cómo es la jugada para poder reservar?
+      - Dame la primicia, ¿cómo es que se reserva por aquí?
+      - Me indicas cómo se le hace para poder reservar, por favor.
+      - ¿Cuál es el flujo para concretar una reserva?
+      - Quiero saber el paso a paso para obtener mi lugar.
+      - ¿Puedes explicar el procedimiento para conseguir un horario?
+      - ¿Cuál es la forma de asegurarse un cupo?
+      - ¿Me explicas el funcionamiento para apartar un turno?
+      - Quiero hacer una reservación, ¿qué me toca hacer?
+      - Dime porfa, ¿cómo se hace una separación?
+      - ¿Cuáles son los pasos a seguir para bloquear una fecha?
+      - ¿Me orientas sobre el proceso para reservar un espacio?
+      - ¿Cómo es el tema de las reservas por aquí?
+      - Necesito reservar, ¿qué me aconsejas hacer?
+      - ¿Existe algún documento que explique cómo reservar?
+      - ¿Cómo es el engranaje para poder hacer una reservación?
+      - ¿Cómo hago pa' sacar una reservacion?
+      - Quiero saber la secuencia para apartar un horario.
+      - ¿Me explicas bien cómo es la movida de las reservas?
+      - No entiendo el trámite para agendar, ¿me ayudas?
+      - Dime qué tengo que hacer para que mi reserva se valide.
+      - ¿Cuál es la jugada para asegurar mi cupo?
+      - Necesito saber la ruta completa para reservar, porfa.
+      - ¿Cómo se efectúa una reserva por aquí?
+      - Aclárame cómo es el asunto de las reservas.
+      - ¿Qué tengo que seguir para que mi reserva quede fina?
+      - Explícame el esquema para hacer un booking.
+      - Dame los tips pa' separar mi espacio, bro.
+      - Quiero cachar bien el manejo de las reservas.
+      - No cacho cómo va lo de la reserva, ¿me explicas?
+      - Dime cómo consigo mi reservita.
+      - Dime los lineamientos para poder reservar.
+      - ¿Cómo se formaliza un agendamiento?
+      - Enséñame a concretar mi reserva, pe.
+      - ¿Qué onda con el proceso de booking? No entiendo.
+      - Deseo entender el recorrido que se hace para reservar.
+      - Estoy interesado en agendar, ¿cómo le doy inicio?
+      - ¿Cuáles son las formalidades para un agendamiento?
+      - Explícame cómo va el rollo de separar un turno.
+      - Necesito la guía completa para mi reserva.
+      - ¿Qué hay que saber antes de hacer la reserva?
+      - Cómo aseguro un espacio para mi gente, dime.
+      - Qué debo hacer para que la reserva no se pueda anular?
+      - No entiendo cómo funciona lo de reservar, ¿me ilustras?
+      - ¿Cuál es la dinámica para apartar mi spot?
+      - Quiero saber el proceso desde cero para reservar.
+      - ¿Cómo hago para que mi reserva sea efectiva?
+      - Dime el camino que se sigue para reservar.
+      - ¿Me dices cómo se configura una reserva?
+      - No estoy al tanto de cómo se reserva, explica.
+      - ¿Cuáles son los requisitos fundamentales para reservar?
+      - Quiero saber la secuencia lógica para reservar.
+      - ¿Cómo se consigue hacer una reserva de forma adecuada?
+      - Estoy algo perdido, ¿cómo se concreta el booking?
+      - ¿Me haces la bajada de cómo es la reserva?
+      - ¿Qué tengo que cumplir para que la reserva sea aceptada?
+      - ¿Me podrías orientar sobre el trámite de reserva?
+      - Quisiera saber la metodología para llevar a cabo una reserva.
+      - ¿Qué consideraciones debo tener para el apartado de un horario?
+      - Dime los requerimientos para asegurar mi cupo.
+      - ¿Cuál es el esquema para reservar una cancha?
+      - Estoy interesado, ¿cómo se efectúa una reservación?
+      - Necesito una explicación del orden para reservar.
+      - ¿Podrías aclararme la secuencia a seguir para la reserva?
+      - ¿Me das los lineamientos para poder apartar?
+      - Cuéntame cómo es el tejemaneje para asegurar un espacio.
+      - ¿Qué debo saber para gestionar una reserva sin contratiempos?
+      - Quiero reservar, ¿cuál es el modus operandi?
+      - Dime la hoja de ruta para concretar una reserva.
+      - ¿Cómo se lleva a cabo la formalización de un apartado?
+      - ¿Hay alguna normativa para las reservas aquí?
+      - Explícame cómo va el funcionamiento para reservar.
+      - ¿Qué acciones debo tomar para garantizar mi espacio?
+      - Me gustaría entender la dinámica de las reservaciones, porfa.
+      - ¿Cuál es la forma de operar para reservar?
+      - Necesito el manual para hacer una reserva.
+      - ¿Me ilustras sobre la mecánica para asegurar una fecha?
+      - Estoy un poco confundido, ¿cómo hago para que mi reserva sea exitosa?
+      - ¿Cuál es el protocolo a seguir para la separación?
+      - Cómo doy inicio al proceso de mi reserva?
+      - ¿Qué lista de pasos tengo que seguir para la reserva?
+      - Dime el ABC para las reservaciones.
+      - ¿Cómo se estructura el proceso de reservación?
+      - Podrías detallarme el conjunto de pasos para reservar?
+      - ¿Cuál es la ruta para finalizar mi reserva?
+      - Necesito saber las pautas para obtener una reserva.
+      - ¿Qué tengo que cumplir para que se me valide la reserva?
+      - Explícame cómo es la operativa para reservar.
+      - ¿Qué debo considerar antes de proceder con una reserva?
+      - ¿Cómo me aseguro de que mi reservación quede confirmada?
+      - Dime cómo funciona el sistema de separación de horarios.
+      - ¿Podrías explicarme el desarrollo para hacer una reserva?
+      - ¿Cuál es la forma de proceder para reservar?
+      - Necesito información sobre cómo registrar una reserva.
+      - ¿Cómo se culmina el proceso de reserva?
+      - Estoy listo para reservar, ¿cuál es el siguiente paso?
+      - ¿Cómo hago pa' que mi espacio quede asegurado?
+      - ¿Me explicas la forma de concretar mi espacio?
+      - ¿Cómo se puede garantizar un turno?
+      - ¿Cuál es la jugada para separar una fecha?
+      - ¿Podrías ilustrar el devenir de una reserva?
+      - ¿Cómo se logra aperturar una reserva?
+      - ¿Cuál es el esquema de una reserva efectiva?
+      - ¿Cuál es la operatividad para concretar una reserva?
+      - ¿Cómo es la dinámica operativa para reservar?
+      - ¿Qué se debe aplicar para reservar un sitio?
+      - ¿Podrías darme las coordenadas para concretar?
+      - ¿Cómo puedo obtener mi reserva asignada?
+      - ¿Qué hay, cómo va el "flow" de las reservas?
+      - ¿Cómo se le da forma a una reserva?
+      - ¿Cómo es la rutina para las reservas?
+      - cómo reservo paso a paso
+      - cómo hago una reserva desde cero
+      - qué pasos sigo para reservar
+      - cómo separo una cancha
+      - cómo aparto una cancha
+      - cómo confirmar una reserva
+      - cómo funciona el proceso de reserva
+      - me explicas el proceso para reservar
+      - quiero saber cómo reservar, no precios
+      - cuál es el procedimiento de reserva
+      - primero qué hago para reservar
+      - qué datos piden para reservar
+      - cómo reservo por la app
+      - cómo reservo por web
+      - cómo cierro la reserva
+      - me guías para reservar
+      - no quiero precio, quiero el proceso de reserva
+      - necesito los pasos de reserva
+      - cómo agendo una cancha
+      - cómo dejo reservada la cancha
+      - ¿Qué se hace para efectuar un "booking" acá?
+      - ¿Cuál es el enrutamiento para reservar un horario?
+      - ¿Qué se debe ejecutar para una reserva exitosa?
+      - ¿Cómo le meto a esto de dejar una reserva?
+      - ¿Cuál es el andamiaje para asegurar mi lugar?
+      - ¿Qué hago para consolidar mi reserva?
+      - ¿Cómo se articula una reserva aquí?
+      - ¿Qué hay que hacer para tener un espacio asegurado?
+      - ¿Cómo es el desenvolvimiento para una reserva?
+      - ¿Qué se necesita para una pre-reserva?
+      - ¿Cómo se configura el agendamiento?
+      - ¿Cómo se oficializa una reserva?
+      - ¿Cómo es la modalidad para reservar un espacio?
+      - ¿Qué se debe configurar para una reserva?
+      - ¿Qué se necesita para que mi reserva tome curso?
+      - ¿Me explicas la logística de la reserva?
+      - Que tengo que hacer para que la reserva "cuaje" bien?
+      - ¿Cuál es el ABC de las reservas por aquí?
+      - ¿Cómo se construye una reserva desde cero?
+      - ¿Qué se requiere para cerrar mi espacio definitivamente?
+      - ¿Cuál es la arquitectura para reservar un horario?
+      - ¿Me das los puntos clave para una reserva exitosa?
+      - ¿Me explicas el "workflow" para separar?
+      - ¿Cuál es la trazabilidad de la reserva?
+      - ¿Qué se tiene que hacer para que mi reserva sea firme?
+      - ¿Cómo concretizo una reserva?
+      - Explícame el flujo para reservar.
+      - ¿Qué pasos son obligatorios para separar?
+      - ¿Cuál es la mecánica para hacer una reserva?
+      - Necesito saber la metodología de reserva.
+      - ¿Me puedes ilustrar el procedimiento completo?
+      - ¿Qué requisitos se necesitan para reservar?
+      - ¿Cómo se logra una reserva efectiva?
+      - Dime el camimo pa' asegurar mi cupo.
+      - ¿Hay alguna secuencia de acciones para reservar?
+      - ¿Cómo es el enrole para reservar acá?
+      - Explícame el itinerario de reserva.
+      - ¿Qué trámites debo seguir para reservar?
+      - ¿Cómo finalizo el proceso de reserva?
+      - ¿Qué pautas hay para hacer una reserva?
+      - Guíame en el procedimiento para reservar.
+      - ¿Podrías indicarme cómo se hace la reserva?
+      - ¿Cómo gestiono una reserva con éxito?
+      - Necesito la hoja de ruta para reservar.
+      - ¿Qué se necesita para bookear un espacio?
+      - ¿Cómo se formaliza una reserva aquí?
+      - Me gustaría saber el conducto regular para reservar.
+      - ¿Cuál es el protocolo para las reservas?
+      - ¿Me dices la manera de reservar sin problemas?
+      - ¿Qué detalles se requieren para la reserva?
+      - ¿Cómo es la movida para reservar, causa?
+      - ¿Hay que hacer algo antes de reservar?
+      - Quisiera que me expliques el método para reservar.
+      - ¿Qué hago pa' que mi reserva quede al toque?
+      - ¿Cómo se garantiza el horario deseado?
+      - ¿Puedes detallar la dinámica de reserva?
+      - ¿Cómo se garantiza un espacio?
+      - Necesito saber el workflow para separar.
+      - ¿Qué pasos sigo para que la reserva sea válida?
+      - ¿Cómo se opera el sistema de reservas?
+      - ¿Me das el paso a paso pa' hacer una reserva?
+      - ¿Hay algún aspecto que deba saber para reservar?
+      - Explícame el sistema pa' reservar, no entiendo.
+      - ¿Cómo se concretiza la separación de un lugar?
+      - ¿Cuál es la forma de conseguir una reserva firme?
+      - ¿Qué se debe hacer para separar un espacio por acá?
+      - Necesito entender la operatoria para las reservas.
+      - ¿Cuál es el derrotero para dejar una reserva en firme?
+      - Si quiero reservar, ¿qué acción o acciones debo emprender?
+      - ¿Cómo es el manejo de esto de las reservas?
+      - Explícame cómo va el 'rollo' para asegurar mi puesto.
+      - ¿Qué cosas me exigen para poder reservar?
+      - Quiero concretar una reserva, ¿me dices qué procede?
+      - ¿Existe algún esquema definido para reservar?
+      - ¿Cuál es el 'iter' que debo seguir al reservar?
+      - ¿Cómo hago para que mi reserva adquiera validez?
+      - Estoy con ganas de reservar, ¿me indicas la consecución?
+      - ¿Me podrías dar luces sobre cómo se hace la separación?
+      - ¿De qué forma se efectúa una reserva aquí?
+      - ¿Qué sucesión de tareas se requieren para reservar?
+      - Para reservar, ¿qué puntos claves hay que tener en cuenta?
+      - ¿Qué debo chequear para que mi reserva no tenga problemas?
+      - ¿Se hace de forma sencilla la reserva o es algo más engorroso?
+      - ¿Cuál es el 'modus operandi' para reservar en este sitio?
+      - ¿Qué datos me solicitan para la reserva?
+      - ¿Cómo puedo asegurar mi lugar de manera oficial?
+      - ¿Hay alguna orientación para el que no sabe cómo reservar?
+      - Me gustaría saber la trayectoria para asegurar mi cupo.
+      - Necesito que me especifiques cómo se realiza una reserva.
+      - ¿Qué tengo que realizar para que mi reserva sea aprobada?
+      - ¿Me puedes decir el proceso completo, desde el inicio hasta el fin, para reservar?
+      - ¿Cómo está la cosa para reservar acá?
+      - ¿Hay algún hito importante que deba conocer en la reserva?
+      - ¿Qué pasa después de que uno elige la fecha y hora?
+      - ¿Me das el compendio de cómo se ejecuta la reserva?
+      - ¿Cómo se formaliza un compromiso de reserva?
+      - ¿Qué tengo que cumplir para que mi reserva quede vigente?
+      - ¿Me explicas la 'línea de tiempo' para las reservas?
+      - ¿Cuáles son los prerrequisitos para efectuar una reserva?
+      - ¿Cómo puedo cerciorarme de que mi espacio ya está reservado?
+      - Quisiera saber cómo es la coordinación para reservar.
+      - ¿Me indicas las diligencias a seguir para la reserva?
+      - ¿Qué tengo que hacer desde el punto de partida para dejar una reserva finiquitada?
+      - ¿Es indispensable tener algo ya listo antes de intentar reservar?
+      - ¿Cómo es la figura administrativa para las reservas?
+      - ¿Cuál es el derrotero para concretar una reserva?
+      - ¿Me pueden guiar en el proceso para separar?
+      - Quisiera saber la metodología para poner en marcha una reserva.
+      - ¿Cómo se lleva a cabo el sistema de reservas?
+      - Quiero hacer una reserva, ¿qué es lo primordial?
+      - Aclárame cómo reservar una cancha.
+      - La verdad no sé cómo se maneja el tema de las reservas.
+      - Quiero una orientación sobre la reserva, ¿cómo es?
+      - Necesito saber cómo se organiza la reserva aquí.
+      - ¿Qué debo hacer pa' tener mi cupo asegurado?
+      - Dime el camino preciso para hacer una reserva.
+      - ¿Cuál es el procedimiento óptimo para separar un espacio?
+      - Ya quiero reservar, ¿qué debo hacer a continuación?
+      - No tengo ni idea de cómo reservar, ¿me ilustran?
+      - ¿Qué se requiere para una reserva exitosa?
+      - ¿Cómo le hago para reservar sin problemas?
+      - ¿Cuáles son los trámites que exigen para reservar?
+      - ¿Es muy complicado realizar una reserva en esta plataforma?
+      - Necesito que me instruyan para reservar.
+      - Explícame la mecánica para apartar mi horario.
+      - Necesito que me den la pauta para reservar.
+      - Quiero reservar, ¿me proporcionan la información clave?
+      - ¿Qué onda con la gestión de mi reserva?
+      - ¿Cuál es la onda para fijar mi cupo?
+      - ¿Qué se hace para formalizar la separación de un espacio?
+      - Estoy queriendo reservar, ¿cómo es la mano para hacerlo?
+      - ¿Me explicas cómo le meto para concretar mi reserva?
+      - ¿Cómo puedo reservar un horario disponible?
+      - ¿Qué se hace para asegurar mi fecha deseada?
+      - ¿Cuál es la secuencia de acciones para una reserva sin inconvenientes?
+      - ¿Cómo se maneja el proceso de reservar por esta vía?
+      - Dime cómo se hace el encargo completo de la reserva.
+      - ¿Cuál es el procedimiento formal para una reserva?
+      - Quiero reservar una mesa, ¿cómo va el trámite exacto?
+      - ¿Cómo se efectúa una reserva desde el principio?
+      - Dame todos los detalles para poder reservar bien.
+      - ¿Cuál es la vía correcta para hacer una reserva?
+      - ¿Cómo se hace la separación de un lugar específico?
+      - ¿Cómo me doy de alta para iniciar el proceso de reserva?
+      - ¿Hay que llenar algún formulario o documento para reservar?
+      - Cuéntame cómo es la movida para separar una cancha.
+      - Estoy interesado en reservar, ¿cuáles son los detalles para hacerlo?
+      - ¿Cómo es la cosa para bookear por aquí?
+      - ¿Qué tengo que hacer para que me valga la reserva?
+      - ¿Cómo consigo un espacio, ¿cuál es el modo?
+      - Necesito la información para poder reservar.
+      - ¿Cómo se maneja el tema de las reservas?
+      - ¿Cómo puedo garantizar mi reserva?
+      - Para hacer una reserva, ¿qué es lo primordial?
+      - Dime el ABC para conseguir una reserva.
+      - Estoy medio perdido, ¿me explicas cómo va la reserva?
+      - ¿Cómo es la onda para reservar acá?
+      - ¿Qué debo hacer para que mi reserva sea efectiva?
+      - Quiero entender cómo reservar en esta plataforma.
+      - ¿Cómo se hace para confirmar y finalizar la reserva?
+      - ¿Qué necesito para que mi reserva quede lista?
+      - ¿Cómo puedo asegurarme de que mi reserva se concrete?
+      - ¿Cuál es la jugada para poder reservar?
+      - Estoy listo para reservar, ¿qué me falta hacer?
+      - ¿Cómo es el manejo para separar un horario?
+      - ¿Cómo se gestiona el turno para jugar?
+      - Dime los detalles de cómo reservar acá.
+      - Quiero reservar, ¿cómo me oriento?
+      - Necesito una explicación de cómo se realiza la reserva.
+      - Para reservar, ¿qué tengo que saber?
+      - Explícame qué hay que hacer para bookear una cancha.
+      - ¿Cómo hago para que mi reserva no se caiga?
+      - Necesito saber cómo se ejecuta la reserva.
+      - ¿Cuál es el modus operandi para reservar?
+      - Quiero reservar, ¿me puedes dar la pauta?
+      - ¿Cómo se hace el registro para reservar?
+      - Estoy interesado en reservar, ¿cuál es el siguiente paso?
+      - ¿Qué debo hacer para formalizar mi espacio?
+      - ¿Cómo es la coordinación para una reserva?
+      - Quiero reservar, ¿me puedes instruir?
+      - ¿Cuál es el esquema para reservar?
+      - ¿Cómo se hace para asegurar mi slot?
+      - Explícame cómo va eso de la reserva.
+      - ¿Cómo le doy para reservar?
+      - Dime, ¿cómo se hace para separar una cancha por aquí?
+      - Quisiera saber los pasos exactos para conseguir un espacio.
+      - ¿Me puedes detallar la secuencia para reservar?
+      - ¿Cual es el mecanismo para realizar una reserva en este lugar?
+      - Necesito conocer la metodologia de reserva.
+      - ¿Que hay que hacer para dejar una reserva hecha?
+      - Por favor, explícame todo el floro de la reserva.
+      - Quiero enterarme d la dinamica para poder apartar.
+      - ¿Me podrías indicar el tramite para hacer una reserva?
+      - ¿Cómo es la movida pa' separar mi horario?
+      - Estoy interesado en reservar, ¿cual es el camino a seguir?
+      - ¿Qué puntos debo considerar al momento d reservar?
+      - ¿Puedes ilustrarme sobre cómo obtener una reserva?
+      - Necesito una guia clara sobre cómo se gestiona una reserva.
+      - ¿Me explicas el paso a paso pa' asegurar mi cupo?
+      - ¿Cuál es el protocolo para las reservas acá?
+      - Quisiera entender bien todo el proceso para poder reservar.
+      - ¿Cómo hago para que mi reserva quede bien agendada?
+      - ¿Hay algun manual o instructivo para reservar?
+      - Quiero saber el procedimiento completo para separar una fecha.
+      - ¿Me dices la forma mas facil de reservar?
+      - ¿Qué se necesita para llevar a cabo una reserva exitosa?
+      - Necesito que me aclares cómo va la cosa con las reservas.
+      - ¿Cómo puedo concretar una reserva con ustedes?
+      - ¿Cuál es el recorrido desde que elijo hasta que confirmo?
+      - ¿Me orientas sobre el proceso de separacion de horarios?
+      - No tengo idea d como reservar, ¿podrías explicarme?
+      - ¿Qué tengo que hacer para que mi reserva sea valida?
+      - Dame las pautas pa' asegurar mi cancha, por favor.
+      - ¿Me podrías dar los detalles de cómo funciona el sistema de reservas?
+      - Quiero reservar, ¿cuales son los requisitos o pasos iniciales?
+      - ¿Cómo se ejecuta una reserva?
+      - Explícame el teje y maneje para poder reservar.
+      - ¿Me podrías explicar cómo se hace la gestion de una reserva acá?
+      - ¿Cuál es la ruta para finalizar una reserva?
+      - Estoy con ganas de reservar, ¿qué me aconsejas hacer?
+      - ¿Me explicas la forma para separar un espacio?
+      - Quisiera conocer el procedimiento general para bookear.
+      - ¿Qué etapas hay que seguir para tener una reserva hecha?
+      - Necesito que me indiques el modus operandi pa' reservar.
+      - A ver, suelta la info de cómo se reserva aquí.
+      - Estoy viendo para reservar, ¿qué me toca hacer?
+      - Cuéntame el teje y maneje para poder reservar.
+      - ¿Qué documentos o datos se necesitan para reservar?
+      - Dime cómo es el tema de separar acá.
+      - Dame el alcance sobre la reserva.
+      - Cómo se efectúa la reserva, por favor?
+      - Dime los detalles clave para la reserva.
+      - Ilústrame cómo es el booking aquí.
+      - Qué se hace para separar una fecha?
+      - Cómo se realiza la acción de reservar?
+      - Qué onda con las reservas, ¿cómo se hace?
+      - ¿Hay algún manual para las reservas?
+      - A ver, aclárame el tema de las reservas.
+      - Cómo se le hace para reservar aquí?
+      - ¿Cómo se organiza una reserva?
+      - ¿Cuál es el método de reserva que tienen?
+      - Cómo funciona la planificación de reservas?
+      - ¿Qué información debo proveer para reservar?
+      - Me puedes explicar la operatividad de la reserva?
+      - Explícame cómo va el rollo de separar.
+      - A ver, desarróllame la reserva, ¿cómo es?
+      - Cómo se tramita una reserva?
+      - Cómo es el manejo de las reservas?
+      - ¿Me explicas el itinerario para reservar?
+      - Cómo se efectúa la separación de un lugar?
+      - Cómo se concreta una reservación?
+      - ¿Cuál es la logística de reservas?
+      - Cómo se inicia la reserva?
+      - Dime los puntos esenciales para reservar.
+      - Qué se hace para separar un turno?
+      - Qué se debe tener en cuenta al reservar?
+      - Cómo se arma la reserva aquí?
+      - Dime el lineamiento para reservar.
+      - Cómo se da inicio a una reserva?
+      - ¿Qué se espera de mí para llevar a cabo la reserva?
+      - ¿Cuál es la lógica para reservar?
+      - Necesito saber el ABC de las reservas.
+      - Explícame el ritual para asegurar mi turno.
+      - ¿Cuál es la movida para reservar?
+      - ¿Me puedes esplicar cómo se hace una reserva?
+      - ¿Qué hay que hacer para dejar mi reserva lista?
+      - Quisiera saber los pasos para asegurar un lugar.
+      - ¿Cómo funciona el sistema de reservaciones por aquí, causa?
+      - ¿Podrías indicarme el procedimiento para hacer una reserva?
+      - ¿Qué tengo que hacer para que mi cupo quede separado?
+      - Necesito entender bien cómo se reserva en esta plataforma, ¿es fácil?
+      - ¿Me orientas sobre el proceso de reservación?
+      - ¿Cuál es el protocolo para sacar una reserva?
+      - ¿Cómo se completa la reserva desde el principio hasta el final?
+      - Me gustaría saber el flujo para reservar una cancha.
+      - ¿Cómo es la dinámica para reservar mi horario?
+      - ¿Qué pautas debo seguir para hacer mi reservación efectiva?
+      - ¿Me puedes dar el detalle de cómo se reserva?
+      - ¿Cómo puedo gestionar mi reserva con éxito?
+      - Dime los pasos para conseguir mi espacio, pe.
+      - ¿Cuál es el proceso a seguir para reservar?
+      - ¿Qué se hace para reservar y confirmar al toque?
+      - Necesito saber el camino para una reserva.
+      - ¿Cómo se realiza el trámite de reserva aquí?
+      - ¿Qué tengo que considerar al momento de reservar?
+      - ¿Cómo se hace para asegurar mi fecha y hora?
+      - ¿Puedes guiarme en el proceso de cómo reservar?
+      - ¿Cuál es la forma correcta de hacer la reserva?
+      - ¿Me indicas la secuencia para reservar un turno?
+      - ¿Qué información es indispensable para reservar?
+      - ¿Cómo es el 'paso a paso' para reservar aquí?
+      - Quiero saber todo el rollo para poder reservar.
+      - ¿Cómo le hago para tener mi reserva ya?
+      - ¿Cuál es el proceso que se debe seguir para una reserva?
+      - ¿Me podrías dar una guía rápida de cómo reservar?
+      - ¿Qué tengo que hacer para que mi reserva sea oficial?
+      - ¿Cómo es el asunto de la reserva por este medio?
+      - Explícame el 'modus operandi' para reservar.
+      - ¿Qué se necesita para bookear una hora?
+      - ¿Me puedes dar las indicaciones para reservar?
+      - ¿Qué tengo que hacer para que mi reserva quede 'a punto'?
+      - A ver, suelta la info de cómo se marca.
+      - Necesito un manual de usuario para esto de las reservas.
+      - ¿Cuál es el libreto para reservar?
+      - Estoy en la luna, ¿me das un norte para reservar?
+      - Cuéntame el cuento de la reserva, desde el inicio.
+      - ¿Qué hay que firmar o llenar para tener una reserva?
+      - Dame un 'brief' de cómo lograr la reserva.
+      - ¿Me explicas la jugada para el apartado?
+      - Para tener mi lugar, ¿qué 'se mueve' acá?
+      - ¿Cómo es la movida para dejar un hueco fijado?
+      - Quisiera que me detallen cómo se registra un espacio.
+      - ¿Cuál es la 'receta' para hacer una reserva?
+      - Necesito que me tires el dato de cómo conseguir mi espacio.
+      - Explícame la 'sistemática' para obtener un turno.
+      - ¿Qué tengo que hacer para que mi elección quede *marcada*?
+      - Dame una 'hoja de ruta' para la reserva.
+      - ¿Cómo funciona el 'engranaje' para las reservas?
+      - Soy nuevo, ¿cuál es el 'abc' para reservar?
+      - Me indicas cómo se 'arma' una reserva?
+      - ¿Qué tengo que presentar para que la reserva sea aceptada?
+      - Quiero saber el 'minuto a minuto' para reservar.
+      - ¿Me explicas el 'trayecto' que tomo para reservar?
+      - Para tener un lugar, ¿cuáles son los puntos clave?
+      - ¿Cómo es el 'tejemaneje' de las reservas acá?
+      - Necesito la 'ficha' de cómo reservar.
+      - ¿Qué debo hacer para que mi elección de espacio *se haga efectiva*?
+      - Ilústrame sobre la operativa para asegurar un hueco.
+      - Estoy en pañales con esto, ¿me das luces de cómo empezar?
+      - ¿Cómo es la figura para tener mi turno?
+      - Cuéntame el desarrollo para obtener una fecha.
+      - ¿Qué se necesita para *validar* una reserva?
+      - Me puedes explicar el 'paso cero' para reservar?
+      - Para reservar, ¿hay alguna 'directriz' que seguir?
+      - ¿Cómo es la movida para dejar una reserva *pactada*?
+      - Quiero el ABC de la reserva, por favor.
+      - Necesito saber el *detalle fino* para reservar.
+      - ¿Cómo es la *maniobra* para que mi lugar quede listo?
+      - Me puedes dar un 'resumen' de cómo obtener un horario?
+      - Explícame la 'mecánica' de las reservas.
+      - ¿Qué hago pa' que me guarden mi turno, pe?
+      - Dime cómo se consolida la reservación acá.
+      - ¿Cómo se logra que el espacio quede a mi nombre?
+      - Quisiera saber qué se requiere para una reserva efectiva.
+      - ¿Cuál es el conducto regular para hacer una reserva?
+      - Explícame cómo se arma el booking.
+      - Necesito entender el flujo que tiene la reserva.
+      - ¿Qué pautas se siguen para tener un lugar fijo?
+      - ¿Cómo puedo registrar un horario?
+      - ¿Me das las coordenadas para dejar mi espacio apartado?
+      - ¿Qué acciones debo tomar para que mi reserva sea oficial?
+      - ¿Cómo se formaliza la ocupación de un espacio?
+      - ¿Cuál es el 'cómo se procede' para reservar?
+      - ¿Qué tengo que cumplir para que mi reserva quede finiquitada?
+      - Dime la secuencia de eventos para asegurar una fecha.
+      - ¿Cómo se activa una reserva?
+      - ¿Qué hay que hacer para tener mi espacio asignado?
+      - ¿Cuál es la directriz para la reserva?
+      - Quiero saber los pasos que se deben seguir para reservar.
+      - ¿Cómo funciona la confirmación de la cita?
+      - Necesito el roadmap para las reservas.
+      - ¿Qué requisitos son indispensables para reservar?
+      - ¿Cómo se materializa un horario reservado?
+      - ¿Me explicas el itinerario para dejar una fecha puesta?
+      - ¿Qué puntos son clave para realizar una reserva?
+      - ¿Cuál es el orden de acciones para asegurar un lugar?
+      - Dime qué hago para que mi reserva se procese bien.
+      - ¿Cómo se genera un compromiso de reserva?
+      - ¿Qué condiciones debo cumplir para reservar sin problemas?
+      - Explícame cómo va el 'seteo' de las reservas.
+      - ¿Cuál es el criterio para la validación de una reserva?
+      - Necesito el instructivo detallado para reservar.
+      - ¿Cómo se hace para formalizar un booking?
+      - ¿Qué se debe hacer para que mi reserva no se caiga?
+      - ¿Cómo es la movida para dejar un espacio separado?
+      - Dime qué tengo que presentar para que la reserva sea aceptada.
+      - ¿Cuál es el método de operación para las reservas?
+      - ¿Qué hay que saber para efectuar una reserva?
+      - ¿Cómo es el teje y maneje de las reservas por aquí?
+      - ¿Me indicas cómo se lleva a cabo el registro de una reserva?
+      - ¿Qué tengo que hacer para concretar la reserva?
+      - ¿Podrías decirme el procedimiento pa' reservar?
+      - ¿Cuál es la ruta para sacar mi espacio?
+      - Estoy interesado en reservar, ¿cuáles son los pasos a seguir?
+      - ¿Cómo funciona la mecánica de reserva?
+      - Quiero saber cómo asegurarme un sitio.
+      - ¿Me indicas el orden para hacer la reserva?
+      - ¿Qué tengo que hacer para reservar una cita?
+      - Necesito entender el workflow para las reservas.
+      - ¿Cómo me aseguro que la reserva esté bien hecha?
+      - ¿Hay alguna guía rápida para reservar?
+      - Estoy un poco perdido, ¿cómo se hace el proceso de reserva?
+      - ¿Cuál es el trámite para separar un turno?
+      - Me gustaría saber la forma de reservar, por favor.
+      - ¿Qué pido para reservar?
+      - ¿Puedes orientarme sobre cómo reservar?
+      - ¿Qué debo hacer para que mi reserva sea exitosa?
+      - ¿Me explicas cómo es el tejemaneje de la reserva?
+      - ¿Cómo se hace para confirmar el cupo?
+      - ¿Qué información necesito para reservar?
+      - ¿Qué hay que saber antes de reservar?
+      - ¿Cuál es el paso a paso detallado para reservar?
+      - Quiero reservar, ¿cómo me ayudas con eso?
+      - ¿Cómo se culmina una reserva?
+      - ¿Qué hago para que la reserva quede fija?
+      - ¿Cuál es el conducto regular para reservar?
+      - ¿Qué se necesita para tramitar una reserva?
+      - ¿Hay algún instructivo para reservar mi lugar?
+      - ¿Cómo se lleva a cabo una reserva aquí?
+      - Explícame el recorrido para reservar, paso a paso.
+      - ¿Qué tengo que hacer para que se haga la reserva?
+      - Me gustaría conocer el procedimiento de reserva.
+      - ¿Hay un manual para reservar?
+      - ¿Cómo se gestiona una reserva?
+      - ¿Qué implica todo el proceso para reservar?
+      - ¿Es complicado reservar o es fácil?
+      - No entiendo la logística de las reservas.
+      - ¿Cuál es la forma correcta de proceder para reservar?
+      - ¿Qué se hace una vez que elijo el horario?
+      - ¿Me puedes dar un resumen del proceso de reserva?
+      - ¿Cuál es el trámite pa' poder reservar?
+      - ¿Cómo le hago para separar mi espacio?
+      - Quiero reservar, explícame la movida, pe'.
+      - ¿Qué tengo que hacer para que mi reserva quede lista?
+      - Indícame el camino para reservar una cancha.
+      - ¿Me puedes dar la secuencia para hacer una reservita?
+      - Necesito reservar ¿cómo se procede acá?
+      - Cuentame cómo es la vaina para asegurar mi turno.
+      - ¿Hay algún instructivo o algo para reservar?
+      - Quiero saber el protocolo para las reservas, ¿cómo es?
+      - ¿Cómo se gestiona una reserva por aquí?
+      - Explícame el mecanismo para bookear, por favor.
+      - ¿Cuáles son los pasos a seguir para mi reserva?
+      - Quisiera reservar, ¿me podrías orientar?
+      - ¿Qué hago para concretar una reserva?
+      - Dime cómo funciona el sistema de reservas, pe.
+      - ¿Qué se necesita para que la reserva sea válida?
+      - Estoy listo para reservar, ¿qué sigue?
+      - Necesito saber la metodología para reservar.
+      - ¿Cómo se materializa una reserva aquí?
+      - Habla, ¿cómo puedo separar mi espacio?
+      - Me gustaría hacer una reserva, ¿me explicas cómo?
+      - ¿Podrías detallarme cómo se procede con las reservas?
+      - Quiero reservar ya, ¿qué es lo primero que hago?
+      - ¿Hay alguna guía para reservar?
+      - ¿Cómo hago pa' que mi reserva quede grabada?
+      - Dame el paso a paso para reservar, porfa.
+      - ¿Qué es lo que tengo que hacer para reservar un cupo?
+      - Me dices los requisitos para hacer una reserva.
+      - ¿Cómo se completa el proceso de reserva?
+      - Quisiera reservar, ¿cuál es el camino?
+      - ¿Me indicas cómo se realiza la reserva?
+      - ¿Cuál es la dinámica para asegurar un horario?
+      - Explícame cómo va el rollo de las separaciones.
+      - Dime cómo se manejan las reservas.
+      - ¿Hay que seguir algún orden para reservar?
+      - Necesito reservar mi cancha, ¿cómo hago el papeleo?
+      - ¿Me das las pautas para una reserva exitosa?
+      - Quiero entender bien el flujo de reservas.
+      - ¿Cómo se procede pa' obtener una reserva confirmada?
+      - Explícame la mecánica de las reservaciones.
+      - ¿Qué procedimiento debo seguir para separar un espacio?
+      - Cuéntame cómo es el asunto para agendar una cita.
+      - Estoy queriendo reservar, ¿cómo es la jugada?
+      - ¿Qué se necesita para tramitar una reservación?
+      - ¿Cómo gestiono mi reserva desde cero?
+      - Indícame el derrotero para concretar una reserva.
+      - ¿Cuál es la hoja de ruta para hacer una reservación?
+      - ¿Me orientas sobre cómo efectuar una reserva?
+      - Quiero dejar fija mi reserva, ¿cómo le hago?
+      - Ilústrame sobre el camino de la reserva, porfa.
+      - ¿Cómo se desarrolla la reserva aquí?
+      - ¿Hay alguna normativa para reservar?
+      - ¿Qué pasos hay que cumplir para reservar?
+      - ¿Me puedes detallar la forma de reservar?
+      - Necesito entender el ciclo de las reservas.
+      - ¿Cómo es la movida para dejar una reserva hecha?
+      - ¿Qué documentación o info se pide pa' reservar?
+      - ¿Cómo se materializa la reserva?
+      - ¿Qué tengo que hacer para que la reservación proceda bien?
+      - Dime el rito pa' sacar mi turno.
+      - ¿Desde dónde arranco para hacer una reserva?
+      - ¿Qué hago pa' validar mi reserva?
+      - ¿La reserva es online o tengo que ir presencial?
+      - ¿Y luego de seleccionar el día, qué viene?
+      - ¿Qué se espera de mí al momento de reservar?
+      - ¿Cómo consigo que la reserva quede firme?
+      - ¿Hay que tener alguna cuenta activa para reservar?
+      - Explícame la trama para la reserva.
+      - ¿Cómo es el discurrir de una reserva?
+      - ¿Qué información es imprescindible para la reserva?
+      - ¿Cómo se ejecuta la reserva?
+      - Estoy viendo para reservar, ¿qué me aconsejas hacer?
+      - ¿Cómo se establece una reserva aquí?
+      - ¿Me puedes instruir sobre cómo se reserva?
+      - ¿Hay un paso previo a la reserva en sí?
+      - ¿Cómo aseguro que no se me escape el horario?
+      - ¿Qué es lo primero que debo saber para reservar?
+      - Necesito los lineamientos para hacer una reservación.
+      - ¿Cuál es la movida para hacer una reserva por acá?
+      - Cuéntame el tejemaneje para reservar, causa.
+      - Necesito reservar, ¿qué esquema debo seguir?
+      - ¿Cómo se inicia el proceso de reserva en este lugar?
+      - Estoy interesado en reservar, ¿podrías darme una idea general?
+      - ¿Qué se debe tener en cuenta para reservar aquí?
+      - ¿Cómo hago para que mi reserva sea oficial?
+      - Dime cómo es el desarrollo para reservar, por favor.
+      - Quiero reservar, ¿por dónde arranco?
+      - ¿Cuál es la forma estándar de reservar?
+      - Explícame cómo va la onda de las reservas, pe.
+      - ¿Qué necesito para preparar mi reserva?
+      - Si quiero reservar, ¿qué se supone q tengo que hacer?
+      - ¿Cómo le meto para reservar?
+      - Estoy en ceros, ¿cómo es la cosa para reservar?
+      - ¿Me pasas el dato de cómo se reserva?
+      - ¿Cuál es la secuencia lógica que debo seguir para reservar?
+      - ¿Qué necesito para concretar la reserva con éxito?
+      - Quisiera reservar, ¿me puedes dar el panorama completo?
+      - ¿Cómo se consigue realizar una reserva?
+      - Ya estoy decidido a reservar, ¿cuál es el siguiente paso?
+      - ¿Cómo hago pa' dejar mi reserva ya lista?
+      - ¿Podrías detallarme cómo se concreta la reserva?
+      - ¿Cuáles son los puntos importantes para reservar?
+      - Quiero reservar, ¿me puedes orientar para no equivocarme?
+      - ¿Cómo hago para que mi reserva quede bien?
+      - Necesito reservar un espacio, ¿cómo lo articulo?
+      - ¿Qué tengo que saber antes de querer reservar?
+      - Para reservar, ¿hay alguna indicación clara?
+      - ¿Cuál es la cadena de eventos para reservar?
+      - Dime cómo es el proceso desde el punto cero.
+      - Quiero reservar, ¿cómo me enrumbas con eso?
+      - ¿Qué debo hacer para que mi reserva sea aceptada?
+      - Explícame cómo va la cosa para las reservas.
+      - ¿Cuáles son los preparativos para reservar?
+      - Necesito un resúmen de cómo reservar, por favor.
+      - ¿Me indicas los pasos primordiales para una reserva?
+      - ¿Qué se hace para que la reserva quede validada?
+      - Estoy intentando reservar, ¿cuál es la jugada?
+      - ¿Hay algún manual para la reserva que pueda seguir?
+      - ¿Cómo me registro para poder reservar?
+      - ¿Qué hago para bloquear mi horario?
+      - ¿Me podrías explicar el método para separar un cupo?
+      - ¿Cómo es el procedimiento para inscribirme y reservar?
+      - ¿Cuál es la serie de acciones para reservar con éxito?
+      - Dime el caminito para lograr hacer una reserva.
+      - Quisiera comprender la operativa para agendar.
+      - ¿Hay alguna norma para reservar mi cita?
+      - ¿Cómo es la movida para poder reservar un espacio?
+      - ¿Cómo me oriento para asegurar mi cancha?
+      - ¿Cuáles son las directrices para el proceso de reserva?
+      - Explícame la rutina para agendar una hora.
+      - ¿Qué documentos o información necesito para reservar?
+      - ¿Qué procedimiento aplica desde la selección hasta la confirmación?
+      - Necesito saber los tips para hacer mi reserva.
+      - ¿Qué se requiere para que mi reserva tenga validez?
+      - ¿Me puedes indicar los puntos clave para reservar?
+      - ¿Qué condiciones aplican para el proceso de reserva?
+      - ¿Cómo se concreta una reserva con ustedes?
+      - ¿Hay algún sistema online para agendar mi hora?
+      - Dime cómo se maneja la solicitud de reservas.
+      - ¿Qué pasos intermedios hay en la reserva?
+      - ¿Cómo es el engranaje para reservar un turno?
+      - ¿Podrías darme luces sobre cómo reservar?
+      - ¿Me explicas el paso inicial para reservar?
+      - ¿Cuál es el manual para la reserva de horarios?
+      - ¿Qué hay que hacer para tener una reserva efectiva?
+      - ¿Cómo funciona la plataforma de reservas?
+      - Necesito una explicación sobre el modo de reservar.
+      - ¿Qué se espera de mí al hacer una reserva?
+      - ¿Cuál es la secuencia lógica para una reserva?
+      - ¿Cómo es la organización para las reservas?
+      - ¿Qué reglamentación hay para reservar?
+      - Quiero saber cómo se oficializa una reserva.
+      - ¿Cuáles son las consideraciones para reservar?
+      - ¿Cómo le hago para reservar mi espacio?
+      - ¿Cuál es la vía para lograr una reserva?
+      - ¿Qué tal, pe? Para reservar, ¿cuál es el 'chiste' aquí?
+      - Soy 'lorna' en esto, ¿me echas la luz sobre cómo reservar?
+      - Necesito reservar, ¿cuáles son las indicaciones precisas?
+      - ¿Cómo funciona todo el embrollo de las reservas aquí?
+      - Para garantizar mi ubicación, ¿qué precauciones debo tomar?
+      - Para concretar mi reserva, ¿me das algunos tips?
+      - ¿Me detallas el esqueleto del proceso de reservación?
+      - ¿Cuál es la hoja de ruta para efectuar una reserva exitosa?
+      - Estoy medio perdido, ¿me das la 'bajada de línea' para reservar?
+      - ¿Qué tengo que saber antes de meter la pata con la reserva?
+      - ¿Hay alguna 'previa' para poder reservar?
+      - ¿Cómo se organiza la jugada de las reservas en este sitio?
+      - ¿Me explicas el conducto regular para garantizar mi sitio?
+      - ¿Qué debo tener a la mano para cuando quiera reservar?
+      - ¿Cuál es el 'abc' para que mi reserva no sea 'bamba'?
+      - Para concretar la reserva, ¿qué es lo primero que se hace?
+      - ¿Cómo me aseguro que la reserva esté bien 'armada'?
+      - ¿Cuáles son las condiciones para poder realizar una reserva aquí?
+      - ¿Me indicas el quehacer para reservar sin problemas?
+      - Quiero reservar, ¿me das un 'manual express'?
+      - ¿Qué puntos clave tengo que respetar al momento de reservar?
+      - ¿Cómo es el 'camino crítico' de las reservas?
+      - Necesito entender la operatoria completa para reservar.
+      - ¿Me das una luz sobre cómo se lleva a cabo una reserva válida?
+      - ¿Hay algo que deba prever antes de hacer la reserva?
+      - ¿Cuál es el 'iter' para reservar una cancha?
+      - ¿Qué hay que saber para que la reserva quede perfecta?
+      - ¿Me ilustras el devenir de la reserva, sin mucha jerga?
+      - ¿Me explicas el ciclo de vida de una reserva?
+      - ¿Qué factores influyen en la gestión de una reserva exitosa?
+      - Para reservar, ¿qué precauciones debo tomar?
+      - ¿Cuál es el método idóneo para reservar en este lugar?
+      - ¿Me explicas el cuadro sinóptico de la reserva?
+      - ¿Cómo se hace para 'amarrar' una reserva sin tanto roche?
+      - ¿Qué consideraciones especiales hay para reservar?
+      - ¿Me indicas los puntos de control para la reserva?
+      - No entiendo la 'dinámica de la jugada' para reservar.
+      - ¿Cómo es la figura legal o formal para las reservas?
+      - ¿Qué se debe tener previsto antes de iniciar una reserva?
+      - ¿Cuál es el modus operandi para las reservaciones?
+      - Quería saber cómo es el manejo para reservar.
+      - Cuál es la movida para hacer una reserva?
+      - Necesito entender el circuito de reserva.
+      - Hay algún manual de usuario para esto de las reservas?
+      - Dime el teje y maneje para poder reservar.
+      - Cómo le hago para agendar mi espacio?
+      - Qué tengo que hacer para concretar la reserva?
+      - Me indicas cuál es el plan de acción para reservar?
+      - Estoy buscando el camino más corto para reservar.
+      - Hay una sucesión de pasos para reservar?
+      - Cuál es la forma más sencilla de hacer mi reserva?
+      - Podrías ilustrarme sobre cómo es la cuestión de la reserva?
+      - Cómo puedo asegurar una cita sin enredos?
+      - Me gustaría saber qué es lo que tengo que hacer para que me atiendan con la reserva.
+      - Cuál es el procedimiento adecuado para no fallar en la reserva?
+      - Estoy medio perdido, cómo se arma la reserva aquí?
+      - Dame el tip para hacer una reserva.
+      - Cuál es la hoja de ruta para reservar?
+      - Cuáles son las directrices para bookear?
+      - Existe un método ya establecido para reservar?
+      - Cómo se administra el trámite de una reserva?
+      - Cuál es el proceso de alta para el servicio de reservas?
+      - Me puedes explicar el 'cómo' detrás de las reservas?
+      - Necesito la fórmula para reservar con éxito.
+      - Cómo se organiza el proceso para hacer una reserva?
+      - Cuál es la cadena de eventos para reservar?
+      - Me gustaría saber el ABC para reservar.
+      - Cómo se valida una reserva?
+      - Algún instructivo completo para el tema de reservas?
+      - Cómo es el rollo de separar un espacio por aquí?
+      - Estoy buscando la manera efectiva de reservar.
+      - Me pasas el dato de cómo hacer la reserva?
+      - Qué se necesita saber para reservar correctamente?
+      - Dime los puntos clave para hacer una reserva.
+      - Cómo se maneja la asignación de horarios?
+      - Hay algún sistema definido para reservar?
+      - Necesito saber la mecánica para reservar.
+      - Cómo es el proceso desde que uno decide reservar hasta que lo tiene confirmado?
+      - Me puedes decir cómo se realiza la acción de reservar?
+      - Qué tengo que hacer para no cometer errores al reservar?
+      - ¿Podrían detallarme la operativa para reservar?
+      - Quiero saber cómo va el manejo de las reservas.
+      - ¿Qué hay q cumplir para hacer una reserva?
+      - Estoy interesado en conocer el esquema de su sistema de reservas.
+      - ¿Me indican el camino a seguir para concretar una reserva?
+      - Cómo se efectúa una reserva?
+      - Pana, ¿cómo es q se hace para agendar acá?
+      - Necesito entender cuál es la ruta para sacar mi espacio.
+      - ¿Cuáles son las directrices para reservar?
+      - ¿Cuál es el modus operandi de la reserva?
+      - Explíquenme el orden para separar un turno, porfa.
+      - A ver, explícame la movida de las reservas, pe'.
+      - ¿Me instruyen sobre el esquema para hcer una reserva?
+      - Cómo se lleva a cabo la reserva aquí?
+      - Cuál es la cadena de acciones para reservar?
+      - Cuál es el procedimiento estándar para agendar?
+      - Dime cómo se organizan las reservas, ¿ya?
+      - ¿Cuál es la trayectoria para lograr una reserva exitosa?
+      - Ilústrame sobre cómo se hacen las reservas.
+      - Cómo funciona el proceso de agendamiento?
+      - Estoy medio perdido, ¿cómo funciona el prceso de bookeo?
+      - Cómo es el movimiento para reservar aquí?
+      - ¿Hay algún procedimiento establecido para reservar?
+      - Necesito los lineamientos para hacer una reservacion.
+      - ¿Cuál es la serie de acciones para reservar?
+      - Quiero saber el esquema de reservas que manejan.
+      - ¿Qué pasos hay que cumplir para concretar la reserva?
+      - Me podrías indicar el circuito para reservar?
+      - Dime la forma habitual de reservar.
+      - ¿Cómo se ejecuta una reservación?
+      - Cuál es la figura para hacer reservas?
+      - Dime las reglas de juego para reservar.
+      - Dime cómo es el ritual para hacer la reserva.
+      - ¿Cómo se valida una reserva?
+      - Cuál es la mecánica para apartar un horario?
+      - Me das un demo de cómo reservar?
+      - Quiero saber el proceso de agendamiento de su servicio.
+      - ¿Qué directrices hay para reservar?
+      - Cómo se concreta una reserva?
+      - Quisiera entender la forma de gestionar un espacio.
+      - ¿Me das una orientación sobre cómo se solicita esto?
+      - ¿Podrías explicarme la dinámica para asegurar mi fecha?
+      - No tengo claro cómo es el trámite para apartar.
+      - Deseo conocer la secuencia para hacer una separación.
+      - ¿Cómo le doy inicio a una solicitud de hora?
+      - ¿Podrías guiarme en el sistema para agendar?
+      - Necesito saber cómo se organiza la ocupación de un turno.
+      - ¿Me explicas cómo va la mano para conseguir un espacio?
+      - ¿Qué tengo que tener en cuenta para hacer mi agenda?
+      - Quiero saber la logística de agendamiento.
+      - ¿Cómo se configura un horario?
+      - Dime porfa cómo puedo asegurar mi fecha, pero al toque.
+      - Me gustaría saber la mecánica para fijar un día.
+      - ¿Hay algún manual para entender la solicitud de turnos?
+      - Estoy interesado en saber la operación para asegurar el horario.
+      - ¿Cómo es la figura para obtener un puesto?
+      - Un alcance de cómo es el mecanismo para bloquear un día.
+      - Cuéntame cómo es el orden para solicitar un espacio.
+      - Necesito info sobre cómo se hace para agenciarme un horario.
+      - ¿Cuál es el itinerario para dejar fija mi hora?
+      - ¿Me podrías dar los pasos para concretar una fecha?
+      - Quiero entender la metodología para bloquear un espacio.
+      - No sé por dónde empezar para apartar una fecha.
+      - ¿Cómo se cierra un trato para un horario?
+      - Explícame cómo va el manejo para solicitar un turno.
+      - ¿Qué sistema usan para que uno pueda agendar?
+      - Dime la secuencia de acciones para asegurar mi hora.
+      - Estoy un poco perdido, ¿cómo se avanza para asegurar mi hora acá?
+      - Quiero saber cómo es el registro para agendar una cita.
+      - ¿Cuál es el conducto regular para apartar un día?
+      - ¿Me das luces de cómo se ejecuta la solicitud?
+      - Estoy viendo lo de la reserva, ¿cómo es la onda?
+      - Necesito que me indiques cómo se arma una reserva.
+      - ¿Podrías darme el esquema para solicitar el servicio?
+      - No sé la forma de separar aquí, ¿me ayudas?
+      - ¿Cómo es la movida para poder ocupar un slot?
+      - Dame un resumen de cómo se gestiona la separación de un día.
+      - ¿Qué tengo que hacer para que mi horario quede asignado?
+      - ¿Qué tengo que hacer para separar mi horita?
+      - ¿Cómo se hace pa' fijar un turno, pe'?
+      - Quisiera saber la forma correcta de agendar.
+      - ¿Me explicas el engranaje para reservar una cancha?
+      - ¿Me indicas el itinerario para reservar una fecha?
+      - ¿Qué pasos debo dar para dejar mi sitio guardado?
+      - Necesito los lineamientos para poder reservar aquí.
+      - ¿Cómo se lleva a cabo la reserva?
+      - ¿Cuál es la 'hoja de ruta' para el booking?
+      - Quisiera el diagrama de flujo para reservar, ¿me lo explicas?
+      - ¿Cómo se maneja la operatividad de reservar?
+      - ¿Qué se necesita para que mi reserva sea exitosa?
+      - Estoy averiguando el procedimiento para hacer una reserva.
+      - ¿Cuál es el plan de acción para reservar?
+      - ¿Cómo se materializa el agendamiento?
+      - ¿Me indicas cómo consigo mi espacio sin contratiempos?
+      - ¿Me explicas la logística de la reserva, por favor?
+      - Quiero saber cómo va el tinglado de las reservas.
+      - ¿Cómo se configura una reservación en este sistema?
+      - ¿Cuáles son los puntos clave para hacer mi reserva?
+      - ¿Me das los tips para cerrar mi reserva correctamente?
+      - Para que mi reserva no se caiga, ¿qué hago?
+      - Explícame el modus operandi para una reserva.
+      - ¿Qué tengo que saber antes de solicitar una reserva?
+      - ¿Cuál es la 'letra chica' para hacer una reserva?
+      - ¿Cómo se realiza la tramitación de un horario?
+      - ¿Cuál es el punto de partida para hacer mi reserva?
+      - Quiero hacer una reserva, ¿cómo le hago?
+      - Quiero saber el camino a seguir para concretar la reserva.
+      - ¿Podrías darme las directrices para una reserva?
+      - q ago pa reservar una cancha?
+      - como pido la reserva?
+      - cuales son los pasos para el turno?
+      - explicame como se aparta un lugar
+      - q tengo q aser pa reservar aki
+      - guia para la reserva ps
+      - como funciona esto d reservar?
+      - pasos d la reserva
+      - necesito saber como ago mi reserva
+      - dime el procedimiento pa la cancha
+      - toy perdido, como reservo?
+      - q se debe aser pa separar un horario?
+      - explica el flujo d la reserva
+      - como aseguro mi espacio?
+      - q debo hacer pa el bookeo?
+      - es mi primera vez como reservo?
+      - dime q aser pa reservar por villa el salvador
+      - q ago pa reservar mi cancha d futbol
+      - como pido la cancha pal sabado?
+      - pasos pa reservar cerca d mi casa
+      - q tengo q aser pa sacar un turno 8pm?
+      - como se ace una reserva online?
+      - explikame el proceso d separacion
+      - q se aser pa reservar rapido?
+      - dime como va el tema d las reservas
+      - como es la gestion d una cancha?
+      - q hago pa asegurar mi sitio?
+      - q se necesita pa reservar cancha libre?
+      - como reservo una cancha por surco?
+      - explicame como c reserva una sala
+      - q tengo q aser para mi reserva x aca?
+      - como aparto la cancha pa mi gentita?
+      - pasos para separar 7pm?
+      - q devo aser pa el turno 9pm?
+      - como pido la reserva x wapp?
+      - como aser pa reservar?
+      - dime el paso a paso pa mi cancha
+      - q hago pa la reserva d mi cancha?
+      - explikame el rollo d reservar
+      - como asegurar mi fecha?
+      - q ago pa tener mi reserva lista?
+      - proceso pa reservar una cancha
+      - q tengo q aser pa pedir un horario?
+      - como se llena el formulario d reserva?
+      - q se hace pa reservar cerca mio?
+      - dime como c confirma la reserva
+      - q ago pa q quede mi reserva?
+      - como se separa una cancha?
+      - explikame el procedimiento pa reservar
+      - q pasos sigo pa reservar 6pm?
+      - como es la vaina d reservar aki?
+      - q tengo q aser pa reservar mi campo?
+      - dime como ago pa reservar d una
+      - como funciona el sistema pa reservar?
+      - q se tiene q aser pa la reserva?
+      - explikame el camino pa reservar
+      - q ago pa mi reserva para mañana?
+      - como asegurar la reserva d mi grupo?
+      - pasos pa una reserva rapida
+      - q tengo q aser para reservar ala hora?
+      - como es el trámite d reserva?
+      - q se aser pa pedir un turno?
+      - dime los pasos pa reservar x el barrio
+      - q ago pa separar mi espacio en san juan d miraflores?
+      - como c hace pa reservar en la app?
+      - explikame el bookeo d una cancha
+      - q tengo q aser pa mi reserva ahora?
+      - como procedo pa reservar el campo?
+      - q debo aser pa asegurar mi cita?
+      - dime el protocolo d reserva
+      - q ago pa la reserva ala volada?
+      - como se genera una reserva aki?
+      - explikame el mecanismo d reservas
+      - q se necesita pa la reserva d emergencia?
+      - como es el proceso d separar cancha?
+      - q tengo q aser pa mi reserva x aca a mi alrededor?
+      - dime como ago pa bookear mi cancha
+      - como aser pa tener mi turno fijo?
+      - q pasos sigo pa reservar facil?
+      - explikame q se hace pa reservar
+      - q ago pa confirmar mi cancha?
+      - como pido mi espacio x sjm?
+      - dime el floro pa reservar
+      - q se aser pa reservar por la noche?
+      - como c saca un turno con los patas?
+      - q tengo q aser pa mi reserva hoy?
+      - dime como es la cosa d reservar
+      - como aser pa asegurar mi puesto?
+      - q pasos tomo pa reservar aki?
+      - explikame el flujo para reservar
+      - q hago pa la reserva d mi hora?
+      - como se reserva una cita?
+      - dime el metodo pa reservar
+      - q se aser pa bookear mi horario?
+      - como procedo pa la reserva?
+      - q tengo q aser pa separar un espacio 5pm?
+      - dime como ago pa mi reserva x llamada?
+      - como se reserva pa una persona?
+      - q ago pa pedir la cancha x aca?
+      - explikame el proceso d la reserva broer
+      - como agarro la cancha pe
+      - oe como se separa
+      - q debo hacer pa mi reserva
+      - el tramite pa reservar cual es
+      - explikame como bookeo
+      - mano como se hace la reserva
+      - kiero separar cancha q ago
+      - cual es el sistema pa reservar
+      - los pasos pa reservar los tienes
+      - como funciona su rollo de reserva
+      - q se necesita pa la reserva aqui
+      - ayudame a entender como reservar
+      - como bloqueo mi horario
+      - q hago pa asegurar mi espacio
+      - como es la vaina pa meter la reserva
+      - q necesito pa separar mi fecha
+      - explikame el metodo de reserva
+      - q se tiene q hacer pa reservar
+      - como se completa mi reserva
+      - ay q pagar al toque pa reservar
+      - como confirmo mi reservacion
+      - se puede reservar sin registrarme
+      - como separo mi turno sin cuenta
+      - q pide la app pa la reserva
+      - los requisitos cuales son pa reservar
+      - q es lo primero pa reservar
+      - kiero reservar por surco como se hace
+      - pasos pa reservar cerca mio
+      - puedo reservar aca a mi alrededor q ago
+      - como reservo pa las 8pm
+      - cancha libre alas 8pm como reservo
+      - q debo hacer pa reservar en villa salvador
+      - como hago pa agarrar esa hora
+      - explikame bien como va la reserva
+      - necesito reservar x la web como funciona
+      - cual es el flujo completo pa reservar
+      - q se hace pa obtener un lugar
+      - explikame los pasos pa separar la cancha
+      - como se genera mi reserva pe
+      - q info necesito pa reservar
+      - como hago pa q mi reserva valga
+      - los pasos son dificiles de seguir
+      - como va el rollo de la reservacion
+      - cual es la pauta pa poder reservar
+      - dime el procedimiento completito
+      - q tengo q saber si kiero reservar
+      - como hago pa bloquear la cancha al toque
+      - como se hace pa reservar un horario
+      - kiero saber la dinamica pa las reservas
+      - ay alguna guia pa reservar mi espacio
+      - como se tramita la reserva rapido
+      - como es el papeleo pa mi reserva
+      - ay un tutorial pa reservar aqui
+      - como se hace pa q kede asegurada
+      - la secuencia de reserva me la dices
+      - q se hace despues de elegir la hora
+      - como reservo con mi cuenta de usuario
+      - explikame como se hace una reserva al paso
+      - kiero mi cancha ya como la separo
+      - dame los pasos pa asegurar el horario
+      - q debo hacer para bookear mi cancha
+      - como hago pa asegurar ese cupo
+      - el metodo de reserva cual es el bueno
+      - como hago pa separar mi espacio rapido
+      - q debo saber antes de reservar la cancha
+      - como funciona su sistema de reservas aqui
+      - es facil reservar por aca
+      - q datos piden pa la reserva del spot
+      - como ago pa tener mi hora ya
+      - se puede reservar x wasap o q
+      - dame los pasos pe pa la reserva
+      - como se hace la gestion de una cancha
+      - q se tiene q llenar pa reservar el sitio
+      - cual es la forma correcta de reservar
+      - como separo mi cancha asi nomas
+      - explikame el rollo de como se reserva
+      - q necesito pa reservar la cancha ahora
+      - como reservo mi espacio favorito y seguro
+      - como hago pa no perder mi cupo de juego
+      - q se hace despues de escojer la cancha
+      - cual es el plan pa la reserva del dia
+      - como sigo los pasos pa reservar
+      - la forma mas rapida de reservar cual es
+      - como confirmo si esta bien mi reserva
+      - q se pide pa reservar una cancha
+      - me dices los pasos pa separar el sitio
+      - como hago para reservar al toque
+      - como funciona el tema de las reservas
+      - kiero reservar una cancha como le hago yo
+      - como obtengo mi reserva de cancha
+      - q debo seguir pa reservar mi lugar
+      - explikame paso a paso pa reservar el spot
+      - como es el manejo de las reservas
+      - q se hace pa la reserva efectiva
+      - como agarro mi cancha facil
+      - q pasos se siguen pa reservar aqui
+      - cual es el truco pa reservar
+      - como separe mi espacio
+      - me explikas la movida pa reservar
+      - ay un proceso pa la reserva
+      - como es pa apartar mi hora
+      - q pasos tengo q seguir
+      - como hago pa q mi reserva kede
+      - explikame pa reservar
+      - como es el enroque de la reserva
+      - q tengo q saber pa asegurar
+      - como se bookea sin lio
+      - q debo hacer pa reservar
+      - como hago pa agenciar mi cancha
+      - explicame como se saca una reserva
+      - cual es la forma pa conseguir una
+      - como es la movida de las reservas
+      - los pasos pa reservar xfa
+      - quiero reservar como le hago
+      - instrucciones para reservar porfa
+      - como aseguro mi espacio
+      - como se hace pa separar
+      - cuentame el proceso pa sacar cancha
+      - quiero saber como se activa una reserva
+      - la forma de reservar cual es
+      - que se hace pa tener cancha
+      - como es eso de reservar aca
+      - q tengo q hacer pa una reserva x surco
+      - como separamos cerca mio
+      - pa reservar cancha libre 8pm como es
+      - kiero reservar por vill salvador q hago
+      - como le hago pa asegurar la cancha
+      - el rollo de la reserva como va
+      - como reservo sin saber
+      - nunca reserve q debo hacer
+      - soy nuevo en esto como reservo
+      - ayudenme a reservar
+      - q se necesita pa reservar
+      - expliquenme la vaina de la reserva
+      - los tips pa reservar
+      - como reservo rapido
+      - necesito saber como se separa
+      - como pongo mi nombre pa reservar
+      - pa sacar la cancha como es
+      - quiero reservar ya como le hago
+      - q hago pa tener mi cancha
+      - como se gestiona una reserva
+      - la forma mas facil de reservar
+      - como se bookea aqui
+      - quiero un horario como lo separo
+      - q se hace pa obtener una reserva
+      - como me apunto para una cancha
+      - la mecanica de la reserva
+      - los pasos pa separar cancha
+      - como se pide una reserva
+      - como le hago pa pedir mi turno
+      - quiero reservar y no se el camino
+      - como se procesa una reserva
+      - q tengo q hacer para mi cancha
+      - como se hace pa separar un espacio
+      - cual es la pauta pa reservar
+      - el recorrido pa reservar cual es
+      - como se maneja la reserva
+      - q tengo q seguir pa reservar
+      - como se reserva mi cancha
+      - los pasos para bookear
+      - quiero mi cancha como se hace
+      - como activo la reserva
+      - la forma de agarrar un espacio
+      - q debo hacer pa la reserva
+      - como se arma una reserva
+      - como se da de alta una reserva
+      - q se pide pa reservar
+      - como se genera mi reserva
+      - quiero mi turno como lo consigo
+      - como hago pa fijar mi cancha
+      - el proceso pa agarrar turno
+      - como se adelanta una reserva
+      - q hago pa q quede mi reserva
+      - la forma de asegurar mi turno
+      - como confirmo la reserva
+      - q debo saber pa reservar
+      - como hago pa q valga mi reserva
+      - los requisitos pa reservar
+      - como se hace pa dejar separao
+      - q necesito pa separar un spot
+      - cual es el paso a paso pa reservar
+      - como se saca mi espacio
+      - explikame el tramite pa reservar
+      - como se logra una reserva
+      - la clave pa reservar cual es
+      - como se ejecuta una reserva
+      - q se debe seguir pa reservar
+      - como se hace pa reservar un sitio
+      - los metodos pa reservar
+      - como se completa una reserva
+      - la forma de concretar la reserva
+      - como se arregla una reserva
+      - como se consigue un espacio
+      - q debo hacer pa tener mi turno
+      - como hago pa tener mi espacio seguro
+      - la manera de agarrar mi cancha
+      - como se gestiona mi turno
+      - q tengo q seguir para mi reserva
+      - como se fija mi espacio
+      - q se pide para mi reserva
+      - como se obtiene mi turno
+      - como se hace un booking aca
+      - la pauta para hacer una reserva
+      - pasos a seguir pa reservar
+      - como consigo mi fecha libre
+      - q es lo q hago para separar
+      - como pido un turno para la cancha
+      - como c ase pa reservar
+      - q debo aser para reservar
+      - explicame el proceso d reserva
+      - los pasos p reservar
+      - dime como se separa
+      - como es la vaina pa reservar
+      - kiero reservar q ago
+      - el tramite p reservar
+      - como aparto la cancha
+      - no entiendo como reservar
+      - pa reservar q hay q aser
+      - la reservacion como va
+      - kiero asegurar una cancha como le ago
+      - los pasos q debo seguir p la reserva
+      - como blokear mi horario
+      - me explicas el rollo d las reservas
+      - la forma d reservar cual es
+      - como hago pa q kede mi reserva
+      - dime la movida p reservar
+      - como consigo una reservacion
+      - q aso ps pa reservar
+      - el proceso cm es
+      - guiame p reservar
+      - no c como va esto d la reserva
+      - kiero separar mi espacio dime como
+      - pa reservar una cancha cerca mio como hago
+      - explikame el procedimiento p la reserva
+      - q tengo q aser p reservar en surco
+      - los detalles d la reserva cual es
+      - como c gestiona la reserva
+      - dime el caminito pa reservar
+      - q hay q hacer p una reserva alas 8pm
+      - como obtengo mi reserva
+      - el manual p reservar como es
+      - kiero reservar pa vill salvador q hago
+      - como saco mi cancha libre
+      - los requisitos p reservar cuales son
+      - q tengo q llenar p reservar
+      - dame los tips pa reservar
+      - como c hace el registro p la reserva
+      - la secuencia pa reservar
+      - kiero reservar con los patas como es el proceso
+      - q se hace pa separar el turno
+      - explicame como c reserva pa una cancha 8pm
+      - q debo aser pa agarrar mi cancha
+      - como es la reservacion x aki
+      - dime los pasos pa separar rapido
+      - q necesito saber p reservar mi horario
+      - como c aparta una cancha libre en surco
+      - el floro d la reserva como es
+      - q onda con la reserva
+      - como c bookea
+      - q hago p tener mi reserva lista
+      - dame la info p reservar
+      - como le doy el ok a mi reserva
+      - q c necesita p aser la reserva
+      - explikame el sistema d reservas
+      - como funciona todo esto d la reserva
+      - dime el orden p reservar
+      - pasos pa sacar la cancha
+      - como c procede pa reservar bien
+      - q tengo q aser pa la reserva definitiva
+      - kiero reservar y no c como empezar
+      - dime el camino completo d la reserva
+      - como se finaliza la reserva
+      - q se necesita p asegurar mi cupo
+      - como se tramita una reserva
+      - q reglas hay p reservar
+      - explicame cada paso d la reservacion
+      - como aser la reserva del partido
+      - la forma mas rapida d reservar
+      - kiero reservar en mi barrio como hago
+      - q devo aser pa k la reserva este ok
+      - como es la gestion d la reserva
+      - dime el modo d reservar
+      - q tengo q cumplir p reservar
+      - explikame el metodo d reserva
+      - como c crea la reserva
+      - luego d escoger la cancha q hago
+      - dime el procedimiendo p la reservacion
+      - como se aparta una fecha
+      - q tengo q hacer para mi reserva
+      - explicame como asegurarla
+      - la reserva como la realizo
+      - q devo hacer p reservar un turno
+      - dime los pasos p asegurar la cancha hoy
+      - como c aplica p reservar
+      - q se sigue p la reserva
+      - como c reserva una cancha en la noche
+      - dime el paso inicial p reservar
+      - q tengo q aser p cerrar mi reserva
+      - como es la politica d reserva
+      - explicame bien como reservar
+      - q necesito p reservar una cancha libre
+      - dime el proceso d reserva completo
+      - como es el mecanismo d reserva
+      - q se debe hacer pa la reserva
+      - dime como aser la reserva desde 0
+      - q sigue pa terminar la reserva
+      - como c confirma la reserva
+      - q aso luego d escoger la fecha
+      - explikame el proceso completo p la reserva
+      - como es el proceso d separacion
+      - q tengo q aser pa la reservita
+      - dame la pauta p reservar
+      - como c hace una reservacion x aca
+      - q info piden p la reserva
+      - como es p apartar la cancha d futbol
+      - q indicaciones sigo p reservar
+      - q tengo q acer pa reservar
+      - kiero reserbar como le hago
+      - dime kmo se reserba una cancha
+      - kmo es el tramite para reserbar
+      - pasos para reserba ps
+      - explicame el rollo de la reserba
+      - komo funciona para reserbar
+      - q tengo q saber pa reserbar
+      - kmo es la forma de reserbar
+      - como agao para reservar
+      - el proceso pa reserbar
+      - kiero reserbar una cancha dime q onda
+      - como hago si toy en vill salvador pa reserbar
+      - explikame como se aparta una cancha
+      - q se ase pa apartar
+      - kmo se separa una cancha ps
+      - como puedo separar mi cancha
+      - dime los pasos pa asegurar mi horario
+      - como aseguro mi cancha x aca cerca mio
+      - explikame el flow para reservar
+      - kiero una cancha libre 8pm como la reservo
+      - como hago para reservar si toy x surco
+      - dime el protocolo pa reserbar
+      - kmo es el procedimiento ps
+      - quiero saber el orden para reserbar
+      - q tengo q acer para q quede mi reserva
+      - cmo hago pa q me den la cancha
+      - kiero reserbar al toque dime como
+      - como reservo sin tanta vaina
+      - dime como hago para una cancha cerca de mi
+      - explicame como es pa separar
+      - q hago para reservar una cancha manana
+      - como se ace pa la reserba
+      - kmo aparto una cancha 7pm
+      - necesito saber kmo se reserba ps
+      - q se ace despues de elegir cancha
+      - como hago pa q me valga la reserba
+      - explikame como es la reserba
+      - quiero apartar una cancha, kmo es?
+      - kiero mi cancha 9pm como la reserbo
+      - que tengo que hacer para que separe mi espacio
+      - explikame bien el sistema de reserbas
+      - kmo es el proceso completo para reservar una
+      - dime la secuencia pa reserbar
+      - como aseguro mi cancha xfa
+      - q tengo q seguir para reservar
+      - como hago mi reserba rapido
+      - q pasos son pa reserbar una cancha
+      - kmo es el proceso si estoy aca
+      - quiero reservar ahora como hago
+      - como hago pa que mi cancha este separada
+      - explikame la forma de reserbar cancha
+      - quiero reserbar pero no se como
+      - dime como funciona la reserba aca
+      - q tengo q hacer pa tener la cancha
+      - como es para reservar mi horario
+      - quiero saber el metodo pa reserbar
+      - kmo se hace la gestion de reserba
+      - como hago la reserba de mi cancha
+      - explicame como se bookea la cancha
+      - q debo hacer para bookear
+      - kmo separamos la cancha los patas
+      - cual es el caminito pa reserbar
+      - dime como aparto mi cancha libre
+      - quiero reservar x la noche como le hago
+      - q se requiere pa reserbar una
+      - como le hago pa asegurar mi turno
+      - dime la forma mas facil de reserbar
+      - explikame los pasos pa separar cancha
+      - kmo es el proceso si toy x el cono sur
+      - quiero reserbar una cancha cerca mia kmo se hace
+      - q se hace pa la reserba de cancha
+      - como hago para bloquear el horario
+      - dime q tengo q hacer para mi reserba
+      - explikame los pasos para reserbar cancha
+      - kiero reserbar una cancha pa hoy kmo hago
+      - como es el flow pa separar un espacio
+      - q tengo q tener para reserbar
+      - dime los requisitos para reserbar
+      - kmo hago pa reserbar sin registrarme
+      - puedo reserbar sin crear cuenta
+      - como es la reserba sin cuenta
+      - explikame como se hace pa reservar
+      - q se hace para hacer la reserba
+      - kiero saber como apartar mi cancha
+      - como puedo hacer mi reserba
+      - dime el proceso para apartar una cancha
+      - q tengo q hacer pa asegurar el espacio
+      - como hago pa reservar si estoy en miraflores
+      - explikame como es el enroque para reserbar
+      - como hago pa reserbar para un partido
+      - q tengo q hacer pa q la reserba sea valida
+      - kmo es el proceso pa reserbar pa mi gente
+      - dime los pasos para reserbar un horario
+      - como se reserva para un dia especifico
+      - quiero reservar una cancha 6pm, como le hago
+      - q necesito para reserbar una cancha libre
+      - como hago para conseguir una cancha
+      - dime como reservo mi cancha pa hoy
+      - explikame el proceso de reserva de cancha
+      - como aparto?
+      - q se hace?
+      - dime como
+      - como agarro?
+      - explikame la movida
+      - los pasos q son?
+      - para reservar?
+      - q onda para separar?
+      - la forma es?
+      - como agendo mi cancha?
+      - el modo pa eso?
+      - q hago primero?
+      - como hago la vaina?
+      - el tramite?
+      - como pido?
+      - para reservar aca?
+      - proceso rapidito
+      - como funka esto?
+      - como se arrima?
+      - cual es el camio?
+      - como hago mi sepa?
+      - kiero reservar. como?
+      - como me apunto?
+      - q tengo q acer?
+      - q ago pa reservar?
+      - la receta pa reservar?
+      - q se necesita?
+      - pa resevar como?
+      - como es el embrollo?
+      - kiero reservar una cancha en vill salvador, como es?
+      - cual es el floro para separar mi horario?
+      - explikame bien como hago pa agarrar mi turno
+      - si kiero reservar para mañana 8pm, q tengo q hacer?
+      - necesito saber to el proceso para reservar aca cerca mio
+      - q se pide pa asegurar una cancha libre por surco?
+      - dime los pasos pa reservar una cancha esta semana
+      - como se arma la reserva pa un partido con los patas?
+      - quiero entender como se hace pa reservar rapido
+      - q procedimiento hay q seguir pa apartar mi espacio?
+      - me enseñas como hago para reservar sin problemas?
+      - como es la vaina para reservar una canchita por aca?
+      - los pasos q tengo q seguir pa separar son cuales?
+      - q necesito tener listo pa reservar mi hora ya?
+      - como me explicas pa reservar una cancha cerca de casa?
+      - si soy nuvo y kiero reservar, como le hago?
+      - q hago primero y q sigue despues pa reservar?
+      - cual es el modo para dejar mi reserva asegurada?
+      - digame como es pa separar una canchita, porfa
+      - cual es la secuencia para separar una fecha?
+      - kiero reservar una cancha libre 8pm, como se hace?
+      - como es el proceso para reservar pa un dia d semana?
+      - necesito saber como hacer mi reserva x aca a mi alrededor
+      - q tengo q acer para reservar sin problemas este finde?
+      - dime los pasos completos pa reservar una canchita
+      - como es el floro pa reservar un horario en tu local?
+      - quiero agarrar mi cancha, como es el camino?
+      - q hago pa reservar mi espacio deportivo pa la noche?
+      - explikame el tramite pa reservar una cancha de futbol
+      - cual es la forma mas rapida de reservar un turno?
+      - como hago pa q mi reserva quede al toque?
+      - q se necesita pa reservar una cancha el martes?
+      - explicame el rollo para asegurar mi espacio de juego
+      - cual es el camino q debo seguir para reservar?
+      - quiero reservar pa un cumple, como es la jugada?
+      - q tengo q acer pa dejar reservada mi hora?
+      - como funciona esto para reservar una canchita?
+      - digame los pasos pa reservar una hora en la cancha
+      - q se pide pa reservar mi cancha en comas?
+      - como es el proceso si kiero reservar desde mi cel?
+      - kiero reservar porfa, pero explikame como se hace
+      - cual es el procedimiento pa reservar un espacio aca?
+      - q debo hacer para poder separar mi fecha?
+      - como hago pa separar mi cancha en sjl?
+      - los pasos para una reserva son cuales?
+      - kiero reservar, pero no se como se hace el proceso
+      - explikame como es la forma para separar el horario
+      - necesito reservar pero no se como iniciar el tramite
+      - cual es la secuencia pa agarrar mi cancha en el agustino?
+      - q tengo q hacer para dejar mi reserva lista?
+      - como es el sistema pa reservar una cancha en ventanilla?
+      - q se necesita pa agendar una cancha en villa maria?
+      - como hago pa reservar y q me confirmen al toke?
+      - explikame el proceso pa reservar una cancha cerca al mall
+      - cual es el camino pa agarrar mi turno d juego?
+      - q hago pa asegurar mi espacio pa jugar en lince?
+      - como es la movida pa reservar una cancha a mi gusto?
+      - q tengo q hacer pa reservar un sabado en la noche?
+      - dime los pasos pa reservar una cancha cerca a mi casa
+      - cual es el floro pa reservar una cancha de fultbol?
+      - como hago pa q mi reserva quede confirmada al instante?
+      - q se necesita pa reservar una hora en la tarde?
+      - explikame el modo pa separar mi cancha sin rollos
+      - como es el tramite pa reservar una cancha por puente piedra?
+      - q hago pa reservar mi espacio de juego en los olivos?
+      - dime la secuencia pa reservar una cancha en chorrillos
+      - cual es el procedimiento pa agarrar mi turno pa jugar?
+      - como hago pa reservar mi cancha para la semana q viene?
+      - q se necesita pa reservar un dia feriado?
+      - explikame como hago pa reservar una cancha de voley
+      - como se hace pa reservar
+      - dime como separar
+      - kiero saber como se reserva
+      - oe como separamos una cancha
+      - explikame la movida pa reservar
+      - q hay q hacer pa mi reserva
+      - como se asegura un horario
+      - kmo hago pa conseguir cancha
+      - quiero mi cancha en surco, como funciona
+      - como hago la reserva pa las 8
+      - ayúdame a reservar cerca mio
+      - primera vez, como se hace
+      - q necesito pa la reserva
+      - como se genera la separacion
+      - la forma de reservar como es
+      - como lo hago para el espacio
+      - pasos para reservar en vill salvador
+      - q debo hacer xfa
+      - como es la cosa para bookear
+      - el floro pa reservar cual es broder
+      - como hago pa agarrar mi hora
+      - explikame el rollo de reservar
+      - q hay q hacer para reservar en reco
+      - como se empieza esto
+      - dnd se inicia la separacion
+      - la secuencia pa tener cancha
+      - kiero reservar, como hago ps
+      - q pautas hay pa reservar
+      - necesito reservar una, como funciona esta vaina
+      - como hago pa la reserva alas 7pm
+      - no entiendo como reservar aca a mi alrededor
+      - como se hace el bookeo
+      - q se necesita pa asegurar el espacio
+      - como es el asunto de la cancha
+      - orientame pa mi reserva
+      - q pasos seguir para reservar aqui
+      - como es la jugada pa reservar un sitio
+      - explikame como separar un horario
+      - q hago para mi cancha 9pm
+      - como se cierra el espacio
+      - la manera de reservar como es
+      - kiero reservar cerca d mi jato, como le hago
+      - q hay q hacer pa reservar en callao
+      - dime el sistema pa reservar
+      - como se separa mi horario mano
+      - q hago pa tener la cancha libre
+      - como aseguro mi horario
+      - q hay que hacer para bookear
+      - quiero saber la forma de bookear
+      - como se aparta una cancha
+      - q hago para tener mi cancha fija
+      - como hago para reservar mi espacio en miraflores
+      - el camino pa reservar cual es
+      - kmo separamos la cancha hoy 7pm
+      - q debo hacer para reservar bro
+      - como es la figura pa reservar
+      - la movida pa reservar cual es
+      - como se logra reservar un espacio
+      - q hay q hacer pa q mi reserva valga
+      - el rollo d la reserva como es
+      - q hay q hacer pa q qede la reserva
+      - como hago pa agarrar una cancha en lince
+      - kiero reservar pero no c como ps
+      - q se hace pa reservar cerca mio
+      - dime el procedimiento pa mi cancha
+      - como hago la reserva pa mañana
+      - q se tiene q hacer para reservar en ventanilla
+      - kmo aseguro mi horario de 6pm
+      - como se reserva sin drama
+      - como se hace pa q mi reserva sea efectiva
+      - q pido pa reservar
+      - q se necesita para una reserva
+      - la reserva como se hace
+      - como se hace la separacion de la cancha
+      - como hago pa separar con mis patas
+      - q hago pa reservar en san juan
+      - como reservo mi cancha pa mañana
+      - el proceso d bookear como es
+      - q se hace pa reservar una en lurin
+      - como hago la reservacion al toke
+      - dime q se hace pa la reserva
+      - como se consigue un horario libre
+      - q es lo q se hace para reservar una cancha
+      - como separamos la cancha pe
+      - q tengo q hacer pa reservar en ate
+      - como hago pa separar cancha en villa el salvador
+      - la reservacion como es pe
+      - q se hace pa agarrar un lugar 5pm
+      - como hago para reservar sin problemas
+      - q debo hacer para la reserva
+      - como se bookea una cancha en el cono norte
+      - explikame bien como hago la reserva
+      - q necesito para bookear mi cancha
+      - como hago pa tener mi cancha a la hora
+      - la forma de separar el espacio cual es
+      - q se hace pa asegurar el dia
+      - Q es la movida pa reservar?
+      - Cmo se separa una cancha aca?
+      - Explikame la onda d la reserva
+      - Kiero reservar q hago ps?
+      - El sistema d reserva cmo va?
+      - Ayuda pa bookear mi cancha
+      - Los pasos q tengo q seguir?
+      - Pa reservar mi spot, cmo le hago?
+      - Q tengo q saber pa reservar x surco?
+      - La reserva del turno, cmo funciona?
+      - Dime el dato d la reserva
+      - Cmo se asegura un lugar cerca mio?
+      - El proceso d la cancha libre 8pm?
+      - Q rollo con la reserva en vill salvador?
+      - Como es el asunto pa reservar?
+      - Q chamba hay q hacer pa reservar?
+      - Dnd se pide el permiso pa reservar?
+      - Pa separar una cancha, q hay q mover?
+      - Cmo se cuadra la reserva?
+      - El tramite pa reservar, cual es la fija?
+      - Kiero saber cmo se hace la reserva
+      - Me explicas la jugada pa reservar?
+      - Q debo hacer pa la reserva en mi zona?
+      - Cmo consigo el cupo pa la pichanga?
+      - La reservacion esta facil o dificil?
+      - Q se hace pa reservar un sitio?
+      - Guíame en la reserva, no entiendo na
+      - Cmo se da de alta una reserva?
+      - El papeleo d la reserva, cmo es?
+      - Como le hago pa asegurar mi espacio?
+      - Q hay q saber pa reservar aca?
+      - Dime la fija pa reservar mi horario
+      - Cmo hago pa que valga la reserva?
+      - El camino d la reserva cual es?
+      - Q tengo q hacer pa reservar en este barrio?
+      - Pa reservar ya, cmo es la cosa?
+      - La cancha d 8pm cmo se bookea?
+      - Cmo hago pa reservar en este point?
+      - Mi turno cmo lo aseguro?
+      - Q se necesita pa reservar el spot?
+      - El metodo d reserva, explikame
+      - Cmo se hace pa la reserva del dia?
+      - Q debo llenar pa reservar mi cancha?
+      - La reservacion aca, cmo la cierro?
+      - Pasos pa la reserva rapido xfa
+      - Cmo separo mi espacio sin drama?
+      - Q se pide pa la reserva x el cono sur?
+      - El sistema d reservar, como lo agarro?
+      - Dime el detalle pa reservar
+      - Q movida hago pa reservar cancha?
+      - Como le entro a la reserva?
+      - Q hay q hacer antes d reservar?
+      - La reserva de mi cancha, cmo la armo?
+      - Cuales son las reglas pa reservar?
+      - Cmo se hace pa tener la cancha?
+      - El bookeo d la cancha, cmo va?
+      - Q tengo q poner pa reservar mi espacio?
+      - Como hago pa reservar sin errores?
+      - Los tips pa reservar bien, cuales son?
+      - Cmo funciona el bookeo en esta app?
+      - La reserva cerca a mi casa, cmo la saco?
+      - Q se hace pa reservar mi cancha libre 8pm?
+      - Cmo aparto mi espacio en vill salvador?
+      - Explikame el proceso pa reservar en surco
+      - Q se pide pa la reserva por este lado?
+      - Como confirmo mi reserva si es q se puede?
+      - Q hay q pagar pa reservar la cancha?
+      - Cuales son los pasos para la reserva facil?
+      - Necesito reservar, cmo se maneja?
+      - La reserva del sitio, cmo la consigo?
+      - Q debo saber pa que no falle la reserva?
+      - Cmo hago pa reservar mi cancha sin problemas?
+      - Los pases pa la reserva son muchos?
+      - Q se hace pa que la reserva sea valida?
+      - Cmo se asegura un turno para hoy?
+      - Pa reservar el fin de semana, cmo es?
+      - Q tengo q hacer pa tener mi cancha ya?
+      - El registro pa reservar, cmo se llena?
+      - Cmo le hago pa reservar mi cancha para mañana?
+      - La movida pa reservar en el local, cual es?
+      - Q debo hacer pa reservar una cancha pa los amigos?
+      - Cmo se hace pa separar el cupo de la pichanga?
+      - Explikame todo el rollo d la reservacion
+      - Q pasos siguen pa reservar por el cel?
+      - Cmo aseguro mi cancha libre 8pm cerca mio?
+      - Pa reservar en vill salvador, q se hace?
+      - Cmo es el asunto d la reserva por surco?
+      - Q hay q hacer pa reservar aca a mi alrededor?
+      - Necesito el dato pa reservar rapido
+      - La forma d reservar, dimela rapido
+      - Cmo hago pa reservar sin registrarme?
+      - Q se pide pa reservar el sitio fijo?
+      - Cmo se genera una reserva sin tanto lio?
+      - El metodo pa reservar, cual es el mas simple?
+      - Q se debe hacer pa bookear sin ataos?
+      - Cmo es la gestion d la reserva en esta plataforma?
+      - Necesito saber el proceso pa la reserva exacta
+      - Q pasos se siguen para reservar aqui en la zona?
+      - Estoy intentando reservar, cmo es la jugada?
+      - Cmo hago pa q me acepten la reserva sin roche?
+      - q se hace pa reservar
+      - como ago la reserva
+      - la reserva como es
+      - dime como reserbar
+      - q se pide pa la reserva
+      - como se separa una cancha
+      - q ago para reservar
+      - instruccione pa reservar
+      - explicame el rollo de la reserva
+      - kiero saber como reservo aca
+      - el proceso pa reservar
+      - pasos pa la reserva
+      - como hago pa separar mi espacio en surco
+      - la movida de reservar cual es
+      - como reservo una cancha libre 8pm
+      - q ay q acer pa reservar
+      - como sebookea
+      - como separo una cancha por mi casa
+      - q necesitas pa q reserve
+      - explicate el sistema de reserva
+      - como es pa agarrar una cancha
+      - como le hago para reservar aca
+      - kiero apartar cancha, como se hace
+      - como me aseguro la cancha
+      - dime el floro de la reserva
+      - como es eso de reservar por villa salvador
+      - q se sigue para reservar
+      - la reservacion q tal es
+      - como reservo una cancha cerca mio
+      - necesito saber el camino de la reserva
+      - explicame como es la vaina para reservar
+      - pasos para la cancha alas 7
+      - q se hace pa asegurar la hora
+      - como le hago pa asegurar el horario
+      - q requisitos pa reservar
+      - como se gestiona la reserva
+      - q se tiene q hacer para separar
+      - explicate como es pa bookear
+      - quiero saber como se separa la cancha
+      - la forma de reservar
+      - q devo hacer pa reservar por surco
+      - como saco mi reserva pa mañana
+      - dime la secuencia pa la reserva
+      - como funciona eso de reservar aca
+      - kiero reservar y no se como
+      - la reserva como se realiza
+      - q se tiene q hacer para agarrar cancha
+      - como es el teje maneje de la reserva
+      - q pasos se sigue pa reservar por mi zona
+      - como hago pa la reservacion por mi casa
+      - explicate pa sacar la cancha de 8pm
+      - como es pa agarrar el horario libre
+      - q documentos para reservar
+      - la reserva por aca como es
+      - dime como se bookea una cancha libre
+      - q se hace para separar la de 9pm
+      - como le hago pa reservar en vill salvador
+      - necesito reservar como es la jugada
+      - la movida para reservar una cancha por mi zona
+      - como hago para separar cancha pa mañana por surco
+      - q se hace para reservar por aca
+      - explicame bien la reserva
+      - cual es el tramire pa reservar
+      - q se necesita pa reservar cancha
+      - como se hace pa reservar el horario de 6
+      - dame la info de la reserva
+      - como es la vaina para reservar
+      - q tengo q hacer pa separar por aca
+      - como le hago pa apartar la cancha
+      - la reserva x whatsapp se puede
+      - q se pide para reservar la cancha
+      - como ago pa tener mi reservacion
+      - como se reserva en vill salvador
+      - q pasos pa reservar aca cerca mio
+      - la ruta de la reserva
+      - como se pide pa separar cancha
+      - q ay q hacer para reservar por surco
+      - como hago pa la reserva de la tarde
+      - q se necesita pa agarrar la cancha
+      - como reservo cancha pa las 8
+      - dime como es pa reservar una cancha
+      - la reserva para mi zona como va
+      - explicame como es para reservar aca
+      - como se hace pa separar cancha hoy
+      - q se necesita pa la reserva por surco
+      - como le hago pa tener mi cancha
+      - la reserva cual es el modo
+      - q se pide para hacer la reserva
+      - como es pa bookear la cancha cerca
+      - q tengo q hacer para agarrar el horario
+      - como hago pa que quede mi reserva
+      - dime los requisitos para reservar
+      - como se reserva en este lugar
+      - q se hace para reservar por villa el salvador
+      - como le hago pa reservar la cancha de 7
+      - la reserva como es el proceso
+      - q se pide para separar
+      - como agarro mi cancha
+      - q onda pa reservar?
+      - como es la movida pa separar?
+      - dime como apartar cancha
+      - q hay q hacer p bookear?
+      - dime el chisme de como reservar
+      - como se reserva rapido?
+      - quiero info de la reserva
+      - pasame los tips pa reservar
+      - como aseguro mi espacio ps?
+      - necesito saber el sistema de reserva
+      - como es esto de reservar por acá?
+      - quiero separar mi cancha, q hago?
+      - como hago la gestion?
+      - para reservar, q sigue?
+      - como es la forma correcta de reservar?
+      - q se hace pa' apartar?
+      - como le hago pa' reservar?
+      - como separo una cancha libre 8pm?
+      - quiero reservar por surco, como es?
+      - no se como reservar, explicame
+      - como se hace pa asegurar mi hora?
+      - como reservo sin saber nada?
+      - me explicas como es el papeleo pa' la reserva?
+      - pa' confirmar la reserva, como es?
+      - q tengo q seguir pa que quede?
+      - como puedo hacer mi reserva?
+      - q se necesita pa q mi reserva valga?
+      - como hago pa pagar y reservar?
+      - quiero reservar con mi yape, se puede?
+      - necesito una guia pa reservar aca
+      - como hago p reservar cerca mio?
+      - cual es el teje y maneje de las reservas?
+      - como funciona este sistema?
+      - no entiendo como va la reserva
+      - q es lo primero pa reservar?
+      - como se gestiona la reserva?
+      - q se hace para separar mi horario?
+      - como reservo en vill salvador?
+      - quiero saber como se hace para asegurar cupo
+      - cual es el procedimiento para reservar una cancha?
+      - dame la ruta pa' reservar
+      - como es la vaina de reservar canchas?
+      - q tengo q hacer pa una reserva efectiva?
+      - como se hace pa que la reserva sea valida?
+      - q debo saber pa reservar?
+      - quiero reservar y no se ni por donde
+      - como separamos para el finde?
+      - q hay q tener pa reservar?
+      - como se hace la reserva con billetera digital?
+      - quiero reservar rapido con los compas, como es?
+      - como hago pa que me bloqueen la cancha?
+      - quiero reservar a las 7, q hago?
+      - como es para reservar en la noche?
+      - tengo q registrarme pa reservar?
+      - como hago pa reservar en este sitio?
+      - cual es la forma pa reservar?
+      - no se como, quiero reservar
+      - como funciona esto para reservar?
+      - quiero reservar pero no c como ps
+      - como es el orden de reserva?
+      - como hago una reserva x mi cuenta?
+      - q se hace pa apartar mi espacio?
+      - como es el proceso p reservar ahora?
+      - quiero reservar una hora, como es?
+      - q debo hacer pa reservar una cancha?
+      - como hago pa reservar con mis patas?
+      - como se confirma la reserva en la app?
+      - q se necesita pa reservar una fecha?
+      - como hago p reservar para mañana?
+      - quiero reservar a la fija, como es?
+      - como es esto de reservar un cupo?
+      - q hay q hacer pa tener la cancha?
+      - como reservo con transferencia?
+      - como se hace pa reservar por aca a mi alrededor?
+      - dame los pasos pa reservar facil
+      - como aseguro mi cancha pa jugar?
+      - q se hace despues de elegir la hora?
+      - como reservo si es mi primera vez?
+      - q tengo q hacer pa separar mi hora?
+      - quiero reservar pero no se como empezar
+      - como se hace la reserva y el pago?
+      - q hay q hacer pa reservar en efectivo?
+      - como reservo sin complicaciones?
+      - necesito los pasos pa reservar
+      - como se hace pa reservar por whatsapp?
+      - quiero saber el orden para reservar
+      - como hago pa asegurar el dia?
+      - q tengo q hacer pa tener mi cancha?
+      - como reservo si no entiendo?
+      - quiero reservar pero toy perdido
+      - como es la vuelta pa reservar?
+      - q se hace pa completar la reserva?
+      - como reservo para un grupo?
+      - como hago pa reservar bien?
+      - q se necesita pa reservar aca?
+      - como se reserva x internet?
+      - quiero reservar, como le meto?
+      - como se hace pa reservar con tarjeta?
+      - q debo hacer pa reservar sin problemas?
+      - como ago pa reservar
+      - explikame la movida pe
+      - cuales son los pasos pa asegurar mi hora
+      - no c como se hace la reserva aki
+      - toy nuevo dime como reservar
+      - nesecito saber el proceso completo
+      - dame las instruksiones
+      - como se saca una reservita
+      - cual es el tramite ps
+      - como le meto pa reservar mi cancha
+      - no entiendo el floro de la reserva
+      - guiame pa reservar una vez
+      - q tengo q hacer despues de escojer
+      - como confirmo mi separacion
+      - se paga al toke la reserva
+      - cuando se paga la cancha
+      - con q se paga aki
+      - hay diferentes formas de pago
+      - acepta yape y plin
+      - puedo pagar con mi tarjeta
+      - se hace con la app
+      - kiero asegurar mi cancha ya como le ago
+      - se puede reservar por watsap
+      - t paso la fecha pa q armes la reserva
+      - kiero blokear la cancha pa mas tarde
+      - sirve mi cuenta pa reservar
+      - q hago pa asegurar mi horario
+      - kiero reservar rapido xq los patas esperan
+      - q nesecito pa separar mi cupo
+      - me explikas el mecanismo de esto
+      - la forma de reservar aki broer
+      - q pasos sigo pa asegurar mi espacio
+      - indicame la secuencia de la reserva
+      - dame los detalles del procedimiento pa reservar
+      - como es el enrolamiento pa esto
+      - hay un instructivo pa sacar una reserva
+      - kiero saber la dinamica de esto
+      - q se hace pa conseguir mi turno
+      - no entiendo como va la reservacion
+      - kiero entender como aparto mi cancha
+      - q pautas sigo pa hacer mi reservacion
+      - cuentame el recorrido pa hacer la reserva
+      - como se procede pa reservar un horario
+      - indicame los pasos pa la separacion
+      - cual es el flujo pa reservar aca
+      - nesecito q me enseñes a reservar
+      - como hago pa separar mi espacio
+      - toy buscando el tramite pa reservar
+      - hay algun protocolo pa la reserva
+      - podrias explikar el orden pa reservar
+      - no toy familiarizado como se hace pa reservar
+      - q debo considerar antes de reservar ps
+      - me dices el proceso completo pa reservar
+      - q tengo q hacer pa q la reserva quede hecha
+      - como hago pa q mi reserva quede confirmada
+      - cual es la manera correcta de reservar
+      - q implica todo el proceso de reserva
+      - nesecito entender bien como funka el sistema de reservas
+      - q se hace pa reservar una cita
+      - explikame como va el rollo de las reservas
+      - hay orientacion pa hacer una reserva
+      - no se por donde empezar pa reservar
+      - como es el proceso desde el inicio hasta la confirmacion
+      - me explikas el paso a paso pa conseguir mi cancha
+      - q se hace pa formalizar la reserva
+      - es muy complejo reservar o es sencillo
+      - q datos se necesitan pa reservar broer
+      - como hago el papeleo pa la reserva
+      - cual es el camino pa asegurar un horario
+      - me puedes ilustrar como se reserva
+      - no tengo ni idea de como se reserva aca
+      - q sigue despues de seleccionar el dia
+      - me explikas como finalizar la reserva
+      - como es eso de reservar una cancha
+      - q se requiere pa hacer la reserva
+      - dime el recorrido pa asegurar el cupo
+      - podrias indicarme el procedimiento pa separar
+      - toy perdido como se hace pa separar
+      - cuales son los requisitos pa reservar
+      - kiero saber el paso a seguir pa reservar
+      - como se asegura el turno manito
+      - hay q crear cuenta pa reservar
+      - es por web o por app la reserva
+      - como hago pa q mi reserva sea valida
+      - me dices como se genera una reserva
+      - cual es la metodologia pa reservar
+      - q se debe hacer pa bookear mi cancha
+      - como se hace la gestion de una reserva
+      - nesecito saber el proceso pa la reserva
+      - q pasos se siguen pa reservar aca
+      - toy intentando reservar como es la vaina
+      - como hago pa q me acepten la reserva
+      - puedo reservar sin registrarme
+      - cual es el camino pa completar una reserva
+      - como le hago pa reservar por surco
+      - q debo hacer pa reservar cerca mio
+      - como es la reservacion aca a mi alrededor
+      - q tengo q hacer pa la cancha libre 8pm
+      - explicame como reservo mi cancha pa el sabado
+      - q es lo primero q tengo q hacer pa reservar
+      - la reservacion como va aki
+      - como consigo mi espacio pa jugar
+      - dime el modo de reservar rapido
+      - q onda con la reserva porfa
+      - el truco pa reservar mi hora
+      - como es el asunto de reservar la cancha
+      - pasame los tips pa reservar bien
+      - kiero reservar me dices como
+      - komo c hace p reservar
+      - ke debo hacer pa separar
+      - cual es el plan p reservar
+      - los pasos cuales son pa esto
+      - kiero saber komo va la vaina
+      - dime el modo de asegurar
+      - komo es la jugada aca
+      - q hago para tener mi kancha
+      - kiero reservar en surco komo hago
+      - como le meto mano pa bookear
+      - pa separar mi sitio ke ago
+      - la kambiadita d la reserva explikame
+      - dime el tramite para reservar
+      - como funciona el sistema d reservas
+      - kiero asegurar mi kancha rapido
+      - q rekisitos piden pa esto
+      - komo confirmo eso de la cancha
+      - el pago es al tok
+      - la sekensia para la reserva
+      - dame los detalles p eso
+      - instruciones pa reservar la kancha
+      - como hago pa q kede la reserva
+      - q info se pide para reservar
+      - los requisitos pa la reserva
+      - komo lo jenero mi reserva
+      - esta movida d separar
+      - q se ace pa reservar por ventanilla
+      - komo le hago pa separar
+      - kiero mi kancha pa mañana komo ago
+      - q pasos debo seguir p esto
+      - pa asegurar mi fecha y hora
+      - el tema d las separaciones
+      - como c hace el papeleo d la reserva
+      - x donde comienzo a separar
+      - la guia pa reservar rapido
+      - el rollo d la separacion
+      - komo hago pa tener mi cancha
+      - kiero reservar rapidito
+      - ke devo saber d antemano pa reservar
+      - los pasos completos d esto
+      - komo es la finalizacion d mi reserva
+      - despues de escojer la cancha q hago
+      - como c completa mi separacion
+      - la manera d hacerlo la reserva
+      - kiero entender la dinamica p reservar
+      - el sistema como funka para separar
+      - q se necesita pa reservar aca en vill salvador
+      - orientacion para hacer una reserva
+      - no se ni x donde empezar pa esto
+      - d principio a fin komo es la reserva
+      - explicame el pasito a pasito d la reserva
+      - q se hace pa formalizar la separacion
+      - es complikado esto d reservar
+      - q datos necesitan p mi reserva
+      - el camino pa asegurar el horario d 8pm
+      - ilustrame p reservar una cancha libre
+      - no tengo ni idea d komo reservar ak
+      - q sigue luego d elegir el dia y hora
+      - komo finalizo la reservacion d mi cancha
+      - eso d reservar una cancha en mi zona
+      - q piden para hacer la separacion
+      - el recorrido pa asegurar el kupo
+      - el prosedimiento para separar en mi barrio
+      - estoy perdido como lo hago aca
+      - los requisitos cuales son pa separar
+      - el paso a seguir pa reservar la cancha
+      - como c asegura el turno de la cancha
+      - krear kuenta es obligatorio para reservar
+      - es por app o la web la separacion
+      - como hago pa q sea valida mi separacion
+      - dime komo se jenera una separacion
+      - la metodolojia pa reservar una kancha
+      - pa bookear q c tiene q hacer aqui
+      - la jestyon d una reserva como es eso
+      - kiero saber el proceso pa reservar
+      - q pasos se siguen ak para reservar
+      - estoy intentando reservar y no se komo va
+      - como hago pa q me acepten la separacion
+      - puedo reservar sin rejistrarme
+      - el camino pa completar la reserva rapido
+      - komo es la funcion d esto de la reserva
+      - explikame el kmo se separa
+      - los pasos pa separar mi cancha cerca mio
+      - ke ago para tener mi kancha libre mañana
+      - la forma mas facil d asegurar la cancha
+      - dime la movida completa p separar la cancha
+      - komo se hace pa bookear una cancha libre
+      - q pasos hay pa reservar ak en mi zona
+      - como puedo reservar una cancha en mi barrio
+      - el tema pa reservar mi horario
+      - me dices el proceso d separacion
+      - komo c separa el espacio q kiero
+      - q tengo q hacer para usar la cancha alas 8
+      - explicame el manejo d las reservas xfa
+      - ke va primero para reservar la cancha
+      - komo hago el tramite pa asegurar mi turno
+      - como se reserba pe
+      - pa reservar como es
+      - q debo aser
+      - kiero reservar dime
+      - la reserva q onda
+      - explicame el proceso ps
+      - como funsiona esto
+      - no se reservar ayuda
+      - es mi 1ra vez como le ago
+      - soy nuevo como me apunto
+      - q aser pa la cancha
+      - como me inscribo pa reservar
+      - sbs como reservar aka
+      - pa reservar como se ase
+      - como le meto pa reservar
+      - kiero saber como reservar
+      - q hay q aser
+      - como pido mi reserva
+      - la reservacion cual es el camino
+      - como aser pa tener mi espacio
+      - q tengo q seguir
+      - explikame la reserba
+      - kiero asegurar cancha como
+      - la reserva como se paga
+      - se paga antes o despues
+      - como le ago pa la reserva
+      - dnd se llena pa reservar
+      - como me apunto a la reserva
+      - q papeles necesito
+      - kmo funsiona pa reservar
+      - q tengo q aser pa q este
+      - como se separa la cancha
+      - explikame bien como es
+      - la reserba como se concreta
+      - q se ace pa reservar mi turno
+      - necesito reservar ya q hago
+      - como ago mi reserva ahorita
+      - los pasos pa apartar
+      - como confirmo mi reserva
+      - pa q quede la reserva q se hace
+      - cual es la forma de reservar
+      - como ago para la reserva
+      - q formulario lleno pa reservar
+      - como se tramita la reserva
+      - dime q tengo q aser
+      - como hago la vaina ps
+      - como procedo pa reservar
+      - kiero separar mi espacio como le ago
+      - cual es el rollo de la reserva
+      - como reservar ps
+      - q hago para la reservacion
+      - explicame como es el asunto
+      - como se logra la reserva
+      - q tengo q saver pa reservar
+      - como es el proceso completo
+      - dime como lo ago
+      - no c como empesar la reserva
+      - como ago para iniciar la reserva
+      - el sistema de reserva como va
+      - q se tiene q poner pa reservar
+      - como aser pa tener la cancha
+      - explikame el flow de la reserva
+      - como me inscribo pa tener cancha
+      - q dato piden pa reservar
+      - como me registre pa reservar
+      - la forma de reserbar
+      - como es la movida pa reservar
+      - q hay q hacer para reservar
+      - necesito reservar pero no c como
+      - q se requiere pa la reserva
+      - como hago el registro pa reservar
+      - como se hace el pedido de reserva
+      - como asegurar la fecha de la reserva
+      - dime el recorrido pa reservar
+      - q aser para la confirmacion
+      - pa reservar hay q aser algo mas
+      - q pasos faltan pa reservar
+      - como hago pa terminar la reserva
+      - explicar el proceso de la reserva
+      - la reserva como se culmina
+      - q tengo q entregar pa reservar
+      - como hago el papeleo ps
+      - para la reserva q piden
+      - como me uno al club pa reservar
+      - q se hace pa la pre-reserva
+      - como es el preceso de reserva
+      - q hay antes de reservar
+      - como confirmo mi espacio
+      - dime q hacer pa la reserva
+      - q acr pa reservar
+      - explikm como reservo
+      - como sace la reserva
+      - pa reservar como ago
+      - kiero saber como aser la reserva
+      - los pasos pa la reserva
+      - como es eso de reservar
+      - q se ase pa reservar
+      - explicame el rollo dela reserva
+      - nunk e reservado, como ago?
+      - como reservo aqui mano, por surco
+      - dime los pasos pa reservar
+      - q tengo q aser pa reservar
+      - kiero resevar como le ago
+      - pa separar mi cancha como ago
+      - como saca mi reserva ps
+      - explikm como resevar
+      - cual es el camido pa reservar
+      - q se necsita pa reservar
+      - kiero reservar como sige
+      - como funka esto d la reserva
+      - q ago pa tener mi cancha libre 8pm
+      - como ago pa k me agas la reserva
+      - la reserva como se ace
+      - como puedo resevar mi cancha
+      - kiero reservar como empieso
+      - dond veo los pasos pa reservar
+      - como le ago ps
+      - q tengo q aser pa reservar mi cancha en vill salvador
+      - necesito reservra como ago
+      - explicame como es el proceso
+      - como va esto de reservar
+      - quiero reservar como se gestiona
+      - q ago pa reservar facil
+      - la reserva cm se ase
+      - como aparto mi cancha
+      - quiero reservar dime el modo
+      - la forma d reservar
+      - como resevo por aca
+      - q tengo q saver para reservar
+      - digame el proceso pa reservar
+      - como es el procedimiento aqui
+      - como hago para tener mi reservacion
+      - como puedo reservar mi cancha facil
+      - como se asen las reservas
+      - kiero reserbar mi hora
+      - q ago para reservar mi espacio
+      - cual es el sistema para reservar
+      - como ago si quiero reservar
+      - q pasa si quiero reservar
+      - como me registro para reservar
+      - cual es la ruta para reservar
+      - como hago pa separar rapido
+      - explikame como reservar paso a paso
+      - como es la manera para reservar
+      - quiero mi cancha como separe
+      - q debo seguir para reservar
+      - como aseguro el cupo cerca mio
+      - dame los pasos pa resrvar
+      - como es la operacion pa reservar
+      - q se requiere pa reservar
+      - como le meto a la reserva
+      - la manera de reservar ps
+      - quiero apartar como le ago
+      - como ago pa tener mi reserva
+      - explicame como reservar papi
+      - como se reserva en esta app
+      - q ago despues de elegir mi dia
+      - como c termina la reserva
+      - necesito reservar como termino
+      - cual es la forma correcta pa reservar
+      - explikame el tramite
+      - como hago pa q me acepten
+      - la reserba como se confirma
+      - como es el rollo de separar
+      - q se hace pa validar mi reserva
+      - como aparto mi cancha de futbol
+      - explicame de cero como reservar
+      - q tengo q hacer pa q qede la reserva
+      - como aseguro mi hora de juego a las 8pm
+      - cual es el manual pa reservar
+      - como hago si es mi primera vez aqui
+      - q debo hacer pa tener mi cancha
+      - como hago pa dejar mi reserva
+      - explikame la secuencia pa reservar
+      - como es la dinamica pa reservar
+      - q se ace para asegurar el horario
+      - como me orientas para reservar
+      - q necesito pa hacer la reserva
+      - pa reservar como empiezo
+      - dime el procedimiento pa apartar
+      - quiero apartar mi cancha como le hago
+      - explikame el proceso completo
+      - q hago pa reservar?
+      - como es la vaina?
+      - kiero reservar, dime q hago
+      - dime el toque pa reservar
+      - como agarro cancha
+      - q onda con esto de la reserva
+      - explicame como va
+      - kiero separar cancha 8pm, q se hace?
+      - q tengo q llenar?
+      - dime el chiste pa tener mi horario
+      - como se pide la cancha libre
+      - no entiendo, como reservo aca
+      - q hay q hacer pa la reservacion de la noche
+      - como pido mi cancha en surco
+      - q me sale para reservar
+      - dime como lo lleno
+      - q tengo q clickear
+      - como aseguro mi cancha de villa el salvador
+      - q se hace pa reservar al toke
+      - dime la forma pa separar
+      - como se marca la hora
+      - q hago pa dejar lista la reserva
+      - kiero reservar rapido, q hago?
+      - como se pide el espacio
+      - q informacion me pides pa reservar
+      - dime la ruta pa mi cancha de sjl
+      - q tengo q hacer para mi reservacion
+      - como registro la reserva de 9pm
+      - q hay q poner pa reservar
+      - dime el camino pa la reserva
+      - q se sigue pa reservar la cancha
+      - como pido hora para el partido
+      - q debo hacer para q quede mi reservita
+      - dame la mano pa reservar cancha cerca mio
+      - como es la cosa de la reserva
+      - q me pides para reservar la cancha
+      - como se arma la reserva x el cel
+      - q hago pa el espacio de 7pm
+      - dime la jugada pa mi cancha
+      - q tengo q poner en el formulario
+      - como hago para el booking
+      - q se necesita pa la reserva de comas
+      - dime como se hace la movida pa la reserva
+      - q debo hacer antes de poner la fecha
+      - como se elige el horario y luego q
+      - q hay q tocar pa reservar
+      - dime como es el modo de reserva
+      - q tengo q escribir pa la cancha
+      - como se hace la operacion de reserva
+      - q me sale despues de poner la hora
+      - dime en corto como reservo
+      - q hay q meter para la reserva
+      - como lo lleno pa q ya quede
+      - q me pides para la reserva en ate
+      - dime como es la reserva x aqui
+      - q tengo q hacer pa cancha 8pm
+      - como se coloca el nombre pa reservar
+      - q se hace pa tener mi cancha de 9pm
+      - dime q se escribe pa reservar
+      - como se agarra el espacio libre
+      - q hago pa la cancha libre cerca mio
+      - dime la clave pa reservar mi horario
+      - q pongo al final de la reserva
+      - como hago para reservar la cancha de mi barrio
+      - q es lo primero q debo hacer pa reservar
+      - dime como se llena todo esto
+      - q botones tengo q apretar
+      - como reservo la cancha del centro alas 7
+      - q me pides para la reserva de villa maria
+      - dime como se hace esta vaina pa la cancha
+      - q hago para tener mi espacio ya mismo
+      - como hago para dejar asegurada la cancha 8pm
+      - q hago despues de marcar la hora
+      - dime el truco pa reservar un horario
+      - q hay q llenar para q la reserva salga bien
+      - como se hace para tener la reserva al toke ya
+      - q me sale cuando quiero reservar mi cancha
+      - dime como es el modo pa reservar
+      - q tengo q escribir ahi para mi reserva
+      - como se hace la operacion pa cancha
+      - q me sale despues de poner la fecha de reserva
+      - dime el camino pa la cancha libre de 6pm
+      - q hay q meter los datos pa reservar
+      - como lo lleno pa q la reserva quede lista
+      - q es lo q me pides para reservar
+      - dime como es la reserva en mi cel
+      - q hay q hacer pa la reserva de surco 9pm
+      - como se pone el nombre y luego q
+      - q se hace pa tener cancha 9pm aca
+      - dime q se escribe para reservar la cancha
+      - como se agarra el espacio libre alas 8
+      - q hago pa la cancha libre cerca mio pa mañana
+      - dime la clave pa reservar mi horario de la tarde
+      - q pongo al final de la reserva para q quede
+      - como hago para reservar la cancha de mi barrio en la noche
+      - q es lo primero q debo hacer pa reservar por la web
+      - dime como se llena todo esto de la reservita
+      - q botones tengo q apretar para reservar
+      - como reservo la cancha del centro alas 7 de la noche
+      - q me pides para la reserva de villa maria del triunfo
+      - dime como se hace esta vaina pa la cancha de futbol
+      - q hago para tener mi espacio ya mismo en la mañana
+      - como hago para dejar asegurada la cancha 8pm en mi zona
+      - q hago despues de marcar la hora de mi partido
+      - dime el truco pa reservar un horario pa los patas
+      - q tengo q teclear pa resevar
+      - komo se ase la reservacion ps
+      - pa separar mi cancha, q se toca
+      - explikame la forma de agendar
+      - kiero mi hora, como la pido
+      - el asunto d la reserva, komo va
+      - como reservo si toy cerca d surco
+      - q botones presiono pa reservar
+      - la app, como reserbo x ahi
+      - a q le doy pa mi reserva
+      - kiero mi turno alas 8pm, como consigo
+      - como se blokéa una cancha
+      - pa vill salvador, komo se reserba
+      - nesesito un lugar, como lo separo
+      - como es la kosa pa agarrar mi sitio
+      - explicame el manejo de reservas
+      - q se hace para asegurar mi hueco
+      - pa reservar con mi gentita, como le hago
+      - como reserbo si no entiendo mucho
+      - el proceso pa la pichanga, cual es
+      - dime los pasos pa bookear una de surco
+      - como hago pa cojer una cancha libre
+      - kiero reservar xfa, como inicio
+      - q opciones marco para la reserva
+      - como es el rollo de separar aca
+      - pa separar en vill el salvador, como
+      - q tengo q meter pa reservar una hora
+      - como se hace pa agarrar un espacio
+      - el bookeo, como se maneja
+      - como reservo pa alas 7 de la noche
+      - dame la ruta pa mi reserva
+      - q hago pa tener mi cancha segura
+      - como le digo pa separar mi hora
+      - pa reservar una pal barrio, como es
+      - como se hace pa conseguir un horario
+      - q debo aser pa mi cancha en surco
+      - como se reserva en esta plataforma
+      - kiero bookear, como me muevo
+      - el orden pa reservar, como es
+      - como reserbo sin complicaciones
+      - q tengo q hacer para mi cita
+      - como se hace la pre-reserva
+      - q datos pongo pa reservar la cancha
+      - como hago pa tener mi espacio ya
+      - q se llena pa reservar mi turno
+      - como reserbo pa mi pichanga d noche
+      - el camino de la reserva, cual es
+      - como le hago pa bookear mi hora
+      - q tengo q seguir pa la reserva
+      - dame los pasos pa reserbar mi espacio
+      - nunca e reserbao aki, como le hago
+      - la reserva, q opciones tengo
+      - pa confirmar la reserva, como le hago
+      - como ago pa darle el visto bueno a la reserva
+      - q tengo q hacer pa q mi espacio este fijo
+      - como dejo mi hora ya lista
+      - q tengo q cumplir pa q mi reserva valga
+      - pa mi hora separada, como le doy el ok
+      - despues de elegir la cancha, q mas hay q hacer
+      - como reserbo pa un dia especifico
+      - q botones apreto pa reservar
+      - como le hago pa separar mi turno
+      - q me guia pa la reserva
+      - como es la movida pa sacar mi cancha
+      - q tengo q llenar para reservar
+      - pa separar mi cupo, como se procede
+      - q tengo q saber pa reservar mi espacio
+      - como hago pa asegurar mi hora de juego
+      - el floro de la reserva, como es
+      - como reserbo pa la noche, cerca d mi jato
+      - q datos te doy pa reservar
+      - como se bookea aca sin ser usuario
+      - el paso a seguir pa reservar, cual es
+      - q hay q hacer pa obtener una cancha
+      - como le hago pa reservar mi lugar
+      - q tengo q firmar pa reservar
+      - como reserbo una cancha sin pagar adelanto
+      - q es lo q se marca pa reservar
+      - como se realiza la reserva por aqui
+      - q opciones hay pa reservar mi hora
+      - como le hago pa guardar mi cancha
+      - q tengo q completar para la reserva
+      - como se reserva en linea
+      - el proceso pa bookear, digame
+      - q se hace pa el bookeo de la cancha
+      - como es el mecanismo de reserbas
+      - q tengo q hacer pa tener mi turno listo
+      - toy recien empezando, como reserbo
+      - dame las indicaciones pa reservar
+      - q hago pa q la cancha sea mia
+      - como se hace la reserva x whatsapp
+      - q tengo q darle click pa reservar
+      - como se llena el formulario de reserva
+      - el protocolo pa reservar, cual es
+      - como es pa separar un horario libre
+      - q hago para reservar una cancha en miraflores
+      - como se hace la reserva, sin problemas
+      - q tengo q escribir pa reservar
+      - q tengo q aser pa reserbar
+      - como se reserba aca
+      - dime como es la reserba
+      - k pasos sigo pa reservar
+      - como ago pa separar
+      - k debo aser pa el turno
+      - instrucciones pa la reserva pe
+      - la reserba como se maneja
+      - la forma de reserbar aki cual es
+      - k ago pa asegurar mi espacio
+      - dime los pasos para reservar una cancha
+      - como hago para tener mi cupo
+      - el prosedimiento cual es pe
+      - como es la movida de la reserva
+      - necesito ayuda pa reserbar
+      - el proceso exacto cual es
+      - necesito saber como c hace ps
+      - k ago pa que quede mi reserva
+      - como se ase una reserva aka
+      - me explikas la forma de reservar
+      - el tramite pa reserbar cual es
+      - como reserbo x aca
+      - q tengo q aser pa pedir cancha
+      - a ver explica como se reserba
+      - q se ace pa reservar una hora
+      - como funciona pa separar un espacio
+      - los pasos pa reserbar mano
+      - la guia pa reserbar
+      - el caminito pa reservar como es
+      - la secuencia de la reserva cual es
+      - no c como es esto de reservar
+      - soy nuevo como reservo
+      - q se ace pa reserbar mi espacio
+      - como reservo pa hoy 8pm
+      - quiero reserbar por surco como se hace
+      - el floro para reservar ps
+      - como ago para k quede ya
+      - como confirmo la reserva ps
+      - el pago de la reserva cuando es
+      - se paga al toke o despues
+      - q tengo q tener listo pa reservar
+      - la reserva es app o web
+      - tengo q poner mis datos pa reserbar
+      - como se hace pa reservar cerca mio
+      - el proceso pa reservar explikame causa
+      - la reserva es dificil o facil
+      - como es para reservar en vill salvador
+      - quiero separar mi cancha como le hago
+      - dime q ago pa la reserva de una vez
+      - los pasos son ps para reservar
+      - el enrolamiento pa reservar explica
+      - no entiendo como va eso de la reservacion
+      - como aparto mi cancha pe
+      - cual es la secuencia pa reservar
+      - los detalles del procedimiento dame
+      - ay instructivo pa la reserva
+      - la dinamica de reserva cual es
+      - pa el turno q hago
+      - el recorrido de la reserva como es
+      - la forma de proceder pa reservar
+      - los pasos pa la separacion indicame
+      - cual es el flujo pa la reserva
+      - pa separar mi espacio como le hago
+      - el tramite pa reservar quiero saber
+      - ay algun protocolo pa la reserva
+      - el orden pa reservar cual es
+      - no se como se hace, toy nuevo
+      - antes de reservar q considero
+      - cual es el proceso completo pa reservar
+      - pa q quede hecha la reserva como le hago
+      - pa q mi reserva quede confirmada como hago
+      - la forma correcta de reservar cual es
+      - el proceso de reserva q implica
+      - el sistema de reservas como funciona
+      - pa reservar una cita q se hace
+      - el rollo de las reservas como va
+      - ay alguna orientacion pa reservar
+      - por donde empiezo pa reservar
+      - el proceso desde el inicio hasta la confirmacion como es
+      - el paso a paso pa mi cancha explicame
+      - pa formalizar la reserva q se hace
+      - reservar es complejo o es sencillo
+      - pa reservar q datos piden
+      - el papeleo pa la reserva como lo hago
+      - el camino pa asegurar el horario cual es
+      - como se reserva ilustrame
+      - como se reserva aki ni idea
+      - despues de elegir el dia q sigue
+      - la reserva como la finalizo
+      - reservar una cancha como es
+      - pa la reserva q se requiere
+      - el recorrido pa asegurar el cupo cual es
+      - el procedimiento pa separar indicame
+      - como se hace pa separar, estoy perdido
+      - pa reservar cuales son los requisitos
+      - como reservo mi cancha aca
+      - q hago para separar
+      - dime el procedimiento xfa
+      - pasos pa reservar ps
+      - kiero saber como se hace
+      - pa reservar q tal
+      - explikame el proceso de la reservacion
+      - nesecito reservar como le hago
+      - cual es el tramite pa la cancha
+      - como es pa apartar mi espacio
+      - q tengo q hacer para mi reserba
+      - explicame como separamos
+      - como es el proceso pa los patas
+      - pasame la voz de como reservar
+      - quiero reservar como funciona
+      - q onda pa reservar
+      - como aseguro mi turno
+      - q hago pa la reservita
+      - nesecito reservar una cancha cerca mio como hago
+      - el proceso de reserva para vill salvador
+      - como reservo una libre para 8pm
+      - pa reservar por surco q debo hacer
+      - como se booking aqui
+      - quiero reservar ahora q se hace
+      - como separo mi horario
+      - el metodo pa reservar la cancha
+      - guia pa la reserva
+      - como se aparta el lugar
+      - q es lo q tengo q hacer pa reservar
+      - explicame como se tramita la reserva
+      - como se gestiona una reserva aqui
+      - q pasos sigo pa reservar un espacio
+      - dime el toque para reservar
+      - quiero apartar una fecha como le hago
+      - el flow para las reservas
+      - como me inscribo para reservar
+      - como es la vaina de reservar
+      - kiero reservar para mañana como hago
+      - como separa uno la cancha
+      - q procedimiento sigo pa reservar mi fecha
+      - dime como va el proceso
+      - como se bloquea una hora
+      - q se hace para el registro de reserva
+      - como hago pa q la reserva sea valida
+      - q debo hacer pa asegurar mi cupo
+      - como es el paso a paso pa reservar
+      - quiero reservar una cancha aca a mi alrededor como le hago
+      - pa reservar q se necesita
+      - dime el teje y maneje de las reservas
+      - explicame como se concreta la reserva
+      - cual es el recorrido para reservar
+      - como formalizo mi reserva
+      - q hago pa asegurar mi hora
+      - dime los pasos pa reservar xfa
+      - como es el metodo de separacion
+      - q tengo q llenar pa reservar
+      - explicame el circuito de reservas
+      - como hago pa mi booking
+      - q me piden pa reservar
+      - como se saca un espacio
+      - q hay q hacer pa reservar la cancha
+      - dime como se hace la reserva
+      - explicame el rollo pa reservar
+      - como aseguro mi cancha libre 8pm
+      - q onda con el proceso de reserva
+      - dime como hago pa reservar mi lugar
+      - nesecito saber el procedimiento pa reservar
+      - q hago pa la cancha de villa salvador
+      - explicame como se guarda el cupo
+      - como es el papeleo de reserva
+      - dime la forma de reservar
+      - q tengo q saber para reservar aca
+      - como se tramita una reservita
+      - explikame el sistema de reservas
+      - como se aparta por surco
+      - q hay q hacer pa la reserva
+      - dime el camina pa reservar
+      - como hago para tener mi cancha
+      - explikame como funciona el booking
+      - como se fija una reserva
+      - q informacion dan para reservar
+      - dime como se hace la movida
+      - como saco una cancha cerca de mi
+      - explicame los pasos pa separar
+      - q hay q hacer para reservar para las 8
+      - como funciona lo de reservar
+      - quiero reservar una cancha libre como se hace
+      - como le hago pa reservar mi cupo
+      - q debo hacer para reservar en surco
+      - como me oriento para reservar
+      - explicame como se procede pa la reserva
+      - q rollo pa reservar en vill salvador
+      - como se aparta una libre a las 8
+      - cual es el truco para reservar
+      - como hago pa mi espacio libre
+      - q debo hacer para asegurar una fecha
+      - explicame el manejo para las canchas
+      - como se agarra un cupo
+      - dime como se hace pa la reserva rapido
+      - q onda con el sistema de separacion
+      - como hago pa asegurar una cancha en mi zona
+      - pasame el dato de como reservar
+      - causa como hago pa reserbar
+      - q se hace para el turno
+      - dime el tramite p mi cancha
+      - explika la forma de agarrar espacio
+      - necesito saber los detalles mano
+      - como pido mi cancha por surco
+      - q hago pa asegurar mi espacio alas 8pm
+      - el modo de reserbar cerca mio
+      - no entiendo como separar un cupo
+      - q me enseñas pa mi reserba
+      - como saco mi cancha en vill salvador
+      - q se necesita p la reserba ya
+      - como es la gestion de un turno alas 7
+      - kiero apartar mi cancha q hago
+      - dime la movida p el cupo
+      - q hacer para agarrar cancha libre 8pm
+      - cual es el asunto de reserbar un horario
+      - no c como se hace la reserba aki
+      - me indicas como pedir mi horario
+      - como se tramita mi reserba
+      - q onda con las reserbas x la noche
+      - explikame todo lo de reserbar un espacio
+      - los requisitos p mi turno alas 6
+      - q tengo q llenar pa agarrar mi reserba
+      - el papeleo pa un horario libre
+      - como se separa mi horario
+      - ayudame con lo q hay q hacer p reserbar
+      - como aseguro mi espacio x la tarde cerca mio
+      - q es lo q se sigue p reservar en surco
+      - no entiendo nada de reserbas por aca
+      - dame la info p reserbar un cupo
+      - como es la cosa para reservar en la noche
+      - como hago p apartar un turno rapido ps
+      - q hago p tener mi cancha el sabado alas 10
+      - dime q paso tomo pa reserbar mi cupo
+      - como se concreta una reserba en vill el salvador
+      - cual es el conducto pa reserbar por la tarde
+      - como le hago para sacar una cancha a mi alrededor
+      - me enseñas a separar el cupo de la noche
+      - q me piden p hacer la reserba del domingo
+      - no se bien como apartar un lugar por la manana
+      - orientame p la reserba de mi cancha libre
+      - como es la forma p reservar en surco a las 5pm
+      - el metodo pa conseguir un horario cerca de mi
+      - q reglas sigo pa reserbar un cupo en la noche
+      - dime q tengo q hacer desde el inicio pa mi reserba
+      - como es la secuencia completa de la reserba ps
+      - explikame el engranaje de las reserbas aki
+      - q se necesita pa la reserba de mi cancha el lunes
+      - como se separa un espacio en la noche por surco
+      - q hago p organizar la reserba del sabado
+      - no c como se hace la reserba aqui a mi alrededor
+      - q debo hacer p tener mi cancha el lunes a las 4
+      - como se da el visto bueno a una reserba x la mañana
+      - dime el orden pa separar mi cupo del miercoles
+      - q es la primera cosa q debo hacer p reserbar en vill salvador
+      - como hago pa confirmarla mi reserba rapido
+      - la ruta pa agarrar un horario en la noche
+      - q tengo q cumplir p reserbar un cupo
+      - me dices q se tiene q hacer pa reserbar aki
+      - como se valida mi reserba del fin de semana
+      - la movida pa asegurar el cupo mañana
+      - dime q hacer p reservar en recoleta por la tarde
+      - q tengo q hacer para mi reserba de la mañana
+      - explikame como funca la reserba en general
+      - como aparto un sitio cerca mio para el domingo
+      - q tips hay pa reserbar la cancha libre
+      - q tengo q saber antes de reserbar mi cupo
+      - como se solicita una cancha para el dia siguiente
+      - q tengo q hacer p tener mi horario preferido
+      - explikame como es lo de apartar un turno
+      - cual es el modo q debo seguir pa reserbar en miraflores
+      - como se consigue un espacio en vill salvador x la noche
+      - dame todos los pasos p la reserba de mi cancha
+      - q se necesita p asegurar mi cupo alas 7pm en san isidro
+      - como hago p dejar mi cancha apartada el jueves
+      - cual es la ruta pa reserbar en barranco
+      - q hago pa saber como sacar un turno libre
+      - no la tengo clara como se reserba aca
+      - como es la onda pa tener mi espacio hoy
+      - q se hace para hacer la reserba efectiva x wsp
+      - me explicas q se hace pa reserbar ahora mismo
+      - kiero reserbar un horario como lo obtengo
+      - q debo hacer pa el turno de mañana ps
+      - dime los pasos q tengo q seguir p reserbar
+      - como se organiza una reserba en la tarde
+      - me ayudas a entender el reserbe
+      - q tengo q hacer p conseguir mi cancha en surco
+      - el paso a seguir p separar mi sitio
+      - dame la lista de cosas p reserbar
+      - como se procede p tener la cancha libre
+      - q onda pa tener mi reserba confirmada
+      - explikame la metodologia de la reserba
+      - como hago p agarrar un buen horario
+      - no se como se hace pa asegurar mi lugar
+      - dime el orden de las cosas p reserbar
+      - q va primero al reserbar una cancha
+      - despues de elegir el dia q hago
+      - como hago p finalizar mi reserba
+      - q se tiene q hacer p una reserba facil
+      - me dices los detalles p reserbar mi cancha
+      - q pido al iniciar la reserba
+      - como hago pa q mi reserba sea valiosa
+      - explikame el camino rapido p reserbar
+      - q debo saber pa reserbar un horario de noche
+      - como hago pa reserbar mi cancha sin problemas
+      - dime q es lo q se sigue p separar mi cupo
+      - cual es el truco pa reserbar rapido
+      - kiero saber como se hace p tener mi cancha alas 11
+      - como agarro mi turno en la mañana
+      - q hay q hacer p agarrar un espacio en la noche
+      - dime el metodo p reserbar en villa maria
+      - q tengo q hacer para conseguir mi sitio cerca a la casa
+      - como se saca un horario libre el viernes
+      - explikame la organizacion p la reserba
+      - qmo hago pa reservar
+      - explikame la reservacion
+      - komo separo mi cancha
+      - kiero saber como se aparta
+      - dime el proceso pe
+      - los pasos para sakar cancha
+      - kiero bookear, komo le ago
+      - qomo funciona el sistema
+      - komo aseguro mi espacio
+      - dime el tramite pa reservar
+      - la forma de hacer una reserva
+      - komo ago pa agarrar mi sitio
+      - cual es la logica de reservar
+      - ay q aser pa reservar
+      - proceso pa reservar cancha alas 8
+      - komo reservo mi hora
+      - explikame bien como reservo
+      - q pasos sigo pa reservar mi hora
+      - komo ago pa tener mi cancha
+      - kiero la cancha libre 8pm, komo ago
+      - cual es el modo de reservar
+      - komo se separa la cancha
+      - qomo hago pa bookear ps
+      - kiero asegurar en surco, como es
+      - pasos para la reserva aca
+      - q tengo q aser pa reservar en vill salvador
+      - komo ago pa reservar en sjl
+      - el camino para reservar mi cancha
+      - dime la forma mas facil de reservar
+      - q se ase pa reservar rapido
+      - komo lo hago pa apartar la cancha
+      - kiero reservar pero no se como
+      - q se sigue pa la reserva
+      - komo es esto de reservar
+      - me dices los pasos pa la reserva
+      - cual es el procedimiento para separar
+      - qomo se hace pa conseguir cancha
+      - explikame el engranaje de la reserva
+      - kiero separar, dime q aser
+      - como se saca una cancha xfa
+      - el modo pa reservar en cercado
+      - kiero reservar x la noche, como le hago
+      - dime q onda con la reserva
+      - q tengo q hacer pa tener mi cupo
+      - como es el funsionamiento de la reserva
+      - q es lo q tengo q aser pa reservar
+      - los pasos para una reserva valida
+      - como garantizo mi espacio
+      - necesito reservar, explikame
+      - qomo se rellena la reserva
+      - el recorrido pa reservar mi hora
+      - como es el tema de reservar
+      - cual es la dinamica pa bookear
+      - q paso sigue para reservar
+      - kiero saber el proceso completo
+      - komo hago pa validar mi reserva
+      - qomo aparto la cancha cerca mio
+      - explicame el plan pa reservar
+      - komo es la vaina para reservar
+      - q tengo q aser en la app pa reservar
+      - komo aser una reserva rapida
+      - el flujo para la reserva es facil
+      - como hago pa que me guies en la reserva
+      - kiero la cancha para mañana, como se reserva
+      - cual es la forma de bookear un horario
+      - q se tiene q aser pa apartar la cancha
+      - qomo aseguro la cancha libre en la noche
+      - pasos a seguir pa reservar mi cancha
+      - komo reservar sin problemas
+      - q hay q aser pa la reserva
+      - explikame lo de reservar la cancha
+      - komo se concreta una reserva
+      - cual es el camino para mi reserva
+      - qomo hago pa tener mi cancha asegurada
+      - dime q debo aser para la reserva
+      - qomo es la movida de las reservas
+      - kiero separar un espacio, como es el rollo
+      - cual es el metodo pa reservar
+      - q se hace para la reserva online
+      - komo se gestiona mi reserva
+      - qomo hago pa bookear mi cancha
+      - explikame los pasos para asegurar mi cupo
+      - q se pide pa reservar por aca
+      - komo aser la reserva en el momento
+      - cual es el instructivo para reservar
+      - q se necesita pa reservar la cancha
+      - qomo hago pa separar cerca a mi casa
+      - kiero reservar una cancha, q hago
+      - q debo aser para concretar mi reserva
+      - explikame como se aparta un horario
+      - cual es el orden pa reservar
+      - qomo es el procedimiento pa bookear
+      - kiero la cancha pa las 9pm, como le hago
+      - dime como reservar en la app
+      - oe como le meto pa reservar
+      - q hago pa mi canchita
+      - la jugada de la reserva como va
+      - kiero reservar como es el tema
+      - la finta pa reservar cual es
+      - pa 8pm como le hago
+      - explikm q se hace pa separar
+      - como esta la onda pa reservar
+      - la nota de la reserva como va
+      - q te pido pa reservar
+      - no capto como reservar
+      - el truco de la reserva cual es
+      - q hago pa reservar en lince
+      - ala como le meto pa reservar
+      - el flow de la reserva como va pe
+      - pa reservar dnd hago q
+      - oiga q hago pa reservar
+      - explikm la tecnica pa reservar
+      - como monto mi reserva pe
+      - pa mi pichanga q hago pa reservar
+      - dame la info de como reservar
+      - como se reserva pe choche
+      - q es lo q se hace pa reservar
+      - como esta la mano pa reservar
+      - como es el show pa la reserva
+      - q se hace xq no c
+      - como le hago pa reservar pe
+      - q onda como es pa reservar
+      - la movida como es pa reservar
+      - como es la tecnica pa reservar
+      - q se hace pa reservar en este lugar
+      - el chiste de reservar cual es
+      - como pido mi horario ps
+      - ni idea como es pa reservar
+      - q es lo q tengo q hacer ps
+      - dime el camino pa reservar
+      - como le entro a la reserva
+      - la onda pa reservar cual es
+      - q me dices de la reserva
+      - como es la movida x barranco
+      - pa reservar q hago primero
+      - dime como se arranca la reserva
+      - como reservo mi turno choche
+      - q hago pa la cancha libre 8pm
+      - q es la estrategia pa reservar
+      - me explikas la reseva
+      - pa vill salvador como reservo
+      - q tengo q saber pa reservar
+      - la manera de reservar cual es
+      - pa reservar, q gestion hago
+      - dime como va el asunto de la reserva
+      - q sistema tienen pa reservar
+      - como es el tema de la reservacion
+      - explicame como se hace esto
+      - q tengo q clickear pa reservar
+      - como hago pa bloquear la cancha
+      - q me pide el sistema pa reservar
+      - como es el tramite rapido de la reserva
+      - como es el orden de la reserva
+      - como hago pa mi pichanga
+      - q hay q hacer pa reservar aqui
+      - explikm el enrolamiento
+      - la onda de la reserva como va
+      - q es lo q tengo q llenar pa reservar
+      - dame el dato pa reservar
+      - como es la mecanica pa reservar
+      - q hago pa amarrar la cancha
+      - no estoy entendiendo como reservar
+      - me dices como es el rollo de la reserva
+      - q sigue pa reservar
+      - cual es el teje pa reservar
+      - como hago mi reserva bn
+      - dime la rutina pa reservar
+      - como es la jugada pa separar
+      - me enseñas como se reserva pe
+      - q hago pa mi turno de pichanga
+      - como hago la reservacion
+      - dime q show es la reserva xfa
+      - como hago pa q me den la cancha
+      - q significa reservar aqui
+      - como hago mi reserva al toke
+      - la fase de reserva como es
+      - q documentos son pa la reserva
+      - q me toca hacer pa mi turno
+      - el sistema de la reserva como es
+      - q papeles necesito pa reservar
+      - como es la movida de la pichanga
+      - q hago pa cerrar la reserva
+      - q forma hay pa reservar
+      - como hago pa q quede la reserva
+      - q se hace pa el horario de cancha
+      - como puedo reservar mi canchita
+      - q secuencia sigo pa reservar
+      - q es lo q se sigue pa reservar
+      - como le meto mano pa reservar
+      - la modalidad de reserva como es
+      - q hay q hacer despues de elegir cancha
+      - como se concreta la reserva
+      - dime q tengo q hacer pa reservar
+      - q hay q llenar pa reservar
+      - como hago pa q la cancha sea mia
+      - el sistema de reserva como es
+      - q debo hacer para reservar un turno
+      - q hago pa la reserva de una pichanga
+      - me dices como es para reservar
+      - q se hace pa tener mi horario
+      - dame el detalle de la reserva
+      - q hago pa tener la cancha?
+      - como ago pa apartar?
+      - quiero reservar cm es?
+      - explikame cm se saca
+      - q debo aser p asegurar?
+      - la reserva cm la pido?
+      - no entiendo cm se ase
+      - q cosas se piden pa reservar?
+      - como obtengo un turno?
+      - kiero cancha, q se ase?
+      - cm funciona esto d reservar?
+      - quiero savr como aparto
+      - como hago p sacar mi espacio?
+      - explika pa la reservacion
+      - cual es la forma p separar?
+      - para reservar, q hago?
+      - cm pido la cancha?
+      - la reservacion, como es?
+      - quiero un lugar, cm consigo?
+      - como se saca un espacio?
+      - q tengo q aser aca?
+      - explicame la forma q uso
+      - como llego a reservar?
+      - para separar mi horario, q hago?
+      - q piden pa reservar aca?
+      - quiero reservar, dame la ruta
+      - cm es la vaina para reservar?
+      - quiero una cancha, cm la agarro?
+      - pa reservar, q m pides?
+      - q hay q aser pa la reserva?
+      - explicame cm me apunto
+      - como ago p agarrar mi cupo?
+      - quiero cancha p la noche, cm le hago?
+      - q se ase pa q este reservado?
+      - pa reservar 8pm, cm funciona?
+      - q le meto pa la d surco?
+      - como le hago pa tener mi cancha?
+      - quiero asegurar mi horario, como?
+      - cm se maneja la reserva?
+      - q piden pa el apartao?
+      - quiero saber pa mi cancha
+      - como le agarro la cancha d villa?
+      - pa asegurar un turno, q se ase?
+      - como le ago pa mi partido?
+      - q tengo q hacer pa mi reserva?
+      - cm se ase pa la cancha libre?
+      - como es la tramitada pa reservar?
+      - como se hace pa la de aca?
+      - quiero mi cancha p mañana, q hago?
+      - cm se arregla una reserva?
+      - q ago pa la cancha cerca mio?
+      - como aparto un lugar?
+      - cm es el toque d la reserva?
+      - q hago pa q salga mi nombre?
+      - cm se hace pa la de comas?
+      - quiero jugar, cm aparto?
+      - q pautas se siguen pa esto?
+      - cm es la organizacion p reservar?
+      - q se tiene q hacer p la d ate?
+      - como hago la reservacion x aca?
+      - q ago pa la cancha 9pm?
+      - explicame el modo d reservar
+      - cm se obtiene la cancha?
+      - q tengo q hacer pa bookear?
+      - como hago pa la cancha libre?
+      - q pido pa la de surquillo?
+      - cm aparto mi horario preferido?
+      - quiero mi fecha, cm hago?
+      - q pido pa reservar en san juan?
+      - cm es pa separar mi turno?
+      - q debo aser pa agarrar mi fecha?
+      - como hago pa la cancha de mi barrio?
+      - q m pide pa bloquear mi horario?
+      - como es la gestion p apartar?
+      - q ago pa la d breña?
+      - como se genera el cupo?
+      - quiero mi espacio, cm lo saco?
+      - como es el lio pa una cancha 7pm?
+      - como se registra la cancha?
+      - como reservo mi cancha pa el finde?
+      - q se hace pa la de aca a mi alrededor?
+      - cm le hago pa la cancha de miraflores?
+      - como es el engranaje pa reservar?
+      - como puedo asegurar mi partido?
+      - q m pide pa mi cancha en cercado?
+      - cm obtengo la reserva aca?
+      - q tengo q hacer pa jugar?
+      - como separo pa el martes?
+      - q debo hacer pa mi pichanga?
+      - cm se hace el tramite p la reserva?
+      - q ago pa mi cancha cerca d mi casa?
+      - como aparto pa la de san miguel?
+      - q se hace pa mi equipo?
+      - cm hago pa reservar la de barranco?
+      - q debo saber pa apartar?
+      - como le hago pa mi cancha 6pm?
+      - q debo aser pa mi partido d la tarde?
+      - cm se separa la cancha en el callao?
+      - kmo ago p reservar
+      - proceso d reserba pe
+      - q devo hacer p separar
+      - la reserva kmo es
+      - explicame el tramite
+      - yo kiero reservar k ago
+      - kmo se ase una reserba
+      - dime el proceso ps
+      - kmo aparto la cancha
+      - guia pa reservar
+      - k hago para reservar
+      - el proceso cual es
+      - como va la reserva
+      - quiero reservar dime kmo
+      - los pasos pa serbar
+      - kiero separar como le ago
+      - y la reserva kmo es
+      - dime los pasos pa q sea
+      - como asegurar mi espacio
+      - kmo se registra una reserba
+      - k tengo q hacer p tener cancha
+      - como le hago pa separar
+      - a qn le digo pa reservar
+      - kiero la cancha como la obtengo
+      - me explikas la reserva
+      - kmo reserbar en surco
+      - la vaina d la reserva kmo es
+      - kmo ago pa q sea mia la cancha
+      - kmo reservo por villa
+      - el proceso pa reserbar kmo es
+      - kmo puedo apartar
+      - quiero reserbar ahora q ago
+      - dime como se hace ps
+      - la forma d reserbar
+      - los tramites pa la reserva
+      - q se necesita p reservar
+      - kiero mi cancha 8pm kmo
+      - kmo separamos con los patas
+      - dime los pasos rapidito
+      - cual es el mtodo pa reservar
+      - kmo se booking
+      - como separar la cancha libre 8pm
+      - el plan pa reservar
+      - yo no se reservar
+      - como apartar mi hora
+      - como saco la cancha pa hoy
+      - q tengo q hacer pa tener la cancha libre 8pm
+      - explikame el proseso d reserba x villa el salvador
+      - la reserba x surco kmo es
+      - kiero reserbar una cancha aca cerca d mi casa dime kmo
+      - q se necesita pa reserbar la de 8pm
+      - los pasos pa reservar en surco pe
+      - kmo se hace la reserva x aca
+      - kiero reserbar en vill salvador cual es el proseso
+      - dime kmo aparto pa la noche
+      - tengo q registrarme pa reservar la cancha
+      - kmo hago pa q no me ganen la cancha
+      - q debo hacer pa dejarla reservada
+      - kiero asegurar la cancha pa el sabado kmo le hago
+      - q tengo q hacer pa q la reserba este ok
+      - kmo puedo dejar separada la cancha x aca
+      - kmo funciona la reserva pa las 8
+      - q se requiere pa reserbar en este lugar
+      - kmo hago pa q la cancha sea mia
+      - los pasos pa reserbar en mi zona
+      - quiero reserbar en villa maria kmo se hace
+      - kmo se aparata el espacio x aca a mi alrededor
+      - q tengo q aser pa la cancha d 8pm
+      - el proceso pa reservar una cancha cerca mio kmo es
+      - kiero reserbar x la noche dime kmo le hago
+      - kmo se deja lista la reserba
+      - q necesito pa reserbar una en surco
+      - dime los pasos pa tener cancha libre pa mañana
+      - kmo le ago pa q mi reserva quede lista
+      - el proceso pa la cancha d vill salvador
+      - q se pide pa reserbar pa la tarde
+      - kmo hacer la reserba sin fallar
+      - los pasos pa mi cancha pe
+      - kiero reserbar cerca mio kmo
+      - q es lo q tengo q hacer pa reserbar la d 8pm
+      - kmo separamos rapido la cancha
+      - explikame kmo asegurar el espacio aca
+      - el procedimiento pa reservar en mi barrio
+      - q debo hacer pa apartar la cancha d noche
+      - kmo reservo la cancha antes q la ganen
+      - q tramites pa reserbar en surco
+      - quiero reserbar mi cancha cerca kmo le hago
+      - kmo hago pa tener la cancha x la noche
+      - los pasos pa la cancha en villa
+      - q tengo q hacer pa reserbar la de ahora
+      - kmo se hace pa tener la cancha libre en mi zona
+      - explikame el proceso pa reservar la cancha d hoy
+      - q se necesita pa reservar aca cerca mio
+      - como se hace la reserva pa las 9pm
+      - q aser p pedir?
+      - komo empiezo?
+      - dime como pedir
+      - pa pedir, q va?
+      - komo le hago pa sacar?
+      - como es la movida?
+      - q onda con eso?
+      - explicame como va ps
+      - como se arranca?
+      - el modo de hacer?
+      - quiero hacer un pedido, como?
+      - la cancha, como la pido?
+      - para pedir, q onda?
+      - como pido mi hora?
+      - pa pedir mi espacio, como?
+      - q se ace p tener cancha?
+      - q tengo q aser?
+      - como hago pa q me den?
+      - como se ace el encargo?
+      - para pedir, q onda ps?
+      - q se ace despues?
+      - komo arranco esto?
+      - q debo seguir?
+      - ala, explikame como se pide
+      - pa pedir cancha cerca mio
+      - como es esto de pedir?
+      - q ago p pedir hora 8pm?
+      - komo se manda la solicitud?
+      - y luego q?
+      - q pasa despues?
+      - como se hace pa una cancha en surco?
+      - la cosa, como va p pedir?
+      - como pedir mi cancha en vill salvador?
+      - quiero saber como se pide aca
+      - q hay q tener en cuenta p pedir?
+      - komo se hace la peticion?
+      - pa pedir, dame la info
+      - q viene ahora?
+      - como le doy?
+      - quiero mi cancha, como la pido?
+      - q hago pa pedir alas 7?
+      - la solicitud, como es?
+      - como se hace la movida pa pedir?
+      - necesito pedir, q hago?
+      - pa pedir una, q tengo q aser?
+      - como pido mi espacio?
+      - q me toca hacer?
+      - como es la cosa p pedir?
+      - dame la jugada p pedir
+      - quiero pedir cancha, como le entro?
+      - y luego de elegir, q sigue?
+      - como le hago pa pedir mi cancha?
+      - q debo hacer pa pedir un horario?
+      - komo pido mi hora pa las 9?
+      - q onda con el pedido?
+      - como es p pedir aca?
+      - explikame como es pa pedir
+      - para pedir, me dices?
+      - q hago p pedir la cancha d noche?
+      - dame la info p pedir
+      - como se hace p pedir esto?
+      - quiero pedir, pero no se como
+      - q viene despues de decir q quiero?
+      - komo le hago pa agarrar mi cancha?
+      - q se tiene q aser antes de pedir?
+      - quiero saber como se hace p pedir x surco
+      - como pido mi hora libre?
+      - ala, dime q se hace p pedir
+      - como se arranca el pedido?
+      - q mas hay q hacer p pedir?
+      - la vaina p pedir, como va?
+      - necesito pedir ya, como le doy?
+      - q aser pa pedir un sitio?
+      - komo hago p agarrar mi cancha alas 8?
+      - dime q hay q seguir p pedir
+      - como es pa pedir una cancha pa hoy?
+      - quiero hacer el pedido, q hago primero?
+      - la cancha, como la pido para mañana?
+      - q tengo q aser p pedir cerca a mi casa?
+      - como se ace el pedido aki?
+      - dime q onda con el pedido
+      - necesito pedir un sitio, q me aconsejas?
+      - q hago p pedir mi hora en la noche?
+      - como es el tema p pedir?
+      - quiero hacer un pedido, dame la mano
+      - q tengo q seguir p mi pedido?
+      - como hago p pedir una cancha libre 8pm?
+      - dime los toques p pedir
+      - q debo aser p tener mi cancha?
+      - komo pido un espacio p hoy?
+      - q hago pa pedir la cancha el fin de semana?
+      - pa pedir, como se hace?
+      - quiero pedir mi hora, q tengo q hacer?
+      - q se hace pa pedir un horario flexible?
+      - como hago pa pedir un sitio en reco?
+      - como se pide un horario fijo?
+      - dime como agarro mi lugar
+      - q hago ps?
+      - la reserva como va?
+      - oe, pa la cancha q hago?
+      - kiero la cancha fija, q se hace?
+      - como le hago?
+      - dime el rollo d esto
+      - q sigue pa la reserva?
+      - pa separar, q onda?
+      - el turno, como es la vaina?
+      - q se hace x aca?
+      - ahi la cancha, como consigo?
+      - explicame rapido la reserva
+      - como agarro mi espacio?
+      - q se pide pa esto?
+      - la pichanga, q hago pa q este?
+      - q hay pa q reserve?
+      - dime la forma aca
+      - como fijo mi turno?
+      - ahi la separacion, q es?
+      - q necesito pa la cancha?
+      - como consigo mi horario fijo?
+      - toy en la calle, q hago pa mi reserva?
+      - dime como es el sistema d la canchita
+      - q tengo q hacer pa no perder mi hora?
+      - ahi en vill salvador, q hago?
+      - q se sigue pa tener la cancha?
+      - como es la figura pa dejar mi espacio?
+      - q se pide pa la canchita?
+      - explicame como se obtiene el lugar
+      - como hago pa q este mi nombre ahi?
+      - q debo enviar pa q se reserve?
+      - dime el caminito pa mi pichanga
+      - como es la movida pa los 8pm?
+      - q hago pa asegurar mi dia?
+      - ahi en surco, como agarro cancha?
+      - q hay q llenar en la pag?
+      - como hago pa apartar la fecha?
+      - q se tiene q hacer pa mi cancha?
+      - como le meto mano a la reserva?
+      - dime q es lo primero pa esto
+      - como se guarda el horario?
+      - q se solicita pa el turno?
+      - explicame pa la cancha libre
+      - como hago pa q el espacio sea mio?
+      - q hay q hacer pa la reserva d mi barrio?
+      - dime la forma pa separar mi cancha
+      - como se pone pa reservar?
+      - q se pide pa la pichanga d hoy?
+      - explicame el manejo d las reservas
+      - como es la cosa pa fijar la cancha?
+      - q tengo q hacer pa tener mi hora?
+      - dime el modo d como separar
+      - como se activa la cancha?
+      - q hay q presentar pa la reserva?
+      - como hago pa q este mi reserva lista?
+      - q se necesita pa la canchita d los patas?
+      - dime como hago pa reservar x wsp
+      - como se llena el formato?
+      - q se manda pa la reserva?
+      - explicame q hago con el papeleo d la cancha
+      - pa confirmar, q hago?
+      - q es lo q se sigue pa separar?
+      - dime q se hace pa mi cancha
+      - como se deja apartada la hora?
+      - q se pide pa la fecha d juego?
+      - explkame el sistema d esto
+      - como hago pa q mi gente juegue?
+      - q hago pa mi cupo?
+      - dime pa el turno
+      - como es el resumen d la reserva?
+      - q necesito pa la cancha libre alas 8pm?
+      - dime como se hace pa guardar la hora
+      - q hay q hacer pa q me den la cancha?
+      - explicame como es lo d las reservas
+      - como hago pa conseguir mi lugar?
+      - q se hace pa separar el turno?
+      - dime como le doy pa reservar
+      - como es el movimiento d reserva?
+      - q tengo q poner pa asegurar la cancha?
+      - dime el camino mas corto pa reservar

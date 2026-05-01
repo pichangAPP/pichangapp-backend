@@ -1,0 +1,237 @@
+version: "3.1"
+
+nlu:
+  - intent: show_faqs
+    examples: |
+      - muéstrame las preguntas frecuentes
+      - quiero ver las faqs
+      - enséñame el faq
+      - cuáles son las preguntas más frecuentes
+      - qué consulta más la gente
+      - qué dudas son las más comunes
+      - dame las preguntas comunes
+      - lista de preguntas frecuentes
+      - pásame el resumen de faqs
+      - qué se pregunta seguido
+      - qué es lo más consultado
+      - muéstrame lo más preguntado
+      - dime las consultas frecuentes
+      - quiero ver las consultas recurrentes
+      - ayúdame con las preguntas frecuentes
+      - dónde veo las preguntas frecuentes
+      - faq por favor
+      - tienes preguntas frecuentes
+      - muéstrame los temas frecuentes
+      - cuáles son los temas más consultados
+      - qué dudas suelen tener
+      - quiero revisar preguntas habituales
+      - cuáles son las dudas más repetidas
+      - muéstrame un listado de faqs
+      - dame la sección de preguntas frecuentes
+      - información frecuente por favor
+      - quiero la guía de preguntas frecuentes
+      - cuáles son las consultas típicas
+      - qué puedo revisar primero en faqs
+      - necesito ver faqs antes de seguir
+      - preguntas frecuentes de reservas
+      - faqs de canchas
+      - preguntas frecuentes del servicio
+      - quiero ver respuestas frecuentes
+      - cuáles son las respuestas más comunes
+      - muéstrame las respuestas frecuentes
+      - qué cosas preguntan más
+      - qué suele preguntar la gente
+      - dame las principales faqs
+      - enséñame las faqs principales
+      - q puedo preguntar ps
+      - dudas q hay xq
+      - lo q preguntan siempre aca
+      - alguna info ps
+      - q temas hay pa ti
+      - ayudame xfa con eso
+      - lo importante pa saber
+      - kiero saber todo de una
+      - tus pregntas q sabes
+      - q cosas comun se ven
+      - lo q mas pide la gente por surco
+      - guia al toq de preguntas
+      - onde veo las dudas rapidas
+      - preguntas rapidas pa mi
+      - listado de cosas importantes
+      - dime las fijas q respondes
+      - lo q hay q saber antes de usar
+      - q cosas pregunto yo
+      - dudas q tienes x ahi
+      - preguntas pa q me digas
+      - ayudame cn lo basico q tienes
+      - pa q sirve este bot ps
+      - info pa empezar ahora
+      - q info tienes disponible
+      - lo mas pedido por vill salvador
+      - q resuelves aca siempre
+      - tus temas mas frecuentes
+      - q suelen preguntar por aqui siempre
+      - kiero ver preguntas ahora
+      - dudas frecuentes q hay siempre
+      - pa saber mas de esto contigo
+      - lista de dudas q tenga la gente
+      - q puedo consultar aki al toq
+      - informacion de ayuda rapida xfa
+      - cosas a saber antes de seguir
+      - preguntas comunes q tienes xq
+      - q hay pa preguntar aca a mi alrededor
+      - dime las dudas q la gente tiene
+      - necesito ver q puedo preguntar
+      - q dudas tienes por aqui
+      - kiero saber las movidas de esto
+      - aver q tal es este servicio pa mi
+      - dame la info q importa xfa
+      - q me puedes aclarar de todo esto
+      - explicame lo q tengo q saber si o si
+      - pa cachar mas la onda de las cosas
+      - q hay para entender bien todo esto
+      - dime las fijas q hay pa preguntar por aca
+      - necesito saber las cosas de ley q piden
+      - kiero las cositas importantes pa no estar perdido
+      - q se pide aca normalmente pa estar al dia
+      - aver las preguntas del dia a dia x este lado
+      - q onda con lo q pregunto si no entiendo
+      - dame los puntos q explicas a los nuevos
+      - q necesito pa empezar ya en este negocio
+      - pa no estar preguntando cada rato las mismas cosas
+      - explicame los temas q estan de moda ahora
+      - q cosas son utiles para mi q no conozco
+      - aver lo q mas te preguntan a diario
+      - q hay pa informarme de todo antes de hacer algo
+      - kiero la info a la mano pa leerla rapido
+      - dime lo q es clave aqui pa no malograrla
+      - q se pregunta a cada rato por la gente
+      - aver q interrogantes resuelves seguido
+      - q datos valiosos tienes guardados?
+      - dame las preguntas mas usuales del publico
+      - necesito ayuda pa entender algunas cosas q no c
+      - kiero ver lo q todos ya saben de tu servicio
+      - q ondas con las dudas de surco pa jugar
+      - aver las preguntas pa cancha libre 8pm hoy dia
+      - q me puedes decir de villa el salvador en general
+      - dame la info cerca de mi casa q debo saber
+      - kiero saber lo de aca x mi zona pa reservar
+      - q hay de preguntas si reservo alas 8 pm porfa
+      - explicame lo basico pa ir a jugar por surco rapido
+      - q se pregunta x el servicio cerca de donde vivo xfa
+      - aver las dudas de canchas en vill salvador q hay
+      - dame los detalles importantes pa ir alas 8pm a la cancha
+      - kiero las preguntas pa la cancha libre de noche si hay
+      - hola q hay
+      - q se puede consultar
+      - dame luces
+      - por donde empiezo
+      - q kieres q sepa
+      - info d arranque
+      - lo primero
+      - q me enseñas
+      - q cosas se preguntan
+      - pa q me sirve esto
+      - q rollo hay aki
+      - q onda el tema
+      - dame el alcance
+      - q me puedes decir
+      - guíame un toque
+      - explikame un cacho
+      - pa saber xfa
+      - q hay d nuevo
+      - dime sobre esto
+      - lo esencial
+      - q tengo q leer
+      - q temas se tocan
+      - q me recomiendas saber
+      - ponme al tanto
+      - dime el chisme
+      - q comenta la gente
+      - pa informarme
+      - q me ofreces
+      - quiero entender
+      - pa ver las cosas
+      - q tengo q cachar
+      - pasame el toque
+      - el inicio ps
+      - q se pregunta cerca d vill salvador
+      - cosas pa preguntar por surco
+      - dime q puedo preguntar aca a mi alrededor
+      - kiero info cerca mio
+      - q onda kon las dudas
+      - pasame la data pe
+      - kiero saber q hay
+      - alguna pregunta k tenga?
+      - pa preguntar
+      - q se puede preguntar
+      - dudas d la gente
+      - las preguntas mas locas
+      - q se pregunta en general
+      - la info ps
+      - dame la info q sea
+      - q se debe saber
+      - algo para leer
+      - faqs d todo
+      - dudas q hay x ahi
+      - q hay d nuevo en preguntas
+      - las ddas q tng
+      - q pregunto ak
+      - faqs x surco
+      - dudas d mi barrio
+      - q se pregunta cerca mio
+      - info d cancha libre 8pm
+      - preguntas d vill salvador
+      - la info d aca
+      - q preguntan x ahi
+      - mis preguntas pa ti
+      - q preguntas me recomiendas
+      - las faqs q tengas
+      - q pregunto
+      - la info q sepa
+      - las dudas q haya
+      - pa q pregunto
+      - algo d info
+      - kiero la data
+      - las faqs mi gent
+      - q tngo q saber
+      - dame info d lo q sea
+      - q preguntas tienes pa mi
+      - faqs d mi zona
+      - las preguntas q tienes
+      - q onda contigo
+      - las cosas pe
+      - aki q se hace
+      - pa q estas
+      - lo q hay
+      - dime q pasa
+      - kiero saber d ti
+      - tus cositas
+      - q info das
+      - d q va tu rollo
+      - lo q me importa
+      - q puedo ver
+      - al toque la info
+      - por surco q hay pa preguntar
+      - cerca mio q me dices
+      - aca a mi alrededor q se sabe
+      - cancha libre 8pm q debo saber
+      - vill salvador q tal
+      - q me vas a decir
+      - no se q preguntar
+      - q tengo pa preguntar
+      - mis dudas aki
+      - lo q tienes x alli
+      - q cosa sabes
+      - pa saber la movida
+      - dame los puntos
+      - lo q qeda claro
+      - q info tienes a la mano
+      - tus respuestas grales
+      - q explicas tu
+      - pa q te pregunto
+      - lo q me interesa
+      - tus reglas del juego
+      - q temas existen
+      - dame una guiita
+      - oee dime algo

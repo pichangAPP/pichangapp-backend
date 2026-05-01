@@ -18,6 +18,20 @@ from .recommendation_actions import (
 )
 from .reservation_actions import ActionListUserReservations, ActionReprogramReservation
 from .session_actions import ActionCloseChatSession, ActionEnsureUserRole, ActionSessionStart
+from .utility_actions import (
+    ActionCheckInactivity,
+    ActionCheckReturningUser,
+    ActionLoadUserPreferences,
+    ActionLogAbandonment,
+    ActionLogConversationEnd,
+    ActionLogConversationStart,
+    ActionLogUrgentRequest,
+    ActionResetSlots,
+    ActionSaveUserPreferences,
+    ActionValidateBudget,
+    ActionValidateDate,
+    ActionValidateTime,
+)
 
 __all__ = [
     "ActionAdminPostTopicFollowup",
@@ -40,4 +54,16 @@ __all__ = [
     "ActionCloseChatSession",
     "ActionEnsureUserRole",
     "ActionSessionStart",
+    "ActionCheckInactivity",
+    "ActionCheckReturningUser",
+    "ActionLoadUserPreferences",
+    "ActionLogAbandonment",
+    "ActionLogConversationEnd",
+    "ActionLogConversationStart",
+    "ActionLogUrgentRequest",
+    "ActionResetSlots",
+    "ActionSaveUserPreferences",
+    "ActionValidateBudget",
+    "ActionValidateDate",
+    "ActionValidateTime",
 ]

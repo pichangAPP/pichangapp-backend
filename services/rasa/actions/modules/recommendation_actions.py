@@ -53,6 +53,12 @@ from ..domain.chatbot.time_utils import (
 LOGGER = logging.getLogger(__name__)
 
 
+def _clean_slot_placeholder(value: Any) -> Any:
+    if isinstance(value, str) and value.strip().lower() == "last_entity_value":
+        return None
+    return value
+
+
 class ActionSubmitFieldRecommendationForm(Action):
     """Handle the submission of the field recommendation form."""
 
@@ -229,6 +235,12 @@ class ActionSubmitFieldRecommendationForm(Action):
         preferred_date = preferences["preferred_date"]
         preferred_start_time = preferences["preferred_start_time"]
         preferred_end_time = preferences["preferred_end_time"]
+        preferred_sport = _clean_slot_placeholder(preferred_sport)
+        preferred_surface = _clean_slot_placeholder(preferred_surface)
+        preferred_location = _clean_slot_placeholder(preferred_location)
+        preferred_date = _clean_slot_placeholder(preferred_date)
+        preferred_start_time = _clean_slot_placeholder(preferred_start_time)
+        preferred_end_time = _clean_slot_placeholder(preferred_end_time)
         min_budget, max_budget, price_focus = _extract_budget_preferences(tracker)
         target_time = _coerce_time_value(preferred_start_time)
         prioritize_price = price_focus or min_budget is not None or max_budget is not None

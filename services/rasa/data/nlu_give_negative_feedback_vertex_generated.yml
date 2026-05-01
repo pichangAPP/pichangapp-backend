@@ -1,0 +1,156 @@
+version: "3.1"
+
+nlu:
+  - intent: give_negative_feedback
+    examples: |
+      - La información no me fue de gran ayuda.
+      - Fue una experiencia muy desagradable.
+      - No logré entender la explicación.
+      - No me siento conforme con el resultado.
+      - La verdad, es bastante poco claro.
+      - Urge que le den una buena revisada a esto.
+      - Me quedé con la duda sin resolver.
+      - Mis expectativas no fueron cumplidas.
+      - No me brindaron lo que realmente buscaba.
+      - Qué deficiente está el proceso.
+      - El servicio que recibí fue bastante pobre.
+      - Qué pena, no ayudó en absoluto.
+      - No logré avanzar con esto.
+      - Esto no cumple con lo que prometieron.
+      - Estoy totalmente decepcionado.
+      - Es un fiasco, para ser honesto.
+      - Me dejó con más preguntas que respuestas.
+      - Esto no es lo que esperaba.
+      - Asu mare, qué desastre.
+      - La verdad no se entiende ni jota.
+      - Me parece que el resultado es muy pobre.
+      - No me resolvió la situación.
+      - Necesita una mejora urgente.
+      - No me funcionó ni michi.
+      - Me siento totalmente insatisfecho.
+      - Esto es una basura.
+      - Podría ser mucho mejor.
+      - La explicación fue muy engorrosa.
+      - No me dio ninguna solución.
+      - Es un completo engaño.
+      - Qué frustración todo esto.
+      - No funciona como debería.
+      - La calidad es ínfima.
+      - Estoy molesto con el resultado.
+      - Esto es un dolor de cabeza.
+      - No me parece un buen servicio.
+      - Me arrepiento de haberlo usado.
+      - Sigo igual o peor que antes.
+      - Esto es inaceptable.
+      - No hay por dónde cogerlo.
+      - La respuesta fue un mamarracho.
+      - No está a la altura de lo que ofrecen.
+      - Qué fiasco de ayuda.
+      - No me convenció en absoluto.
+      - Me dejó en el aire.
+      - Estoy muy descontento.
+      - El resultado no es el esperado.
+      - Qué patético.
+      - La atención fue lamentable.
+      - No es lo que me vendieron.
+      - Fue una pérdida de tiempo.
+      - Esto es una burla.
+      - No me ayudó en lo más mínimo.
+      - La explicación fue un lío.
+      - Cero estrellas.
+      - Un rotundo no.
+      - No recomiendo esto.
+      - Absolutamente inútil.
+      - Me siento defraudado.
+      - Muy deficiente su trabajo.
+      - No hay claridad en la información.
+      - Necesita bastante trabajo todavía.
+      - Qué pena, no resultó.
+      - Me dejó con la miel en los labios.
+      - No me funcionó para nada, honestamente.
+      - Estoy harto de esto.
+      - Una decepción total.
+      - No encuentro la lógica en esto.
+      - Me parece un despropósito.
+      - No cubrió mis necesidades.
+      - El proceso es muy tedioso.
+      - No cumplió mis expectativas.
+      - Realmente no es lo que prometes.
+      - Esto no va a funcionar.
+      - Me dejaste más confundido.
+      - Qué roche de servicio.
+      - Es un churro.
+      - Sinceramente, fue un fracaso.
+      - No entendi ni papa.
+      - No me ayudó en mi problema.
+      - El resultado final me decepcionó mucho.
+      - La información no me cuadra, está mal.
+      - Sigo en las mismas, sin avance real.
+      - Esto no cumplió ni la mínima expectativa que tenía.
+      - Qué confusión, no entiendo un comino de lo que me dices.
+      - te doy [1](rating) estrella
+      - te doy [2](rating) estrellas
+      - te doy [3](rating) estrellas
+      - mi calificación es [1](rating)
+      - lo califico con [2](rating)
+      - le pongo [1](rating) punto
+      - le doy [2](rating) de [5](rating)
+      - una nota de [1](rating)
+      - mi rating es [2](rating)
+      - malo, [1](rating) estrella
+      - regular nomás, [3](rating) estrellas
+      - El procedimiento es bien lento y complicado, la verdad.
+      - No ha funcionado, qué roche que pase esto.
+      - La ayuda que me diste fue puro floro, no sirvió.
+      - Me dejaste colgado, sin ninguna solución concreta.
+      - La respuesta que obtuve no me sacó de dudas en absoluto.
+      - Esto no sirve ni para un café, qué cosa.
+      - Es un completo bodrio, no vale la pena seguir.
+      - La calidad de lo ofrecido es malísima, por no decir otra cosa.
+      - No se le agarra la idea a nada de lo que explicas, qué difícil.
+      - Estoy ofuscado con la poca eficiencia de todo esto.
+      - Me dejó un mal sabor de boca esta experiencia en general.
+      - Necesitan darle una pulida urgente a todo esto, se nota.
+      - Siento que es una tomadura de pelo lo que me ofrecieron.
+      - Me fastidia sobremanera que no haya servido de nada, caray.
+      - La propuesta no me fue de ninguna utilidad práctica.
+      - Me siento más desorientado que antes de consultarte.
+      - No logré captar el mensaje central, la verdad no lo entiendo.
+      - Realmente fue una inversión de tiempo sin retorno alguno.
+      - El apoyo brindado fue bastante deficiente, para qué mentir.
+      - No cumplió con el estándar mínimo esperado para este tipo de cosas.
+      - No me ha sido útil para nada, francamente.
+      - Qué mala atención, más bien me dejó más perdido.
+      - La verdad, me dejó con una sensación bien agridulce.
+      - No logré encontrar la respuesta a lo que buscaba.
+      - Qué cutre de servicio, no aportó en absoluto.
+      - Fue una completa pendejada, no sirvió de nada.
+      - Mis interrogantes siguen intactas, no se aclaró nada.
+      - Esto está muy por debajo de lo que se debería ofrecer.
+      - Qué desilusión, esto no tiene ni pies ni cabeza.
+      - La explicación es un verdadero galimatías, imposible de entender.
+      - Terminé con más dudas que al inicio, un desastre.
+      - Ni a cañones se le entiende a esta información.
+      - Esta vaina no tiene ni ton ni son, es pura falacia.
+      - Este resultado es un mamotreto, no tiene ni pizca de valor.
+      - Pensé que sería la solución, pero fue todo lo contrario.
+      - Me hizo renegar un montón este proceso.
+      - La data es bien vaga, no me dio información relevante.
+      - Esto más bien enredó la situación, en vez de simplificarla.
+      - Me desilusionó un montón, esperaba otra cosa.
+      - Qué bajón, no pude avanzar nada con esto.
+      - Siento que fue un completo desperdicio de mi tiempo.
+      - Es un bodrio, no cumple con lo mínimo.
+      - Me sacó de quicio, esto es completamente inefectivo.
+      - Una total tomadura de pelo, me siento estafado.
+      - No le encuentro sentido ni lógica a todo esto.
+      - Qué tal roche con esto.
+      - Una completa decepción, la verdad.
+      - No sirvió para lo que yo quería.
+      - Este sistema es un desastre.
+      - Estoy bastante descontento con el resultado.
+      - Pésima experiencia, no lo recomiendo.
+      - No me dio ninguna solución viable.
+      - La explicación fue más enredada que un ovillo.
+      - Mi consulta sigue sin respuesta, qué pena.
+      - No se entiende nada de nada.

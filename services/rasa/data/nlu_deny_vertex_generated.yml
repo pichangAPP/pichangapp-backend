@@ -1,0 +1,1004 @@
+version: "3.1"
+
+nlu:
+  - intent: deny
+    examples: |
+      - no
+      - nop
+      - no gracias
+      - negativo
+      - para nada
+      - de ninguna manera
+      - mejor no
+      - prefiero que no
+      - no me interesa
+      - no quiero
+      - no deseo eso
+      - no por ahora
+      - no en este momento
+      - no me sirve
+      - no me conviene
+      - no es lo que busco
+      - no es eso
+      - no va
+      - no, así no
+      - no estoy de acuerdo
+      - no me parece
+      - no lo veo
+      - no lo haré
+      - descártalo
+      - paso
+      - paso de eso
+      - no gracias, paso
+      - eso no
+      - esa opción no
+      - no es buena idea
+      - no aplica
+      - no corresponde
+      - no me cuadra
+      - no me cierra
+      - no, confirma que no
+      - no va conmigo
+      - no me gusta esa opción
+      - no estoy seguro, mejor no
+      - no le entro
+      - no acepto
+      - no quiero seguir con eso
+      - no procede
+      - no, cambiemos
+      - esa no
+      - no es viable
+      - no me ayuda
+      - no me da confianza
+      - no, gracias
+      - ni hablar
+      - descartado
+      - ni a la fuerza
+      - no me la juego
+      - eso no camina
+      - ni a patadas esto
+      - cero bola pa eso
+      - ese plan no aplica
+      - eso ni a coima
+      - naa, esa no engancha
+      - aki no hay forma
+      - olvidate de eso bro
+      - ni en figurita lo hago
+      - no es mi rollo ese
+      - no estoy pa’ esos trotes
+      - ni a kachimba
+      - no se presta el caso
+      - por ese lado no va
+      - q no y basta
+      - esa cancha libre a las 8 no
+      - no es mi gusto eso
+      - esa no la metemos
+      - ni a palos le entro
+      - no me causa gracia
+      - por surco, ese no
+      - otra cosa mejor, ps
+      - no le veo logica
+      - ese turno no
+      - ni por error
+      - no kiero naa
+      - esa de villa salvador no va
+      - ni a mi alrededor esa
+      - no estamos en plan
+      - ese no es el flow
+      - mejor descartalo ya
+      - no lo apruebo yo
+      - aki no hay chance
+      - ni a balas lo hago
+      - naaa, eso no prende
+      - cero interes de mi
+      - no le da la talla
+      - no me va para nada ps
+      - ni a balas oe
+      - no qro esa vaina
+      - xq no puedo ps
+      - mejor na de eso
+      - ala no es por ahi
+      - ni lo sueñes causa
+      - toy ocupao, no puedo ahora ir
+      - no x ahi, busca otra alternativa
+      - descarta esa, pe
+      - q no se haga esa
+      - ni cerca a surco voy
+      - no a las 8pm, muy tarde para mi
+      - por aca no hay eso
+      - en vill salvador no me jala
+      - esa cancha libre no me va
+      - mejor otro dia, hoy no tengo ganas
+      - no lo veo viable, la vdd no me cierra
+      - esa idea no funciona
+      - ni palante con esa
+      - no me da la gana
+      - q no sea esa opcion
+      - no me sirve esa wea
+      - na q ver con lo q pides de verdad
+      - no estoy pa esas
+      - dejalo asi, no mas problemas con eso
+      - no a esa hora, mejor alas 9 mas temprano
+      - cerca mio no, muy lejos de mi casa
+      - aca a mi alrededor no hay
+      - no x ese lado del barrio
+      - no kiero ir a vill salvador hoy
+      - nopo, esa no
+      - ni modo q sea eso, es imposible ps
+      - no entiendo, mejor no hagas nada mas
+      - q no, ya te dije
+      - nada por aki
+      - no en ese lugar, por fa
+      - esa no me convence, busca otra por favor
+      - ni lo intentes, no voy a ir para nada
+      - no tengo tiempo pa esas
+      - q sea otra, esa no me cuadra para nada
+      - ni ahy con eso
+      - naa d eso p
+      - cambia eso q no
+      - asi no es ps
+      - qva oe
+      - ni una dsas
+      - eso no m va
+      - no por aka
+      - no lo agas brother
+      - ya fuee
+      - estoy mal con eso
+      - no m cuadra p
+      - pa q no hagas
+      - ese no m sirve
+      - nada q verr
+      - no lo kiero
+      - mmh no
+      - kiero otro diferente
+      - cambia eso d ahi
+      - eso no, busca otra
+      - no m vacila esa
+      - q no t dije
+      - ni lo pienses oe
+      - stoy en otra cosa
+      - no me cierrra mano
+      - no va asi
+      - mejor algo mas
+      - cero ganas de eso
+      - descartado causa
+      - esoo no por aki
+      - no cerca d mi
+      - no x vill salvador
+      - no alas 8 d la noche
+      - no esa fecha p
+      - q no t entiendo
+      - no ps causa
+      - no m gsuta esa opcion
+      - pa k no sea asi
+      - dejala asi no mas
+      - a esa dale nomas
+      - q no sea esa mrd
+      - x ahi no broder
+      - kero otra nota pe
+      - esa no me cuadra ni un poko
+      - ni d vaina esa
+      - q ni se t okurre
+      - no me hace click esa
+      - otra kiero ps
+      - d esa paso
+      - no alas ocho
+      - q no sea x surco
+      - cerca mio no
+      - a mi alrededor no esa
+      - no es mi estilo
+      - eso no va pa mi
+      - prefiero algo distinto
+      - ni a tiros esa vaina
+      - esa no la veo bien
+      - no toy de acuerdo con eso
+      - otra opcion busco
+      - no en villa el salvador
+      - d esa cancha libre no
+      - la kiero diferente
+      - esa no la acepto
+      - no me convence ni michi
+      - no es lo q esperava
+      - q no sea eso
+      - manda otra cosa
+      - esa no es la voz pe
+      - no me rayes con eso
+      - esa vaina no va
+      - no x esa zona
+      - no alas 8pm
+      - q no sea este
+      - deja esa no mas
+      - no es lo q kiero pa mi
+      - esa no m atrae
+      - otra ps
+      - esa no es la fiksion
+      - nica
+      - no es la onda
+      - otro pue
+      - q no
+      - no ta bien
+      - no es lo q esperaba
+      - ahi no es
+      - no es mi plan
+      - otro mejor q este
+      - nombe pe
+      - no ta bueno
+      - no me provoca
+      - otro porfa
+      - no hay forma pe
+      - ahi no mano
+      - nica mano
+      - ni a balas
+      - no pue
+      - otro
+      - no me llama la atencion
+      - no va con lo q busco
+      - ni idea
+      - no va x mi
+      - nopi
+      - otro mas bien
+      - no tengo ganas
+      - ni a ganchos
+      - ni en pelea de perros
+      - no es lo q espero
+      - no es lo correcto
+      - nica, otro
+      - mejor otro ps
+      - otra cosita ps
+      - ni a piñas
+      - no es lo mio
+      - pa q no pue
+      - esa no pasa
+      - no me vacila
+      - q va ps
+      - ni a balas causa
+      - no kiero eso pa na
+      - asuuu, ni ahi me meto
+      - kcho q no es asi, no me combence
+      - cero chance con esa vaina pa mi
+      - no pasa na por aca cerca
+      - ese no pe, yo busco otra cosa
+      - no es mi fono, te has ekivocado de numero
+      - naq ver ps, eso no me interesa ni un poco
+      - no mano, dejalo ahi nomas no me sirve
+      - ni en vano lo intento, no va ese plan
+      - pa na eso, me aburre un monton
+      - no chevere, prefiero ir a otro lao
+      - eso ni a koko, ta loco ese pata
+      - ni sikiera me preguntes por esa vaina
+      - oe no, eso no lo hago ni a balazos
+      - alla no, por aca cerca esta mejor
+      - aca no, mejor buscamos en otro lado
+      - ni un poco me convence esa idea tuya
+      - no causa, no es por ahi el asunto hoy
+      - ta' loco no, ese plan no va con mi gente
+      - no se puede ahora, luego lo vemos con calma
+      - ni a patadas me muevo de aki cerca
+      - no me da la gana de hacer eso ahorita
+      - no ta bien lo q dices, me confunde un monton
+      - no, esa no es la que quiero para mi
+      - esa no, d veras q no me gusta ni ahi
+      - es q no es lo q esperaba pa mi causa
+      - no lo tengo, no me llegó el mensaje a tiempo
+      - no me llega esa info por ningun lado q veo
+      - ni de vainas voy a ir por alla lejos solo
+      - esoo nooo lo hagamos por favor te pido
+      - nopo, q mal plan pa la gente de por aqui
+      - sin chances de lograr eso ahora con mi gentita
+      - no lo hagas ps, no es bueno para nadie
+      - eso no funca bien, ta fallando a cada rato
+      - ni soñando me meto en esa bronca con ellos
+      - ni a palo mano, eso no va conmigo ni a tiros
+      - no me digas q si, ya te dije q no
+      - no x surco
+      - no cerca mio
+      - aca a mi alrededor no
+      - cancha libre 8pm no
+      - vill salvador no es la voz
+      - no pa ese sitio
+      - no hoy, mejor mañna
+      - no a esa hr, ps
+      - esa no, traeme otra
+      - este no es el q kiero
+      - no lo veo bien ahi
+      - eso no es pa mi
+      - ni a patadas, compare
+      - eso si q no, causa
+      - ta q no, profe
+      - no va x ese lado
+      - no es mi rollo
+      - q se kede asi nomas
+      - no toy pa eso hoy
+      - estoy ocupao, no puedo
+      - naa, es re lejos
+      - no, es muy caro para mi
+      - esa no me jala
+      - no lo voy a hacer
+      - no tengo ganas de eso
+      - no, busco otra vibra
+      - no, mejor cambia eso
+      - ni en mi peor sueño
+      - eso no va con mi estilo
+      - naa, me arrepiento
+      - no, es mucho gasto
+      - muy lejos, no voy
+      - muy chico, no sirve
+      - muy grande, no entra
+      - no lo tengo claro
+      - ese no, quiero ver uno distinto
+      - no me vibra esa idea
+      - q no, ya pe, entiende
+      - nada de esa vaina
+      - eso no funciona, busca otro
+      - no broer, otro
+      - asi no pe
+      - q no bro
+      - ni alli cerca mio
+      - no voy pa alla
+      - no kiero eso x aca
+      - otro plan pa mi
+      - no ahorita, toy ocupao
+      - nada de eso x mi casa
+      - no me cuadra ese sitio
+      - no es por ahi, esta lejos
+      - otro dia sera pe
+      - no tengo tiempo pa esa vaina
+      - no me llega esa oferta
+      - pa q haria eso, no kiero
+      - no toy libre por surco
+      - eso no me convence mano
+      - asi no era la cosa
+      - no va x ahi ese negocio
+      - no, ahi no pss
+      - no kiero mas de eso p
+      - esa idea no va broer
+      - no en ese lugar de miraflores
+      - eso no es lo mio para nada
+      - no, otra cosa porfa
+      - toy con flojera ahora
+      - no tengo ganas de na
+      - ni ahi con eso pss
+      - no tengo money causa pa eso
+      - eso no va xq es feo
+      - no me parece bien ese choro
+      - no veo q sirva pa mi
+      - no estoy de humor hoy
+      - no, no me da la gana mijo
+      - no puedo ir x alla
+      - no tengo tiempo ahora pe
+      - no me agrada esa vaina pe
+      - ese no ps, otro
+      - no en ese momento ni loco
+      - naa oe
+      - q no sea pue
+      - otro mejor pa mi
+      - eso no va por aca
+      - no q va, ni a tiros
+      - ni ahi con esa vaina
+      - no lo agas oe
+      - dejalo asi nomas
+      - no es pa mi
+      - esa no m atrae mucho
+      - k no se de eso
+      - no hay forma cholo
+      - mejor q no sea eso
+      - no ta bien pa mi
+      - ni a guevo hago eso
+      - no lo veo claro man
+      - esa no es la voz ps
+      - no, cambia de opcion
+      - ala no quiero eso
+      - mejor otro sitio, broer
+      - no tengo ganas d eso ahora
+      - paso d eso, brother
+      - ni por surco me animo
+      - aca no lo kiero, para nada
+      - ni a las 8pm voy a poder
+      - no, cerca mio no lo hagas
+      - para nada ps, otra cosa
+      - eso no se hace asi
+      - q no se arme la vaina
+      - no es mi estilo de hacer
+      - asi no me gusta, de verdad
+      - ni en vill salvador lo consigo
+      - no creo q me sirva, brother
+      - otro plan pe, este no
+      - no es buena esa idea
+      - deja eso ya, no quiero
+      - no a mi alrededor, porfa
+      - no es lo mio, bro
+      - ps no
+      - nono
+      - no pss
+      - ni de vaina
+      - ni a gancho
+      - no me animo
+      - no toy
+      - no hay forma
+      - esa no jala
+      - otra cosa pe
+      - eso no es
+      - no es por aki
+      - no mas
+      - ya fue no
+      - no, xfa
+      - q va
+      - a mi no
+      - deja nomas
+      - no se puede en este momento
+      - eso si q no
+      - no tengo gana
+      - no kiero eso
+      - no toy pa hacer eso ahora
+      - mejor asi no
+      - mas tarde no
+      - mañana no
+      - no pa mi
+      - q no kiero
+      - no hay chance
+      - no hay forma q sea
+      - q no sea asi
+      - a esas no
+      - no por aca mejor en otro lado
+      - no a ese precio esta muy caro
+      - alas 8 no
+      - cerca mio no hay nada de eso
+      - en vill salvador no hay lo q pides
+      - no ps
+      - no kiero
+      - no xfa
+      - olvidate ps
+      - ni cerca
+      - esq no
+      - no hay
+      - aca no
+      - ni vainas
+      - esa no va
+      - nada de eso
+      - no se puede
+      - no x ahi
+      - q no ps
+      - eso no va
+      - no, pa q
+      - eso no hago
+      - x surco no
+      - vill salvador no
+      - no lo veo claro
+      - la vdd q no va
+      - no a esa hr
+      - asi no es la cosa
+      - xq no me agrada
+      - no x aca bro
+      - ni x las puras
+      - lo descarte ya
+      - q se kede nomas
+      - esa no me sirve pa na
+      - cancha libre 8pm no, es muy tarde
+      - aca a mi alrededor no kiero eso
+      - no me parece asi ni a balas
+      - no tengo ni una gana de ir
+      - ni se te ocurra esa vaina, broer
+      - ni aunq kiera
+      - cero puntos
+      - no es por aka
+      - ni a bala
+      - no es la idea
+      - no veo futuro
+      - esa no entra
+      - k va, otro mejor
+      - ala, cero
+      - keda anulado
+      - eso no se ase
+      - no me va ese
+      - ni en un millon d años
+      - asi no vale la pena
+      - no creo q suceda
+      - q no se haga
+      - cero ganas d eso
+      - no hay chance con eso
+      - no bale la pena ps
+      - k no sea el d surco
+      - no por vill salvador
+      - ni uno solo
+      - ni d vainas
+      - no me meto en eso
+      - no existe manera
+      - asi no funka
+      - eso esta de mas
+      - no es buena para mi
+      - que no se haga ps
+      - no me agrada eso
+      - ese no es para mi
+      - no me da buena espina
+      - eso esta en duda
+      - ala, ni michi
+      - la d las 8pm no la paso
+      - no hay razon para eso
+      - ni en mis mejores dias
+      - eso ni a chiste
+      - me niego, ps
+      - kambiate de ruta
+      - ni a la esquina con eso
+      - no, esa no va x aca
+      - saka esa idea
+      - esa no m vacila
+      - ni a balas eso
+      - no kiero asi broer
+      - esa no me engancha
+      - no x mi jato
+      - esa no es mi nota
+      - no, alas 8 no
+      - otro plan ps
+      - no kiero pa eso
+      - no x el callao
+      - q sea otro dia
+      - no me va x ahi
+      - no ps, ni a gancho
+      - no es lo mio, gfe
+      - esa no keda bien
+      - ni k fueramos loros
+      - no x aki, mi barrio
+      - nada de eso, mano
+      - no kieres otra opcion
+      - ni a un sol eso
+      - no me jales pa eso
+      - otro xfa
+      - no en mi zona broer
+      - mejor keda ahi
+      - no, asi no se hace
+      - cambialo pe
+      - ni sikiera lo intentes
+      - no para alas 8pm
+      - esa vaina no la juego
+      - no, el de vill el salvador no
+      - dejalo x la paz
+      - ni fregando
+      - esa no es la voz
+      - por surco, ni a balas
+      - otro, oe
+      - no por aca, causa
+      - hoy no, toy ocupao
+      - ma' tarde, la veo dificil
+      - ni a cocos, broer
+      - ese no, busca otro
+      - 8pm? chambeando
+      - esa hora no me da
+      - vill salvador, mucho lio
+      - cerca mio, no hay punto
+      - k hablas! ta mare
+      - ni de vaina, mano
+      - otro dia si, hoy no
+      - ak a mi alrededor, mal plan
+      - a las ocho toy muerto
+      - cancha libre a esa hora, ta yuca
+      - ese no me vacila
+      - uno distinto, please
+      - ese no me llega
+      - ni en chiste
+      - esa esta misia, oe
+      - q monse, q sea otro
+      - otra fecha puej, esta no
+      - ni de broma
+      - eso no tiene logica
+      - esta no es la mia
+      - esa huevada, fuera!
+      - q palo, ni modo
+      - ese plan no sale
+      - por aki no entra
+      - asi no funka, oe
+      - en esos tiempos no
+      - no estoy con ganas, broer
+      - q va no
+      - pa q no mejor
+      - no creo manito
+      - esq no, hoy no
+      - otro dia sera fijo
+      - lejos, mejor ni me digas
+      - no kiero asi
+      - mmm naa
+      - toy ocupao ahora
+      - no puedo alas 8pm
+      - x mi no jala
+      - no creo q pueda ir
+      - q kieres? eso no
+      - no hay forma d hacer eso
+      - muy caro pa mi bolsillo
+      - eso no, mejor otra cosa
+      - nada d eso ps brother
+      - no x surco, muy lejos
+      - ni a mi ksa llega
+      - toy x otro sitio
+      - vill salvador no, ni a patadas
+      - otro lugar ps x ahi
+      - no cerca mio, mejor lejos
+      - la cancha libre? no hoy ps
+      - otro dia si kieres
+      - nica lo hago asi
+      - mjor otro modelo
+      - no esa wea
+      - no me parece chevere eso
+      - no, d verdad q no se puede
+      - q no te dije? eso no va
+      - ya no mas d eso
+      - q se haga otra cosa
+      - ni modo d cambiarlo
+      - no hoy, manana si kiza
+      - no va ser posible
+      - no kiero oe
+      - naa q ver con eso
+      - ese no corre
+      - ni q fuera asi
+      - no por ese lado
+      - ese plan no jala
+      - asi no juer
+      - ni ca
+      - eso no corre
+      - otra cosa sera
+      - no lo hare asi
+      - eso no se da
+      - ni sikiera
+      - no va por ahi la cosa
+      - ese camino no
+      - no es lo q toy buscando
+      - xvr pero no
+      - no, ni a balas
+      - q dices, no way
+      - eso ta mal
+      - eso no me rinde
+      - no es asi la jugada
+      - xq no otra cosa
+      - no pos
+      - ni de vainas
+      - esa no es mi onda
+      - no alas ocho pe
+      - no por surco
+      - no en vill salvador
+      - eso no me vacila
+      - mejor de otra forma
+      - esa ta q falla
+      - esa no broder
+      - naaa mejor no
+      - no me va
+      - esa no va con migo
+      - ni hablar ps
+      - asi no es
+      - q no te dije
+      - olvidate de eso
+      - no creo q sea
+      - no pasa naa
+      - otra cosa mejor
+      - xq no otra
+      - esa no va ni a gancho
+      - no deseo nada de eso
+      - eso no me sirbe
+      - para mi no es
+      - no es lo q busco
+      - no me conbiene
+      - no va bien
+      - ni ahi con eso
+      - no estoy de acuerdo bro
+      - q no t digo
+      - ya fue esa opcion
+      - esa no ps
+      - no quiero na
+      - ni a balas con eso
+      - no es la k kiero
+      - eso no lo veo
+      - no ps asi no
+      - mejor q no
+      - esa no pega
+      - descartala mejor
+      - q se kede asi no mas
+      - no es buena idea esa
+      - ni modo q si
+      - no va para mi
+      - ni a ganchos pe
+      - q no sea ese mismo
+      - ese no rinde para mi
+      - no m fio d ese tema
+      - esa forma no es la q busco
+      - otra cosa dame por favor
+      - borra esa vaina rapido ps
+      - no es util pa mi esa opcion
+      - eso no, x aca no pasa nada
+      - ni a balas ps, imposible
+      - yo no lo veo muy claro
+      - q no sea asi ps, porfa
+      - no m agrada esa idea mano
+      - no le hagas caso a eso q te dicen
+      - no, mas lejos de donde estoy
+      - no me pidas esa vaina otra vez
+      - aca no hay ps, no existe eso
+      - por surco no es buena idea ir ahora
+      - cerca mio no la hago ni a tiros
+      - aca a mi alrededor no hay chance alguna
+      - cancha libre 8pm no es la hora ideal
+      - vill salvador no, mejor otro distrito
+      - no lo veo factible x ningun lado
+      - no m animo x eso, me da desconfianza
+      - esa no la elijo ni borracho
+      - no estoy pa eso ahora, estoy ocupado
+      - q no sea esa wea, me aburre ya
+      - no, mejor no me digas mas de eso
+      - no, qizas despues o en otro momento
+      - no lo considero una buena opcion
+      - no, a otro lugar, uno mas bacan
+      - no toy convencido de esa propuesta
+      - ese no es mi rollo, busca a otro
+      - ni lo intentes, no te va a salir
+      - no lo veo bien ahi, hay mucha gente
+      - no me entra en la cabeza esa idea
+      - no, mejor cambialo ya por otro
+      - no, q sea diferente ps, mas chevere
+      - ni un poco de eso, cero interes
+      - mejor q no se haga, no hay tiempo
+      - no q va
+      - na ps
+      - ni a palos oe
+      - asu q no kiero
+      - no me late eso
+      - esa no es ps
+      - no me conviene causa
+      - kiero otra vaina
+      - esa wada no va
+      - paso d ese tema
+      - esa no la kiero
+      - prefiero otra xfa
+      - no me cierra la idea
+      - esa no va con esto
+      - d vrd no kiero
+      - esa opcion no mola
+      - mejor no hacemos eso
+      - na q hacer con eso
+      - no me sirve para na
+      - no es lo q pedi
+      - esa no esta bien
+      - mejor otra xq esa no
+      - esa no me convence ni ahy
+      - no kiero saber d eso
+      - esa no me va
+      - pa q no hago eso
+      - vill salvador no me va
+      - esa es mala idea
+      - no me cae bien
+      - no, esa esta mal
+      - es q no puedo
+      - no q va ser eso
+      - no kiero mano
+      - asi no va ps
+      - esa no es
+      - ni q hablar d eso
+      - no hay forma oe
+      - toy ocupado, no puedo ahora
+      - pa otra sera, hoy no
+      - no me cuadra mucho la idea esa
+      - q no, te digo, no kiero
+      - no por mi lado, busca otro
+      - esa vaina no la vemos
+      - no tengo ganas d nada
+      - no es mi tipo d cosas
+      - no me convence eso q dices
+      - ni lo pienses, mano
+      - no, keda asi nomas, no tokes
+      - xq tengo q decir q si a eso
+      - no me pidas eso, ya te dije
+      - otro momento, ahorita no puedo
+      - no me gustaria para nada eso
+      - no es lo mio, broer
+      - no lo veo bien ese plan
+      - deja eso ahi, ya no importa
+      - a mi no me va esa opcion
+      - no kiero eso q me ofreces
+      - no hay chance con esa idea
+      - q no entiendes? es un no
+      - mejor no lo hagamos, ps
+      - no te pases, no lo acepto
+      - no da ps, buscate otra cosa
+      - no me muevo d aca x eso
+      - q no kiero ah, deja d insistir
+      - no es pa mi esa nota
+      - no va con lo q busco ahora
+      - no, para ahi, no mas sigas
+      - en esta no, tengo otras cosas
+      - no lo veo util para nosotros
+      - otro plan mejor seria lo ideal
+      - no me animo a ir x alla
+      - no estoy convencido d lo q me dices
+      - naa ps, dejamelo tranquilo
+      - ni a balas, ni lo intentes
+      - pa q mas, ya estuvo
+      - eso no es ni a patadas
+      - estoy bien servido asi
+      - no toy en ese plan ahorita
+      - no me jala esa idea
+      - ni a gatas haria eso
+      - no va a pasar nada de eso
+      - ni una mica me convence
+      - eso no cuadra con lo mio
+      - no es lo q persigo, pa q
+      - por ahi no es mi camino
+      - suelta esa wada, ya quemó
+      - naa, no va x ahi la cosa
+      - es pura pantomima, ps
+      - mi mente esta en otra, eso no
+      - ni ahi con esa movida
+      - eso no me pega
+      - de ninguna forma lo firmo
+      - imposible q lo meta
+      - eso no me calza, causa
+      - no hay forma d meterlo
+      - q se qede ahi, fin
+      - esa no es mi parada
+      - no me rinde eso
+      - ya estoy completo, no pido mas
+      - no es lo q se esperaba
+      - eso no me tinca ni un poco
+      - no, cambia ese cuento
+      - no estoy en esa sintonia
+      - dejalo nomas, x las puras
+      - no me cierra el trato, bro
+      - ni se te cruce esa idea
+      - no kiero ni oir d eso ahorita
+      - mejor q no se arme
+      - ni un poquito me mueve
+      - no tengo el animo pa eso
+      - naa, asi nomas, ya fue
+      - ni por casualidad lo acepto
+      - ni ahy ps
+      - q va mano
+      - naa choche
+      - no va pe mi rey
+      - eso no jala aca
+      - ala no kiero eso
+      - ni por akí
+      - no toy en esa
+      - esa no ps pa mi
+      - negativo ala mierda
+      - no ps, buscate otra
+      - la de surco no, otra
+      - no cerca ami causa
+      - esa no a las 8pm pe
+      - q palta ese no
+      - no de vill salvador ni ahy
+      - ni a bala mano
+      - eso no es pa mi gusto
+      - no x aqui ni ahy
+      - no es mi floro
+      - asi no pe causa
+      - no ps, q pereza
+      - ni x los pelos
+      - negativo punto
+      - esa no mi hermano
+      - ni un toke pe
+      - ala no kiero nada de eso
+      - no me atrae la idea
+      - eso no me pasa
+      - no la hago con eso
+      - ni a patadas
+      - xq no me va bien
+      - esa no va con lo mio
+      - naa ps, no hay forma pa mi
+      - esto no me cierra la idea
+      - esa no es la q va
+      - esa no es la q esperaba ps
+      - no ps, de plano no
+      - negativo pe
+      - ni ahy pe
+      - ese no funca
+      - ahi no q ver
+      - no esa hora
+      - pa surco no
+      - otro plan pe
+      - kambialo
+      - ese no es el q busco
+      - no en vill el salvador
+      - q sea otro ps
+      - no cerka de mi kasa
+      - ala 8pm no puedo
+      - no por ahi oe
+      - no da con mi horario
+      - no la hago oe
+      - ni sikiera lo pense
+      - qiero otra cosa
+      - ahi no es el sitio
+      - ese no es util ps
+      - no me prende
+      - 0 chance de eso
+      - esa no es la q busco
+      - nada q ver con mi plan
+      - no hay pa ese lugar
+      - por ahi no llego
+      - no es lo q pienso
+      - no va eso ps
+      - ese no esta libre alas 8
+      - no pa esa fecha
+      - otro tipo de cancha
+      - a mi alrededor no hay
+      - la cancha libre 8pm no
+      - no se puede ps
+      - na q ver con eso
+      - ese no jala
+      - ese no me cuadra
+      - no va x ahi
+      - paso de verdad
+      - no es lo q pido
+      - eso no es la voz
+      - dame otra cosa mejor
+      - esa idea no me late
+      - no me da la talla
+      - esa no me funciona
+      - q no sea ese
+      - ese no convence
+      - yo no le entro
+      - no, a esa no le hago
+      - por ahi no va la cosa
+      - no me da lo q busco
+      - no creo q funcione
+      - naada q ver ahi
+      - no es lo q pensaba
+      - esa opcion no va
+      - eso no me conviene
+      - otro diferente pa mi
+      - no, ese no lo kiero
+      - nada de eso ps
+      - no me agrada
+      - no lo veo posible
+      - de eso no hablamos mas
+      - esta opcion es mala
+      - ni pensarlo eso
+      - no estoy de acuerdo ps
+      - mejor q sea otro
+      - no es para mi
+      - pa q no lo hagas
+      - cero posibilidad
+      - no hay vuelta
+      - x ahi no pe
+      - ni una moscada
+      - no qiero saber nada d eso
+      - olvidate de eso mano
+      - a las 8pm no puedo
+      - no toy libre ahora
+      - x surco no me muevo
+      - ni a cocachos me convences
+      - a esa vaina no voy
+      - no le pongo ni un sol
+      - eso no es mi estilo
+      - ni un poquito qiero
+      - pa esa no toy
+      - cerca mio no lo busco
+      - aca a mi alrededor no hay eso
+      - no es para mi causa
+      - esa idea no esta bien
+      - no me provoca pues
+      - q no se hable mas
+      - toy ocupao pa eso
+      - a vill salvador no llego
+      - cancha libre 8pm no me da
+      - ni q se me caiga el mundo
+      - esa no la hacemos
+      - esa no la hago
+      - no m jodas con eso
+      - otra vez no voy
+      - q ni se te ocurra
+      - no hay discusion
+      - esa no es la jugada
+      - ni a quema ropa
+      - asi no me la juego
+      - no esta en mis planes
+      - no hay como hacerlo
+      - no me digas eso otra vez
+      - naaah
+      - olvidate
+      - ocupao
+      - no joda
+      - asi no
+      - paso nomas
+      - no m combence
+      - mejor dja eso
+      - no kiero na d eso
+      - no me sirv
+      - no vale la pena
+      - otra cosita mejor
+      - no creo p
+      - no m convence nica
+      - esa no la tomo

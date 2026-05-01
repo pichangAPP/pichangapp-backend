@@ -1,0 +1,145 @@
+version: "3.1"
+
+nlu:
+  - intent: request_admin_recommendation
+    examples: |
+      - Dame unas pautas para mejorar mi gestión como encargado.
+      - Necesito ideas frescas para la administración de mis espacios.
+      - ¿Qué estrategias me sugieres para aumentar la rentabilidad de mis canchas?
+      - Quiero saber cómo puedo optimizar los horarios menos solicitados.
+      - Aconséjame sobre cómo captar más clientes en los días flojos.
+      - Como gestor, busco orientaciones para llenar los campos deportivos.
+      - ¿Podrías darme algunos trucos para mejorar el rendimiento de mis sedes?
+      - Papi, ¿qué puedo hacer para tener más reservas esta semana?
+      - Necesito directrices para manejar mejor mi negocio.
+      - Quiero que me asesores en la administración de mis instalaciones.
+      - Dime qué acciones tomar para potenciar la ocupación.
+      - Sugiéreme formas de incrementar las ganancias de mi local.
+      - Cómo hago para que mis canchas no estén vacías en la tarde.
+      - Bríndame consejos operativos para mi emprendimiento.
+      - Quisiera que me des la voz sobre cómo gestionar mi área.
+      - Necesito orientación para enfrentar la baja demanda.
+      - Qué onda, ¿tienes algún plan para mejorar la afluencia de gente?
+      - Ayúdame con propuestas para mi rol de administrador.
+      - Busco recomendaciones para una gestión más eficiente.
+      - Dime la fija para subir el número de reservas.
+      - Causa, dame tips para la gestión de mis complejos deportivos.
+      - Quiero ideas para revivir los horarios con poca reserva.
+      - Aconséjame sobre cómo aplicar ofertas sin perder.
+      - Necesito un modelo para planificar mejor mis recursos.
+      - Guíame en cómo optimizar la operación diaria.
+      - Cómo puedo fidelizar a mis usuarios actuales.
+      - Dime qué cambios aplicar para tener más flujo de caja.
+      - Sugiéreme formas de atraer equipos corporativos.
+      - Quiero entender cómo mejorar mi gestión de precios.
+      - Necesito tu opinión experta para mi negocio.
+      - Qué se hace para que la gente reserve más seguido.
+      - Dame la mano con estrategias para las horas muertas.
+      - Busco ayuda para tomar decisiones de gestión.
+      - Quiero una guía para la administración de mis espacios.
+      - Necesito un toque de sabiduría para mi centro deportivo.
+      - Aconséjame sobre la promoción de nuevos servicios.
+      - Dime cómo llenar mis canchas en temporada baja.
+      - Sugiéreme técnicas para mejorar el boca a boca.
+      - Qué trucos tienes para optimizar el mantenimiento y las reservas.
+      - Quiero saber la mejor forma de organizar mis eventos.
+      - Necesito ideas para manejar el personal y los horarios.
+      - Dime qué hago con los precios en los feriados.
+      - Bríndame tu experincia para gestionar mejor mi negocio.
+      - Quiero que me des algunos 'hacks' para la gestión.
+      - Necesito un plan de acción para mis instalaciones.
+      - Dime cómo potenciar la asistencia en las mañanas.
+      - Aconséjame sobre la rotación de canchas para evitar el desgaste.
+      - Quiero que me indiques cómo sacar el máximo provecho a mi infraestructura.
+      - Necesito ideas para ofrecer paquetes atractivos.
+      - Dime qué promos puedo lanzar para fin de mes.
+      - Sugiéreme cómo hacer marketing efectivo para mi lugar.
+      - Quiero un checklist de gestión para cada inicio de mes.
+      - Necesito que me des la posta para la gestión de mis canchas.
+      - Dime cómo mejorar la experiencia del cliente para que vuelvan.
+      - Aconséjame sobre la gestión de conflictos de horarios.
+      - Quiero ideas innovadoras para el manejo de mis facilidades.
+      - Necesito un plan para aumentar la visibilidad de mis campos.
+      - Dime cuáles son las tendencias en gestión deportiva.
+      - Bríndame consejos para una mejor administración de ingresos.
+      - Quiero saber cómo puedo reducir costos operativos sin afectar el servicio.
+      - Necesito una visión externa para mejorar mis puntos débiles.
+      - Dime qué puedo hacer para aumentar las ventas cruzadas.
+      - Sugiéreme cómo capacitar a mi equipo para mejorar la atención.
+      - Quiero un reporte de lo más importante para gestionar ahora.
+      - Necesito que me ilustres sobre cómo manejar la temporada de lluvias.
+      - Dime qué alternativas tengo para los días de poca demanda.
+      - Aconséjame sobre cómo utilizar las redes sociales para atraer gente.
+      - Quiero ideas para eventos especiales que llenen mis espacios.
+      - Necesito que me des la clave para una gestión exitosa.
+      - Dime cómo incentivar a los clientes a dejar comentarios positivos.
+      - Sugiéreme estrategias para la gestión de un club deportivo.
+      - Quiero que me des un manual de buenas prácticas para administradores.
+      - Necesito tips para mantener a mis clientes contentos y que regresen.
+      - Dime qué hago para estar al día con las nuevas tecnologías de gestión.
+      - Aconséjame sobre la inversión en mejoras para el local.
+      - Quiero ideas para optimizar el uso de mi inventario (pelotas, etc).
+      - Necesito tu sapiencia para mejorar la gestión general.
+      - Dime cómo hacer que mi negocio sea más competitivo en el mercado.
+      - Necesito ideas para levantar las reservas en horas muertas.
+      - ¿Qué podemos hacer para que la gente vuelva a nuestras canchas?
+      - Cómo puedo hacer para que mis campos se vean más atractivos y vengan más personas?
+      - Dime qué estrategias aplico para incentivar las reservas en mi sede.
+      - Necesito ideas frescas para la operatividad de mi negocio.
+      - Pucha, necesito consejos para darle más chamba a mis canchas.
+      - ¿Qué tácticas me recomiendas para impulsar el movimiento en mi complejo?
+      - Quiero saber cómo hago para que la gente venga más a mis recintos deportivos.
+      - Dame una pauta para que mi establecimiento sea más productivo.
+      - Estoy buscando formas de maximizar la ocupacion de mis áreas de juego.
+      - Qué me sugieres para rentabilizar mis inversiones en infraestructura?
+      - Necesito unas claves para evitar que mi local este con poca gente.
+      - Dime la posta para atraer más gente cuando casi no viene nadie.
+      - A ver, ¿qué hago para que mis espacios deportivos sean los preferidos?
+      - Causita, dame un datazo para mejorar la administración de mis complejos.
+      - ¿Cómo puedo hacer que mis instalaciones tengan más vida y más reservas?
+      - Quisiera que me des una guía rápida para potenciar mi negocio deportivo.
+      - Necesito tu opinión sobre cómo mejorar la concurrencia de deportistas.
+      - Qué acciones implementar para que mis canchas estén siempre llenas?
+      - Dame tips para que el flujo de usuarios sea constante en mis ambientes.
+      - Estoy buscando ideas para darle un giro a la gestión de mis sedes.
+      - Qué me aconsejas para captar más clientes y aumentar la visibilidad de mi centro?
+      - Necesito saber cómo puedo dinamizar la afluencia en las mañanas.
+      - Cuál es la mejor manera de asegurar que mis espacios estén operando al máximo?
+      - Ayúdame con propuestas para que mis instalaciones deportivas sean un éxito total.
+      - Dime qué me conviene hacer para tener más gente jugando en mis canchas.
+      - Quiero que me des ideas para que mi negocio rinda más y tenga mayor rotación de clientes.
+      - Necesito ideas para rentabilizar mis espacios deportivos.
+      - ¿Cómo puedo mejorar la experiencia del cliente para que vuelvan siempre?
+      - Dame una pauta para mi negocio, porfa.
+      - Qué hago para que mi centro deportivo sea el más bacán de Lima.
+      - Aconséjame sobre cómo puedo usar las redes para atraer más gente.
+      - Quiero saber qué estrategias funcionan para los feriados largos.
+      - Necesito un plan de acción para mis ingresos mensuales.
+      - ¿Qué me sugieres para no tener canchas vacías los lunes por la mañana?
+      - Dame tips para la gestión de mi personal y su motivación.
+      - Cómo puedo diferenciame de la competencia en el barrio.
+      - Necesito ideas frescas para atraer a familias con niños.
+      - A ver, dame unas recomendaciones para mi chamba de admin.
+      - Qué se hace pa' que mis clientes estén contentos y no se vayan.
+      - Quiero optimizar mis costos operativos, ¿alguna idea?
+      - Dame la fórmula secreta para el éxito de mi complejo.
+      - Necesito un modelo de gestion para eventos especiales.
+      - ¿Qué puedo hacer para promocionar mis paquetes de cumpleaños?
+      - Aconseja sobre cómo aprovechar la tecnología para mejorar la ocupación.
+      - Dime qué acciones tomar para el fin de semana, que es flojo.
+      - Cómo mantener a mis socios fidelizados y activos.
+      - Sugiéreme un cronograma de promociones para todo el año.
+      - Quiero entender mejor mi data para tomar decisiones, dame una mano.
+      - Necesito orientación para manejar quejas de clientes de forma efectiva.
+      - Qué tal si me das una vista de qué ajustar para el próximo mes.
+      - Papi, ¿qué ideas tienes para dinamizar el horario de la tarde?
+      - Necesito ideas para potenciar mis reservas los findes de semana.
+      - Aconséjame sobre cómo captar más gente pa' las mañanas, pe'.
+      - Cómo puedo mejorar el flujo de juagadores en mi complejo deportivo.
+      - Dame unos tips para optimizar los ingresos por mis espasios.
+      - Quisiera saber qué estrategias me sirven para los bloques muertos.
+      - Recomiéndame cómo gestionar mejor la relación con mis clientes fijos.
+      - ¿Qué plan de acción me aconsejas para épocas de baja afluencia?
+      - Papi, ¿qué hago para que mis canchas de Chorrillos estén llenas?
+      - Necesito una guía para subir la ocupación en horario de oficina.
+      - Quiero que me des la voz para organizar promos de última ora.

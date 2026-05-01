@@ -1,0 +1,1024 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_pricing_info
+    examples: |
+      - Cuéntame el valor del alquiler del campo.
+      - Qué costo tiene el uso de las instalaciones?
+      - Me gustaría saber el monto que se cobra.
+      - Cuál es el desembolso por la reserva?
+      - A cuánto asciende el costo del servicio?
+      - Indícame el precio por el uso del espacio.
+      - Cuánto se debe abonar para jugar?
+      - Qué tal está el billete para una pichanga?
+      - Cuánto tengo que poner para alquilar?
+      - Necesito el dato de cuánto es el alquiler.
+      - Me pasas la info de los montos?
+      - Explícame cómo funciona el tema de los pagos.
+      - Hay alguna tabla de valores?
+      - Me informas sobre el dinero a pagar?
+      - Cuál es la inversión por el tiempo de juego?
+      - Cuánto se invierte en alquilar la cancha?
+      - A cuánto me dejas el campo por una hora?
+      - Qué tal los números para la reserva?
+      - Dime los importes que manejan.
+      - Cuál es la cuota establecida?
+      - Cuánto piden por el alquiler?
+      - Qué se requiere pagar por el uso del local?
+      - A cómo lo dejas el espacio para jugar?
+      - Pásame el precio del alquiler del campo.
+      - Me das el valor del arriendo?
+      - Cuál es el importe por el servicio de alquiler?
+      - Cuál es el cargo por el uso de la cancha?
+      - Explícame los montos por el tiempo de uso.
+      - Quisiera conocer el desembolso por jugar.
+      - Qué importe tiene la hora en la noche?
+      - Necesito información de la plata a soltar.
+      - Me indicas el monto a pagar?
+      - Cuánto piden por el rato de juego?
+      - Qué cantidad de dinero se necesita?
+      - Cuál es el importe que manejan?
+      - Me gustaría saber el costo de la reserva del lugar.
+      - Cuál es el monto del arriendo del campo?
+      - Qué valor tiene el alquiler por hora?
+      - Cuánto hay que desembolsar para el uso?
+      - Detállame cómo funcionan los cobros.
+      - Me gustaría conocer los cargos por el servicio.
+      - Cuál es la cotización para el alquiler?
+      - Qué inversión representa alquilar el campo?
+      - Información sobre los cobros, por favor.
+      - Dame el detalle de los cobros por alquiler.
+      - Cuál es el pago por el uso del campo?
+      - Qué precio le ponen a la reserva?
+      - Dime los valores por el tiempo de uso.
+      - Me gustaría saber cuánto se invierte para un partido.
+      - Cuánto es por el servicio del campo?
+      - A cuánto está la vaina para un fulbito?
+      - Quisiera el detalle de los importes a pagar.
+      - Cuál es el monto que hay que abonar?
+      - Necesito saber la cantidad de dinero a desembolsar.
+      - Me explicas su lista de montos?
+      - Qué monto me toca pagar por la hora de juego?
+      - Qué yapa hay en el precio?
+      - A cuánto me dejas si soy casero?
+      - Cuál es el importe a liquidar?
+      - Me indicas los cargos por el uso del campo?
+      - Quisiera conocer el monto por el alquiler del espacio.
+      - Cuánto es el gasto por el rato en la cancha?
+      - A cuánto me lo alquilas por la noche?
+      - Dime los valores del servicio.
+      - Cuánto se desembolsa para asegurar la cancha?
+      - Me pasas los importes del alquiler?
+      - Cuál es el monto a cubrir?
+      - Información de los cobros para la cancha.
+      - Qué costo tiene una juerga en el campo?
+      - Qué valor tiene el alquiler por un par de horas?
+      - Necesito saber el costo del servicio.
+      - Me dices el importe a pagar?
+      - Cuánto hay que dar por el uso del campo?
+      - Cuál es la cuota para el alquiler?
+      - Qué monto me cobran?
+      - Qué precio tiene el servicio por el uso de la cancha?
+      - Quisiera saber el monto de la reserva.
+      - Me pasas el listado de montos?
+      - Cuánto se cobra por el rato que se juega?
+      - Cuál es el importe que se exige?
+      - ¿Qué billete se maneja para usar las canchas?
+      - Me informas el valor por el uso del campo?
+      - Necesito saber la guita que hay que poner para resrvar.
+      - ¿Cuál es la valoración del alquiler del lugar?
+      - Dame el dato de la inversión para la pichanga.
+      - Quisiera enterarme de los montos por el servicio de alquiler.
+      - ¿Cuánto tengo que desembolsar para armar un partido?
+      - Me indicas la cifra de lo que se cobra por hora?
+      - ¿Qué cantidad tengo que pagar por el uso de las instalaciones deportivas?
+      - A cuánto me dejas la cancha por las mañanas?
+      - ¿Cuál es el precio base del alquiler de un espacio?
+      - Informame sobre la cantidad a pagar por el uso.
+      - ¿Cuál es la inversión por una hora de fulbito?
+      - Me informas qué hay que pagar para poder resrvar?
+      - ¿Qué tal son los costos por jugar aquí?
+      - ¿Cuánto tengo que meter para jugar un rato?
+      - Dame la info de cuánto hay que soltar para el alquiler.
+      - ¿Cuál es el importe que se cobra por el uso de la cancha?
+      - Me das el valor monetario del servicio?
+      - Quisiera saber los cargos por el alquiler del espacio.
+      - Dime cuánto es lo que piden por usar la cancha.
+      - ¿Qué me dices de los valores del alquiler?
+      - ¿Cuánto se paga por jugar en La Victoria?
+      - Sobre la plata, cuánto es para un grupo de amigos?
+      - ¿Cuánto se invierte para un partido de fútbol 5?
+      - ¿Qué monto debo pagar por el tiempo de juego?
+      - Necesito detalles de los montos a cancelar.
+      - ¿Cuáles son las cuotas por la reserva?
+      - ¿Me indicas el valor a invertir?
+      - ¿Hay algún cobro por el alquiler?
+      - Dime los valores que aplican al arriendo.
+      - ¿Cuánto hay que soltar para una pichanga?
+      - ¿Cuál es la guita por el uso del campo?
+      - Necesito saber el capital necesario.
+      - ¿Qué valor le ponen a la reserva?
+      - ¿Me informas los importes a cubrir?
+      - ¿A cuánto sale la broma por una hora?
+      - ¿Cuánto me tengo que ajustar el cinturón para esto?
+      - Dime el valor monetario del alquiler.
+      - ¿Cómo es la vaina de los pagos aquí?
+      - ¿Me puedes dar un resumen de los pagos?
+      - ¿Qué se cobra por cada sesion de juego?
+      - ¿Cuánto se requiere para alquilar?
+      - ¿Cuales son los montos que debo prever?
+      - Necesito saber el billete pa' la cancha.
+      - ¿Cómo son los valores para sabados y domingos?
+      - ¿Me indicas las diferentes opciones de pago?
+      - ¿Qué valor tiene el arrendamiento por un par de horas?
+      - ¿Me puedes explicar los detalles económicos?
+      - ¿Cómo va el tema de la platita para reservar?
+      - ¿Qué me dices de la inversión para jugar un partidito?
+      - Quisiera saber qué se maneja en cuestión de precios por aquí.
+      - ¿Cuál es el importe que se abona por el alquiler?
+      - Estoy interesado en saber el valor monetario del servicio.
+      - ¿A cuánto me dejas la canchita pa' este viernes?
+      - Nesesito saber el costo exacto del servicio de alquiler.
+      - ¿Cuál es el desembolso requerido para reservar una fecha?
+      - ¿Me puedes detallar la estructura de costos que aplican?
+      - ¿Qué precios tienen en general para las canchas?
+      - ¿Cómo calculan el valor de la hora de juego?
+      - ¿Qué tal, me podrías decir los precios para este mes?
+      - Hola, ¿podrías indicarme qué precios manejan por el alquiler de las canchas?
+      - ¿Cómo va, qué tal los precios para echar una pichanga?
+      - Necesito info de cuánto sale el alquiler del campo.
+      - A ver, tírate los precios para jugar un partidito.
+      - ¿Cuanto es la inversión para reservar una hora de juego?
+      - ¿Me puedes dar los costos del alquiler para hoy?
+      - Quiero saber el valor de la hora de uso del grass sintético.
+      - ¿Cuál es el desembolso que se hace para una pichanga?
+      - ¿Podrían informarme sobre el precio de sus instalaciones deportivas?
+      - Hola, ¿cuánto cuesta jugar acá un rato?
+      - Me gustaría saber los montos por el uso de los campos.
+      - ¿Qué precio le ponen a la hora de juego?
+      - ¿Cuánto tengo que soltar para armar un fulbito?
+      - ¿Me pasas el tarifario de las canchas?
+      - ¿Cuánto hay que poner para la alquilada de la cancha?
+      - ¿Cómo andan los costos de las canchas para este fin de semana?
+      - Quiero consultar sobre el valor de alquiler por hora.
+      - ¿Cuál es el precio del servicio para los que queremos jugar?
+      - Me gustaría saber a cuánto me saldría una reserva para dos horas.
+      - Necesito saber cuánto cuesta su cancha de fútbol 7.
+      - ¿Podrías darme una idea de cuánto me costaría una tarde de pichanga con mis patas?
+      - Dime el costo para jugar un partido de fulbito.
+      - ¿Qué tal los precios que tienen para los campos?
+      - Cuanto es lo que se paga por la hora de fútbol.
+      - ¿Cuál es el precio por alquilar la cancha para un grupo?
+      - ¿Me podrían dar los precios de los distintos campos que tienen?
+      - Quería saber el valor del alquiler del espacio deportivo.
+      - ¿Cuánto es la plata que debo tener para reservar?
+      - ¿Me podrías indicar los costos del servicio de alquiler?
+      - Necesito saber cuánto me costaría alquilar por dos horas.
+      - ¿Qué precio está la cancha de grass sintético?
+      - ¿A cuánto me sale el alquiler de la cancha para una noche?
+      - ¿Cuánto es el importe por usar las instalaciones?
+      - Dame una aproximación de cuánto cuesta el alquiler.
+      - ¿Me puedes decir los precios por el uso de las canchas?
+      - ¿Cuál es el costo estimado para jugar aquí?
+      - Quisiera saber los precios de las canchas, por favor.
+      - ¿Cuánto hay que pagar para reservar un campo de fútbol?
+      - ¿Qué tal los valores que manejan para el alquiler?
+      - ¿Qué billete se necesita para alquilar?
+      - Me puedes decir lo que se paga?
+      - ¿Cómo está el cambio para jugar?
+      - Cuanto hay que soltar para el fulbito?
+      - Necesito saber las condiciones económicas.
+      - Cuál es el presupuesto para una pichanga en [Lince](location)?
+      - Cuanto de plata es para la canchita?
+      - Qué debo desembolsar por la hora de juego?
+      - Me interesa saber el valor monetario.
+      - ¿Cuál es la inversión por el alquiler?
+      - Podría saber la inversión del servicio?
+      - Cuál es la chancha para jugar de noche?
+      - Qué se paga para el uso del campo?
+      - Que te tengo que pagar por el futsal?
+      - Hay algún trato para los que vamos seguido?
+      - Cuál es el gasto por una tarde de juego?
+      - A ver, suelta la información de lo que cuesta.
+      - Dime qué hay que abonar.
+      - Me pasas la cifra del alquiler?
+      - Hay alguna consideración de precio si somos muchos?
+      - Cuanto me toca soltar para reservar en [Ate](location)?
+      - Me puedes dar un estimado de lo que cobran?
+      - Necesito conocer la estructura de costos.
+      - Hay algún incentivo económico por reservar con anticipación?
+      - A cuanto la mano para el fulbito del domingo?
+      - Qué se tiene que pagar para usar las instalaciones?
+      - ¿Cuál es el monto de la transacción?
+      - Me interesa saber las condiciones de pago.
+      - ¿Podrías detallar los precios para diferentes tamaños de cancha?
+      - Tienen un precio mejor para harta gente?
+      - Qué se paga por la mañana?
+      - Me dices el costo por usar la cancha de gras?
+      - ¿Qué tal andan los precios por estas fechas?
+      - Indícame el total a cancelar.
+      - Tienen alguna rebaja si presento mi carné de estudiante en [Jesús María](location)?
+      - Explícame cómo va el tema de los pagos.
+      - Cuanto es la gracia para jugar un partidito?
+      - Qué te debo por la hora de fútbol?
+      - ¿Cuánto hay que poner por una hora extra?
+      - Manejan precios diferentes para socios?
+      - Quisiera saber el monto de alquiler por hora.
+      - A cuánto la hora de fulbito?
+      - Cuál es la inversión para reservar un campo?
+      - Por favor, indicar el valor de la reservación.
+      - Qué tanto cuesta jugar un partido?
+      - Deme la información de los importes.
+      - Cuánto se paga por usar su cancha?
+      - La tarifa de juego, cuál es?
+      - Me podría dar el valor monetario del servicio?
+      - Necesito conocer los montos de las horas de alquiler.
+      - A cuánto el alquiler de la cancha sintética?
+      - Quisiera averiguar los importes a cancelar.
+      - Podría decirme el importe por el uso del campo?
+      - Cuánto cuesta una pichanga con ustedes?
+      - Dame el detalle de la inversión requerida.
+      - cuánto cuesta reservar
+      - cuál es el precio por hora
+      - tarifa de la cancha por favor
+      - precio del alquiler
+      - costos de reserva
+      - cuánto sale la hora
+      - dame el precio, no el proceso
+      - me interesa el costo nomás
+      - cuánto cobran por reservar
+      - precio de la cancha sintética
+      - lista de precios por favor
+      - cuánto vale jugar una hora
+      - cuánto pago por 2 horas
+      - monto total de reserva
+      - quiero saber tarifas, no pasos
+      - cuál es la tarifa nocturna
+      - precio para hoy en la noche
+      - cuánto cuesta en surco
+      - cuánto cobran entre semana
+      - costo aproximado por partido
+      - Los costos para alquilar, por favor.
+      - Qué precio me dan para jugar una hora?
+      - Cuál es la inversión por el alquiler del campo?
+      - Dígame el valor por usar las instalaciones.
+      - Cuánto es el monto para un partido entre patas?
+      - Me podría informar sobre el importe a abonar?
+      - Necesito la información sobre las tarifas de sus canchas.
+      - A cuánto me dejan la hora de fútbol 7?
+      - Cuál es el importe que se cobra por alquilar?
+      - Quiero saber la plata para reservar.
+      - Cuánto tengo que invertir para jugar?
+      - Deme el precio del campo de gras artificial.
+      - La inversión por el alquiler de la cancha, cuál es?
+      - Podría darme los detalles de los importes?
+      - Cuánto sale una hora de fulbito en su local?
+      - A cuánto está el uso de las instalaciones?
+      - Quisiera conocer el desembolso por el uso de la cancha.
+      - Cuánto por el alquiler del espacio para jugar?
+      - Por favor, infórmeme sobre el valor del servicio.
+      - Qué cantidad de dinero se necesita para reservar?
+      - Dígame el importe a pagar por el alquiler.
+      - Necesito saber el costo de una hora de fútbol.
+      - A cuánto la reserva del campo para mañana?
+      - Cuál es el monto por alquilar su cancha de grass?
+      - Información sobre la inversión para un partido.
+      - Me comentas los valores de las canchas?
+      - ¿Qué tal está el billete por una hora de fulbito?
+      - Necesito saber el tarifario completo.
+      - ¿Algún precio reducido por la mañana?
+      - Me indicas los valores de costos para hoy?
+      - ¿Cuál es el valor que se debe abonar para jugar?
+      - ¿Pueden indicarme el precio si somos diez personas?
+      - ¿Cuánto hay que invertir para una pichanga?
+      - Me interesa saber las tarifas para las noches.
+      - ¿Algún convenio para reservas recurrentes?
+      - Cuál es el costo por alquilar dos horas?
+      - ¿Algún precio diferenciado para universitarios?
+      - Qué monto se pide por la cancha de grass?
+      - Necesito el detalle de cuánto cobran por los servicios.
+      - ¿Qué precios aplican para un partido entre semana?
+      - Quisiera averiguar sobre el costo de la reserva.
+      - ¿A cuánto asciende el importe por el uso de la instalación?
+      - Quisiera saber las variaciones de precio según la zona.
+      - Qué monto tendría que pagar para reservar el sábado?
+      - Información sobre los precios por día, por favor.
+      - ¿Hay un precio menor si alquilamos por más tiempo?
+      - Explícame cómo funcionan sus precios.
+      - ¿Qué tal está el precio para la gente que viene seguido?
+      - Cuánto te tengo que dejar por la hora?
+      - Podrías darme la relación de costos actual?
+      - ¿Cuál es el desembolso mínimo por alquilar?
+      - Necesito saber los costos pa' las tardes.
+      - ¿Qué montos se manejan para las pichangas?
+      - Averigua si nos dan algún descuento.
+      - Me informas el costo de la cancha techada?
+      - ¿Hay alguna tarifa plana por mes?
+      - Dime cuánto es la inversión para un mes de uso.
+      - ¿Qué precio hay si pago en efectivo al momento?
+      - Me gustaría saber si hay algún descuento por grupo.
+      - Cuál es el valor de una reserva de última hora?
+      - Detalles de los valores por temporada, por favor.
+      - ¿Cuál es el valor monetario de alquilar por una hora?
+      - ¿Cuánto tendría que pagar para asegurar la cancha?
+      - Me dan el detalle de los preçios porfa.
+      - ¿A qué preçio está la cancha pequeña?
+      - ¿Cuál es el monto de inversión para alquilar un campo?
+      - Quiero saber el valor monetario de sus servicios.
+      - Me puedes detallar los valores de las reservas?
+      - Cuál es la cotización para un horario nocturno?
+      - Dame una referencia de lo que cobra por hora.
+      - Necesito conocer la estructura de precios.
+      - ¿Existe alguna rebaja para clientes frecuentes?
+      - Cuál es el desembolso mínimo para una cancha?
+      - A cuánto me sale un fulbito un jueves por la tarde?
+      - Hay algún precio especial para estudiantes universitarios?
+      - Me dices los precios por las mañanas?
+      - Si alquilo varias horas, hay algún beneficio en el precio?
+      - Cuánto tengo que soltar para una pichanga hoy?
+      - Quiero el valor de la cancha para fútbol 11.
+      - ¿Qué presupuesto debo considerar para el alquiler?
+      - Me informas sobre los montos de arrendamiento?
+      - Cuál es el importe que se cobra por el uso de la cancha?
+      - Si pago con Yape, ¿el precio es el mismo?
+      - Algún precio por el día si hago la reserva ahorita?
+      - Cuánto me sale si somos ocho patas?
+      - Cuantoo esta para reservar una hora el finde?
+      - Qué precio tienen para un evento pequeño?
+      - Dime los valores de sus instalaciones.
+      - ¿El precio incluye balón y chalecos?
+      - Cuál es el precio base para reservar?
+      - A cuánto me dejas la cancha para la noche?
+      - Necesito saber cuánto cuesta por una tarde.
+      - Cómo es la vaina de los precios?
+      - Cuéntame los costos por el alquiler de la cancha.
+      - Qué tanto hay que poner para una hora?
+      - ¿Me das una idea de los precios que manejan?
+      - Cuál es el costo de un alquiler por dos horas?
+      - Estoy buscando el precio más accesible, cuál es?
+      - Los precios de la cancha de césped artificial, cuáles son?
+      - Cuánto tengo que pagar para usar el campo de fútbol?
+      - Qué tarifa aplicas por la mañana?
+      - Los costos para los días de semana, cuáles son?
+      - Me puedes pasar la info de cuánto sale el alquiler?
+      - Si pago por adelantado, hay algún beneficio en el precio?
+      - ¿Cuál es el valor por alquilar una cancha de fútbol?
+      - Deseo saber el valor por el uso de la cancha.
+      - Me puedes informar sobre el costo del alquiler?
+      - Cuál es el importe por reservar una hora?
+      - Qué se paga por un turno de juego?
+      - Podrías indicarme los precios que manejan?
+      - Necesito conocer la tarifa de las canchas.
+      - Cuánto sería el costo total por alquilar?
+      - Me gustaría saber a cuánto está la hora.
+      - Qué precio tiene la cancha de fulbito?
+      - Dime el valor para jugar un partido.
+      - A cuánto está la hora de la pichanga?
+      - Cuánto debo invertir por el alquiler?
+      - Quisiera saber el costo por el servicio.
+      - Me das los montos para un fin de semana?
+      - Cómo es la estructura de precios?
+      - Cuánto es el desembolso para alquilar?
+      - Me puedes detallar el costo por hora?
+      - Cuál es el precio por el uso de sus instalaciones?
+      - Qué tengo que pagar para la reserva?
+      - Me informas el importe a cancelar?
+      - A cuánto asciende el precio de una hora?
+      - Podrías darme la lista de valores?
+      - Necesito saber cuánto cuesta separar una cancha.
+      - Qué precio me das si somos varias personas?
+      - Cuánto hay que pagar para usar la canchita?
+      - Me dices la inversión necesaria?
+      - A cuánto está la hora de alquiler para hoy?
+      - Cuál es el precio por un alquiler prolongado?
+      - Dime los precios por tipo de cancha.
+      - Me puedes dar los costos de arrendamiento?
+      - Quisiera saber el importe a pagar por el uso.
+      - Qué se debe abonar para la reserva?
+      - Cuánto es la tarifa si alquilo por la noche?
+      - Me pasas los valores de las canchas?
+      - Cómo es el precio para jugar entre semana?
+      - Cuánto debo soltar para la pichanga?
+      - Me informas sobre el costo de la cancha sintética?
+      - Qué precio tiene el alquiler de una cancha de fútbol 7?
+      - Cuánto es el monto por alquilar el campo?
+      - Podrías indicarme el precio por el tiempo de juego?
+      - Quisiera saber cuál es la inversión.
+      - Dame la info sobre los montos.
+      - ¿A cuánto asciende el pago?
+      - Necesito saber cuánto se destina.
+      - Dime el valor del servicio, por favor.
+      - ¿Qué cantidad se requiere?
+      - Estoy interesado en la cifra a desembolsar.
+      - Podrías explicar el esquema de contribución?
+      - Hablame de la plata que hay que poner.
+      - Cuál es la cuota de alquiler?
+      - Quiero conocer la estimación de pago.
+      - Info sobre lo que se abona.
+      - ¿Cuánto sería la cuenta por la cancha?
+      - Explícame el importe por hora.
+      - Necesito saber el valor de la hora de juego.
+      - Sobre el desembolso, ¿cómo andamos?
+      - Qué onda con el tema del pago?
+      - Dame un aproximado de la suma.
+      - ¿Cuánto hay que invertir para esto?
+      - Me gustaría saber la contribución monetaria.
+      - Dime cuánto es lo que hay que pagar.
+      - Cuál es la cantidad que se solicita?
+      - Estoy buscando la información de las cuotas.
+      - Podrías informarme sobre la retribución?
+      - A ver, sobre el pago de la pichanga.
+      - Cuánto tengo que destinar por la reserva?
+      - Me pasas los datos de la inversión?
+      - Explícame los montos por el arrendamiento.
+      - ¿Qué valor tiene usar las instalaciones?
+      - Necesito el detalle de la cifra que piden.
+      - Dime sobre los cargos aplicables.
+      - A cuánto asciende la cantidad por el servicio?
+      - Quisiera entender el esquema de importes.
+      - ¿Cuánto se destina por jugar acá?
+      - Cuál es la plata que se pide?
+      - Podrías darme la información de la remuneración?
+      - Me interesa saber la suma a cancelar.
+      - Dame el importe para la diversión.
+      - A cuánto va el alquiler de la cancha?
+      - Me puedes decir el monto a entregar?
+      - ¿A cuánto me dejas la horita de fulbito?
+      - ¿Hay alguna promoción para reservas grupales?
+      - ¿Podrías indicarme los precios por el alquiler del campo?
+      - ¿Cuánto es la inversión por hora de uso?
+      - ¿Cuál es la tarifa que aplican por el uso del grass?
+      - ¿Tienen precios diferenciados por horario?
+      - ¿Cuál es el precio base de una reserva?
+      - Me puedes pasar el tarifario, por favor.
+      - ¿Qué tan caro es reservar un sábado por la noche?
+      - ¿Cuánto me saldría una pichanga para 5 vs 5?
+      - ¿Hay algún precio especial si reservo varias horas?
+      - ¿A cuánto la hora en el local de [La Molina](location)?
+      - Necesito conocer los costos para un evento.
+      - ¿Cuáles son los montos que debo cubrir?
+      - ¿Cuánto es lo mínimo que tengo que pagar?
+      - ¿Hay alguna oferta interesante ahora?
+      - ¿A cómo está la hora de futbito?
+      - ¿Cuánto está la hora de la cancha en [Pueblo Libre](location)?
+      - ¿Cuál es la tarifa más barata para un grupo de amigos?
+      - Dime los precios para el alquiler mensual.
+      - ¿Cuál es el precio si quiero reservar por anticipado?
+      - ¿Tienes la lista de costos por hora de uso?
+      - ¿A cuánto asciende el alquiler de la cancha?
+      - Quiero saber el valor de la pichanga.
+      - ¿Hay algún descuento por pago en efectivo?
+      - ¿Qué modalidades de pago tienen y sus precios?
+      - Explícame los precios según el tipo de cancha.
+      - ¿Cuál es la diferencia de precios entre semana y fin de semana?
+      - ¿Cuánto me sale una hora de entrenamiento?
+      - ¿Me puedes dar un presupuesto para una fecha específica?
+      - ¿Qué precio tienen por separar el campo?
+      - ¿Hay algún costo adicional por iluminacion?
+      - ¿Cuánto es la renta del espacio deportivo?
+      - Quiero chequear los precios actuales.
+      - ¿A cuánto la hora en [Ate](location) si voy con mi gente?
+      - ¿Cuánto cuesta el alquiler del gras sintético?
+      - Necesito el detalle de kuanto se paga.
+      - ¿Qué tan accesibles son los precios para estudiantes?
+      - ¿A cómo está la hora pa' la pichanga de noche en [Callao](location)?
+      - ¿Hay alguna tarifa corporativa?
+      - ¿Cuál es la inversión para jugar hoy?
+      - Quisiera saber el detalle del cobro por el alquiler.
+      - ¿Cómo es el tema del importe para reservar la cancha?
+      - ¿A cuánto asciende el gasto por el servicio?
+      - Dime la cifra por hora de juego.
+      - ¿Cuál es el importe a pagar para la pichanga de hoy?
+      - ¿Cuál es el importe por el uso de las instalaciones?
+      - Me informas sobre el billete que se necesita para el alquiler.
+      - Quiero saber el importe si alquilamos de noche.
+      - ¿Cuánto me tocará pagar por el fulbito?
+      - Necesito saber la cantidad aproximada de una cancha.
+      - ¿Cuál es el presupuesto para un alquiler?
+      - ¿Cómo es la movida del billete que manejan?
+      - ¿Me das los números de cuánto tengo que soltar?
+      - ¿Cuánto es el pago por la hora de fulbito?
+      - ¿Hay alguna consideración económica para fin de semana?
+      - Cuéntame las cifras que tienen para las reservas.
+      - ¿Cuánto hay que invertir por un partido?
+      - ¿Cuánto tengo que apoquinar para alquilar?
+      - ¿Qué tal la cantidad si somos un grupo grande?
+      - ¿Podrías darme la info de las cifras de alquiler?
+      - ¿Cómo funciona su sistema de cobros?
+      - ¿Me detallas la cantidad por usar la cancha?
+      - ¿Qué cifra me harían por alquilar varias horas?
+      - Quiero saber cuánto se invierte en una hora.
+      - ¿Cuál es la cantidad monetaria por el uso del campo?
+      - ¿Cuánto toca pagar por la losa?
+      - ¿Me pasas el listado de importes de las canchas?
+      - ¿Qué cantidades tienen las promociones que anuncias?
+      - ¿Cuánto se pide por la hora de alquiler para jugar?
+      - ¿Cuál es el importe si reservo con Plin?
+      - ¿Cómo están las cifras por el servicio de alquiler?
+      - ¿Cuál es la suma a pagar por la reserva?
+      - ¿Me informas las cantidades de alquiler por hora?
+      - ¿Qué cifras aplican para los diferentes horarios?
+      - ¿Cuánto tengo que soltar para armar el partido?
+      - ¿Cuál es la retribución económica por el alquiler?
+      - Necesito saber los gastos involucrados en el alquiler.
+      - ¿Me das una idea de la inversión a realizar?
+      - ¿Cuál es la cantidad del servicio de la cancha?
+      - ¿Cuánto es el billete para la pichanga?
+      - ¿Me podrías indicar el monto a invertir para el uso de la cancha?
+      - ¿Qué tal está la tarifa del alquiler por hora?
+      - ¿Tienen alguna promo buena para alquilar la cancha?
+      - Necesito saber cuánto me sale el alquiler por un par de horas.
+      - ¿Cuál es la platita que hay que soltar por el campo?
+      - ¿Podrían darme los detalles de los montos a pagar?
+      - Quiero enterarme de los precios para reservar una fecha.
+      - ¿Me informas cuánto hay que desembolsar por el servicio?
+      - ¿A cuánto asciende el pago por usar las instalaciones?
+      - ¿Cuál es el presupuesto para una hora de fulbito?
+      - ¿Qué precio manejan para el uso del grass sintético?
+      - ¿Tienen ofertas atractivas para los fines de semana?
+      - ¿Me dices cuánto se necesita para asegurar el campo?
+      - ¿Cuál es el costo estimado para un grupo grande?
+      - ¿Qué precio tienen por el alquiler de la losa deportiva?
+      - Necesito la información de cuánto tengo que abonar.
+      - ¿Cuánto cobran por la reserva anticipada?
+      - ¿Me podrías dar los costos según el tamaño de la cancha?
+      - ¿Qué valor tiene alquilar la cancha de fútbol 7?
+      - ¿Cuáles son las condiciones de pago y sus costos?
+      - Me gustaría saber el monto por el arrendamiento del espacio.
+      - ¿Tienen descuentos por ser cliente frecuente?
+      - ¿A cuánto está la hora si la quiero para la noche?
+      - ¿Cuál es la inversión monetaria para una pichanga de 2 horas?
+      - ¿Me pasas la relación de precios para los diferentes campos?
+      - ¿Qué hay que pagar para poder jugar en sus instalaciones?
+      - ¿Con cuánto dinero tengo que contar para la reserva?
+      - ¿Me podrías detallar las tarifas por turno?
+      - ¿Qué costo adicional tiene alquilar la cancha con iluminación?
+      - Necesito saber cuánto es lo que se cobra por el uso.
+      - ¿Cuánto es el billete si queremos alquilar la cancha?
+      - ¿Podrían informarme de los precios para partidos de prueba?
+      - ¿Me das un estimado de cuánto me saldría una reserva un miércoles?
+      - ¿Qué tal están los precios para los eventos deportivos?
+      - ¿Cuál es el monto por el uso exclusivo de la cancha?
+      - ¿Cuánto es la cuota para jugar un partido con amigos?
+      - ¿Me puedes decir los costos para el grass sintético?
+      - ¿Qué precio final tiene alquilar por dos horas?
+      - ¿Cuál es la cotización por el servicio?
+      - Me indicas los valores del arriendo?
+      - Necesito saber el desembolso para una reserva.
+      - Qué importe se debe cancelar por la hora?
+      - ¿A cuánto asciende el monto por el uso?
+      - Quisiera los montos para el alquiler.
+      - Dime cuánto es la inversión para jugar.
+      - ¿Cómo están los valores para los campos?
+      - Me puedes detallar la estructura de costos?
+      - Pásame el tarifario de sus servicios.
+      - Qué tal la tarifa por hora de [Lince](location)?
+      - Cuéntame qué onda con los precios.
+      - Estoy buscando info de los cobros, ¿me ayudas?
+      - Cuál es la nota si quiero reservar un sabado?
+      - Explícame sobre los importes a pagar.
+      - Deseo conocer la cuota por el alquiler.
+      - Necesito el valor del servicio, porfa.
+      - Dime si tienen alguna promoción de precios por la tarde.
+      - Qué precio tienen los campos para fulbito?
+      - ¿A cuánto está el minuto?
+      - Háblame de los gastos de la reservación.
+      - Me gustaría saber a cuánto asciende la factura.
+      - Cuánto tengo que soltar por una pichanga?
+      - Cuál es el presupuesto para una hora de cancha?
+      - Estoy interesado en los costos de uso.
+      - Necesito un estimado de los valores.
+      - Podrías darme la escala de precios?
+      - ¿Qué costos me ofrecen si quiero jugar mañana?
+      - A cuánto me dejas la cancha por tres horas?
+      - ¿Cuánto se paga por el alquiler del campo?
+      - Me informas sobre los montos de la reservación?
+      - Quisiera el valor del uso de las instalaciones.
+      - Dame una idea de lo que cobran por el servicio.
+      - Cuál es el monto por jugar un partido?
+      - ¿Tienen alguna tarifa fija por el día completo?
+      - Podrías explicarme sus métodos de cobro?
+      - Dime la plata que se necesita para el alquiler.
+      - Quiero saber cuánto me sale la hora en [La Victoria](location).
+      - Necesito el precio de las canchas por esta semana.
+      - Cuál es el valor monetario del arriendo?
+      - ¿A cuánto está la jugada?
+      - ¿Qué precio tienen por el alquiler?
+      - ¿Cuál es el importe por reservar?
+      - ¿Cuánto me sale la hora de fulbito?
+      - Dime qué precio manejan para hoy.
+      - Quiero saber el valor del turno que tienen.
+      - ¿A cuánto se va el costo del alquiler?
+      - Pásame los costos para un partido.
+      - ¿Hay alguna oferta por el turno de la noche?
+      - ¿Qué precio le ponen a la cancha que está libre?
+      - Consulta sobre el precio que aplican.
+      - Necesito saber el precio de su servicio.
+      - ¿Cuánto sale por la tarde en el campo?
+      - Información sobre el costo de uso de sus instalaciones.
+      - ¿Cuánto hay que soltar para el partido?
+      - Dame una idea de sus tarifas.
+      - ¿A cuánto está el campo para armar una pichanga?
+      - ¿A qué precio se encuentra el alquiler del espacio?
+      - ¿Manejan alguna tarifa especial por ser cliente antiguo?
+      - ¿Cuál es el coste por cada hora de juego?
+      - Dime los valores que aplican por horario.
+      - Quisiera saber los precios de sus canchas disponibles.
+      - ¿Tienen algún paquete promocional por varias horas?
+      - ¿Cuánto debo abonar para asegurar la reserva?
+      - Necesito info sobre sus costos de alquiler.
+      - ¿Cuál es la gracia del turno de las 8?
+      - Quiero saber el precio del alquiler de una cancha de grass.
+      - ¿Cuánto está saliendo la hora en el campo principal?
+      - Indica los precios que tienen para los diferentes horarios.
+      - Detalles de precios de alquiler, por favor.
+      - ¿Qué promos tienen para esta semana?
+      - ¿Me pasas la lista de tarifas para las canchas?
+      - ¿Cuánto es la tarifa por un horario en la mañana?
+      - Chequéame los precios de la cancha sintética porfa.
+      - ¿Qué costo tiene la reserva con pocos días de anticipación?
+      - Necesito el valor de la hora de juego completa.
+      - Dame los montos para reservar una cancha de fútbol 7.
+      - ¿Cuánto se está cobrando por jugar los fines de semana?
+      - Infórmame sobre sus costos de alquiler por hora.
+      - ¿A cómo está la pichanga por acá?
+      - Quiero saber el importe del alquiler.
+      - Indícame el monto a desembolsar.
+      - Qué valor tiene arrendar la cancha?
+      - Cuánto tengo que soltar para una pichanga?
+      - Me informas de los importes?
+      - Dame el valor de la reservación.
+      - Cuéntame el importe por el uso del campo.
+      - Cuál es el costo de un fulbito?
+      - Cuánto hay que invertir?
+      - Quisiera los montos del alquiler.
+      - Información sobre los valores de alquiler.
+      - Cuánto se cancela por el campo?
+      - Me pasas el dato de cuánto se paga por usarla?
+      - Cuánto es la inversión para un rato?
+      - Cuál es el precio del arriendo?
+      - Cuál es el monto por un partido con la gente?
+      - Dime los importes para alquilar.
+      - Qué tarifa aplicas por el campo?
+      - Cuál es el dinero que se requiere?
+      - Cuánto te tengo que pagar por el uso?
+      - Quisiera los precios para las instalaciones.
+      - Cuánto tengo que desembolsar por la hora?
+      - Cuál es el importe por el espacio?
+      - Info sobre el dinero que piden.
+      - Cuánto es la contribución para el uso?
+      - Dime el precio que piden por la cancha.
+      - Qué montos manejan para el arriendo?
+      - Cuál es el valor monetario del alquiler?
+      - Cuánto cuesta para echar una pichanga rapidito?
+      - Puedes darme los montos a cubrir?
+      - Qué tal los importes para una hora?
+      - Cuánto se cobra por el arriendo de la cancha?
+      - Dame un estimado del costo.
+      - Quisiera averiguar los montos de arrendamiento.
+      - Cuánto es el precio para jugar un partido?
+      - Puedes decirme el valor de arrendar el campo?
+      - Cuál es la inversión por hora de uso?
+      - Me pasas los valores de las tarifas?
+      - ¿Qué tal están los precios por acá?
+      - ¿Cuál es el valor que tengo que pagar por usar la cancha?
+      - ¿A cuánto me sale el alquiler para un [domingo](date)?
+      - ¿Tienen tarifas para reservar en [Magdalena](location)?
+      - ¿Cuánto me sale si quiero reservar la cancha por dos horas?
+      - Me podrías dar los precios por los servicios que ofrecen.
+      - ¿Hay algún plan de precios para empresas?
+      - ¿Cuál es el precio para un campeonato?
+      - Cuánto cuesta el alquiler del campo deportivo.
+      - Dime el valor del arriendo.
+      - Qué precio está la cancha hoy.
+      - Dame un estimado de cuánto me saldría.
+      - Cuánto debo pagar por el alquiler del espacio.
+      - Me pasas el tarifario?
+      - ¿Cuánto cuesta alquilar la cancha de voley?
+      - ¿Qué costo tiene la reserva para [mañana](date)?
+      - ¿Me podrías indicar los precios para alquilar la losa?
+      - ¿Cuánto hay que pagar por el uso del campo?
+      - Quiero saber los precios del alquiler por la noche.
+      - ¿Qué tan caro es alquilar la cancha de fútbol 11?
+      - ¿Hay alguna promoción si alquilo varias horas?
+      - Dime las tarifas para los estudiantes de la universidad.
+      - ¿Cuánto cuesta jugar un partidito en la mañana?
+      - ¿A cuánto la hora en [La Victoria](location)?
+      - Explícame cómo funcionan los precios por horario.
+      - ¿Qué ofertas tienen para alquilar este [mes](date)?
+      - Necesito el detalle de los precios para reservar.
+      - ¿Cómo calculan el precio por el uso del campo?
+      - ¿Hay precios especiales si pago por adelantado?
+      - Cuánto me cuesta reservar la cancha para la tarde.
+      - Me pasas la lista de costos que manejan?
+      - ¿Qué tal está el precio si quiero alquilar la cancha [entre semana](date)?
+      - Dime cuánto es lo que se paga por cada hora de alquiler.
+      - ¿Hay algún precio diferenciado para grupos grandes?
+      - ¿Podrías darme una cotización para un evento deportivo?
+      - Necesito saber el precio por el alquiler del campo.
+      - A cuánto me sale si alquilo la cancha por cuatro horas?
+      - ¿Qué precios aplican para la temporada de verano?
+      - Dime a cuánto está la hora de la pichanga.
+      - ¿Cuánto es el billete para un partidito?
+      - Quería saber la inversión por el uso del grass.
+      - ¿Cómo es el tema de los importes que manejan?
+      - Necesito info sobre la plata para el alquiler, ¿me podrías dar?
+      - ¿Qué hay que desembolsar por un par de horas?
+      - ¿Cuál es el valor monetario del servicio de cancha?
+      - ¿Me puedes decir a cuánto asciende la cuenta?
+      - Chequea, ¿cuántas lucas es la hora de juego?
+      - Quería ver el tema de cuánto se paga.
+      - ¿Cuánto hay que soltar para un encuentro?
+      - ¿Cuál es el importe a sufragar?
+      - ¿Qué onda con las tarifas de los campos?
+      - Quisiera conocer los montos por el uso del área deportiva.
+      - ¿Me informas cuánto me saldría por la noche?
+      - ¿Qué cantidad tengo que invertir para asegurar?
+      - ¿Cuánto se estipula cobrar por el arrendamiento?
+      - Deseo saber los valores de sus servicios.
+      - Dime los valores para arrendar la cancha.
+      - ¿Cuál es el desembolso estimado?
+      - ¿Qué monto se debe cancelar?
+      - ¿Me pasas el detalle de los valores por hora?
+      - ¿Cómo funciona la tarifa de uso del campo?
+      - ¿Cuánto cuesta separar un espacio?
+      - ¿Qué billete hay que destinar?
+      - ¿Me das los montos actualizados, porfa?
+      - ¿A cuánto asciende lo que tengo que desembolsar?
+      - ¿Qué cantidad monetaria es por la pichanga?
+      - ¿Me puedes indicar los valores por día?
+      - ¿Cuánto están pidiendo por el alquiler?
+      - ¿Qué hay que pagar por cada turno?
+      - ¿Me puedes decir la tarifa que aplican para el finde?
+      - ¿Cuál es la retribución económica requerida?
+      - ¿Qué tal están los números del alquiler?
+      - ¿Cuánto es la contribución por el uso de las instalaciones?
+      - Quisiera saber el valor que posee la hora.
+      - ¿Me envías la tabla de importes?
+      - Información de la inversión requerida.
+      - ¿Cuánto me sale el cachuelo?
+      - ¿Me informas sobre el aporte monetario?
+      - ¿Cuál es la cuantía por el uso del complejo?
+      - Necesito el detalle del monto para la reserva.
+      - ¿Me informas cuánto se paga por la hora de juego?
+      - ¿Cómo es el tema de los pagos para el campo?
+      - ¿Cuánto hay que soltar para armar la pichanga?
+      - ¿Qué valor le ponen al alquiler de la cancha?
+      - Quisiera conocer el desembolso para usar el campo.
+      - ¿Podrías decirme la plata que se necesita?
+      - ¿Me explicas cómo son los cobros por hora?
+      - ¿Cómo están las lukas para la pichanga de hoy?
+      - ¿Cuál es el valor que se maneja para los campos de fulbito?
+      - ¿Cuánto toca pagar para jugar con mis patas?
+      - Necesito saber el valor de la hora en soles.
+      - ¿Qué monto aplican para las canchas de gras sintético?
+      - Dime el importe por el rato de juego en la losa.
+      - Quisiera saber cuánto se le paga por jugar una hora.
+      - ¿Cuál es la inversión por el uso del espacio?
+      - Dame el dato de lo que se abona por el uso del campo.
+      - ¿Cómo es la cuestión de los montos para alquilar?
+      - ¿Qué billete se maneja para esto de las reservas?
+      - Me gustaría saber el valor de una hora de campo.
+      - ¿Cuánto se necesita para reservar hoy por la tarde?
+      - ¿Cuál es el importe a pagar por el alquiler?
+      - ¿Podrías informarme sobre el valor monetario?
+      - Quiero entender la estructura de los pagos que manejan.
+      - ¿Me detallas el monto para la pichanga con mis amigos?
+      - ¿Cómo se determina el monto a desembolsar por el campo?
+      - Necesito los números de los montos para alquilar.
+      - ¿Qué valor tengo que considerar para alquilar un campo?
+      - Dime lo que tengo que poner para jugar un partido.
+      - ¿Cuál es el gasto por el tiempo de juego en su complejo?
+      - ¿A cuánto me dejas el alquiler si somos clientes fijos?
+      - Información sobre lo que se abona por el uso de las canchas.
+      - Detalles sobre la inversión para la cancha de fulbito.
+      - ¿Podrías darme una idea de los montos que cobran?
+      - ¿Me indicas el valor por el uso de los campos hoy?
+      - ¿Cómo son los valores para las reservas de fin de semana?
+      - ¿Cuánto es el valor de la hora, me dices por favor?
+      - Necesito el detalle de cuánto se tiene que pagar por el alquiler.
+      - ¿Me explicas cómo es la cuestión del billete para cuadrar cancha?
+      - ¿Qué cantidad de dinero se necesita para el alquiler?
+      - A cuánto sube la tarifa por una hora de partido?
+      - ¿Cuál es el importe a cancelar por la reserva?
+      - Me podrían decir el valor a pagar por la losa?
+      - ¿Cuál es la inversión para un partidito el fin de semana?
+      - Quisiera saber el monto por el uso de la cancha.
+      - Indíquenme la cuota por el servicio de alquiler.
+      - ¿Qué billete tengo que soltar por el campo?
+      - ¿Cuál es el importe si reservo en la mañana?
+      - Hay alguna tarifa diferenciada para estudiantes?
+      - ¿Cuánto es la inversion por reservar la cancha?
+      - Podrían informarme sobre los cargos por el alquiler?
+      - ¿Qué monto es por alquilar la cancha de [Jesus Maria](location)?
+      - ¿Cuánto se requiere pagar por la hora de fulbito entre amigos?
+      - Me puedes indicar el importe para una fecha especial?
+      - Me gustaría conocer el valor que piden por el horario nocturno.
+      - ¿Qué cantidad hay que desembolsar para el fútbol 8?
+      - ¿Qué cantidad de dinero cuesta si la alquilo por 3 horas?
+      - ¿Qué monto se cobra por la utilización de la instalación?
+      - Diganme los importes de alquiler para la proxima semana.
+      - ¿Qué tarifa aplican para la cancha sintética si somos 12?
+      - ¿Hay alguna cuota por reservar para un cumple?
+      - ¿Cuál es la tarifa si la reserva es por internet?
+      - Quisiera averiguar qué se paga por la hora en [La Molina](location).
+      - Me pueden detallar el importe por una pichanga?
+      - ¿Qué tal está el monto por el campo de grass natural?
+      - ¿Cuánto es la gracia si queremos jugar hasta tarde?
+      - Indícame el valor a depositar por el alquiler.
+      - ¿A cuánto la joda por un par de horas el miercoles?
+      - Necesito saber los cargos por el uso de la losa deportiva.
+      - ¿Qué monto tengo que pagar por la cancha si soy socio?
+      - ¿Qué cantidad hay que pagar para la reserva de un día completo?
+      - Me brindas el importe del alquiler del campo deportivo?
+      - ¿A cuánto me dejas la hora si reservo con Yape?
+      - ¿Qué tal de billete para alquilar la cancha para el partido?
+      - Quiero saber el valor monetario por el alquiler.
+      - Me podrías indicar el desembolso requerido para el alquiler?
+      - ¿Cuánto se les paga por cada hora de uso de la cancha?
+      - ¿Cuál es el importe a cubrir por la reserva semanal?
+      - Dime cuál es el valor para las canchas de futsal.
+      - ¿Podrían darme información acerca de los montos a cancelar?
+      - Me gustaría saber el monto del alquiler de un espacio.
+      - ¿Podrían indicarme los importes para la reserva?
+      - ¿Cuál es el importe que se cobra por el servicio?
+      - Necesito conocer la inversión para una hora de cancha.
+      - ¿Qué tal son los números que tendría que cancelar?
+      - Deme un estimado de lo que tendría que soltar.
+      - ¿A cuánto se eleva el monto de la reservación?
+      - Quisiera saber qué se pide por usar las instalaciones.
+      - ¿Me puedes decir los valores de las sesiones?
+      - ¿Cuál es el gasto por un rato de fútbol?
+      - ¿Qué cifras manejan para sus servicios?
+      - Me gustaría informarme sobre la retribución que piden.
+      - ¿Cuánto es el valor a abonar por el uso?
+      - ¿Me pasas la cuantía para alquilar?
+      - Dime los numeritos de cuánto cuesta el alquiler.
+      - ¿A cuánto asciende la cantidad por el servicio?
+      - Quisiera saber el valor monetario de sus prestaciones.
+      - ¿Cuál es la contribución económica por la hora de juego?
+      - ¿Qué se tiene que pagar por el rato de pichanga?
+      - Necesito una referencia de las sumas a pagar.
+      - ¿Me pueden dar los datos de las cantidades que se manejan?
+      - ¿Cuánto implicaría el pago por reservar?
+      - Dame un adelanto de lo que se desembolsa.
+      - ¿A cuánto llega la suma por el uso de la cancha?
+      - ¿Qué montos están solicitando?
+      - Indícame las cifras que aplican para el arriendo.
+      - ¿Me podrían detallar el esquema de inversión?
+      - ¿Cuál es la valuación económica por el alquiler?
+      - ¿Qué se necesita desembolsar para reservar?
+      - Necesito saber las cantidades monetarias.
+      - ¿A cuánto llega la facturación por el servicio?
+      - ¿Qué sumas tengo que considerar para el alquiler?
+      - Me gustaría que me cuenten sobre las cifras de la reserva.
+      - ¿Cuánto hay que poner para usar las canchas?
+      - ¿Me explicas las remuneraciones por el uso del local?
+      - ¿Qué cantidad monetaria es por la sesión?
+      - ¿Cuánto es la inversión para pasarla bien un rato?
+      - ¿Me das un estimado de lo que hay que pagar?
+      - Cuéntame sobre los importes a considerar.
+      - ¿Cuál es el valor del alquiler?
+      - Me gustaría saber el costo de alquilar un campo.
+      - Dime el valor que manejan.
+      - ¿Cómo es el tema de los precios?
+      - Quiero averiguar el monto a pagar.
+      - Podrías decirme el costo por el uso de la cancha?
+      - ¿Qué onda con los precios?
+      - Cuál es la cifra por hora de juego?
+      - Cuánto es la inversión para jugar aquí?
+      - Cuál es el valor por la hora de fulbito?
+      - Me puedes informar los montos porfas?
+      - Qué monto se cobra por usar el espacio?
+      - Quiero saber el importe por la hora.
+      - Quiero conocer los valores de las canchas.
+      - Bríndame la info de los costos.
+      - Qué precio me darías por la cancha en la tarde?
+      - Cuál es el desembolso por alquilar?
+      - Cuánto hay que desembolsar para una pichanga?
+      - Me dices el precio para un grupo grande?
+      - Información sobre el valor de arriendo.
+      - Cuéntame cómo andan los costos.
+      - ¿Qué tan caro es el alquiler?
+      - Pásame el dato del costo de la reserva.
+      - Busco el valor por la duración de juego.
+      - Qué precio se cobra por un partido amistoso?
+      - Dime el montó a pagar para reservar.
+      - Necesito saber el costo de la jugada.
+      - ¿Cuál es el valor que tienen?
+      - Explícame los precios de alquiler.
+      - Me gustaría saber el pago por el uso de las instalaciones.
+      - Bríndame los valores por hora.
+      - Qué monto aplica para el campo si es un torneo?
+      - Cuál es el importe por el arriendo de la cancha?
+      - Quiero saber cuál es el gasto por la cancha.
+      - Qué precio me das por alquilar un día entero?
+      - Informacion detallada sobre el valor.
+      - Cuéntame los precios que tienen disponibles.
+      - ¿Cuál es el monto por reservar?
+      - Pásame el monto de la reserva.
+      - ¿Podrías darme el dato del arriendo?
+      - ¿Cuál es el monto a pagar por el uso de la cancha?
+      - Me puedes indicar el valor de las horas de alquiler?
+      - Quisiera saber el importe por reservar la cancha.
+      - Cuánto se invierte en alquilar una hora?
+      - Necesito conocer la cifra del alquiler.
+      - Me gustaría saber a cuánto asciende el costo del alquiler.
+      - Dime por favor la inversión para un partido.
+      - Qué billete hay que soltar para una pichanga?
+      - Indícame el desembolso por la hora de juego.
+      - Me puedes dar los montos que manejan?
+      - Cuál es el importe que debo cancelar por la reserva?
+      - Cuánto tengo que gastar para alquilar una cancha?
+      - Quiero saber el valor monetario del alquiler.
+      - Explícame el sistema de pagos por favor.
+      - ¿Tienen alguna tarifa preferencial para grupos?
+      - Cuánto me costaría alquilar la cancha por la tarde?
+      - Cuál es la tasa de alquiler por hora?
+      - Me informas sobre el costo del alquiler de canchas?
+      - Necesito saber el costo del servicio de alquiler.
+      - ¿Qué valor tengo que considerar para una reserva?
+      - Cuánto se debe abonar por una hora de fútbol?
+      - Me podrías detallar los importes de alquiler?
+      - Cuál es la inversión necesaria para usar el campo?
+      - Quisiera saber el gasto por alquilar la cancha.
+      - Me dices la suma que hay que pagar por hora?
+      - A cuánto asciende la cuota por el alquiler?
+      - Qué tan caro es jugar una hora en su local?
+      - Cuánto está el alquiler de la cancha de gras sintético?
+      - Necesito saber los costos del campo deportivo.
+      - Me puedes informar sobre el cargo por el servicio?
+      - Cuál es el precio para jugar un partido de fulbito?
+      - Cuánto tengo que poner para una hora de pichanga?
+      - Me gustaría saber el costo de una tarde de fútbol.
+      - Cuánto se invierte en alquilar por dos horas?
+      - Dime el importe por la renta del campo.
+      - Cuál es el costo por el uso de las instalaciones por la mañana?
+      - Me informas sobre los montos de alquiler para fines de semana?
+      - Necesito saber cuánto debo abonar para jugar.
+      - Cuánto cuesta la hora en una cancha de fulbito?
+      - Me explicas el esquema de precios que tienen?
+      - ¿Cuánto es la inversión para jugar?
+      - Dame la info de cuánto es, porfa.
+      - Quisiera saber el precio de sus servicios.
+      - ¿Qué tal la jugada en términos de costo?
+      - Necesito conocer el desembolso total.
+      - ¿Cuál es el importe que se maneja?
+      - ¿Podrías decirme el valor monetario?
+      - ¿A cuánto asciende el importe por el alquiler?
+      - Deseo saber la cantidad de dinero a pagar.
+      - ¿Qué billete hay que meter para alquilar?
+      - ¿Cuál es el costo monetario?
+      - ¿Qué se paga por usar las instalaciones?
+      - Quisiera detalles de los valores.
+      - ¿Cuánto me va a salir la canchita, mano?
+      - ¿Cuánto me cuesta alquilar un rato la cancha?
+      - ¿Qué pido por el uso de la cancha?
+      - ¿Me das los datos económicos?
+      - ¿Cómo está el tema de los precios?
+      - ¿Cuál es la 'parada' por jugar un fulbito?
+      - ¿Cuánto cuesta el alquiler de un campo de fútbol?
+      - ¿Me informas los importes que tienen?
+      - Necesito saber cuánto es el pago.
+      - ¿Cuánto es la plata que se tiene que dar?
+      - ¿Cómo es el asunto de los precios?
+      - ¿Cuánto piden por hora?
+      - ¿Qué cantidad debo abonar?
+      - ¿Me puedes decir la cuantía?
+      - ¿Cuál es el desembolso por el servicio?
+      - ¿Cuánto hay que invertir para jugar?
+      - ¿Qué costo tiene reservar una fecha?
+      - ¿A qué precio me sale la hora para el fin de semana?
+      - ¿Tienes la info de los precios porfa?
+      - ¿Cuánto se debe pagar por el alquiler?
+      - ¿Me pasas los costos de los campos?
+      - ¿Cómo son los montos de alquiler?
+      - ¿Cuánto pides por una hora de juego?
+      - Quisiera saber el costo por el uso de las instalaciones.
+      - ¿Cuál es el presupuesto para una reserva?
+      - ¿Qué tal el precio de una canchita de grass?
+      - ¿Qué precios manejan para los que alquilamos seguido?
+      - ¿Podrían darme los importes del alquiler del campo?
+      - Necesito saber cuál es la inversión para una hora de fulbito.
+      - ¿Qué precio tiene rentar una cancha por la noche de hoy?
+      - Quisiera consultar el valor monetario de la cancha.
+      - ¿Cuál es el monto por el uso de sus instalaciones?
+      - ¿Hay alguna promoción por reservar la cancha con anticipación?
+      - ¿Me puedes detallar los precios por tipo de cancha?
+      - ¿Cuánto es lo mínimo a soltar para una pichanga?
+      - ¿Cuánto se paga por alquilar la cancha para el fin de semana?
+      - Indícame por favor la cuantía del alquiler.
+      - ¿Los montos incluyen el uso de pelotas o chalecos?
+      - ¿Me aplican un descuento si alquilo por varias horas?
+      - ¿Cómo varían los costos si es horario punta o valle?
+      - ¿Dónde puedo ver el tarifario completo?
+      - ¿Cuál es la tarifa de la cancha para fútbol 5 en la noche?
+      - ¿Qué opciones de precios tienen para torneos cortos?
+      - Quiero consultar las tarifas aplicables para reservar.
+      - ¿El precio cambia si pago en efectivo o con tarjeta?
+      - ¿Cuál es el valor por alquilar en [Lince](location) a mitad de semana?
+      - ¿Dónde puedo revisar la relación de costos?
+      - ¿Qué ofertas hay para grupos de amigos?
+      - ¿Me podrías informar sobre el valor del arriendo?
+      - ¿Cuál es el costo de alquilar la cancha de pasto natural por hora?
+      - ¿Hay algún descuento por fidelidad o reservas recurrentes?

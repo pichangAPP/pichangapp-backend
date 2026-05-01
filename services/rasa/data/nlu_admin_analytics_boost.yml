@@ -1,0 +1,99 @@
+version: "3.1"
+
+nlu:
+  - intent: request_admin_top_clients
+    examples: |
+      - quienes han reservado mas
+      - quiénes han reservado más
+      - quienes han reservado más en mis canchas
+      - no quiero mis reservas, quiero quienes han reservado mas
+      - quiero saber quienes reservan mas en mi negocio
+      - dime quien me reserva mas seguido
+      - cuales son los usuarios que mas me reservan
+      - clientes que mas han reservado este mes
+      - top de gente que mas reserva mis canchas
+      - dame el ranking de los que mas reservaron
+      - quien es mi cliente mas frecuente
+      - quiero ver quienes juegan mas en mis sedes
+      - que clientes me llenan mas horarios
+      - dame top clientes por campus
+      - quien reservo mas en [Surco](location)
+      - usuarios que mas reservaron en [Villa El Salvador](location)
+      - dame clientes vip por campus
+      - quienes son mis clientes caseros top
+      - muéstrame a los que más alquilan en mis locales
+      - quienes son los que mas plata dejan reservando
+
+  - intent: request_admin_reservations_overview
+    examples: |
+      - reservas totales hoy
+      - total de reservas de hoy
+      - cuantas reservas totales tengo hoy en mis sedes
+      - dame reservas totales de [hoy](metric_period)
+      - total reservas [esta semana](metric_period)
+      - reservas totales [este mes](metric_period)
+      - total de reservas de [mañana](metric_period)
+      - reservas totales en campus [Surco](location) hoy
+      - cuantas reservas hay en [Miraflores](location) hoy
+      - total de reservas en mi campus de [hoy](metric_period)
+      - reservas totales en cancha principal hoy
+      - total de reservas de la cancha 1 hoy
+      - cuantas reservas hay en cancha techada hoy
+      - reservas de hoy por cancha
+      - dame total de reservas por deporte [fútbol](sport) hoy
+      - total reservas para [voley](sport) hoy
+      - cuantas reservas hubo de [padel](sport) hoy
+      - reservas totales de [basket](sport) en [Surco](location)
+      - resumen de reservas de [hoy](metric_period) en [Villa El Salvador](location)
+      - panorama de reservas totales por deporte [futbol](sport)
+
+  - intent: request_admin_metrics
+    examples: |
+      - metricas de reservas totales hoy
+      - dame metrica de total de reservas hoy
+      - quiero kpis de reservas de hoy en [Surco](location)
+      - total de reservas hoy por deporte [fútbol](sport)
+      - total de reservas de [hoy](metric_period) por [voley](sport)
+      - resumen de reservas en cancha 2 hoy
+      - dame la cantidad de reservas de hoy
+      - cuantas reservas totales tengo [hoy](metric_period)
+      - total reservas [mañana](metric_period)
+      - total reservas [esta semana](metric_period) en [Miraflores](location)
+      - quiero ver reservas totales de [este mes](metric_period)
+      - métricas de reservas por deporte [basket](sport)
+      - pasame las reservas totales por campus
+      - dame total de reservas en cancha principal
+      - metricas de reservas en [Villa El Salvador](location)
+      - cuantas reservas hay hoy en mi sede
+      - metricas de reservas para [futbol](sport)
+      - total de reservaciones hoy
+      - reservaciones totales por deporte [padel](sport)
+      - kpi de reservas totales de hoy
+
+  - intent: request_field_recommendation
+    examples: |
+      - por surco creo
+      - por surko puede ser
+      - por surco noma
+      - cerca mio para jugar
+      - cerca de mi
+      - por aca cerca
+      - por mi zona
+      - aca a mi alrededor pa pichanga
+      - por donde vivo hay canchas?
+      - algo por aqui nomas
+      - cancha libre alas 8 en surco
+      - cancha libre 8pm por mi zona
+      - cancha pa hoy 8pm
+      - quiero reservar cancha por surco
+      - quiero reservar por [Surco](location)
+      - recomiendame una por [Villa El Salvador](location)
+      - una canchita por [VMT](location)
+      - por [Chorrillos](location) hoy en la noche
+      - dame algo cerca por [SJL](location)
+      - busco cancha pa [fútbol](sport) por [Surco](location)
+      - algo para [voley](sport) por mi zona
+      - quiero jugar [futbol](sport) cerca mio
+      - reservame una de [padel](sport) por [Miraflores](location)
+      - donde hay cancha libre por [Lince](location)
+      - quiero una recomendacion rapido por aca

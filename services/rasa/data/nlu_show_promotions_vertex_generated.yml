@@ -1,0 +1,145 @@
+version: "3.1"
+
+nlu:
+  - intent: show_promotions
+    examples: |
+      - Quisiera saber si existen beneficios ahorita.
+      - Me gustaría conocer las ventajas que ofrecen, causa.
+      - ¿Tienen alguna ganga interesante, mi estimado?
+      - Estoy buscando oportunidades de ahorro.
+      - ¿Qué presios reducidos manejan actualmente?
+      - Información sobre sus presios especiales, porfa.
+      - ¿Podrían detallarme algún plan de ahorro?
+      - Quiero conocer los tratos especiales dispponibles.
+      - ¿Existen paquetes con beneficios para nuevos clientes?
+      - Me interesan las opciones económicas que poseen.
+      - ¿Hay algún tipo de ahorro si reservo ya?
+      - ¿Cuáles son los precios más favorables en este momento?
+      - ¿Qué extras ofrecen por hacer una reserba?
+      - Necesito saber si hay bonificaciones.
+      - ¿Cuentan con alguna cortesía para los que reserban?
+      - Busco algo económico para mi reserva.
+      - ¿Me comentan si tienen algún plus, doc?
+      - Dime los paquetes especiales que ofrecen.
+      - ¿Cuáles son los combos con precio especial?
+      - ¿Tienen algunas oportunidades de ahorro para clientes fieles?
+      - ¿Qué beneficios adicionales brindan?
+      - Me informas sobre las ventajas de ser cliente.
+      - ¿Podrías indicarme si hay alguna ganga buena?
+      - ¿Me detallan los presios convenientes?
+      - ¿Qué paquetes con beneficios tienen, hermano?
+      - Estoy buscando algún precio reducido, ¿tienen?
+      - ¿Existe algún beneficio por volumen?
+      - Quisiera saber de los beneficios de temporada.
+      - ¿Qué tal sus precios de ocacion?
+      - Me gustaría averiguar si hay algo más cómodo en precio.
+      - ¿Podrían informarme sobre sus tarifas bentajosas?
+      - ¿Qué programas de beneficios tienen para clientes?
+      - Necesito saber si hay alguna ventaja al reservar con ustedes.
+      - ¿Cuentan con algún plan especial de ahorro?
+      - ¿Me das los detalles de sus ventajas económicas?
+      - Busco un precio más bajo, ¿tienen algo así?
+      - ¿Hay alguna ganga que me puedas mostrar, jefe?
+      - ¿Qué tratos exclusivos ofrecen?
+      - Estoy interesado en conocer sus oportunidades económicas.
+      - Quisiera saber si tienen alguna sorpresa en presios.
+      - ¿Hay precios reducidos para reservar?
+      - ¿Cuáles son las ventajas al pagar por adelantado?
+      - Me gustaría saber sobre las condiciones especiales.
+      - ¿Ofrecen algún insentivo económico?
+      - ¿Existe alguna bonificación por fidelidad?
+      - ¿Me informas si hay precios de pata?
+      - ¿Qué oportunidades de conseguir un mejor precio existen?
+      - Quiero saber si hay alguna diferencia de precio si reservo ahora.
+      - ¿Tienen algún trato preferencial?
+      - ¿Me comentan sobre los beneficios que dan?
+      - Hola, ¿qué planes de ventajas tienen, amiguito?
+      - ¿Disponen de algún extra sin costo?
+      - ¿Me pasas la lista de los beneficios actuales?
+      - Estoy en busca de una mejor tarifa, ¿qué tienen?
+      - ¿Hay alguna oportunidad de pago ventajosa?
+      - ¿Cuáles son los paquetes con presios convenientes?
+      - ¿Podrían indicarme si tienen algo para ahorrar?
+      - Quisiera conocer las facilidades de pago que ofrecen.
+      - ¿Me informan sobre algún valor agregado?
+      - ¿Qué oportunidades para pagar menos hay?
+      - ¿Hay algún bonus para la proxima reserva?
+      - ¿Qué tienen para los que reservamos seguido?
+      - Estoy buscando una ganga, ¿dónde la encuentro, broer?
+      - ¿Cuentan con algún precio especial por ser época baja?
+      - ¿Me pasas la data de los beneficios, al toque?
+      - Hola, ¿me dices si hay algo en precio, porfis?
+      - ¿Qué ventajas obtengo al reservar con anticipación?
+      - ¿Existe algún beneficio por pagar en efectivo?
+      - ¿Me das una mano con los presios especiales, hermano?
+      - ¿Cuáles son las mejores opciones económicas ahora?
+      - ¿Hay alguna ventaja que no conozca?
+      - Me gustaría saber si tienen precios reducidos.
+      - ¿Podrías decirme qué ventajas hay para clientes nuevos?
+      - Estoy interesado en cualquier oportunidad de presio.
+      - ¿Qué beneficio económico me ofrecen?
+      - ¿Cuentan con algún programa de fidelización con ventajas?
+      - ¿Me comentas sobre los insentivos para reservar?
+      - Quisiera ver si hay algún plan que me dé un mejor presio.
+      - ¿Tienen alguna condición favorable para grupos?
+      - Hola, ¿me informas si hay algo que me combenga en precio?
+      - ¿Qué promosiones tienen para los que reservamos por la web?
+      - Quiero saber si hay alguna oferta bacán para este mes.
+      - ¿Me pueden decir si tienen algún descuento chévere por ahí, mi brother?
+      - ¿Qué beneficios hay si me hago cliente frecuente?
+      - ¿Hay alguna ganga de último momento para hoy?
+      - Estoy buscando un presio especial para mi reserva, ¿me dan una mano?
+      - ¿Cuentan con alguna rebaja de impacto para grupos grandes?
+      - ¿Me pueden explicar si cuentan con algún plan que me haga ahorrar, porfa?
+      - ¿Cuáles son los combos más pajas que tienen ahora?
+      - ¿Hay alguna promoción de ensueño para la semana?
+      - ¿Ofrecen alguna ventajita extra por pagar al contado?
+      - ¿Habrá alguna oferta relámpago, ahorita?
+      - ¿Existen presios más cómodos si reservo con anticipación?
+      - Quiero conocer las oportunidades de ahorro que ofrecen para esta temporada.
+      - ¿Qué tipo de bonos o incentivos tienen, por siacaso?
+      - ¿Qué chollos hay que valgan la pena, jefe?
+      - ¿Hay algún beneficio adicional para los cumpleañeros?
+      - Estoy interesado en sus tarifas promocionales, ¿me dan el datito?
+      - ¿Me informas si tienen alguna yapa si confirmo la reserba ahora?
+      - Deseo saber sobre sus paquetes con ventajas para familias.
+      - ¿Qué ventajas obtengo al registrarme como usuario nuevo?
+      - ¿Cuentan con alguna tarifa preferencial si soy del barrio?
+      - ¿Hay alguna oferta secreta que no estén publicando?
+      - Busco alguna oportunidad de reducir el costo, ¿me ayudan?
+      - ¿Me dices si tienen algun 2x1 o alguna promoción que sea una ganga, mi estimado?
+      - ¿Q tal, tienen algo chévere en costos para hoy?
+      - A la firme, ¿ay alguna forma de pagar menos?
+      - ¿Cuentan con alguna política de pagos diferente, jefe?
+      - ¿Me avisas si tienen algo q haga el precio más bajo, causa?
+      - ¿Podrían decirme si existe alguna particularidad en sus valores?
+      - Quisiera saber si sus tarifas presentan alguna mejora, mi estimado.
+      - ¿Qué onda con los precios, ay algo diferente para nosotros?
+      - ¿Me puedes dar la info de alguna opción q rinda más?
+      - Estoy buscando un precio más accesible, ¿tienen alguno?
+      - Necesito saber si tienen alguna jugada para q el costo no sea mucho.
+      - ¿Ay algún detalle que haga la cuenta más ligera?
+      - ¿Q posibilidades hay de conseguir un costo menor?
+      - Me gustaría saber si el monto puede ser más bajo.
+      - ¿Podrías indicarme si tienen alguna política de costos q convenga?
+      - ¿Qué propuestas interesantes manejan x el valor de su servicio?
+      - ¿Ay algo para que el pago salga más económico, xfa?
+      - ¿Me informas si ay alguna novedad en los costos que sea conveniente, broer?
+      - ¿Existe alguna opción para que me salga más rentable?
+      - Dime si ay algún sistema que baje el importe.
+      - ¿Podrías decirme si tienen algo que reduzca el gasto?
+      - Ando buscando un valor q sea un poco más bajo, ¿tienen?
+      - ¿Qué planes hay para que la inversión sea menor?
+      - ¿Tienen alguna condición q favorezca mi bolsillo?
+      - ¿Me pasas la información de si ay algo que haga bajar el precio?
+      - Hola, ¿me podrías decir si tienen alguna política de precio favorable?
+      - ¿Qué cosas interesantes tienen para los clientes, causa?
+      - Quisiera saber qué ofrecen de especial, mi gente.
+      - ¿Hay algo chévere para los que queremos reservar?
+      - Díganme si tienen alguna gentileza con los usuarios.
+      - ¿Qué hay de novedoso para ahorrarme un billete?
+      - Estoy buscando un buen plan pa' reservar, ¿me apoyan?
+      - ¿Qué sorpresas tienen preparadas para los que contratan?
+      - Necesito saber si hay alguna opción con un costo menor.
+      - ¿Me informan si hay alguna atención especial con los presios?
+      - ¿Hay maneras de pagar menos, jefe?

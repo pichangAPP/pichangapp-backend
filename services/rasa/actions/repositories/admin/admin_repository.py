@@ -86,3 +86,80 @@ async def fetch_active_reservations_from_analytics(
         field_name=field_name,
         limit=limit,
     )
+
+
+async def fetch_rent_metrics_from_analytics(
+    *,
+    token: Optional[str] = None,
+    period: str = "today",
+    group_by: str = "day",
+    target_date: Optional[date] = None,
+    campus_id: Optional[int] = None,
+    field_id: Optional[int] = None,
+    sport_id: Optional[int] = None,
+    status: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
+    return await analytics_client.get_rent_metrics(
+        token=token,
+        period=period,
+        group_by=group_by,
+        target_date=target_date,
+        campus_id=campus_id,
+        field_id=field_id,
+        sport_id=sport_id,
+        status=status,
+    )
+
+
+def resolve_field_id_by_name(campus_id: int, field_name: str) -> Optional[int]:
+    normalized = (field_name or "").strip()
+    if not normalized:
+        return None
+    query = text(
+        """
+        SELECT id_field
+        FROM booking.field
+        WHERE id_campus = :campus_id
+          AND (
+            LOWER(name) = LOWER(:field_name_exact)
+            OR LOWER(name) LIKE LOWER(:field_name_like)
+          )
+        ORDER BY CASE WHEN LOWER(name) = LOWER(:field_name_exact) THEN 0 ELSE 1 END
+        LIMIT 1
+        """
+    )
+    params = {
+        "campus_id": campus_id,
+        "field_name_exact": normalized,
+        "field_name_like": f"%{normalized}%",
+    }
+    with get_connection() as connection:
+        row = connection.execute(query, params).fetchone()
+    if not row:
+        return None
+    return int(row._mapping["id_field"])
+
+
+def resolve_sport_id_by_name(sport_name: str) -> Optional[int]:
+    normalized = (sport_name or "").strip()
+    if not normalized:
+        return None
+    query = text(
+        """
+        SELECT id_sport
+        FROM booking.sports
+        WHERE LOWER(sport_name) = LOWER(:sport_exact)
+           OR LOWER(sport_name) LIKE LOWER(:sport_like)
+        ORDER BY CASE WHEN LOWER(sport_name) = LOWER(:sport_exact) THEN 0 ELSE 1 END
+        LIMIT 1
+        """
+    )
+    params = {
+        "sport_exact": normalized,
+        "sport_like": f"%{normalized}%",
+    }
+    with get_connection() as connection:
+        row = connection.execute(query, params).fetchone()
+    if not row:
+        return None
+    return int(row._mapping["id_sport"])

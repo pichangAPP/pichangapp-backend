@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import Literal, Optional
+from typing import List, Literal, Optional
 
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
@@ -70,6 +70,19 @@ def get_campus_revenue_metrics(
             "'daily_last7' uses real totals for each of the last seven dates."
         ),
     ),
+    status: Optional[str] = Query(
+        None,
+        min_length=1,
+        max_length=50,
+        description="Optional single rent status filter.",
+    ),
+    statuses: Optional[List[str]] = Query(
+        None,
+        description=(
+            "Optional repeated rent status filter. "
+            "Example: ?statuses=reserved&statuses=fullfilled"
+        ),
+    ),
     db: Session = Depends(get_db),
 ) -> CampusRevenueMetricsResponse:
     """Return detailed revenue metrics for the specified campus."""
@@ -78,6 +91,8 @@ def get_campus_revenue_metrics(
     return service.get_campus_revenue_metrics(
         campus_id=campus_id,
         traffic_mode=traffic_mode,
+        status=status,
+        statuses=statuses,
     )
 
 

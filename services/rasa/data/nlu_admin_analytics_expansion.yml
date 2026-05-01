@@ -1,0 +1,129 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_bot_identity
+    examples: |
+      - cómo te llamas
+      - como te llamas
+      - cuál es tu nombre
+      - cual es tu nombre
+      - quién eres
+      - quien eres
+      - eres un bot?
+      - eres el asistente?
+      - cómo debo llamarte?
+      - dime tu nombre
+      - con quién estoy hablando
+      - tú quién eres?
+      - te llamas chato?
+      - eres chato?
+      - cuál es tu gracia?
+      - cómo te dicen?
+      - qué bot eres?
+      - eres el bot de pichangapp?
+      - eres asistente de pichangapp?
+      - cuál es el nombre del asistente?
+      - dime cómo te llamo
+      - cómo te puedo llamar
+      - quién me está atendiendo?
+      - eres una persona o bot?
+      - tu nombre es chato?
+      - este bot cómo se llama?
+
+  - intent: help
+    examples: |
+      - cuáles son tus funciones
+      - cuales son tus funciones
+      - qué puedes hacer
+      - que puedes hacer
+      - para qué sirves
+      - para que sirves
+      - qué cosas puedes responder
+      - que sabes hacer
+      - explícame tus funciones
+      - dime qué consultas entiendes
+      - qué reportes puedes darme
+      - qué métricas puedes revisar
+      - sí me entiendes?
+      - me entiendes?
+      - entiendes lo que te pido?
+      - puedes ayudarme con métricas?
+
+  - intent: request_admin_metrics
+    examples: |
+      - dame los [horarios más copados](metric_type) del [campus Surco](location) [hoy](metric_period)
+      - quiero ver los [horarios pico](metric_type) de [La 10](location) [esta semana](metric_period)
+      - cuáles son las [horas con más reservas](metric_type) en [campus Miraflores](location) [este mes](metric_period)
+      - muéstrame los [turnos más ocupados](metric_type) de [Sede Norte](location) [ayer](metric_period)
+      - qué [horarios se llenan más](metric_type) en [Campus San Isidro](location)
+      - qué [cancha generó más ingresos](metric_type) [este mes](metric_period)
+      - cuál es la [cancha con más ingresos](metric_type) [esta semana](metric_period)
+      - ranking de [ingresos por cancha](metric_type) en [Campus Surco](location) [hoy](metric_period)
+      - qué field me generó más plata [ayer](metric_period)
+      - dime la [cancha más rentable](metric_type) de [Campus Miraflores](location) [este mes](metric_period)
+      - dame las [rentas](metric_type) de [cancha 1](field_name) [hoy](metric_period)
+      - cuántas [reservas totales](metric_type) tuvo [cancha 2](field_name) [ayer](metric_period)
+      - total de [reservas](metric_type) de [cancha principal](field_name) [mañana](metric_period)
+      - [reservas activas](metric_type) en [cancha techada](field_name) de [Campus Surco](location)
+      - disponibilidad de [cancha 3](field_name) [hoy](metric_period)
+      - está disponible [cancha 1](field_name) [mañana](metric_period)?
+      - reservas [finalizadas](reservation_status) de [Campus Miraflores](location) [este mes](metric_period)
+      - dame reservas con estado [finalizado](reservation_status) [hoy](metric_period)
+      - reservas [en curso](reservation_status) en [La 10](location)
+      - qué reservas están [en vivo](reservation_status) ahora en [Campus Surco](location)
+      - reservas que se están jugando [en vivo](reservation_status)
+      - reservas [canceladas](reservation_status) [esta semana](metric_period)
+      - rentas [pendientes](reservation_status) de [cancha 2](field_name)
+      - rentas [confirmadas](reservation_status) [hoy](metric_period)
+      - ingresos de [cancha principal](field_name) [el 5 de mayo](metric_period)
+      - reservas totales de [Campus Surco](location) [dentro de tres días](metric_period)
+      - ocupación de [cancha 4](field_name) [dentro de 3 días](metric_period)
+      - rentas de [Sede Central](location) [para el 05/05/2026](metric_period)
+      - ingresos de [Campus Villa El Salvador](location) [pasado mañana](metric_period)
+      - reservas activas [ahora](metric_period) en [cancha principal](field_name)
+      - disponibilidad de [cancha de futsal](field_name) [hoy](metric_period)
+      - qué reservas [en curso](reservation_status) hay en [cancha 5](field_name)
+      - cuántas rentas [finalizadas](reservation_status) tuvo [Campus Chorrillos](location) [ayer](metric_period)
+      - reporte de [rentas por campus](metric_type) [este mes](metric_period)
+      - reporte de [rentas por field](metric_type) [esta semana](metric_period)
+      - dame [reservas por cancha](metric_type) de [Campus San Isidro](location)
+      - dame [reservas por sede](metric_type) [hoy](metric_period)
+      - cuál sede tiene más [ingresos](metric_type) [este mes](metric_period)
+      - cuál cancha tiene más [reservas](metric_type) [esta semana](metric_period)
+
+  - lookup: reservation_status
+    examples: |
+      - activa
+      - activas
+      - activo
+      - en curso
+      - en vivo
+      - jugando
+      - finalizada
+      - finalizado
+      - finalizadas
+      - terminado
+      - terminadas
+      - cancelada
+      - cancelado
+      - canceladas
+      - pendiente
+      - pendientes
+      - confirmada
+      - confirmado
+      - confirmadas
+
+  - lookup: field_name
+    examples: |
+      - cancha 1
+      - cancha 2
+      - cancha 3
+      - cancha 4
+      - cancha 5
+      - cancha principal
+      - cancha techada
+      - cancha de futsal
+      - cancha de grass
+      - cancha de frontón
+      - field 1
+      - field 2

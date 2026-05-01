@@ -76,3 +76,6 @@ yarn-debug.log*
 services/rasa/.rasa/cache/
 
 services/rasa/.rasa/cache/cache.db
+
+# ---- AI lab outputs ----
+ai-lab/out/

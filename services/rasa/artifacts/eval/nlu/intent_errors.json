@@ -1,0 +1,3226 @@
+[
+  {
+    "text": "cómo va",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "ask_reservation_process",
+      "confidence": 0.4289349913597107
+    }
+  },
+  {
+    "text": "fin",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.5723411440849304
+    }
+  },
+  {
+    "text": "perfecto",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "give_positive_feedback",
+      "confidence": 0.8279106020927429
+    }
+  },
+  {
+    "text": "de una",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9461272954940796
+    }
+  },
+  {
+    "text": "excelente",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "give_positive_feedback",
+      "confidence": 0.8261306285858154
+    }
+  },
+  {
+    "text": "algo barato",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.5027257204055786
+    }
+  },
+  {
+    "text": "precio bajo",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "ask_pricing_info",
+      "confidence": 0.9885004758834839
+    }
+  },
+  {
+    "text": "con grass sintético",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.7306832671165466
+    }
+  },
+  {
+    "text": "superficie grass sintético",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6907355785369873
+    }
+  },
+  {
+    "text": "reserbar",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "ask_reservation_process",
+      "confidence": 0.8159516453742981
+    }
+  },
+  {
+    "text": "qué opciones tengo",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.6738681793212891
+    }
+  },
+  {
+    "text": "hoy en la tarde",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.951552152633667
+    }
+  },
+  {
+    "text": "hoy en la noche",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.9722710847854614
+    }
+  },
+  {
+    "text": "mañana en la mañana",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.509639322757721
+    }
+  },
+  {
+    "text": "techada",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "ask_pricing_info",
+      "confidence": 0.4475887417793274
+    }
+  },
+  {
+    "text": "al aire libre",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6701569557189941
+    }
+  },
+  {
+    "text": "de emergencia",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "ask_cancellation_policy",
+      "confidence": 0.9999825954437256
+    }
+  },
+  {
+    "text": "para 10 personas",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.5615747570991516
+    }
+  },
+  {
+    "text": "fulbito 7",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6303966641426086
+    }
+  },
+  {
+    "text": "pichanga",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.895382821559906
+    }
+  },
+  {
+    "text": "diferentes horarios",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "ask_pricing_info",
+      "confidence": 0.48684799671173096
+    }
+  },
+  {
+    "text": "cuál es el procedimiento",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9405597448348999
+    }
+  },
+  {
+    "text": "cómo es el proceso",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9715781807899475
+    }
+  },
+  {
+    "text": "es mi primera vez",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "ask_feedback_status",
+      "confidence": 0.630273163318634
+    }
+  },
+  {
+    "text": "quiero saber el proceso",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.95615154504776
+    }
+  },
+  {
+    "text": "paso a paso",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9976561069488525
+    }
+  },
+  {
+    "text": "yape",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9858280420303345
+    }
+  },
+  {
+    "text": "quiero cambiar mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "cambio de fecha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.518045961856842
+    }
+  },
+  {
+    "text": "mover la reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "mi reserva de hoy",
+    "intent": "request_user_reservations",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5364594459533691
+    }
+  },
+  {
+    "text": "reservas hoy",
+    "intent": "request_user_reservations",
+    "intent_prediction": {
+      "name": "request_admin_reservations_overview",
+      "confidence": 0.5490163564682007
+    }
+  },
+  {
+    "text": "reservas hoy por sede",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.7441055178642273
+    }
+  },
+  {
+    "text": "reservas por cancha hoy",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.7366174459457397
+    }
+  },
+  {
+    "text": "antes de reservar",
+    "intent": "show_faqs",
+    "intent_prediction": {
+      "name": "ask_reservation_process",
+      "confidence": 0.5102124214172363
+    }
+  },
+  {
+    "text": "para mañana",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6184963583946228
+    }
+  },
+  {
+    "text": "cancha en San Isidro",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.7944045066833496
+    }
+  },
+  {
+    "text": "total de reservas de hoy",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.9669907689094543
+    }
+  },
+  {
+    "text": "total reservas esta semana",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.9915277361869812
+    }
+  },
+  {
+    "text": "total de reservas de mañana",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.8156638741493225
+    }
+  },
+  {
+    "text": "total de reservas de la cancha 1 hoy",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.8779174089431763
+    }
+  },
+  {
+    "text": "reservas de hoy por cancha",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.9809062480926514
+    }
+  },
+  {
+    "text": "resumen de reservas en cancha 2 hoy",
+    "intent": "request_admin_metrics",
+    "intent_prediction": {
+      "name": "request_admin_reservations_overview",
+      "confidence": 1.0
+    }
+  },
+  {
+    "text": "cuantas reservas totales tengo hoy",
+    "intent": "request_admin_metrics",
+    "intent_prediction": {
+      "name": "request_admin_reservations_overview",
+      "confidence": 0.9319821000099182
+    }
+  },
+  {
+    "text": "cuantas reservas hay hoy en mi sede",
+    "intent": "request_admin_metrics",
+    "intent_prediction": {
+      "name": "request_admin_reservations_overview",
+      "confidence": 0.9400057792663574
+    }
+  },
+  {
+    "text": "por aca cerca mio",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9882375597953796
+    }
+  },
+  {
+    "text": "la hora q sea",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6511619091033936
+    }
+  },
+  {
+    "text": "de 10",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6904879808425903
+    }
+  },
+  {
+    "text": "se puede hacer",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.48457518219947815
+    }
+  },
+  {
+    "text": "cerca de aca",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9455394148826599
+    }
+  },
+  {
+    "text": "la pichanga a las 6",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8853605389595032
+    }
+  },
+  {
+    "text": "xq no",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 0.7764987945556641
+    }
+  },
+  {
+    "text": "a las 8",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.8405616879463196
+    }
+  },
+  {
+    "text": "en la cancha",
+    "intent": "affirm",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.348497599363327
+    }
+  },
+  {
+    "text": "Necesito un cambio para mi reserva.",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5629842877388
+    }
+  },
+  {
+    "text": "¿Es factible reprogramar mi reserva de cancha?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5943862795829773
+    }
+  },
+  {
+    "text": "¿Cómo hago para reubicar mi reserva a otra hora?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5458594560623169
+    }
+  },
+  {
+    "text": "¿Qué opciones tengo para la hora que ya tengo separada?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reservation_process",
+      "confidence": 0.6170821785926819
+    }
+  },
+  {
+    "text": "Causa, ¿se puede adelantar mi pichanga?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7764981985092163
+    }
+  },
+  {
+    "text": "Necesito ajustar el horario de mi reserva, por favor.",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5070185661315918
+    }
+  },
+  {
+    "text": "cambio d fecha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8273069858551025
+    }
+  },
+  {
+    "text": "mi reserva pa otro dia",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8320596218109131
+    }
+  },
+  {
+    "text": "puedo cambiar mi reserva para la noche",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "se puede cambiar la fecha del partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8898806571960449
+    }
+  },
+  {
+    "text": "se puede cambiar la hora de mi cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8855589032173157
+    }
+  },
+  {
+    "text": "se puede adelantar mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5312716960906982
+    }
+  },
+  {
+    "text": "cambiar mi fecha de hoy",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5314459800720215
+    }
+  },
+  {
+    "text": "cambiar mi reserva para el fin de semana",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9109189510345459
+    }
+  },
+  {
+    "text": "cambiar la fecha de mi turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5695755481719971
+    }
+  },
+  {
+    "text": "como cambio la reserva d la cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8694855570793152
+    }
+  },
+  {
+    "text": "mi turno, lo puedo cambiar",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6496226787567139
+    }
+  },
+  {
+    "text": "la reserva, la puedo mover",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8099108338356018
+    }
+  },
+  {
+    "text": "mi reserva puedo cambiarla",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6373329162597656
+    }
+  },
+  {
+    "text": "cambiar mi cancha de futbol",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9095723032951355
+    }
+  },
+  {
+    "text": "mi turno para mas tarde",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.4979642927646637
+    }
+  },
+  {
+    "text": "mi reserva pa otro lado",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7740626335144043
+    }
+  },
+  {
+    "text": "mi turno pa otro momento",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.896504819393158
+    }
+  },
+  {
+    "text": "cambiar mi reserba de hoy",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.689799427986145
+    }
+  },
+  {
+    "text": "oe, puedo cambiar la hora de mi reserva?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8583236336708069
+    }
+  },
+  {
+    "text": "ajusta mi reserva ps",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5296000242233276
+    }
+  },
+  {
+    "text": "otro dia pa mi partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5643441677093506
+    }
+  },
+  {
+    "text": "adelanta mi turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5739567279815674
+    }
+  },
+  {
+    "text": "reprogramar mi turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "la reserva pa otro momento",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5966887474060059
+    }
+  },
+  {
+    "text": "mueve mi reserba",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5910930633544922
+    }
+  },
+  {
+    "text": "la fecha d mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.663965106010437
+    }
+  },
+  {
+    "text": "cambiar el partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6745427250862122
+    }
+  },
+  {
+    "text": "cambia el dia d la cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8403609991073608
+    }
+  },
+  {
+    "text": "quiero adelantar mi turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.731090784072876
+    }
+  },
+  {
+    "text": "mueve la reserva d surco",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9334730505943298
+    }
+  },
+  {
+    "text": "mover mi partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8495771288871765
+    }
+  },
+  {
+    "text": "la reserva pa despues",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.496001660823822
+    }
+  },
+  {
+    "text": "cambiar mi reserva pa mas tarde",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8264937996864319
+    }
+  },
+  {
+    "text": "la hora de mi reserva la cambio",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8512831330299377
+    }
+  },
+  {
+    "text": "qiero cambiar la hora de mi cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7963179349899292
+    }
+  },
+  {
+    "text": "re agendar mi reserva de surco",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7611566781997681
+    }
+  },
+  {
+    "text": "kiero cambiar el dia de mi pichanga",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7168689966201782
+    }
+  },
+  {
+    "text": "adelantar mi reserva de las 4pm",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7565659880638123
+    }
+  },
+  {
+    "text": "se puede mover mi cancha libre?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9973089694976807
+    }
+  },
+  {
+    "text": "como le hago pa cambiar mi reserva?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7093099355697632
+    }
+  },
+  {
+    "text": "se puede cambiar mi turno d las 5?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9928969740867615
+    }
+  },
+  {
+    "text": "mover mi reserva d la mañana",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8786841034889221
+    }
+  },
+  {
+    "text": "ajustar mi turno d las 7",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8414508700370789
+    }
+  },
+  {
+    "text": "nesecito cambiar el dia",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7273825407028198
+    }
+  },
+  {
+    "text": "cambiar el turno d la noche",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9206416010856628
+    }
+  },
+  {
+    "text": "kiero mover mi turno d la mañana",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8451743125915527
+    }
+  },
+  {
+    "text": "cambiar la fecha d mi turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9304771423339844
+    }
+  },
+  {
+    "text": "cambiar el dia d mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8280678391456604
+    }
+  },
+  {
+    "text": "kiero mover mi reserva al toke",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5625979900360107
+    }
+  },
+  {
+    "text": "mi reserva d la cancha libre 8pm la puedo pasar a otro dia",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8393108248710632
+    }
+  },
+  {
+    "text": "la reserva se puede pasar?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8433308005332947
+    }
+  },
+  {
+    "text": "mover mi reserva de 7 a 9",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7443191409111023
+    }
+  },
+  {
+    "text": "se puede pasar mi reserva a otro dia?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "adelantar mi turno a las 6pm",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7484326362609863
+    }
+  },
+  {
+    "text": "mover la reserva para la tarde",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "reprogramar mi reserva pa la noche",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9387495517730713
+    }
+  },
+  {
+    "text": "cambia mi fecha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7394758462905884
+    }
+  },
+  {
+    "text": "muevelo pa la prox semana",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6411521434783936
+    }
+  },
+  {
+    "text": "mover mi booking de hoy",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8655903935432434
+    }
+  },
+  {
+    "text": "se puede cambiar mi reserva de los olivos",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8229960799217224
+    }
+  },
+  {
+    "text": "mi reserva de las 6 a q hora la cambio",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7953848242759705
+    }
+  },
+  {
+    "text": "puedo reprogramar mi reserva de hoy",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8484600782394409
+    }
+  },
+  {
+    "text": "se puede reubicar mi reserva de la cancha de vill salvador",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9411266446113586
+    }
+  },
+  {
+    "text": "se puede posponer mi reserva de la noche",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 1.0
+    }
+  },
+  {
+    "text": "tengo q cambiar la hora de mi turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5957928895950317
+    }
+  },
+  {
+    "text": "la reserva pa mas tarde",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.502311110496521
+    }
+  },
+  {
+    "text": "puedo cambiar mi reserva cerca mio?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "variar la hora d mi reserva?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6270645260810852
+    }
+  },
+  {
+    "text": "la reserva la puedo atrasar?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5039530992507935
+    }
+  },
+  {
+    "text": "adelantar mi reserva unas horas",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5851943492889404
+    }
+  },
+  {
+    "text": "puedo mover mi reserva pa mas tarde",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6938031911849976
+    }
+  },
+  {
+    "text": "mover mi reserva para el miercoles",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6233552098274231
+    }
+  },
+  {
+    "text": "se puede cambiar mi reserva de cancha libre 8pm",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7525300979614258
+    }
+  },
+  {
+    "text": "puedo atrasar mi reserva del sabado",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7167893052101135
+    }
+  },
+  {
+    "text": "kiero kambiar la hora d mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6853144764900208
+    }
+  },
+  {
+    "text": "mi reserva d mañana la muevo",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9518744945526123
+    }
+  },
+  {
+    "text": "cambiar la reserva q tengo",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6724631786346436
+    }
+  },
+  {
+    "text": "se puede cambiar mi reserva x la mañana",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.4888380169868469
+    }
+  },
+  {
+    "text": "mi reserva la cambio de horario",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6745268106460571
+    }
+  },
+  {
+    "text": "se puede cambiar mi reserva del partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8574927449226379
+    }
+  },
+  {
+    "text": "se puede reubicar mi reserva d cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8445202112197876
+    }
+  },
+  {
+    "text": "cambiar mi reserva pa la proxima",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7541815638542175
+    }
+  },
+  {
+    "text": "pa cambiar el turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6872615814208984
+    }
+  },
+  {
+    "text": "la cancha libre a las 7",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "affirm",
+      "confidence": 0.8329017758369446
+    }
+  },
+  {
+    "text": "q hago pa mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.5198451280593872
+    }
+  },
+  {
+    "text": "la reserva del lunes",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8607665300369263
+    }
+  },
+  {
+    "text": "cambio mi booking?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5930641889572144
+    }
+  },
+  {
+    "text": "otra fecha pa mi booking",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5860027074813843
+    }
+  },
+  {
+    "text": "kiero cambiar la hora de mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6585639715194702
+    }
+  },
+  {
+    "text": "mover la reserva de la tarde",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8121365308761597
+    }
+  },
+  {
+    "text": "se puede cambiar la reserva del miercoles?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5879102349281311
+    }
+  },
+  {
+    "text": "la reserva de 8pm, la muevo?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5032432675361633
+    }
+  },
+  {
+    "text": "cambiar el dia de la cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6094204783439636
+    }
+  },
+  {
+    "text": "se puede adelantar mi reserva?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5312716960906982
+    }
+  },
+  {
+    "text": "kiero cambiar mi reserva de cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7551921606063843
+    }
+  },
+  {
+    "text": "puedo cambiar mi reserva pa otro momento?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8223748803138733
+    }
+  },
+  {
+    "text": "un cambio d hora xfa",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.611318051815033
+    }
+  },
+  {
+    "text": "puedo cambiar la fecha d mi reserva?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.880330502986908
+    }
+  },
+  {
+    "text": "puedo mover mi reserva d aca a mi alrededor?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8724941611289978
+    }
+  },
+  {
+    "text": "se puede cambiar la hora d mi cancha?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9878696799278259
+    }
+  },
+  {
+    "text": "mover mi turno d la noche",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9060512185096741
+    }
+  },
+  {
+    "text": "cambio mi turno d la tarde",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7811031341552734
+    }
+  },
+  {
+    "text": "la reserva d las 6",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8948301076889038
+    }
+  },
+  {
+    "text": "puedo cambiar la hora d mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8639792799949646
+    }
+  },
+  {
+    "text": "qiero cambiar mi reserva de cancha para la noche",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7177025079727173
+    }
+  },
+  {
+    "text": "cambiar la hora de mi reserva del partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9981484413146973
+    }
+  },
+  {
+    "text": "se puede cambiar mi reserva en la cancha de surco para el viernes?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6390414834022522
+    }
+  },
+  {
+    "text": "mover mi reserba",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5629518032073975
+    }
+  },
+  {
+    "text": "puedo adelantar mi turno de cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7663450241088867
+    }
+  },
+  {
+    "text": "como muevo mi reserva de hoy",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9709650874137878
+    }
+  },
+  {
+    "text": "cambio mi cancha de villa el salvador",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9613814353942871
+    }
+  },
+  {
+    "text": "mover mi reserva de la cancha en surco",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8616743087768555
+    }
+  },
+  {
+    "text": "cambiar mi reserva de hora y dia",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.491905152797699
+    }
+  },
+  {
+    "text": "kiero mover mi turno de la cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8961924910545349
+    }
+  },
+  {
+    "text": "necesito cambiar el dia de mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6273272037506104
+    }
+  },
+  {
+    "text": "cambio de horario de la reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7724528908729553
+    }
+  },
+  {
+    "text": "necesito cambiar mi reserva del sabado",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9932653903961182
+    }
+  },
+  {
+    "text": "mover la hora de mi reserva de las 4pm",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8526619672775269
+    }
+  },
+  {
+    "text": "se puede atrasar mi cancha alas 8",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8323850035667419
+    }
+  },
+  {
+    "text": "se puede reprogramar mi reserva de las 7pm",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8136393427848816
+    }
+  },
+  {
+    "text": "cambiar mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "kiero cambiar la cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7382171750068665
+    }
+  },
+  {
+    "text": "se puede adelantar mi turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5310741066932678
+    }
+  },
+  {
+    "text": "cambiar mi reserva x la mañana",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5330869555473328
+    }
+  },
+  {
+    "text": "se puede cambiar la hora de mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5177175402641296
+    }
+  },
+  {
+    "text": "oe puedo cambiar mi reserba",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7235425114631653
+    }
+  },
+  {
+    "text": "se puede cambiar la hora de la cancha libre 8pm",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5018433928489685
+    }
+  },
+  {
+    "text": "necesito variar la hora de mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6465046405792236
+    }
+  },
+  {
+    "text": "kiero variar la fecha del partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8056075572967529
+    }
+  },
+  {
+    "text": "se puede atrasar mi partido de futbol",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9176117777824402
+    }
+  },
+  {
+    "text": "necesito otro dia pa mi partido de la noche",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8599138259887695
+    }
+  },
+  {
+    "text": "mi reserva pa mas tarde",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.696010172367096
+    }
+  },
+  {
+    "text": "mi reserva, se puede re agendar?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5314659476280212
+    }
+  },
+  {
+    "text": "la cancha, pa otro dia?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7457439303398132
+    }
+  },
+  {
+    "text": "kiero mover mi partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7334972023963928
+    }
+  },
+  {
+    "text": "kiero cambiar mi partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8030669093132019
+    }
+  },
+  {
+    "text": "cambiar mi hora de juego",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9999496936798096
+    }
+  },
+  {
+    "text": "mover mi reserva al toque",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8364139795303345
+    }
+  },
+  {
+    "text": "mover la hora de mi reserva",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5992288589477539
+    }
+  },
+  {
+    "text": "se puede cambiar mi reserva pa mañana?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9098498225212097
+    }
+  },
+  {
+    "text": "la cancha, se puede otra hora?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.7294987440109253
+    }
+  },
+  {
+    "text": "cambiar mi reserva para la noche",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6552526950836182
+    }
+  },
+  {
+    "text": "kiero cambiar la hora de mi cancha",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9388839602470398
+    }
+  },
+  {
+    "text": "se puede otro dia y hora pa mi reserva?",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.5126155614852905
+    }
+  },
+  {
+    "text": "mi reserva, pa el miercoles",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.8453363180160522
+    }
+  },
+  {
+    "text": "cambiame la hora de mi partido",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.940945029258728
+    }
+  },
+  {
+    "text": "ajusta mi turno",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.6912655234336853
+    }
+  },
+  {
+    "text": "reagenda mi espacio",
+    "intent": "ask_modify_reservation",
+    "intent_prediction": {
+      "name": "ask_reprogram_reservation",
+      "confidence": 0.9346191883087158
+    }
+  },
+  {
+    "text": "kambiar mi reserva pa mas tarde",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5103217959403992
+    }
+  },
+  {
+    "text": "kiero mover mi turno",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.6063361763954163
+    }
+  },
+  {
+    "text": "kiero cambiar la hora",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.6538269519805908
+    }
+  },
+  {
+    "text": "adelantar mi turno",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5365257263183594
+    }
+  },
+  {
+    "text": "se puede atrasar mi reserva",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.635614812374115
+    }
+  },
+  {
+    "text": "la reserva, se puede otro dia",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5146922469139099
+    }
+  },
+  {
+    "text": "otro dia pa la reserva",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.9211001992225647
+    }
+  },
+  {
+    "text": "mover la reserva q hice",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.9227061867713928
+    }
+  },
+  {
+    "text": "arreglar mi reserva de las 4pm",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.638552188873291
+    }
+  },
+  {
+    "text": "kiero otro dia pa mi booking",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5539231896400452
+    }
+  },
+  {
+    "text": "kiero otro dia y hora pa mi reserva",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5290765762329102
+    }
+  },
+  {
+    "text": "adelantar mi turno xfa",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.8356967568397522
+    }
+  },
+  {
+    "text": "kiero ajustar mi booking",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.6584741473197937
+    }
+  },
+  {
+    "text": "necesito otro dia pa mi booking",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.6223090887069702
+    }
+  },
+  {
+    "text": "cambiar la fecha?",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.7189819812774658
+    }
+  },
+  {
+    "text": "el alquiler de la cancha, pa otro dia",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_pricing_info",
+      "confidence": 1.0
+    }
+  },
+  {
+    "text": "otro dia la reserva xfa",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5496322512626648
+    }
+  },
+  {
+    "text": "kiero adelantar mi turno xfa",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.8348990082740784
+    }
+  },
+  {
+    "text": "ajusta mi reserva, xfa",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5008116960525513
+    }
+  },
+  {
+    "text": "se puede cambiar mi hora",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.552869439125061
+    }
+  },
+  {
+    "text": "se puede cambiar mi fecha",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.48675063252449036
+    }
+  },
+  {
+    "text": "adelantar mi reserva",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.6154803037643433
+    }
+  },
+  {
+    "text": "otro dia pa jugar, se puede?",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5108650326728821
+    }
+  },
+  {
+    "text": "kiero otro dia pa mi reserva",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.8256085515022278
+    }
+  },
+  {
+    "text": "kiero kambiar mi turno",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5824644565582275
+    }
+  },
+  {
+    "text": "la reserva la kiero cambiar",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.6779813170433044
+    }
+  },
+  {
+    "text": "como reservo una cancha por surco?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.7297264933586121
+    }
+  },
+  {
+    "text": "como reservo pa las 8pm",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9803917407989502
+    }
+  },
+  {
+    "text": "como se pide una reserva",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8036376237869263
+    }
+  },
+  {
+    "text": "q onda con la reserva",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.5429083108901978
+    }
+  },
+  {
+    "text": "q se hace?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9987903237342834
+    }
+  },
+  {
+    "text": "dime como",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.995595395565033
+    }
+  },
+  {
+    "text": "q hago primero?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9944883584976196
+    }
+  },
+  {
+    "text": "como hago la vaina?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9809659719467163
+    }
+  },
+  {
+    "text": "el tramite?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9855157136917114
+    }
+  },
+  {
+    "text": "como pido?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.992262601852417
+    }
+  },
+  {
+    "text": "como funka esto?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.981155276298523
+    }
+  },
+  {
+    "text": "q se necesita?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.931537389755249
+    }
+  },
+  {
+    "text": "como hago la reserva pa las 8",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8622746467590332
+    }
+  },
+  {
+    "text": "como hago la reserva pa mañana",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8757655620574951
+    }
+  },
+  {
+    "text": "q ago para reservar",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9193693995475769
+    }
+  },
+  {
+    "text": "como reservo una cancha libre 8pm",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9845714569091797
+    }
+  },
+  {
+    "text": "como le hago para reservar aca",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8684594631195068
+    }
+  },
+  {
+    "text": "como reservo una cancha cerca mio",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8757984042167664
+    }
+  },
+  {
+    "text": "como le hago pa reservar en vill salvador",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.5732455253601074
+    }
+  },
+  {
+    "text": "como le hago pa' reservar?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9864235520362854
+    }
+  },
+  {
+    "text": "como hago pa reservar bien?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9853856563568115
+    }
+  },
+  {
+    "text": "como le hago pa reservar por surco",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.6887995004653931
+    }
+  },
+  {
+    "text": "como hago la vaina ps",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9693757891654968
+    }
+  },
+  {
+    "text": "explicame como es el asunto",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.5070421695709229
+    }
+  },
+  {
+    "text": "explicame como es el proceso",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9905519485473633
+    }
+  },
+  {
+    "text": "explikame el tramite",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.981360673904419
+    }
+  },
+  {
+    "text": "q hago pa reservar?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9878430366516113
+    }
+  },
+  {
+    "text": "como es la vaina?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.961857795715332
+    }
+  },
+  {
+    "text": "explicame como va",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8949527740478516
+    }
+  },
+  {
+    "text": "como pido mi cancha en surco",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.7762237787246704
+    }
+  },
+  {
+    "text": "como se hace la reserva, sin problemas",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.6912742853164673
+    }
+  },
+  {
+    "text": "kiero saber como se hace",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9876980185508728
+    }
+  },
+  {
+    "text": "dime como va el proceso",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9072052836418152
+    }
+  },
+  {
+    "text": "dime como se hace la reserva",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.7833921909332275
+    }
+  },
+  {
+    "text": "como pido mi cancha por surco",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9754807949066162
+    }
+  },
+  {
+    "text": "q hago pa la cancha libre 8pm",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9948517680168152
+    }
+  },
+  {
+    "text": "explicame como se hace esto",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.928481936454773
+    }
+  },
+  {
+    "text": "como hago pa mi pichanga",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8200550675392151
+    }
+  },
+  {
+    "text": "como hago pa la cancha libre?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9960620999336243
+    }
+  },
+  {
+    "text": "como le hago pa separar",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.61597740650177
+    }
+  },
+  {
+    "text": "dime como se hace ps",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9839322566986084
+    }
+  },
+  {
+    "text": "kmo se hace la reserva x aca",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.7023154497146606
+    }
+  },
+  {
+    "text": "komo empiezo?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9753444790840149
+    }
+  },
+  {
+    "text": "como es la movida?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9200221300125122
+    }
+  },
+  {
+    "text": "q tengo q aser?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.7520678639411926
+    }
+  },
+  {
+    "text": "como se hace pa una cancha en surco?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8762713670730591
+    }
+  },
+  {
+    "text": "como le doy?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.988772451877594
+    }
+  },
+  {
+    "text": "q me toca hacer?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9842496514320374
+    }
+  },
+  {
+    "text": "q hago ps?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.993822455406189
+    }
+  },
+  {
+    "text": "como le hago?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9986990690231323
+    }
+  },
+  {
+    "text": "q se hace x aca?",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9273282885551453
+    }
+  },
+  {
+    "text": "dime como le doy pa reservar",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9244505167007446
+    }
+  },
+  {
+    "text": "mañana no",
+    "intent": "deny",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.4847553074359894
+    }
+  },
+  {
+    "text": "esa hora no me da",
+    "intent": "deny",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.984516441822052
+    }
+  },
+  {
+    "text": "Hasta otra oportunidad.",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.4043598771095276
+    }
+  },
+  {
+    "text": "me tengo q desocupar ahora",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.6863895654678345
+    }
+  },
+  {
+    "text": "ya ps, tengo q volar",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.48860248923301697
+    }
+  },
+  {
+    "text": "tengo cosas q hacer",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9730451703071594
+    }
+  },
+  {
+    "text": "a otra oportunidad",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.9932159781455994
+    }
+  },
+  {
+    "text": "ya, tengo q estudiar",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.4131632149219513
+    }
+  },
+  {
+    "text": "tengo q correr",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.7966067790985107
+    }
+  },
+  {
+    "text": "pa otra sera",
+    "intent": "goodbye",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.7633558511734009
+    }
+  },
+  {
+    "text": "cerca d mi",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.3920803368091583
+    }
+  },
+  {
+    "text": "pa empezar",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.997887909412384
+    }
+  },
+  {
+    "text": "q hay pa' hacer",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9992617964744568
+    }
+  },
+  {
+    "text": "a mi alrededor",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "cancha libre a las 8pm",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.3907383680343628
+    }
+  },
+  {
+    "text": "q haces tu",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9974437952041626
+    }
+  },
+  {
+    "text": "kiero saber",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9833629131317139
+    }
+  },
+  {
+    "text": "ps",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.5190101861953735
+    }
+  },
+  {
+    "text": "q me dices",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.6231225728988647
+    }
+  },
+  {
+    "text": "como va la cosa",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8658491373062134
+    }
+  },
+  {
+    "text": "pa la pichanga a las 8",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.26257801055908203
+    }
+  },
+  {
+    "text": "serca mio",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.7237614393234253
+    }
+  },
+  {
+    "text": "cancha libre alas 8",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9299778938293457
+    }
+  },
+  {
+    "text": "cerca de mi casa",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9890003204345703
+    }
+  },
+  {
+    "text": "cancha 8pm",
+    "intent": "greet",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9685574173927307
+    }
+  },
+  {
+    "text": "¿Podrías darme una idea de cómo va la vaina?",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 1.0
+    }
+  },
+  {
+    "text": "Dame una idea de cómo se procede.",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.56479412317276
+    }
+  },
+  {
+    "text": "aca a mi alrededor hay algo disponible",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.977929413318634
+    }
+  },
+  {
+    "text": "me puedes decir",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "show_faqs",
+      "confidence": 0.989190936088562
+    }
+  },
+  {
+    "text": "q se hace para reservar",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "ask_reservation_process",
+      "confidence": 0.5128594636917114
+    }
+  },
+  {
+    "text": "busco cancha aca",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9349143505096436
+    }
+  },
+  {
+    "text": "q tengo q hacer pa reservar?",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "ask_reservation_process",
+      "confidence": 0.9954257607460022
+    }
+  },
+  {
+    "text": "quiero reservar pero no se como",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "ask_reservation_process",
+      "confidence": 0.7882264852523804
+    }
+  },
+  {
+    "text": "q debo hacer para reservar",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "ask_reservation_process",
+      "confidence": 0.9581877589225769
+    }
+  },
+  {
+    "text": "aca a mi alrededor q hay ps",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6511849164962769
+    }
+  },
+  {
+    "text": "q tal",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 0.9438419938087463
+    }
+  },
+  {
+    "text": "q me puedes decir tu",
+    "intent": "help",
+    "intent_prediction": {
+      "name": "show_faqs",
+      "confidence": 0.6204907894134521
+    }
+  },
+  {
+    "text": "para mañana",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6184963583946228
+    }
+  },
+  {
+    "text": "prefiero pasto sintético",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9008978605270386
+    }
+  },
+  {
+    "text": "cancha techada",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9119828343391418
+    }
+  },
+  {
+    "text": "cerca mio",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6071736216545105
+    }
+  },
+  {
+    "text": "aca a mi alrededor",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "cancha libre 8pm",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.8581851720809937
+    }
+  },
+  {
+    "text": "disponible",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9022603034973145
+    }
+  },
+  {
+    "text": "cancha cerca a mi",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9603861570358276
+    }
+  },
+  {
+    "text": "pa mañana en la tarde",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.7022455930709839
+    }
+  },
+  {
+    "text": "hasta 50 soles",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6103776097297668
+    }
+  },
+  {
+    "text": "cerca d mi casa",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.520018994808197
+    }
+  },
+  {
+    "text": "90",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "SetSlots",
+      "confidence": 0.9855633974075317
+    }
+  },
+  {
+    "text": "cancha libre 8pm en surco",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.742445170879364
+    }
+  },
+  {
+    "text": "hasta 60 soles",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6103776097297668
+    }
+  },
+  {
+    "text": "por mi barrio",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6253910064697266
+    }
+  },
+  {
+    "text": "x aca a mi alrededor",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.7407031655311584
+    }
+  },
+  {
+    "text": "para las 7",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.5428562760353088
+    }
+  },
+  {
+    "text": "cancha libre hoy",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.8351622819900513
+    }
+  },
+  {
+    "text": "aca a mi alrededor hoy",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "hoy en la mañana",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6916205286979675
+    }
+  },
+  {
+    "text": "cancha libre en surco",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.8571816086769104
+    }
+  },
+  {
+    "text": "cerca mio pa hoy",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9975222945213318
+    }
+  },
+  {
+    "text": "aki",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 0.8573737144470215
+    }
+  },
+  {
+    "text": "asi es",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "affirm",
+      "confidence": 0.5755343437194824
+    }
+  },
+  {
+    "text": "este, si",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "affirm",
+      "confidence": 0.5510408878326416
+    }
+  },
+  {
+    "text": "pa jugar",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9955011010169983
+    }
+  },
+  {
+    "text": "otra fecha",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.9880658388137817
+    }
+  },
+  {
+    "text": "otra hora",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.9993041753768921
+    }
+  },
+  {
+    "text": "aka a mi alrededor",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.7674782872200012
+    }
+  },
+  {
+    "text": "en vill salvador pa mañana",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.986127495765686
+    }
+  },
+  {
+    "text": "cancha libre alas 8pm",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.7497199177742004
+    }
+  },
+  {
+    "text": "no muy lejos",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "give_negative_feedback",
+      "confidence": 0.8705184459686279
+    }
+  },
+  {
+    "text": "8pm cancha libre",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.5203858017921448
+    }
+  },
+  {
+    "text": "algo cerca",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9999936819076538
+    }
+  },
+  {
+    "text": "cancha libre x aca",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.7657593488693237
+    }
+  },
+  {
+    "text": "hasta 70 soles",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.6103776097297668
+    }
+  },
+  {
+    "text": "por villa el salvador",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.7971868515014648
+    }
+  },
+  {
+    "text": "canchita pa hoy",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9992725253105164
+    }
+  },
+  {
+    "text": "pa jugar hoy",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.963856041431427
+    }
+  },
+  {
+    "text": "tardecita",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.5376188158988953
+    }
+  },
+  {
+    "text": "xfa",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 0.9254559874534607
+    }
+  },
+  {
+    "text": "una pichanga",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.9803844094276428
+    }
+  },
+  {
+    "text": "si, esa",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "affirm",
+      "confidence": 0.9386872053146362
+    }
+  },
+  {
+    "text": "el precio",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "ask_pricing_info",
+      "confidence": 0.9532475471496582
+    }
+  },
+  {
+    "text": "reservas activas hoy",
+    "intent": "request_admin_metrics",
+    "intent_prediction": {
+      "name": "request_admin_reservations_overview",
+      "confidence": 0.85
+    }
+  },
+  {
+    "text": "como se reserva",
+    "intent": "ask_reservation_process",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.5969728231430054
+    }
+  },
+  {
+    "text": "pasar para otro dia",
+    "intent": "ask_reprogram_reservation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.5593810081481934
+    }
+  },
+  {
+    "text": "ayuda rapida",
+    "intent": "show_faqs",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9810827970504761
+    }
+  },
+  {
+    "text": "ahora",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.8551720976829529
+    }
+  },
+  {
+    "text": "en villa el salvador",
+    "intent": "inform",
+    "intent_prediction": {
+      "name": "request_field_recommendation",
+      "confidence": 0.5619767904281616
+    }
+  },
+  {
+    "text": "Necesito información sobre la demanda actual.",
+    "intent": "request_admin_demand_alerts",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.5172237157821655
+    }
+  },
+  {
+    "text": "¿Qué tal va el flujo de reservas en mis canchas hoy?",
+    "intent": "request_admin_field_usage",
+    "intent_prediction": {
+      "name": "request_admin_reservations_overview",
+      "confidence": 0.9985804557800293
+    }
+  },
+  {
+    "text": "Los números del día, al toque.",
+    "intent": "request_admin_metrics",
+    "intent_prediction": {
+      "name": "ask_pricing_info",
+      "confidence": 0.7969202399253845
+    }
+  },
+  {
+    "text": "Muéstrame las reservas totales de hoy.",
+    "intent": "request_admin_metrics",
+    "intent_prediction": {
+      "name": "request_admin_reservations_overview",
+      "confidence": 0.9979155659675598
+    }
+  },
+  {
+    "text": "Cuántas reservas hay en total para hoy.",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.862663745880127
+    }
+  },
+  {
+    "text": "Quiero saber el total de reserbas de hoy.",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.8081218004226685
+    }
+  },
+  {
+    "text": "Quiero ver el total de reservas para el día de hoy.",
+    "intent": "request_admin_reservations_overview",
+    "intent_prediction": {
+      "name": "request_admin_metrics",
+      "confidence": 0.8603022694587708
+    }
+  },
+  {
+    "text": "q opciones hay",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9364832639694214
+    }
+  },
+  {
+    "text": "q opciones tengo",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9820235371589661
+    }
+  },
+  {
+    "text": "pa la noche",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6257367730140686
+    }
+  },
+  {
+    "text": "q hay de nuevo",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8721951246261597
+    }
+  },
+  {
+    "text": "alas 8 d la noche",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.8288837671279907
+    }
+  },
+  {
+    "text": "por surco hoy",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6292463541030884
+    }
+  },
+  {
+    "text": "dime q puedo hacer",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9990193843841553
+    }
+  },
+  {
+    "text": "q tienes pa mi",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9961379170417786
+    }
+  },
+  {
+    "text": "puedes recomendarme?",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "show_previous_recommendations",
+      "confidence": 0.3527573049068451
+    }
+  },
+  {
+    "text": "ayuda con una cancha",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.5517004132270813
+    }
+  },
+  {
+    "text": "se puede?",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.7709357142448425
+    }
+  },
+  {
+    "text": "dime q hay ps",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9925739765167236
+    }
+  },
+  {
+    "text": "ala 8 pm",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6944921612739563
+    }
+  },
+  {
+    "text": "x surco hoy",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.6543535590171814
+    }
+  },
+  {
+    "text": "8pm libre?",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "inform",
+      "confidence": 0.7139649391174316
+    }
+  },
+  {
+    "text": "q hay",
+    "intent": "request_field_recommendation",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9669754505157471
+    }
+  },
+  {
+    "text": "dime sobre esto",
+    "intent": "show_faqs",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.589148759841919
+    }
+  },
+  {
+    "text": "q tengo q leer",
+    "intent": "show_faqs",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.4994376003742218
+    }
+  },
+  {
+    "text": "quiero entender",
+    "intent": "show_faqs",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.9433773756027222
+    }
+  },
+  {
+    "text": "kiero saber q hay",
+    "intent": "show_faqs",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.6086778044700623
+    }
+  },
+  {
+    "text": "la info ps",
+    "intent": "show_faqs",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.8354030847549438
+    }
+  },
+  {
+    "text": "no se q preguntar",
+    "intent": "show_faqs",
+    "intent_prediction": {
+      "name": "help",
+      "confidence": 0.5560099482536316
+    }
+  },
+  {
+    "text": "¿Hay alguna promoción de ensueño para la semana?",
+    "intent": "show_promotions",
+    "intent_prediction": {
+      "name": "ask_modify_reservation",
+      "confidence": 0.88255375623703
+    }
+  }
+]

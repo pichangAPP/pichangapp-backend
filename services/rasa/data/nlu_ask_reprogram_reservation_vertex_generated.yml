@@ -1,0 +1,3504 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_reprogram_reservation
+    examples: |
+      - ¿Puedo cambiar la fecha de mi reserva de la cancha?
+      - Necesito mover mi hora de pichanga, ¿es posible?
+      - Quiero saber cómo reajustar mi turno de juego.
+      - ¿Hay alguna manera de pasar mi reserva a otro día?
+      - ¿Se puede modificar el horario de mi cancha, por favor?
+      - Tengo que ajustar mi booking, ¿qué debo hacer?
+      - Mi reserva de fulbito, ¿la puedo cambiar de hora?
+      - ¿Cómo hago para posponer mi reserva actual?
+      - Necesito reubicar mi fecha de juego, ¿hay chance?
+      - Quisiera adelantar mi turno de la cancha, ¿es factible?
+      - ¿Es posible mover mi reserva de la cancha para la próxima semana?
+      - Tengo que cambiar el día de mi partido, ¿me ayudas?
+      - Mi reserva, ¿la puedo pasar a otro horario?
+      - Necesito un cambio de día y hora para mi reserva, ¿cómo procedo?
+      - ¿Hay opción de ajustar la hora de mi reserva del partido?
+      - Quiero posponer la reserva que hice, ¿cuáles son los pasos?
+      - ¿Se puede mover mi reserva para la siguiente semana?
+      - Necesito reajustar la reserva de mi cancha lo antes posible.
+      - ¿Puedo cambiar mi reserva del fin de semana a otro día de la semana?
+      - Quiero saber si puedo modificar la hora específica de mi reserva.
+      - ¿Cómo hago para reubicar mi turno de juego en la cancha?
+      - Mi reserva de la cancha, ¿puedo cambiarla para un día distinto?
+      - Necesito que me eches una mano con el cambio de mi reserva de fulbito.
+      - ¿Hay opción de cambiar mi reserva de hora y día al mismo tiempo?
+      - Quiero mover mi reserva de la cancha para más tarde, por favor.
+      - ¿Es posible cambiar mi hora de juego para el día después?
+      - Tengo que cambiar la fecha programada de mi pichanga, ¿me informas?
+      - ¿Cómo hago para re agendar mi turno de la cancha que ya tengo?
+      - Necesito cambiar la reserva que hice, ¿me das una mano con eso?
+      - ¿Se puede modificar la fecha y hora de mi reserva de la cancha?
+      - Quisiera saber si se puede cambiar mi reserva para un día diferente y con otro horario.
+      - ¿Hay chance de posponer mi reserva de la cancha para otro momento?
+      - Necesito cambiar la hora de mi booking de la cancha de hoy.
+      - ¿Cómo hago para mover la fecha de mi reserva de juego de fútbol?
+      - Mi reserva de la cancha, ¿la puedo pasar para una fecha posterior?
+      - ¿Puedo adelantar mi reserva para la cancha unas horas?
+      - Quiero modificar mi reserva de hora para el partido de fútbol.
+      - ¿Hay forma de cambiar mi reserva de la cancha para la próxima semana, el martes?
+      - Necesito cambiar la fecha del partido que teníamos programado.
+      - ¿Es posible mover mi reserva de día y hora a la vez?
+      - Quisiera reprogramar mi booking de cancha, ¿cómo le hago para eso?
+      - ¿Se puede cambiar mi reserva de cancha para otro día por la tarde?
+      - Necesito reacomodar mi horario de cancha para la pichanga.
+      - ¿Cómo hago para cambiar la fecha de mi reserva de un partido?
+      - Mi reserva, ¿la puedo pasar a otro momento diferente al que ya tengo?
+      - ¿Hay opción de mover mi reserva para una fecha posterior que me convenga?
+      - Quiero adelantar mi reserva para la cancha, ¿se podrá hacer eso?
+      - Necesito cambiar la hora de mi reserva de la cancha para más tarde.
+      - ¿Es factible que cambie mi reserva para la próxima semana en otro día?
+      - Quiero posponer mi turno de juego, ¿cómo lo hago rápido?
+      - ¿Se puede mover la fecha de mi pichanga para el sábado?
+      - Necesito re agendar la hora de mi cancha para la tarde.
+      - ¿Cómo hago para ajustar mi reserva de día de la cancha?
+      - Mi reserva de la cancha, ¿la puedo cambiar de horario sin problema?
+      - ¿Hay manera de modificar mi reserva de cancha para jugar otro día?
+      - Quisiera cambiar mi reserva para un día diferente en la noche.
+      - Necesito cambiar la hora y el día de mi reserva del partido.
+      - ¿Es posible mover mi reserva de la cancha para una fecha distinta a la pactada?
+      - Quiero reagendar mi partido de fulbito, ¿a quién le pregunto?
+      - ¿Se puede adelantar la hora de mi reserva de pichanga?
+      - Necesito variar la fecha de mi reserva de la cancha.
+      - ¿Cómo hago para reprogramar mi booking?
+      - Mi reserva, ¿puedo cambiarla para el fin de semana?
+      - Quiero cambiar el día de mi partido de fútbol.
+      - ¿Hay opción de pasar mi reserva para la próxima semana?
+      - Necesito modificar la hora de mi reserva, ¿me ayudan?
+      - ¿Es posible cambiar la fecha de mi reserva de la cancha?
+      - Quisiera reacomodar mi reserva para un día antes.
+      - ¿Se puede mover mi reserva del lunes para el martes?
+      - Necesito cambiar mi turno de la cancha que ya tengo.
+      - ¿Cómo hago para adelantar mi reserva de la cancha?
+      - Quiero posponer mi reserva de la pichanga, ¿es complicado?
+      - ¿Hay forma de cambiar mi reserva para un día feriado?
+      - Necesito reajustar mi reserva de hora para jugar al fútbol.
+      - ¿Puedo modificar mi reserva de la cancha para una fecha próxima?
+      - Quiero mover mi reserva, ¿a qué hora puedo hacerlo?
+      - ¿Es posible cambiar mi reserva del partido para la noche?
+      - Tengo que cambiar mi fecha de juego, ¿cómo se hace eso?
+      - ¿Se puede reprogramar mi reserva de la cancha sin problemas?
+      - Necesito re agendar mi pichanga para otro día y hora.
+      - ¿Cómo hago pa' posponer mi pichanga del viernes?
+      - Quería saber si se puede modificar la hora de mi booking de la cancha.
+      - Tengo una reserva, ¿hay forma de adelantarla un par de horas?
+      - Mi alquiler de la cancha, ¿lo puedo mover para el próximo fin de?
+      - Necesito aplazar mi turno de fulbito, ¿qué trámites hay que seguir?
+      - ¿Se puede reagendar mi partido para el martes de la otra semana?
+      - Broder, ¿cómo le hago para cambiar la fecha de mi reserva de juego?
+      - Mi booking de la cancha, ¿es posible que lo traslade para otro día?
+      - Quiero alterar la hora de mi cita en la cancha, ¿quién me atiende?
+      - Uhm, tengo que mover mi reserva de la pichanga, ¿me ayudan con eso?
+      - ¿Es factible postergar mi alquiler de la cancha hasta el otro mes?
+      - Necesito cambiar la programación de mi partido, ¿cómo funciona aquí?
+      - O sea, ¿puedo cambiar la hora de mi reserva de la canchita?
+      - Mi reserva del fulbito, ¿se puede ajustar para una fecha posterior?
+      - ¿Hay manera de reubicar mi turno de juego? Lo tengo el jueves y no llego.
+      - Tengo que recalendarizar mi reserva de la cancha, ¿cómo le hago?
+      - Quería saber si hay la opción de adelantar mi reserva, tipo para hoy mismo.
+      - Mi reserva de la pichanga, ¿hay que pedir permiso para cambiarla de hora?
+      - ¿Puedo modificar la fecha de mi booking de la cancha? Me salió un imprevisto.
+      - Necesito redefinir el día de mi partido, ¿quién se encarga de eso?
+      - Causa, quiero mover la hora de mi reserva de la cancha. ¿Es posible?
+      - La reserva que hice, ¿la puedo pasar a otro horario? Me confundí de día.
+      - ¿Se puede posponer mi partido de fulbito para la siguiente semana? No voy a poder.
+      - Tengo que reprogramar mi reserva de la cancha urgentemente, ¿a dónde llamo?
+      - Mi turno de la cancha, ¿hay chance de cambiarlo para más tarde el mismo día?
+      - ¿Podría, por favor, modificar el día de mi alquiler de la cancha?
+      - Necesito ajustar mi fecha de fulbito, ¿cómo le hago?
+      - Mi turno de la cancha lo querría para otro momento.
+      - Quiero saber si puedo trasladar mi booking de pichanga.
+      - ¿Hay alguna posibilidad de mover la cita de mi cancha?
+      - Deseo cambiar la fecha asignada para mi partido, ¿es posible?
+      - Por fa, ¿puedo adelantar mi hora de juego de fútbol?
+      - ¿Cómo hago para aplazar mi reserva de la losa deportiva?
+      - Mi reserva de fulbito, necesito pasarla para después.
+      - ¿Existe la opción de recalendarizar mi encuentro deportivo?
+      - Tengo que variar el horario de mi reserva de cancha, ¿me ayudan?
+      - Quiero reasignar mi horario de juego de la cancha, ¿cómo procedo?
+      - ¿Se puede buscar otra fecha para mi pichanga?
+      - Me gustaría reubicar mi reserva de la cancha para más tarde en la semana.
+      - Necesito un cambio en mi reserva de fútbol, ¿con quién lo veo?
+      - Porfis, mi reserva de la cancha, ¿la podemos cambiar de día?
+      - ¿Qué debo hacer para mover mi cita de la cancha a otra hora?
+      - Mi alquiler de la cancha, ¿se puede modificar la fecha, por siacaso?
+      - Quiero ver la manera de ajustar mi horario de partido de fulbito.
+      - Es posible que necesite retrasar mi turno de juego, ¿cómo es el proceso?
+      - Deseo posponer la fecha de mi reserva de la cancha por motivos de fuerza mayor.
+      - ¿Puedo pedir que cambien la fecha y hora de mi partido ya agendado?
+      - Necesito gestionar un cambio en mi reserva de la cancha para otro día diferente.
+      - Mi reserva de pichanga, ¿la puedo acomodar en otro horario?
+      - ¿Hay posibilidad de alternar mi horario de fulbito?
+      - Puedo cambiar la hora de mi reserva de la cancha?
+      - Necesito un cambio para la fecha que tengo de la pichanga.
+      - ¿Qué tal si movemos mi cita de fulbito para otro día?
+      - Se podrá adelantar mi reserva para la mañana?
+      - Quisiera mover mi turno de juego, ¿cómo se hace?
+      - La reserva del partido que hice, ¿la puedo cambiar de día?
+      - Hay forma de ajustar el horario de mi cancha, por favor?
+      - Necesito hacer un ajuste en mi booking, ¿con quién hablo?
+      - La reserva de fútbol, ¿se puede pasar para el domingo?
+      - Cómo hago para cambiar la fecha de mi alquiler de la cancha?
+      - Quisiera mover la fecha de mi alquiler de cancha.
+      - ¿Hay chance de ajustar mi booking de la tarde?
+      - Mi pichanga del sábado, ¿la puedo trasladar?
+      - Necesito recalendarizar mi turno de juego, porfa.
+      - ¿Es posible adelantar mi reserva que tengo para el jueves?
+      - Quería cambiar la hora de mi fulbito, ¿se puede?
+      - ¿Podrían ayudarme a posponer la reserva que saqué?
+      - La renta de la canchita, ¿se puede mover para la otra semana?
+      - Deseo modificar mi horario de cancha, ¿cómo procedo?
+      - Tengo que variar el día de mi partido, ¿qué pasos sigo?
+      - ¿Se puede mover mi reserva para el fin de semana que viene?
+      - Quiero reubicar mi turno de las 5, ¿hay forma?
+      - Mi booking de la cancha, ¿lo puedo pasar para más tarde?
+      - Necesito ajustar mi fecha de pichanga, ¿es complicado?
+      - ¿Hay manera de cambiar mi reserva que tengo para mañana?
+      - Pata, ¿se puede reprogramar la cancha?
+      - Mano, quiero mover mi reserva de hora, ¿me ayudas?
+      - La reserva del martes, ¿hay cómo adelantarla?
+      - Quiero pasar mi pichanga para otro día, ¿me indicas?
+      - ¿Se puede modificar la hora de mi renta de la canchita?
+      - Necesito recalendarizar mi partido de fulbito, ¿cómo le hago?
+      - La reserva que hice, ¿la puedo cambiar de día?
+      - Mi turno de juego, ¿hay cómo atrasarlo?
+      - Quisiera adelantar mi booking, ¿es factible?
+      - ¿Es posible mover mi reserva para la tarde-noche?
+      - Tengo que ajustar la fecha de mi alquiler, ¿quién me apoya?
+      - Pueeede que necesite cambiar mi reserva del fin de semana.
+      - ¿Hay opción de pasar mi pichanga para el feriado?
+      - Quiero mover mi reserva de la canchita, ¿se puede hoy?
+      - Necesito modificar mi horario de juego, ¿cómo es la cosa?
+      - La reserva que tengo, ¿la puedo mover pa' la otra semana?
+      - ¿Podrías re agendar mi partido que tengo el miércoles?
+      - Mi booking, ¿lo puedo cambiar de fecha y hora?
+      - Quisiera variar la hora de mi pichanga, ¿cómo le hago?
+      - ¿Se puede posponer mi reserva de la cancha por unos días?
+      - Necesito reajustar mi turno de fulbito que reservé.
+      - Amigo, ¿cómo hago para cambiar mi reserva que ya está hecha?
+      - Quiero mover mi cancha, ¿me dices si hay disponibilidad?
+      - La reserva, ¿se puede adelantar para el lunes temprano?
+      - Tengo que ajustar mi booking, ¿hay cupos para otro día?
+      - Oye, mi reserva de la canchita, ¿se puede mover pa' la noche?
+      - ¿Hay forma de modificar la hora de mi pichanga, broder?
+      - Necesito un reajuste en mi booking del fulbito, ¿cómo le hacemos?
+      - Quisiera cambiar la fecha de mi partido, ¿a quién le consulto?
+      - Mi turno de juego, ¿lo puedo adelantar un toque?
+      - Tengo que variar mi reserva para la semana que viene, ¿es posible?
+      - ¿Es factible que aplacemos la cancha hasta el otro día?
+      - ¿Cómo hago para re-programar mi alquiler del viernes?
+      - Mi pichanga del domingo, ¿la puedo trasladar para el sábado?
+      - Quiero postergar mi reserva, ¿dónde veo eso?
+      - Necesito cambiar de horario mi cancha, ¿hay chance?
+      - Pata, mi reserva, ¿la puedo pasar a otro momento que me convenga?
+      - ¿Será que se puede mover mi partido para más tardecito?
+      - Tengo que ajustar mi booking de fulbito, ¿me dan una mano?
+      - ¿Puedo permutar mi fecha de juego, por favor?
+      - Quiero mover mi reserva de la canchita para el lunes.
+      - Necesito reubicar mi turno de pichanga, ¿hay cómo?
+      - ¿Hay opción de que mi reserva se mueva a otra hora y fecha?
+      - Mi reserva de la cancha, ¿es posible diferirla?
+      - Quisiera reacomodar mi partido para un día diferente.
+      - Tengo que recalendarizar mi fulbito, ¿cuál es el procedimiento?
+      - Necesito cambiar mi booking para la próxima semana, ¿se podrá?
+      - ¿Cómo le hago para adelantar mi pichanga un par de horas?
+      - Mi reserva, ¿la puedo alterar para otro día?
+      - Quiero saber si puedo posponer mi cancha que tengo.
+      - Che, ¿se puede re-agendar mi partido para el martes?
+      - Necesito modificar la hora de mi alquiler, ¿quién me atiende?
+      - ¿Hay posibilidad de trasladar mi reserva para la tarde?
+      - Mi turno de juego, ¿lo puedo variar de día?
+      - Tengo que cambiar mi pichanga de fecha, ¿cómo se hace?
+      - Quiero mover mi booking de fulbito, ¿me explicas?
+      - ¿Es posible correr mi cancha para la mañana siguiente?
+      - Necesito reprogramar mi reserva, ¿con quién hablo?
+      - Mi reserva, ¿puedo cambiarla para otro día pero en la noche?
+      - Quisiera aplazar mi partido para el feriado, ¿se puede?
+      - ¿Cómo hago para ajustar la hora de mi pichanga?
+      - Tengo que reubicar mi reserva, ¿qué tal si la cambio?
+      - Necesito variar mi fulbito para la semana que entra.
+      - Mi booking, ¿lo puedo mover para una fecha posterior?
+      - Quiero adelantar mi turno de la cancha, ¿hay algún impedimento?
+      - Oye, ¿podría cambiar la reserva de mi cancha?
+      - Bro, nesecito cambiar la pichanga para otro día.
+      - ¿Cómo hago para modificar mi booking de fulbito?
+      - Quiero posponer mi turno de juego, ay chance?
+      - La canchita que reservé, ¿la puedo cambiar para un horario más tarde?
+      - Necesito un canbio de fecha y hora para mi pichanga.
+      - ¿Se puede adelantar la reserva que tengo para el partido?
+      - Amigo, ¿hay forma de reajustar mi horario de juego?
+      - Quisiera varíar la fecha de mi reserva de la cancha, porfa.
+      - ¿Es posible pasar mi fulbito para la próxima semana?
+      - Quisiera mover mi turno de la cancha del jueves para el viernes.
+      - Deseo modificar la hora de mi partido, ¿me puedes asesorar?
+      - ¿Cómo le hago para agendar mi pichanga para otro día?
+      - La reserva del sábado, ¿es posible pasarla para el domingo en la tarde?
+      - Quiero adelantar mi booking, se puede para mañana?
+      - ¿Hay manera de ajustar mi fecha de juego por la tarde?
+      - Mi reserva de la canchita, ¿se puede ajustar pa' otro momento?
+      - O sea, ¿puedo cambiar la hora de mi pichanga que ya hice?
+      - ¿Se puede correr mi reserva de fulbito unas horas?
+      - Quiero pasar mi turno para la noche, ¿cómo hago?
+      - Nesecito reorganizar mi fecha del partido, ¿hay algun problema?
+      - ¿Es posible adelantar mi alquiler de cancha para el martes?
+      - Mi reserva del juego, ¿la puedo cambiar de horario?
+      - ¿Cómo hago para postergar mi pichanga del miércoles?
+      - Quiero cambiar mi reserva de la cancha pa' otro día.
+      - Necesito ajustar mi booking de fulbito, ¿quién me ayuda?
+      - ¿Hay opción de mover mi partido para la siguiente semana?
+      - Broder, como le hago para cambiar mi reserva de cancha de fecha?
+      - Mi turno de la cancha, ¿se puede adelantar un par de horas?
+      - Tengo que reprogramar mi reserva del partido, ¿me indicas?
+      - ¿Es posible pasar mi pichanga para la noche del mismo día?
+      - Necesito variar mi reserva de la cancha a otra hora.
+      - Quiero modificar mi fecha de juego, ¿cómo es el proceso?
+      - ¿Se puede cambiar mi booking para la semana que viene?
+      - Causita, tengo que mover mi reserva de la pichanga, me apoyas?
+      - ¿Cómo hago para recalendarizar mi partido que ya tengo?
+      - Mi reserva, ¿puedo moverla para un día distinto al que agendé?
+      - Nesecito cambiar la hora y el día de mi pichanga, ¿es posible?
+      - Quiero pasar mi reserva del lunes para el fin de semana.
+      - ¿Hay chance de adelantar mi partido para el día de hoy?
+      - ¿Cómo hago para correr mi reserva de cancha que tengo?
+      - Necesito mover la fecha de mi fulbito, ¿hay chance?
+      - ¿Puedo cambiar mi turno de pichanga para el miércoles?
+      - Quisiera ajustar mi booking de la cancha para una hora más tarde.
+      - Mi reserva de hoy, ¿la puedo pasar pa' la otra semana?
+      - ¿Es posible aplazar mi partido para el jueves?
+      - Tengo que reajustar mi reserva de cancha, ¿cómo le entro?
+      - Cambiar mi reserva de fulbito de las 6, ¿se puede?
+      - ¿Hay manera de modificar mi reserva para otro día y otra hora?
+      - Necesito trasladar mi reserva de la cancha para el día siguiente.
+      - Quiero saber si puedo adelantar mi reserva pa' más temprano.
+      - ¿Se podrá cambiar mi reserva de la pichanga de la noche a la tarde?
+      - Mi turno de la cancha, ¿lo puedo re agendar para el fin de semana que viene?
+      - ¿Qué onda para cambiar mi reserva de la cancha de fulbito?
+      - Necesito ajustar el horario de mi reserva, ¿quién me ayuda?
+      - ¿Puedo posponer mi reserva de partido para otro día?
+      - Quisiera modificar la fecha de mi reserva de la cancha.
+      - ¿Cómo hago para variar el día de mi pichanga?
+      - Mi reserva, ¿la puedo pasar para mañana por la mañana?
+      - ¿Es posible alterar mi reserva de la cancha para otro momento?
+      - Necesito mover mi reserva del alquiler de cancha, ¿se puede hacer?
+      - Quiero adelantar mi turno de cancha, ¿es factible?
+      - ¿Hay opción de recalendarizar mi partido de fulbito?
+      - Mi reserva de la cancha, ¿la puedo cambiar para el próximo mes?
+      - Quiero reprogramar mi turno de la pichanga, ¿a dónde me dirijo?
+      - ¿Se puede correr mi reserva de cancha para el martes?
+      - Necesito modificar la hora y el día de mi reserva de fulbito.
+      - ¿Cómo hago para reubicar mi reserva de la cancha?
+      - Mi reserva del partido, ¿la puedo cambiar de hora?
+      - ¿Es posible aplazar mi reserva de pichanga para después?
+      - Quisiera ajustar mi reserva de la cancha de una vez.
+      - Tengo que mover mi turno de juego, ¿cómo hago eso?
+      - ¿Se puede re agendar mi reserva para un día diferente?
+      - Necesito adelantar mi reserva del alquiler de cancha.
+      - ¿Hay forma de cambiar mi reserva de cancha para más tarde hoy?
+      - Quiero postergar mi reserva de la pichanga, ¿me ayudas con eso?
+      - Mi reserva del fulbito, ¿la puedo cambiar para el próximo domingo?
+      - ¿Es factible modificar la fecha de mi reserva de partido?
+      - Tengo que reacomodar la hora de mi reserva de cancha, ¿dónde lo hago?
+      - ¿Puedo cambiar mi reserva de pichanga para la noche?
+      - Quisiera pasar mi reserva de la cancha para más tarde.
+      - Necesito modificar mi turno de juego, ¿es factible?
+      - ¿Hay chance de cambiar la fecha del partido que programé?
+      - ¿Podría mover mi pichanga del martes para el jueves?
+      - Tengo que cambiar la hora de mi reserva de fulbito.
+      - ¿Cómo hago para adelantar mi reserva de la canchita?
+      - Mi booking, ¿lo puedo aplazar para la próxima semana?
+      - Necesito variar la fecha de mi pichanga, por favor.
+      - Quisiera reajustar la reserva de mi partido de fútbol.
+      - ¿Es posible mover mi alquiler de la cancha para otro día?
+      - Tengo que recalendarizar la pichanga, ¿me ayudas?
+      - ¿Puedo cambiar mi reserva del domingo para el lunes?
+      - Necesito correr la hora de mi reserva para más tarde hoy.
+      - Quiero posponer mi juego de fulbito que tengo.
+      - ¿Hay alguna forma de cambiar mi reserva para un horario diferente?
+      - ¿Se podrá adelantar mi reserva del partido para el mediodía?
+      - Tengo que modificar el día de mi reserva, ¿se puede?
+      - Necesito reubicar mi reserva de la cancha, ¿cómo le hago?
+      - Quisiera cambiar la fecha de mi booking de fútbol.
+      - ¿Es posible variar mi horario de la cancha?
+      - Mi reserva de la pichanga, ¿la puedo pasar a la noche?
+      - Necesito cambiar la fecha de mi turno de juego.
+      - Quiero mover mi reserva del viernes para otro día.
+      - ¿Podré reprogramar mi partido para la próxima semana?
+      - Tengo que ajustar mi reserva de la cancha para una fecha posterior.
+      - ¿Cómo hago para cambiar el día y la hora de mi fulbito?
+      - Necesito adelantar la reserva de mi canchita.
+      - Quisiera pasar mi reserva a un día distinto al que tengo.
+      - ¿Se puede modificar mi booking de la cancha para el día siguiente?
+      - Mi reserva de la pichanga, ¿hay forma de moverla de fecha?
+      - Necesito cambiar el día de mi reserva de la cancha de una vez.
+      - ¿Es factible reprogramar mi partido para la otra semana?
+      - Quiero correr mi reserva del sábado para el domingo.
+      - Tengo que modificar mi reserva de fulbito para un horario diferente.
+      - ¿Cómo le hago para cambiar la fecha de mi reserva de la canchita?
+      - Necesito reajustar la hora de mi reserva del partido.
+      - ¿Podría cambiar mi turno de la cancha para el lunes?
+      - Mi reserva de la pichanga, ¿la puedo mover para la tarde?
+      - Quisiera aplazar mi reserva de juego.
+      - ¿Hay opción de cambiar mi booking del fulbito a otra fecha?
+      - Hola, ¿podría cambiar la fecha de mi pichanga?
+      - Necesito mover mi reserva del fulbito para otro día.
+      - ¿Hay forma de adelantar mi turno de la cancha?
+      - Quisiera posponer mi booking de hoy, ¿se puede?
+      - Tengo que ajustar la hora de mi partido, ¿me ayudas?
+      - Mi reserva de la canchita, ¿la puedo pasar para la próxima semana?
+      - Broder, ¿cómo le hago para reprogramar mi horario?
+      - Se me cruzó algo, ¿podría modificar la fecha del juego?
+      - Necesito re agendar mi reserva para la tarde, ¿es factible?
+      - ¿Es posible cambiar mi turno de la mañana para la noche?
+      - Quiero variar el día de mi pichanga, ¿me informas?
+      - Tengo que mover mi booking, ¿a qué hora lo puedo hacer?
+      - Disculpa, ¿puedo adelantar mi reserva de la cancha?
+      - Mi fulbito, ¿lo podría cambiar de hora pa' más tarde?
+      - Necesito recalendarizar mi partido, ¿hay chance?
+      - ¿Cómo hago para posponer mi reserva del jueves?
+      - Quisiera cambiar mi fecha de juego, ¿cómo se gestiona?
+      - Tengo una reserva, ¿la puedo pasar para otro fin de semana?
+      - Porfa, ¿se puede ajustar la hora de mi canchita?
+      - Necesito reubicar mi reserva del lunes, ¿me das una mano?
+      - Mi turno de pichanga, ¿hay forma de moverlo para el día siguiente?
+      - ¿Es factible reprogramar mi reserva para la nochecita?
+      - Quiero modificar mi horario del partido, ¿quién me ayuda?
+      - Tengo que cambiar mi booking a un día antes, ¿es posible?
+      - Necesito pasar mi reserva de fulbito para otro horario.
+      - Se me complica el día, ¿puedo adelantar mi cancha?
+      - ¿Podría cambiar mi reserva del viernes para el sábado?
+      - Quisiera posponer mi juego, ¿hay algún procedimiento?
+      - Necesito reorganizar mi reserva de la canchita, ¿cómo hago?
+      - ¿Hay opción de variar la hora de mi booking de pichanga?
+      - Mi reserva, ¿se puede trasladar para la próxima semana?
+      - Quiero adelantar mi turno de partido, ¿me confirmas?
+      - Necesito modificar la fecha de mi pichanga urgente.
+      - ¿Cómo le hago para re agendar mi reserva que tengo?
+      - Se me presenta un imprevisto, ¿puedo cambiar la hora de mi cancha?
+      - Quiero reprogramar mi reserva del fulbito, ¿es fácil?
+      - ¿Podría mover mi booking del martes para otro día?
+      - Necesito ajustar el horario de mi reserva, ¿me dan una idea?
+      - Mi pichanga, ¿la puedo pasar para el fin de semana?
+      - Tengo que cambiar la fecha de mi turno, ¿qué debo hacer?
+      - Se me ha complicado la fecha de mi reserva, ¿qué puedo hacer?
+      - No podré asistir en la hora pactada, ¿hay alguna solución?
+      - Tengo un impase con el día de mi cancha, ¿me pueden ayudar?
+      - ¿Qué opciones tengo si no llego a mi partido en la fecha que ya separé?
+      - La fecha de mi booking se me cruza con algo, ¿cómo lo resuelvo?
+      - Necesito ver si hay disponibilidad para otro horario de mi pichanga.
+      - ¿Podría ver si mi cupo para la cancha se puede usar en otro momento?
+      - Quisiera saber qué alternativas tengo para mi reserva de fulbito.
+      - Se me presentó un problema y no podré ir en mi turno, ¿qué se hace?
+      - ¿Hay forma de que mi hora de juego sea en un día distinto?
+      - Quiero ver si puedo disponer de otro día para mi alquiler de cancha.
+      - Necesito buscar una solución para la fecha de mi partido.
+      - ¿Qué tal si mi reserva se coordina para una fecha diferente?
+      - Mi pichanga, la quería para otra hora, ¿es posible?
+      - ¿Hay algo que se pueda hacer con mi reserva que ya no me calza?
+      - Tengo un percance con el día de mi reserva, ¿me pueden asesorar?
+      - ¿Qué posibilidades existen para mi cita en la cancha, si necesito otro día?
+      - La hora de mi reserva me complica, ¿cómo lo arreglo?
+      - Quisiera ver si puedo conseguir otro slot para mi fulbito.
+      - Necesito un arreglo para mi partido, ¿hay alguna forma?
+      - ¿Cómo hago para que mi reserva coincida con mi nueva disponibilidad?
+      - Mi reserva para la cancha, ¿se puede dejar para otra oportunidad?
+      - No me va bien la fecha que tengo, ¿qué puedo consultar?
+      - ¿Hay manera de que mi turno de pichanga sea en otra fecha?
+      - Quiero ver las opciones para que mi booking se realice en otro momento.
+      - Necesito que me ayuden con mi fecha de partido, no puedo ir ese día.
+      - ¿Qué puedo hacer si mi reserva de fulbito no me queda?
+      - La hora que tengo separada, ¿se puede adaptar a un nuevo horario?
+      - Quisiera averiguar si mi cupo de la cancha tiene opción a otro día.
+      - Se me presentó una urgencia, ¿puedo ver otra fecha para mi partido?
+      - ¿Hay alguna flexibilidad con el día de mi reserva?
+      - Necesito un favor, mi hora de pichanga necesito que sea diferente.
+      - ¿Cómo puedo hacer para que mi partido tenga un día distinto?
+      - Quiero que mi reserva del día que tengo sea para otro día.
+      - Mi cita en la cancha, ¿se puede llevar a otro momento?
+      - Necesito un espacio distinto para mi partido de fútbol.
+      - ¿Es posible que mi reserva tenga otra fecha de atención?
+      - Quisiera verificar si el horario de mi fulbito se puede adecuar.
+      - No me acomoda el día de la reserva, ¿qué podemos hacer?
+      - ¿Hay alguna forma de que mi pichanga tenga otra fecha?
+      - La hora que aparté, ¿podría tener un nuevo emplazamiento?
+      - Tengo que reorganizar el tramo de mi cancha, ¿cómo le caigo?
+      - ¿Podemos darle otra onda al momento de mi booking del partido?
+      - La pichanga que tengo, ¿hay forma de que caiga otro día?
+      - Necesito recalibrar mi hora separada, ¿con quién lo gestiono?
+      - Quisiera que mi juego tenga una diferente ubicación temporal.
+      - Mi fecha de partido, ¿es posible que tenga otra designación?
+      - Tengo que reestructurar el esquema de mi reserva de fulbito.
+      - ¿Hay cómo permutar mi alquiler de la cancha para una fecha distinta?
+      - La reserva del lunes, ¿es factible que le busquemos otro hueco?
+      - Necesito desprogramar mi slot de pichanga para cuadrar uno nuevo.
+      - Quiero darle la vuelta al día de mi booking, ¿quién me da una mano?
+      - ¿Se puede que mi reserva de cancha tenga otra validez horaria?
+      - Tengo que desfasar la planificación de mi partido, ¿cómo le entro a eso?
+      - Mi turno del fulbito, ¿lo puedo transladar a otro segmento de horario?
+      - La pichanga que aparté, ¿se puede que le dé un nuevo rumbo en el tiempo?
+      - Necesito dar otra disposición a mi reserva de la canchita, ¿es viable?
+      - Quisiera que mi hora de juego sea vista en un bloque distinto.
+      - Tengo que redefinir el día de mi cancha, ¿me das el visto bueno?
+      - Necesito que mi reserva de fulbito consiga un lapso horario alternativo.
+      - ¿Hay chance de que mi booking tenga una nueva estructura de fecha?
+      - Mi alquiler de la cancha, ¿lo podemos reorientar para la noche?
+      - Tengo que desviar mi hora de fulbito, ¿es un proceso engorroso?
+      - La reserva, ¿cómo le hago para que aparezca en otra franja?
+      - Necesito una nueva data para mi pichanga, ¿me pueden informar?
+      - Quisiera que mi booking sea sometido a una reorganización.
+      - Mi turno del partido, ¿hay cómo rehacer el día?
+      - La reserva de fulbito, ¿podría ser migrada a otra fecha?
+      - ¿Es factible alterar la matriz temporal de mi cancha?
+      - Necesito que mi reserva tenga otro encuadre de fecha.
+      - Quiero que el slot de mi juego sea objeto de una nueva asignación.
+      - Tengo que darle un revés al horario de mi booking.
+      - La reserva que tengo, ¿se podrá poner en otro momento?
+      - Mi pichanga, ¿hay cómo sacarla de su fecha actual?
+      - El booking del fulbito, ¿lo podemos reubicar para otro día?
+      - Necesito otro esquema de horario para mi cancha, ¿es posible?
+      - ¿Se puede que la reserva del partido tenga otro destino?
+      - Quiero que mi turno de juego sea revalidado para una nueva fecha.
+      - Tengo que dar un giro a la programación de mi pichanga, ¿quién me orienta?
+      - La hora que tengo, ¿hay cómo darle una estirada o reducirla?
+      - ¿Se podrá cambiar la reserva de la pichanga para el miércoles?
+      - Quisiera pasar mi turno de la cancha a otra fecha, ¿se puede?
+      - Necesito una reubicación de la reserva que tengo para el partido, ¿cómo le hago?
+      - Broder, ¿puedo adelantar mi reserva de la cancha de hoy para más temprano?
+      - Hay chance de modificar la reserva de mi fulbito para la tarde?
+      - Quiero postergar mi reserva de la cancha, pero no sé cómo.
+      - Mi booking de la cancha, ¿hay forma de cambiarlo para el siguiente fin de semana?
+      - ¿Cómo hago para variar mi reserva de la cancha del lunes?
+      - Necesito cambiar el horario de mi partido, ¿quién me ayuda con eso?
+      - Mueve mi reserva de la cancha para el día después, porfa.
+      - ¿Se puede recalendarizar mi reserva de fulbito para la quincena?
+      - Quisiera reajustar la hora de mi cancha, ¿me indicas los pasos?
+      - Tengo que adelantar mi reserva de la cancha para mañana en la mañana.
+      - Mi pichanga, ¿la puedo mover para la otra semana?
+      - ¿Es posible alterar mi reserva de la cancha que tengo?
+      - Necesito posponer mi fecha de juego, ¿cómo lo gestiono?
+      - Quiero cambiar mi reserva de la canchita de noche a día.
+      - ¿Hay opción de pasar mi reserva del jueves al sábado?
+      - Deseo modificar mi turno de fulbito para otro día distinto.
+      - Causa, ¿se puede cambiar la hora de mi reserva del partido?
+      - Tengo que re agendar mi reserva de la cancha, ¿es posible online?
+      - Mi reserva, ¿la puedo trasladar para otro día y a otra hora?
+      - Necesito ajustar mi fecha de la pichanga, ¿me ayudas con la disponibilidad?
+      - Quiero reprogramar mi cancha para el próximo mes, ¿hay cupos?
+      - ¿Es posible variar la hora de mi reserva de fulbito que ya hice?
+      - ¿Se podrá adelantar mi reserva de la cancha unas horas antes de lo previsto?
+      - Necesito mover mi alquiler de cancha para otro momento, ¿con quién hablo?
+      - Quisiera cambiar mi reserva de la cancha de los domingos.
+      - ¿Cómo le hago para cambiar mi booking de la cancha de las 3pm?
+      - Mi pichanga, ¿se puede posponer para el fin de semana?
+      - Quiero reubicar mi reserva de la cancha para la noche.
+      - ¿Es factible recalendarizar mi partido de fulbito para otro día?
+      - Necesito ajustar la hora y fecha de mi reserva de la cancha, ¿cómo procedo?
+      - Broder, ¿se puede cambiar mi reserva de la cancha para pasado mañana?
+      - Quisiera adelantar mi turno de juego para hoy mismo si es que se puede.
+      - Hay manera de mover mi reserva de la pichanga para la tarde del viernes?
+      - ¿Es posible postergar mi reserva de la cancha para el otro mes, porfa?
+      - Necesito cambiar mi reserva del partido para el próximo martes.
+      - Quiero re agendar mi reserva de cancha para un día más tarde.
+      - Mi reserva de la cancha, ¿la puedo cambiar de hora y día a la vez?
+      - Oe, ¿hay forma de cambiar mi booking de la cancha pa' más tarde?
+      - Mi partido, ¿se podrá cambiar de día y hora?
+      - ¿Podría adelantar mi pichanga, o sea para mañana?
+      - A ver, tengo una reserva y quiero cambiarla, ¿cuáles son los pasos?
+      - Oye, mi reserva del fulbito, ¿se puede aplazar una semana?
+      - Broder, ¿puedo cambiar mi cancha pa' otro día que no sea hoy?
+      - Mi reserva de jueves, ¿se puede mover pa' el viernes en la noche?
+      - Quiero modificar mi cancha, día y hora, ¿es posible?
+      - ¿Podré postergar mi turno del martes pa' un día después?
+      - Necesito reubicar mi pichanga, ¿me echas una mano?
+      - Tengo que ajustar la hora de mi reserva del partido, ¿me dices cómo?
+      - ¿Será posible cambiar mi turno de la cancha para otro momento?
+      - Mi alquiler de la cancha, ¿hay forma de pasarlo al próximo mes?
+      - Para reagendar mi partido de fulbito, ¿quién me ayuda?
+      - Necesito correr la fecha de mi pichanga, ¿es complicado o no?
+      - ¿Podría cambiar mi reserva para un domingo en la tarde, si se puede?
+      - Tengo que adelantar mi booking, ¿cómo hago pa' eso?
+      - La reserva que tengo, ¿la puedo mover para la otra semana, un lunes?
+      - Oe, ¿se puede modificar la fecha de mi reserva de la cancha al toque?
+      - Mi partido, ¿se puede reprogramar para un día de semana por la noche?
+      - Oe causita, quiero cambiar mi reserva de cancha, ¿hay chance?
+      - Ya pues, tengo una reserva y no puedo ir, ¿cómo hago para modificar la hora?
+      - La pichanga del sábado, ¿la podemos pasar para el otro sábado?
+      - Disculpa, ¿es factible que mueva mi reserva para una fecha más conveniente?
+      - Quiero reajustar mi turno de juego, ¿hay alguna app para eso o cómo?
+      - La reserva de mi cancha, ¿hay forma de moverla para el próximo fin de?
+      - ¿Qué tal? Necesito reprogramar mi booking, tengo un problema.
+      - Broder, ¿qué debo hacer para aplazar mi partido de fulbito?
+      - Tengo que adelantar mi reserva, ¿con quién hablo para eso?
+      - Mi turno de las 5, ¿se puede cambiar para las 7?
+      - Oye, mi reserva es el martes y quiero que sea el viernes, ¿se puede?
+      - Necesito mover la hora de mi cancha, ¿me pasas el dato de cómo?
+      - Quiero postergar la reserva de mi pichanga pa' otro día, no llego.
+      - Tengo una reserva y quiciera cambiarla de fecha, ¿cómo se hace?
+      - ¿Es posible mover mi turno de juego de la tarde para la noche?
+      - Mi reserva de fulbito, ¿la puedo pasar pa' la próxima semana?
+      - Necesito que me re agenden la cancha, ¿quién ve eso?
+      - Quiero cambiar mi partido que tengo mañana, ¿es posible ahorita?
+      - Disculpe, ¿puedo variar el día de mi reserva del campo?
+      - Tengo que ajustar mi booking, ¿me confirmas si se puede mover de horario?
+      - Quisiera hacer un cambio de mi reserva, ¿es posible?
+      - ¿Cómo puedo mover mi booking de cancha?
+      - Necesito un ajuste en la fecha de mi fulbito.
+      - Mi reserva, ¿la puedo adelantar para el lunes?
+      - Quiero posponer mi turno de juego, ¿cómo le hago?
+      - ¿Se puede modificar mi hora de pichanga?
+      - Necesito cambiar mi reserva de cancha para otro momento.
+      - Pucha, mi reserva, ¿la puedo mover para la tarde?
+      - ¿Hay chance de reubicar mi partido?
+      - Quiero reagendar mi alquiler de la cancha.
+      - Causa, ¿puedo cambiar la hora de mi reserva?
+      - Necesito una nueva fecha para mi reserva de fulbito.
+      - ¿Cómo reprogramo mi turno de la cancha?
+      - Mi booking, ¿lo puedo cambiar para un día después?
+      - Quisiera cambiar el horario de mi partido.
+      - ¿Es posible mover mi pichanga a la noche?
+      - Necesito reajustar mi cita de la cancha.
+      - Mi reserva de la cancha, ¿la puedo pasar pa' otro día?
+      - ¿Se puede alterar la fecha de mi juego?
+      - Quiero mover mi reserva de hora, ¿a dónde me dirijo?
+      - Necesito un cambio de día para mi cancha, ¿me ayudas?
+      - ¿Cómo le hago para adelantar mi booking de fulbito?
+      - Mi pichanga, ¿la puedo mover de hora?
+      - Quisiera posponer mi reserva para la siguiente semana.
+      - ¿Hay forma de modificar mi alquiler de la cancha?
+      - Necesito variar mi fecha de partido de fútbol.
+      - ¿Se puede recalendarizar mi reserva de fulbito?
+      - Quiero hacer un ajuste a mi horario de pichanga.
+      - Tengo que cambiar mi turno de la cancha, ¿se puede?
+      - Necesito trasladar mi reserva a otro día hábil.
+      - ¿Es factible que cambie mi booking para más tarde?
+      - Quisiera un adelanto de mi reserva de la cancha.
+      - Pata, ¿cómo hago pa' cambiar mi reserva de hora?
+      - Necesito reacomodar la fecha de mi pichanga.
+      - ¿Puedo posponer mi reserva de fulbito para el otro mes?
+      - Quiero modificar mi reserva de la cancha, ¿me indicas?
+      - ¿Hay manera de cambiar mi partido de fútbol a otra hora?
+      - Necesito un nuevo día para mi reserva de juego.
+      - ¿Se puede mover mi booking de cancha para la mañana?
+      - Quisiera reagendar mi pichanga, ¿cómo le entro?
+      - ¿Cómo puedo variar mi reserva de la canchita?
+      - Tengo mi pichanga reservada, ¿se puede cambiar para otro día?
+      - Quisiera mover la fecha de mi partido de fulbito, ¿es posible?
+      - Necesito reajustar el horario de mi cancha, ¿me orientan?
+      - ¿Hay alguna forma de aplazar mi booking de la cancha?
+      - Mi turno de la cancha, ¿lo puedo adelantar para más temprano?
+      - ¿Podría cambiar mi reserva del partido para la semana que viene?
+      - Tengo que cambiar la hora de mi pichanga, ¿cómo se gestiona eso?
+      - ¿Se puede modificar la reserva de mi canchita para otra fecha?
+      - Hermano, ¿cómo le hago para trasladar mi reserva del fulbito?
+      - Quiero reubicar mi partido de fútbol, ¿hay opción?
+      - Necesito postergar mi reserva de la cancha, ¿qué procedimiento hay?
+      - ¿Es factible mover mi booking para un día más conveniente?
+      - Mi pichanga, ¿la puedo cambiar de hora y día sin problemas?
+      - ¿Cómo hago para recalendarizar mi reserva de la cancha?
+      - ¿Se puede alterar mi turno de juego para una fecha posterior?
+      - Quiero ajustar mi reserva de la cancha, ¿se hace online o llamo?
+      - Necesito cambiar la fecha de mi alquiler de la cancha, ¿es complicado?
+      - ¿Hay manera de adelantar mi reserva para la canchita?
+      - ¿Es posible pasar mi fulbito para la tarde del mismo día?
+      - Tengo que cambiar mi reserva de la cancha, ¿me ayudan al toque?
+      - Quisiera re agendar mi partido, ¿qué pasos debo seguir?
+      - Mi reserva de la pichanga, ¿se puede modificar de fecha?
+      - ¿Cómo hago para mover mi booking a otro horario?
+      - Necesito variar mi turno de la cancha, ¿me dicen cómo?
+      - ¿Se puede aplazar mi partido de fulbito para otro día?
+      - Quiero cambiar la fecha de mi reserva de la cancha, ¿hay disponibilidad?
+      - ¿Es factible mover mi pichanga para la siguiente semana?
+      - Tengo que reprogramar mi alquiler de cancha, ¿a quién consulto?
+      - ¿Hay forma de adelantar mi reserva del partido?
+      - Mi reserva de la cancha, ¿la puedo cambiar pa' la noche?
+      - Necesito ajustar mi turno de fulbito, ¿dónde hago el trámite?
+      - ¿Cómo hago para postergar mi reserva de la cancha que ya tenía?
+      - ¿Se puede modificar la fecha de mi pichanga, por favor?
+      - Quiero trasladar mi reserva del fulbito a otra hora.
+      - ¿Es posible cambiar mi reserva de la canchita para otro día de la semana?
+      - Tengo que reubicar mi partido de la cancha, ¿cómo le hago?
+      - Necesito cambiar la hora de mi alquiler, ¿hay penalidad?
+      - ¿Hay opción de adelantar mi partido de fulbito para mañana?
+      - Quisiera saber si se puede modificar mi reserva de la cancha que ya hice.
+      - ¿Hay chance de mover mi reserva del fulbito para otro día?
+      - Quiero ver si puedo adelantar mi pichanga para más temprano.
+      - Necesito reajustar la hora de mi reserva de la cancha.
+      - ¿Me podrías ayudar a cambiar mi turno de juego?
+      - Tengo que posponer mi booking de la cancha, ¿cómo le hago?
+      - ¿Es posible modificar mi reserva para la próxima semana?
+      - Quisiera cambiar el día de mi partido, por favor.
+      - Necesito mover mi hora de juego, ¿hay alguna forma?
+      - Quiero adelantar mi cita en la cancha, ¿se podrá?
+      - Tengo que cambiar el horario de mi pichanga, man.
+      - ¿Se puede reubicar mi reserva del martes para el jueves?
+      - Necesito ajustar mi booking para otro momento.
+      - Quiero posponer mi reserva del fulbito, ¿qué onda?
+      - ¿Es posible mover mi cancha para la noche?
+      - Mi reserva de las 6, ¿la puedo pasar para las 8?
+      - Necesito modificar la fecha de mi partido.
+      - ¿Cómo le hago para cambiar mi reserva de la tarde?
+      - Tengo que cambiar mi reserva del fin de semana.
+      - ¿Se puede reajustar mi hora de pichanga?
+      - Necesito mover mi reserva para el día siguiente.
+      - Quiero cambiar mi hora de juego, ¿me das una mano?
+      - ¿Es posible posponer mi reserva de la cancha que ya tengo?
+      - Mi reserva de fulbito, ¿la puedo cambiar de día?
+      - Necesito modificar mi booking de la cancha para una fecha distinta.
+      - ¿Cómo hago para adelantar mi reserva a la siguiente hora?
+      - Quisiera mover mi pichanga del lunes para el viernes.
+      - Tengo que cambiar la hora de mi reserva, ¿hay opción?
+      - ¿Se puede reubicar mi partido para otro horario?
+      - Necesito posponer la fecha de mi reserva de cancha.
+      - Quiero cambiar mi turno de juego, ¿cómo se hace eso?
+      - ¿Es posible mover mi reserva de la cancha para una semana después?
+      - Mi reserva, ¿la puedo pasar para la mañana?
+      - Necesito reajustar mi horario de partido, al toque.
+      - ¿Cómo hago para cambiar mi reserva del mediodía?
+      - Quisiera adelantar mi pichanga, ¿se puede al toque?
+      - Tengo que modificar mi reserva de fulbito para otro día.
+      - ¿Hay forma de cambiar mi reserva de la cancha para más tarde?
+      - Oye, necesito un cambio de fecha pa' mi reserva, ¿se puede?
+      - Mi booking de la canchita, ¿lo podemos reajustar para la próxima semana?
+      - ¿Hay forma de mover mi turno de la pichanga que tengo el martes?
+      - Quisiera adelantar mi reserva para la mañana, ¿cómo hago?
+      - Tengo que modificar el horario de mi partido, ¿quién me orienta?
+      - ¿Es posible trasladar mi reserva de fulbito para otro día distinto?
+      - Necesito aplazar mi turno de juego, ¿hay alguna política para eso?
+      - ¿Podría reubicar mi reserva de la cancha para más tarde, por favor?
+      - Mi pichanga del sábado, ¿es factible cambiarla para el domingo por la tarde?
+      - Quiero variar la hora de mi reserva, ¿es factible hacer eso?
+      - ¿Cómo le hago para cambiar la fecha de mi partido que ya agendé?
+      - Señorita, ¿se puede posponer mi booking de la cancha?
+      - Necesito correr mi reserva de fulbito unas horas, ¿quién me atiende?
+      - ¿Hay chance de adelantar mi juego para hoy mismo?
+      - Mi reserva, ¿la podemos ajustar para la segunda quincena?
+      - Quisiera ajustar mi horario de la cancha para la noche.
+      - ¿Qué tengo que hacer para mover mi pichanga del miércoles al jueves?
+      - Tengo que reprogramar mi reserva, ¿me dan una mano con eso?
+      - ¿Es posible cambiar la hora de mi partido que tengo mañana?
+      - Mi turno de la canchita, ¿lo puedo poner para otro día de la semana?
+      - Necesito modificar mi reserva de fulbito, ¿a dónde me dirijo?
+      - Quiero posponer mi juego para la próxima semana, ¿se puede?
+      - ¿Cómo hago para reubicar mi partido de fútbol que tengo?
+      - Mi reserva, ¿la puedo adelantar para la tarde de hoy?
+      - Tengo que cambiar mi fecha de la pichanga, ¿me pueden ayudar?
+      - ¿Hay opción de mover mi booking para el día siguiente?
+      - Quisiera reajustar mi turno de la cancha, ¿cómo procedo?
+      - Necesito variar el día de mi reserva, ¿es posible sin recargo?
+      - ¿Se puede alterar la hora de mi pichanga para más temprano?
+      - Mi reserva de fulbito, ¿la puedo trasladar para el otro mes?
+      - Broder, ¿cómo le hacemos para cambiar mi reserva de cancha?
+      - Quiero reprogramar el día de mi partido, ¿hay alguna penalidad?
+      - Necesito cambiar la fecha y hora de mi booking, ¿es muy complicado?
+      - ¿Es posible que mi reserva de fulbito la mueva para el fin de semana?
+      - Tengo que ajustar mi pichanga para un día después, ¿se puede?
+      - Mi turno de juego, ¿lo puedo adelantar a primera hora?
+      - Quisiera posponer mi reserva para el próximo lunes, ¿hay disponibilidad?
+      - ¿Cómo hago para cambiar mi cancha para otro horario?
+      - Necesito reubicar mi reserva, estoy con un imprevisto.
+      - Causa, ¿se puede cambiar la hora de mi pichanga?
+      - Hola, ¿puedo ver para cambiar la fecha de mi partido?
+      - Necesito modificar la hora de mi alquiler de cancha, ¿cómo se procede?
+      - ¿Hay chance de posponer mi reserva de pichanga para el otro fin de semana?
+      - Mi turno de la cancha, ¿se puede adelantar para el lunes?
+      - Quiero reubicar mi reserva de fulbito, ¿me ayudan con eso, pe?
+      - Broder, tengo que mover mi cancha, ¿me indicas cómo?
+      - ¿Cómo hago pa' variar el día de mi reserva?
+      - La reserva que tengo, ¿es posible cambiarla de fecha y hora?
+      - Necesito aplazar mi booking de la cancha, ¿qué debo hacer?
+      - Uhm, tengo que cambiar mi partido, ¿hay alguna forma?
+      - ¿Se puede adelantar mi horario de juego de fútbol?
+      - Quisiera recalendarizar mi alquiler de cancha para la tarde.
+      - Mi pichanga, ¿la puedo pasar para el miércoles, si está libre?
+      - Necesito ajustar el día de mi reserva, ¿quién me apoya?
+      - ¿Hay opción de trasladar mi booking para la próxima quincena?
+      - Quiero ver si puedo alterar mi fecha de reserva del fulbito.
+      - Mi reserva del martes, ¿es posible moverla para el jueves?
+      - Necesito cambiar de hora mi cita en la cancha, ¿es posible al toque?
+      - ¿Cómo hago para correr mi reserva para más tarde?
+      - Quería saber si puedo cambiar mi alquiler de cancha para el otro mes.
+      - Mi reserva de pichanga, ¿la puedo aplazar una semana?
+      - Necesito modificar mi turno de juego, ¿cómo es la movida?
+      - ¿Se puede mover mi reserva de fulbito pa' un día feriado?
+      - Quiero reprogramar mi partido, pero para un horario bien diferente.
+      - Tengo que ajustar mi booking, ¿con quién converso?
+      - Mi alquiler de cancha, ¿lo puedo pasar para la otra semana?
+      - Necesito cambiar mi día de pichanga, ¿se puede hacer online?
+      - ¿Hay forma de adelantar mi reserva de la cancha para hoy?
+      - Quiero posponer mi turno de juego para el otro mes, ¿se puede?
+      - Mi reserva, ¿la puedo mover para la siguiente fecha disponible?
+      - Necesito variar mi horario de cancha, ¿me echas una mano?
+      - ¿Cómo hago para reubicar mi reserva de fútbol?
+      - Quería cambiar la fecha de mi fulbito, ¿es sencillo?
+      - Mi reserva de pichanga, ¿la puedo correr para un par de horas después?
+      - Necesito alterar el día y la hora de mi reserva de la cancha.
+      - ¿Es factible postergar mi turno de juego para el fin de semana?
+      - Quiero ajustar mi reserva de alquiler para otra hora distinta.
+      - Mi booking, ¿lo puedo mover para la semana que viene?
+      - Necesito cambiar mi partido de fulbito para otro día más cómodo.
+      - ¿Se puede recalendarizar mi pichanga para un momento más oportuno?
+      - Necesito un cambio de día para mi reserva, ¿se podrá?
+      - ¿Hay manera de re agendar mi pichanga? Me salió un imprevisto.
+      - Broder, ¿puedo mover mi booking de cancha para otro momento?
+      - Quisiera variar la hora de mi partido, ¿cómo le hacemos?
+      - Mi reserva de la cancha, ¿es posible pasarla para mañana?
+      - Tengo que cambiar mi turno de fulbito, ¿me echas una mano?
+      - ¿Podría recalendarizar mi juego para más tarde, porfa?
+      - Necesito modificar la fecha de mi cancha, ¿hay chance?
+      - ¿Cómo hago pa' posponer mi reserva del jueves?
+      - Mi reserva, ¿se puede adelantar para la mañana?
+      - Quiero ajustar mi hora de juego, ¿cómo procedo?
+      - ¿Es posible mover mi reserva del lunes para el otro día?
+      - Tengo que cambiar mi fecha de pichanga, ¿me informas?
+      - ¿Se puede alterar el día de mi partido de fútbol?
+      - Necesito reubicar mi booking de cancha, ¿me ayudas?
+      - ¿Hay opción de cambiar mi reserva para la próxima semana, el miércoles?
+      - Quisiera reprogramar mi alquiler de la cancha, ¿qué debo hacer?
+      - Mi reserva de fulbito, ¿la puedo pasar a otro horario o día?
+      - ¿Cómo le hago para cambiar mi turno de juego que ya tengo?
+      - Necesito mover mi reserva del sábado para el domingo, pe'.
+      - ¿Es factible posponer mi cancha para otro fin de semana?
+      - Quiero cambiar la hora de mi reserva del partido, ¿se puede?
+      - Tengo que ajustar la fecha de mi pichanga, ¿hay forma?
+      - ¿Se puede adelantar mi reserva de la cancha un par de horas?
+      - Necesito mover la hora de mi booking de hoy para la noche.
+      - ¿Cómo hago para re agendar mi partido de la canchita?
+      - Mi reserva de la cancha, ¿la puedo pasar para una fecha posterior al martes?
+      - Quisiera re-programar mi reserva, ¿es posible sin líos?
+      - ¿Hay manera de variar el día y la hora de mi reserva?
+      - Necesito cambiar la reserva que hice, me salió una chamba.
+      - ¿Puedes mover mi reserva de la pichanga para otro momento?
+      - Quiero aplazar mi turno de fútbol, ¿hay disponibilidad para otro día?
+      - ¿Es posible reajustar mi reserva de cancha para el día después?
+      - Tengo que modificar la fecha de mi juego, ¿me das los pasos?
+      - ¿Se puede trasladar mi reserva para la siguiente semana?
+      - Necesito reacomodar mi reserva para el viernes, ¿se puede?
+      - ¿Cómo hago para adelantar mi reserva de la cancha de la tarde a la mañana?
+      - Quisiera cambiar mi booking de fulbito de día y hora.
+      - Mi reserva, ¿se puede mover para más tarde o otro día?
+      - Tengo que cambiar la fecha de mi pichanga, ¿cómo le hago causa?
+      - Considerando mi reserva actual, ¿es posible que la movamos de fecha?
+      - Quisiera ver si puedo pedir un cambio para mi hora de pichanga.
+      - Necesito ver la forma de cambiar el día de mi reserva de la canchita.
+      - ¿Cómo hago para modificar la hora y fecha de mi alquiler?
+      - Mi reserva para el fulbito, ¿hay opción de cambiarla de día?
+      - ¿Será que puedo mover el turno que tengo para otro momento?
+      - Deseo posponer mi reserva, ¿me pueden guiar?
+      - Tengo que cambiar el día y la hora de mi partida, ¿cómo lo manejo?
+      - Quería consultar si es posible adelantar mi reserva unas horas.
+      - ¿Me dan una mano para modificar la fecha de mi booking de cancha?
+      - Pucha, tengo que cambiar mi reserva de la cancha, ¿cómo procedo?
+      - ¿Es factible mover mi turno de juego para el próximo miércoles?
+      - Quisiera recalendarizar mi reserva, ¿con quién lo veo?
+      - Necesito variar el horario de mi partido, ¿se puede hacer aquí?
+      - ¿Cómo hago para solicitar un cambio de mi reserva que ya está?
+      - Mi reserva de fulbito, ¿la puedo pasar para otro día de la semana?
+      - Quiero desplazar mi reserva a una fecha distinta, ¿es permitido?
+      - ¿Hay manera de ajustar el día de mi pichanga, por favor?
+      - Tengo que alterar la fecha de mi alquiler, ¿me indican los pasos?
+      - ¿Se puede retrasar mi reserva del partido para la noche?
+      - Necesito una solución para mover mi reserva de la cancha, ¿me ayudan?
+      - ¿Cómo hago para cambiar la hora de mi partido del fin de semana?
+      - Mi turno de juego, ¿lo puedo reubicar para otro día que me acomode?
+      - Quería saber si es viable cambiar el día de mi booking.
+      - ¿Puedo pedir que se reprograme mi alquiler de cancha?
+      - Necesito adelantar la fecha de mi reserva de la pichanga.
+      - ¿Existe la posibilidad de mover mi reserva de la cancha para la otra semana?
+      - Broder, ¿cómo le hago para cambiar mi hora de juego de hoy?
+      - Mi reserva de la canchita, ¿se puede trasladar a otro día y hora?
+      - Tengo que ajustar mi cita de juego, ¿hay forma de hacerlo?
+      - Quisiera ver si hay espacio para cambiar mi reserva a otro horario.
+      - ¿Me indicas cómo puedo modificar mi reserva de fulbito?
+      - Necesito correr mi reserva del lunes para el martes temprano.
+      - ¿Se puede cambiar mi reserva del partido para el próximo mes?
+      - Quiero cambiar la programación de mi pichanga, ¿hay cómo?
+      - ¿Cómo hago para pedir una reprogramación de mi reserva ya hecha?
+      - Mi reserva de la cancha, ¿podría moverla de día?
+      - Necesito cambiar la hora de mi booking de hoy, ¿quién me ayuda?
+      - ¿Hay manera de cambiar mi reserva para un día posterior al que tengo?
+      - Quisiera posponer mi cita de juego, ¿es posible?
+      - ¿Podría modificar la hora que ya tengo separada?
+      - Quiero mover mi apartado de cancha para la otra semana.
+      - ¿Hay forma de que mi cita la cambien para el martes?
+      - Necesito un cambio de día para mi turno, al toque.
+      - Mi pichanga, ¿se puede adelantar un poco, broder?
+      - Quisiera variar mi fecha de juego, causa.
+      - ¿Podemos reajustar mi hora de fulbito para más tarde?
+      - La rezerba que hice, ¿la puedo pasar pa' otro día?
+      - Mi reserva de hoy, ¿es posible que la corra para mañana?
+      - Quiero variar la hora dela cancha que ya aparté, ¿se puede?
+      - ¿A qué hora podría trasladar mi separación de cancha?
+      - Necesito aplazar mi horario de fulbito, ¿cómo le hago?
+      - ¿Podría alterar la programación de mi pichanga, por favor?
+      - La hora de mi juego, ¿la puedo cambiar a una más tarde el mismo día?
+      - Me gustaría cambiar mi reserva de cancha para otro momento de la semana.
+      - ¿Hay opción de que mi turno lo mueva para el feriado?
+      - Mi reserva de cancha, ¿será posible recalendarizarla pa' la próxima semana?
+      - Quiero pasar mi cita de pichanga para el fin de semana, ¿cómo hago?
+      - ¿Me puedes ayudar a reubicar mi reserva de fulbito, tengo un imprevisto?
+      - Tengo que mover la fecha de mi partido, ¿es complicado o fácil?
+      - Mi reserva, ¿la puedo acomodar para el día siguiente, tipo el miércoles?
+      - Quisiera modificar mi hora de pichanga, ¿se puede al toque?
+      - ¿Será factible cambiar mi separación para el lunes de la otra semana?
+      - Necesito posponner mi partido de fulbito, ¿qué opciones hay porfa?
+      - La cancha que separé, ¿podría adelantarla para hoy en la noche?
+      - ¿Cómo le hago para cambiar mi rezerba de hora y fecha, chevere?
+      - Quiero que mi turno de juego lo cambien, ¿es posible un día antes?
+      - Mi reserva, ¿la puedo trasladar para la próxima semana, tipo jueves?
+      - Tengo que variar mi horario de cancha, ¿me ayudas, causa, estoy apurado?
+      - La pichanga de mañana, ¿es posible moverla pa' pasado mañana?
+      - ¿Se puede re-programar mi alquiler de cancha, bro?
+      - Necesito mover mi reserva del sábado al martes de la próxima semana.
+      - Mi cita para la cancha, ¿la puedo pasar más tarde de las 7pm?
+      - Quiero cambiar la fecha de mi partida de fulbito, ¿se podrá, mi gente?
+      - ¿Hay chance de ajustar mi horario de pichanga para el domingo?
+      - Tengo que reprogramar mi reserva, pero para el otro mes, ¿es posible?
+      - La hora de mi reserva, ¿puedo correrla un poco para la noche?
+      - ¿Cómo hago para variar mi separación de cancha, es urgente?
+      - Mi reserva de fulbito, ¿la puedo acomodar para el viernes en la tarde?
+      - Quisiera adelantar mi turno de cancha, ¿se podrá unas horas antes?
+      - Me preguntaba si hay forma de cambiar el día de mi partido.
+      - Quería consultar cómo hago para ajustar el horario de mi alquiler.
+      - Necesito un cambio de mi reserva de cancha, ¿a quién le digo?
+      - ¿Podría aplazar mi pichanga que tengo para el jueves?
+      - ¿Existe la posibilidad de mover mi booking para una fecha distinta?
+      - Mi turno de fulbito, ¿se puede trasladar a otro momento?
+      - ¿Es factible que recalendarice mi reserva para la próxima semana?
+      - Quisiera variar el día de mi cancha, ¿hay disponibilidad?
+      - Tengo que ver si puedo adelantar mi cita de juego para hoy.
+      - ¿Cómo le hago para diferir mi reserva que hice en la noche?
+      - Necesito reconfigurar la hora de mi pichanga, ¿cómo procedo?
+      - ¿Se puede modificar la fecha de mi alquiler de cancha, porfa?
+      - Me gustaría saber si puedo intercambiar mi reserva del martes por el viernes.
+      - ¿Hay opción de posponer mi partido de fulbito un par de días?
+      - Quiero reubicar mi booking para el fin de semana, ¿es posible?
+      - Mi reserva de la canchita, ¿la puedo alterar para otro turno?
+      - ¿Podría correr la hora de mi partido unas horas?
+      - Necesito cambiar mi fecha de juego que ya tenía pactada.
+      - ¿Es factible que mi reserva se mueva a un horario distinto?
+      - Quisiera ver si puedo atrasar mi pichanga, causa.
+      - Tengo que solicitar un ajuste en la hora de mi reserva de la cancha.
+      - ¿Cómo hago para desplazar mi booking al día siguiente?
+      - Necesito reprogramar mi fulbito, ¿dónde veo eso?
+      - ¿Se puede anticipar mi reserva de la cancha para la mañana?
+      - Me preguntaba si podría modificar el día de mi partido.
+      - Quería consultar sobre el cambio de la hora de mi alquiler de hoy.
+      - ¿Hay alguna manera de reubicar mi pichanga del lunes para el miércoles?
+      - Mi reserva, ¿se puede trasladar para el sábado que viene?
+      - ¿Es posible adelantar mi turno de fulbito pa'l mediodía?
+      - Necesito reajustar la fecha de mi reserva de la cancha, ¿cómo le entro?
+      - Quisiera diferir mi partido que tengo para el próximo mes.
+      - ¿Cómo hago para aplazar mi booking de la cancha por una semana?
+      - Tengo que variar el horario de mi pichanga con los patas.
+      - ¿Se podrá mover mi reserva de la canchita para el otro día?
+      - Quiero ver si puedo cambiar el día y la hora de mi alquiler.
+      - Necesito reconfigurar mi turno de fulbito para más tarde.
+      - ¿Hay chance de posponer mi partido de la semana pasada?
+      - Mi reserva de la cancha, ¿la puedo anticipar para el martes?
+      - ¿Podría solicitar un cambio en mi booking que tengo?
+      - Me gustaría saber si es factible desplazar mi pichanga al próximo turno.
+      - Consulta, ¿hay chance de cambiar mi partido de hoy para mañana temprano?
+      - Necesito variar mi turno de cancha, ¿cómo es el proceso?
+      - Quisiera aplazar mi booking de pichanga, por fa.
+      - ¿Es posible reajustar mi hora de juego de fulbito para la tarde?
+      - Tengo que mover mi reserva del jueves, ¿cómo hago?
+      - Amigo, ¿puedo adelantar mi alquiler de cancha para más tarde hoy?
+      - Mi reserva de pichanga, ¿se puede postergar una semana?
+      - ¿Cómo le hago para cambiar mi horario de fulbito que ya separé?
+      - Quiero trasladar mi reserva a otro día, ¿me confirmas?
+      - Necesito un cambio de fecha pa' mi partido, ¿se puede, pe'?
+      - ¿Hay manera de modificar mi reserva de la cancha para un día que venga?
+      - Tengo que reacomodar mi hora de pichanga, ¿me ayudas con eso, causa?
+      - Mi turno de fulbito, ¿lo puedo mover para el fin de semana que viene?
+      - Quisiera ajustar mi booking, ¿hay cupos para otro día?
+      - ¿Es factible adelantar mi reserva de la canchita un par de horas?
+      - Necesito cambiar mi reserva del martes, ¿es posible llevarlo a otro día?
+      - Broder, ¿cómo hago pa' la reprogramación de mi partido?
+      - Mi fecha de juego, ¿puedo variarla para la próxima vez?
+      - Quiero posponer mi pichanga, ¿a quién le digo?
+      - ¿Se puede modificar la hora de mi alquiler de cancha?
+      - Tengo que reubicar mi reserva, ¿me dan una mano?
+      - Mi reserva del fulbito, ¿la puedo pasar para más temprano?
+      - ¿Cómo hago para reajustar mi turno de cancha?
+      - Necesito cambiar el día de mi reserva, ¿hay disponibilidad en la semana?
+      - Quisiera mover mi partido, ¿tienen espacio otro día?
+      - ¿Es posible cambiar la programación de mi pichanga?
+      - Tengo que ajustar la fecha de mi reserva de la cancha, ¿cómo es el trámite?
+      - Mi turno, ¿lo puedo pasar para la otra semana?
+      - Quiero adelantar mi reserva para el fin de semana.
+      - ¿Se puede postergar mi reserva de fulbito para el próximo mes?
+      - Necesito variar mi hora de juego, ¿cómo procedo?
+      - Causa, ¿puedo mover mi reserva para el día siguiente?
+      - Quisiera cambiar mi fecha de pichanga, ¿hay opciones?
+      - ¿Es posible reubicar mi reserva de la cancha para una mejor hora?
+      - Tengo que modificar mi booking, ¿me dices qué hacer?
+      - Mi reserva de partido, ¿se puede trasladar a otro momento?
+      - Necesito reajustar mi alquiler de cancha, ¿cuál es el procedimiento?
+      - Broder, ¿se puede posponer la reserva que hice, por fa?
+      - Quiero mover la fecha de mi pichanga, ¿quién lo ve?
+      - ¿Hay forma de adelantar mi partido de fulbito para hoy en la noche?
+      - Hola, ¿hay forma de cambiar mi reserva de cancha para otro día?
+      - Causa, quiero modificar mi horario de pichanga, ¿se puede?
+      - Quiero adelantar mi reserva del campo deportivo, ¿es posible?
+      - Broder, ¿cómo le hago para aplazar mi partido de fulbito?
+      - Mi reserva de la cancha, necesito reajustarla, ¿me apoyas?
+      - Quisiera cambiar la fecha de mi pichanga, ¿hay chance de hacerla el domingo?
+      - Mi reserva, ¿hay opción de cambiarla para una fecha más adecuada?
+      - Quisiera variar mi hora de reserva de la cancha, ¿cómo le hago?
+      - Mi turno de juego, ¿hay forma de que lo pueda reprogramar para otro día?
+      - Necesito posponer mi reserva del campo de juego, ¿es viable?
+      - Oye, ¿cómo hago para cambiar la fecha de mi booking de la cancha?
+      - Quisiera adelantar mi partido de fulbito, ¿hay opción?
+      - Mi reserva de cancha, ¿hay forma de reajustar el día?
+      - Necesito cambiar la hora de mi pichanga porque tengo un inconveniente.
+      - Mi reserva, ¿la puedo mover para la tarde de otro día?
+      - Necesito reprogramar el turno de la cancha, ¿me pueden indicar cómo?
+      - Quiero modificar mi reserva de partido, ¿es posible que sea para el próximo mes?
+      - Por favor, necesito que me cambien el día de mi reserva de fulbito.
+      - Mi reserva, ¿es factible adelantarla para la canchita?
+      - Quisiera pasar mi booking a otro día, ¿cómo procedo?
+      - Mi alquiler de la cancha, ¿hay alguna manera de reprogramarlo?
+      - Necesito cambiar la reserva de mi pichanga de hoy, ¿cómo le hago?
+      - Quisiera un cambio de fecha y hora para mi cancha, ¿es posible?
+      - Necesito modificar mi reserva del partido de fútbol, ¿se podrá?
+      - Quiero reprogramar mi turno de la cancha, ¿con quién lo coordino?
+      - Mi reserva de la cancha, ¿hay opción de adelantarla para la mañana?
+      - Tengo que mover mi reserva de la cancha que es hoy, ¿se puede para mañana?
+      - Quisiera saber si es posible cambiar la hora de mi reserva del fulbito.
+      - Mi booking, ¿podría reprogramarlo para la próxima semana?
+      - Porfa, necesito que me cambien el día de mi reserva de fulbito.
+      - Quiero aplazar mi reserva de la cancha, ¿cómo le hago?
+      - La reserva del partido, ¿hay forma de moverla para la noche?
+      - Mi reserva de la pichanga, la quiero variar, ¿con quién hablo?
+      - Mi alquiler de cancha, ¿hay posibilidad de cambiar la fecha?
+      - El horario de mi fulbito, necesito ajustarlo, ¿quién me ayuda?
+      - Mi reserva, ¿se puede reprogramar para la próxima fecha disponible?
+      - Mi turno de cancha, ¿puedo adelantarla?
+      - Quiero cambiar mi reserva de la cancha para un día de la semana.
+      - Mi booking, ¿cómo hago para moverlo para una hora después?
+      - Oye, mi pichanga, ¿se puede pasar para otro día y hora diferente?
+      - Quiero un cambio para mi pichanga del lunes, ¿es posible?
+      - Necesito modificar el día que tengo separado para la cancha, ¿me ayudas?
+      - ¿Podría aplazar mi cita en la cancha, por favor?
+      - Mi rezerba para el fulbito, ¿la puedo mover para otro momento?
+      - ¿Cómo hago pa' que me cambien el día de mi partido?
+      - Quisiera pasar mi booking de la cancha para una fecha posterior.
+      - ¿Se puede adelantar mi hora de juego un par de horas?
+      - Necesito variar el horario de mi reserva de la canchita.
+      - ¿Hay chance de hacer un ajuste a la hora de mi pichanga?
+      - Tengo que mover la fecha que separé para mi partido, ¿hay problema?
+      - Quería ver si es factible cambiar el día de mi alquiler de la cancha.
+      - Mi reserva, ¿podría ser para otro día y otro horario?
+      - ¿Me podrías ayudar a cambiar la fecha de mi reserva de fútbol?
+      - Necesito que me muevan la hora de mi partido, ¿es posible?
+      - Quiero ver si puedo adelantar mi reserva que tengo para la noche.
+      - ¿Se puede permutar mi reserva para la próxima semana?
+      - Una consulta, ¿cómo le hago para cambiar mi hora de cancha?
+      - Mi pichanga, ¿hay forma de pasarla para más tarde?
+      - Quería ver si me dan una mano para cambiar la fecha de mi reserva de la canchita.
+      - ¿Es posible modificar la fecha de mi partido de fulbito?
+      - Quisiera cambiar el día de mi reserva del 'fulbo'.
+      - ¿Se podrá mover la hora de mi reserva de la cancha?
+      - cambiar mi reserba
+      - mover mi fecha de fulbito
+      - pasar la cancha q tengo
+      - repro la pichanga xfa
+      - adelantar mi turno de juego
+      - mover el partido q tengo
+      - la reserba pa otro dia
+      - cambio de fecha y hora de mi reserva
+      - kiero mover mi cancha
+      - mi fulbito a q hora lo muevo
+      - puedo kambiar el dia de mi reserva
+      - reprogramar mi turno de pichanga
+      - mover la reserva q tengo
+      - como cambio mi booking
+      - mi reserba alas 8pm como la muevo
+      - la cancha kiero kambiarla
+      - puedo mover mi pichanga pa mañana
+      - reagendar el partido q tengo
+      - cambiar mi fulbito de dia
+      - mueve mi reserba xfa
+      - cambio de hora de cancha
+      - la reserva la puedo cambiar?
+      - adelantar la reserva de juego
+      - posponer el juego q tengo
+      - mover mi reserva del sabado
+      - cancha pa otro momento
+      - kiero kambiar mi reserba de cancha
+      - mi turno pa otro dia
+      - repro mi booking xfa
+      - cambiar fecha de fulbito
+      - qiero mover la cancha de hoy
+      - la hora de la cancha la puedo kambiar?
+      - mover mi reserba x 8pm
+      - cambio de turno de juego
+      - mi pichanga kiero moverla
+      - reagendar la reserba
+      - kambiar mi partido de futbol
+      - repro la cancha k tengo
+      - mover mi reserba por surco
+      - cambio mi cancha cerca mio
+      - la reserba aca a mi alrededor la muevo?
+      - cancha libre 8pm la puedo mover?
+      - mi reserva vill salvador la kambias?
+      - mover mi pichanga pa la otra semana
+      - cambiar mi reserba de la noche
+      - repro mi turno de fulbito
+      - la cancha de hoy la muevo pa despues
+      - kiero posponer mi juego
+      - kambiar mi reserva pa mas tarde
+      - mi partido de hoy lo puedo pasar
+      - adelantar la pichanga pa la tarde
+      - mover mi reserba para el finde
+      - reagenda mi juego de pelota
+      - cambio de dia de partido
+      - kiero mover mi booking
+      - repro mi hora de cancha
+      - la reserba la kiero pasar
+      - cambiar mi turno de las 7
+      - posponer mi fulbito
+      - reagenda la cancha
+      - kambiar mi reserba pa el proximo mes
+      - mover mi partido de la otra semana
+      - mi pichanga la puedo correr
+      - cambio de horario de mi reserva
+      - reprogramar mi fulbito
+      - kiero adelantar mi cancha
+      - mover mi reserba pa un feriado
+      - cambiar la fecha del juego
+      - repro mi pichanga de hoy
+      - mi reserva la muevo de hora
+      - pasar la cancha pa la noche
+      - kiero kambiar mi fecha de juego
+      - reagenda mi reserva de fulbito
+      - mover mi pichanga pa el otro sabado
+      - cambio mi reserba de las 6
+      - repro mi partido de los jueves
+      - kiero mover mi turno
+      - mi cancha la puedo reprogramar
+      - cambiar la hora de mi fulbito
+      - reagenda la pichanga q tengo
+      - mover mi reserva de la manana
+      - qiero cambiar mi partido
+      - mi reserva de juego la muevo
+      - cambiar el dia de mi fulbito
+      - repro mi cancha de los domingos
+      - kiero mover mi partido de la tarde
+      - mi pichanga la puedo pasar pa mañana
+      - reagenda mi reserva de la cancha
+      - mover la pichanga q tengo x la noche
+      - cambio de fecha de mi reserba
+      - repro mi cancha para otro momento
+      - kiero cambiar mi fulbito de las 9pm
+      - mi partido la puedo mover mas tarde
+      - cambiar mi reserva pa el otro finde
+      - reagenda mi turno de las 8pm
+      - mover la cancha q reserve
+      - qiero cambiar mi reserba de pichanga
+      - mi reserva de futbito la cambio
+      - cambiar el horario de mi fulbito
+      - repro la reserva q hize
+      - qiero pasar mi booking
+      - mi reserba la reubico?
+      - ajustar mi hora de pichanga
+      - mover mi partido de la cancha
+      - cambiar mi cancha pa un feriado
+      - mover mi reserva
+      - la pichanga, se puede cambiar?
+      - cambiar fecha pichanga
+      - mi turno de la cancha, moverlo
+      - la reserva d mi fulbito, cambiarla
+      - se puede otro horario para la q tengo
+      - kiero cambiar la hora
+      - mover mi pichanga d hoy
+      - la reserva por surco, se mueve?
+      - otro dia pa mi cancha d 8pm
+      - adelantar mi turno
+      - cambiar el dia q reservé
+      - la reserva de las 7, moverla pa mas tarde
+      - mi fulbito, se puede otro dia
+      - reprogramar la pichanga de vill salvador
+      - la cancha, otro horario
+      - reprogramar mi pichanga para 8pm
+      - la reserba, se puede adelantar?
+      - puedo cambiar la hora de mi cancha
+      - cambiar mi hora d juego
+      - la reservacion pa otro dia
+      - se puede atrasar mi reserva
+      - mover la reserva de las 6 a las 8
+      - mi partido, otro dia
+      - cambiar mi pichanga d esta noche
+      - kiero mover mi reserva pal lunes
+      - la reserva d hoy, cambiarla
+      - reprogramar la cancha d fulbito
+      - cambiar fecha de mi pichanga
+      - puedo mover mi reserva d hoy pa mañana
+      - mi reserva, pa cuando la puedo pasar
+      - la cancha q tengo, la puedo mover
+      - cambiar la hora de mi cancha de las 7pm
+      - otro dia pa la reserva q tengo en villa el salvador
+      - adelantar mi pichanga
+      - mover mi cancha d juego
+      - la reserba pa otro momento
+      - cambiar mi fulbito d hora
+      - reprogramar la pichanga
+      - la reserva, se puede otro dia
+      - mover mi cancha pa la noche
+      - otro horario pa mi reserva d cancha
+      - cambiar mi partido del domingo
+      - la cancha, se puede mas tarde
+      - puedo atrasar mi pichanga
+      - la reserva de la tarde, pa la noche
+      - cambiar el dia q reservé la cancha
+      - reprogramar mi fulbito xfa
+      - mover mi partido pa otro dia
+      - otro dia la pichanga d las 8pm
+      - la reserva de las 6, pa las 9
+      - cambiar la reserva d la cancha por surco
+      - se puede otro dia mi fulbito
+      - adelantar mi cancha
+      - la reserva q tengo cerca mio, cambiarla
+      - mover mi partido d este fin de semana
+      - cambiar la hora d mi reserva d cancha
+      - la pichanga, pa mas tarde
+      - mi reserva, pa otro dia
+      - cambiar fecha de la cancha
+      - puedo mover mi reserva pa la semana q viene
+      - la reserba, otro dia
+      - mi cancha, pa otra hora
+      - reprogramar mi cancha d las 8pm
+      - mover la reserva del fulbito
+      - cambiar mi dia de juego
+      - la pichanga de hoy, pa mañana
+      - se puede cambiar mi reserva de las 5pm
+      - mover mi fulbito d la tarde
+      - la reserva d acá, cambiarla
+      - reprogramar mi reserva alas 8
+      - cambiar mi dia de pichanga
+      - la cancha, pa otro dia
+      - mi reserva, la puedo atrasar
+      - cambiar mi partido de las 7pm
+      - la reserva de ayer, pa hoy
+      - reprogramar mi cancha d vill salvador
+      - mover mi cancha pal prox finde
+      - la hora de mi reserva, se puede cambiar
+      - cambiar mi fulbito de hora
+      - se puede otro dia la cancha d 8pm
+      - reprogramar mi partido d las 7
+      - la reserva q tengo, pa mas tarde
+      - cambiar mi reserva pa mañana
+      - mover mi pichanga d vill salvador
+      - la cancha libre 8pm, se puede pa otro dia
+      - otro dia pa la reserva
+      - reprogramar mi fulbito d surco
+      - cambiar la hora del partido
+      - la reserva d cerca mio, moverla
+      - mi pichanga, pa cuando
+      - reprogramar la de hoy
+      - la cancha alas 8, se puede otro dia
+      - mover mi reserva de la cancha de surco
+      - cambiar mi turno de las 9pm
+      - la pichanga, otro dia la hago
+      - se puede atrasar mi fulbito
+      - reprogramar mi cancha de la mañana
+      - la reserva, la puedo cambiar de hora
+      - mover mi partido pa la prox semana
+      - cambiar mi dia de partido
+      - la reserva, pa otro dia por la tarde
+      - se puede adelantar mi fulbito
+      - reprogramar la pichanga d cerca mio
+      - kiero mover mi reserba
+      - cambiar mi fecha de juego
+      - posponer mi pichanga
+      - adelantar cancha
+      - reserva pa otro dia
+      - mover horario xfa
+      - se puede kambiar hora?
+      - mi pichanga de hoy cambiar
+      - mi reserva cambiarla xfa
+      - reserva 8pm mover
+      - adelantar la cancha
+      - otra hora pa mi pichanga
+      - fecha nueva pa la cancha
+      - mi booking cambiar
+      - posponer mi alquiler
+      - ayuda pa cambiar mi reserva
+      - ajustar el partido
+      - cambiar mi reserva de surco
+      - mover mi turno cerca mio
+      - reprogramar partido de vill salvador
+      - mi reserva de ate xfa cambiar
+      - se puede otra hora pal fulbito?
+      - cambiar dia de pichanga
+      - mover mi reserva pa la noxe
+      - adelantar la hora de la cancha
+      - mi booking 7pm cambiar
+      - reprogramar mi reserba de miraflores
+      - otra fecha pal partido
+      - cambiar mi hora x la tarde
+      - posponer cancha de la mañana
+      - mi reserva de fulbito, otra hr?
+      - mover mi reserva al dia siguiente
+      - se puede adelantar mi cancha?
+      - cambiar mi pichanga pal otro finde
+      - reprogramar mi reserva 9pm
+      - ajustar hora de mi cancha
+      - mi turno de juego, cambiarlo?
+      - muevelo pa la noche mi reserva
+      - puedo cambiar mi reserva de hoy?
+      - reprogramar pichanga temprano
+      - cambiar mi partido de fulbito
+      - mover mi booking pa la semana q viene
+      - adelantar mi reserva de la cancha
+      - mi reserba del lunes cambiar
+      - posponer el partido para el miercoles
+      - cancha libre puedo cambiar la hora?
+      - ajustar mi reserva de hoy
+      - reprogramar mi cancha de la tarde
+      - mover mi pichanga pa las 6
+      - mi reserva de santiago de surco moverla
+      - cambiar fecha de la pichanga 8pm
+      - adelantar mi turno de cancha
+      - otra hora pa mi reserva ya?
+      - posponer mi fulbito de mañana
+      - reserva de villa el salvador, otra hr?
+      - kiero cambiar mi reserva de hoy
+      - ajustar mi partido pal sabado
+      - se puede mover mi reserva de mañana?
+      - reprogramar mi alquiler de cancha
+      - cambiar mi booking pa la tarde
+      - mi pichanga de 9pm, moverla
+      - adelantar la fecha del partido
+      - mover mi reserva del callao
+      - cambiar mi turno de juego a la noxe
+      - posponer mi cancha q tengo
+      - reserva de fulbito puedo cambiar?
+      - reprogramar mi cita de cancha
+      - ajustar la hora de mi reserva de hoy
+      - mover mi pichanga cerca de aca
+      - cambiar mi reserva de san juan de miraflores
+      - adelantar mi pichanga pal martes
+      - mi reserva de 8, cambiarla?
+      - se puede otra fecha pal booking?
+      - reprogramar mi cancha de chorrillos
+      - mover mi partido pa la otra semana
+      - cambiar mi hora de pichanga xfa
+      - posponer mi reserva del finde
+      - mi alquiler de cancha, cambiar dia
+      - reprogramar el juego q tengo
+      - ajustar mi booking pa la noche
+      - mover mi reserva pal miercoles
+      - cambiar mi cancha de miraflores
+      - adelantar la hora de mi pichanga
+      - se puede otra hora la reserva?
+      - mi partido de fulbito, cambiarlo ya
+      - reprogramar mi reserva de independencia
+      - cambiar fecha de mi booking
+      - mover mi cancha del dia
+      - posponer mi fulbito de la tarde
+      - reserva de comas, cambiar de hora
+      - adelantar mi pichanga de hoy
+      - kiero mover mi reserva de la mañana
+      - cambiar el dia de mi cancha libre
+      - reprogramar mi partido en sjl
+      - ajustar mi hora de juego x otro dia
+      - kiero cambiar mi reserva
+      - mover mi pichanga
+      - se puede adelantar la hora?
+      - cambiar el dia d mi turno
+      - re agendar mi cancha
+      - ajustar mi hora del partido
+      - qiero pasar mi booking para mañna
+      - mover la reserva q hice
+      - hay chance de cambiar mi cancha 8pm
+      - reprogramar la pichanga d hoy
+      - kiero atrasar mi reserva unas horas
+      - la cancha de surco se puede mover
+      - posponer mi turno de las 7
+      - cambiar mi reserba pa la noche
+      - mover la reserva del sabado
+      - re agendar mi pichanga pa el viernes
+      - modificar mi turno de juego
+      - q ago para cambiar la reserva
+      - nesecito cambiar el partido
+      - mi reserva, moverla a otro dia
+      - ajustar horario de cancha
+      - pasarme la cancha para el lunes
+      - kiero cambiar mi hora de juego
+      - se puede mover mi reserva cerca mio
+      - re agendar mi fecha de fulbito
+      - necsito cambiar la hora de mi cancha
+      - cambiar mi booking d hoy x otro dia
+      - la reserva de 8pm, la puedo pasar?
+      - posponer la cancha d vill el salvador
+      - cambiar mi partido pa la prox semana
+      - kiero mover mi pichanga pa mas tarde
+      - mi reserva, se puede adelantar?
+      - ajustar mi reserva de las 6
+      - q ago con mi reserva, la kiero cambiar
+      - mover mi turno del dia de hoy
+      - la cancha de aca la puedo reprogramar
+      - pasar mi reserva pa otro momento
+      - hay forma de cambiar mi fecha de juego
+      - mi pichanga, se puede cambiar la hora?
+      - kiero correr la reserva del sabado
+      - posponer mi partido d las 9pm
+      - cambiar mi cancha alas 8
+      - re agendar mi reserva de la noche
+      - q hago si kiero cambiar mi pichanga
+      - mover mi reserva para pasado mañana
+      - la cancha d hoy, se puede posponer
+      - necesito reajustar mi booking de fulbito
+      - cambiar mi horario de pichanga xfa
+      - kiero mover mi turno para mas temprano
+      - mi reserva, pasarla para el domingo
+      - ajustar la hora de mi reserva por surco
+      - q hacer para cambiar la cancha
+      - necesito cambiar el dia de mi fulbito
+      - reprogramar mi pichanga de 7pm
+      - cambiar mi reserva de la cancha en la noche
+      - se podra mover mi cancha para el proximo dia
+      - kiero adelantar mi partido pa la tarde
+      - mi booking d las 9, lo puedo cambiar
+      - q hago si necesito cambiar la hora de mi reserva
+      - re agendar mi reserva de la canchita cerca mio
+      - pasame la reserva para otro dia xfa
+      - mover mi partido de fulbito para las 10pm
+      - es posible cambiar la fecha d mi pichanga
+      - kiero posponer mi reserva de las 5
+      - cambiar la hora de mi turno de juego
+      - necsito mover mi cancha de vill salvador
+      - se puede re programar mi fulbito
+      - ajustar mi reserva para la mañana
+      - cambiar mi cancha de las 7 para mas tarde
+      - kiero adelantar mi booking de hoy
+      - q hago pa cambiar mi partido de futbol
+      - mover la fecha de mi pichanga
+      - la reserva de aca, la puedo pasar a otro dia
+      - hay opcion de cambiar mi turno para la tarde
+      - reprogramar mi reserva alas 8pm
+      - nesecito posponer el fulbito del sabado
+      - kiero cambiar mi cancha de las 6 a las 9
+      - se puede mover mi reserva de la noche a la mañana
+      - ajustar la reserva de mi partido
+      - q ago para reprogramar mi pichanga
+      - mover mi reserva para la prox semana
+      - cambiar mi reserva de cancha por surco
+      - kiero pasar mi partido pa otro dia y hora
+      - la cancha de mañana, la puedo posponer
+      - necesito re agendar mi turno de las 8
+      - se puede cambiar mi booking del miercoles
+      - ajustar mi reserva de fulbito para mas tarde
+      - q hago para mover mi cancha de las 7
+      - kiero cambiar mi reserva de la canchita
+      - mi pichanga de hoy la puedo reprogramar
+      - mover mi reserva de la cancha en villa
+      - hay forma de posponer mi fulbito
+      - re agendar mi cancha alas 9
+      - necesito cambiar mi partido de la mañana
+      - kiero adelantar la reserva de hoy a mas temprano
+      - se puede cambiar mi turno de las 8pm
+      - ajustar mi fecha de pichanga
+      - q hago pa cambiar mi reserva del fin de semana
+      - mover mi cancha del lunes para el martes
+      - reprogramar mi booking en la noche
+      - kiero posponer el partido que ya tengo
+      - mi reserva cerca mio la puedo cambiar de hora
+      - se puede cambiar la fecha de mi fulbito
+      - necesito re agendar mi pichanga de 8pm
+      - oe puedo cambiar mi reserva?
+      - mover mi cancha ala 8 pm
+      - cambiar el dia d mi pichanga
+      - reprogramar la fecha causa
+      - se puede mover mi turno d fulbito?
+      - ajusta mi booking xq no llego
+      - mi reserva d hoy pa mañana mejor
+      - cambio d horario pa la canchita
+      - necesito otra fecha pa mi juego
+      - la reserva q tengo, pa cuando mas?
+      - puedo adelantar mi pichanga?
+      - mueve mi reserva al toke
+      - tengo q cambiar el dia d la cancha
+      - mi turno de ayer, pa otro dia
+      - la reserva 7pm, se puede mover?
+      - un cambio d hora, por surco
+      - mi partido de hoy, pa la noche
+      - reprogramar mi fulbito ya
+      - quiero cambiar la reserva q tengo
+      - se puede modificar mi cancha?
+      - la reserva pal sabado, mas tarde
+      - mover mi partido cerca mio
+      - como cambio el dia d mi reserva?
+      - tengo q ajustar mi turno, mano
+      - mi reserva ala 8pm, kiero moverla
+      - cambiar fecha de mi pichanga pue
+      - puedo mover mi cancha de vill salvador?
+      - la reserva pa la prox semana
+      - necesito otro horario pa la cancha
+      - se puede adelantar la reserva q tengo?
+      - mover mi booking ala 6pm
+      - ajustar mi pichanga para otro dia
+      - mi turno de futbol, pa cuando lo muevo?
+      - quiero reprogramar la cancha q reserve
+      - un cambio d hora en la tarde
+      - la reserva d la noche, pa mañana
+      - mover mi cancha pa la prox. semana
+      - reprogramar mi reserva, causita
+      - puedo cambiar el dia d mi fulbito?
+      - la reserva d hoy, pa mas tarde?
+      - qiero mover mi turno d la cancha
+      - tengo q cambiar la fecha del partido
+      - se puede adelantar mi reserva pal lunes
+      - la cancha q reserve, pa otro dia
+      - necesito reprogramar mi pichanga, al toke
+      - cambio d hora para mi reserva ya
+      - mi reserva de cancha, pa otro momento
+      - puedo ajustar el horario del partido?
+      - tengo q cambiar la fecha d mi cancha
+      - la reserva 8pm, pa la 9pm
+      - quiero adelantar mi turno d hoy
+      - se puede cambiar el dia d la reserva?
+      - mi pichanga d hoy, pa mañana
+      - muevelo mi reserva pal fin de semana
+      - qiero otro dia y otra hora pa la cancha
+      - como cambio mi reserva q ya hice?
+      - puedo reprogramar mi partido de futbol?
+      - la reserva en surco, pa la tarde
+      - necesito cambiar mi turno d juego
+      - mover mi cancha q reserve ala noche
+      - quiero ajustar mi reserva d fecha
+      - se puede pasar mi fulbito pa otro dia
+      - la reserva pa el viernes, mas tarde
+      - tengo q cambiar mi booking de hoy
+      - mi cancha cerca mio, la muevo?
+      - qiero reprogramar mi reserva pa otro dia
+      - como hago pa mover la cancha q tengo?
+      - puedo cambiar mi pichanga del sabado
+      - la reserva de las 7, pa la 8pm
+      - necesito otro dia pa mi reserva ya
+      - mover mi turno de la cancha d vill salvador
+      - la reserva d futbol, pa otra fecha
+      - quiero cambiar la reserva q tengo de cancha
+      - se puede adelantar mi reserva para hoy mismo?
+      - mi pichanga d mañana, pa la noche
+      - reprogramar mi cancha, qiero otro dia
+      - puedo mover mi reserva pa mas tarde xfa
+      - tengo q cambiar la hora de mi fulbito
+      - la reserva q tengo, pa cuando la paso?
+      - quiero ajustar mi reserva, la d las 8pm
+      - se puede cambiar la fecha d mi booking?
+      - necesito mover mi pichanga al toke
+      - mi reserva d cancha, otra hora y dia
+      - como cambio el horario de mi pichanga?
+      - la cancha q tengo, pa la prox semana
+      - puedo reprogramar mi reserva de fulbito?
+      - quiero mover mi turno de las 6
+      - se puede cambiar la fecha del juego?
+      - la reserva d hoy, pa el domingo
+      - tengo q cambiar mi reserva d la cancha xq no puedo
+      - mi pichanga en surco, la muevo?
+      - quiero ajustar mi horario de pichanga
+      - se puede adelantar mi turno d fulbito?
+      - la reserva q tengo, pa la tarde xq trabjo
+      - mover mi cancha pa mañana porfa
+      - necesito cambiar mi reserva ala 7pm
+      - qiero reprogramar mi reserva de vill salvador
+      - puedo cambiar la pichanga?
+      - mover mi reserva pa' despues
+      - necesito otra fecha pa mi partido
+      - mi booking de las 7, lo puedo adelantar?
+      - la cancha, kiero q se mueva
+      - cambiar el turno de juego
+      - re agenda mi pichanga, xfa
+      - se puede pasar la reserva del lunes?
+      - kiero posponer el fulbito
+      - mi reserva, necesito otro dia
+      - puedo mover la cancha a las 9pm?
+      - la reseva la kiero cambiar de hora
+      - como muevo mi partido, causa?
+      - adelantar mi turno de las 6
+      - cambiar la reserva para manana
+      - mi cancha de las 8, la puedo pasar?
+      - quiero otra hora pa mi pichanga
+      - se puede atrasar el booking?
+      - reprogramar mi fulbito pal jueves
+      - necesito reajustar la cancha
+      - puedo cambiar de dia mi partido?
+      - mover el turno a la noche
+      - mi reserva de hoy, cambiarla xfavor
+      - kiero reubicar mi pichanga
+      - se puede modificar la hora de juego?
+      - adelantar la cancha de las 10
+      - qiero cambiar mi reserva pa otro dia
+      - pasar mi fulbito pa la semana q viene
+      - la reserva del sabado, cambiarla
+      - reagenda mi cancha pa las 8pm
+      - mover mi pichanga a otra fecha, broder
+      - necesito cambiar el horario del partido
+      - se puede posponer mi booking?
+      - mi reserva de las 4, adelantarla
+      - kiero mover mi pichanga de las 7pm
+      - hay forma de cambiar mi turno?
+      - la reserva, la puedo pasar pa la tarde?
+      - como cambio la fecha de mi fulbito?
+      - necesito otra hora pa la cancha
+      - reprogramar mi partido para mas tarde
+      - mi reserva, q la pasen a las 9
+      - se puede cambiar mi pichanga de hora?
+      - kiero adelantar mi partido
+      - la cancha de mañana, moverla
+      - como modifico mi reserva de fulbito?
+      - necesito cambiar el dia de la cancha
+      - puedo cambiar la reserva pa el viernes?
+      - mover mi booking a otro turno
+      - reprogramar mi reserva de las 6
+      - la pichanga de hoy, posponerla
+      - kiero reajustar el horario de mi partido
+      - se puede cambiar mi cancha de las 3pm?
+      - adelantar mi reserva pa mas temprano
+      - necesito otra hora pa mi fulbito
+      - mi reserva, pa cuando la puedo cambiar?
+      - qiero mover mi cancha a las 7am
+      - hay disponibilidad para reubicar mi pichanga?
+      - como hago pa cambiar el booking?
+      - necesito otra fecha pa mi cancha de vill salvador
+      - mover mi reserva de surco pa otro dia
+      - reprograma mi fulbito q tengo cerca mio
+      - la cancha de las 8pm por surco, se puede mover?
+      - kiero cambiar mi reserva de la molina
+      - se puede pasar mi partido de vill el salvador?
+      - necesito cambiar el dia del fulbito q es aca a mi alrededor
+      - mi reserva, kiero q se cambie pa las 10pm si hay cancha libre
+      - q hago para re agendar mi reserva en villa maria?
+      - puedo atrasar mi pichanga del miraflores?
+      - necesito modificar la hora del partido cerca mio
+      - la reseva de la 8pm, la puedo pasar a las 9pm en surco?
+      - kiero adelantar mi booking q tengo en chorrillos
+      - se puede mover mi cancha de san juan de miraflores?
+      - cambiar el fulbito de las 6 a las 7, porfa
+      - mi reserva, kiero q se cambie de dia y hora
+      - necesito ajustar mi pichanga pal otro mes
+      - se puede pasar mi partido del martes pal miercoles?
+      - qiero cambiar mi cancha de las 8am a la tarde
+      - reagendar mi fulbito q tengo alas 7
+      - mover mi reserva pa el proximo fin de semana
+      - como modifico la reserva de mi partido de hoy?
+      - necesito otra hora para mi booking del viernes
+      - mi pichanga de las 6pm, la puedo adelantar?
+      - kiero cambiar mi cancha, hay disponibilidad?
+      - se puede posponer mi reserva pa la proxima?
+      - reprogramar mi partido, causa
+      - la reserva de las 9pm, la kiero atrasar
+      - mover mi fulbito del domingo al lunes
+      - necesito cambiar el horario de mi turno
+      - puedo ajustar mi pichanga de las 4pm?
+      - la cancha, kiero q se cambie pa mas tarde
+      - kiero reubicar mi partido de hoy
+      - se puede adelantar mi reserva, oe?
+      - necesito posponer mi booking a otro dia
+      - como hago pa cambiar mi reserva de cancha?
+      - mi fulbito, lo kiero pasar de fecha
+      - puedo cambiar la hora de mi pichanga?
+      - la reserva, kiero q se modifique el dia
+      - necesito reprogramar mi partido pa las 10
+      - se puede mover mi turno de la tarde?
+      - kiero cambiar mi booking para el prox mes
+      - adelantar mi cancha de las 7pm, se puede?
+      - mi reserva, necesito cambiarla para el sabado
+      - como reajusto mi pichanga de la mañana?
+      - puedo cambiar el dia y la hora de mi fulbito?
+      - reprogramar la cancha q tengo pa mas tarde
+      - necesito mover mi reserva del finde
+      - se puede adelantar la hora de mi partido?
+      - kiero cambiar mi turno de las 8am pa el almuerzo
+      - mi cancha de hoy, no voy a poder. moverla
+      - la pichanga de la noche, se puede adelantar?
+      - cambiar mi reserva pa mañana en la tarde
+      - mi fulbito del sabado, hay chance de moverlo?
+      - oee, la hora de mi booking, como la cambio?
+      - mi turno de las 7, pasarlo pal otro dia xfa
+      - no llego a mi partido, se puede posponer?
+      - qiero cambiar mi reserva de cancha libre 8pm
+      - la fecha de mi pichanga, como la arreglo?
+      - mover mi partido cerca de vill salvador
+      - mi reserva a las 6, se puede correr?
+      - cambiar mi cancha pa la proxima semana
+      - el fulbito del miercoles, adelantarlo, pe
+      - la hora de mi turno, la puedo ajustar?
+      - mi booking por surco, hay forma de cambiar?
+      - posponer la pichanga de la tarde, ps
+      - la reserva que tengo, moverla a otro dia
+      - cambiar mi partido a las 9pm, es posible?
+      - la cancha de hoy, no estoy a tiempo. cambiar
+      - oee, mi fulbito, lo pasas a otro dia?
+      - adelantar mi pichanga pa mas temprano
+      - la reserva por aca a mi alrededor, moverla?
+      - como cambio mi turno de las 8?
+      - mi partido del domingo, se puede atrasar?
+      - qiero mover mi cancha por el feriado
+      - cambiar mi booking de la mañana a la noche
+      - la fecha de mi fulbito, hay como cambiarla?
+      - posponer mi reserva porfa, se me complico
+      - la pichanga a las 10, la podemos reajustar?
+      - mi turno de la cancha, moverlo de dia
+      - cambiar mi partido para el martes
+      - oee, la reserva, la puedes adelantar?
+      - el fulbito de hoy, lo mueves a mas tarde?
+      - mi cancha de las 5, qiero cambiarla
+      - se puede posponer mi booking una hora?
+      - qiero modificar mi reserva de fulbito, causa
+      - la pichanga del lunes, no voy. cambiar
+      - mi partido de hoy, pasarlo pal miercoles
+      - la hora de mi reserva, como la reubico?
+      - cambiar mi turno de cancha libre 8pm
+      - el fulbito por surco, se puede mover?
+      - adelantar mi pichanga para hoy mismo
+      - mi booking de las 8pm, cambiarlo de hora
+      - la reserva de la tarde, la pospongo?
+      - el partido de mañana, qiero cambiarlo
+      - oee, la cancha, la pasas a otra fecha?
+      - reajustar mi turno de las 6pm
+      - mover mi fulbito de vill salvador
+      - cambiar mi pichanga, se me cruzo algo
+      - la reserva que tenia, adelantarla
+      - posponer mi partido pa la otra semana
+      - mi booking cerca mio, lo cambio?
+      - la hora de mi cancha, como la muevo?
+      - oee, mi fulbito, se puede cambiar de dia?
+      - la pichanga alas 7, la pasas a las 9?
+      - cambiar mi partido de fecha y hora
+      - la reserva por aca, se podra adelantar?
+      - mover mi turno del viernes pa el sabado
+      - mi cancha libre 8pm, se puede mover mas tarde?
+      - qiero cambiar mi booking para el proximo mes
+      - la pichanga, atrasarla un par de horas
+      - mi fulbito de hoy, pasarlo pa mañana
+      - arreglar mi reserva de las 4pm
+      - como le hago pa mover mi partido?
+      - la cancha que reserve, la adelanto?
+      - cambiar mi turno cerca de vill salvador
+      - posponer la pichanga del finde
+      - mi reserva, pasarla a un horario diferente
+      - oee, la hora del fulbito, la cambias?
+      - mover mi partido por surco
+      - la cancha de las 3, se puede reajustar?
+      - qiero cambiar mi reserva de la noche
+      - adelantar mi booking, estoy libre
+      - posponer mi pichanga, estoy con cosas
+      - la fecha de mi fulbito, como la reubico?
+      - cambiar mi partido a las 10am
+      - mi reserva del lunes, la mueves al martes?
+      - la cancha que tengo, pasarla a otro dia, pe
+      - oee, mi turno, lo adelantas?
+      - el fulbito de la tarde, cambiarlo
+      - mi pichanga 8pm, moverla de hora
+      - la reserva por aca a mi alrededor, adelantarla
+      - como cambio la fecha de mi booking?
+      - mi partido de las 7, posponerlo xfa
+      - la cancha que reserve, la cambio pal jueves?
+      - qiero reajustar mi fulbito del domingo
+      - la pichanga, se puede atrasar un poco?
+      - mover mi reserva por surco, pe
+      - cambiar mi turno de las 6 a las 8
+      - oee, el partido de la noche, se puede cambiar?
+      - la cancha de hoy, no puedo. cambiarla
+      - adelantar mi pichanga de mañana
+      - posponer mi booking de la mañana
+      - mi fulbito del sabado, lo muevo?
+      - la reserva que tengo, pasarla a mas tarde
+      - cambiar mi partido a las 5pm, estoy apurado
+      - la hora de mi turno, la reubicas?
+      - oee, mi cancha, se puede cambiar de fecha?
+      - la pichanga a las 8pm, moverla mas temprano
+      - qiero posponer mi reserva cerca de vill salvador
+      - cambia mi reserva porfa
+      - kiero kambiar el turno
+      - mover la cancha para otro dia
+      - necesito kambiar la hora
+      - puedo mover mi booking?
+      - cambiar el dia del partido
+      - mi reserva la puedo pasar
+      - cambio de fecha del fulbito
+      - re agenda mi partido
+      - kambio mi reserva d hora broer
+      - pasar la cancha pa otro dia
+      - ajustar mi turno de la pichanga
+      - se puede adelantar la reserva
+      - posponer mi pichanga del jueves
+      - mueve mi hora d juego
+      - cambiar la reserva alas 8pm
+      - mi partido pa otro dia
+      - reubicar la cancha de hoy
+      - kiero otra fecha pa mi juego
+      - la pichanga pa mas tarde
+      - como cambio mi reserva causa
+      - hay forma d mover la hora
+      - adelantar mi turno de 7 a 6
+      - necesito cambiar mi partido pa mañana
+      - pasar la reserva del sabado
+      - mi booking kiero cambiarlo
+      - la cancha para mañana
+      - cambio de horario del fulbito
+      - reprogramar mi reserva causa
+      - kiero mover mi cancha por surco
+      - se puede ajustar mi turno cerca mio
+      - adelantar la pichanga por la noche
+      - cambiar mi reserva d las 8pm
+      - mi partido lo puedo mover para el martes
+      - kiero kambiar mi cancha alas 7
+      - mueve mi reserva broer
+      - pasar la cancha pa despues
+      - reagenda mi partido d vill salvador
+      - necesito cambiar mi pichanga de hoy
+      - la reserva pa la otra semana
+      - cambio la hora de mi fulbito
+      - kiero otro dia pa mi booking
+      - se puede adelantar mi cancha d las 9
+      - posponer mi juego pa mañana
+      - cambia mi hora de pichanga
+      - mi reserva la paso al jueves
+      - reubicar el turno de las 6pm
+      - kiero un cambio de dia y hora
+      - mueve mi reserva pa la noche
+      - cambiar mi cancha d las 5
+      - mi partido lo re agendo
+      - kiero reprogramar mi fulbito por sjl
+      - pasar la pichanga pa la proxima
+      - ajustar mi reserva de dia
+      - se puede cambiar la hora d mi cancha
+      - adelantar mi booking
+      - necesito cambiar la fecha de mi juego
+      - mi reserva de las 10 la cambio
+      - reagenda mi pichanga d barranco
+      - kiero mover mi fulbito pa la tarde
+      - cambia mi turno de las 4pm
+      - pasar mi cancha pal finde
+      - como le hago pa mover mi reserva
+      - hay chance de cambiar mi horario
+      - adelantar mi partido
+      - kiero cambiar mi pichanga alas 8
+      - mi reserva se puede cambiar pa mas tarde
+      - reubicar el fulbito d ayer
+      - cambia mi reserva pa la noche
+      - pasar mi booking de la mañana
+      - reajustar mi turno de juego
+      - se puede posponer mi partido
+      - kiero adelantar mi reserva pa hoy
+      - mueve la pichanga de las 3pm
+      - cambiar mi cancha para el lunes
+      - mi reserva la paso a otra hora
+      - reprogramar el fulbito del finde
+      - kiero un cambio de mi reserva rapido
+      - necesito cambiar la cancha de las 6
+      - hay forma d mover mi partido
+      - adelantar mi turno de juego broer
+      - cambia mi pichanga pa el viernes
+      - mi reserva se puede reubicar
+      - kiero mover mi fulbito por la molina
+      - pasar la cancha para otro turno
+      - ajustar mi booking de hora
+      - se puede cambiar mi reserva pa el feriado
+      - posponer mi partido de la tarde
+      - kiero adelantar mi pichanga de mañana
+      - mueve mi turno de las 11
+      - cambiar la cancha para mas temprano
+      - mi reserva la paso al mes q viene
+      - reprogramar el fulbito del martes
+      - kiero un cambio de mi juego de hoy
+      - necesito cambiar la pichanga del sabado
+      - hay chance de mover mi booking pal lunes
+      - cambia mi partido pa la prox semana
+      - q hago pa cambiar la fecha
+      - kiero pasar mi reserva del lunes
+      - mueve mi pichanga pal miercoles
+      - como muevo la hora de mi cancha
+      - la cancha de las 7 la puedo posponer
+      - necesito re agendar mi fulbito
+      - mi reserva la puedo reubicar?
+      - cambio mi booking de la tarde
+      - kiero adelantar la pichanga de 8 a 6
+      - oe se puede mover mi reseva dl partido?
+      - kiero cambiar la hora d mi pichanga xfa
+      - mi cancha, la puedo pasar pa otro dia?
+      - necesito cambiar mi reserva dl fulbito d ayer
+      - broer, como cambio mi turno d las 6?
+      - puedo adelantar mi reserva pa hoy?
+      - se puede re agendar mi juego d pelota?
+      - mi reserva, pa cuando la puedo dejar?
+      - kiero mover la kancha x surco
+      - la reserva d vill salvador, se cambia?
+      - dime como mover mi partido d fulbito
+      - cambia mi hora, tengo q salir
+      - la cancha d las 8, la podemos mover?
+      - necesito recalendarizar mi pichanga
+      - mi reseva pa las 7, se puede pasar pa mas tarde?
+      - kiero posponer mi fulbito d mañana
+      - como cambio la fecha d mi reserva?
+      - mi reserva, qiero ponerla otro dia d semana
+      - se puede modificar mi kancha cerca mio?
+      - puedo cambiar la hora d mi juego?
+      - kiero otro horario pa mi reserva dl domingo
+      - cambia mi pichanga a la noche xfa
+      - la reserva d fulbito la puedo aplazar?
+      - repro mi cancha dl miercoles
+      - como muevo mi reserva d fecha?
+      - kiero pasar mi turno d futbol
+      - se puede cambiar mi reserva pa el otro findesemana?
+      - la kancha d alas 5, la adelanto?
+      - necesito reubicar mi reserva d hoy
+      - cambia la hora d mi cancha libre d 8pm
+      - mi pichanga, qiero cambiarla x otra fecha
+      - se puede alterar mi reserva d las 4?
+      - kiero mover mi reserva pa mas tarde xfa
+      - como modifico mi reserva dl partido?
+      - mi fulbito, puedo cambiarlo d dia y hora?
+      - cambia mi reserva d cancha pa el viernes noche
+      - puedo cambiar la hora d mi booking xfa?
+      - necesito otro dia pa mi pichanga d barranco
+      - reagendame mi reserva dl jueves a la noche
+      - kiero posponer mi partido dl martes
+      - se puede cambiar la fecha d mi kancha d aca?
+      - mi reserva dl sabado, se puede poner el lunes?
+      - necesito mover mi juego d pelota
+      - como re ubico mi reserva d alas 8?
+      - qiero pasar mi reserva pa la semana q viene
+      - cambia mi fulbito d miraflores
+      - se puede adelantar mi turno d la cancha?
+      - necesito cambiar mi reserva pa el otro mes
+      - como reajusto mi fecha d partido?
+      - mi pichanga d las 7, la puedo pasar pa las 9?
+      - kiero otro dia y hora pa mi reserva
+      - se puede reprogramar mi kancha d aca a mi alrededor?
+      - broer, cambia mi reserva d fulbito d hoy
+      - necesito mover mi hora d juego d ate
+      - como cambio la fecha d mi booking?
+      - mi reserva, qiero pasarla pa el proximo mes
+      - puedo cambiar la hora d mi reserva pa las 8?
+      - qiero modificar mi turno d cancha d san isidro
+      - necesito reprogramar mi reserva pa otro dia dl finde
+      - se puede posponer mi pichanga dl domingo?
+      - como muevo mi reserva d cancha a otra fecha?
+      - mi fulbito, puedo pasarlo pa mas tarde?
+      - kiero adelantar mi reserva d las 10am
+      - necesito cambiar la fecha d mi partido en san borja
+      - se puede cambiar mi reserva pa mas nochecita?
+      - como re agendo mi cancha d alas 6?
+      - mi reserva, qiero cambiarla d dia y hora
+      - puedo mover mi reserva pa otra semana?
+      - qiero modificar mi pichanga d hoy
+      - necesito reubicar mi reserva d cancha xfa
+      - se puede variar mi fecha d juego d la victoria?
+      - como pospongo mi reserva d partido?
+      - mi fulbito, puedo cambiarlo pal miercoles?
+      - kiero cambiar mi reserva dl jueves al sabado
+      - necesito ajustar mi reserva d hora d surquillo
+      - se puede mover mi cancha pa un dia festivo?
+      - como re programa mi pichanga d las 5?
+      - mi reserva, qiero adelantarla unas horas
+      - puedo cambiar mi cancha d SMP pa la noche?
+      - qiero posponer mi reserva dl lunes
+      - necesito cambiar la fecha d mi reserva x la mañana
+      - se puede re agendar mi partido dl fulbito?
+      - como muevo mi reseva dl sabado?
+      - mi pichanga, qiero cambiarla pa despues
+      - puedo cambiar la hora d mi reserva dl Callao?
+      - qiero otro dia pa mi reserva d pelota
+      - necesito cambiar la hora dl juego d mi kancha
+      - se puede reprogramar mi cancha pa las 9pm?
+      - como adelanto mi reserva d pichanga?
+      - mi fulbito, puedo moverlo pa un dia antes?
+      - kiero pasar mi reserva pa el otro finde
+      - necesito reajustar mi reserva dl partido d las 7
+      - se puede cambiar mi cancha pa la proxima semana?
+      - como modifico mi reserva d fecha y hora?
+      - mi pichanga d hoy, puedo moverla pa mañana?
+      - kiero posponer mi turno d juego d la cancha dl barrio
+      - necesito cambiar mi reseva dl dia d las madres
+      - se puede re agendar mi cancha d la molina?
+      - como cambio mi reserva d las 3?
+      - mi fulbito, qiero pasarlo pa la noche
+      - puedo mover mi reserva pa el dia siguiente?
+      - qiero cambiar la fecha d mi reserva d los olivos
+      - necesito aplazar mi turno d cancha dl martes
+      - se puede reprogramar mi partido pa mas tarde?
+      - como reubico mi reserva d pichanga?
+      - mi reserva, qiero adelantarla pa la tarde
+      - puedo cambiar mi fulbito d alas 7?
+      - qiero posponer mi reseva d la cancha
+      - kiero mover mi pichanga
+      - cambiar mi reserba de la cancha
+      - moverla pa otro dia pe
+      - adelantar mi turno xfa
+      - reserba pa luego mano
+      - cambiar fecha de mi fulbito
+      - puedo mover mi booking q tengo
+      - re agendar mi partido xfa
+      - pasar mi reserva a otra hora
+      - cambia mi cancha q tengo mañana
+      - la reserba de las 7, muevela
+      - kiero otro horario pa mi reserva
+      - mover mi cancha en surco hoy
+      - la pichanga de hoy, adelantala
+      - cambiar mi orario de juego, causa
+      - reprogramar mi fulbito alas 8
+      - mi reserva, pa otro dia y hora
+      - adelantar mi cancha de 8pm a 6pm
+      - pasar mi reserba q hice ya
+      - mover la fecha de mi partido
+      - kiero cambiar mi reserba q tengo
+      - mi pichanga pa mas tarde oe
+      - cambia mi booking a otro dia
+      - la cancha de vill salvador, moverla
+      - reprogramar mi fulbito q tengo
+      - cambiar feha de mi cancha
+      - mover mi reserva pa la otra semana
+      - necesito otro dia pa mi pichanga
+      - pasar mi cancha q me toca
+      - mi reserva a otra feha
+      - cambiar orario de mi booking
+      - re agendar mi pichanga
+      - la reserva de mañana, pa la tarde
+      - mover mi partido pa el jueves
+      - mi reserva, pa el sabado xfa
+      - mover mi booking de fulbito
+      - re agendar mi cancha en chorrillos
+      - puedo cambiar la hora de mi pichanga
+      - mi reserva de 8pm, la muevo?
+      - cambia mi turno de cancha, de una
+      - mover la cancha para mas tarde
+      - mi reserva en el callao, la cambio
+      - pasar mi reserva del lunes al martes
+      - necesito reubicar mi pichanga
+      - kiero cambiar mi reserba de las 6
+      - mover la fecha de mi fulbito
+      - puedo cambiar mi cancha de hoy
+      - reprogramar mi partido para mañana
+      - cambiar mi horario pa las 8pm
+      - la reserva de mi cancha, pa otro dia
+      - adelantar mi booking de fulbito
+      - pasar mi pichanga a la noche
+      - cambiar mi reserva de dia y hora
+      - necesito mover la cancha de reco
+      - kiero re agendar mi turno
+      - mover mi fulbito pa el miercoles
+      - puedo cambiar la feha de mi reserva
+      - reprogramar mi cancha de la molina
+      - cambiar el orario de mi partido
+      - la reserva, pa otro dia mas tarde
+      - adelantar mi pichanga xfa
+      - pasar mi reserva q tengo, pa el finde
+      - cambiar mi booking pa el proximo mes
+      - necesito reubicar mi cancha de ayer
+      - kiero mover mi pichanga pa otra semana
+      - la reserva de las 5, cambiala
+      - mover mi turno de juego, oe
+      - puedo adelantar mi reserva aki cerca
+      - la reserva de mi pichanga, pa el domingo
+      - pasar mi partido q tengo, pa el lunes
+      - necesito cambiar la hora de mi cancha
+      - kiero re agendar mi reserva de hoy
+      - mover mi pichanga de las 4pm
+      - puedo cambiar mi reserva pa otro dia
+      - reprogramar mi booking q tengo
+      - cambiar mi turno de fulbito, xfa
+      - la reserba de las 10, moverla pa las 7
+      - adelantar mi cancha de villa maria
+      - pasar mi partido de mañana
+      - kiero reubicar mi reserva de la noche
+      - mover mi cancha del sabado
+      - puedo cambiar mi orario de la pichanga
+      - reprogramar mi reserva pa el martes
+      - cambiar mi booking de la cancha q tengo
+      - la reserba de mi partido, moverla
+      - adelantar mi pichanga pa hoy
+      - pasar mi turno de juego, caushita
+      - necesito cambiar mi cancha de las 3pm
+      - kiero re agendar mi partido en el agustino
+      - mover mi reserva para la tarde
+      - puedo cambiar la feha de mi pichanga
+      - kiero cambiar mi hora d juego
+      - mi pichanga pa cuando
+      - q hago pa cambiar el turno
+      - kisiera otro horario
+      - cambia mi futbito
+      - puedo mover mi partido pa el 8pm
+      - dame otra fecha pa la cancha
+      - mover turno del miercoles
+      - adelanta mi reserba xfa
+      - mi cancha, pa el sabado
+      - otro dia la pichanga
+      - pasalo pa mas tarde
+      - la reserva d mañana, la muevo?
+      - cambiame la hora ya
+      - fulbito del jueves, quiero otro dia
+      - mueve la hora d mi juego
+      - la cancha, pa otro momento
+      - adelantar mi turno d la cancha
+      - cambiar fecha, es posible?
+      - mi partido, pa la noche
+      - kambiar el dia d juego
+      - mi reserba, se mueve?
+      - pasarlo a otra hora
+      - reserva d la cancha, mas tarde
+      - mueve mi pichanga xfa
+      - el partido, otro dia en smp
+      - mi hora d fulbito, la cambio?
+      - q hago para mover la cancha
+      - cambiar fecha d mi reserba
+      - mi turno, pa el domingo en la tarde
+      - adelantar mi juego
+      - mueve la fecha, porfabor
+      - la reserva d las 6pm, otro dia
+      - kiero cambiar d dia mi cancha
+      - pichanga d hoy, otro dia
+      - muevelo pa la noche
+      - cambio d hora d mi partido
+      - mi reserva, pa el jueves
+      - adelantar la hora d la cancha
+      - pasalo pa el lunes
+      - la pichanga d mañana, puedo cambiar?
+      - qiero cambiar mi turno
+      - mi reserva d las 7pm, pa las 9pm
+      - mueve la reserva, cerca d ate
+      - otro dia pa mi fulbito
+      - cambia mi juego xfa
+      - puedo cambiar d fecha mi cancha
+      - la reserva, pa otro dia y hora
+      - adelanta mi partido, urgente
+      - mueve mi reserva pal prox miercoles
+      - q hago pa cambiar mi reserba
+      - mi cancha, pa el domingo 4pm
+      - cambio d fecha d pichanga
+      - adelantar mi reserva d la cancha
+      - pasame la reserva d mañana pa la noche
+      - mi juego d hoy, lo muevo?
+      - kambiar horario d fulbito
+      - reserva, otro dia porfabor
+      - mueve mi partido d una hora mas tarde
+      - otro dia y hora la cancha
+      - adelanta mi pichanga
+      - cambiar el fulbito d mañana
+      - mi turno, pa el fin d semana
+      - mueve mi reserva d hoy pa el martes
+      - q hago para kambiar la fecha d la cancha
+      - kiero otro momento mi reserba
+      - mover mi cancha pa la tarde
+      - adelantar mi cancha d las 8
+      - la reserva d la molina, pa el sabado
+      - mi fulbito, lo cambio?
+      - q hago pa cambiar el dia del partido
+      - kisiera mover mi hora d reserva
+      - cambiar mi pichanga d las 5pm
+      - adelantar el turno d juego
+      - muevelo d hora xfa
+      - mi reserva, pa q dia lo puedo pasar
+      - cambia el juego, por la noche
+      - necesito cambiar el dia d mi cancha
+      - adelantar mi reserva para la mañana
+      - mi fulbito del martes, se puede otro dia?
+      - muevelo pa la tarde, tipo 5pm
+      - q hago pa reajustar mi turno
+      - kiero cambiar d hora mi pichanga
+      - mi reserva, pa el jueves en surco
+      - cambiar mi partido d la noche pa el dia
+      - adelantar mi juego d mañana
+      - muevelo a otra fecha, siii
+      - la cancha, otro dia y cerca d mi casa
+      - q hago pa cambiar el turno d fulbito
+      - kiero mover mi reserva, urgente
+      - mi pichanga, adelantarla 1 hora
+      - cambiar fecha y hora d mi reserba
+      - la cancha d 8pm, pa mañana
+      - muevelo mi reserva xq no puedo ir
+      - otro dia pa mi partido, porfa
+      - mi reserva, pa el domingo a las 7
+      - cambiar mi hora d la cancha, ahora
+      - adelantar la fecha d mi partido
+      - mueve el fulbito d mañana
+      - la reserba, pa el martes o miercoles
+      - q hago pa cambiar mi juego
+      - kisiera mover mi fulbito d hora
+      - cambio d dia mi pichanga
+      - cambia mi cancha de fulbito
+      - se puede adelantar mi pichanga
+      - pasar mi reserva pa otro dia
+      - mover mi booking
+      - q tal puedo cambiar mi horario
+      - necesito cambiar la fecha de mi pichanga
+      - mi reserva de la cancha q se mueva
+      - adelantar mi turno porfa
+      - atrasar mi fulbito pal sabado
+      - kiero reubicar mi reserva
+      - cambiar mi orario
+      - mi cancha de hoy la paso pa mañana
+      - se puede adelantar mi reserva pa la 7pm
+      - mover mi pichanga de villa el salvador
+      - reprogramar mi fulbito de la tarde
+      - q hago pa cambiar mi reserva
+      - necesito mover la reserba
+      - kiero cambiar mi cancha de las 8
+      - se puede pasar mi booking pal jueves
+      - oe kiero reprogramar mi cancha
+      - cambiar mi reserva de hoy pa la noche
+      - como muevo mi partido
+      - kiero adelantar mi fulbito
+      - pasar mi turno del dia
+      - se puede cambiar mi pichanga cerca mio
+      - mover la cancha pa las 9
+      - q hago pa re agendar
+      - necesito modificar mi reserva de fulbito
+      - kiero cambiar mi pichanga pal finde
+      - atrasar mi reserva a otra ora
+      - se puede pasar mi cancha de surco
+      - cambiar mi partido pa despues
+      - kiero mover mi reserva de las 6
+      - adelantar mi cancha aora
+      - q se puede hacer pa cambiar mi fecha
+      - necesito reprogramar mi turno de cancha
+      - mi reserva la cambio de dia
+      - se puede mover mi fulbito a las 10
+      - cambiar mi cancha de la molina
+      - kiero pasar mi pichanga pa otro dia y hora
+      - mover mi reserva de la tarde pa la noche
+      - q tal si cambio mi partido
+      - necesito reprogramar mi pichanga de san isidro
+      - mi booking lo cambio de ora
+      - se puede adelantar mi reserva pal miercoles
+      - cambiar mi cancha porfa
+      - kiero mover mi fulbito pa la semana q viene
+      - pasar mi turno de las 8 a las 9
+      - q hago pa ajustar mi reserva
+      - mi reserva la puedo pasar a otra fecha
+      - se puede atrasar mi partido de la cancha
+      - mover mi booking pal prox mes
+      - kiero modificar mi reserva de fulbito
+      - cambiar la ora de mi cancha
+      - se puede reprogramar mi reserva cerca de mi casa
+      - q tal puedo mover mi pichanga pa mañana
+      - necesito ajustar mi partido de la 7pm
+      - mi fulbito lo kiero pasar pa mas tarde
+      - se puede adelantar mi reserva pal finde semana
+      - cambiar mi cancha de villa maria
+      - kiero mover mi turno de las 5 a las 6
+      - pasar mi booking de la mañana pa la tarde
+      - q se hace pa reubicar mi pichanga
+      - necesito cambiar mi reserva de hoy a mañana
+      - mi fulbito lo cambio de dia
+      - se puede atrasar mi cancha de las 8pm
+      - mover mi partido de los olivos
+      - kiero modificar mi pichanga
+      - cambiar mi reserva de la cancha de miraflores
+      - se puede adelantar mi turno de fulbito
+      - q tal puedo reprogramar mi partido
+      - necesito mover mi reserva pa otra ora
+      - mi pichanga la paso pa otro dia
+      - se puede cambiar mi cancha de la noche
+      - kiero ajustar mi booking
+      - mover mi fulbito de la mañana
+      - cambiar mi reserva para la semana q entra
+      - q hago si kiero adelantar mi turno
+      - necesito reprogramar mi pichanga pal sabado
+      - mi cancha la muevo de ora
+      - se puede cambiar mi partido de fulbito por la tarde
+      - kiero atrasar mi reserva pa la noche
+      - pasar mi booking de las 8 a las 10
+      - q tal puedo modificar mi cancha
+      - necesito mover mi pichanga de san juan
+      - mi fulbito lo cambio pa la otra semana
+      - se puede adelantar mi reserva pal jueves
+      - cambiar mi turno de la tarde
+      - kiero reprogramar mi partido de pichanga
+      - mover mi cancha de las 7pm
+      - q hago pa cambiar mi fulbito
+      - necesito ajustar mi reserva de dia
+      - mi booking de la cancha lo cambio de fecha
+      - se puede atrasar mi pichanga de las 9pm
+      - kiero pasar mi fulbito pa un dia feriado
+      - cambiar mi reserva pa otro momento
+      - mover mi cancha de san borja
+      - q se hace pa reprogramar mi partido
+      - oe kiero cmbiar mi reserva
+      - puedo mover mi pichanga d hoy
+      - necesito posponer mi turno del martes
+      - cambiar fecha p mi partido
+      - muevela pa otro dia xfa
+      - q tal si adelanto mi reserva d las 7
+      - es posible cambiar mi hora alas 8pm
+      - kiero re agendar el fulbito d mañana
+      - mi reserva del jueves, puedo pasarla
+      - cambia mi booking pa la noche
+      - necsito ajustar mi reserva d cancha en surco
+      - puedo atrasar mi turno para mas tarde cerca mio
+      - dime si hay chance d mover la reserva d fulbito
+      - reprogramar mi cancha libre 8pm
+      - como hago pa cambiar mi partido d vill salvador
+      - cambia el hrario d mi pichanga
+      - quiero variar mi reserva del sabado
+      - se puede reubicar mi partido?
+      - necesito re kalendrizar mi cancha
+      - aplazr mi reserva d las 6
+      - mover mi turno xq no puedo
+      - mi pichanga kiero dspues
+      - cambia mi fecha d futbol
+      - reserba pa otro dia
+      - puedo mover mi booking q tengo hoy
+      - ajusta mi hrario d cancha d una vez
+      - kiero pasar mi reserva pa el lunes
+      - mi reserva d la cancha la puedo atrasar
+      - se puede adelantar mi partido
+      - cambiame la hora del fulbito
+      - la reserva d cancha, q si la cambio
+      - necesito re agendar mi juego para mañana
+      - mover mi pichanga, es posible?
+      - cmbiar mi reserva p la sgte semana
+      - kiero otro dia pa mi fulbito
+      - hay forma d ajustar la reserva del partido
+      - mi partido d hoy, puedo moverlo?
+      - reprogra mi cancha d las 5pm
+      - mover la fecha d mi reserba
+      - se puede posponer mi booking d mañana
+      - kiero cambiar mi hora d pichanga
+      - ajustar mi turno d cancha por fa
+      - necesito cambiar el dia d mi partido d futbol
+      - pasr mi reserva pa la noche
+      - puedo cambiar la hora d mi reserva d aca
+      - re agendar mi reserva d la cancha a las 9
+      - mi pichanga la adelanto?
+      - cambia el dia d mi fulbito por surco
+      - dime si hay forma d mover la cancha cerca mio
+      - kiero postrgar mi partido d la tarde
+      - reprograma mi cancha libre pa otro dia
+      - mover mi turno d vill salvador
+      - mi reserva puedo cmbiarla d hrario
+      - se puede adelantar mi juego d hoy
+      - necesito otro dia pa mi booking
+      - cambia mi partido para la noche
+      - la cancha d hoy, puedo cambiarla?
+      - kiero modificar la fecha d mi fulbito
+      - puedo pasar mi pichanga d las 8
+      - re agendame el turno d la tarde
+      - cambiar fecha y hora d mi reserba d futbol
+      - mover la hora d mi partido
+      - q si puedo adelantar mi cancha para ahora
+      - mi booking d hoy, lo cambio?
+      - necesito reubicar mi reserva d juego
+      - posponer mi pichanga para el fin d semana
+      - se puede variar mi turno d la noche
+      - cambia mi hrario d la cancha q ya tengo
+      - kiero pasar mi partido pa dspues
+      - dime si hay opcion d cambiar mi reserva d vill salvador
+      - reprograma mi juego d la mañana
+      - mover mi reserva para mas tarde por surco
+      - mi turno d cancha lo puedo ajustar
+      - necesito un nuevo hrario pa mi fulbito
+      - puedo cmbiar mi reserva del sabado alas 10
+      - re agendar mi pichanga pa el jueves
+      - cambiar mi hora d la cancha q esta cerca mio
+      - kiero mover mi reserva de aca a mi alrededor
+      - es posible reubicar mi partido d la tarde
+      - mi cancha libre 8pm, la puedo pasar?
+      - cambia mi reserva d vill salvador a la noche
+      - necesito adelantar mi booking para el lunes
+      - posponer mi turno d juego para dspues
+      - se puede cambiar el dia d mi pichanga xfa
+      - kiero modificar mi reserva d fulbito d hoy
+      - re agenda mi partido d la noche
+      - mover mi hrario d la cancha temprano
+      - cambiame la fecha d mi reserva xq no llego
+      - puedo cambiar la pichanga pa el otro mes
+      - necesito otro dia y hrario pa mi partido
+      - la reserva d mi cancha, puedo aplazarla?
+      - kiero adelantar mi turno para la mañana
+      - dime si hay chance d ajustar mi partido
+      - se puede mover mi reserva d las 7 a las 9
+      - mi fulbito lo puedo reprogramar mas tarde
+      - cambia mi reserva d cancha d hoy a mañana
+      - necesito re agendar mi juego en vill salvador
+      - puedo cambiar la hora d mi reserva cerca mio
+      - kiero adelantar mi cancha libre 8pm
+      - reprograma mi pichanga d surco pa la noche
+      - mueve la cancha ps
+      - cambia mi reserva
+      - se puede pasar?
+      - posponer la reserva
+      - cambiar la fecha?
+      - otra hora p el partido
+      - la cancha pa otro dia
+      - ncesito cambiar esto
+      - mover el fulbito
+      - reserva mas tarde
+      - la cancha mañana
+      - reprogramar mi booking
+      - ps, cambiar hora
+      - mi cancha otro dia
+      - mueve la reserva xfa
+      - q cambie la fecha
+      - pichanga mas temprano
+      - quiero cambiar mi booking
+      - se puede mover la cancha?
+      - adelantar mi turno pe
+      - pospone mi reserva xfa
+      - cambia la fecha del partido
+      - otra hora para mi pichanga
+      - la cancha pa mañana ps
+      - ncesito cambiar la hora
+      - mover el fulbito a la noche
+      - mi reserva mas tarde hoy
+      - la cancha el finde
+      - se puede adelantar la reserva?
+      - reprograma mi booking xq no llego
+      - cambiar la hora p el martes
+      - mi cancha pa otro dia, cerca mio
+      - mueve la reserva de la pichanga
+      - q cambie la fecha del partido hoy
+      - pichanga mas temprano por surco
+      - se puede ajustar mi reserva?
+      - reserva, se mueve?
+      - cambiar la fecha, es posible?
+      - ncesito mover la cancha
+      - ps, la pichanga se adelanta?
+      - quiero cambiar el horario del fulbito
+      - se puede poner mi reserva otro dia?
+      - la cancha d las 8, la puedo mover?
+      - reprograma mi turno, causa
+      - mueve mi reserva ala 7pm
+      - cambia la fecha del partido q tenemos
+      - el booking lo kiero pa mañana
+      - ps, mover el fulbito por vill salvador
+      - mi pichanga pa otro rato
+      - q cambien la hora de la cancha
+      - ncesito q muevan mi reserva ya
+      - se puede pasar mi cancha a las 9pm?
+      - cambia el dia del partido en surco
+      - mi reserva, la adelantas ps?
+      - posponer el fulbito, xfa
+      - la pichanga, pa otro dia y hora
+      - mover mi booking, a ver si se puede
+      - cambia mi turno de las 8, broder
+      - mi cancha, la pasas a mas tarde?
+      - reprograma la pichanga pa el domingo
+      - ncesito cambiar la reserva de fulbito
+      - se puede mover mi partido pa el jueves
+      - el alquiler de la cancha, pa otro dia
+      - quiero adelantar mi turno a las 6pm
+      - posponer mi reserva d la cancha
+      - cambia la hora de mi fulbito por surco
+      - la reserva q tengo, pa cuando se mueve?
+      - ncesito cambiar la fecha de la pichanga
+      - se puede pasar mi booking pa el lunes?
+      - mueve mi partido alas 8, cerca mio
+      - la cancha d hoy, la paso pa otro dia
+      - reprograma mi reserva para el miercoles
+      - quiero cambiar el dia d mi fulbito
+      - se puede adelantar la pichanga, causa?
+      - el booking lo quiero para 8pm
+      - cambia la hora d mi reserva, xfa
+      - mover mi partido aca a mi alrededor
+      - la pichanga, se puede mover p otra hora?
+      - cambia la cancha d las 7 a las 9
+      - ncesito adelantar el turno d fulbito
+      - quiero cambiar la reserva pa otro rato
+      - la cancha, la moves pa el viernes?
+      - reprograma mi fulbito, ps
+      - mover mi reserva p la proxima semana
+      - cambia la fecha del alquiler d cancha
+      - la pichanga d hoy, la pasas a mañana?
+      - ncesito reajustar mi turno d fulbito
+      - se puede cambiar el dia d la cancha?
+      - quiero mover mi reserva pa la noche
+      - el booking d las 6, lo corro a las 8?
+      - reprograma la pichanga alas 8pm
+      - cambia la fecha del partido en vill salvador
+      - mi reserva, la moves cerca mio?
+      - ncesito cambiar la hora d mi fulbito hoy
+      - se puede adelantar la cancha p las 5?
+      - cancha pa otro rato
+      - mi reserva q sea dspues
+      - se puede pa mañana
+      - el fulbito lo corro
+      - muevete mi cancha ps
+      - a q hora hay pa mi reserva
+      - reserva pa mas tarde
+      - mañana ta libre la cancha
+      - la pichanga la cambio d dia
+      - ayuda con mi booking, otro dia
+      - mi cancha d las 7 kiero 9pm
+      - puedo tener otro dia mi juego
+      - la reserva a q hora la paso
+      - mi hora d juego, hay pa cambiar
+      - cambio d fecha pal partido
+      - mi partido d hoy, hay pa otra fecha
+      - pa cuando la cancha q tengo
+      - mi reserva pa otro momento
+      - adelanta mi pichanga xfa
+      - tengo mi cancha, kiero otro dia
+      - q se mueva mi turno
+      - pa otro dia mi reserva d hoy
+      - mi reserva pa la semana q viene
+      - la cancha a q hora se pasa
+      - cambio d fecha del fulbito
+      - kiero cambiar la hora d mi cancha
+      - el fulbito d las 8, pa q dia
+      - muevelo pa el finde
+      - mi pichanga d hoy, la puedo poner otro dia
+      - cambio la hora d mi reserva d hoy
+      - pa otro momento mi cancha
+      - mi reserva la puedo mover a la noche
+      - el partido d las 9 lo quiero cambiar d fecha
+      - se puede el lunes en ves del martes
+      - mi cancha d las 8pm por surco, se puede mover
+      - reserva pa mañana, 8pm
+      - el partido pa otro dia xfa
+      - quiero q mi reserva se mueva
+      - la pichanga d hoy, q la muevas
+      - se puede cambiar mi reserva pa otro momento
+      - mi juego d fulbito, lo kiero otro dia
+      - cambia la fecha d mi reserva ps
+      - reservado pal martes, kiero el jueves
+      - cancha libre 8pm, puedo pasar mi reserva ahi
+      - mi booking d hoy, pa cuando lo paso
+      - reagendar mi fulbito, es posible
+      - mi hora d juego, la paso pa despues
+      - la reserva pa mas tarde, cerca mio
+      - se puede adelantar mi pichanga d la mañana
+      - cambio d dia y hora pa mi cancha
+      - el partido, a q hora lo muevo
+      - mi reserva en vill salvador, la cambio d dia
+      - la cancha pa la otra semana
+      - ajustar mi reserva d hoy
+      - tengo q cambiar mi reserva d las 6
+      - se puede mover la pichanga a las 9
+      - mi reserva d hoy, pa mañana ps
+      - cambio la cancha pa otro dia
+      - la reserva del fulbito, la adelanto
+      - mi reserva d las 7, a las 8pm
+      - otro dia pa mi pichanga, es posible
+      - mi reserva d la cancha, la cambio pa el miercoles
+      - puedo mover mi reserva pa aca a mi alrededor
+      - la fecha del partido, la quiero cambiar
+      - mi reserva del sabado, hay pa el domingo
+      - q se mueva la reserva d hoy
+      - mi cancha d las 7, a q hora la paso
+      - el booking, pa cuando lo muevo
+      - cambia el dia d mi fulbito
+      - reserva pa despues, 8pm
+      - tengo q cambiar la fecha d mi pichanga
+      - la cancha d hoy, la adelanto
+      - mi reserva, la puedo poner otro dia
+      - otro dia la reserva xfa
+      - puedo cambiar la hora d mi partido
+      - el partido d hoy, pa q dia
+      - mi reserva en el callao, la muevo
+      - se puede otro horario pa mi cancha
+      - mi pichanga d las 5, pa las 7
+      - cambia mi reserva pa el proximo mes
+      - reserva del fulbito, la quiero adelantar
+      - se puede mi cancha pa la otra semana
+      - q cambie la fecha d mi reserva
+      - mi booking lo paso pa despues
+      - otro dia mi partido d hoy
+      - la cancha d hoy, la pongo mas tarde
+      - mi reserva, la muevo pa el finde
+      - puedo cambiar el dia d mi reserva
+      - la pichanga d las 8, la paso a las 10
+      - reprogramar el fulbito, es posible
+      - mi cancha d hoy, q la muevan
+      - se puede adelantar mi reserva pa hoy mismo
+      - mi reserva d la cancha, la pongo en la noche
+      - el dia d mi partido, kiero cambiarlo
+      - cambia mi reserva pa la tarde ps
+      - la cancha d las 6, a q hora la cambio
+      - mi reserva del lunes, la paso pal miercoles
+      - mi pichanga pa otro momento
+      - tengo un partido, a q hora lo muevo
+      - la reserva d mi cancha, pa cuando la pongo
+      - mi juego, lo cambio d hora xfa
+      - la pichanga, a q hora libre hay
+      - mover mi reserva d hoy
+      - kiero cambiar mi partido pa otro dia
+      - mover mi reser
+      - cancha, cambia la hora
+      - la pichanga, pa otro dia pe
+      - adelanta mi turno ps
+      - qiero mover el partido
+      - la reser, atrasala
+      - se puede cambiar fecha
+      - mi juego, otra hora
+      - pasame la reserva
+      - cambia la cancha 8pm
+      - la reser, acomodala
+      - mi turno, pa otro momento
+      - hay pa cambiar la pichanga
+      - ajustar mi reserva
+      - cambiar el juego q tengo
+      - la hora de mi cancha, cambia
+      - mueve mi reser pa la noche
+      - la pichanga pa mañana
+      - qiero pasar el turno
+      - cambia la reser xfa
+      - otro horario pa mi fulbito
+      - muevelo pa mas tarde
+      - mi cancha, otro dia x surco
+      - la reser pa las 7pm
+      - se puede atrasar el partido
+      - cambio de hora de juego
+      - la fecha de mi cancha, cambia
+      - qiero mover mi pichanga ahi
+      - otro dia pa la canchita
+      - pasa mi fulbito mas tarde
+      - la reser, cmo la cambio
+      - mi turno, pa otro lado
+      - ajustar el horario pe
+      - se puede adelantar la cancha
+      - la pichanga, otro momento
+      - cambia el fulbito ps
+      - mi reserva, q la muevan
+      - puedo cambiar la fecha del partido
+      - atrasar mi turno de juego
+      - la cancha, pa otro dia en vill salvador
+      - mover el partido 8pm
+      - qiero ajustar la hora
+      - cambia mi booking pa otro dia
+      - la reser, cmo la muevo ps
+      - pa cambiar mi pichanga xfa
+      - mover la fecha q tengo
+      - adelanta la pichanga pa hoy
+      - mi cancha, otro horario
+      - la reser, pa mas tarde
+      - qiero correr el fulbito
+      - cambia el dia del juego
+      - mi reserva, pa otro dia x la tarde
+      - se puede ajustar el turno
+      - mover la cancha pa las 6
+      - la pichanga, cambiala
+      - cmo hago pa mover mi reser
+      - cambia el horario del partido
+      - qiero mover mi turno
+      - la reser, atrasala un poco
+      - mi cancha, pa la prox semana
+      - adelanta la cancha de fulbito
+      - hay pa otro dia la reser
+      - cambio de dia y hora pe
+      - muevelo pa despues ps
+      - la pichanga, pa otro sitio cerca mio
+      - qiero cambiar la hora de mi juego
+      - se puede pasar mi reserva
+      - atrasar mi fulbito
+      - ajusta la fecha de la cancha
+      - cambia mi reser a las 8
+      - mover mi partido pa mañana
+      - la cancha q tengo, cmo la muevo
+      - qiero adelantar la pichanga
+      - mi turno, pa otro dia ahi
+      - la reser, cambia de hora
+      - muevelo pa la otra semana
+      - hay pa cambiar mi fulbito
+      - la pichanga q tengo, cambiala
+      - se puede mover la fecha del juego
+      - qiero atrasar mi cancha
+      - ajustar el partido 8pm
+      - cambia la reser xfa broder
+      - mover mi turno pa el lunes
+      - la hora de mi pichanga, cambia
+      - qiero mover mi booking pa mas tarde
+      - se puede adelantar mi reser
+      - mi cancha, otro dia cerca mio
+      - la reser, pasala a la mañana
+      - cambia el juego pa el sabado
+      - hay forma de mover mi partido
+      - qiero atrasar la cancha
+      - ajusta mi pichanga pe
+      - mueve la reser pa despues
+      - la cancha, pa otro dia x vill salvador
+      - cambia la fecha de mi pichanga
+      - se puede cambiar mi partido
+      - adelanta mi fulbito
+      - la reser, pa otro momento
+      - qiero mover mi juego
+      - mi turno, cambialo
+      - atrasar la cancha alas 8
+      - ajusta la hora de mi pichanga
+      - cambia mi reserva al toque
+      - mover la reser pa el viernes
+      - la pichanga, cmo la muevo
+      - cambia mi reserva ps
+      - puedo mover mi cancha mas tarde
+      - kiero adelantar mi turno xfa
+      - nesecito cambiar el dia d mi pichanga
+      - la reserva d hoy qiero otro dia
+      - mi cancha dl jueves se puede cambiar?
+      - hora de mi reserva qiero q sea mas tarde
+      - cambiame la fecha d mi fulbito
+      - reprograma mi espacio en cancha
+      - mover la reserva para otro dia, dnd veo eso?
+      - mi reserva xq la puedo mover?
+      - puedo ajustar mi cancha, dime
+      - la pichanga d mañana qiero cambiarla
+      - como muevo mi reserva dl partido
+      - qiero pasar mi cancha pa otro momento
+      - nesecito otro horario pa mi reserva
+      - mi booking lo qiero modificar
+      - cancha, se puede cambiar fecha y hora?
+      - reprograma mi pichanga por la noche
+      - q hago pa cambiar mi turno
+      - mi reserva d fulbito, puedo moverla?
+      - cambia el dia dl fulbito, xfa
+      - nesecito cambiar el horario d mi cancha
+      - la reserva d mi pichanga, se mueve?
+      - qiero cambiar mi reserva pa mañana en la noche
+      - mi cancha, como la cambio d dia?
+      - cambiar mi pichanga pa alas 8pm
+      - la reserva, kiero otro dia y otra hora
+      - mueve mi cancha por surco, xfa
+      - nesecito otro turno pa mi fulbito
+      - mi reserva, pa cuando la puedo pasar?
+      - ajustar mi partido d fulbito
+      - reprograma mi cancha, aca a mi alrededor
+      - como cambio mi reserva d la cancha
+      - se puede adelantar el partido?
+      - mi reserva, la puedo pasar cerca mio?
+      - nesecito reprogramar mi reserva, urgente
+      - qiero mover el dia de mi reserva
+      - la cancha libre 8pm, la puedo mover?
+      - cambia mi pichanga, la de vill salvador
+      - qiero pasar mi reserva pa otro dia en la semana
+      - se puede cambiar mi reserva para el fin de semana?
+      - adelanta mi reserva pa la cancha de hoy
+      - como modifico mi reserva q ya hice
+      - nesecito cambiar el turno dl fulbito
+      - la reserva d la pichanga, se puede cambiar la hora?
+      - reubica mi reserva d la cancha, xfa
+      - qiero cambiar la fecha de mi alquiler d cancha
+      - se puede mover mi cancha pa un martes?
+      - mi reserva, kiero q sea mas temprano
+      - como hago pa mover mi reserva dl partido d la tarde
+      - nesecito otro dia pa mi reserva d la pichanga
+      - qiero cambiar mi cancha para la otra semana
+      - se puede atrasar la reserva dl sabado?
+      - mi pichanga d las 7pm, qiero otro horario
+      - cambia mi reserva d fulbito pa un feriado
+      - reprograma mi cancha de mañana, por la tarde
+      - como muevo mi reserva q tengo
+      - nesecito ajustar la hora d mi cancha, ahora
+      - qiero cambiar el dia d mi alquiler
+      - se puede reprogramar la cancha xq no puedo ir
+      - mi reserva, kiero cambiarla d fecha y hora
+      - adelantar mi turno d pichanga pa hoy
+      - como hago pa cambiar el dia d mi fulbito
+      - nesecito mover mi reserva pa otro momento
+      - qiero atrasar la cancha dl miercoles
+      - se puede cambiar mi reserva pa el lunes a alas 9pm
+      - mi partido, kiero cambiarlo d hora y dia
+      - reprograma mi reserva, si se puede
+      - como muevo mi reserva de la pichanga d la noche
+      - nesecito cambiar el horario d mi partido
+      - qiero pasar mi cancha pa mas tarde en la noche
+      - se puede adelantar mi reserva d fulbito
+      - mi reserva dl domingo, kiero cambiarla
+      - reagenda mi reserva pa un dia diferente
+      - como cambio mi reserva d pichanga pa la otra semana
+      - nesecito modificar mi reserva, urgente por surco
+      - qiero mover mi cancha d las 6pm a alas 9pm
+      - se puede cambiar mi partido pa otro dia y horario
+      - mi reserva, la puedo pasar para mañana temprano
+      - reprograma mi alquiler d cancha, cerca mio
+      - como le hago pa cambiar la fecha d mi pichanga
+      - nesecito adelantar mi reserva d la noche
+      - qiero cambiar mi reserva q tenia para la tarde
+      - se puede reubicar mi cancha dl sabado por la mañana
+      - mi booking d fulbito, kiero cambiarlo d hora
+      - reprograma mi reserva, la d aca a mi alrededor
+      - como muevo mi partido d alas 8pm
+      - nesecito cambiar el dia y hora d mi pichanga, xfa
+      - qiero pasar mi reserva pa despues d la fecha original
+      - se puede atrasar mi turno dl futbol, estoy en vill salvador
+      - mi reserva, kiero q sea otro dia diferente
+      - reprograma mi cancha libre alas 8pm
+      - como cambio mi reserva dl lunes pa el martes
+      - nesecito mover la hora d mi reserva d hoy
+      - qiero modificar mi pichanga pa mas tarde en el dia
+      - se puede cambiar mi reserva pa el otro mes
+      - mi reserva dl partido, kiero cambiarla d fecha
+      - reagenda mi cancha pa otro fin de semana
+      - como le hago pa posponer mi fulbito
+      - nesecito reubicar mi reserva d la mañana
+      - qiero cambiar mi reserva d alas 5pm pa mas noche
+      - se puede adelantar mi pichanga para antes
+      - mi reserva, kiero cambiarla y q sea cerca mio
+      - reprograma mi cancha de la noche pa la tarde
+      - como cambio mi booking dl sabado
+      - nesecito cambiar el turno dl domingo por la mañana
+      - qiero mover mi reserva pa un dia entre semana
+      - se puede ajustar mi partido dl jueves
+      - cambiar mi pichanga
+      - mueve la cancha xfa
+      - re agenda mi booking
+      - la reserva otro dia
+      - cambiar la hora d mi reserva
+      - mi cancha para despues
+      - quiero adelantar el turno
+      - kiero posponer la reserva
+      - cambia mi fecha nomaz
+      - otro horario ps
+      - mi reserba x la noxe
+      - se puede mover la cancha q tengo alas 8
+      - la pichanga la cambio pa mañana
+      - reprogramar el fulbito
+      - cambia el dia d mi partido
+      - mi turno lo muevo pal finde
+      - mi reserva d surco la muevo
+      - quiero otra hora para mi pichanga
+      - cambiar el horario d la cancha q reserve
+      - la reserva d las 7 la muevo
+      - reagendar mi fulbito
+      - kiero pasar mi cancha pal sabado
+      - mi partido lo kiero pa la tarde
+      - recojo mi cancha mas tarde
+      - la reserva la pongo pa otro dia ps
+      - qiero mover la fecha d mi cancha
+      - hay chance d otra hora d reserva
+      - cambiar mi booking d hoy x mañana
+      - quiero cambiar la cancha d la mañana
+      - adelantar la pichanga d hora
+      - pasar mi reserva pa la prox semana
+      - reajustar mi partido d vill salvador
+      - mi cancha la muevo d hora
+      - posponer mi reserva se puede?
+      - la reserva d la tarde la adelanto
+      - cambiar el dia d la cancha pa la noche
+      - reprogramar mi turno q tengo alas 6
+      - como hago pa cambiar mi pichanga d fecha
+      - mover la reserva del miercoles
+      - cambiar mi hora d juego xfa
+      - la reserva la kiero pa otro dia y hora
+      - adelantar mi booking x unas horas se puede?
+      - cambia el partido q tengo pa las 9pm
+      - mi cancha d hoy la muevo pa despues
+      - reagenda mi pichanga pa la otra semana
+      - qiero cambiar mi reserva d la cancha del domingo
+      - cambiar la fecha y hora d mi partido es posible?
+      - adelantar mi cancha d las 8 pa mas antes
+      - mover el fulbito del lunes
+      - cambiar mi reserva pa otro dia diferente
+      - la reserva d aca cerca mio la muevo
+      - hay chance d cambiar la hora d mi pichanga d las 5
+      - re agendar mi reserva broer
+      - qiero posponer mi cancha d la noche
+      - la reserva d hoy la paso pa otro dia
+      - mover mi partido q tengo alas 8pm
+      - cambiar el dia d mi cancha en surco
+      - puedo cambiar la hora d mi booking x la mañana
+      - adelantar mi reserva d las 3
+      - mi pichanga la kiero pasar pa otro momento
+      - reprogramar la fecha d mi fulbito
+      - mover mi cancha pa la prox semana es posible?
+      - cambiar la hora d mi reserva d aca
+      - qiero otra fecha pa mi partido
+      - la reserva del viernes la muevo pa el lunes
+      - hay opcion d posponer mi turno
+      - cambiar mi pichanga q tengo alas 9
+      - reagenda mi fulbito pal jueves
+      - puedo adelantar mi cancha libre 8pm
+      - mover mi booking d la noche pa la mañana
+      - cambiar mi fecha d reserva d aca a mi alrededor
+      - la reserva d vill salvador la kiero mover d dia
+      - hay chance d cambiar la hora d mi partido d fulbito
+      - kiero reprogramar mi cancha pa el martes
+      - pasar mi reserva pa un feriado se puede?
+      - mover la hora d mi pichanga d la tarde
+      - cambiar el dia d mi booking d mañana
+      - reagenda mi partido q tengo ala 10
+      - puedo adelantar mi turno d la cancha x unas horas
+      - qiero posponer mi reserva del sabado
+      - la reserva la cambio d fecha ps
+      - mover mi cancha d futbol pa otro dia
+      - cambiar el horario d mi fulbito d por surco
+      - hay alguna forma d adelantar mi pichanga
+      - re agendar mi booking d vill salvador
+      - qiero otra hora pa mi cancha d las 6pm
+      - la reserva la muevo pa la otra semana
+      - mover el partido q tengo pa la noche
+      - cambiar mi reserva q hice pa mas tarde
+      - puedo cambiar la pichanga d hoy
+      - adelantar mi booking d la tarde
+      - reprogramar mi turno d vill salvador
+      - mi cancha d las 5 la paso pa las 7
+      - qiero mover la fecha d mi reserva caushita
+      - se puede cambiar mi partido d los jueves
+      - oe, la reserva, se puede mover?
+      - kiero cambiar mi pichanga, ps
+      - el fulbito q tengo, se adelanta?
+      - mi booking d las 8pm, lo muevo?
+      - necesito kambiar la cancha, mano
+      - la reserva d hoy, la paso pa mañana?
+      - puedo adelantar mi turno d las 9?
+      - kiero mover la pichanga q tengo, causa
+      - la cancha d surco, se podra cambiar?
+      - ajusta mi reserva, xfa
+      - se puede atrasar el partido?
+      - mi alquiler, lo paso pa otra fecha?
+      - kiero reprogramar mi fulbito d la noche
+      - la reserva d las 7, la puedo poner alas 8?
+      - necesito reubicar la pichanga, urgente
+      - bro, cambia mi turno d juego
+      - el booking d vill salvador, lo muevo?
+      - se puede adelantar mi reserva d la cancha, ahora?
+      - mi pichanga, se cambia d dia?
+      - kiero pasar la cancha q ya tengo
+      - modifica la fecha d mi partido
+      - la reserva d breña, se puede cambiar?
+      - necesito mover el horario d mi fulbito
+      - mi turno, lo puedo poner pa otro momento?
+      - se puede reprogramar la pichanga d mañana?
+      - kiero adelantar mi reserva, q tal
+      - la cancha cerca mio, se puede mover d hora?
+      - necesito cambiar la reserva d las 5pm
+      - el booking, se podra pasar al fin d semana?
+      - kiero posponer mi fulbito, chevere?
+      - mi partido, lo puedo poner pa despues?
+      - se puede variar la hora d la cancha libre 8pm?
+      - necesito ajustar mi pichanga d la tarde
+      - kiero mover mi reserva, al toque
+      - la reserva, se puede poner otro dia?
+      - mi turno d fulbito, lo cambio d fecha?
+      - se puede adelantar el alquiler d la cancha?
+      - necesito reprogramar mi booking, xq no llego
+      - kiero kambiar la hora d mi pichanga, ps
+      - la cancha del lunes, se pasa pal miercoles?
+      - mi reserva, la puedo adelantar 2 horas?
+      - se puede modificar mi partido d las 7?
+      - necesito cambiar el dia d mi pichanga, causas
+      - kiero re agendar el fulbito d ayer
+      - la reserva d aca a mi alrededor, se puede mover?
+      - mi turno d la cancha, lo pongo mas tarde?
+      - se puede posponer mi booking para otro dia?
+      - necesito cambiar la fecha d mi alquiler
+      - kiero adelantar la reserva q tengo
+      - la pichanga d san juan, la puedo mover?
+      - se puede modificar mi hora d juego?
+      - necesito ajustar mi reserva d la cancha
+      - kiero mover mi fulbito, dime como
+      - el partido d las 9, lo paso pa otro dia?
+      - mi reserva d la tarde, se puede cambiar?
+      - se puede adelantar la pichanga d la noche?
+      - necesito cambiar el booking q tengo
+      - kiero reprogramar mi cancha, por favor
+      - la fecha d mi fulbito, la puedo variar?
+      - mi turno, se puede mover d hora y dia?
+      - se puede pasar mi reserva a la proxima semana?
+      - necesito cambiar el partido d las 6
+      - kiero adelantar mi turno d la cancha
+      - la pichanga d hoy, se podra posponer?
+      - mi alquiler d las 10, lo muevo?
+      - se puede reprogramar la reserva d la mañana?
+      - necesito ajustar mi fulbito d la noche
+      - kiero kambiar mi reserva pal martes
+      - la cancha, la puedo pasar pa las 9pm?
+      - mi booking d la tarde, se cambia a la mañana?
+      - se puede adelantar mi pichanga d la semana?
+      - necesito reubicar la fecha d mi partido
+      - kiero mover mi turno d las 8, rapido
+      - la reserva d la cancha, la puedo poner otro fin?
+      - se puede cambiar mi fulbito d la tarde?
+      - necesito modificar mi reserva q ya tengo
+      - kiero reprogramar el alquiler d hoy
+      - el partido d las 8, se puede mover pa otro dia?
+      - mi pichanga, se podra adelantar 3 horas?
+      - se puede cambiar mi booking pa el proximo mes?
+      - necesito ajustar la hora d mi cancha
+      - kiero pasar mi turno d fulbito, ya ps
+      - la reserva d la noche, se puede poner d dia?
+      - mi cancha, la puedo mover d fecha?
+      - se puede reprogramar mi partido d la tarde?
+      - necesito cambiar la pichanga d las 4pm
+      - kiero adelantar mi fulbito, causas
+      - la reserva, se puede posponer una semana?
+      - mi turno d juego, lo cambio pal jueves?
+      - se puede modificar mi booking d la cancha?
+      - necesito re agendar mi alquiler d mañana
+      - kiero mover la reserva d las 11
+      - la cancha, la puedo poner pa mas temprano?
+      - mi pichanga, se puede cambiar d horario?
+      - se puede reprogramar mi fulbito d los domingos?
+      - necesito adelantar el partido q tengo
+      - kiero cambiar la fecha d mi turno
+      - la reserva d las 6, la puedo pasar pa las 7?
+      - mi booking d la cancha, se adelanta?
+      - se puede mover la pichanga q ya tengo?
+      - necesito ajustar mi alquiler, bro
+      - kiero reprogramar mi partido d fulbito
+      - la cancha, se puede poner otro dia d la semana?
+      - mi fulbito, lo muevo pa mas tarde?
+      - se puede cambiar mi turno d las 3?
+      - necesito reubicar mi reserva d la noche
+      - kiero posponer la pichanga d la tarde
+      - la reserva d las 12, la puedo cambiar?
+      - mi partido, se adelanta al toque?
+      - se puede reprogramar el booking d hoy?
+      - kiero cambiar mi pichanga
+      - se puede cambiar mi hora
+      - cambia mi reserva al toq
+      - mi reserva del sabado cambiar
+      - mover mi partido del jueves
+      - q hago pa cambiar mi cancha
+      - posponer mi reserva, se puede?
+      - hay forma d mover mi turno
+      - cambiar la fecha de mi pichanga
+      - modificar mi booking de cancha
+      - mover mi reserva pa mas tarde
+      - kiero atrasar mi pichanga
+      - adelantar mi hora de juego
+      - mi reserva d cancha, como la cambio?
+      - se puede cambiar la hora d mi partido
+      - kiero cambiar mi reserva q tengo
+      - mover mi reserva al dia sigte
+      - reprogramar mi pichanga x surco
+      - cambiar mi reserva alas 8pm
+      - como muevo mi cancha en villa el salvador
+      - reagendar mi pichanga cerca mio
+      - necesito cambiar la hora d mi reserva aca
+      - la hora de mi pichanga, pa cambiarla
+      - kiero cambiar el turno pa jugar
+      - mi reserva de fulbito cambiar
+      - puedes mover mi cancha de las 7pm
+      - cambiar mi reserva pa el lunes
+      - se puede mover mi partido pal finde
+      - posponer mi pichanga un dia mas
+      - la reserva del martes, q tal si la movemos
+      - necesito cambiar mi hora de juego
+      - q hago pa reubicar mi reserva
+      - mi turno de juego, se puede adelantar?
+      - como hago pa pasar mi booking a otro dia
+      - mover mi cancha pa la proxima semana
+      - cambiar la hora de mi pichanga a 9pm
+      - se puede reprogramar mi reserva del sabado
+      - kiero variar la fecha de mi cancha
+      - mi reserva d hoy, la puedo cambiar de hora?
+      - como muevo mi pichanga pa mañana
+      - cambiar mi reserva x la noche
+      - puedo reprogramar mi juego d fut?
+      - la reserva q tengo, pa cuando la puedo pasar
+      - hay chance de cambiar mi partido?
+      - kiero modificar mi cancha cerca de mi casa
+      - se puede mover mi reserva pal callao?
+      - reprogramar mi pichanga pa 8pm
+      - reprogramar mi turno de cancha
+      - como cambio mi reserva de hora
+      - la reserva del jueves, la puedo mover?
+      - adelantar mi pichanga, es posible?
+      - cambiar mi booking pa el otro sabado
+      - quiero pasar mi partido para otro momento
+      - q puedo hacer pa mover mi reserva
+      - necesito reprogramar la cancha q alquile
+      - mi reserva, se puede posponerla?
+      - mover la fecha de mi pichanga pa el 20
+      - hay forma de adelantar mi partido
+      - kiero modificar mi cancha pa la otra semana
+      - la reserva d la cancha, la puedo mover un dia?
+      - quiero reajustar mi turno de juego, como hago?
+      - se puede cambiar mi reserva pa el centro d lima?
+      - mi cancha de las 6, la puedo cambiar pa 8?
+      - necesito reubicar mi partido de fut
+      - como reprogramo mi pichanga d hoy
+      - la reserva de la tarde, la puedo mover a la mañana?
+      - cambiar mi cancha para un dia distinto, es posible?
+      - kiero posponer mi reserva pa fin de mes
+      - como reajusto mi fecha de pichanga?
+      - hay opción de adelantar mi reserva para hoy?
+      - mi reserva d fulbito la puedo atrasar?
+      - necesito variar el dia de mi cancha
+      - puedo mover mi reserva del miercoles?
+      - q tal si movemos mi pichanga?
+      - cambiar mi reserva x una mas tarde
+      - la hora del partido, se puede adelantar?
+      - kiero cambiar mi pichanga cerca a mi chamba
+      - re agendar mi reserva de cancha, xfa
+      - mi booking de las 8, lo puedo cambiar?
+      - necesito cambiar mi pichanga en chorrillos
+      - como le hago pa mover mi reserva del finde
+      - la fecha d mi reserva, la puedo modificar?
+      - hay alguna forma de cambiar mi partido d futbol?
+      - kiero reubicar mi cancha para la otra semana
+      - se puede posponer mi reserva del Lunes
+      - mover mi cancha q tengo para otro horario
+      - la reserva de ayer, la puedo reprogramar?
+      - cambiar mi pichanga x la mañana
+      - necesito reagendar mi reserva d la cancha del Rimac
+      - como mover mi reserva al toke
+      - puedo cambiar mi fulbito d hora?
+      - kiero pasar mi reserva pa el proximo mes
+      - hay forma d reajustar la hora de mi cancha?
+      - cambiar mi reserva pa miraflores
+      - mueve la cancha
+      - re agenda ps
+      - otro dia mi pichanga
+      - se puede cambiar mi fecha
+      - mas tarde la cancha
+      - adelantar mi reserva
+      - pospone mi booking
+      - q hago pa cambiar la hora
+      - mi reserva, otra fecha
+      - reubica la cancha de hoy
+      - cambia mi hora de fulbito
+      - kiero mover mi pichanga d surco
+      - reserva pal otro dia
+      - ajusta mi turno pe
+      - oe, mover la hora de mi cancha
+      - re agenda la 8pm
+      - cancha d las 7, otro dia?
+      - mi reserva del miercoles, pa cuando?
+      - la cancha de vill el salvador, la cambio?
+      - reprogramar mi pichanga de surco
+      - mi reserva de mañana, la pasas a la noche?
+      - cambia el dia de mi reserva
+      - quiero mover mi partido
+      - se puede posponer mi pichanga?
+      - mi cancha del sabado, la muevo?
+      - kiero re agenda el fulbito
+      - mueve mi booking pa la tarde
+      - posponer la cancha de las 6
+      - adelanta mi pichanga porfa
+      - reubicar mi turno de las 8
+      - se puede otra fecha pa mi partido?
+      - mi reserva, cambia la hora
+      - quiero otro dia mi pichanga
+      - mover mi reserva ya
+      - como cambio la fecha d mi cancha
+      - re agenda mi fulbito de miraflores
+      - cambia mi booking a la noche
+      - mi reserva d las 9, puedo moverla?
+      - otro dia pa jugar, se puede?
+      - necesito cambiar la cancha
+      - reprogramar mi reserva del lunes
+      - mover mi fulbito de hoy
+      - la pichanga, pa cuando la paso
+      - cambia mi turno de juego
+      - puedo mover mi reserva por aca?
+      - re agendame la cancha de san isidro
+      - la reserva del jueves, se puede adelantar?
+      - otro horario pa mi pichanga de 5pm
+      - kiero cambiar mi reserva de los olivos
+      - mueve mi cancha pal otro finde
+      - posponer mi partido de la mañana
+      - cambiar mi reserva de la cancha libre 8pm
+      - q hago pa mover la pichanga de mi alrededor
+      - mi booking, quiero otra hora
+      - reubica la reserva del martes
+      - cambia mi hora d fulbito de villa maria
+      - kiero mover mi pichanga pa mañana
+      - reserva pal proximo mes
+      - ajusta mi turno a las 7
+      - oe, mover la cancha pal viernes
+      - re agenda la 4pm d mi reserva
+      - cancha d las 9, puedo cambiarla de dia?
+      - mi reserva del viernes, pa la otra semana?
+      - puedo cambiar mi pichanga por san juan?
+      - la cancha de chorrillos, la muevo de fecha?
+      - reprogramar mi fulbito en comas
+      - mi reserva de hoy, la pasas a pasado?
+      - cambia el dia de mi fulbito
+      - quiero mover mi pichanga pa mas tarde
+      - se puede posponer la reserva?
+      - mi cancha del domingo, la cambio?
+      - otro horario pa mi partido de las 8
+      - necesito cambiar mi reserva en la noche
+      - kiero re agenda mi pichanga de villa el salvador
+      - mueve mi booking a la tarde del sabado
+      - posponer la cancha de las 7pm
+      - cambiar mi reserva de futbol
+      - adelanta mi pichanga de las 6pm
+      - reubicar mi turno del medio dia
+      - se puede otra fecha pa la cancha libre 8pm?
+      - mi reserva, cambia el dia
+      - quiero otro dia mi fulbito
+      - mover mi reserva de la mañana
+      - como cambio la fecha de mi pichanga
+      - re agenda mi cancha de callao
+      - q hago si kiero cambiar mi booking
+      - cambia mi reserva a la mañana
+      - mi pichanga d las 5, puedo moverla a otra hora?
+      - otro dia pa jugar mi partido, se puede?
+      - necesito cambiar mi partido
+      - reprogramar mi reserva de los domingos
+      - mover mi fulbito de este viernes
+      - la pichanga d hoy, la paso pa otro dia?
+      - puedo cambiar la pichanga pa mañana?
+      - se puede adelantar mi turno de cancha?
+      - mi reserva, la puedo posponer?
+      - re agenda mi reserva de las 10
+      - cambia mi fecha de la pichanga
+      - kiero repro mi cancha
+      - se puede mober la reserva
+      - cambia mi pichanga ps
+      - adelanta mi booking
+      - posponer la reserba
+      - cambio d hora d cancha
+      - mober el partido d hoy
+      - kiero repro mi fulbito
+      - la reserva puedo cambiarla
+      - pasar mi cancha pa otro dia
+      - cambiar fecha d mi reserva
+      - repro mi hora d pichanga
+      - mi booking lo puedo ajustar
+      - adelantar mi juego pe
+      - posponer mi cancha d noche
+      - hay chance d mober mi reserva
+      - se puede cambiar el turno?
+      - kiero un cambio d fecha
+      - mover mi reserva p mañana
+      - la cancha d las 7 cambiarla
+      - repro mi partido d la tarde
+      - como cambio mi hora d juego
+      - nesecito mober mi cancha
+      - cambia el dia d mi pichanga
+      - se puede adelantar mi reserva d la kancha
+      - posponer mi juego d fulbito
+      - kiero mober la cancha pa otro dia
+      - ajustar mi reserva d las 8pm
+      - cambio d horario d mi pichanga d hoy
+      - repro mi reserva d la mañana
+      - se puede pasar mi cancha al sabado
+      - nesecito mober mi partido d la noche
+      - kiero cambiar la hora d mi cancha d hoy
+      - mi booking d futbol, moberlo
+      - adelanta mi reserva, causa
+      - posponer la pichanga, q hago?
+      - se puede mober la fecha d mi partido
+      - cambio d dia pa la cancha
+      - kiero repro mi turno d las 5
+      - la reserba puedo moberla pal domg
+      - nesecito cambiar mi hora d la pichanga por surco
+      - repro mi cancha cerca mio
+      - mober el partido aca a mi alrededor
+      - se puede cambiar mi cancha pa la noche
+      - kiero mober la pichanga d las 8pm
+      - repro la reserva d vill salvador
+      - cambia mi fulbito d hoy pa mañana tarde
+      - adelantar mi hora d juego, se podra?
+      - nesecito un cambio d reserva d cancha libre 8pm
+      - se puede repro mi pichanga d barranco
+      - kiero mober mi booking d la victoria
+      - cambio d hora d cancha en sjl
+      - repro mi reserva d las 6pm
+      - pasar la cancha d miraflores
+      - nesecito mober la reserva pa la noche
+      - se puede cambiar el partido d ayer?
+      - kiero repro mi pichanga d la molina
+      - mober la cancha d centro lima
+      - adelanta mi reserva d magdalena
+      - posponer la pichanga d independencia
+      - nesecito cambiar la hora d mi reserva d hoy
+      - se puede repro mi cancha d smp
+      - kiero mober la reserva d callao
+      - cambio d fecha d partido en los olivos
+      - repro mi cancha en san borja
+      - pasar la reserva d comas
+      - nesecito mober mi fulbito en ate
+      - se puede cambiar el dia d mi pichanga en chorrillos
+      - kiero repro mi turno d surco
+      - mober la cancha d ventanilla
+      - adelanta mi reserva en lince
+      - posponer mi juego en jesus maria
+      - nesecito un cambio d cancha en pueblo libre
+      - se puede repro mi partido en breña
+      - kiero mober mi booking en la perla
+      - cambio d hora d pichanga en carabayllo
+      - repro mi reserva en puente piedra
+      - pasar la cancha en rimac
+      - nesecito mober el fulbito en ancon
+      - se puede cambiar el dia d mi reserva en pta hermosa
+      - kiero repro mi turno en cieneguilla
+      - mober la cancha en lurigancho
+      - adelanta mi reserva en pachacamac
+      - posponer mi juego en san bartolo
+      - nesecito un cambio d cancha en pta negra
+      - se puede repro mi partido en santa rosa
+      - kiero mober mi booking en mi peru
+      - cambio d fecha d pichanga en la punta
+      - repro mi reserva en bellavista
+      - pasar la cancha en el agustino
+      - nesecito mober el fulbito en san luis
+      - se puede cambiar el dia d mi reserva en santiago d surco
+      - kiero repro mi turno en san miguel
+      - mober la cancha en miraflores cerca mio
+      - adelanta mi reserva para el dia sigte
+      - posponer mi juego alas 9pm
+      - nesecito un cambio d cancha para mañana
+      - se puede repro mi pichanga pa mas tarde
+      - oe kiero cambiar mi reserba
+      - mover la pichanga d hoy
+      - mi cancha 8pm se puede cambiar?
+      - cambiar fecha dl partio
+      - reagendar mi fulbito d surco
+      - posponer la reserva xfa
+      - la reserba d ayer la muevo?
+      - cambia mi turno dl sabado
+      - mi booking d las 7pm pa cuando
+      - kiero adelantar mi cancha d aca
+      - como ago pa cambiar mi pichanga
+      - la reserva d vill salvador la reubico
+      - mi partio d mañana se corre?
+      - cambiar mi horario dl alquiler
+      - reprograma mi cancha libre 8pm
+      - la reserva d las 9 q la muevo
+      - mi fulbito d hoy lo cambio
+      - kiero pasar mi reserva pa la noche
+      - se puede posponer mi pichanga dl martes
+      - la cancha d 6pm la cambio
+      - mover mi reserva x surco
+      - q hago pa cambiar la fecha d mi partio
+      - reagendar la reserva dl juves
+      - mi turno dl miercoles lo muevo xfa
+      - se puede adelantar mi booking
+      - cambiar mi hora d la cancha d las 5
+      - posponer la pichanga d aca cerca
+      - la reserva la quiero mover pa despues
+      - mi partido d fulbito lo cambio d dia
+      - reprograma mi reserva dl fin de
+      - la cancha d mañana 8pm la cambio
+      - mover mi turno d las 4pm
+      - como se cambia mi reserva
+      - adelantar mi pichanga d vill salvador
+      - mi fulbito d tarde lo muevo
+      - cambiar mi reserva pa la proxima semana
+      - la reserva d las 10am la puedo mover
+      - posponer la cancha d hoy en surco
+      - kiero cambiar la fecha dl booking
+      - mi partido d 8pm lo reagendo
+      - se puede mover mi reserba d la noche
+      - cambiar mi pichanga dl domingo
+      - la reserva q tengo la muevo d hora
+      - adelantar mi turno d fulbito xfa
+      - reprograma mi partido cerca mio
+      - mi cancha d mañana la cambio
+      - posponer mi reserva d aca
+      - como hago pa cambiar la hora d mi pichanga
+      - mi booking d 7pm pa q dia
+      - cambiar mi reserva d las 11am
+      - reagendar mi cancha dl lunes
+      - mover mi partido d futbol d surco
+      - la pichanga d hoy la muevo ala tarde
+      - adelantar mi reserba d vill salvador
+      - mi fulbito 9pm lo cambio
+      - q se aga para posponer la reserva
+      - cambiar la hora d mi cancha libre
+      - la reserva d aca a mi alrededor la muevo
+      - reprograma mi pichanga d mañana
+      - mover mi turno d la mañana
+      - mi reserva d las 3pm la cambio d dia
+      - se puede reagendar mi fulbito d fin d semana
+      - cambiar el partio dl domigo
+      - kiero mover mi cancha d hoy 8pm
+      - posponer mi booking cerca mio
+      - la reserva d las 6 la kiero cambiar
+      - adelantar mi pichanga d la tarde
+      - mi reserba d surco la muevo d hora
+      - cambiar mi fulbito d mañana ala noche
+      - reagendar la fecha d mi partido
+      - mover mi cancha d vill salvador xfa
+      - la pichanga d las 8pm la cambio
+      - como muevo mi reserva dl alquiler
+      - adelantar mi turno d las 7pm
+      - posponer mi reserba d fulbito
+      - cambiar mi cancha d aca alado
+      - mi booking d hoy lo reprogramo
+      - se puede mover el partido dl sabado
+      - la reserva d las 2pm la cambio
+      - reagendar mi pichanga d la semana
+      - kiero adelantar mi reserva d la cancha
+      - mover mi fulbito d hoy cerca mio
+      - posponer mi turno d las 9
+      - cambiar la reserba d vill salvador
+      - mi cancha libre la reprogramo
+      - como cambio la reserva d surco
+      - la pichanga d las 10 la muevo
+      - adelantar mi partido xfa
+      - mi reserva d 5pm la cambio d hora
+      - cambiar el fulbito dl miercoles
+      - la reserba d aca la reagendo
+      - mover mi cancha 8pm en surco
+      - q hago pa cambiar la pichanga d la noche
+      - mi turno dl partido lo muevo
+      - adelantar mi reserva d las 4pm
+      - posponer la cancha d vill salvador
+      - cambiar mi booking d hoy x la tarde
+      - la reserva dl viernes la reprogramo
+      - se puede mover mi fulbito cerca d mi casa
+      - mi pichanga d las 7 la cambio d dia
+      - como reagendo mi reserva
+      - kiero cambiar mi turno d la cancha
+      - mover el partido dl sabado a otra hora
+      - la reserva d las 8pm la pospongo
+      - adelantar mi reserba dl domingo
+      - cambia mi booking d las 9am pa mas tarde
+      - mover la cancha
+      - kiero reprogramar
+      - posponer el partido
+      - cambio d hora
+      - mover la pichanga se puede?
+      - nesecito cambiar fecha
+      - la cancha d fulbito kambia
+      - mover el booking
+      - y la reserva, se puede mover?
+      - posponer mi partido
+      - adelanta mi cancha
+      - pa cambiar la reserva
+      - mover la de las 8
+      - la pichanga d mañana
+      - reprogramar la cancha
+      - quiero cambiarla
+      - kiero adelantarla
+      - pospone mi turno
+      - la reserba, se puede mover p surco
+      - kambio reserba q hago
+      - tengo q mover la cancha alas 9
+      - kiero kambiar mi fecha
+      - pospone mi partido de las 7
+      - se puede adelantar mi reserva en villa el salvador?
+      - kambio d orario d mi pichanga
+      - la reserba d la cancha
+      - nesecito reajustar el partido
+      - puedo mover el juego
+      - cambiar la cancha d 8pm
+      - q tal si la movemos
+      - cambiar mi turno hay modo?
+      - mi reserba d futbo pa q dia
+      - reubica mi partido
+      - aplazala cancha
+      - la reserba d las 6 en santiago
+      - mover mi booking para mas tarde
+      - kiero kambiar el dia
+      - reprograma mi fulbito porfa
+      - se puede posponer el juego
+      - adelantar mi turno cerca mio
+      - reajustar mi pichanga d mañana
+      - la cancha d las 9, moverla
+      - nesesito mover mi reserva pa la molina
+      - q se mueva la cancha
+      - el partido d las 5, cambiar
+      - kiero otro dia pa mi reserva
+      - tengo q cambiar la cancha de caña libre 8pm
+      - y la reserva, q la muevan
+      - se puede adelantar la pichanga
+      - mi dia d juego cambialo
+      - el turno d las 10, mover
+      - nesecito kambiar mi fulbito
+      - posponer mi cancha en ate
+      - kiero reubicar mi partido d surco
+      - mi fecha d juego cambiar
+      - la reserba para el domingo
+      - mover mi hora de pichanga en vill salvador
+      - q tal si movemos el partido
+      - hay forma de adelantar mi turno de 8pm
+      - mi reserba d mañana, q la kambiemos
+      - reprograma la pichanga del miercoles
+      - qiero kambiar el turno d 7 a 9
+      - kambiar reserba cancha xfa
+      - nesesito reajustar mi fulbito
+      - q se mueva el turno de 10pm
+      - el partido en el callao, cambiarlo
+      - kiero otro orario para mi pichanga
+      - tengo q mover el booking d hoy
+      - y la reserva, se puede para el viernes
+      - cambia mi fecha d la cancha
+      - el turno d las 6 en comas, mover
+      - nesecito kambiar mi juego
+      - posponer mi reserva de las 8
+      - adelanta mi pichanga d hoy
+      - kiero reubicar el partido
+      - cambiar mi fulbito pa otro dia
+      - la reserba cerca mio, se puede mover
+      - mover mi hora d la cancha
+      - q tal si cambiamos la pichanga d las 9
+      - posponer reserba, se podra?
+      - mi reserba d la mañana, q la adelanten
+      - reprograma el juego porfa
+      - puedo cambiar mi fulbito d 7pm
+      - cambiar mi cancha para manana
+      - nesesito reajustar mi partido d las 8pm
+      - q se mueva la reserva de vill salvador
+      - el turno d las 5, quiero cambiarlo
+      - kiero otro dia pa mi pichanga en surco
+      - tengo q mover la cancha d hoy
+      - se puede adelantar mi reserva d la noche
+      - cambia mi fecha d juego en ate
+      - kiero kambiar la ora
+      - mi cancha pa otro dia
+      - la reserv q tengo, se puede mover?
+      - reprogramarr la de mañana
+      - cambia mi fulbito, pls
+      - adelanta mi partido
+      - posponer el turno
+      - ajustar mi booking
+      - otra ora pa mi pichanga
+      - reservar otro dia la q tengo
+      - kambiar mi reserv xfa
+      - mueve la hora dela cancha
+      - reprogramar mi reserba de hoy
+      - qiero mover mi reservación
+      - puedo mover mi reserva para despues?
+      - reprogramarr mi pichanga ya
+      - q kambiar mi ora
+      - la reserv, la muevo o no?
+      - necesito cambiar el dia de mi cancha
+      - xfa, reprograma mi booking
+      - mover mi reserva de la noche
+      - cambiar la hora de mi partido
+      - mi reserva, la puedo aplazar?
+      - q tal si muevo mi reserva?
+      - reprogramar la fecha, es posible?
+      - mover mi cancha, q tal?
+      - kiero kambiar mi turno
+      - cambia mi reserv para la tarde
+      - adelanta mi reserva del sabado
+      - posponela pichanga q tengo
+      - ajustar mi reservacion de la cancha
+      - pasar mi fulbito pal otro dia
+      - reprogramar mi turno de las 8pm
+      - kambiar mi reserva q tengo ahorita
+      - mover mi booking de mañana
+      - la reserva se puede cambiar?
+      - cambia mi hora de la pichanga
+      - adelantar mi reserva de juego
+      - q puedo hacer para mover mi cancha?
+      - reprogramarr la del jueves xfa
+      - cambiar mi reservacion pal lunes
+      - mover mi turno de la tarde
+      - mi reserv, la puedo ajustar?
+      - quiero mover la reserva que hice
+      - cambiar mi cancha de mañana
+      - ajusta mi booking para otro dia
+      - pasar mi reserva para la proxima
+      - reprogramar mi fulbito de las 7
+      - kambiar mi reserv x la mañana
+      - mover mi cancha por la noche
+      - la reserva la muevo pa las 9?
+      - cambiar la hora de mi turno
+      - adelanta mi reserva del miercoles
+      - posponela reservacion de hoy
+      - ajustar mi partido para despues
+      - pasar mi pichanga pal viernes
+      - reprogramar mi booking pa mañana
+      - kambiar mi reserva ya mismo
+      - mover mi cancha para la tarde
+      - la reserva la kiero cambiar
+      - cambiar mi hora de la cancha
+      - q onda, puedo reprogramar?
+      - reprogramarr la de la noche
+      - cambiar mi reservacion x la tarde
+      - mover mi fulbito de la semana
+      - mi reserv, la puedo adelantar?
+      - cambiar la fecha de mi partido
+      - reprogramar mi pichanga en surco
+      - kiero kambiar mi reserv aca cerca
+      - mover mi cancha alas 8
+      - la reserv del vill salvador se puede mover?
+      - cambiar mi hora d la reserv
+      - reprogramar mi reserva de las 10
+      - kiero mover la canchita, q hago?
+      - cambiar mi turno de juego, pe
+      - posponer mi reserva, bro

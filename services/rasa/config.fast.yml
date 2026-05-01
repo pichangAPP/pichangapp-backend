@@ -1,72 +1,36 @@
 version: "3.1"
 
 recipe: default.v1
-
 language: es
 
-# ===============================================
-# PIPELINE - Procesamiento de Lenguaje Natural
-# ===============================================
 pipeline:
-  # Tokenización básica para español
   - name: WhitespaceTokenizer
-
-  # Características de expresiones regulares (tiempo, fechas, etc.)
   - name: RegexFeaturizer
-
-  # Características léxicas y sintácticas (incluye lookup tables)
   - name: LexicalSyntacticFeaturizer
-
-  # Vectorización de palabras completas
   - name: CountVectorsFeaturizer
     analyzer: word
     min_ngram: 1
-    max_ngram: 3
-
-  # Vectorización de caracteres (útil para errores de tipeo)
+    max_ngram: 2
   - name: CountVectorsFeaturizer
     analyzer: char_wb
-    min_ngram: 1
+    min_ngram: 2
     max_ngram: 4
-
-  # Clasificador principal DIET (Dual Intent Entity Transformer)
-  # Es el corazón del NLU - clasifica intenciones y extrae entidades
   - name: DIETClassifier
-    epochs: 300 # Incrementar si tienes más datos
+    epochs: 120
     constrain_similarities: true
     model_confidence: softmax
     entity_recognition: true
-
-    # Arquitectura del modelo
     embedding_dimension: 64
-    transformer_size: 512
-
-    # Dropout para prevenir overfitting
+    transformer_size: 256
     drop_rate: 0.2
     drop_rate_attention: 0.2
-
-    # Usar masked language model para mejor comprensión contextual
-    use_masked_language_model: true
-
-    # Balanceo de clases si tienes intenciones desbalanceadas
-    # batch_strategy: "balanced"
-
-    # Learning rate
+    use_masked_language_model: false
     learning_rate: 0.001
-
-  # Mapeo de sinónimos a valores canónicos
   - name: EntitySynonymMapper
-
-  # Response Selector para responder FAQs directamente
   - name: ResponseSelector
-    epochs: 100
+    epochs: 50
     retrieval_intent: faq
     constrain_similarities: true
-
-  # Reranker determinístico: promueve intents cuando el mensaje contiene
-  # keywords pivote (reservaciones, ingresos, ocupación, etc.) y DIET
-  # está dudoso. Se ejecuta ANTES del FallbackClassifier para que el
-  # intent correcto llegue al top con confidence >= threshold.
   - name: components.keyword_reranker.KeywordIntentReranker
     max_gap: 0.25
     min_top_confidence: 0.9
@@ -117,50 +81,26 @@ pipeline:
         intent: ask_pricing_info
       - pattern: "\\b(no entendi|no entiendo|que hago|ayuda|como funciona|explicame)\\b"
         intent: help
-
-  # Clasificador de fallback para baja confianza
   - name: FallbackClassifier
-    threshold: 0.6 # Confianza mínima para aceptar predicción
-    ambiguity_threshold: 0.1 # Diferencia mínima entre top 2 intenciones
+    threshold: 0.6
+    ambiguity_threshold: 0.1
 
-# ===============================================
-# POLICIES - Predicción de siguiente acción
-# ===============================================
 policies:
-  # Memorización de patrones exactos (muy útil para reglas)
   - name: MemoizationPolicy
-    max_history: 5 # Cuántos turnos recordar
-
-  # Política basada en reglas (determinística)
+    max_history: 5
   - name: RulePolicy
     core_fallback_threshold: 0.4
     core_fallback_action_name: "action_default_fallback"
     enable_fallback_prediction: true
-    restrict_rules: true # Las reglas solo se aplican cuando coinciden exactamente
-
-  # TED Policy - Transformer Embedding Dialogue
-  # La política más potente para conversaciones complejas
+    restrict_rules: true
   - name: TEDPolicy
     max_history: 5
-    epochs: 300
+    epochs: 120
     constrain_similarities: true
     model_confidence: softmax
-
-    # Arquitectura del transformer (se usan los valores por defecto para los tamaños)
     embedding_dimension: 64
-
-    # Regularización
     drop_rate: 0.2
     drop_rate_attention: 0.2
-
-    # Learning rate
     learning_rate: 0.001
 
-    # Prevenir predicciones de loops infinitos
-    # use_max_loop_count: true
-    # max_loop_count: 3
-
-# ===============================================
-# CONFIGURACIONES ADICIONALES
-# ===============================================
 assistant_id: chato-bot

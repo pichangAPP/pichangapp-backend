@@ -186,3 +186,53 @@ stories:
           - user_role: "admin"
       - intent: request_field_recommendation
       - action: utter_player_only_flow
+
+  - story: jugador envia datos sueltos y el bot retoma recomendacion
+    steps:
+      - slot_was_set:
+          - user_role: "player"
+      - intent: inform
+        entities:
+          - location: "Surco"
+          - time: "20:00"
+      - action: action_log_field_recommendation_request
+      - action: field_recommendation_form
+      - active_loop: field_recommendation_form
+
+  - story: admin encadena top clientes y luego reservas totales
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_top_clients
+      - action: action_route_admin_request
+      - action: action_provide_admin_campus_top_clients
+      - intent: request_admin_reservations_overview
+      - action: action_route_admin_request
+      - action: action_provide_admin_metrics
+
+  - story: admin consulta horarios pico y reservas por estado
+    steps:
+      - slot_was_set:
+          - user_role: "admin"
+      - intent: request_admin_metrics
+        entities:
+          - metric_type: "horarios pico"
+          - location: "Campus Surco"
+          - metric_period: "esta semana"
+      - action: action_route_admin_request
+      - action: action_provide_admin_metrics
+      - intent: request_admin_metrics
+        entities:
+          - metric_type: "reservas"
+          - reservation_status: "en curso"
+          - field_name: "cancha 1"
+      - action: action_route_admin_request
+      - action: action_provide_admin_metrics
+
+  - story: usuario pregunta identidad y funciones
+    steps:
+      - intent: ask_bot_identity
+      - action: utter_bot_identity
+      - intent: help
+      - action: action_ensure_user_role
+      - action: utter_what_can_you_do

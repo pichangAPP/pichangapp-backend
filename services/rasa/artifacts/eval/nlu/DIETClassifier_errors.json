@@ -1,0 +1,7204 @@
+[
+  {
+    "text": "buen sábado",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 5,
+        "end": 11,
+        "confidence_entity": 0.6254714727401733,
+        "value": "sábado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "con piso de madera",
+    "entities": [
+      {
+        "start": 12,
+        "end": 18,
+        "value": "madera",
+        "entity": "surface"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "surface",
+        "start": 4,
+        "end": 11,
+        "confidence_entity": 0.5770848393440247,
+        "value": "piso de",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "surface",
+        "start": 12,
+        "end": 18,
+        "confidence_entity": 0.9574965238571167,
+        "value": "madera",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pádel este sábado",
+    "entities": [
+      {
+        "start": 0,
+        "end": 5,
+        "value": "pádel",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.9999537467956543,
+        "value": "padel",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 6,
+        "end": 17,
+        "confidence_entity": 0.65,
+        "value": "este sábado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "necesito fulbito en Miraflores para las 20:00 este sábado",
+    "entities": [
+      {
+        "start": 9,
+        "end": 16,
+        "value": "fulbito",
+        "entity": "sport"
+      },
+      {
+        "start": 20,
+        "end": 30,
+        "value": "Miraflores",
+        "entity": "location"
+      },
+      {
+        "start": 40,
+        "end": 45,
+        "value": "20:00",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 9,
+        "end": 16,
+        "confidence_entity": 0.9999728202819824,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 20,
+        "end": 30,
+        "confidence_entity": 0.9998441934585571,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 40,
+        "end": 45,
+        "confidence_entity": 0.999535083770752,
+        "value": "20:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 46,
+        "end": 57,
+        "confidence_entity": 0.65,
+        "value": "este sábado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "quiero un espacio deportivo de fulbito en villa el salvador con losa de cemento. tengo 90 soles",
+    "entities": [
+      {
+        "start": 31,
+        "end": 38,
+        "value": "fulbito",
+        "entity": "sport"
+      },
+      {
+        "start": 42,
+        "end": 59,
+        "value": "villa el salvador",
+        "entity": "location"
+      },
+      {
+        "start": 64,
+        "end": 79,
+        "value": "losa de cemento",
+        "entity": "surface"
+      },
+      {
+        "start": 87,
+        "end": 89,
+        "value": "90",
+        "entity": "budget"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 31,
+        "end": 38,
+        "confidence_entity": 0.9999262094497681,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 42,
+        "end": 59,
+        "confidence_entity": 0.9520302414894104,
+        "value": "Villa El Salvador",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "surface",
+        "start": 64,
+        "end": 79,
+        "confidence_entity": 0.9981167316436768,
+        "value": "Losa de cemento",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "budget",
+        "start": 87,
+        "end": 95,
+        "confidence_entity": 0.8467996120452881,
+        "value": "90 soles",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "cancha de basket techada en La Molina con losa deportiva a las 19:00 por máximo S/80",
+    "entities": [
+      {
+        "start": 10,
+        "end": 16,
+        "value": "basket",
+        "entity": "sport"
+      },
+      {
+        "start": 28,
+        "end": 37,
+        "value": "La Molina",
+        "entity": "location"
+      },
+      {
+        "start": 42,
+        "end": 56,
+        "value": "losa deportiva",
+        "entity": "surface"
+      },
+      {
+        "start": 63,
+        "end": 68,
+        "value": "19:00",
+        "entity": "time"
+      },
+      {
+        "start": 80,
+        "end": 84,
+        "value": "S/80",
+        "entity": "budget"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 10,
+        "end": 24,
+        "confidence_entity": 0.7270980477333069,
+        "value": "basket techada",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "location",
+        "start": 28,
+        "end": 37,
+        "confidence_entity": 0.9997441172599792,
+        "value": "La Molina",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "surface",
+        "start": 42,
+        "end": 56,
+        "confidence_entity": 0.999895453453064,
+        "value": "Losa deportiva",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 63,
+        "end": 68,
+        "confidence_entity": 0.9998481273651123,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "budget",
+        "start": 80,
+        "end": 84,
+        "confidence_entity": 0.9999185800552368,
+        "value": "S/80",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "para el lunes",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 5,
+        "end": 13,
+        "confidence_entity": 0.9198687672615051,
+        "value": "el lunes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "para pasado mañana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 5,
+        "end": 18,
+        "confidence_entity": 0.7488481402397156,
+        "value": "pasado mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "con iluminación",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "facility",
+        "start": 4,
+        "end": 15,
+        "confidence_entity": 0.9481780529022217,
+        "value": "iluminación",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "que acepten Yape o Plin para pagar rápido",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 12,
+        "end": 16,
+        "confidence_entity": 0.4537363648414612,
+        "value": "Yape",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "location",
+        "start": 19,
+        "end": 23,
+        "confidence_entity": 0.46969369053840637,
+        "value": "Plin",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "cada sábado",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 5,
+        "end": 11,
+        "confidence_entity": 0.6882196664810181,
+        "value": "sábado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Necesito sugerencias para mejorar la ocupación en Miraflores.",
+    "entities": [
+      {
+        "start": 50,
+        "end": 60,
+        "value": "Miraflores",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 37,
+        "end": 46,
+        "confidence_entity": 0.8963775634765625,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 50,
+        "end": 60,
+        "confidence_entity": 0.9994444251060486,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "necesito métricas de ocupación",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 21,
+        "end": 30,
+        "confidence_entity": 0.9602004885673523,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "dame la métrica de ocupación",
+    "entities": [
+      {
+        "start": 19,
+        "end": 28,
+        "value": "ocupación",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 8,
+        "end": 15,
+        "confidence_entity": 0.8228432536125183,
+        "value": "métrica",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 19,
+        "end": 28,
+        "confidence_entity": 0.9990457892417908,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "ingresos de esta semana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.8298102021217346,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 12,
+        "end": 23,
+        "confidence_entity": 0.9906069040298462,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "dime los ingresos de esta semana",
+    "entities": [
+      {
+        "start": 9,
+        "end": 17,
+        "value": "ingresos",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 9,
+        "end": 17,
+        "confidence_entity": 0.9977617263793945,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 21,
+        "end": 32,
+        "confidence_entity": 0.952398955821991,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "ingresos de esta semana",
+    "entities": [
+      {
+        "start": 12,
+        "end": 23,
+        "value": "esta semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.8298102021217346,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 12,
+        "end": 23,
+        "confidence_entity": 0.9906069040298462,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "ingresos de hoy",
+    "entities": [
+      {
+        "start": 12,
+        "end": 15,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.6596235632896423,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 12,
+        "end": 15,
+        "confidence_entity": 0.9968277812004089,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "ingresos de este mes",
+    "entities": [
+      {
+        "start": 12,
+        "end": 20,
+        "value": "este mes",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.8277148008346558,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 12,
+        "end": 20,
+        "confidence_entity": 0.9993477463722229,
+        "value": "mes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "ocupación de hoy",
+    "entities": [
+      {
+        "start": 13,
+        "end": 16,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 9,
+        "confidence_entity": 0.9952735304832458,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 13,
+        "end": 16,
+        "confidence_entity": 0.9994072914123535,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "quiero la ocupación de esta semana",
+    "entities": [
+      {
+        "start": 23,
+        "end": 34,
+        "value": "esta semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 10,
+        "end": 19,
+        "confidence_entity": 0.9144190549850464,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 23,
+        "end": 34,
+        "confidence_entity": 0.9977132081985474,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "dame ocupación y también alertas de demanda",
+    "entities": [
+      {
+        "start": 5,
+        "end": 14,
+        "value": "ocupación",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 5,
+        "end": 14,
+        "confidence_entity": 0.9998384714126587,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 25,
+        "end": 32,
+        "confidence_entity": 0.5595588684082031,
+        "value": "alertas",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 36,
+        "end": 43,
+        "confidence_entity": 0.5941686630249023,
+        "value": "demanda",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "ingresos de la semana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.862032949924469,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 15,
+        "end": 21,
+        "confidence_entity": 0.6455411314964294,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "ingresos del mes",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.9563028216362,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "en la tarde tipo 17:00",
+    "entities": [
+      {
+        "start": 17,
+        "end": 22,
+        "value": "17:00",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 11,
+        "confidence_entity": 0.9485644698143005,
+        "value": "tarde",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 17,
+        "end": 22,
+        "confidence_entity": 0.9995656609535217,
+        "value": "17:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "este sábado",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 11,
+        "confidence_entity": 0.9990547299385071,
+        "value": "este sábado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el domingo",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 10,
+        "confidence_entity": 0.9217337965965271,
+        "value": "el domingo",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el lunes",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.963625967502594,
+        "value": "el lunes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pasado mañana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 13,
+        "confidence_entity": 0.9685386419296265,
+        "value": "pasado mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "para la próxima semana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 5,
+        "end": 7,
+        "confidence_entity": 0.7304205298423767,
+        "value": "la",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 8,
+        "end": 22,
+        "confidence_entity": 0.5428957343101501,
+        "value": "próxima semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "hoy",
+    "entities": [
+      {
+        "start": 0,
+        "end": 3,
+        "value": "hoy",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "mañana",
+    "entities": [
+      {
+        "start": 0,
+        "end": 6,
+        "value": "mañana",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "por santiagodesurco",
+    "entities": [
+      {
+        "start": 4,
+        "end": 19,
+        "value": "santiagodesurco",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "el viernes",
+    "entities": [
+      {
+        "start": 3,
+        "end": 10,
+        "value": "viernes",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "busco en santiagodesurco",
+    "entities": [
+      {
+        "start": 9,
+        "end": 24,
+        "value": "santiagodesurco",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "reservas totales hoy",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 17,
+        "end": 20,
+        "confidence_entity": 0.5941969752311707,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "reservas totales en campus Surco hoy",
+    "entities": [
+      {
+        "start": 27,
+        "end": 32,
+        "value": "Surco",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 20,
+        "end": 32,
+        "confidence_entity": 0.8412525653839111,
+        "value": "Campus Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 33,
+        "end": 36,
+        "confidence_entity": 0.5334266424179077,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "cuantas reservas hay en Miraflores hoy",
+    "entities": [
+      {
+        "start": 24,
+        "end": 34,
+        "value": "Miraflores",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 24,
+        "end": 34,
+        "confidence_entity": 0.9982166886329651,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 35,
+        "end": 38,
+        "confidence_entity": 0.9120314121246338,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "total de reservas de la cancha 1 hoy",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "court",
+        "start": 24,
+        "end": 32,
+        "confidence_entity": 0.8317333459854126,
+        "value": "cancha 1",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 33,
+        "end": 36,
+        "confidence_entity": 0.7869067192077637,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "dame total de reservas por deporte fútbol hoy",
+    "entities": [
+      {
+        "start": 35,
+        "end": 41,
+        "value": "fútbol",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 35,
+        "end": 41,
+        "confidence_entity": 0.9970376491546631,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 42,
+        "end": 45,
+        "confidence_entity": 0.5022544264793396,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "total reservas para voley hoy",
+    "entities": [
+      {
+        "start": 20,
+        "end": 25,
+        "value": "voley",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 20,
+        "end": 25,
+        "confidence_entity": 0.9999018907546997,
+        "value": "volleyball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 26,
+        "end": 29,
+        "confidence_entity": 0.8895856142044067,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "panorama de reservas totales por deporte futbol",
+    "entities": [
+      {
+        "start": 41,
+        "end": 47,
+        "value": "futbol",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 33,
+        "end": 40,
+        "confidence_entity": 0.40683484077453613,
+        "value": "deporte",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "sport",
+        "start": 41,
+        "end": 47,
+        "confidence_entity": 0.9295569062232971,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "metricas de reservas totales hoy",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 29,
+        "end": 32,
+        "confidence_entity": 0.5616580843925476,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "quiero reservar por Surco",
+    "entities": [
+      {
+        "start": 20,
+        "end": 25,
+        "value": "Surco",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "el día pasado mañana",
+    "entities": [
+      {
+        "start": 7,
+        "end": 20,
+        "value": "pasado mañana",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 6,
+        "confidence_entity": 0.8223381638526917,
+        "value": "día",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 7,
+        "end": 20,
+        "confidence_entity": 0.9955190420150757,
+        "value": "pasado mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el día este sábado",
+    "entities": [
+      {
+        "start": 7,
+        "end": 18,
+        "value": "este sábado",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 6,
+        "confidence_entity": 0.6947312355041504,
+        "value": "día",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 7,
+        "end": 18,
+        "confidence_entity": 0.9984481334686279,
+        "value": "este sábado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pa el este sábado",
+    "entities": [
+      {
+        "start": 6,
+        "end": 17,
+        "value": "este sábado",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 5,
+        "confidence_entity": 0.5482489466667175,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 6,
+        "end": 17,
+        "confidence_entity": 0.9993450045585632,
+        "value": "este sábado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el día el domingo",
+    "entities": [
+      {
+        "start": 7,
+        "end": 17,
+        "value": "el domingo",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 6,
+        "confidence_entity": 0.516785740852356,
+        "value": "día",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 7,
+        "end": 17,
+        "confidence_entity": 0.9951268434524536,
+        "value": "el domingo",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pa el el domingo",
+    "entities": [
+      {
+        "start": 6,
+        "end": 16,
+        "value": "el domingo",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 5,
+        "confidence_entity": 0.6892954111099243,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 6,
+        "end": 16,
+        "confidence_entity": 0.9927768707275391,
+        "value": "el domingo",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el día el lunes",
+    "entities": [
+      {
+        "start": 7,
+        "end": 15,
+        "value": "el lunes",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 6,
+        "confidence_entity": 0.6085233688354492,
+        "value": "día",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 7,
+        "end": 15,
+        "confidence_entity": 0.9933876991271973,
+        "value": "el lunes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pa el el lunes",
+    "entities": [
+      {
+        "start": 6,
+        "end": 14,
+        "value": "el lunes",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 5,
+        "confidence_entity": 0.789814829826355,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 6,
+        "end": 14,
+        "confidence_entity": 0.994437575340271,
+        "value": "el lunes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "futbol",
+    "entities": [
+      {
+        "start": 0,
+        "end": 6,
+        "value": "futbol",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "padel",
+    "entities": [
+      {
+        "start": 0,
+        "end": 5,
+        "value": "padel",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "para hoy",
+    "entities": [
+      {
+        "start": 5,
+        "end": 8,
+        "value": "hoy",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "para mañana",
+    "entities": [
+      {
+        "start": 5,
+        "end": 11,
+        "value": "mañana",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "para 14 personas",
+    "entities": [
+      {
+        "start": 5,
+        "end": 7,
+        "value": "14",
+        "entity": "num_players"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "el día jueves por la noche",
+    "entities": [
+      {
+        "start": 7,
+        "end": 13,
+        "value": "jueves",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 6,
+        "confidence_entity": 0.9309545755386353,
+        "value": "día",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 7,
+        "end": 13,
+        "confidence_entity": 0.998843789100647,
+        "value": "jueves",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el sábado 15 de diciembre",
+    "entities": [
+      {
+        "start": 3,
+        "end": 12,
+        "value": "sábado 15",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.656572163105011,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 25,
+        "confidence_entity": 0.8172817826271057,
+        "value": "sábado 15 de diciembre",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "el siguiente martes por la tarde",
+    "entities": [
+      {
+        "start": 3,
+        "end": 19,
+        "value": "siguiente martes",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.6892734169960022,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 19,
+        "confidence_entity": 0.9962013363838196,
+        "value": "siguiente martes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "a eso de las siete de la noche",
+    "entities": [
+      {
+        "start": 13,
+        "end": 30,
+        "value": "siete de la noche",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 2,
+        "end": 8,
+        "confidence_entity": 0.609386682510376,
+        "value": "eso de",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "time",
+        "start": 13,
+        "end": 30,
+        "confidence_entity": 0.9702556133270264,
+        "value": "siete de la noche",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "tipo 9pm el lunes",
+    "entities": [
+      {
+        "start": 5,
+        "end": 8,
+        "value": "9pm",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 5,
+        "end": 8,
+        "confidence_entity": 0.9760168194770813,
+        "value": "9pm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 9,
+        "end": 11,
+        "confidence_entity": 0.45610949397087097,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "por San Juan de Miraflores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 4,
+        "end": 26,
+        "confidence_entity": 0.627826452255249,
+        "value": "San Juan de Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Para el marte 20 de agosto.",
+    "entities": [
+      {
+        "start": 8,
+        "end": 26,
+        "value": "marte 20 de agosto",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 5,
+        "end": 7,
+        "confidence_entity": 0.7137490510940552,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 8,
+        "end": 26,
+        "confidence_entity": 0.9109094738960266,
+        "value": "marte 20 de agosto",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Necesito el 23 de noviembre, a las siete y media",
+    "entities": [
+      {
+        "start": 12,
+        "end": 27,
+        "value": "23 de noviembre",
+        "entity": "date"
+      },
+      {
+        "start": 35,
+        "end": 48,
+        "value": "siete y media",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 9,
+        "end": 11,
+        "confidence_entity": 0.6876649260520935,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 12,
+        "end": 27,
+        "confidence_entity": 0.6654971241950989,
+        "value": "23 de noviembre",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 35,
+        "end": 48,
+        "confidence_entity": 0.9652364253997803,
+        "value": "siete y media",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Una pichanga de 5, en canchita chiquita",
+    "entities": [
+      {
+        "start": 4,
+        "end": 12,
+        "value": "pichanga",
+        "entity": "sport"
+      },
+      {
+        "start": 16,
+        "end": 17,
+        "value": "5",
+        "entity": "num_players"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 4,
+        "end": 12,
+        "confidence_entity": 0.993894636631012,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "num_players",
+        "start": 16,
+        "end": 17,
+        "confidence_entity": 0.9997796416282654,
+        "value": "17:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "num_players",
+        "start": 22,
+        "end": 30,
+        "confidence_entity": 0.4255315959453583,
+        "value": "canchita",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "tipo 4 d la tarde",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 5,
+        "end": 17,
+        "confidence_entity": 0.45653074979782104,
+        "value": "4 d la tarde",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "max 90 lucas",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 4,
+        "end": 12,
+        "confidence_entity": 0.7279703617095947,
+        "value": "90 lucas",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "somos 5",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.9926953315734863,
+        "value": "17:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "a las 7:15",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 10,
+        "confidence_entity": 0.9997909665107727,
+        "value": "7:15",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "sesenta soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 13,
+        "confidence_entity": 0.650564432144165,
+        "value": "sesenta soles",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "a las 7 d la noxe",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 17,
+        "confidence_entity": 0.5334969162940979,
+        "value": "7 d la noxe",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "tipo 8 d la noxe",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 5,
+        "end": 16,
+        "confidence_entity": 0.4954610764980316,
+        "value": "8 d la noxe",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "tipo 11 d la noxe",
+    "entities": [
+      {
+        "start": 0,
+        "end": 17,
+        "value": "23:00",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 5,
+        "end": 17,
+        "confidence_entity": 0.4954610764980316,
+        "value": "11 d la noxe",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "alas 7",
+    "entities": [
+      {
+        "start": 5,
+        "end": 6,
+        "value": "19:00",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "entre 5 y 6 d la tarde",
+    "entities": [
+      {
+        "start": 6,
+        "end": 22,
+        "value": "17:00-18:00",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.5753469467163086,
+        "value": "entre",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 22,
+        "confidence_entity": 0.5074976086616516,
+        "value": "17:00-18:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el 24",
+    "entities": [
+      {
+        "start": 3,
+        "end": 5,
+        "value": "24",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "este lunes feriado",
+    "entities": [
+      {
+        "start": 5,
+        "end": 18,
+        "value": "lunes feriado",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 4,
+        "confidence_entity": 0.9034578800201416,
+        "value": "este",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 5,
+        "end": 18,
+        "confidence_entity": 0.9669181704521179,
+        "value": "lunes feriado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "mañana en la tarde",
+    "entities": [
+      {
+        "start": 0,
+        "end": 6,
+        "value": "mañana",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "para 6 jugadores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 5,
+        "end": 6,
+        "confidence_entity": 0.806302011013031,
+        "value": "6",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "a las 10 d la noxe",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 18,
+        "confidence_entity": 0.5334969162940979,
+        "value": "10 d la noxe",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "el 31 de diciembre",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.5669986009597778,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 18,
+        "confidence_entity": 0.5927892327308655,
+        "value": "31 de diciembre",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "hasta 50 soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 6,
+        "end": 14,
+        "confidence_entity": 0.7743909955024719,
+        "value": "50 soles",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pa 14 jugadores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 3,
+        "end": 5,
+        "confidence_entity": 0.5943722724914551,
+        "value": "14",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "tipo 7 d la noxe",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 5,
+        "end": 16,
+        "confidence_entity": 0.4954610764980316,
+        "value": "7 d la noxe",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "a las 9:30",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 10,
+        "confidence_entity": 0.9997909665107727,
+        "value": "9:30",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "x Miraflores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 2,
+        "end": 12,
+        "confidence_entity": 0.7247187495231628,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "tipo 10 d la noxe",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 5,
+        "end": 17,
+        "confidence_entity": 0.4954610764980316,
+        "value": "10 d la noxe",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "pa las 6:30",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 7,
+        "end": 11,
+        "confidence_entity": 0.9998623132705688,
+        "value": "6:30",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "somos 7",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.9926953315734863,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "cien soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 4,
+        "confidence_entity": 0.5659286975860596,
+        "value": "cien",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "para 11 jugadores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 5,
+        "end": 7,
+        "confidence_entity": 0.806302011013031,
+        "value": "11",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "en breña",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 3,
+        "end": 8,
+        "confidence_entity": 0.5036245584487915,
+        "value": "Breña",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "antes de las 6",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 13,
+        "end": 14,
+        "confidence_entity": 0.8916829228401184,
+        "value": "6",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "para el jueves q viene",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 8,
+        "end": 14,
+        "confidence_entity": 0.5147877931594849,
+        "value": "jueves",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pa 70 soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 3,
+        "end": 11,
+        "confidence_entity": 0.9830005168914795,
+        "value": "70 soles",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "11 jugadores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.9878376722335815,
+        "value": "11",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el 10/11",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 8,
+        "confidence_entity": 0.793861985206604,
+        "value": "10/11",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "x surco",
+    "entities": [
+      {
+        "start": 2,
+        "end": 7,
+        "value": "surco",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "mñn en la tarde",
+    "entities": [
+      {
+        "start": 0,
+        "end": 3,
+        "value": "mñn",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 3,
+        "confidence_entity": 0.998172402381897,
+        "value": "mñn",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 10,
+        "end": 15,
+        "confidence_entity": 0.5154261589050293,
+        "value": "tarde",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el 10 de diciembre",
+    "entities": [
+      {
+        "start": 3,
+        "end": 18,
+        "value": "10 de diciembre",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.5669986009597778,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 18,
+        "confidence_entity": 0.5927892327308655,
+        "value": "10 de diciembre",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "la prox semana",
+    "entities": [
+      {
+        "start": 8,
+        "end": 14,
+        "value": "semana",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "este finde",
+    "entities": [
+      {
+        "start": 5,
+        "end": 10,
+        "value": "finde",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "max 70",
+    "entities": [
+      {
+        "start": 4,
+        "end": 6,
+        "value": "70",
+        "entity": "budget"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "hasta 80",
+    "entities": [
+      {
+        "start": 6,
+        "end": 8,
+        "value": "80",
+        "entity": "budget"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "hasta 60 soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 6,
+        "end": 14,
+        "confidence_entity": 0.7743909955024719,
+        "value": "60 soles",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "pa 80 lucas",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 3,
+        "end": 11,
+        "confidence_entity": 0.9525336027145386,
+        "value": "80 lucas",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "x aca a mi alrededor",
+    "entities": [
+      {
+        "start": 11,
+        "end": 20,
+        "value": "alrededor",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "no mas d 70",
+    "entities": [
+      {
+        "start": 9,
+        "end": 11,
+        "value": "70",
+        "entity": "budget"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "futbol alas 8pm",
+    "entities": [
+      {
+        "start": 12,
+        "end": 15,
+        "value": "8pm",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 0,
+        "end": 6,
+        "confidence_entity": 0.8648523092269897,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 12,
+        "end": 15,
+        "confidence_entity": 0.9993435740470886,
+        "value": "8pm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "voley pa jueves",
+    "entities": [
+      {
+        "start": 9,
+        "end": 15,
+        "value": "jueves",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.8060358166694641,
+        "value": "volleyball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 9,
+        "end": 15,
+        "confidence_entity": 0.9997920393943787,
+        "value": "jueves",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pa las 6",
+    "entities": [
+      {
+        "start": 7,
+        "end": 8,
+        "value": "6",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "mas tarde tipo 8:30",
+    "entities": [
+      {
+        "start": 15,
+        "end": 19,
+        "value": "8:30",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 4,
+        "end": 9,
+        "confidence_entity": 0.5724655985832214,
+        "value": "tarde",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 15,
+        "end": 19,
+        "confidence_entity": 0.9995144605636597,
+        "value": "8:30",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pal domingo q viene",
+    "entities": [
+      {
+        "start": 4,
+        "end": 19,
+        "value": "domingo q viene",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 3,
+        "confidence_entity": 0.6956013441085815,
+        "value": "pal",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 4,
+        "end": 19,
+        "confidence_entity": 0.7674624919891357,
+        "value": "domingo q viene",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el 24 de diciembre",
+    "entities": [
+      {
+        "start": 3,
+        "end": 18,
+        "value": "24 de diciembre",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.5669986009597778,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 18,
+        "confidence_entity": 0.5927892327308655,
+        "value": "24 de diciembre",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "el veinticinco de este mes",
+    "entities": [
+      {
+        "start": 3,
+        "end": 26,
+        "value": "veinticinco de este mes",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.4943774938583374,
+        "value": "el",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 26,
+        "confidence_entity": 0.6977388262748718,
+        "value": "veinticinco de este mes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "80 lucas",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.7963742613792419,
+        "value": "80 lucas",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "maximo 90",
+    "entities": [
+      {
+        "start": 7,
+        "end": 9,
+        "value": "90",
+        "entity": "budget"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "pa 70",
+    "entities": [
+      {
+        "start": 3,
+        "end": 5,
+        "value": "70",
+        "entity": "budget"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 3,
+        "end": 5,
+        "confidence_entity": 0.9037694334983826,
+        "value": "70",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "para las 7",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 9,
+        "end": 10,
+        "confidence_entity": 0.5442366600036621,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "despues d las 5",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 14,
+        "end": 15,
+        "confidence_entity": 0.5250873565673828,
+        "value": "17:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "tipo 7:30",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 5,
+        "end": 9,
+        "confidence_entity": 0.9999111890792847,
+        "value": "7:30",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "max 80 lucas",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 4,
+        "end": 12,
+        "confidence_entity": 0.7279703617095947,
+        "value": "80 lucas",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "80 soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.7834336757659912,
+        "value": "80 soles",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "despues d las 8",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 14,
+        "end": 15,
+        "confidence_entity": 0.5250873565673828,
+        "value": "8",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pa surco",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 3,
+        "end": 8,
+        "confidence_entity": 0.5633611679077148,
+        "value": "Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pa el lunes",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 3,
+        "end": 11,
+        "confidence_entity": 0.5027316212654114,
+        "value": "el lunes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "entre 7 y 9",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.374733567237854,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 10,
+        "end": 11,
+        "confidence_entity": 0.7509536147117615,
+        "value": "21:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "despues d las 6",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 14,
+        "end": 15,
+        "confidence_entity": 0.5250873565673828,
+        "value": "6",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "nueve de la noche",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 17,
+        "confidence_entity": 0.8022444248199463,
+        "value": "nueve de la noche",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "despues d las 8pm",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 14,
+        "end": 17,
+        "confidence_entity": 0.7873558402061462,
+        "value": "8pm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "tipo 9 de la noche",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 5,
+        "end": 18,
+        "confidence_entity": 0.43159085512161255,
+        "value": "9 de la noche",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "pachacamac",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 0,
+        "end": 10,
+        "confidence_entity": 0.7061320543289185,
+        "value": "Pachacámac",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "antes de las 7",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 13,
+        "end": 14,
+        "confidence_entity": 0.8916829228401184,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "entre 6 y 8",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.374733567237854,
+        "value": "6",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 10,
+        "end": 11,
+        "confidence_entity": 0.7509536147117615,
+        "value": "8",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "70 lucas",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.7963742613792419,
+        "value": "70 lucas",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "pa 12",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 3,
+        "end": 5,
+        "confidence_entity": 0.9037694334983826,
+        "value": "12",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "7 jugadores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 0,
+        "end": 1,
+        "confidence_entity": 0.9878376722335815,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "entre las 7 y 9",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 10,
+        "end": 11,
+        "confidence_entity": 0.6385959386825562,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 14,
+        "end": 15,
+        "confidence_entity": 0.7955600023269653,
+        "value": "21:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "surco cerca a mi",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.7510281801223755,
+        "value": "Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "antes de las 8",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 13,
+        "end": 14,
+        "confidence_entity": 0.8916829228401184,
+        "value": "8",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "despues de las 8pm",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 15,
+        "end": 18,
+        "confidence_entity": 0.9733272194862366,
+        "value": "8pm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "hoy por la tarde",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 0,
+        "end": 3,
+        "confidence_entity": 0.7878085374832153,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 11,
+        "end": 16,
+        "confidence_entity": 0.9526881575584412,
+        "value": "tarde",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "hasta 70 soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 6,
+        "end": 14,
+        "confidence_entity": 0.7743909955024719,
+        "value": "70 soles",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "19:30",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.9737173318862915,
+        "value": "19:30",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "21:00",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.9737173318862915,
+        "value": "21:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "para voley",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 5,
+        "end": 10,
+        "confidence_entity": 0.6878137588500977,
+        "value": "volleyball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "como a las 8",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 11,
+        "end": 12,
+        "confidence_entity": 0.545914888381958,
+        "value": "8",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "max 70 lucas",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 4,
+        "end": 12,
+        "confidence_entity": 0.7279703617095947,
+        "value": "70 lucas",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "para el 15",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 5,
+        "end": 10,
+        "confidence_entity": 0.4482097625732422,
+        "value": "el 15",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "60 lucas",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.7963742613792419,
+        "value": "60 lucas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "surco pa hoy",
+    "entities": [
+      {
+        "start": 0,
+        "end": 5,
+        "value": "surco",
+        "entity": "location"
+      },
+      {
+        "start": 9,
+        "end": 12,
+        "value": "hoy",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.6340939998626709,
+        "value": "Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "40 soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.7834336757659912,
+        "value": "40 soles",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "como a las 7",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 11,
+        "end": 12,
+        "confidence_entity": 0.545914888381958,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "70 soles",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.7834336757659912,
+        "value": "70 soles",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "65 lucas",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "budget",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.7963742613792419,
+        "value": "65 lucas",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "ingresos semana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 8,
+        "confidence_entity": 0.964297354221344,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 9,
+        "end": 15,
+        "confidence_entity": 0.9262832999229431,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "quiero ver ingresos de esta semana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 11,
+        "end": 19,
+        "confidence_entity": 0.9926559925079346,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 23,
+        "end": 34,
+        "confidence_entity": 0.9878243207931519,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "dame ingresos de esta semana",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 5,
+        "end": 13,
+        "confidence_entity": 0.9866312146186829,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 17,
+        "end": 28,
+        "confidence_entity": 0.9880040884017944,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "comparativo ingresos",
+    "entities": [
+      {
+        "start": 0,
+        "end": 11,
+        "value": "comparativo",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 0,
+        "end": 11,
+        "confidence_entity": 0.9921690821647644,
+        "value": "comparativo",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 12,
+        "end": 20,
+        "confidence_entity": 0.6481846570968628,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "en villaelsalvador",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 3,
+        "end": 18,
+        "confidence_entity": 0.8838744163513184,
+        "value": "Villa El Salvador",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "por sanjuandelurigancho",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 4,
+        "end": 23,
+        "confidence_entity": 0.668283224105835,
+        "value": "San Juan de Lurigancho",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "7:30pm",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 6,
+        "confidence_entity": 0.9112487435340881,
+        "value": "7:30pm",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "19:00",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.9737173318862915,
+        "value": "19:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "20:00",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.9737173318862915,
+        "value": "20:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "a las 19:30",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 6,
+        "end": 11,
+        "confidence_entity": 0.9997909665107727,
+        "value": "19:30",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "10 jugadores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.9878376722335815,
+        "value": "10",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "12 jugadores",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 0,
+        "end": 2,
+        "confidence_entity": 0.9878376722335815,
+        "value": "12",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "somos 8",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.9926953315734863,
+        "value": "8",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "somos 9",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.9926953315734863,
+        "value": "21:00",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "somos 6",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "num_players",
+        "start": 6,
+        "end": 7,
+        "confidence_entity": 0.9926953315734863,
+        "value": "6",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "basquet",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 0,
+        "end": 7,
+        "confidence_entity": 0.9951748847961426,
+        "value": "basketball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "voley",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 0,
+        "end": 5,
+        "confidence_entity": 0.7001879215240479,
+        "value": "volleyball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "como estan los kpis de la sede",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 15,
+        "end": 19,
+        "confidence_entity": 0.8312931060791016,
+        "value": "KPIs",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "pásame el balance del mes",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 10,
+        "end": 17,
+        "confidence_entity": 0.6764100790023804,
+        "value": "balance",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Pásame las estadísticas de uso de las instalaciones.",
+    "entities": [
+      {
+        "start": 11,
+        "end": 30,
+        "value": "estadísticas de uso",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 11,
+        "end": 33,
+        "confidence_entity": 0.7515156269073486,
+        "value": "estadísticas de uso de",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 38,
+        "end": 51,
+        "confidence_entity": 0.9768418669700623,
+        "value": "instalaciones",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Podrías darme un detalle de las cifras del negocio?",
+    "entities": [
+      {
+        "start": 32,
+        "end": 50,
+        "value": "cifras del negocio",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 17,
+        "end": 24,
+        "confidence_entity": 0.7493656873703003,
+        "value": "detalle",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 32,
+        "end": 50,
+        "confidence_entity": 0.999601423740387,
+        "value": "cifras del negocio",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Cómo ha sido el crecimiento de usuarios registrados este año?",
+    "entities": [
+      {
+        "start": 16,
+        "end": 27,
+        "value": "crecimiento",
+        "entity": "metric_type"
+      },
+      {
+        "start": 31,
+        "end": 51,
+        "value": "usuarios registrados",
+        "entity": "metric_type"
+      },
+      {
+        "start": 52,
+        "end": 60,
+        "value": "este año",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 16,
+        "end": 30,
+        "confidence_entity": 0.6967880725860596,
+        "value": "crecimiento de",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 31,
+        "end": 51,
+        "confidence_entity": 0.9871610403060913,
+        "value": "usuarios registrados",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 52,
+        "end": 60,
+        "confidence_entity": 0.9984299540519714,
+        "value": "este año",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Muéstrame el rendimiento de la inversión",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 13,
+        "end": 24,
+        "confidence_entity": 0.809169352054596,
+        "value": "rendimiento",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Cómo va la actividad general de la empresa?",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 11,
+        "end": 28,
+        "confidence_entity": 0.5642549395561218,
+        "value": "actividad general",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Las estadísticas de uso de la cancha principal.",
+    "entities": [
+      {
+        "start": 4,
+        "end": 23,
+        "value": "estadísticas de uso",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 4,
+        "end": 19,
+        "confidence_entity": 0.989407479763031,
+        "value": "estadísticas de",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 20,
+        "end": 26,
+        "confidence_entity": 0.5390281081199646,
+        "value": "uso de",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "location",
+        "start": 30,
+        "end": 46,
+        "confidence_entity": 0.8707874417304993,
+        "value": "cancha principal",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dime qué tan ocupadas están las canchas hoy.",
+    "entities": [
+      {
+        "start": 13,
+        "end": 21,
+        "value": "ocupadas",
+        "entity": "metric_type"
+      },
+      {
+        "start": 40,
+        "end": 43,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 13,
+        "end": 21,
+        "confidence_entity": 0.9999139308929443,
+        "value": "ocupadas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 32,
+        "end": 39,
+        "confidence_entity": 0.8150103092193604,
+        "value": "canchas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 40,
+        "end": 43,
+        "confidence_entity": 0.999915361404419,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Muéstrame el balance del día de ayer.",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 13,
+        "end": 20,
+        "confidence_entity": 0.9981277585029602,
+        "value": "balance",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 32,
+        "end": 36,
+        "confidence_entity": 0.9992569088935852,
+        "value": "ayer",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "¿Qué tal vamos con las cifras de ventas?",
+    "entities": [
+      {
+        "start": 33,
+        "end": 39,
+        "value": "ventas",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 23,
+        "end": 29,
+        "confidence_entity": 0.9475837349891663,
+        "value": "cifras",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 33,
+        "end": 39,
+        "confidence_entity": 0.9993368983268738,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Pásame los resultados del negocio, ¿cómo va la ganancia?",
+    "entities": [
+      {
+        "start": 47,
+        "end": 55,
+        "value": "ganancia",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 11,
+        "end": 21,
+        "confidence_entity": 0.9809468388557434,
+        "value": "resultados",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 26,
+        "end": 33,
+        "confidence_entity": 0.9771125316619873,
+        "value": "negocio",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 47,
+        "end": 55,
+        "confidence_entity": 0.9994215965270996,
+        "value": "ganancia",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Quiero saber el rendimiento de la sede Surquillo.",
+    "entities": [
+      {
+        "start": 16,
+        "end": 27,
+        "value": "rendimiento",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 16,
+        "end": 27,
+        "confidence_entity": 0.9828925132751465,
+        "value": "rendimiento",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 34,
+        "end": 48,
+        "confidence_entity": 0.6848607659339905,
+        "value": "sede Surquillo",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Me gustaría ver la productividad por empleado.",
+    "entities": [
+      {
+        "start": 19,
+        "end": 32,
+        "value": "productividad",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 19,
+        "end": 32,
+        "confidence_entity": 0.9997439980506897,
+        "value": "productividad",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 37,
+        "end": 45,
+        "confidence_entity": 0.8425344824790955,
+        "value": "empleado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "¿Cómo andan los números en Miraflores?",
+    "entities": [
+      {
+        "start": 27,
+        "end": 37,
+        "value": "Miraflores",
+        "entity": "metric_location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 27,
+        "end": 37,
+        "confidence_entity": 0.6699281334877014,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame una vista rápida del movimiento de reservas.",
+    "entities": [
+      {
+        "start": 26,
+        "end": 36,
+        "value": "movimiento",
+        "entity": "metric_type"
+      },
+      {
+        "start": 40,
+        "end": 48,
+        "value": "reservas",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 9,
+        "end": 14,
+        "confidence_entity": 0.9935830235481262,
+        "value": "vista",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 15,
+        "end": 21,
+        "confidence_entity": 0.7473990321159363,
+        "value": "rápida",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 26,
+        "end": 36,
+        "confidence_entity": 0.97919762134552,
+        "value": "movimiento",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 40,
+        "end": 48,
+        "confidence_entity": 0.8600268959999084,
+        "value": "reservas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "La ocupación promedio de las canchas este finde, ¿cómo fue?",
+    "entities": [
+      {
+        "start": 3,
+        "end": 21,
+        "value": "ocupación promedio",
+        "entity": "metric_type"
+      },
+      {
+        "start": 42,
+        "end": 47,
+        "value": "finde",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 3,
+        "end": 21,
+        "confidence_entity": 0.7236539125442505,
+        "value": "ocupación promedio",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 29,
+        "end": 36,
+        "confidence_entity": 0.5946800112724304,
+        "value": "canchas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 37,
+        "end": 41,
+        "confidence_entity": 0.5103491544723511,
+        "value": "este",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 42,
+        "end": 47,
+        "confidence_entity": 0.9875679016113281,
+        "value": "finde",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "¿Cuánto se ha facturado en todas las sedes?",
+    "entities": [
+      {
+        "start": 14,
+        "end": 23,
+        "value": "facturado",
+        "entity": "metric_type"
+      },
+      {
+        "start": 27,
+        "end": 42,
+        "value": "todas las sedes",
+        "entity": "metric_location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 14,
+        "end": 23,
+        "confidence_entity": 0.9990507960319519,
+        "value": "facturado",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "court",
+        "start": 27,
+        "end": 42,
+        "confidence_entity": 0.18303067982196808,
+        "value": "todas las sedes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Quiero ver la performance general.",
+    "entities": [
+      {
+        "start": 14,
+        "end": 25,
+        "value": "performance",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 14,
+        "end": 33,
+        "confidence_entity": 0.5386487245559692,
+        "value": "performance general",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dime los números del trimestre.",
+    "entities": [
+      {
+        "start": 21,
+        "end": 30,
+        "value": "trimestre",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 9,
+        "end": 16,
+        "confidence_entity": 0.9412788152694702,
+        "value": "números",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 21,
+        "end": 30,
+        "confidence_entity": 0.9868203997612,
+        "value": "trimestre",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Necesito estadísticas de uso de canchas.",
+    "entities": [
+      {
+        "start": 9,
+        "end": 21,
+        "value": "estadísticas",
+        "entity": "metric_type"
+      },
+      {
+        "start": 25,
+        "end": 39,
+        "value": "uso de canchas",
+        "entity": "metric_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 9,
+        "end": 24,
+        "confidence_entity": 0.5117326378822327,
+        "value": "estadísticas de",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 25,
+        "end": 39,
+        "confidence_entity": 0.9894292950630188,
+        "value": "uso de canchas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Cómo andan las metricas de reservas en el campus San Borja?",
+    "entities": [
+      {
+        "start": 49,
+        "end": 58,
+        "value": "San Borja",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 42,
+        "end": 58,
+        "confidence_entity": 0.708708643913269,
+        "value": "campus San Borja",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Qué tal las métricas de reservas del campus Miraflores?",
+    "entities": [
+      {
+        "start": 44,
+        "end": 54,
+        "value": "Miraflores",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "Un resumen de los kpis de reservas del día de hoy.",
+    "entities": [
+      {
+        "start": 46,
+        "end": 49,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "Quiero saber el total de reservas hoy.",
+    "entities": [
+      {
+        "start": 34,
+        "end": 37,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "Número total de reservas para hoy en la cancha 3.",
+    "entities": [
+      {
+        "start": 30,
+        "end": 33,
+        "value": "hoy",
+        "entity": "metric_period"
+      },
+      {
+        "start": 40,
+        "end": 48,
+        "value": "cancha 3",
+        "entity": "court_number"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 30,
+        "end": 33,
+        "confidence_entity": 0.9792678356170654,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "court",
+        "start": 40,
+        "end": 48,
+        "confidence_entity": 0.5325430631637573,
+        "value": "cancha 3",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "KPIs de reservas por campus para el último mes.",
+    "entities": [
+      {
+        "start": 36,
+        "end": 46,
+        "value": "último mes",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 8,
+        "end": 16,
+        "confidence_entity": 0.5657312273979187,
+        "value": "reservas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 36,
+        "end": 46,
+        "confidence_entity": 0.9801120162010193,
+        "value": "último mes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Total de reservas hoy por campus.",
+    "entities": [
+      {
+        "start": 18,
+        "end": 21,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "Total de reservas hoy por cancha de grass.",
+    "entities": [
+      {
+        "start": 33,
+        "end": 41,
+        "value": "de grass",
+        "entity": "court_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "court",
+        "start": 33,
+        "end": 41,
+        "confidence_entity": 0.32336533069610596,
+        "value": "de grass",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Qué cancha tiene más reservas en el campus San Isidro?",
+    "entities": [
+      {
+        "start": 43,
+        "end": 53,
+        "value": "San Isidro",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 47,
+        "end": 53,
+        "confidence_entity": 0.6354218125343323,
+        "value": "Isidro",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Dame un reporte de reservas por cancha para hoy.",
+    "entities": [
+      {
+        "start": 44,
+        "end": 47,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": []
+  },
+  {
+    "text": "Quiero ver las métricas de reservas de la cancha 5 para voley.",
+    "entities": [
+      {
+        "start": 42,
+        "end": 50,
+        "value": "cancha 5",
+        "entity": "court_number"
+      },
+      {
+        "start": 56,
+        "end": 61,
+        "value": "voley",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "court",
+        "start": 42,
+        "end": 50,
+        "confidence_entity": 0.6152707934379578,
+        "value": "cancha 5",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "sport",
+        "start": 56,
+        "end": 61,
+        "confidence_entity": 0.9951990246772766,
+        "value": "volleyball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Total de reservas hoy en la cancha techada.",
+    "entities": [
+      {
+        "start": 18,
+        "end": 21,
+        "value": "hoy",
+        "entity": "metric_period"
+      },
+      {
+        "start": 28,
+        "end": 42,
+        "value": "cancha techada",
+        "entity": "court_type"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 18,
+        "end": 21,
+        "confidence_entity": 0.9744497537612915,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "court",
+        "start": 28,
+        "end": 42,
+        "confidence_entity": 0.29784271121025085,
+        "value": "cancha techada",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Necesito saber el total de reservas para hoy.",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 41,
+        "end": 44,
+        "confidence_entity": 0.6922751665115356,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame la data de reservas totales por campus del último mes.",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 48,
+        "end": 58,
+        "confidence_entity": 0.5807132720947266,
+        "value": "último mes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame el kpi de reservas totales de la última semana.",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 15,
+        "end": 31,
+        "confidence_entity": 0.6386346817016602,
+        "value": "reservas totales",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Total de reservas para hoy",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 23,
+        "end": 26,
+        "confidence_entity": 0.7779335379600525,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Un informe de los ingresos de la sede norte hoy.",
+    "entities": [
+      {
+        "start": 18,
+        "end": 26,
+        "value": "ingresos",
+        "entity": "metric_type"
+      },
+      {
+        "start": 33,
+        "end": 43,
+        "value": "sede norte",
+        "entity": "location"
+      },
+      {
+        "start": 44,
+        "end": 47,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 3,
+        "end": 10,
+        "confidence_entity": 0.7950627207756042,
+        "value": "informe",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 18,
+        "end": 26,
+        "confidence_entity": 0.9997554421424866,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 33,
+        "end": 43,
+        "confidence_entity": 0.999411940574646,
+        "value": "sede norte",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 44,
+        "end": 47,
+        "confidence_entity": 0.9998238682746887,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Cuál es la ocupación actual de la cancha principal hoy?",
+    "entities": [
+      {
+        "start": 11,
+        "end": 20,
+        "value": "ocupación",
+        "entity": "metric_type"
+      },
+      {
+        "start": 34,
+        "end": 50,
+        "value": "cancha principal",
+        "entity": "location"
+      },
+      {
+        "start": 51,
+        "end": 54,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 11,
+        "end": 27,
+        "confidence_entity": 0.5188955664634705,
+        "value": "ocupación actual",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "location",
+        "start": 34,
+        "end": 50,
+        "confidence_entity": 0.9988632202148438,
+        "value": "cancha principal",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 51,
+        "end": 54,
+        "confidence_entity": 0.9999303817749023,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Pásame la cifra de ingresos del Campus Surco en este mes.",
+    "entities": [
+      {
+        "start": 19,
+        "end": 27,
+        "value": "ingresos",
+        "entity": "metric_type"
+      },
+      {
+        "start": 32,
+        "end": 44,
+        "value": "Campus Surco",
+        "entity": "location"
+      },
+      {
+        "start": 48,
+        "end": 56,
+        "value": "este mes",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 10,
+        "end": 15,
+        "confidence_entity": 0.9496126174926758,
+        "value": "cifra",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 19,
+        "end": 27,
+        "confidence_entity": 0.9998961687088013,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 32,
+        "end": 44,
+        "confidence_entity": 0.9993879795074463,
+        "value": "Campus Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 48,
+        "end": 56,
+        "confidence_entity": 0.9998623132705688,
+        "value": "mes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Me pasas la cantidad de reservas totales de La 10 ayer?",
+    "entities": [
+      {
+        "start": 24,
+        "end": 40,
+        "value": "reservas totales",
+        "entity": "metric_type"
+      },
+      {
+        "start": 44,
+        "end": 49,
+        "value": "La 10",
+        "entity": "location"
+      },
+      {
+        "start": 50,
+        "end": 54,
+        "value": "ayer",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 12,
+        "end": 20,
+        "confidence_entity": 0.5141887068748474,
+        "value": "cantidad",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 24,
+        "end": 40,
+        "confidence_entity": 0.9999203681945801,
+        "value": "reservas totales",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 44,
+        "end": 49,
+        "confidence_entity": 0.9970206618309021,
+        "value": "La 10",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 50,
+        "end": 54,
+        "confidence_entity": 0.9999618530273438,
+        "value": "ayer",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame un reporte de ocupación de la cancha principal este mes.",
+    "entities": [
+      {
+        "start": 19,
+        "end": 28,
+        "value": "ocupación",
+        "entity": "metric_type"
+      },
+      {
+        "start": 35,
+        "end": 51,
+        "value": "cancha principal",
+        "entity": "location"
+      },
+      {
+        "start": 52,
+        "end": 60,
+        "value": "este mes",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 8,
+        "end": 15,
+        "confidence_entity": 0.9109865427017212,
+        "value": "reporte",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 19,
+        "end": 28,
+        "confidence_entity": 0.9993494153022766,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 35,
+        "end": 51,
+        "confidence_entity": 0.9974699020385742,
+        "value": "cancha principal",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 52,
+        "end": 60,
+        "confidence_entity": 0.9999397993087769,
+        "value": "mes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Como esta el movimiento de reservas totales en campus surco hoy?",
+    "entities": [
+      {
+        "start": 27,
+        "end": 43,
+        "value": "reservas totales",
+        "entity": "metric_type"
+      },
+      {
+        "start": 47,
+        "end": 59,
+        "value": "campus surco",
+        "entity": "location"
+      },
+      {
+        "start": 60,
+        "end": 63,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 13,
+        "end": 23,
+        "confidence_entity": 0.5278493762016296,
+        "value": "movimiento",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 27,
+        "end": 43,
+        "confidence_entity": 0.9996383190155029,
+        "value": "reservas totales",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 47,
+        "end": 59,
+        "confidence_entity": 0.9982163310050964,
+        "value": "Campus Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 60,
+        "end": 63,
+        "confidence_entity": 0.9992614388465881,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Necesito info de los ingresos del campus surco ayer.",
+    "entities": [
+      {
+        "start": 21,
+        "end": 29,
+        "value": "ingresos",
+        "entity": "metric_type"
+      },
+      {
+        "start": 34,
+        "end": 46,
+        "value": "campus surco",
+        "entity": "location"
+      },
+      {
+        "start": 47,
+        "end": 51,
+        "value": "ayer",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 9,
+        "end": 13,
+        "confidence_entity": 0.5342977046966553,
+        "value": "info",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 21,
+        "end": 29,
+        "confidence_entity": 0.9996503591537476,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 34,
+        "end": 46,
+        "confidence_entity": 0.9979845285415649,
+        "value": "Campus Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 47,
+        "end": 51,
+        "confidence_entity": 0.999962329864502,
+        "value": "ayer",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Podrías darme un resumen de ingresos de campus villa el salvador ayer?",
+    "entities": [
+      {
+        "start": 28,
+        "end": 36,
+        "value": "ingresos",
+        "entity": "metric_type"
+      },
+      {
+        "start": 40,
+        "end": 64,
+        "value": "campus villa el salvador",
+        "entity": "location"
+      },
+      {
+        "start": 65,
+        "end": 69,
+        "value": "ayer",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 17,
+        "end": 24,
+        "confidence_entity": 0.7847232818603516,
+        "value": "resumen",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 28,
+        "end": 36,
+        "confidence_entity": 0.9927471280097961,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 40,
+        "end": 64,
+        "confidence_entity": 0.9945840239524841,
+        "value": "Campus Villa El Salvador",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 65,
+        "end": 69,
+        "confidence_entity": 0.9998645782470703,
+        "value": "ayer",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Puedes darme los datos de ocupación de Campus San Isidro hoy?",
+    "entities": [
+      {
+        "start": 26,
+        "end": 35,
+        "value": "ocupación",
+        "entity": "metric_type"
+      },
+      {
+        "start": 39,
+        "end": 56,
+        "value": "Campus San Isidro",
+        "entity": "location"
+      },
+      {
+        "start": 57,
+        "end": 60,
+        "value": "hoy",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 17,
+        "end": 22,
+        "confidence_entity": 0.760862410068512,
+        "value": "datos",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_type",
+        "start": 26,
+        "end": 35,
+        "confidence_entity": 0.9997628331184387,
+        "value": "ocupacion",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 39,
+        "end": 56,
+        "confidence_entity": 0.9988985061645508,
+        "value": "Campus San Isidro",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 57,
+        "end": 60,
+        "confidence_entity": 0.999834418296814,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Quisiera un informe de ingresos de la cancha principal esta semana.",
+    "entities": [
+      {
+        "start": 23,
+        "end": 31,
+        "value": "ingresos",
+        "entity": "metric_type"
+      },
+      {
+        "start": 38,
+        "end": 54,
+        "value": "cancha principal",
+        "entity": "location"
+      },
+      {
+        "start": 55,
+        "end": 66,
+        "value": "esta semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 12,
+        "end": 19,
+        "confidence_entity": 0.8646299839019775,
+        "value": "informe",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_type",
+        "start": 23,
+        "end": 31,
+        "confidence_entity": 0.9952037334442139,
+        "value": "ingresos",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 38,
+        "end": 54,
+        "confidence_entity": 0.9991315007209778,
+        "value": "cancha principal",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 55,
+        "end": 66,
+        "confidence_entity": 0.9998377561569214,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Pásame las reservas generales para hoy.",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 30,
+        "end": 34,
+        "confidence_entity": 0.7577261924743652,
+        "value": "para",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 35,
+        "end": 38,
+        "confidence_entity": 0.6121764779090881,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Un consolidado de reservas para hoy.",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 32,
+        "end": 35,
+        "confidence_entity": 0.5235499739646912,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Qué tal el total de reservas en Surco para el sábado?",
+    "entities": [
+      {
+        "start": 32,
+        "end": 37,
+        "value": "Surco",
+        "entity": "location"
+      },
+      {
+        "start": 43,
+        "end": 52,
+        "value": "el sábado",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 29,
+        "end": 37,
+        "confidence_entity": 0.513362467288971,
+        "value": "en Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 38,
+        "end": 52,
+        "confidence_entity": 0.6226468086242676,
+        "value": "para el sábado",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Quiero ver las reservas totales de la cancha 2 de Miraflores.",
+    "entities": [
+      {
+        "start": 38,
+        "end": 46,
+        "value": "cancha 2",
+        "entity": "court_name"
+      },
+      {
+        "start": 50,
+        "end": 60,
+        "value": "Miraflores",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 15,
+        "end": 31,
+        "confidence_entity": 0.5277520418167114,
+        "value": "reservas totales",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "court_name",
+        "start": 38,
+        "end": 46,
+        "confidence_entity": 0.8693723678588867,
+        "value": "cancha 2",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 50,
+        "end": 60,
+        "confidence_entity": 0.9078966975212097,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Cuál es el número de reservas por deporte voley para este mes?",
+    "entities": [
+      {
+        "start": 34,
+        "end": 47,
+        "value": "deporte voley",
+        "entity": "sport"
+      },
+      {
+        "start": 53,
+        "end": 61,
+        "value": "este mes",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 30,
+        "end": 33,
+        "confidence_entity": 0.6302799582481384,
+        "value": "por",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "sport",
+        "start": 34,
+        "end": 47,
+        "confidence_entity": 0.9670945405960083,
+        "value": "deporte voley",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 53,
+        "end": 61,
+        "confidence_entity": 0.9983128309249878,
+        "value": "mes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame un resumen de reservas en Miraflores para hoy por deporte basket.",
+    "entities": [
+      {
+        "start": 31,
+        "end": 41,
+        "value": "Miraflores",
+        "entity": "location"
+      },
+      {
+        "start": 47,
+        "end": 50,
+        "value": "hoy",
+        "entity": "metric_period"
+      },
+      {
+        "start": 55,
+        "end": 69,
+        "value": "deporte basket",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 31,
+        "end": 41,
+        "confidence_entity": 0.9940341114997864,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 47,
+        "end": 50,
+        "confidence_entity": 0.9959547519683838,
+        "value": "hoy",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "sport",
+        "start": 51,
+        "end": 54,
+        "confidence_entity": 0.5158914923667908,
+        "value": "por",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "sport",
+        "start": 55,
+        "end": 69,
+        "confidence_entity": 0.7670397758483887,
+        "value": "deporte basket",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Cuál es el total de reservas en Miraflores para el fin de semana?",
+    "entities": [
+      {
+        "start": 32,
+        "end": 42,
+        "value": "Miraflores",
+        "entity": "location"
+      },
+      {
+        "start": 48,
+        "end": 64,
+        "value": "el fin de semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 29,
+        "end": 42,
+        "confidence_entity": 0.7926932573318481,
+        "value": "en Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 43,
+        "end": 64,
+        "confidence_entity": 0.6420056223869324,
+        "value": "para el fin de semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Quisiera ver el resumen de reservas de la cancha 4 mañana.",
+    "entities": [
+      {
+        "start": 42,
+        "end": 50,
+        "value": "cancha 4",
+        "entity": "court_name"
+      },
+      {
+        "start": 51,
+        "end": 57,
+        "value": "mañana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "court",
+        "start": 42,
+        "end": 50,
+        "confidence_entity": 0.5223861932754517,
+        "value": "cancha 4",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 51,
+        "end": 57,
+        "confidence_entity": 0.9952260255813599,
+        "value": "mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame el total de reservas por deporte basketball para la otra semana.",
+    "entities": [
+      {
+        "start": 38,
+        "end": 48,
+        "value": "basketball",
+        "entity": "sport"
+      },
+      {
+        "start": 54,
+        "end": 68,
+        "value": "la otra semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 38,
+        "end": 48,
+        "confidence_entity": 0.9994937181472778,
+        "value": "basketball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 49,
+        "end": 53,
+        "confidence_entity": 0.4981265068054199,
+        "value": "para",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 54,
+        "end": 68,
+        "confidence_entity": 0.9165565371513367,
+        "value": "la otra semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Quisiera el resumen de reservas de fútbol en Miraflores para mañana.",
+    "entities": [
+      {
+        "start": 35,
+        "end": 41,
+        "value": "fútbol",
+        "entity": "sport"
+      },
+      {
+        "start": 45,
+        "end": 55,
+        "value": "Miraflores",
+        "entity": "location"
+      },
+      {
+        "start": 61,
+        "end": 67,
+        "value": "mañana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 35,
+        "end": 41,
+        "confidence_entity": 0.991089940071106,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 45,
+        "end": 55,
+        "confidence_entity": 0.8391439318656921,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 56,
+        "end": 60,
+        "confidence_entity": 0.5020388960838318,
+        "value": "para",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 61,
+        "end": 67,
+        "confidence_entity": 0.93462073802948,
+        "value": "mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Quiero saber el total de reservas por deporte basket este fin de semana.",
+    "entities": [
+      {
+        "start": 46,
+        "end": 52,
+        "value": "basket",
+        "entity": "sport"
+      },
+      {
+        "start": 53,
+        "end": 71,
+        "value": "este fin de semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 38,
+        "end": 45,
+        "confidence_entity": 0.44413915276527405,
+        "value": "deporte",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "sport",
+        "start": 46,
+        "end": 52,
+        "confidence_entity": 0.9945747256278992,
+        "value": "basketball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 53,
+        "end": 71,
+        "confidence_entity": 0.9946523904800415,
+        "value": "este fin de semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Quiero saber el total de reservas por deporte voley.",
+    "entities": [
+      {
+        "start": 46,
+        "end": 51,
+        "value": "voley",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 38,
+        "end": 45,
+        "confidence_entity": 0.37679341435432434,
+        "value": "deporte",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "sport",
+        "start": 46,
+        "end": 51,
+        "confidence_entity": 0.8296040892601013,
+        "value": "volleyball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame un resumen de reservas de futbol en Miraflores para el lunes.",
+    "entities": [
+      {
+        "start": 31,
+        "end": 37,
+        "value": "futbol",
+        "entity": "sport"
+      },
+      {
+        "start": 41,
+        "end": 51,
+        "value": "Miraflores",
+        "entity": "location"
+      },
+      {
+        "start": 57,
+        "end": 65,
+        "value": "el lunes",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 31,
+        "end": 37,
+        "confidence_entity": 0.9998646974563599,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 41,
+        "end": 51,
+        "confidence_entity": 0.9757459759712219,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 52,
+        "end": 56,
+        "confidence_entity": 0.5249114632606506,
+        "value": "para",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 57,
+        "end": 65,
+        "confidence_entity": 0.5177707076072693,
+        "value": "el lunes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dime las reservas totales por deporte futbol esta semana.",
+    "entities": [
+      {
+        "start": 30,
+        "end": 44,
+        "value": "deporte futbol",
+        "entity": "sport"
+      },
+      {
+        "start": 45,
+        "end": 56,
+        "value": "esta semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 9,
+        "end": 25,
+        "confidence_entity": 0.5614047646522522,
+        "value": "reservas totales",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "sport",
+        "start": 26,
+        "end": 29,
+        "confidence_entity": 0.6667466163635254,
+        "value": "por",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "sport",
+        "start": 30,
+        "end": 44,
+        "confidence_entity": 0.7261993288993835,
+        "value": "deporte futbol",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 45,
+        "end": 56,
+        "confidence_entity": 0.9966484904289246,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame un resumen general de las reservas para mañana.",
+    "entities": [
+      {
+        "start": 45,
+        "end": 51,
+        "value": "mañana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 40,
+        "end": 44,
+        "confidence_entity": 0.6069461107254028,
+        "value": "para",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 45,
+        "end": 51,
+        "confidence_entity": 0.9422522783279419,
+        "value": "mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Podrías darme el resumen de las reservas para el 20 de mayo?",
+    "entities": [
+      {
+        "start": 46,
+        "end": 59,
+        "value": "el 20 de mayo",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 41,
+        "end": 59,
+        "confidence_entity": 0.5573278069496155,
+        "value": "para el 20 de mayo",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Dime el total de reservas para la sede de La Molina.",
+    "entities": [
+      {
+        "start": 31,
+        "end": 51,
+        "value": "la sede de La Molina",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 34,
+        "end": 51,
+        "confidence_entity": 0.9221485257148743,
+        "value": "sede de La Molina",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Resumen de reservas de la cancha principal para mañana.",
+    "entities": [
+      {
+        "start": 26,
+        "end": 42,
+        "value": "cancha principal",
+        "entity": "court"
+      },
+      {
+        "start": 48,
+        "end": 54,
+        "value": "mañana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "court",
+        "start": 26,
+        "end": 42,
+        "confidence_entity": 0.988890528678894,
+        "value": "cancha principal",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 43,
+        "end": 47,
+        "confidence_entity": 0.6669455766677856,
+        "value": "para",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 48,
+        "end": 54,
+        "confidence_entity": 0.9890663623809814,
+        "value": "mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Total de reservas para la cancha techada este fin de semana.",
+    "entities": [
+      {
+        "start": 26,
+        "end": 40,
+        "value": "cancha techada",
+        "entity": "court"
+      },
+      {
+        "start": 41,
+        "end": 59,
+        "value": "este fin de semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_period",
+        "start": 18,
+        "end": 22,
+        "confidence_entity": 0.7488183975219727,
+        "value": "para",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "court",
+        "start": 26,
+        "end": 40,
+        "confidence_entity": 0.988680362701416,
+        "value": "cancha techada",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 41,
+        "end": 59,
+        "confidence_entity": 0.9763878583908081,
+        "value": "este fin de semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Total de reservas de basket en Miraflores.",
+    "entities": [
+      {
+        "start": 21,
+        "end": 27,
+        "value": "basket",
+        "entity": "sport"
+      },
+      {
+        "start": 31,
+        "end": 41,
+        "value": "Miraflores",
+        "entity": "location"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 21,
+        "end": 27,
+        "confidence_entity": 0.9895756244659424,
+        "value": "basketball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 28,
+        "end": 30,
+        "confidence_entity": 0.5407103896141052,
+        "value": "en",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "location",
+        "start": 31,
+        "end": 41,
+        "confidence_entity": 0.7286429405212402,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Un resumen chevere de las reservas de futbol en la cancha 1 para esta semana.",
+    "entities": [
+      {
+        "start": 38,
+        "end": 44,
+        "value": "futbol",
+        "entity": "sport"
+      },
+      {
+        "start": 51,
+        "end": 59,
+        "value": "cancha 1",
+        "entity": "court"
+      },
+      {
+        "start": 65,
+        "end": 76,
+        "value": "esta semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 38,
+        "end": 44,
+        "confidence_entity": 0.9994470477104187,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "court",
+        "start": 51,
+        "end": 59,
+        "confidence_entity": 0.9941219687461853,
+        "value": "cancha 1",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 60,
+        "end": 64,
+        "confidence_entity": 0.6244692802429199,
+        "value": "para",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "metric_period",
+        "start": 65,
+        "end": 76,
+        "confidence_entity": 0.9800432920455933,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Pásame la info de las reservas totales de basket en campus Surco para el 10 de octubre.",
+    "entities": [
+      {
+        "start": 42,
+        "end": 48,
+        "value": "basket",
+        "entity": "sport"
+      },
+      {
+        "start": 49,
+        "end": 64,
+        "value": "en campus Surco",
+        "entity": "location"
+      },
+      {
+        "start": 70,
+        "end": 86,
+        "value": "el 10 de octubre",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 42,
+        "end": 48,
+        "confidence_entity": 0.9641956090927124,
+        "value": "basketball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 49,
+        "end": 64,
+        "confidence_entity": 0.9160382151603699,
+        "value": "en campus Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 65,
+        "end": 86,
+        "confidence_entity": 0.7724327445030212,
+        "value": "para el 10 de octubre",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Necesito saber las reservas de voley en La Molina para pasado mañana.",
+    "entities": [
+      {
+        "start": 31,
+        "end": 36,
+        "value": "voley",
+        "entity": "sport"
+      },
+      {
+        "start": 40,
+        "end": 49,
+        "value": "La Molina",
+        "entity": "location"
+      },
+      {
+        "start": 50,
+        "end": 68,
+        "value": "para pasado mañana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 31,
+        "end": 36,
+        "confidence_entity": 0.9990986585617065,
+        "value": "volleyball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 37,
+        "end": 49,
+        "confidence_entity": 0.7614104747772217,
+        "value": "en La Molina",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 50,
+        "end": 68,
+        "confidence_entity": 0.9984921216964722,
+        "value": "para pasado mañana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Un consolidado de las reservas en Miraflores para la siguiente semana.",
+    "entities": [
+      {
+        "start": 34,
+        "end": 44,
+        "value": "Miraflores",
+        "entity": "location"
+      },
+      {
+        "start": 45,
+        "end": 69,
+        "value": "para la siguiente semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 31,
+        "end": 33,
+        "confidence_entity": 0.5806040167808533,
+        "value": "en",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "location",
+        "start": 34,
+        "end": 44,
+        "confidence_entity": 0.6665138006210327,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 45,
+        "end": 69,
+        "confidence_entity": 0.9865952730178833,
+        "value": "para la siguiente semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame el total de reservas en Surco por deporte para el lunes.",
+    "entities": [
+      {
+        "start": 29,
+        "end": 34,
+        "value": "Surco",
+        "entity": "location"
+      },
+      {
+        "start": 47,
+        "end": 60,
+        "value": "para el lunes",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 26,
+        "end": 28,
+        "confidence_entity": 0.620777428150177,
+        "value": "en",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "location",
+        "start": 29,
+        "end": 34,
+        "confidence_entity": 0.8178257346153259,
+        "value": "Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "sport",
+        "start": 35,
+        "end": 46,
+        "confidence_entity": 0.6055546402931213,
+        "value": "por deporte",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 47,
+        "end": 60,
+        "confidence_entity": 0.9486624002456665,
+        "value": "para el lunes",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Pásame el total de reservas en el campus de San Juan para la próxima semana.",
+    "entities": [
+      {
+        "start": 28,
+        "end": 52,
+        "value": "en el campus de San Juan",
+        "entity": "location"
+      },
+      {
+        "start": 58,
+        "end": 75,
+        "value": "la próxima semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 28,
+        "end": 52,
+        "confidence_entity": 0.9791441559791565,
+        "value": "en el campus de San Juan",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 53,
+        "end": 75,
+        "confidence_entity": 0.7133970260620117,
+        "value": "para la próxima semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Total de reservas para el 2 de febrero.",
+    "entities": [
+      {
+        "start": 23,
+        "end": 38,
+        "value": "el 2 de febrero",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 18,
+        "end": 38,
+        "confidence_entity": 0.47203460335731506,
+        "value": "para el 2 de febrero",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Total de reservas en el campus de Surco para el martes.",
+    "entities": [
+      {
+        "start": 18,
+        "end": 39,
+        "value": "en el campus de Surco",
+        "entity": "location"
+      },
+      {
+        "start": 45,
+        "end": 54,
+        "value": "el martes",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "location",
+        "start": 18,
+        "end": 39,
+        "confidence_entity": 0.6829835176467896,
+        "value": "en el campus de Surco",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 40,
+        "end": 54,
+        "confidence_entity": 0.5023825764656067,
+        "value": "para el martes",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "Muéstrame las reservas de voley en Villa El Salvador esta semana.",
+    "entities": [
+      {
+        "start": 23,
+        "end": 31,
+        "value": "de voley",
+        "entity": "sport"
+      },
+      {
+        "start": 32,
+        "end": 52,
+        "value": "en Villa El Salvador",
+        "entity": "location"
+      },
+      {
+        "start": 53,
+        "end": 64,
+        "value": "esta semana",
+        "entity": "metric_period"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "metric_type",
+        "start": 14,
+        "end": 22,
+        "confidence_entity": 0.5493255853652954,
+        "value": "reservas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "sport",
+        "start": 23,
+        "end": 31,
+        "confidence_entity": 0.885259747505188,
+        "value": "de voley",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 32,
+        "end": 52,
+        "confidence_entity": 0.9733315110206604,
+        "value": "en Villa El Salvador",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "metric_period",
+        "start": 53,
+        "end": 64,
+        "confidence_entity": 0.9957088232040405,
+        "value": "semana",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Necesito el resumen de reservas de basket en Miraflores para el 1ro de enero.",
+    "entities": [
+      {
+        "start": 35,
+        "end": 41,
+        "value": "basket",
+        "entity": "sport"
+      },
+      {
+        "start": 45,
+        "end": 55,
+        "value": "Miraflores",
+        "entity": "location"
+      },
+      {
+        "start": 56,
+        "end": 76,
+        "value": "para el 1ro de enero",
+        "entity": "date"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 35,
+        "end": 41,
+        "confidence_entity": 0.9882903099060059,
+        "value": "basketball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 42,
+        "end": 44,
+        "confidence_entity": 0.6480523943901062,
+        "value": "en",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "location",
+        "start": 45,
+        "end": 55,
+        "confidence_entity": 0.6419370174407959,
+        "value": "Miraflores",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "date",
+        "start": 56,
+        "end": 76,
+        "confidence_entity": 0.8575093150138855,
+        "value": "para el 1ro de enero",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Dame el total de reservas para el 24 de diciembre en todas las canchas.",
+    "entities": [
+      {
+        "start": 26,
+        "end": 49,
+        "value": "para el 24 de diciembre",
+        "entity": "date"
+      },
+      {
+        "start": 53,
+        "end": 70,
+        "value": "todas las canchas",
+        "entity": "court"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 26,
+        "end": 49,
+        "confidence_entity": 0.9605251550674438,
+        "value": "para el 24 de diciembre",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "location",
+        "start": 50,
+        "end": 52,
+        "confidence_entity": 0.5077695250511169,
+        "value": "en",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "court",
+        "start": 53,
+        "end": 70,
+        "confidence_entity": 0.6850864291191101,
+        "value": "todas las canchas",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Necesito el total de reservas de tenis en Miraflores para el 5 de octubre.",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "date",
+        "start": 53,
+        "end": 73,
+        "confidence_entity": 0.4141503572463989,
+        "value": "para el 5 de octubre",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "¿Me informas sobre sitios para jugar a la pelota?",
+    "entities": [
+      {
+        "start": 42,
+        "end": 48,
+        "value": "pelota",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 42,
+        "end": 48,
+        "confidence_entity": 0.8617106080055237,
+        "value": "pelota",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Busco sitios para una pichanga por la noche.",
+    "entities": [
+      {
+        "start": 38,
+        "end": 43,
+        "value": "noche",
+        "entity": "time"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 22,
+        "end": 30,
+        "confidence_entity": 0.4960867762565613,
+        "value": "football",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      },
+      {
+        "entity": "time",
+        "start": 38,
+        "end": 43,
+        "confidence_entity": 0.9965008497238159,
+        "value": "noche",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "¿Cuál sería la mejor opción para un partido de fútbol por la tarde?",
+    "entities": [
+      {
+        "start": 36,
+        "end": 53,
+        "value": "partido de fútbol",
+        "entity": "sport"
+      }
+    ],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 36,
+        "end": 43,
+        "confidence_entity": 0.9845949411392212,
+        "value": "partido",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "sport",
+        "start": 44,
+        "end": 53,
+        "confidence_entity": 0.8043020963668823,
+        "value": "de fútbol",
+        "extractor": "DIETClassifier"
+      },
+      {
+        "entity": "time",
+        "start": 61,
+        "end": 66,
+        "confidence_entity": 0.3214010000228882,
+        "value": "tarde",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "Me podrías indicar sitios para jugar pelota.",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 37,
+        "end": 43,
+        "confidence_entity": 0.5159160494804382,
+        "value": "pelota",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "para hoy por la noche",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 16,
+        "end": 21,
+        "confidence_entity": 0.5298539996147156,
+        "value": "noche",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  },
+  {
+    "text": "cancha libre a las 7:30",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "time",
+        "start": 19,
+        "end": 23,
+        "confidence_entity": 0.9630131125450134,
+        "value": "7:30",
+        "extractor": "DIETClassifier"
+      }
+    ]
+  },
+  {
+    "text": "busco cancha de basket",
+    "entities": [],
+    "predicted_entities": [
+      {
+        "entity": "sport",
+        "start": 16,
+        "end": 22,
+        "confidence_entity": 0.980095386505127,
+        "value": "basketball",
+        "extractor": "DIETClassifier",
+        "processors": [
+          "EntitySynonymMapper"
+        ]
+      }
+    ]
+  }
+]

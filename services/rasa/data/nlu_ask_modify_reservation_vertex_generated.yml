@@ -1,0 +1,3504 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_modify_reservation
+    examples: |
+      - Deseo consultar si es factible reacomodar mi reserba.
+      - ¿Hay forma de asignar otro horario a mi turno?
+      - Quisiera ver la viabilidad de adelantar mi cita.
+      - Tuve un inconveniente, ¿podría postergar mi agendamineto?
+      - Necesito una reubicación de mi hora reservada.
+      - Mi disponibilidad cambió, ¿puedo ver otra fecha para mi turno?
+      - ¿Qué opciones tengo para variar la hora que ya tengo?
+      - Me gustaría reconfigurar los detalles de mi reserva.
+      - ¿Es posible solicitar un adelanto para mi hora?
+      - Quisiera averiguar si puedo atrasar mi cita.
+      - Se me presentó algo urgente, ¿necesito reubicar el horario?
+      - Por favor, ¿podría reasignar el dia de mi reserva?
+      - Consulto por la posibilidad de variar el momento de mi cita.
+      - No me encuentro libre para la fecha que aparté, ¿qué se puede hacer?
+      - ¿Existe la oportunidad de variar lo que tengo separado?
+      - Me gustaría pedir un nuevo día para mi agendamiento.
+      - Debo trasladar mi cita para otro periodo.
+      - ¿Podría solicitar una permuta de la fecha de mi turno?
+      - Nesesito gestionar una variación en mi programación.
+      - Me gustaría consutar por otra asignación de hora.
+      - Quisiera ver alternativas para mi reserva actual.
+      - ¿Se podría reubicar mi fecha de cita?
+      - La fecha que elegí ya no me cuadra, ¿hay forma de arreglarlo?
+      - Necesito reestructurar mi reserva, ¿es posible?
+      - Mi situación ha cambiado, ¿puedo pedir otro momento?
+      - ¿Hay alguna opción para reorganizar mi turno?
+      - Deseo un nuevo horario para la cita que ya hice.
+      - Me gustaría reconfirmar si puedo seleccionar un día distinto.
+      - Quisiera explorar opciones para adelantar mi fecha.
+      - Se me complicó, ¿será posible atrasar mi agendamiento?
+      - Necesito que me den otra fecha para mi turno, por favor.
+      - ¿Cómo hago para ver un nuevo momento para mi reserva?
+      - La fecha agendada no me sirve, ¿se puede hacer algo?
+      - Deseo reasignar mi visita.
+      - Me gustaría pedir una reconsideración de mi horario.
+      - ¿Es posible reubicar la asignación de mi reserva?
+      - Tengo un problema con la fecha que tengo, ¿me pueden ayudar?
+      - Quisiera ver si puedo adelantar mi agendamiento un poco.
+      - Necesito que me reasignen mi hora reservada.
+      - Me gustaría buscar otra disponibilidad para mi cita.
+      - Se me presentó algo, ¿se puede reasignar mi fecha?
+      - ¿Hay alguna manera de reubicar el día que tengo?
+      - Deseo variar el horario de mi visita.
+      - Quisiera aplazar la fecha de mi turno.
+      - Necesito un nuevo espacio de tiempo para mi cita.
+      - Me gustaría que me den otra opción de fecha.
+      - ¿Cómo puedo hacer para ver otra hora para mi agendamiento?
+      - La fecha que tengo ya no va, ¿se puede reubicar?
+      - Quisiera solicitar una permuta de la fecha.
+      - Necesito reubicar la fecha de mi turno.
+      - Por favor, ¿hay forma de ver otro día para mi reserva?
+      - Me gustaría gestionar un nuevo horario para mi visita.
+      - ¿Es posible que me asignen otra hora para mi agendamiento?
+      - Deseo adelantar mi cita un par de horas.
+      - Quisiera renegociar mi día de reserva.
+      - Tuve un contratiempo, ¿hay chance de reasignar mi hora?
+      - Necesito reubicar la fecha que agendé.
+      - Me gustaría ver si puedo reubicar mi turno.
+      - ¿Podría solicitar que mi cita sea en otro momento?
+      - Quisiera averiguar la posibilidad de retrasar mi reserva.
+      - La fecha de mi cita no me cuadra, ¿se puede hacer algo al respecto?
+      - Deseo consultar sobre la variación de mi fecha programada.
+      - Necesito otra fecha para mi visita programada.
+      - Me gustaría gestionar una reubicación en mi horario.
+      - ¿Existe la opción de seleccionar un horario distinto?
+      - Quisiera reorganizar mi agendamiento.
+      - Mi disponibilidad cambió y me gustaría reasignar el día.
+      - Por favor, ¿se puede trasladar mi hora de reserva?
+      - Necesito una nueva hora para mi reserva, ¿es posible?
+      - Me gustaría que me brinden una alternativa de fecha.
+      - ¿Cómo puedo pedir un nuevo día para mi agendamiento?
+      - La hora que tengo separada ya no me sirve, ¿hay forma de arreglarlo?
+      - Quisiera consultar si puedo adelantar el turno.
+      - Deseo reubicar mi cita a una fecha posterior.
+      - Necesito una nueva fecha para mi compromiso.
+      - Me gustaría ver las opciones para posponer mi reserva.
+      - ¿Podrían darme otro momento para mi cita?
+      - Quisiera reconfirmar si se puede adelantar mi agendamiento.
+      - Se me presentó una urgencia, ¿se puede variar mi horario?
+      - Deseo solicitar un nuevo horario para mi visita programada.
+      - Hola, ¿cómo hago para modificar lo que ya agendé?
+      - Amigo, necesito cambiar la fecha de mi cita.
+      - Se me presentó un roche, ¿se podrá mover mi hora?
+      - Casero, ¿hay forma de reprogramar mi visita?
+      - Quisiera ver si puedo adelantar mi reserva, porfa.
+      - La fecha que tengo ya no me calza, ¿hay cómo ajustarla?
+      - Necesito otra fecha para mi booking, ¿es posible?
+      - Pata, ¿puedo cambiar el momento de mi agendamiento?
+      - Se me complicó, ¿me pueden dar otra hora para mi cita?
+      - Deseo variar mi turno, ¿qué opciones hay?
+      - Mi disponibilidad cambió, ¿podré reubicar mi fecha?
+      - Quisiera posponer mi cita para la próxima semana.
+      - ¿Es factible reajustar el día de mi separada?
+      - Necesito un nuevo horario para la reserva que hice.
+      - Me surgió un contratiempo, ¿hay chance de variar mi agendamiento?
+      - Señorita, ¿habrá forma de ajustar el horario de mi reserva?
+      - La fecha que elegí no me sirve, ¿me pueden ayudar a moverla?
+      - Quisiera reacomodar mi cita, ¿cómo le hago?
+      - Amigo, ¿se puede cambiar la fecha del turno que tengo?
+      - Deseo consultar si puedo adelantar mi agendamiento.
+      - Necesito recalendarizar mi visita, ¿cómo se hace?
+      - Mi reserva ya no me va, ¿me pueden dar otra fecha?
+      - Se me presentó una urgencia, ¿es posible reubicar mi turno?
+      - Pata, ¿se puede modificar la hora de mi cita?
+      - Quisiera ver si puedo atrasar mi agendamiento un poco.
+      - ¿Hay forma de reagendar mi sita, porfa?
+      - Necesito mover la hora que separé, ¿se podrá?
+      - Mi fecha programada no me conviene, ¿cómo la cambio?
+      - Quisiera ver si puedo pedir otra franja horaria.
+      - Tengo que reubicar mi agendamiento, por fas.
+      - La hora que aparté ya no me da, ¿qué alternativa hay?
+      - ¿Es posible adelantar un toque mi reserba?
+      - Se me complicó, ¿puedo postergar mi turno un día?
+      - Quiero otra fecha para lo que tengo separado.
+      - ¿Cómo hago para ajustar el día de mi reserva?
+      - Me gustaría reacomodar mi agendamiento, ¿me puedes ayudar?
+      - La hora que elegí no me cuadra, ¿hay modo de cambiarla?
+      - ¿Será posible cambiar el horarrio de mi cita?
+      - Necesito variar la fecha de mi reserva, por un percance.
+      - Quisiera ver si hay opción de otro momento para mi turno.
+      - Debo reprogramar lo que tengo agendado, ¿es factible?
+      - La fecha que tengo ya no me sirve, nesesito cambiarla.
+      - ¿Se podría reasignar mi horario, porfa?
+      - Tengo un imprevisto, ¿puedo pedir otro día para mi cita?
+      - Quiero ver si puedo retrasar mi agendamiento.
+      - Necesito una nueva fecha y hora para mi reserba, urgente.
+      - ¿Es posible mover mi turno para un poco más tarde?
+      - La cita que separé ya no me acomoda, ¿qué se puede hacer?
+      - Quisiera solicitar un cambio en mi programación.
+      - Tengo que alterar la fecha de mi reserva, ¿hay manera?
+      - ¿Habrá alguna forma de gestionar otro espacio para mi cita?
+      - ¿Será posible flexibilizar la fecha que tengo separada?
+      - Necesito saber si puedo reajustar los detalles de mi agendamiento.
+      - ¿Qué tal si intento cambiar el día que agendé?
+      - ¿Puedo buscar otras opciones de fecha para mi reserva?
+      - Quisiera ver la viabilidad de un cambio en el momento de mi visita.
+      - ¿Es factible que se reubique mi turno para un día diferente?
+      - Mi fecha no me cae bien, ¿habrá oportunidad de moverla?
+      - Tengo que variar el espacio de tiempo que tomé.
+      - Con urgencia, necesito modificar el día de mi agendamiento.
+      - Hola, quisiera saber si puedo reagendar mi cita.
+      - Necesito posponer la fecha que tengo, ¿se podrá?
+      - Mi horario ya no me calza, ¿hay forma de adelantarla?
+      - ¿Será posible atrasar mi hora separada?
+      - ¿Cómo hago para gestionar un nuevo horario para mi cita?
+      - Quisiera ver si es posible buscar otra fecha para mi compromiso.
+      - La reserva que hice no me va bien, ¿pueden buscarme otro bloque horario?
+      - Me salió algo urgente, ¿existe la posibilidad de reprogramar esto?
+      - ¿Hay forma de que se reprograme mi reserva para una nueva franja horaria?
+      - Quería consultar si es posible avanzar la hora de mi cita.
+      - No podré ir, ¿me podrían reasignar para después?
+      - Se me cruzó algo, ¿se podría conseguir otra fecha o turno?
+      - Mi compromiso es inamovible, ¿se puede modificar la programación del día?
+      - ¿Pueden reagendar mi reserva para la próxima semana?
+      - La hora no me conviene, ¿podría buscar otro espacio en el calendario?
+      - Necesito reprogramar mi cita, ¿cómo puedo hacerlo?
+      - ¿Qué posibilidades hay de redefinir mi turno?
+      - Me equivoqué al separar, ¿se puede revisar la fecha?
+      - Quisiera avanzar mi turno si es posible.
+      - ¿Se puede posponer mi reserva por un par de días?
+      - Mi jefe me necesita, ¿hay forma de reajustar mi horario?
+      - Debo reprogramar mi visita, ¿cómo procedo?
+      - ¿Hay opción de establecer un nuevo horario para mi cita?
+      - La fecha que tengo ya no me cuadra, ¿cómo lo soluciono?
+      - Quiero ver si puedo buscar una fecha más temprana para mi cita.
+      - Necesito que me den otra oportunidad de horario.
+      - ¿Es posible que mi reserva sea en una franja horaria distinta?
+      - Tengo que ajustar la programación, ¿con quién hablo?
+      - Me gustaría buscar una fecha posterior para mi agendamiento si hay hueco.
+      - Mi horario cambió de improviso, ¿puedo consultar por otras disponibilidades de día?
+      - Consulto si se puede asignar mi cita a una fecha diferente.
+      - Por motivos personales, ¿podría pedir un nuevo calendario para mi programación?
+      - Necesito que me faciliten un lapso de tiempo diferente para la reserva.
+      - La cita que tengo no me conviene, ¿podemos coordinar otro día?
+      - Mi agenda está full, ¿es posible desplazar la fecha de mi turno?
+      - ¿Podría pedir que se intercambie mi hora por otra?
+      - Quisiera ver si puedo reprogramar para más temprano.
+      - Tuve un contratiempo, ¿hay chance de buscar una fecha alternativa?
+      - Me gustaría reajustar la hora de mi agendamiento.
+      - ¿Cómo hago para tramitar una fecha diferente para mi cita?
+      - Hola, tengo un impase con la fecha que programé, ¿cómo lo puedo solucionar?
+      - Disculpa, mi tiempo se complicó, ¿hay chance de que vea otra hora?
+      - Oe, lo que agendé ya no me conviene, ¿podrías darme otras opciones?
+      - Buenas, quisiera saber si puedo redefinir mi hora de visita.
+      - Se me presentó algo de último momento, ¿hay forma de que mi cita tenga otro momento?
+      - Necesito acomodar la hora que separé, ¿cómo le hago?
+      - La fecha que puse ya no es viable para mí, ¿se puede recalendarizar?
+      - Mi disponibilidad ya no es la misma, ¿podría conseguir otra cita?
+      - ¿Habría manera de que mi agendamiento sea un poco más tarde o más temprano?
+      - Quisiera indagar si puedo buscar un lapso diferente para mi turno.
+      - Se me cruzó otro evento, ¿hay flexibilidad para que mi reserva sea en otro día?
+      - Podría por favor ver si puedo seleccionar una hora distinta para mi compromiso?
+      - La hora que tengo programada ya no me funciona, ¿se podría reconsiderar?
+      - Me gustaría consultar la viabilidad de conseguir una fecha más apta para mi reserva.
+      - Hola, la fecha que tengo separada ya no me es posible, ¿podrían darme otra?
+      - Disculpa, mi horario de hoy se complicó, ¿sería factible un nuevo cupo para la cita?
+      - Oe, la hora que marqué no la hago, ¿hay alguna otra disponible?
+      - Buenas, me salió un cachuelo de improviso, ¿podría ver si hay un nuevo espacio para mi turno?
+      - Tengo un inconveniente con el día de mi reserva, ¿habría forma de que me den otra opción?
+      - Quisiera saber si la cita que tengo puede ser reprogramada para otro día.
+      - No puedo ir a la hora fijada, ¿es posible que me brinden otro horario?
+      - Se me cruzó un compromiso familiar, ¿cómo puedo hacer para que mi reserva sea en otro momento?
+      - Necesito que mi agendamiento tenga una fecha diferente, ¿cómo le hacemos?
+      - La hora que puse no me calza, ¿hay opción de que me pongan en otro día?
+      - ¿Podrían confirmarme si es viable que mi turno sea en otra franja?
+      - Por favor, la cita que tengo necesito que sea en otra oportunidad.
+      - Mi disponibilidad se modificó, ¿hay chance de que me consigan otra fecha?
+      - Me gustaría consultar si puedo optar por un día distinto para mi atención.
+      - Se me presentó una emergencia, ¿hay alguna forma de conseguir otro día para la reserva?
+      - El día que aparté ya no me es útil, ¿hay manera de que lo coloquen en otro momento?
+      - ¿Qué posibilidades hay de que mi reserva sea en un día distinto al que tengo?
+      - Deseo que mi visita sea en otro horario, ¿es posible?
+      - La hora que agendé no me va a dar el tiempo, ¿hay forma de que me la pongan en otro slot?
+      - Tengo que encontrar otra fecha para mi cita, ¿se puede hacer?
+      - Mi programación personal se alteró, ¿podría solicitar otra hora para mi atención?
+      - Ya no puedo asistir en el momento que elegí, ¿hay un hueco para otro día?
+      - La fecha que fijé ya no me conviene, ¿podrían ofrecerme un nuevo cupo?
+      - ¿Sería posible que mi reserva se pase para una fecha posterior?
+      - Necesito buscar una alternativa para mi cita, ¿me pueden ayudar con eso?
+      - Me gustaría que la cita que tengo sea en una oportunidad diferente.
+      - Necesito un cambio para mi reserva.
+      - ¿Hay alguna forma de variar mi agendamiento?
+      - Quisiera pasar mi cita para otra fecha, por favor.
+      - Tengo un percance, ¿puedo ver para cambiar mi turno?
+      - ¿Qué pasos sigo para cambiar de lugar mi reserva?
+      - Oe, me toca mover la fecha que separé.
+      - ¿Hay disponibilidad para otro horario de mi consulta?
+      - Me es apremiante gestionar un cambio en mi turno.
+      - Necesito ver si se puede reordenar mi programación.
+      - Mi hora de cita es incompatible, ¿hay forma de reajustarla?
+      - ¿Hay forma de obtener un día diferente para mi cita?
+      - Quisiera que se reajuste el horario que separé.
+      - Me gustaría que mi reserva sea en otra ocasión.
+      - Tengo que rectificar algo de mi agendamiento.
+      - ¿Qué opciones hay para un día diferente?
+      - Oe, creo que elegí mal el día, ¿se puede enmendar?
+      - Quisiera un cambio en el tiempo de mi turno.
+      - Tuve un problema, ¿es factible solicitar otro horario para mi turno?
+      - ¿Hay forma de encontrar otra franja horaria?
+      - Mi fecha no me sienta bien, ¿qué se puede hacer?
+      - Porfis, preciso reacomodar mi horario de reserva.
+      - ¿Puedo elegir otra jornada para mi visita?
+      - Deseo revisar mi reserva confirmada para hacer cambios.
+      - ¿Habría chance de que mi agendamiento sea más temprano o más tarde?
+      - La cita que tengo no me acomoda, ¿puedo pedir un cambio?
+      - Deseo realizar un ajuste en la fecha de mi reserva.
+      - ¿Se podrá cambiar el tiempo asignado a mi turno?
+      - Nesecito reajustar la hora que separé.
+      - Un imprevisto me obliga a variar el día de mi visita.
+      - ¿Me dan alternativas para recolocar mi horario?
+      - Mi fecha actual no es viable, ¿se puede alterar?
+      - ¿Cuál es el proceso para cambiar la fecha de mi agendamiento?
+      - Mi hora agendada me incomoda, ¿se puede reasignar?
+      - Deseo consultar sobre el cambio de mi agendamiento.
+      - Requiero una modificación en mi programación establecida.
+      - ¿Será factible alterar la fecha que separé?
+      - Deseo saber si puedo extender la fecha de mi turno.
+      - Hubo un percance, ¿hay manera de reajustar el día?
+      - ¿Podría solicitar un cambio en la jornada de mi visita?
+      - Porfa, preciso reajustar la hora de mi reserva.
+      - Hola, quisiera ver si puedo reprogramar mi cita, se me cruzó con algo.
+      - Se me complico el horario que separe, ¿habra forma de cambiarlo?
+      - ¿Podría buscar otra fecha para el agendamiento que tengo?
+      - Disculpa, ¿me podrías ayudar a reubicar el día de mi agendamiento?
+      - Tuve un percance, ¿hay forma de mover mi cita para antes?
+      - La hora que tengo separada no me funciona, ¿puedo pedir que se atrase?
+      - Causa, la hora que reservé ya no me da. ¿Puedo cambiarla?
+      - Hola, una consulta, ¿cómo hago para cambiar la hora que ya separe?
+      - Se me cruzó algo impostante, ¿hay posibilidad de reprogramar mi visita?
+      - Necesito otra fecha para mi cita, me equivoque al elejir.
+      - Podría pedir que se me mueva la cita para mas tarde?
+      - El día agendado no me va, ¿me pueden ayudar a buscar otro?
+      - Quisiera que mi agendamiento sea más temprano, ¿es factible?
+      - Se me anulo un plan, ¿podría reubicar mi fecha de reserva?
+      - Quiero reajustar mi reserva, ¿es viable?
+      - Me salio una urgencia, ¿habrá modo de cambiar mi hora?
+      - Salió una cita medica inesperada, ¿puedo ver si adelanto la mia?
+      - Hay chance de mover el horario que aparte?
+      - El horario que me dieron no me combiene, ¿podríamos cambiarlo?
+      - Por temas de chamba, ¿es posible reacomodar mi fecha?
+      - Necesito que me muevan la reserva de día, porfa.
+      - Hay manera de poner mi cita en un horario posterior?
+      - Surgió un contratiempo, ¿hay cómo ajustar mi horario?
+      - El día que elejí no me va, ¿puedo cambiarlo a otro?
+      - Quisiera permutar el día de mi turno, ¿se puede?
+      - Debo gestionar un cambio en mi programación, ¿qué hago?
+      - Estoy buscando otra asignación de hora, ¿me ayudan?
+      - Mi fecha de cita, ¿se podrá reubicar a otra?
+      - No me cuadra la fecha que elegí, ¿hay manera de solucionar esto?
+      - Podría reestructurar mi reserva? Es que no me da el tiempo.
+      - Cambio mi situación, ¿me pueden dar otro momento?
+      - Quisiera reorganizar mi turno, ¿que opciones tengo?
+      - Quiero un nuevo horario para la cita que ya tengo, ¿cómo procedo?
+      - Necesito reconfirmar si puedo seleccionar otro día para mi reserva.
+      - Estoy explorando opciones para adelantar mi fecha, ¿me dicen cuales son?
+      - Se me complico todo, ¿podré atrasar mi agendamiento?
+      - Por favor, necesito otra fecha para mi turno, ¿pueden ayudarme?
+      - Quisiera saber como puedo ver un nuevo momento para mi reserva.
+      - La fecha que agende ya no me sirve, ¿hay forma de cambiarla?
+      - Quiero reasignar mi visita, ¿cómo hago?
+      - ¿Puedo cambiar la programación de mi cita?
+      - Mi horario se desacomodó, ¿habrá forma de reacomodarlo?
+      - Quisiera ver si puedo pedir una modificación para mi turno.
+      - Tengo un rollo con la fecha, ¿pueden ayudarme a buscar otra?
+      - Necesito permutar la hora de mi reserva, por favor.
+      - ¿Es factible que me mueva la reserva para otro día?
+      - Me gustaría reordenar mi agenda, ¿puedo cambiar la cita?
+      - Se me presentó una complicasión, ¿cómo hago para cambiar la fecha?
+      - Deseo consultar sobre el cambio de mi turno reservado.
+      - Quisiera averiguar si puedo desplazar mi agendamiento.
+      - Hay alguna manera de reajustar mi hora separada?
+      - Necesito que me den una nueva opción para mi cita.
+      - Mi disponibilidad ha variado, ¿puedo adelantar o atrasar?
+      - ¿Podría solicitar una reubicación del día que tengo?
+      - La fecha que programe ya no me cuadra, ¿que se puede hacer?
+      - Quiero ver si puedo ajustar mi cita para un momento diferente.
+      - Se me presento un imprevisto fuerte, ¿me pueden cambiar la fecha?
+      - Deseo reprogramar mi hora de visita, si es posible.
+      - Necesito otro espacio para mi reserva, esta no me cae bien.
+      - ¿Hay algún chance de que me muevan la hora agendada?
+      - Me gustaría obtener una nueva asignación para mi turno.
+      - Porfa, quiero ver si puedo cambiar mi cita pa' otro día.
+      - Mi día se complicó, ¿se podrá coordinar para otra fecha?
+      - Quisiera ver opciones para reasignar mi agendamiento.
+      - Debo variar mi reserva, ¿es posible reubicarla?
+      - Tengo que ver otro horario para mi compromiso, el que tengo no va.
+      - ¿Cómo hago para pedir un reajuste en mi fecha de turno?
+      - Necesito cambiar la hora que tenía, me surgió algo importante.
+      - Me gustaría pedir que me pasen la reserva para después.
+      - ¿Podría consultar sobre la reprogramación de mi visita?
+      - La hora que tengo no me conviene, ¿se puede buscar una diferente?
+      - Quiero ver si es posible una recolocación de mi fecha.
+      - Deseo adelantar mi cita, ¿hay opción?
+      - Se me presento un problema, ¿me pueden mover el agendamiento?
+      - Necesito hacer un canbio en la hora de mi reserva.
+      - ¿Hay alguna posibilidad de postergar mi turno?
+      - Mi situación cambió, ¿podría pedir que me reubiquen mi cita?
+      - Quisiera ver el tema de mi reserva, si se puede pasar a otro momento.
+      - Deseo saber si es posible intercambiar mi fecha agendada.
+      - Tengo que hacer una modificasion de mi cita, ¿cómo le hago?
+      - Hola, ¿es posible variar la fecha y hora de mi reserva?
+      - ¿Cómo hago para pedir un nuevo día para mi turno?
+      - Necesito cambiar mi agendamiento, ¿qué debo hacer?
+      - Se me presentó un impredisto, ¿podré mover mi cita?
+      - ¿Puedo posponer mi reserva para otra semana?
+      - Quisiera reajustar la hora que tengo, ¿me ayudan?
+      - La fecha que separé ya no me cuadra, ¿hay opciones?
+      - Deseo adelantar mi turno si es que hay disponibilidad.
+      - Mi disponibilidad cambió, ¿puedo ver otro momento para mi cita?
+      - ¿Es factible reprogramar mi reserva de cancha?
+      - Se me complicó un poco, ¿se puede cambiar mi hora?
+      - Necesito un reajuste en mi reserva, ¿cómo procedo?
+      - ¿Hay manera de atrasar mi agendamiento?
+      - Quisiera averiguar si puedo cambiar el día de mi visita.
+      - No puedo asistir a la hora acordada, ¿se puede modificar?
+      - Me gustaría ver si hay otro día disponible para mi reserva.
+      - ¿Puedo pedir un cambio de horario para mi turno?
+      - Tengo que mover mi reserva a una fecha posterior.
+      - Un favor, ¿puedo reubicar mi cita para mañana?
+      - La fecha que tengo no me sirve, ¿se puede modificar el turno?
+      - Se cruzó con otro compromiso, ¿hay chance de variar mi reserva?
+      - Necesito un nuevo día y hora para mi agendamiento.
+      - ¿Cómo hago para que me cambien el día de mi reserva?
+      - Quisiera ver si es posible reasignar mi visita a otra fecha.
+      - Me gustaría reconfirmar la posibilidad de mover mi hora.
+      - Por favor, ¿podría gestionarme un cambio de fecha en mi turno?
+      - La hora que elegí ya no me acomoda, ¿qué alternativas hay?
+      - ¿Existe alguna opción para reorganizar mi cita?
+      - Deseo consultar sobre el cambio de mi reserva.
+      - Tengo que ajustar mi agendamiento, ¿me dan una mano?
+      - ¿Puedo cambiar el turno que tengo por uno más temprano?
+      - Necesito que me reasignen mi reserva, no llego a esa hora.
+      - Me gustaría aplazar mi cita un par de horas, ¿se puede?
+      - ¿Cómo le hago para cambiar la fecha de mi turno?
+      - Quisiera ver si puedo modificar la hora de mi agendamiento.
+      - Tengo un problema con la fecha, ¿se puede buscar otra?
+      - Deseo reprogramar mi visita, ¿cómo son los pasos?
+      - Me salió un imprevisto, ¿hay posibilidad de cambiar mi turno?
+      - ¿Es posible mover mi reserva para otro día de la semana?
+      - Necesito variar la fecha de mi agendamiento, ¿hay espacio?
+      - Oe, ¿habrá forma de ajustar mi agenda para la reserva?
+      - Hola, quisiera ver si me dan otra fecha para lo que aparté.
+      - Necesito cuadrar otro horario, me salió algo urgente.
+      - ¿Podría ver si la cita puede ser en otra ocasión, porfa?
+      - Mi fecha actual ya no me sirve, ¿podríamos encontrar otra?
+      - Pata, mi turno no me cae, ¿cómo hago pa' ponerlo otro día?
+      - Quisiera retrasar un poco el agendamiento.
+      - ¿Es posible adelantar lo que separé, causa?
+      - El horario que elegí ya no me acomoda, ¿será posible reajustarlo?
+      - Quisiera ver si me permiten elegir otra fecha para la reserva.
+      - Tuve un roche, ¿se podrá aplazar la cita un rato?
+      - Disculpe, ¿se podrá hacer que mi reserva sea en una hora distinta?
+      - Me salió algo, ¿cómo hago para mover lo agendado a otro día?
+      - Mi turno ya no me calza bien, ¿habrá un hueco en otro momento?
+      - Quiero ver si puedo ajustar el día que tengo separado.
+      - Oe, ¿puedo dejar mi cita para más tarde?
+      - Esa hora no me viene, ¿será posible ver otra franja horaria?
+      - Discúlpame, ¿podría tener mi reserva en un horario diferente?
+      - La fecha que aparté ya no me funciona, ¿hay alguna manera de arreglarlo?
+      - Necesito encontrar un momento distinto para mi agendamiento, tuve un imprevisto.
+      - Quisiera reprogramar mi visita, ¿es factible?
+      - ¿Cómo gestiono para que mi cita sea en un día diferente?
+      - Necesito que me den un espacio distinto, la que tengo ya no me calza.
+      - Me salió un contratiempo, ¿hay forma de ubicar mi reserva en otra fecha?
+      - Quiero solicitar que mi hora sea otra, ¿se puede?
+      - La hora que aparté ya no me va, ¿habrá modo de fijarla para otro instante?
+      - Pucha, ¿se podrá encontrar otra fecha para el turno que tengo?
+      - Me gustaría adelantar lo agendado, ¿es viable?
+      - Mis tiempos cambiaron, ¿se puede fijar otro horario para la reserva?
+      - Debo buscar una fecha distinta para lo que separé.
+      - ¿Podrían asignarme la cita para un instante diferente, por favor?
+      - Tuve una emergencia, ¿puedo aplazar la fecha de mi reserva?
+      - Deseo ver si es posible programar mi visita en un horario diferente.
+      - La fecha que tengo no me conviene, ¿me dan una alternativa?
+      - Oe, ¿puedo pedir que el agendamiento sea en otra hora?
+      - Debo ajustar el día de mi cita, ¿hay manera?
+      - Necesito conseguir otra franja para mi reserva, ¿me echas una mano?
+      - ¿Podría solicitar que me den otro día para mi turno?
+      - La hora que escogí no me sienta bien, ¿cómo se soluciona?
+      - Quiero mover mi cita de la agenda, ¿se puede hacer en otra fecha?
+      - Causa, mi reserva... ¿habrá forma de verla en otro momento?
+      - Hola, mi hora que separé, ¿se podrá poner en otra fecha?
+      - Se me presentó un roche, ¿podrían darme un horario distinto?
+      - Mi agendamiento, ¿se puede recalendarizar?
+      - Mi cita, ¿se podrá poner en un momento más temprano o más tarde?
+      - No podré asistir, ¿hay alguna forma de conseguir otro hueco?
+      - Necesito solucionar lo de mi reserva, ¿me pueden dar una alternativa de horario?
+      - Quiero preguntar si mi fecha reservada la pueden acomodar de otra manera.
+      - Mi plan cambió, ¿podría consultar por una nueva franja horaria?
+      - La hora agendada ya no me va, ¿habrá manera de buscar otra?
+      - Necesito poner mi cita para otro día, ¿me dicen cómo?
+      - Mi reserva, tengo que ver si puedo acomodarla en otro horario.
+      - ¿Será posible que mi reserva la coloquen en una fecha futura?
+      - Se me cruzó algo, ¿podría solicitar otra hora para mi turno?
+      - Mi agendamiento, ¿lo puedo reprogramar?
+      - Estoy viendo si mi fecha reservada la puedo traer un poco antes.
+      - Pata, la hora de mi reserva, ¿se puede coordinar diferente?
+      - No llegaré a tiempo, ¿hay forma de buscar un hueco más tarde?
+      - Mi cita, ¿se podrá poner en la otra semana?
+      - Quiero ver si puedo dejar mi visita para después.
+      - Mi reservación, ¿cómo gestiono para que me den otro día?
+      - Tengo que resolver algo con mi agendamiento.
+      - La hora que aparté, ¿se podrá reconfirmar con otra?
+      - Disculpa, ¿podré solicitar que vean otra organización para mi turno?
+      - Necesito pedir un cambio de calendario para mi reserva.
+      - Mi turno, ¿hay chance de que lo dejen para una hora más tarde?
+      - La fecha que elegí ya no me calza, ¿qué se puede solucionar?
+      - Tengo que ver si es posible buscar otro encaje para mi horario.
+      - Mi reserva, ¿cómo hago para ver un momento diferente?
+      - Se me presentó una emergencia, ¿habrá disponibilidad para otro día?
+      - Quisiera ver si puedo poner mi cita en un día posterior.
+      - Necesito que me den una asignación horaria diferente.
+      - Mi fecha agendada, ¿se podrá recorrer?
+      - Tengo que ver un arreglo para mi reserva, ¿es posible?
+      - ¿Es posible que me den un horario más tardío para mi turno?
+      - Quisiera ver si puedo dejar mi agendamiento para una fecha posterior.
+      - Mi reserva, ¿cómo hago para que me la den en otra franja?
+      - Me equivoqué al reservar, ¿podría solucionar ese error?
+      - Tengo un impase, ¿se podrá ver otra alternativa de fecha para mi cita?
+      - Mi hora programada, ¿me pueden dar otra opción?
+      - Consulta, ¿puedo ver si movemos mi reserva?
+      - Se me complicó, ¿será posible reajustar mi cita?
+      - Necesito otro espacio para mi turno, ¿se podrá?
+      - ¿Hay forma de mover mi agendamiento para otro momento?
+      - Quisiera ver si puedo pedir una fecha diferente.
+      - La fecha que tengo ya no me cuadra, ¿se puede coordinar otro día?
+      - ¿Es posible reasignar el horario que tengo?
+      - Debo hacer un cambiaso a mi reserva, ¿cómo hago?
+      - Se me cruzó algo, ¿podría solicitar otro día?
+      - Quisiera ver si me pueden dar otra hora para mi cita.
+      - No voy a poder ir a la hora, ¿se puede ajustar?
+      - Me urge adelantar mi reserva, ¿se podrá?
+      - Porfa, ¿se puede aplazar mi agendamiento?
+      - ¿Cómo puedo cambiar el día de mi turno?
+      - Tengo que reacomodar mi cita, ¿me ayudan?
+      - Se me presentó una emergencia, ¿podría mover mi reserva?
+      - Quiero ver si puedo retrasar la fecha que tengo.
+      - Mi horario ya no me sirve, ¿hay opción de cambiarlo?
+      - ¿Es posible pedir otra hora para mi agendamiento?
+      - Necesito un cambio en mi reserva, ¿qué hago?
+      - Podría mover mi cita para otro momento, porfa?
+      - La fecha que elegí ya no me conviene, ¿se puede modificar?
+      - Quisiera averiguar si puedo cambiar mi día de visita.
+      - Se me presentó un roche, ¿podría reajustar mi turno?
+      - Necesito una nueva fecha para mi cita, ¿hay disponibilidad?
+      - ¿Hay posibilidad de reubicar el momento de mi reserva?
+      - Me gustaría modificar la hora de mi agendamiento.
+      - Debo trasladar mi cita para otro horario, ¿es posible?
+      - Se me cruzó un compromiso, ¿puedo cambiar el día?
+      - Quisiera ver alternativas para el momento de mi reserva.
+      - No puedo asistir en la fecha acordada, ¿se puede reprogramar?
+      - Necesito un reajuste en mi turno, ¿cómo procedo?
+      - ¿Podría solicitar un cambio en mi fecha agendada?
+      - Se me presentó un percance, ¿puedo alterar mi horario?
+      - Me gustaría explorar opciones para adelantar mi cita.
+      - Quiero posponer mi reserva para otro día, ¿es posible?
+      - Mi disponibilidad varió, ¿podría cambiar la hora de mi turno?
+      - Necesito hacer una modificación a mi agendamiento.
+      - ¿Es posible que me den otro día para mi visita?
+      - Tengo que reubicar mi cita, ¿se puede hacer por aquí?
+      - ¿Podría reprogramar mi turno, porfa?
+      - Necesito aplazar mi cita, ¿se podrá?
+      - Quiero coordinar un nuevo día para lo que aparté.
+      - ¿Existe alguna forma de cambiar mi cita programada?
+      - Mi horario laboral ha variado, ¿es posible reubicar mi agenda?
+      - Se me presentó un compromiso inesperado, ¿puedo pedir que me cambien el horario?
+      - ¿Hay posibilidad de adelantar mi reserva para más temprano?
+      - Necesito posponer mi reunión, ¿se puede?
+      - Quisiera ver si puedo postergar mi visita programada.
+      - ¿Será que se puede ajustar la fecha de mi compromiso?
+      - Tengo que mover la fecha que separé, ¿cómo hago?
+      - Me gustaría reconfirmar si podemos escoger otro momento.
+      - ¿Puedo cambiar el espacio que ya agendé?
+      - La verdad es que no podré ir ese día, ¿hay chance de cambiarlo?
+      - Quiero reprogramar el encuentro que tengo con ustedes.
+      - ¿Me pueden dar una mano para que me asignen otra hora?
+      - Debo reagendar mi turno, ¿qué opciones tengo?
+      - Tuve un percance y necesito una nueva fecha, ¿es factible?
+      - Quisiera ver si hay cómo acomodar mi reserva a otro día.
+      - ¿Se puede modificar la hora de mi cita con ustedes?
+      - Necesito gestionar un cambio en mi programación ya hecha.
+      - Por favor, ¿me podrían reasignar la fecha de mi turno?
+      - Consulto sobre la disponibilidad para cambiar mi agendamiento.
+      - Mi fecha agendada me choca, ¿se puede ver otro momento?
+      - Quisiera coordinar para que mi reserva sea en otro momento.
+      - La verdad, me gustaría adelantar mi cita, ¿habrá forma?
+      - No puedo asistir ese día, ¿cómo hago para cambiar el agendamiento?
+      - ¿Es posible que mi turno sea reubicado?
+      - Quisiera averiguar si puedo atrasar el compromiso que tengo.
+      - Me gustaría recalendarizar mi visita.
+      - Necesito un reajuste de mi hora, ¿es posible?
+      - ¿Hay alguna posibilidad de mover mi hora de atención?
+      - Se me presentó una emergencia, ¿puedo solicitar un cambio de día?
+      - Deseo reagendar la fecha de mi consulta.
+      - Quisiera saber si puedo adelantar mi cita para otro día.
+      - La fecha que tengo ya no me sirve, ¿cómo puedo gestionar un cambio?
+      - ¿Podrían facilitarme un cambio para mi cita?
+      - Mi agenda cambió, ¿se puede posponer mi reserva?
+      - Necesito que me reasignen mi hora, tuve un inconveniente.
+      - ¿Es factible que me cambien el día que tengo programado?
+      - La reserva que tengo, ¿se puede traspasar a otro horario?
+      - ¿Habrá manera de **ajustar el cupo** que tengo?
+      - Tengo un impase, ¿puedo ver si el día se puede replantear?
+      - La hora programada no me va, ¿sería posible elegir otra franja?
+      - Necesito que mi agendamiento se traslade a otra fecha.
+      - ¿Cómo puedo reordenar el día de mi cita?
+      - Mi disponibilidad varió, ¿podría solicitar una nueva asignación para mi turno?
+      - Quisiera ver si me dan la chance de adelantar mi visita.
+      - ¿Es factible retrasar mi turno para más tarde?
+      - Se me presentó una contingencia, ¿hay forma de ver otro momento?
+      - La fecha que elegí no es compatible con mi agenda, ¿se podrá cambiar?
+      - Necesito mover mi agendamiento a otro día de la semana.
+      - Mi booking, ¿se le puede aplicar un ajuste de fecha?
+      - Quisiera reagendar mi atención.
+      - ¿Podría coordinar un día distinto para mi cita?
+      - Tengo un percance, ¿es posible modificar el horario que tengo?
+      - La reserva, ¿cómo la paso a otra fecha?
+      - Deseo saber si puedo cambiar mi visita.
+      - Necesito una fecha alternativa para mi cita, por favor.
+      - ¿Se puede reubicar el turno que tengo?
+      - Quisiera aplazar mi visita.
+      - Mi horario cambió, ¿puedo ver otro segmento de tiempo?
+      - La reserva que hice, ¿se podrá correr para la próxima semana?
+      - Necesito revisar si es posible alguna alteración en mi programación.
+      - ¿Hay alguna opción para replanificar el espacio que tengo?
+      - Quiero modificar el día de mi booking.
+      - Deseo reajustar el tiempo de mi turno.
+      - Se me complicó, ¿puedo trasladar mi atención?
+      - Necesito un período diferente para mi agendamiento.
+      - ¿Cómo hago para reubicar mi reserva a otra hora?
+      - Quisiera consultar por una nueva organización para mi cita.
+      - Mi cita, ¿se puede transferir a la semana siguiente?
+      - Necesito ajustar el momento de mi visita.
+      - La fecha que aparté no me acomoda, ¿se puede resolver de otra forma?
+      - ¿Podría solicitar un horario distinto para mi turno?
+      - Quiero ver si puedo mover mi agendamiento para el día siguiente.
+      - Se me presentó una eventualidad, ¿es posible reprogramar mi cita?
+      - Necesito una fecha y hora nuevas para mi reserva.
+      - Mi reserva, ¿cómo la sitúo en otro horario?
+      - ¿Hay forma de que mi cita se mueva a una hora posterior?
+      - Hola, ¿podría ver si mi reserva tiene otro horario disponible?
+      - Se me presentó un percance, ¿hay forma de que mi cita sea otro día?
+      - Mi agenda está full, ¿hay cómo coordinar un momento distinto para mi agendamiento?
+      - Pucha, la fecha que elegí ya no me calza, ¿podemos hallar una alternativa?
+      - Necesito una nueva asignación para mi turno, por favor, ¿es factible?
+      - ¿Es posible que se me otorgue otra fecha para lo que ya separé?
+      - Mi disponibilidad no me da, ¿puedo solicitar un lapso de tiempo diferente?
+      - Se me cruzó un evento, ¿hay chance de que mi visita sea en un momento posterior?
+      - Quisiera que mi hora ya pactada sea en un horario diferente.
+      - ¿Cómo hago para establecer un nuevo día para mi agendamiento?
+      - La hora que aparté ya no me sirve, ¿se puede buscar una solución?
+      - Tengo que ver si la fecha de mi visita puede ser otra, ¿me orientan?
+      - ¿Me podrían ofrecer un día distinto para mi turno?
+      - Necesito coordinar una nueva planificación para mi cita, ¿se podrá?
+      - Me salió un inconveniente, ¿se puede considerar otro horario para mi agendamiento?
+      - Quisiera averiguar sobre la posibilidad de otro lapso para mi reserva.
+      - ¿Me podrían indicar cómo puedo obtener otra fecha para mi turno?
+      - La fecha que puse no me es viable, ¿hay manera de que sea otra?
+      - ¿Hay modo de conseguir un horario diferente para mi cita?
+      - Estoy viendo de ubicar mi visita en otra oportunidad.
+      - Necesito otra programación para mi reserva, ¿hay disponibilidad?
+      - ¿Es posible que mi cita sea un poco más temprano?
+      - Mi situación dio un giro, ¿podré pedir un momento posterior para mi reserva?
+      - ¿Qué otras alternativas hay para la hora que ya tengo separada?
+      - Quiero definir un día diferente para mi turno, ¿cómo procedo?
+      - Se me presentó un roche, ¿puedo ver otro espacio para mi cita?
+      - ¿Me ayudan a establecer una nueva fecha para mi visita, porfa?
+      - La fecha me choca, ¿hay forma de fijar un día distinto?
+      - Quisiera que mi reservación sea en otro lapso, ¿es posible?
+      - Tengo que buscar una nueva ubicación para mi agendamiento, ¿cómo se hace?
+      - ¿Se puede asignar un horario diferente a mi visita?
+      - Necesito ver otro día para mi turno, ¿es factible hacer esto?
+      - ¿Hay alguna forma de dar un nuevo giro a mi agendamiento?
+      - La fecha que puse ya no me sirve, ¿hay manera de establecer otra?
+      - Quiero solicitar una nueva programación para mi cita.
+      - ¿Me puedes ayudar a buscar un nuevo momento para mi reserva?
+      - No me da el tiempo ese día, ¿hay otro día disponible?
+      - Quisiera que me brinden una opción diferente para mi agendamiento.
+      - Mi disponibilidad varió, ¿puedo ver si mi hora se coloca en otro momento?
+      - Se me presentó un impase, ¿cómo puedo coordinar un turno diferente?
+      - Hola, ¿hay alguna posibilidad de reajustar mi compromiso?
+      - ¿Podría ver si la cita que tengo se puede pasar para otro momento?
+      - Necesito mover mi agendado, ¿es factible?
+      - Quisiera consultar si puedo arreglar mi separación de fecha.
+      - Se me presentó una urgencia, ¿hay forma de cuadrar otro horario?
+      - Mi disponibilidad ha cambiado, ¿se puede reasignar mi turno?
+      - ¿Qué opciones tengo para la hora que ya tengo separada?
+      - Me gustaría pedir un ajuste en los detalles de mi reserva.
+      - ¿Puedo cambiar el espacio de tiempo que agendé?
+      - Tengo un problema con el día que aparté, ¿podrían ayudarme?
+      - Se me cruzó algo importante, ¿es posible replanificar mi visita?
+      - Por fa, ¿puedo cambiar el día que tenía previsto?
+      - No me encuentro libre para mi cita, ¿se puede buscar otra fecha?
+      - Quisiera ver si es posible una recolocación de mi hora.
+      - Debo variar la hora de mi agendamiento.
+      - ¿Es posible solicitar una nueva organización de mi cita?
+      - Nesesito gestionar una recalendarización de mi visita.
+      - Me gustaría saber si se puede cambiar mi fecha inicial.
+      - ¿Se podría buscar otra disponibilidad para mi cita?
+      - La fecha que tengo no me conviene, ¿podemos ver otra?
+      - Mi situación ha dado un giro, ¿hay forma de mover mi cupo?
+      - ¿Existe la posibilidad de ajustar mi programación?
+      - Deseo seleccionar otro horario para el turno que ya tengo.
+      - Quiero verificar si puedo escojer un día diferente.
+      - Se me hizo una palta, ¿podré mover el horario de mi reserva?
+      - Necesito que me den un nuevo día para mi encuentro, por favor.
+      - ¿Cómo hago para ver un momento diferente para mi compromiso?
+      - La fecha que agendé ya no me acomoda, ¿qué se puede hacer?
+      - Quisiera pedir un reagendamiento de mi visita.
+      - Me gustaría consultar por la viabilidad de otro momento para mi cita.
+      - ¿Es posible reajustar la asignación de mi turno?
+      - Tengo un impase con mi fecha, ¿me darían una solución?
+      - Necesito que me den una nueva asignación para mi hora.
+      - Me gustaría buscar otra franja horaria para mi cita.
+      - Se me presentó un tema, ¿se puede variar mi fecha?
+      - ¿Hay alguna manera de reubicar el espacio que tengo?
+      - Deseo un acomodo en mi horario de visita.
+      - Quisiera diferir la fecha de mi turno.
+      - Necesito un lapso de tiempo distinto para mi cita.
+      - Me gustaría que me brinden una opción diferente de día.
+      - ¿Hay manera de reprogramar mi cita?
+      - Me gustaría diferir la hora de mi turno.
+      - Busco anticipar mi agendamiento.
+      - ¿Es posible conseguir una nueva fecha para mi espacio reservado?
+      - Mis planes se alteraron, ¿podríamos buscar otro momento?
+      - Hola, ¿podría reprogramar mi compromiso?
+      - ¿Se puede diferir mi turno un poquito?
+      - Me salió un imprevisto, ¿puedo coordinar para otro momento mi cita?
+      - Deseo coordinar un horario diferente para mi reservación.
+      - ¿Se podría recalendarizar mi visita?
+      - La hora fijada no me da, ¿qué opción existe?
+      - Se me presentó un problema, ¿es factible adelantar mi atención?
+      - ¿Se podrá desplazar la fecha de mi encuentro?
+      - Quisiera encontrar un horario alternativo para mi agendamiento.
+      - Me urge una nueva programación de horario.
+      - ¿Se puede diferir mi turno?
+      - El horario programado no me viene, ¿qué posibilidades tengo para cambiarlo?
+      - Pucha, tengo que reprogramar mi asistencia.
+      - ¿Podrían gestionar una alteración en la fecha de mi cita?
+      - Necesito una nueva franja horaria para mi compromiso.
+      - Porfa, ¿se podría correr la hora que tengo?
+      - ¿Hay alguna forma de anticipar mi visita?
+      - Requiero otra fecha para mi cita programada.
+      - ¿Cómo consulto por un día alterno para mi compromiso?
+      - Se me presentó una complicación, ¿puedo solicitar un cambio para mi reserva?
+      - ¿Es posible cambiar la ubicación temporal de mi cita?
+      - Quisiera explorar opciones distintas para mi turno.
+      - Deseo reprogramar mi turno para más tarde.
+      - ¿Se puede diferir la atención programada?
+      - Me urge anticipar la hora de mi atención, ¿es factible?
+      - ¿Qué tal si adelantamos el horario de mi reserva a primera hora?
+      - Me gustaría diferir mi visita un poquito.
+      - La fecha que separé no me conviene, ¿podemos coordinar un nuevo día?
+      - Requiero un horario sustituto para mi cita.
+      - ¿Existe la opción de trasladar mi compromiso a otra jornada?
+      - Quisiera ver si puedo recalendarizar lo que tengo.
+      - Se me complicó un toque, ¿podría pedir un cambio en mi agenda?
+      - ¿Me podrías ofrecer un momento alternativo para mi encuentro?
+      - Estoy buscando reubicar mi compromiso en una franja horaria distinta.
+      - Por favor, ¿cómo puedo gestionar una nueva programación para mi turno?
+      - ¿Podría pedir un cambio para la fecha que tengo?
+      - Quisiera ver si mi compromiso puede ser en otro instante.
+      - Necesito una mano para arreglar la fecha que aparté.
+      - ¿Hay alguna posibilidad de que el agendamiento que hice sea en otro momento?
+      - Mi turno me cae mal ese día, ¿qué alternativa hay?
+      - Disculpa, ¿es factible mover mi visita para otro momento?
+      - La reserva que hice, ¿se puede ver si la pongo para antes o para después?
+      - Se me presentó algo, ¿habrá forma de arreglar el horario?
+      - Se me cruzó algo, ¿cómo hago para que la fecha sea otra?
+      - Necesito que me den una alternativa para la cita.
+      - ¿Hay chance de que la fecha de mi reserva sea diferente? Me salió un imprevisto.
+      - Quiero ver si puedo hacer mi cita un poco más temprano.
+      - Mi horario se complicó, ¿es posible que la hora sea otra?
+      - Tengo que ver si la fecha que tengo se puede arreglar, ¿me puedes ayudar?
+      - ¿Es posible que mi turno sea en otro momento?
+      - Me gustaría ver si el compromiso que tengo puede ser en otra fecha.
+      - La fecha que separé ya no me acomoda, ¿qué hacemos?
+      - Necesito ver si el encuentro puede ser en otro momento, ¿cómo le va?
+      - ¿Podría solicitar un cambio en mi reserva?
+      - Se me ha presentado un inconveniente, ¿hay alguna manera de cambiar la programación?
+      - Quisiera ver si puedo poner mi cita para más tarde.
+      - ¿La fecha que tengo se puede correr un poco?
+      - Necesito ver si mi turno puede ser más temprano, por la mañana.
+      - Disculpa, ¿es posible que el día de mi agendamiento cambie?
+      - Me gustaría arreglar mi horario, ¿hay chance?
+      - ¿Qué alternativa hay para la hora de mi reserbva?
+      - Mi hora no me viene bien, ¿hay forma de que sea en otro momento?
+      - Quiero mover el día de mi visita para después, ¿cómo le va?
+      - Necesito que la fecha sea otra urgente, por favor.
+      - Se me complicó la jugada, ¿puedo ver si mi turno va en otro momento?
+      - ¿Será posible que mi reserva sea en una fecha distinta?
+      - Tengo que ver si la hora que separé se puede arreglar.
+      - Me gustaría reajustar la fecha que tengo.
+      - La sita que tengo, ¿será posible que sea en otro momento?
+      - Necesito ver si hay forma de hacer mi compromiso más temprano.
+      - ¿Podría pedir que mi atención sea en otra hora, por favor?
+      - Se me presentó un inconveniente, ¿podemos revisar la fecha?
+      - ¿Es factible que me cambien el día de mi visita?
+      - Tengo un compromiso, ¿se podría atrasar mi encuentro?
+      - ¿Habrá forma de cambiar el día que agendé?
+      - Quisiera ver si es posible reprogramar mi agendamiento.
+      - Mi fecha programada ya no me cuadra, ¿se puede ver otra?
+      - Necesito mover mi cita a otro momento.
+      - ¿Puedo solicitar un adelanto o atraso de mi turno?
+      - Por un imprevisto, ¿hay opción de cambiar mi hora?
+      - Deseo alterar la fecha de mi reserva.
+      - ¿Se puede ajustar el horario que tengo separado?
+      - Me gustaría reacomodar mi visita.
+      - La hora agendada no me es conveniente, ¿cómo puedo cambiarla?
+      - Necesito otra fecha para mi compromiso, ¿es factible?
+      - ¿Hay manera de reubicar mi turno?
+      - Quisiera explorar opciones para mi reserva actual.
+      - Se me presentó algo urgente, ¿puedo ver otro momento?
+      - Deseo reasignar el día de mi agendamiento.
+      - Mi disponibilidad cambió, ¿se puede modificar la cita?
+      - ¿Cómo hago para ver un nuevo espacio de tiempo para mi reserva?
+      - Necesito un reajuste en mi programación.
+      - Me gustaría adelantar mi cita para mañana.
+      - ¿Es posible posponer mi turno para otro día?
+      - Se puede variar mi fecha programada?
+      - Quisiera reconfigurar los detalles de mi agendamiento.
+      - La hora que tengo no me sirve, ¿hay chance de arreglarlo?
+      - Necesito que me reubiquen mi fecha de reserva.
+      - ¿Podría solicitar una permuta de horario?
+      - Deseo consultar sobre un posible cambio de mi turno.
+      - Me gustaría ver si puedo trasladar mi cita para otro momento.
+      - ¿Hay alguna opción para reorganizar mi reserva?
+      - Necesito una nueva hora para mi reserva, por favor.
+      - Quisiera averiguar si puedo cambiar la hora de mi turno.
+      - La fecha que tengo ya no me acomoda, ¿qué se puede hacer?
+      - Mi situación ha cambiado, ¿puedo pedir otro momento para mi cita?
+      - Me gustaría reconfirmar si puedo seleccionar un día distinto para mi agendamiento.
+      - Quisiera explorar opciones para adelantar mi fecha de reserva.
+      - La fecha agendada no me sirve, ¿se puede hacer algo al respecto?
+      - Quisiera saber si hay opción de reajustar mi agendamiento.
+      - Una consulta, ¿se podría adelantar mi turno para más temprano?
+      - Tengo un problema con el día de mi reserva, ¿habrá forma de cambiarlo?
+      - Me gustaría reacomodar la fecha de mi cita, porfa.
+      - ¿Cómo le hago para mover lo que ya aparté?
+      - Mi horario ya no me cuadra, ¿hay chance de variar mi reserva?
+      - Necesito chequear si puedo posponer mi visita.
+      - Se me presentó algo de último momento, ¿hay cómo reubicar mi cita?
+      - ¿Hay alguna manera de reconfigurar la hora de mi agendamietno?
+      - Quiero ver si puedo trasladar mi reserva para otro momento.
+      - Hola, ¿podría preguntar por un cambio en la fecha que elegí?
+      - Surgió una vaina, ¿se podrá modificar mi turno?
+      - Deseo conultar la disponibilidad para un nuevo horario.
+      - Mi fecha de cita ya no me funsiona, ¿cómo la cambio?
+      - Necesito gestionar un cambio en mi programación, ¿es posible?
+      - Me gustaría reasignar mi agendamiento para otro día.
+      - No podré ir en el día que separé, ¿qué hago?
+      - ¿Qué tal si adelantamos la hora de mi reserva?
+      - Podría por favor reajustar mi cita, se me complicó.
+      - Quiero ver otras opciones para el horario de mi turno.
+      - ¿Se puede mover mi reserva para una fecha más conveniente?
+      - Tengo que variar mi agendamiento, ¿me ayudan con eso?
+      - Mi compromiso actual me impide ir, ¿hay cómo postergar mi reserva?
+      - Disculpa, ¿se podría modificar la fecha de mi visita?
+      - Necesito reestructurar el horario de mi cita, ¿se podrá?
+      - La fecha de mi turno ya no me es factible, ¿podría reubicarla?
+      - Me gustaría explorar un horario distinto para mi reserva.
+      - ¿Es posible permutar mi agendamiento a otra franja horaria?
+      - Quisiera solicitar una reprogramación de mi cita.
+      - Se me cruzó un evento, ¿puedo ver para atrasar mi reserva?
+      - Necesito averiguar si puedo mover mi turno para la próxima semana.
+      - Deseo consultar por la viabilidad de reajustar mi hora separada.
+      - Mi agenda cambió, ¿hay forma de adelantar mi visita?
+      - ¿Podría solicitar una alteración en la fecha de mi agendamiento?
+      - Quisiera ver la manera de modificar mi cita por un tema de chamba.
+      - Se me ha presentado un impase, ¿se podrá reorganizar mi reserva?
+      - Necesito que me den otras alternativas para mi horario agendado.
+      - La fecha que aparté ya no me acomoda, ¿qué se puede hacer?
+      - Me gustaría chequear si hay un hueco para reubicar mi turno.
+      - ¿Existe la posibilidad de cambiar el momento de mi agendamiento?
+      - Hola, ¿hay alguna forma de reprogramar mi agendado?
+      - Disculpa, ¿podríamos desplazar la cita que tengo?
+      - Qué tal, necesito que mi cita tenga una nueva asignación de tiempo. ¿Es factible?
+      - Me chocó con otra cosa, ¿hay modo de replantear mi visita para la tarde?
+      - Oye, la fecha de mi encuentro ya no me funciona, ¿se puede planificar de nuevo?
+      - Quisiera saber si es posible canjear el horario de mi atención médica.
+      - Me gustaría explorar si existe una opción para buscar otro bloque con el especialista.
+      - La hora que separé ya no me acomoda, ¿puedo pedir que me coloquen antes?
+      - Se me presentó un problema familiar, ¿se podría diferir mi cita odontológica?
+      - Necesito una enmienda en mi planificación para la próxima semana.
+      - Hola, ¿hay alguna posibilidad de reordenar mi calendario para la atención?
+      - Tengo que gestionar una fecha distinta para mi sesión con el abogado.
+      - Mi horario laboral ha cambiado, ¿es posible obtener una franja horaria diferente?
+      - Disculpa, tengo un imprevisto, ¿se puede reagendar mi encuentro?
+      - Quisiera averiguar si puedo reprogramar mi visita al centro.
+      - La hora que tengo no me cuadra, ¿cómo puedo ver para un intervalo distinto?
+      - Necesito que mi reserva tenga otra planificación, ¿cómo lo hago?
+      - Me urge adelantar la fecha del examen, ¿es factible?
+      - Mi vuelo se retrasó, ¿habrá forma de atrasar mi llegada?
+      - Se me presentó una emergencia, ¿cómo hago para que mi cita no se pierda y tenga una nueva fecha?
+      - Hola, ¿es posible solicitar una extensión de mi turno de atención?
+      - Quisiera reagendar mi cita con el doctor, por favor.
+      - Necesito que mi cita se anticipe, ¿pueden ayudarme con eso?
+      - Debo diferir mi visita para la próxima semana, ¿es posible?
+      - Me gustaría consultar si puedo hacer un cambio en mi horario de atención.
+      - La fecha que tengo en el sistema no me sirve, ¿se podría conseguir otra opción de tiempo?
+      - Porfa, necesito que me den una ranura de tiempo distinta para mi cita.
+      - Hola, tengo que ajustar el día de mi entrega, ¿es posible?
+      - Se me cruzó un evento, ¿podrían establecer otra fecha para mi entrega?
+      - Mi hora ya no me conviene, ¿se puede organizar otro espacio?
+      - Quisiera ver la posibilidad de adelantar el momento de mi control.
+      - Tengo una cita doble, ¿pueden diferir mi turno con el dentista?
+      - Necesito una fecha alternativa para mi compromiso.
+      - Por un tema de chamba, ¿puedo ver si se puede una nueva ranura para mi encuentro?
+      - La hora que me asignaron ya no es ideal, ¿se puede conseguir una hora más conveniente?
+      - Quisiera coordinar un horario diferente para mi entrevista, si es posible.
+      - Me gustaría recalendarizar mi cita para el próximo mes.
+      - Tengo que desplazar mi sesión de terapia, ¿cómo lo hago?
+      - Hola, ¿es posible que me den una nueva fecha para mi consulta médica?
+      - Se me superpuso algo, ¿hay opción de reordenar mi turno?
+      - Hola, quisiera saber si puedo mover la fecha que separé.
+      - ¿Habrá chance de cambiar mi cita, porfa?
+      - Necesito reajustar mi turno, ¿es factible?
+      - Mi fecha de cita no me va, ¿la puedo cambiar?
+      - Oye, ¿podría adelantar mi agendamiento? Un problemita por acá.
+      - Quiero variar mi hora reservada, ¿se puede?
+      - ¿Existe la posivilidad de retrasar mi compromiso?
+      - La hora que puse no me cuadra, ¿cómo la cambio?
+      - Necesito reacomodar mi visita, ¿qué alternativas hay?
+      - ¿Será que puedo pedir otro momento para mi reserva?
+      - Mi situación ha cambiado, ¿puedo pedir un nuevo día para mi turno?
+      - Quisiera ver si puedo modificar la fecha y hora de mi cita.
+      - ¿Hay opción de pasar mi cita para otra fecha?
+      - Me gustaría cambiar mi reserva de cancha, ¿cómo le hago?
+      - Me salió un imprevisto, ¿podré ver otras fechas para mi agendamiento?
+      - Necesito reestructurar el horario que elegí, ¿es posible?
+      - ¿Puedo pedir que mi reserva sea en otro momento, porfa?
+      - La fecha que tengo ya no me acomoda, ¿puedo ver un nuevo slot?
+      - Deseo reprogramar mi cita, ¿hay disponibilidad?
+      - ¿Se podrá alterar el día de mi agendamiento?
+      - Tengo un impase, ¿se puede mover mi turno?
+      - Quisiera reasignar mi visita, ¿me ayudan con eso?
+      - La hora que aparté ya no va, ¿hay modo de cambiarla?
+      - Necesito un cambio de horario para mi reserva, es urgente.
+      - ¿Es posible que me cambien el día de mi reserva?
+      - Mi plan cambió, ¿puedo reubicar mi fecha de agendamiento?
+      - Por favor, ¿podría pedir otra fecha para mi cita?
+      - Quiero posponer mi reserva, ¿me dan opciones?
+      - ¿Cómo hago para seleccionar otro día para mi turno?
+      - Mi hora separada ya no me funciona, ¿cómo hago para cambiarla?
+      - Necesito reajustar mi cita, la chamba me impide ir.
+      - ¿Hay alguna forma de adelantar mi reserva, aunque sea por poquito?
+      - Se me cruzó algo de última hora, ¿habrá chance de atrasar mi agendamiento?
+      - Quisiera ver otras fechas para mi compromiso.
+      - Deseo consultar si puedo mover mi cita a una fecha más tarde.
+      - La fecha agendada no me cae, ¿puedo pedir otro día?
+      - Necesito gestionar un cambio en mi horario, ¿es complicado?
+      - ¿Es factible que me den otra hora para mi turno?
+      - Tuve un percance, ¿se podrá cambiar mi reserva de hora?
+      - Hola, ¿podría solicitar otra fecha para mi cita, por favor?
+      - ¿Es posible que se reprograme mi cita?
+      - Se me hace dificil ese día, ¿podría ver otra fecha?
+      - ¿Podría aplazar la fecha que tengo separada?
+      - Quisiera ver si podemos adelantar el encuentro.
+      - Se me complico el horario, ¿hay chance de reajustarlo?
+      - ¿Sería factible reacomodar mi turno a una hora más tarde?
+      - Deseo variar el día de mi agendamiento, porfavor.
+      - Mi disponibilidad ha cambiado, ¿se podría fijar otro momento?
+      - ¿Cómo solicito una nueva hora para mi compromiso?
+      - ¿Habría forma de correr mi cita para la siguiente semana?
+      - Quisiera ver si la fecha del 'booking' puede ser diferente.
+      - Tuve un imprevisto, ¿sería factible aplazar este compromiso?
+      - ¿Podemos fijar otro horario para la atención que tengo?
+      - Necesito una fecha distinta para mi consulta, ¿es posible?
+      - ¿Qué alternativas tengo para reorganizar el momento de mi cita?
+      - ¿Se puede adelantar un poco la hora de mi turno?
+      - Quiero posponer el agendamiento que tengo.
+      - El día que tengo no me conviene, ¿podrían buscarme otra fecha?
+      - Me gustaría averiguar si hay disponibilidad para una fecha distinta.
+      - Se me cruzó otro evento, ¿sería posible reprogramar mi reserva?
+      - Necesito reorganizar el horario de mi atención, ¿es viable?
+      - ¿Sería posible pedir otro día para mi cita médica?
+      - Me gustaría ver si puedo reasignar el turno que me asignaron.
+      - ¿Hay oportunidad de adelantar mi reserva al día de mañana?
+      - Se me junto un compromiso, ¿puedo ver otras fechas para la cita?
+      - Me gustaría conseguir otro horario para mi agendamiento.
+      - ¿Cómo procedo para trasladar mi reserva?
+      - La hora actual ya no me sirve, ¿hay manera de reubicarse?
+      - ¿Podrían asignarme un día diferente para mi visita?
+      - Desearía ver la posibilidad de adelantar mi encuentro un par de horas.
+      - Necesito correr mi cita para una fecha posterior.
+      - Me preguntaba si hay forma de conseguir otra fecha.
+      - ¿Cuál sería el procedimiento para solicitar otro horario?
+      - Se me presentó una urgencia, ¿será posible reasignar la fecha?
+      - Quisiera coordinar un momento distinto para mi atención.
+      - ¿Es factible buscar otro turno para mi agendamiento?
+      - No voy a poder asistir a la hora agendada, ¿hay alguna alternativa?
+      - Me gustaría saber si puedo aplazar mi turno un par de días.
+      - ¿Habrá forma de conseguir una fecha diferente para la cita que tengo?
+      - Porfa, necesito ver otra hora para mi 'booking'.
+      - Hola, ¿habrá forma de reagendar mi cita?
+      - Se me complicó, ¿se puede modificar la hora que aparté?
+      - Necesito un cambio de programación para mi turno.
+      - ¿Cómo hago para reajustar los detalles de mi reserva?
+      - Oiga, ¿podría mover la fecha de mi agendamiento?
+      - Causa, ¿se puede adelantar mi pichanga?
+      - Mi fecha no me cae, ¿es posible diferirla?
+      - Quisiera pasar mi turno para otro momento, si se puede.
+      - Tengo un inconveniente, ¿hay chance de variar mi horario programado?
+      - Por favor, quiero recalendarizar mi visita.
+      - No podré en la fecha que puse, ¿se puede gestionar una nueva fecha?
+      - Se me presentó una emergencia, ¿será posible posponer mi compromiso?
+      - Necesito que me den una alternativa para mi reserva.
+      - Mi disponibilidad ha cambiado, ¿puedo solicitar un reajuste?
+      - Deseo alterar el día que tengo agendado.
+      - ¿Es factible intercambiar mi horario por otro?
+      - Quisiera ver si puedo recalibrar mi agendamiento.
+      - Se me cruzó algo, ¿podría adelantar mi visita?
+      - Oiga, ¿se puede retrasar mi turno un poco?
+      - Tengo que reorganizar mi agenda, ¿cómo hago con mi reserva?
+      - Mi hora no me cuadra, ¿hay modo de ajustar esto?
+      - ¿Existe la opción de reprogramar mi visita para otro día?
+      - Necesito pasar mi cita para la semana que viene.
+      - Disculpe, ¿cómo hago para cambiar la fecha que reservé?
+      - Quisiera una nueva hora para mi agendamiento, por favor.
+      - Se me chispoteó la fecha, ¿puedo corregirla?
+      - ¿Podría solicitar una permuta de mi horario?
+      - No me da el tiempo en esa fecha, ¿habrá otra?
+      - Deseo mover mi cita a una fecha posterior.
+      - ¿Cómo puedo hacer para reorganizar mi reserva?
+      - Me gustaría consultar por un cambio de mi día programado.
+      - Tuve un inconveniente, ¿hay forma de mover mi agendamiento?
+      - Necesito reestructurar mi horario, ¿es posible?
+      - Mi agenda cambió, ¿podría pedir un nuevo horario?
+      - ¿Será factible ajustar mi fecha reservada?
+      - Quisiera averiguar si puedo cambiar mi cita de hora.
+      - Se me presentó una urgencia, ¿es posible variar mi turno?
+      - Deseo una reubicación de mi agendamiento.
+      - Me gustaría recalendarizar mi fecha.
+      - ¿Hay alguna opción para modificar mi turno?
+      - ¿Será posible ajustar el día de mi agendamiento?
+      - Quiero ver si puedo coordinar una nueva hora para mi turno.
+      - Me gustaría solicitar una reconsideración de mi fecha.
+      - Necesito asistencia para reubicar mi reserva.
+      - ¿Hay alguna manera de reajustar mi cita programada?
+      - Por favor, ¿podría adelantar mi agendamiento un poco?
+      - La fecha que tengo no me cuadra, ¿se puede ver otra opción?
+      - Se me presentó un roche, ¿cómo hago para cambiar mi hora?
+      - ¿Es factible tramitar una modificación para mi turno?
+      - Quisiera ver si hay flexibilidad con mi hora separada.
+      - Necesito hacer un arreglo con la fecha que agendé.
+      - ¿Puedo mover mi cita a otro momento?
+      - Me gustaría aplazar mi reserva para un día posterior.
+      - Tengo un imprevisto, ¿se puede reasignar mi horario?
+      - ¿Qué alternativas hay para variar mi agendamiento?
+      - Deseo reprogramar mi turno, ¿me indican los pasos?
+      - Quisiera coordinar para adelantar mi fecha de cita.
+      - Necesito ajustar el horario de mi reserva, por favor.
+      - ¿Se podrá postergar la hora de mi compromiso?
+      - Me gustaría ver si puedo reubicar mi fecha programada.
+      - Salió un tema urgente, ¿hay chance de reajustar mi hora?
+      - ¿Cómo hago para pedir un nuevo espacio para mi turno?
+      - La hora agendada no me sirve, ¿se puede hacer algo al respecto?
+      - Quisiera averiguar si es posible atrasar mi agendamiento.
+      - Necesito cambiar el día de mi reserva, ¿es factible?
+      - cambio d fecha
+      - mover mi hr
+      - se puede otra fecha xfa
+      - kiero cambiar mi hora
+      - la reserva cambiarla
+      - muevete mi booking
+      - otra hr pa la cita
+      - como modifico lo q agende
+      - puedo mover pa mas tarde
+      - modificame la reserva xq no llego
+      - kiero cambiar el dia alas 8pm
+      - no voy a ir, se puede cambiar
+      - mover la kancha
+      - cambio d sitio pa mi cita
+      - mi cita d la 10 se puede mover
+      - como c cambia la reserba
+      - mi reserva pa otro dia
+      - qiero mover mi reservacion
+      - otro dia x mi turno
+      - cambio mi reservita xfa
+      - posible cambio d fecha
+      - un cambio d hr pa la cancha
+      - mover a otra fecha
+      - cambiarlo a las 9 d la noche
+      - no puedo a esa hr, otra hr
+      - mover para otro dia mñn
+      - puedo cambiar mi reserva para la noche
+      - se puede cambiar la fecha del partido
+      - necesito modificar mi turno de mañana
+      - la reserva del 7pm cambiarla
+      - otra hr pa la cancha de futbol
+      - cambia mi cita pa mañana
+      - puedo variar mi reserva q tengo
+      - se puede cambiar la hora de mi cancha
+      - queria cambiar el dia de mi booking
+      - mi reserva la kiero mover
+      - un cambio de horario porfa
+      - la fecha kiero otra
+      - cambiar la hora de mi reserva d ayer
+      - puedo cambiar mi turno
+      - se puede adelantar mi reserva
+      - atrasar mi cita se podra
+      - como muevo la fecha de mi reserva
+      - cambio de cancha, se puede aqui
+      - la reserva, cambiarla pa la semana q viene
+      - kiero otro horario, se puede?
+      - kambiar la reserba q hice
+      - puedo kambiar la fecha de la cancha
+      - mi reserva, deseo otro dia
+      - se puede mover mi cita alas 8 d la noche
+      - otro dia pa mi reserva
+      - la reservacion, como la cambio
+      - cambiar para mas tarde mi turno
+      - puedo adelantar la reserva
+      - mover mi cita x la mañana
+      - la reserva para la noche xfa
+      - cambiar mi fecha de hoy
+      - kiero otra cancha en surco
+      - muevo mi reserva a vill salvador
+      - se puede cambiar la hr a 7pm
+      - mi cancha, la hora cambiarla
+      - cambiar el turno q tengo ahora
+      - puedo poner otro dia
+      - como cambio el dia y la hora
+      - se puede otro dia a las 9pm
+      - mover mi partido a la noche
+      - la reserva de la mañana, cambiarla
+      - otra opcion para mi fecha
+      - cambiar mi cita q tengo el 15
+      - no puedo ir el 20, cambiar
+      - se puede otra hora en la tarde
+      - la reserva, cambiar de dia
+      - puedo cambiar de fecha
+      - mover la reserva del dia 5
+      - otro dia pa jugar mi partido
+      - cambiar mi reserva para el fin de semana
+      - necesito otra hr xq no llego a tiempo
+      - se puede cambiar a 6pm
+      - mi reserva para las 8pm, cambiarla
+      - cambiar la fecha de mi turno
+      - la reserva se puede mover pa otro mes
+      - cambiar la fecha y la hora
+      - kiero cambiar el horario
+      - mover mi cita por la tarde
+      - como cambio la reserva d la cancha
+      - mi turno, lo puedo cambiar
+      - puedo cambiar de dia mi reserva
+      - la reserva, la puedo mover
+      - se puede otro dia mas tarde
+      - necesito otra hr y otro dia
+      - puedo cambiar el partido
+      - la cancha, cambiar el dia
+      - otro dia pa la reservacion
+      - se puede cambiar la hora del partido a 5
+      - mover mi reserva para la proxima semana
+      - cambiar la hr de mi turno
+      - mi reserva puedo cambiarla
+      - otro momento para mi reserva
+      - puedo adelantar mi cita de las 3
+      - atrasar la reserva para el sabado
+      - como hago para cambiar la fecha
+      - la reserva q hice, se puede cambiar
+      - cambiar mi cancha de futbol
+      - mover mi reserva del 10
+      - la cita del viernes, cambiarla
+      - puedo mover mi reserva a una cancha cerca mio
+      - cambio d partido 8pm
+      - oe kiero mover la cita
+      - cambia mi reserba xfa
+      - se podra otro dia x mi
+      - mi turno para mas tarde
+      - nesesito ajustar la hora
+      - no llego alas 7 x surco
+      - mi reserva para vill salvador cambiar
+      - qiero otra fech pa mi
+      - aver si se puede mas temprano
+      - mueve la hora q separe
+      - no puedo en ese horario kiero otro
+      - cambialo para la noche ps
+      - mi cita, se puede mover?
+      - otro dia para el turno
+      - xfa mi reserva pa otro momento
+      - adelantar mi hora si se puede
+      - retrasar la reserba
+      - la fech no me cuadra ps
+      - kiero un espacio diferente
+      - mover mi cita para aca a mi alrededor
+      - la cancha libre 8pm se puede
+      - cambiar la reseva q tngo
+      - no puedo en chorrillos esa hora
+      - otra hora para el juego
+      - mi agendamiento cambiar
+      - qiero modificar mi fech
+      - reprogramar mi turno xfa
+      - moverlo para mas tarde
+      - no llego en la tarde, cambia
+      - se puede adelantar un toke
+      - atrasar la cita ps
+      - mi hora kiero otra
+      - modificame el dia xfa
+      - cambia la hora del sabado
+      - otro dia ps pa la reserva
+      - nesesito otro horario pa ir
+      - se podra en otra fech
+      - mi cita pa la noche
+      - kiero variar mi dia
+      - ajustar mi turno x la mañana
+      - aver si se puede otro momento
+      - mueve mi resrva del lunes
+      - no puedo a las 5, cambia
+      - otrar hora si hay ps
+      - mi reserva pa otro lado
+      - cambio de hora pa el partido
+      - reprogramar el dia
+      - mover la cita al miercoles
+      - se puede una fech nueva
+      - otro horario si hay
+      - la hora q separe kiero cambiarla
+      - modificame mi reservacion
+      - cambiar mi cita q tngo
+      - no puedo en ese dia, kiero otro
+      - nesesito un dia diferente
+      - se podra pa la proxima semana
+      - mi turno pa otro momento
+      - kiero adelantar un poco
+      - atrasar el agendamiento
+      - la fech no me combiene
+      - cambia mi reserba de miraflores
+      - otro espacio para mi cita
+      - mover el turno de la tarde
+      - qiero otra hora pa ir
+      - nesesito un dia despues
+      - se podra la noche del viernes
+      - mi reserva pa mas temprano
+      - kiero variar el momento
+      - ajusta mi resrva ya
+      - aver si se puede un dia mas
+      - mueve mi cita de sjl
+      - no puedo a las 9, cambia
+      - otra hora q este libre
+      - mi reserva pa un dia feriado
+      - cambiar el horario pa otro dia
+      - reprogramar pa mas tarde
+      - mover la fecha al jueves
+      - se puede un dia mas adelante
+      - otro momento pa la atencion
+      - la hora q programe kiero moverla
+      - modificame mi agendamiento
+      - cambiar mi reserba de hoy
+      - no puedo en la mañana, kiero otro
+      - nesesito un cambio de hora
+      - se podra un dia diferente
+      - mi turno pa la tarde
+      - kiero adelantar mi visita
+      - atrasar la fech q tngo
+      - la reserva no me calza
+      - cambia mi cita en el centro
+      - otro momento pa la reunion
+      - mover el dia del servicio
+      - qiero otra hora pa mi atencion
+      - nesesito un dia antes
+      - se podra un horario libre
+      - mi reserva pa un fin de semana
+      - kiero variar mi plan
+      - ajusta el dia del partido
+      - aver si se puede cambiar mi hora
+      - mueve mi reseva ya ps
+      - oe, puedo cambiar la hora de mi reserva?
+      - kiero otra hora pa la pichanga
+      - se puede otro dia para mi turno?
+      - mi reserba ps, pa mover
+      - ayuda, necesito cambiar mi cita
+      - pa cuando se puede poner la cancha?
+      - noc si puedo ir, pa moverla
+      - kiero adelantar mi hora del sabado
+      - atrasar la cancha de 8pm
+      - mi fecha no va, como acomodo?
+      - cambio de hora para mi reserva?
+      - otro momento ps, no puedo a esa
+      - la reserva, hay pa otro dia porfa?
+      - se me complico, hay pa mover el partido?
+      - no puedo a esa hora, otro plan
+      - xfa, quiero cambiar la reserva del miercoles
+      - puedo cambiar la hora q separe?
+      - la reserva, se podra modificar?
+      - kiero otra fecha pal partido por surco
+      - mover mi reserva, quiero hacerlo ya
+      - alterar mi agendamiento de mañana
+      - ajustar la hora del encuentro nomas
+      - corregir la fecha k puse mal
+      - me ekivoqe en la reserba, quiero cambiar
+      - reserbe mal la cancha, como arreglo?
+      - quiero otra hora pa jugar cerca mio
+      - quiero otro dia pa el fulbito
+      - prefiero otra cancha, porfa, en vill salvador
+      - cambio de fecha, la kiero mover
+      - cambio de horario, es posible ahorita?
+      - cambiar de hora el dia del evento
+      - mover la reserba para mas tarde pe
+      - pasar pa otro dia la kosa del partido
+      - cambiar pa mañana, si se puede al toke
+      - mejor otro horario, tipo 7pm
+      - a otra hora mejor, alas 8
+      - puedo mover mi reserba al toke?
+      - se puede cambiar la fecha porfa?
+      - es posible modificar esto ps?
+      - hay opcion de cambio pa mi turno?
+      - kiero hacer cambios a mi reserba de hoy
+      - nesesito hacer ajustes al horario
+      - debo modificar algo del turno del sabado
+      - tengo k cambiar el dia del partido
+      - surjio un imprevisto, hay k mover
+      - no puedo a esa hora, diganme q hacer
+      - no puedo ese dia, q hago con mi reserba?
+      - salio algo, no llego a la reserva
+      - tengo un compromiso, tengo k posponer
+      - se cruzo con otra kosa, hay k cambiar
+      - kiero reacomodar mi reserba del lunes
+      - hay forma de otro horario pal partido?
+      - quisiera adelantar mi cita, si se puede
+      - tuve un incoveniente, postegar mi turno
+      - nesesito reubicar mi hora al toke
+      - mi disponibilidad cambio, otra fecha xfa?
+      - q opciones tengo pa cambiar la hora k ya tengo?
+      - me gustaria reconfigurar los detalles de mi reserva
+      - es posible adelantar mi hora de las 6?
+      - quiero atrasar mi cita de la mañana
+      - se me presento algo, reubicar mi turno
+      - xfa, reasignar el dia de mi reserba pe
+      - consultar x variar el momento del partido
+      - no toy libre, q se puede hacer con mi reserba?
+      - existe la oportunidad de variar lo q tengo?
+      - quiero un nuevo dia pa mi reserba
+      - debo trasladar mi cita de la tarde
+      - puedo solicitar una permuta de la fecha del juego?
+      - nesesito gestionar una variacion en mi programa
+      - me gustaria otra asignacion de hora por aca
+      - quiero ver alternativas pa mi reserva actual
+      - se podria reubicar mi fecha de cita de mañana?
+      - la fecha no me cuadra, arreglarlo, porfa?
+      - nesesito reestructurar mi reserba, ayuden
+      - mi situacion cambio, puedo pedir otro momento?
+      - hay opcion pa reorganizar mi turno del viernes?
+      - kiero un nuevo horario pa mi cita alas 5
+      - reconfirmar si puedo un dia distinto para la cancha
+      - quiero explorar adelantar mi fecha de la reserva
+      - se me complico, atrasar agendamiento?
+      - nesesito otra fecha xfa para mi pichanga
+      - como hago pa ver un nuevo momento pal partido?
+      - la fecha no me sirve, se puede mover?
+      - quiero reasignar mi visita por mi jato
+      - me gustaria reconsiderar mi horario, el de las 7
+      - es posible reubicar la asignacion de mi reserva?
+      - tengo un problema con la fecha, me ayudan, causa?
+      - quiero adelantar mi agendamiento un toke
+      - nesesito k me reasignen mi hora reservada
+      - me gustaria buscar otra disponibilidad cerca mio
+      - se me presento algo, reasignar fecha porfa?
+      - hay manera de reubicar el dia k tengo?
+      - quiero variar el horario de mi visita al toke
+      - quiero aplazar la fecha de mi turno del martes
+      - nesesito un nuevo espacio de tiempo para mi cita
+      - me gustaria otra opcion de fecha para la cancha libre 8pm
+      - como hago pa ver otra hora pa mi agendamiento?
+      - la fecha q tengo no va, reubicarla ps?
+      - quiero solicitar una permuta de fecha, si se puede
+      - nesesito reubicar la fecha de mi turno de fulbito
+      - mover mi fecha kiero
+      - cambia mi turno xfa
+      - la reserba no me va
+      - kiero otra hora x mi chamba
+      - se puede adelantar?
+      - cambiame la hora bro
+      - no llego a esa hora
+      - pa despues puede ser?
+      - la cancha d las 8pm pa otro dia
+      - mover la d vill salvador
+      - ajusta mi reserva ps
+      - la cita, atrasala xfa
+      - otro dia pa mi partido
+      - cambio d horario, rapido
+      - la reserva kiero reacerla
+      - adelanta mi turno
+      - atrasa mi reserva
+      - no estare, cambia mi fecha
+      - cambia la d surco ps
+      - la hora 8pm esta mal
+      - otro dia necesito
+      - mueve mi cita
+      - la q hice kiero cambiar
+      - reprogramar mi turno
+      - adelanta la hora xfa
+      - cambiame esa fecha
+      - pa otro dia bro
+      - la q tengo no va
+      - kiero otra hora pa mi, gracias
+      - atrasala un toque
+      - la cancha libre 8pm pa mañana
+      - por surco, mover fecha
+      - mi reserva, pa cuando?
+      - adelanta mi cita pa antes
+      - otro momento ps
+      - la reservacion esta mal
+      - cambiame la d mi cancha
+      - quiero variar mi hora
+      - la q tengo moverla
+      - pa otro dia por favor
+      - a esa hora no llego
+      - kiero reacomodar mi reserva
+      - la cancha 8pm otro dia
+      - la de vill salvador moverla
+      - cambiame el turno q te pedi
+      - la d ayer kiero cambiar
+      - otra hora para mi cancha
+      - se puede cambiar d hora?
+      - mover turno
+      - la reserva pa otro momento
+      - mi reservita cambiarla
+      - a esa fecha no llego
+      - mueve mi reserba
+      - la cancha cerca mio, cambiarla
+      - otro dia mejo
+      - kiero otro horario
+      - la d surco pa despues
+      - reprogramar mi cita
+      - la hora alas 8, cambia ps
+      - mover mi hora
+      - mi turno x otro dia
+      - cambia la d mireserva
+      - la q hice en vill salvador, cambiar
+      - la fecha d mi reserva
+      - kiero mover la reserva
+      - adelanta mi reservacion
+      - el turno, qiero moverlo
+      - cambiar el partido
+      - otro dia pa la cancha
+      - la hora no me sirve
+      - cambia el dia d la cancha
+      - la reserva d mi zona moverla
+      - mueve mi agenda
+      - kiero reajustar mi turno
+      - la reserba esta en veremos
+      - a esa hora no me da
+      - adelantar la fecha
+      - atrasar la cita
+      - la cancha d 8pm cambia
+      - cambia mi hora en vill salvador
+      - mi reserva es pa hoy? cambia
+      - reco, necesito otro dia
+      - la hora q tengo no me cuadra
+      - otro horario pa mi
+      - a mi me gustaria cambiar
+      - la reserba d la cancha d por surco
+      - la d ayer kiero mover
+      - se puede mover la fecha?
+      - la reserva, cambia
+      - no puedo en ese momento
+      - mi turno esta mal puesto
+      - quiero adelantar mi turno
+      - atrasar mi turno
+      - la cancha libre 8pm pa mas tarde
+      - mueve la reserva d surco
+      - la de vill salvador atrasar
+      - mi cita, otro dia kiero
+      - la reserva d las 8pm pa antes
+      - kiero otro dia para mi cita
+      - cambiame la d aka a mi alrededor
+      - ajustar mi turno
+      - la hora q agende no va
+      - mover mi partido
+      - reprogramar partido
+      - la hora d las 8pm no puedo
+      - cambia la d vill salvador ya
+      - mi reserva pa cuando
+      - la hora, quiero otra
+      - se cruzo mi evento
+      - qiero cambiar mi rserva
+      - mover el turno xfa
+      - se puede otro dia
+      - mi reserva kiero otra hora
+      - cambialo x mañana
+      - a q hora lo muevo pe
+      - el horario pss se puede
+      - otra fecha pues
+      - tengo k mover mi cita
+      - se puede cambiar la hr
+      - mi reserva kiero modifikar
+      - cambiar de dia pue
+      - otra hora x mi resrva
+      - el turno q tengo cambiarlo
+      - qiero otro momento ps
+      - posponer la resrva
+      - adelantar mi fecha xfa
+      - re agendar por fa
+      - la cita la muevo
+      - qiero modificar mi reserva de las 8pm
+      - cambiar la reserva x surco
+      - mi turno cerca mio lo cambio
+      - puedo mover la de vill salvador
+      - otra cancha xfa
+      - la reserva pa despues
+      - mi cita taba mal pe
+      - kiero ajustar el dia
+      - el horario lo cambio mano
+      - re programar mi agendamiento
+      - otro dia la reserva
+      - se puede mover la reserva k hice
+      - tengo k cambiar mi cita urgente
+      - no puedo ir a esa hora, cambiarla
+      - la reserva x la mañana se puede mover
+      - qiero otra fecha xfa
+      - modificar mi reserva de cancha libre 8pm
+      - mover lo q agende
+      - mi cita de aca a mi alrededor la modifico
+      - cambiar mi reserva pa mas tarde
+      - la hora de mi reserva la cambio
+      - podria cambiar mi rva
+      - mi agendamiento quiero otro horario
+      - re agendar mi visita
+      - qiero posponer mi cita alas 7
+      - muevete mi reserva causa
+      - cambia la reserva oe
+      - mi turno cerca de mi chamba lo cambio
+      - puedo cambiar la reser de 7pm a 9pm
+      - la reservacion del viernes moverla
+      - otra hora para mi cancha xfa
+      - mi reserba de la mañana la puedo ajustar
+      - qiero cambiar la hora de mi cancha
+      - mover mi agendamiento por vill maria
+      - re programar mi cancha
+      - mi reserba de las 6pm la muevo
+      - kiero otro dia para mi pichanga
+      - cambiar mi reserva cerca a mi casa
+      - el turno q aparté se puede mover
+      - alterar la reserva q tengo
+      - mi reserva kiero adelantarla
+      - posponer la fecha q reserve
+      - adelantar la hora de mi turno
+      - se puede re agendar lo mio
+      - cambiar la reserva para la noche
+      - mi cita la muevo a la tarde
+      - otra hora para la cancha
+      - re agendar mi reserva de surco
+      - cambiar mi cita de vill el salvador
+      - la reserva de 8pm se puede mover
+      - qiero otro momento ps causa
+      - modificar la hora de mi reserva de futsal
+      - cambiar mi cita de las 9am
+      - mi turno de cancha libre lo muevo
+      - la reserva del fin de semana cambiarla
+      - kiero otra fecha pa mi reserba
+      - mover la reserva x la plaza
+      - mi cita de hoy la cambio
+      - re agendar mi hora para despues
+      - cambiar la reserva xfa x la noche
+      - se puede otra hora en esta cancha
+      - mi reserva de las 10am la muevo a las 11
+      - kiero cambiar el dia de mi pichanga
+      - modificar mi reserva de volley
+      - la reserva de san juan cambiarla
+      - mi turno de la mañana se puede cambiar
+      - qiero posponer la reserva q hice
+      - adelantar mi cita a las 5pm
+      - cambiar mi agendamiento x otra fecha
+      - mi reserva de 7pm la muevo
+      - otra hora pa mi turno causa
+      - re agendar la reserva del sabado
+      - la reserva q tngo la cambio
+      - kiero mover mi cita de basket
+      - cambiar la reserva de barranco
+      - mi turno de 6pm se puede adelantar
+      - qiero otra hora pa la reserva
+      - modificar mi reserva para el dia siguiente
+      - mover la reserva del domingo xfa
+      - la reserva de villa maria del triunfo la muevo
+      - se puede cambiar la hr de mi cancha libre
+      - qiero posponer mi agendamiento de hoy
+      - adelantar mi reserva de las 4pm
+      - mi cita de futbito la cambio
+      - toy mal con la reserva, modificar
+      - la reserva q hice esta mal, la muevo
+      - kiero cambiar mi reserva de smp
+      - cambiar mi reser?
+      - como muevo mi cita?
+      - quiero otra hora ps
+      - se puede modificar lo mio?
+      - mi reserva no va, q hago?
+      - ajustar mi turno xfa
+      - mover mi agendamiento
+      - cambio el dia d mi cita?
+      - nesecito otra fecha
+      - la hora qiero cambiar
+      - mi reserva d las 3, q hago?
+      - se puede mover mi cancha libre?
+      - modificar lo d villa salvador
+      - x surco, puedo cambiar?
+      - mi hora, cerca mio, la muevo?
+      - puedo canbiar la reserva d mañana?
+      - arreglar mi agendamiento
+      - otra hora en la molina
+      - se puede cambiar el dia bro?
+      - kiero mover mi cita d la tarde
+      - modificar mi reser en sjl
+      - mi turno d las 8, lo muevo?
+      - otra fecha pa mi reserva fijo
+      - ajustar mi cita d miraflores
+      - como le hago pa cambiar mi reserva?
+      - se puede poner otro dia?
+      - mi hora d hoy no, q hago?
+      - kiero cambiar mi agendamiento
+      - modificar lo q reserve antes
+      - mover mi cita x fa
+      - otra hora en vez d esta
+      - se puede cambiar mi turno d las 5?
+      - mi reserva d la noche, la muevo?
+      - nesecito ajustar mi fecha
+      - kiero otra fecha para mi cita
+      - modificar lo d barranco
+      - se puede canbiar mi reser?
+      - mi agendamiento d mañana, lo cambio?
+      - otra hora ps x el callao
+      - mover mi reserva d la mañana
+      - kiero modificar lo q tengo
+      - cambiar mi cita d hoy
+      - se puede otra fecha en ves d la q tengo?
+      - mi reserva d comas, la muevo?
+      - ajustar mi turno d las 7
+      - nesecito cambiar el dia
+      - kiero mover mi agendamiento
+      - modificar mi reserva cerca d mi casa
+      - se puede canbiar mi hora?
+      - mi cita d la tarde, la paso?
+      - otra fecha para mi, bro
+      - mover mi reserva rapido
+      - kiero modificar mi agendamiento
+      - cambiar el turno d las 9am
+      - se puede otra hora en surco?
+      - mi reserva d ate, la muevo?
+      - ajustar mi cita pa otro dia
+      - nesecito q m cambien la fecha
+      - kiero mover mi reser d los olivos
+      - modificar lo d chorrillos
+      - se puede canbiar mi dia?
+      - mi agendamiento d tarde, lo paso?
+      - otra hora pa mi, man
+      - mover mi cita d san juan
+      - kiero modificar mi reserva
+      - cambiar el turno d la noche
+      - se puede otra fecha en san miguel?
+      - mi reserva d la tarde, la cambio?
+      - ajustar mi cita d hoy
+      - nesecito otra hora
+      - kiero mover mi turno d la mañana
+      - modificar lo d punta negra
+      - se puede canbiar el agendamiento?
+      - mi cita d pasado mañana, la muevo?
+      - otra hora xfa causa
+      - mover mi reserva d la 1pm
+      - kiero modificar el dia
+      - cambiar la fecha d mi turno
+      - se puede otra hora cerca d aca?
+      - mi reserva d pueblo libre, la cambio?
+      - ajustar mi cita pa el prox sabado
+      - nesecito mover lo mio
+      - kiero cambiar mi agendamiento d las 6
+      - modificar la reserva d hoy x la noche
+      - se puede canbiar el turno?
+      - mi agendamiento d las 2pm, lo muevo?
+      - otra hora a mi reser bro
+      - mover mi cita pa mas tarde
+      - kiero modificar mi fecha
+      - cambiar el dia d mi reserva
+      - se puede otra hora pal finde?
+      - mi reserva d callao, la ajusto?
+      - ajustar mi turno del domingo
+      - nesecito otra fecha xfa
+      - kiero mover mi reserva al toke
+      - modificar lo d la mañana d mi cita
+      - se puede canbiar la hora del turno?
+      - mi agendamiento d la noche, lo ajusto?
+      - otra fecha pa mi reser, man
+      - mover mi cita en la cancha libre
+      - mi reserva la puedo arreglar
+      - kiero mi reserva ponerla otro dia
+      - esta cita como la hago otra
+      - la hora q tengo no me da
+      - mi cita del martes pa otro momento
+      - otro horario para mi reservacion
+      - la q separe kiero d tarde
+      - la k tengo la puedo hacer diferente
+      - mi fecha tengo q cambiarla
+      - reservacion pa otro dia xfa
+      - cita d las 3 la hago en otro momento
+      - horario se puede ver otro
+      - mi reserva d basket quiero otro dia
+      - la q separe en la mañana no me sirve
+      - mi cita por la noche mejor
+      - puedo mi reserva d las 6 ponerla despues
+      - mi reservacion de la cancha kiero otra hora
+      - sta reserva para cuando la pongo
+      - la q tengo no me cuadra mano
+      - como arreglo mi reserva bro
+      - kiero una fecha nueva ps
+      - mi cita d hoy no va
+      - se puede poner otro dia
+      - mi reserva como le hago pa q se mueva
+      - otro dia ps mi reserva
+      - qiero otro horario xfa
+      - la cancha libre 8pm q tengo la puedo acomodar
+      - mi reserva d surco qiero otra fecha
+      - la hora q tengo aki la puedo poner diferente
+      - necesito otro dia x la reservacion
+      - mi reserva d vill salvador la hago otro dia
+      - la cita q tengo como la arreglo
+      - puedo otra fecha x mi reservacion
+      - mi reserva d las 5 la quiero diferente
+      - otro dia pa mi cita ps
+      - q se mueva mi reservacion
+      - mi turno lo hago mas tarde
+      - como hago pa q mi reserva cambie
+      - la reservacion pa despues
+      - poner otro dia mi cita
+      - mi reserva d la cancha cerca mio la quiero otro dia
+      - otra hora ps mi reserva
+      - mi cita d 7pm la pongo mas tarde
+      - mi reserva xfa q sea otro dia
+      - la reserva d 8pm la hago mas tarde
+      - kiero q se mueva mi reserva d la mañana
+      - mi reserva d futbol se puede pa otro dia
+      - la hora q separe como la arreglo
+      - otro dia pa la reservacion bro
+      - sta reserva kiero otra hora
+      - la q tengo en vill salvador la puedo pasar
+      - mi cita d surco la muevo d hora
+      - como hago para arreglar lo q aparte
+      - mi reservacion pa otro momento
+      - otro momento pa mi cita
+      - la hora d la reserva qiero otra xfa
+      - esta reserva puedo hacerla en otro dia
+      - mi reserva d la tarde no la quiero
+      - kiero otra fecha pa mi reservacion
+      - la hora q tengo d la cancha cerca mio no me cuadra
+      - puedo poner mi reserva otro dia
+      - mi reserva d las 4 la quiero despues
+      - otro dia x mi cita bro
+      - la k tengo como la hago diferente
+      - mi reserva d las 9 se puede hacer otro dia
+      - mi reservacion d la noche kiero otra fecha
+      - la hora q aparte no puedo ir
+      - mi reserva d la cancha libre 8pm la puedo pasar a otro dia
+      - otro horario pa mi reserva ps
+      - mi cita la puedo poner en otro dia
+      - la q tengo en surco la paso
+      - qiero otro dia mi reserva d futbol
+      - mi reserva d voley como la paso
+      - la hora q separe en vill salvador la tengo q cambiar
+      - puedo otro dia mi reservacion
+      - mi cita d ayer la quiero para hoy
+      - la reservacion pa mas tarde xfa
+      - otro dia xfa mi reserva d cerca mio
+      - mi reserva d la mañana la quiero para la tarde
+      - esta cita d la noche la hago otra
+      - qiero otro dia pa mi reservacion d basket
+      - la hora q tengo la puedo acomodar
+      - mi reserva d surco pa despues xfa
+      - otro momento pa mi cita bro
+      - la q tengo d la cancha libre 8pm la cambio d hora
+      - mi reserva d basket la quiero otro dia
+      - puedo poner mi reserva pa otro momento
+      - mi cita d la semana pasada la tengo q cambiar
+      - la reservacion pa otro dia ps
+      - otro horario x mi reserva d vill salvador
+      - mi reserva d las 10 la quiero para mas temprano
+      - esta cita como la acomodo
+      - qiero otro dia pa la reserva d cerca mio
+      - la hora q separe la puedo pasar x la tarde
+      - mi reserva d voley la pongo otro dia
+      - puedo otro dia mi cita d surco
+      - la reservacion pa mañana ps
+      - otro momento x mi reserva d la cancha libre 8pm
+      - mi reserva d las 7 la hago mas tarde
+      - esta cita d la mañana la quiero otro dia
+      - kiero kambiar mi reserva
+      - mover la cita pa otro dia
+      - se puede reprogramar la fecha?
+      - tengo q kambiar el horario
+      - qiero otra hora xfa
+      - cambio d fecha, como hago?
+      - la reserva kiero modificar
+      - pasalo pa mas tarde ps
+      - no llego, se puede kambiar?
+      - mi reserva en vill salvador, se puede mover?
+      - causa, m la kambias?
+      - otro dia es posible?
+      - la hora no m cuadra, kambiala
+      - se me cruzo algo, nesesito otro momento
+      - mi cita, pa q hora la pones?
+      - hay hueco otro dia?
+      - cambio ps, la reserva
+      - no puedo en surco a esa hora, otra?
+      - alterar mi reserva xfa
+      - re agendar mi cita
+      - tengo un prolema, kambiar
+      - otra fecha pa mi reserva
+      - qiero atrasar mi cita
+      - kiero adelantar mi reserva
+      - mi hora, se puede kambiar?
+      - hay opcion d kambiar el dia?
+      - mover pa la tarde
+      - mi reserva, como hago pa kambiarla?
+      - no puedo 8pm, hay 9pm?
+      - se puede reubicar mi reserva?
+      - kambiar mi dy
+      - otro horario por aca a mi alrededor
+      - la fecha q tengo no va
+      - necesito arreglar mi reserva
+      - mover la hora
+      - cancha libre 8pm, se puede kambiar?
+      - tengo un lio, kambiar cita
+      - kambiar mi turno xfa
+      - la reserva se puede pasar?
+      - otra oportunidad pa reservar
+      - kambiar cita x trabajo
+      - mi reserva en villa, hay pa otro dia?
+      - a q hora puedo kambiar?
+      - no puedo en el callao, se puede kambiar por surco?
+      - la reserva q hice, se puede hacer cambios?
+      - mover mi cita pa hoy en la noche
+      - re agendar pa la prox semana
+      - kiero adelantar mi hora
+      - necesito atrasar mi turno
+      - hay otra hora por aca cerca mio?
+      - mi reserva, otro dia?
+      - kambiar mi reserva ya hecha
+      - se puede cambiar d lugar la reserva?
+      - mover mi reserva de 7 a 9
+      - otra hora x la mañana
+      - re programar mi cita
+      - no puedo asistir, kambiar fecha
+      - ajustar mi reserva, como hago?
+      - hay pa re agendar en vill salvador?
+      - se puede pasar mi reserva a otro dia?
+      - otro hueco disponible?
+      - mi cita, kiero kambiarla
+      - kambiar la reserva, se puede?
+      - no puedo llegar, kambiar
+      - revisa si hay otra fecha pa mi
+      - altera mi reserva, xfa
+      - mover pa la semana q viene
+      - adelantar mi turno a las 6pm
+      - hay otra fecha en surco?
+      - se puede atrasar la reserva para mañana?
+      - kambiar cita x un imprevisto
+      - mi reserva, necesito otro dia xq no puedo
+      - puedes mover mi reserva?
+      - la fecha q tengo no me sirve, qiero otra
+      - necesito reasignar mi cita
+      - se puede kambiar mi reserva de cancha libre 8pm?
+      - mover la reserva para la tarde
+      - mi reserva de vill salvador, la podemos kambiar?
+      - hay algun cambio q pueda hacer?
+      - kambiar mi reserva pa un dia mas tarde
+      - se puede cambiar mi hora por surco?
+      - otro momento pa mi turno
+      - mi cita, a q hora la paso?
+      - kiero re agendar lo q tengo
+      - no puedo ir, qiero otro dia cerca mio
+      - pasar mi reserva a otro dia, se puede?
+      - modificar la hora d mi reserva
+      - hay chance d kambiar mi turno?
+      - otra hora pa mi cita
+      - kambiar mi agendamiento
+      - reprogramar mi reserva pa la noche
+      - mi cita de las 4, a q hora la kambias?
+      - hay alguna forma d kambiar mi reserva en vill salvador?
+      - kiero pasar mi cita a otra fecha
+      - se puede reubicar mi reserva q esta por surco?
+      - otra hora o dia xfa
+      - la reserva q hice, se puede adelantar?
+      - necesito cambiar de dia
+      - mi reserva, kiero otro slot
+      - kambiar mi reserva de cancha libre 8pm x una mas tarde
+      - se puede reprogramar mi cita aca a mi alrededor?
+      - kiero ver si se puede kambiar la hora d mi reserva
+      - hay chance d cambiar mi dia para la proxima semana?
+      - mi reserva en vill salvador, quiero otro momento
+      - puedo adelantar mi cita?
+      - mi turno, se puede mover pa mas tarde?
+      - kambiar mi reserva q no puedo ir
+      - otro dia ps, mi reserva
+      - oe puedo cambiar la fecha
+      - necsito mover mi reserva
+      - la ora no me da, kambia
+      - se puede otro dia ps
+      - kiero ajustarlo un toqe
+      - muevelo pa otro dia
+      - otra ora xfa
+      - ps tengo q kambiar
+      - mi cita se puede reubicar
+      - kambiale la ora ps
+      - esto se puede variar
+      - adelantame la reserva
+      - atrasalo pa mañana
+      - mi plan kambio, otra hora?
+      - q hago pa kambiarlo
+      - reajusta mi hora
+      - es posible otra fecha
+      - no puedo ala 8pm, kambia
+      - aver si cambio x surco
+      - mi agendamiento muevelo
+      - kiero reubicar mi cta
+      - surgio algo, puedo kambiar
+      - la reserva, se puede alterar
+      - mira otra ora xfa
+      - ps otra fecha ps
+      - mi turno, puedo reajustar
+      - cambia mi fecha
+      - q tal si cambio la hora
+      - se puede otro dia 7pm
+      - kiero otra opcion de hora
+      - habla, puedo adelantar?
+      - el dia de mi cita, puedo mover
+      - averiguar si puedo variar
+      - kambio d planes, otra ora
+      - pa otro dia, mi reserva
+      - alterar la reserva
+      - puedo ajustarla
+      - la fecha xfa, kambia
+      - otra fecha cerca mio
+      - mi reserva, se puede reasignar
+      - q tal otra ora
+      - kiero aplazarlo
+      - otra fecha en vill salvador
+      - mi turno lo kambio
+      - hay forma de variar
+      - reconfigurar mi cita
+      - se puede atrasar
+      - necsito otra hora 9pm
+      - mi dia ya no va, otra fecha
+      - muevelo pa la prox semana
+      - cancha libre 8pm, puedo ir
+      - kiero otra hora x surco
+      - mi reserba ps, se mueve
+      - hay forma de ajustar esto
+      - se puede reubicar mi fecha
+      - mi cita, kiero otro dia
+      - q tal si adelanto el turno
+      - necsito otra hora mas tarde
+      - la reserba, se puede alterar
+      - mover pa otro lao
+      - puedo cambiar mi agendamiento
+      - aver si lo adelanto
+      - otro horario ps, tengo q kambiar
+      - reajustar mi turno
+      - mi reserva, es posible moverla
+      - necsito reubicar la hora
+      - kiero otra hora cerca mio
+      - mi cita la kiero adelantar
+      - se puede otra hora en vill maria
+      - el dia de mi reserba, se varia
+      - ps puedo atrasar mi cita
+      - otra fecha pa mi cta
+      - mi horario, lo kiero ajustar
+      - q tal si la muevo pa la noche
+      - hay forma de reasignar
+      - la reserva no va, kiero otra
+      - puedo reubicar mi agendamiento
+      - mi turno, puedo cambiarlo de dia
+      - se puede alterar la fecha
+      - necsito otra hora cerca d mi
+      - kiero ver si adelanto mi reserva
+      - habla, puedo cambiar el turno
+      - mi cita, se puede reacomodar
+      - q tal otro horario ps
+      - la reserba, puedo modificarla
+      - necsito otra hora en surco
+      - kiero ajustar mi fecha
+      - puedo cambiar mi hora 6pm
+      - se puede reubicar aca a mi alrededor
+      - hay algun cambio de hora
+      - mi agendamiento, se puede ajustar
+      - kiero mover mi cita pa otro dia
+      - necsito otra fecha xfa
+      - puedo variar el horario
+      - la reserba la kiero cambiar
+      - q tal si lo paso pa mañana
+      - mi turno, se puede reasignar
+      - necsito reacomodar mi hora
+      - kiero otra cancha 5pm
+      - se puede mover esto pa las 9
+      - habla, puedo cambiar mi hora
+      - mi cita, se puede retrasar
+      - necsito otro momento pa mi reserva
+      - puedo reubicar mi fecha d reserva
+      - kiero adelantar mi turno
+      - mi agendamiento, lo kiero variar
+      - se puede cambiar pa la noche
+      - otra hora xfa para mi reserba
+      - mi cita no me cuadra con el dia
+      - puedo mover la reserba de las 6
+      - canviar el turno de mañana
+      - la hora de mi agendamiento ya no puedo
+      - quiero otra fecha para la cita
+      - mover mi booking de hoy
+      - se puede adelantar la hora de mi reserba?
+      - atrasar el agendamiento del viernes
+      - mi reserba de las 8pm ya no me da
+      - no llego a esa hora en surco
+      - la reserva de vill salvador la kiero mover
+      - la cancha de aca quiero cambiar mi horario
+      - otra hora alas 8pm por mi agendamiento
+      - mi reserba de las 7pm canbiar pz
+      - cambiar mi agendamiento por la tarde
+      - mi turno para las 6pm no va
+      - se puede mover para despues mi reserva
+      - kiero otro dia para mi reserba
+      - la cita de mañana a q hora la puedo mover
+      - nesesito re agendar mi turno
+      - cambia mi reserba kiero otra ora
+      - la hora q puse no puedo ahora
+      - quiero otro dia x mi cita de hoy
+      - mi turno del sabado lo puedo cambiar
+      - adelantar o atrasar mi reserba de las 4
+      - cambiar reserba para el domingo
+      - puedo camviar fecha y hora de mi turno
+      - la cita del martes la cambio si se puede
+      - canbiar mi reserva de hoy por otra
+      - la hora de la reserba no va pa mi
+      - mover mi reserva de la manana a la tarde
+      - kiero re programar el turno de la noche
+      - la cita de la cancha quiero otra hora q esta
+      - cambio mi cita d las 5 para despues
+      - mi agendamiento de surco a q ora puedo canbiarlo
+      - la hora d la cancha ya no me da tiempo
+      - camviar turno de 9 a 10 si se puede
+      - mi reserva de villamaria la quiero mover
+      - re agendar mi cita xfa en la tarde
+      - la hora del turno esta mal no puedo
+      - nesesito otra hora para mi reserba de hoy
+      - la reserva de mañana la quiero cambiar de dia
+      - puedo mover la cita pal sabado o domingo
+      - cambia la hora del booking q tengo
+      - mi agendamiento de hoy lo puedo pasar para mañana
+      - la reserva de aca la quiero mover de hora
+      - cambiar la hora de mi reserba por la tarde
+      - mi turno en san juan lo puedo modificar
+      - la cita de ayer no pude ir la quiero cambiar de dia
+      - se puede cambiar mi reserva de los olivos
+      - el agendamiento de mi cancha kiero otra hora
+      - kiero mover la reserva de la tarde mas tarde
+      - puedo cambiar la hora d mi reserva si se puede
+      - mi reserva de las 6 a q hora la cambio
+      - la fecha de mi cita la puedo mover a otro dia
+      - cambia la reserba de mañana porfa para otro dia
+      - mi turno de la mañana no puedo, kiero cambiar
+      - kiero mover el booking del sabado xfa
+      - la cita de villa el salvador la puedo cambiar
+      - puedo adelantar mi turno de las 5 si es posible
+      - necsito atrasar mi reserba de mañana
+      - mi reserva cerca de mi casa la quiero mover
+      - la hora de la reserva del viernes la puedo cambiar
+      - cambio de fecha para mi cita en comas xfa
+      - mi agendamiento de las 8 lo puedo modificar
+      - la reserba de la noche kiero cambiarla
+      - puedo cambiar la cita del lunes a otro dia
+      - kiero mover mi turno de la tarde para mas tarde
+      - mi reserva de las 4pm cambiar porfavor de hora
+      - se puede re programar mi cita de hoy
+      - cambiar mi agendamiento del dia para mañana
+      - la reserva de la cancha puedo cambiar la hora
+      - nesesito cambiar mi turno de villa maria
+      - puedo adelantar la reserva de mañana a hoy
+      - la cita de surco la quiero mover para despues
+      - mi agendamiento de hoy no me da el tiempo
+      - cambia la hora de mi reserba en el callao
+      - kiero otro dia para mi turno del viernes
+      - puedo mover mi cita de las 7pm a las 9pm
+      - mi reserva de san miguel la puedo cambiar de hora
+      - la fecha de mi agendamiento de ayer la quiero modificar
+      - cambio mi turno de la noche porfa a la mañana
+      - nesesito cambiar mi reserva en chorillos
+      - puedo adelantar la cita de las 8 a mas temprano
+      - mi reserva de las 10 quiero re agendar
+      - se puede pasar mi agendamiento de surco
+      - la hora de mi turno ya no me sirve
+      - kiero otra hora xq se me cruzo algo
+      - cambiar mi reserba del fin de semana
+      - el dia de mi cita en el centro lo cambio
+      - puedo reprogramar mi reserva de hoy
+      - mi turno de aca lo kiero mover
+      - nesesito cambiar la hora de mi cancha libre
+      - la reserva de 8pm en vill salvador la muevo
+      - quiero ver si se puede otro dia mi agendamiento
+      - la cita de las 3pm ya no puedo ir
+      - mi reserva pa las 9 no me da tiempo
+      - se puede atrasar mi cita del martes
+      - kiero mover la reserva de la tarde en comas
+      - mi turno de villa el salvador lo cambio xfa
+      - cambiar la fecha de mi agendamiento cerca mio
+      - la reserba de las 11am la kiero cambiar
+      - puedo adelantar mi cita del lunes en la noche
+      - nesesito otra fecha y hora pa mi reserva
+      - mi agendamiento de la mañana no me es posible
+      - cambia mi turno de las 6pm en surco
+      - la reserva de mañana la quiero otro dia
+      - kiero mover la cita que tengo para otro dia
+      - cambiar mi hora
+      - mover la cita
+      - otro dia xfa
+      - variar mi reserva
+      - editar el turno
+      - kiero otra fecha
+      - no podre ir
+      - cambio de agendado
+      - posponer mi cita
+      - adelantar mi hora
+      - otra cancha
+      - cambiar la ubicacion
+      - mi reserva dnd?
+      - se puede alterar?
+      - modificar la hora 5pm
+      - arreglar mi cita
+      - hay otro dia?
+      - otro horario xfavor
+      - la reserva no va
+      - no ire esa fecha
+      - kiero cambiar mi reserba de la cancha en surco
+      - se puede mover mi cita alas 8pm
+      - nesesito otro dia xq chambeo
+      - hay forma de variar el turno k tengo?
+      - podrias editar mi agendado para la tarde
+      - sbs si se puede cambiar la reserva del local
+      - mi cita no va ese dia kiero adelantar
+      - xfa quiero otra hora para la reserva
+      - se me complico no ire a vill salvador
+      - puedo mover la reserva cerca mio
+      - cambiar mi hora pa la cancha libre 7pm
+      - nesesito otro dia o otra hora
+      - sbs si puedo variar mi fecha programada
+      - kiero posponer la reserva xq toy mal
+      - se puede adelantar mi cita para mañana
+      - hay manera de cambiar mi agendado del wsp
+      - mi turno de vill salvador lo puedo mover
+      - podrias arreglar mi reserva de las 4pm
+      - no llego ala hora de mi cita
+      - q puedo aser pa cambiar el dia
+      - tengo un imprevisto y no podre ir alas 8pm
+      - sbs como puedo modificar mi reserva de la cancha x surco
+      - kiero variar mi fecha programada xq no podre llegar aca a mi alrededor
+      - tengo un problema con el agendamiento puedo cambiar la hora
+      - se puede reubicar mi reserva de la cancha de vill salvador
+      - nesesito otra hora xfa porque me enferme
+      - hay alguna forma de cambiar mi turno para otro dia
+      - xq no puedo asistir a mi cita que habia echo
+      - me gustaria saber si puedo adelantar mi reserva de las 3pm
+      - quiero saber si es posible posponer mi cita para la proxima semana
+      - la reserva que hice aca a mi alrededor se puede mover
+      - tengo un ploblema con el horario de la cancha libre 8pm
+      - kiero otro dia pa la reserva de surco x wsp
+      - se puede reasignar mi turno de la tarde
+      - podrias ayudarme a cambiar mi reserva de las 6pm
+      - tengo un compromiso no podre alas 5pm
+      - sbs si puedo cambiar la ubicacion de mi agendado
+      - nesesito mover mi cita de vill el salvador
+      - se me cruzo un evento no ire ala fecha
+      - kiero otra fecha para mi cita en la cancha libre 8pm
+      - mi agendado no cuadra puedo cambiarlo
+      - se puede ver otro dia para la cancha
+      - tengo q cambiar mi visita para la tarde
+      - sbs si puedo reubicar mi turno de las 9pm
+      - kiero otra ubicacion para la reserva
+      - la reserva k ise no me sirve
+      - puedo alterar mi agendamiento del wsp
+      - nesesito otro momento para mi cita
+      - tengo q mover la reserva de la cancha xfa
+      - mi turno aca a mi alrededor se puede variar
+      - la hora de las 4pm se puede adelantar
+      - q hago pa cambiar mi fecha de vill salvador
+      - xfa una nueva fecha para mi agendado
+      - tengo un percance puedo mover la hora
+      - se puede posponer mi reserva de la noche
+      - kiero saber si es posible cambiar el lugar
+      - mi agendamiento lo tengo q reajustar
+      - nesesito otro dia para la visita alas 6pm
+      - hay alguna forma de cambiar mi turno de surco
+      - no podre ir mañana se puede variar
+      - puedo ver si puedo atrasar mi cita
+      - la cancha libre 8pm puedo cambiarla
+      - se puede modificar mi reserba de la mañana
+      - tengo q cambiar la hora de mi turno
+      - sbs si puedo reasignar mi cita x wsp
+      - kiero ver otra fecha para mi agendamiento
+      - mi reserva de vill salvador se puede mover
+      - nesesito otra hora xq se me cruzo algo
+      - hay forma de cambiar mi reserva aca a mi alrededor
+      - podrias modificar mi cita para la tarde
+      - la fecha k tengo no me combiene
+      - puedo pasar mi reserva para la tarde
+      - se puede adelantar el turno de las 7pm
+      - kiero otra hora para mi agendado de surco
+      - tengo q reubicar mi visita
+      - sbs si puedo cambiar la fecha de la cancha
+      - nesesito posponer la cita xq toy ocupado
+      - hay alguna manera de reajustar mi turno
+      - mi reserva de las 5pm se puede variar
+      - q puedo aser pa mover mi cita
+      - kiero ver lo d mi separe
+      - no puedo ala hora q puse
+      - mi cupo como lo vemos
+      - la reserva del sabado q tengo
+      - se puede chequear mi hora actual
+      - mi agenda no me da con eso
+      - lo q aparte, porfa
+      - en q hora si podria yo
+      - la cancha en surco mi separe la veo
+      - necesito ver este tema
+      - toy ocupao en la tarde esa
+      - el separe lo revisamos
+      - hay horarios q esten libres?
+      - mi espacio ya no me sirve
+      - como verifico la fecha
+      - el apartao d 8pm ese
+      - pa un momento q convenga
+      - aca en villa el salvador mi separe lo veo
+      - mi cosa d hoy no se puede
+      - poner mi separe despues de la chamba
+      - una fecha q este mas comoda
+      - el del miercoles lo miramos
+      - hay algun espacio libre?
+      - la hora d la cancha q aparte
+      - mi separe en ate q hago?
+      - a k hora hay sitio?
+      - tengo el mio en la mañana no me da
+      - lo podemos consultar?
+      - ver mi tema d la cancha q reserve
+      - cheka mi reservacion actual
+      - mirar lo q tengo agendado
+      - lo mio pa la noxe no lo hago
+      - mi separe cerca d mi barrio lo veo
+      - el dia q tengo esta ocupado
+      - hay algun dia q me calce?
+      - mi separe 6pm en lince no puedo
+      - se puede ver en el sistema d nuevo?
+      - como elijo un espacio?
+      - mi espacio en el local lo veo
+      - no llego ala hora q me dieron
+      - el separao lo busco mas tarde
+      - busco una franja horaria comoda
+      - mi dia se malogro
+      - el sitio x mi casa lo veo
+      - qeria ver mi separacion d fecha
+      - la hora q aparte no va
+      - pa un dia q este disponible
+      - mi agenda no da pa la mañana esa
+      - lo q reserve el lunes no lo hare
+      - busco un espacio el finde q venga bien
+      - el cupo pa la tarde no llego
+      - mi espacio mas cerca d mi chamba
+      - habra algun hueco?
+      - la reserva q puse ya no
+      - como veo mi tema?
+      - no me cuadra mi horario actual
+      - el separe lo vemos en la semana
+      - una hora q me sea util
+      - mi agenda se complico feo
+      - necesito ver la fecha del separe
+      - a k hora hay disponibilidad pa mi
+      - como hago con mi separe d 7pm?
+      - el cupo para mañana no puedo
+      - quiero ver si hay algo libre
+      - el espacio q agarre, como lo soluciono?
+      - pa mas tarde mi separe lo vemos
+      - mi separacion en 5pm en surco no llego
+      - no puedo el martes x un evento
+      - ver si hay un dia q funcione
+      - lo d la cancha en comas no me da
+      - mi agenda se cruzo con mi separe
+      - kiero un momento adecuado
+      - el dia q puse no me sirve
+      - como veo el mio?
+      - mi espacio ese no lo quiero
+      - necesito una hora q este abierta
+      - el separe del jueves me complica
+      - no puedo ir a esa hora, por favor
+      - ver mi cita d las 3 pm
+      - la hora q aparte no me viene
+      - el cupo pa el 25 esta mal
+      - busco un dia q me acomode
+      - mi agenda pal 15 se complico
+      - como lo vemos lo mio?
+      - el espacio en la noxe me complica
+      - necesito chequear la fecha d mi separe
+      - lo del sabado en la noche no va
+      - mi cancha cerca a mi casa lo veo
+      - hay algun horario q quede?
+      - la hora d mi separacion ya no
+      - el dia q puse ya no me sirve
+      - kiero un slot q este vacio
+      - mi separe el lunes en san juan no pude
+      - puedo poner una hora nueva?
+      - el cupo lo chequeamos
+      - no puedo alas 7pm x la universidad
+      - ver mi agenda el miercoles por favor
+      - la reserva pa un dia despues
+      - mi reservacion la revisamos
+      - a ver q hora esta disponible
+      - oe se podra kambiar mi reserva xfa
+      - kiero mover la reserba ps
+      - se podra otro dia x aca nomas xfa
+      - mi reserva pa otro dia mejor
+      - puedo mover mi cita del sabado
+      - la reserva la kiero kambiar
+      - mi hora del martes la kiero variar
+      - kambiar la fecha ps
+      - se podra antes la reserva?
+      - mover mi cita de hoy
+      - no puedo esa hora, se podra despues?
+      - la reserva pa mas tarde
+      - kambiarla xfavor la reserba
+      - puedo cambiar mi reserva cerca mio?
+      - mi reserva se puede poner mas temprano?
+      - alguien puede kambiar mi reserva 8pm
+      - kiero kambiar mi turno del miercoles
+      - variar la hora d mi reserva?
+      - mover mi cita pa la prox semana
+      - la reserva se puede pasar a otro dia ps
+      - puedo kambiar la fecha de mi agendamiento
+      - se puede atrasar la reserva ps
+      - mi reserva xfa q la cambien
+      - kiero otra hora pa la reserva
+      - la cita del sabado la kiero cambiar
+      - mover mi booking xfa
+      - cambiar fecha d mi cita ps
+      - sbt si puedo kambiar mi reserva?
+      - otro dia pa mi reserva xfa
+      - mi reserva pa mas tarde nomas
+      - kiero kambiar mi turno del jueves alas 7
+      - se puede reubicar mi reserva
+      - la reserva x vill salvador la kiero kambiar
+      - mover mi cita pa la noche
+      - kambiar mi reserva cerca a mi casa
+      - mi reserva xfa si se puede alterar
+      - adelantar la reserva ps
+      - la reserva la puedo atrasar?
+      - kiero mover mi cita pa mas tarde hoy
+      - se puede kambiar mi fecha xfa
+      - mi reserva xfa a otra hora
+      - puedo modificar mi agendamiento
+      - la reserva del martes la muevo
+      - kiero cambiar mi cita xfa
+      - mover mi turno del jueves
+      - se puede reajustar mi reserva?
+      - la reserva x surco se puede kambiar
+      - kiero otra fecha ps
+      - mi reserva la kiero mover de dia
+      - adelantar mi reserva unas horas
+      - se puede atrasar mi cita del lunes
+      - kiero kambiar mi reserva de hora
+      - mi turno del viernes lo muevo
+      - la reserva pa otro momento ps
+      - se puede ajustar mi agendamiento?
+      - kiero kambiar mi reserva por la noche
+      - mi cita pa la otra semana
+      - la reserva del finde la kiero kambiar
+      - puedo mover mi reserva pa mas tarde
+      - kiero modificar la reserva q hice
+      - se podra kambiar mi cita xfa por la mañana
+      - mi reserva la kiero adelantar a las 6pm
+      - cambiar mi fecha reservada
+      - kiero otra hora pa mi turno
+      - mover mi reserva para el miercoles
+      - se puede cambiar mi reserva de cancha libre 8pm
+      - la reserva xfa la adelanto
+      - puedo atrasar mi reserva del sabado
+      - kiero kambiar mi hora reservada
+      - mi cita del domingo la muevo
+      - se puede reubicar mi turno de mañana
+      - la reserva en vill salvador la kambian xfa
+      - kiero mover mi cita cerca a mi
+      - adelantar mi turno ps
+      - se puede modificar mi hora agendada
+      - kiero kambiar la hora d mi reserva
+      - mi reserva d mañana la muevo
+      - se podra otro dia pa mi cita
+      - la reserva pa la noche ps
+      - kiero adelantar mi cita de las 3pm
+      - cambiar la reserva q tengo
+      - mover mi turno pal otro dia
+      - se puede cambiar mi reserva x la mañana
+      - kiero atrasar mi reserva a las 9pm
+      - mi reserva la cambio de horario
+      - se puede modificar mi reserva q hice
+      - kiero otro dia pa mi agendamiento
+      - la reserva del fin de semana la kiero cambiar
+      - mover mi cita de la tarde
+      - se puede adelantar mi reserva para la 1pm
+      - kiero variar mi hora programada
+      - mi reserva pa la otra semana la muevo
+      - se puede cambiar mi reserva del partido
+      - la reserva xfa la pongo mas tarde
+      - kiero modificar el horario q reserve
+      - mover mi cita x surco
+      - se puede cambiar mi reserva d dia
+      - la reserva del cole la kiero modificar
+      - kiero otro momento pa mi reserva
+      - mi turno lo muevo de horario
+      - se puede reubicar mi reserva d cancha
+      - la reserva xfa la adelanto pa mañana
+      - kiero ajustar mi cita de la semana
+      - mover mi reserva del 15 de agosto
+      - se puede cambiar mi fecha agendada xfa
+      - mi reserva la kiero mover a la noche xfa
+      - cambiar mi reserva pa la proxima
+      - oe, mi reserva se puede reubicar?
+      - la hora del partido la cambio
+      - me das chance de kambiar mi reserva
+      - como hago pa cambiar
+      - mi cita moverla
+      - la hora quiero otra
+      - muevame la reserva
+      - kambiar de plan
+      - nesesito otra fecha
+      - hay forma de cambiar
+      - mi booking quiero ajustar
+      - pa cambiar el turno
+      - cambia el horario xfa
+      - la reserva no me sirve
+      - puedo adelantarla
+      - puedo atrasarla
+      - otra cancha en surco
+      - mi reserva por villa el salvador
+      - a las 8pm se puede
+      - la cancha libre a las 7
+      - moverla a miraflores
+      - otro distrito por la reserva
+      - fecha a fin de mes
+      - temprano en la mañana
+      - pa la noche mejor
+      - la hora pa la tarde
+      - cambio d sede
+      - en sjl quiero la cancha
+      - se puede en comas
+      - cambiar la zona
+      - me salio algo urgente
+      - tuve un percance
+      - no me da la hora
+      - se me cruzo
+      - cambia si o si
+      - problema con mi hora
+      - la fecha no va
+      - me confundi de dia
+      - ya no puedo ir ese dia
+      - tengo un impas
+      - mi agenda se lleno
+      - la cancha no es la q keria
+      - me ekivoque de lugar
+      - no puedo en ese horario
+      - cambialo rapido
+      - q hago pa mi reserva
+      - otro dia xq no llego
+      - la separacion moverla
+      - nesesito otra opcion
+      - la hora y fecha cambiar
+      - puedo otra vez
+      - modificar el agendamiento
+      - recoordinar mi cita
+      - ajusta el turno
+      - corregir la reserva
+      - la hora kiero mover
+      - kambiar el booking
+      - otro dia por chorrillos
+      - cancha a las 9pm
+      - a otra hora en la victoria
+      - cambia mi reserva pues
+      - esa hora no me da ya
+      - kiero otro dia y hora
+      - mi separacion pa otro lado
+      - mover la cita kiero
+      - puedo cambiar la cancha a miraflores
+      - la hora pa mañana
+      - no se si voy a poder
+      - reajusta mi fecha
+      - hay forma d moverlo
+      - kiero cambiar mi espacio
+      - se puede otro sitio cerca
+      - el dia de mi cita
+      - modifica la hora de una
+      - a otra fecha xfa
+      - cambiame ps
+      - mi hora ya no
+      - otro dia no mas
+      - pa cuando se mueve
+      - se puede otra cancha
+      - la hora del partido
+      - ajusta el horario
+      - puedo cambiar la reserva
+      - mi turno es el problema
+      - kiero otro dia pues
+      - donde puedo cambiar
+      - otra hora para reservar
+      - mi hora a otro dia
+      - no voy el sabado
+      - cambia para el miercoles
+      - puedo adelantar mi turno
+      - quiero atrasar mi cita
+      - reprogramame la cancha
+      - esa hora no me cuadra
+      - se puede otra hora en ate
+      - cambia la reserva pa surco
+      - mi fecha para la noche
+      - moverla a las 7
+      - cambia pa las 6pm
+      - me confirmas si se puede cambiar
+      - la reserva del lunes
+      - quiero otra cosa
+      - cambio de local
+      - otra sede xfa
+      - puedo mover mi turno pa otro lao
+      - mi reserva para otro dia
+      - se puede mi cancha libre aca a mi alrededor
+      - mi cita para hoy no va
+      - cambio mi booking?
+      - se puede cambiar la fecha?
+      - kiero otra hora xfa
+      - modifico la reserva?
+      - mi reserva del 8, puedo cambiarla?
+      - la hora de hoy, se cambia?
+      - mover el dia nomas
+      - otro dia x mi cancha
+      - la reserva de ayer, la muevo?
+      - cambiar la cita, es posible?
+      - mi reserva, un cambio ps
+      - hora distinta xfa
+      - la cancha, puedo cambiar?
+      - dia 8pm, se puede mover?
+      - reserva pa mañana, no llego
+      - xfa, cambio de hora
+      - mi reservacion, otro dia
+      - la hora ps, cambio
+      - quiero mover lo q separe
+      - no puedo ese dia, lo cambio?
+      - alterar mi booking
+      - la reserva del 9, cambiarla
+      - kiero otra fecha pa mi cancha
+      - se puede ajustar el dia?
+      - modificar hora cancha
+      - reserva de 7pm, cambiarla
+      - otro dia, es posible?
+      - mi cita, cambiar de hora
+      - la fecha q separe, cambiarla
+      - necesito otra hora ps
+      - kiero modificar mi hora
+      - la reserva de surco, se cambia?
+      - puedo mover mi reserva pa tarde?
+      - otra fecha pa mi booking
+      - se puede variar la hora?
+      - kiero cambio de dia
+      - mi turno, cambiar fecha
+      - tengo q mover la reserva
+      - otra hora mejor pa mi
+      - la reserva del sabado, se cambia?
+      - kiero cambiar la hora de mi reserva
+      - un cambio pa mi cita
+      - mi reserva d cancha, otra fecha
+      - mover la reserva de la tarde
+      - se puede cambiar la reserva del miercoles?
+      - kiero otra hora de la cancha
+      - la reserva de 8pm, la muevo?
+      - cambio pa el dia siguiente
+      - mi reserva de hoy, alterar
+      - quiero cambiar el horario
+      - la reserva de vill salvador, cambiar
+      - puedo mover mi reserva?
+      - mi cita d cancha, cambiar
+      - otra hora pa mi, es posible?
+      - la reserva del feriado, se cambia?
+      - kiero cambiar la fecha q separe
+      - un ajuste a mi reserva
+      - se puede modificar la hora q tengo?
+      - otra fecha x la noche
+      - la reserva de cerca mio, moverla
+      - kiero otro dia pa jugar
+      - cambiar el dia de la cancha
+      - la reserva de aca, cambiar
+      - se puede adelantar mi reserva?
+      - kiero otra hora o dia
+      - la reserva de las 6, cambiar
+      - puedo cambiar la reserva de 8pm?
+      - la fecha, la cambio?
+      - mi reserva, otro horario
+      - se puede atrasar mi reserva?
+      - kiero cambiar mi reserva de cancha
+      - la hora q tengo, la cambio?
+      - mi reserva de 7pm, cambiar
+      - puedo modificar la hora q pedí?
+      - kiero cambiar el dia del turno
+      - la reserva del 10, cambiarla
+      - se puede variar la fecha?
+      - otra hora pa la reserva
+      - mi reserva de la mañana, cambiar
+      - puedo cambiar mi reserva pa otro momento?
+      - kiero mover el dia de mi cancha
+      - la reserva de hoy, se cambia?
+      - un cambio d hora xfa
+      - se puede ajustar la fecha?
+      - kiero cambiar el horario de mi reserva
+      - la reserva d la cancha, moverla
+      - puedo cambiar la fecha d mi reserva?
+      - kiero otra hora pa la cancha libre 8pm
+      - la reserva de ayer, puedo cambiarla?
+      - se puede modificar mi hora d reserva?
+      - kiero cambiar el dia q aparte
+      - la reserva d la noche, cambiarla
+      - puedo mover mi reserva d aca a mi alrededor?
+      - kiero otra fecha pa mi cita
+      - la reserva de las 5, cambiarla
+      - se puede cambiar la hora d mi cancha?
+      - kiero modificar el dia d mi reserva
+      - la reserva de cerca mio, se puede cambiar?
+      - puedo cambiar mi reserva pal dia siguiente?
+      - puedo cambiar d horita
+      - mi cita es oy q ago
+      - kiero mover esto
+      - la cancha d hoy se puede + tarde?
+      - necesito ver otra fecha xfa
+      - oie mi reserva la 8
+      - q tal, la reseva d la mañana
+      - tengo q irme a otro lado, mi turno
+      - se puede adelantar lo q tengo?
+      - atrasar la cita xfis
+      - puedo para el sabado en la noche?
+      - mi agendamiento pa otro lao
+      - no llego alas 7pm, q hago cn esto?
+      - se puede la cancha d la tarde mas tarde
+      - otro dia x miraflores
+      - la fecha d oy no me va
+      - q hago con mi reserva mano
+      - cambia esto pa mañana en la tarde
+      - mi separacion pa otro momento
+      - puedo a las 9pm en ves de 8?
+      - tengo q irme a vill salvador mas temprano
+      - se puede en otro lado
+      - la horita d la reserva
+      - mi turno esta mal creo
+      - q tal, se puede arreglar la hora?
+      - cambiame la fecha pa otro lado
+      - puedo a las 6pm por santiago de surco?
+      - la reserva d las 5pm
+      - otro dia xfavor
+      - mi cita ala una
+      - tengo q ver otra opcion de hora
+      - se puede este finde por san juan
+      - la hora q separe esta complicada
+      - mi agendamiento pa despues
+      - kiero otra hora x sjl
+      - la reseva de la 10pm
+      - ayudame cn mi reserba
+      - mover mi turno d la noche
+      - la fecha d mi reserva xq no puedo
+      - se puede ir pa otro dia?
+      - q tal, mi hora
+      - mi cita ala mañana
+      - cambio d hora en el local d surco
+      - puedo otro lugar
+      - lo q separe pa mas tarde
+      - mi turno esta tarde
+      - kiero cambiar pa la noche
+      - la hora d la cancha libre
+      - se puede un domingo x la tarde?
+      - la reseva esta cerca mio
+      - q hay d la reserva del sabado
+      - mi cita del 25, q se puede hacer
+      - mover esto pa la tarde xfa
+      - la reserva d la tarde ala mañana?
+      - puedo a otra hora?
+      - la cancha d la 8
+      - hay forma d arreglar la reseva
+      - mi agendamiento esta mal
+      - kiero otra opcion d hora
+      - se puede adelantar la fecha
+      - pa despues en san juan
+      - la reserva d oy, q pasa
+      - mi turno en otro sitio
+      - q ago con la fecha
+      - puedo mas tarde la cita
+      - la reserva d 7pm
+      - cambiame la hora x villa el salvador
+      - necesito ver mi hora d la cancha
+      - la fecha d mañana, q hago
+      - se puede otra hora en surco
+      - kiero q esto sea mas temprano
+      - mi turno esta mal creo q me ekivoke
+      - la reserva d lunes a martes?
+      - hay posibilidad d otra hora
+      - q hago cn mi agendamiento
+      - puedo ir en la noche x san juan
+      - la cita d oy se puede adelantar
+      - la reseva esta tarde
+      - otro momento xfa
+      - mi turno esta lejos, q hago
+      - se puede la cancha a las 4pm
+      - necesito otra cancha cerca d ate
+      - la hora q separe xfa
+      - puedo en otro lugar en la mañana
+      - cambio mi turno d la tarde
+      - la reserva d las 6
+      - mi cita del miercoles
+      - kiero otra hora x lurigancho
+      - hay forma de ver otra opcion
+      - lo muevo pa el finde
+      - mi agendamiento se puede mas tarde
+      - la hora en la cancha
+      - puedo adelantar esto ala mañana
+      - la reseva del jueves
+      - necesito otro dia por bellavista
+      - mi turno esta mal la hora
+      - se puede cambiar xfa
+      - la reserva d 8pm
+      - q tal, se puede otra cosa
+      - puedo a las 7pm?
+      - la fecha q separe xq tengo q salir
+      - cambiame la reserva para otro lugar
+      - mi cita pa despues
+      - otra hora x el cono norte
+      - la reserva pa q dia es
+      - se puede atrasar la reserva
+      - mi agendamiento, q puedo hacer
+      - la fecha d la cancha se puede
+      - puedo cambiar la hora d mi reserva
+      - kiero cambiar mi reserba
+      - se puede adelantar la cita?
+      - necesito otra feha pa jugar
+      - la ora no m sirve, cambiarla xfa
+      - mover el agendamiento q tengo
+      - qiero atrasar mi turno
+      - hay forma d cambiar el dia d mi reserba?
+      - mi reserva, qiero otra ora
+      - reprogramar mi partido en vill salvador
+      - cambiar mi fecha de cancha en surco
+      - podemos ver otra ora para la cita
+      - qiero otro dia pa mi cita, no puedo ese
+      - la reserba, kiero otro dia
+      - hay alguna ora mas tarde q la q tengo?
+      - adelantar mi turno a las 4pm
+      - no llego a la ora, necesito cambiarla
+      - mi agendamiento esta mal, qiero arreglarlo
+      - como muevo lo q agende
+      - se puede adelantar o atrasar mi reserba de las 6?
+      - necesito otro dia pa mi partido en la reco
+      - qiero ver si puedo cambiar el horario de mi reserva
+      - como le ago pa cambiar mi agendamiento?
+      - la reserva la kiero pa otro dia xq tengo un imprevisto
+      - no puedo ir, necesito cambiar de fecha
+      - ay opcion de otro dia pa mi reserva?
+      - mi turno, kiero cambiarlo de hora
+      - la reserba, qiero cambiar la ora
+      - otro dia xfavor pa mi reserva
+      - no puedo a esa ora qiero cambiar el turno
+      - como modifico lo q separe de cancha?
+      - la fecha de la cancha, cambiarla xfa
+      - se puede reajustar mi agendamiento de mañana?
+      - kiero otro dia pa jugar, se puede para el viernes?
+      - cambiar mi turno xq tengo q trabajar temprano
+      - reprogramar pa mañana por la noche?
+      - mi reserva de las 7, cambiarla por otra ora
+      - necesito cambiar de ora, tengo q irme mas temprano
+      - se puede ver otro horario pa mi reserva de las 8pm?
+      - qiero ver otra opcion de dia pa mi cancha libre
+      - cambiar lo q separe pa jugar
+      - adelantar mi cita para el martes en la tarde
+      - mover mi turno a la noche, se podra?
+      - la reserba pa la cancha, kiero otro dia para el fin de semana
+      - hay otra ora pa mi partido de las 9?
+      - no m cuadra la fecha, como cambio mi agendamiento?
+      - podemos reprogramar el juego de la tarde?
+      - qiero modificar mi turno de las 5 de la tarde
+      - cambiar mi reserva de 8pm en surco por favor
+      - otra hora x la cancha libre, es posible?
+      - kiero otro dia en la cancha de vill salvador, el q tengo no me sirve
+      - muevelo pa mas tarde mi reserva
+      - se puede atrasar mi visita para la proxima semana?
+      - qiero cambiar mi reserba para el jueves por la noche
+      - la cancha, cambiar el dia por el sabado
+      - mi turno, necesito otro horario
+      - hay opcion de otro horario x la noche para mi cita?
+      - no m sirve esa fecha, reprogramar el partido
+      - cambiar mi reserva a temprano en la mañana
+      - adelantar el partido que tengo reservado
+      - la hora de la cita, cambiarla a otra q tenga libre
+      - qiero otro dia x mi reserva de la cancha
+      - mover la fecha de mi agendamiento del doctor
+      - no puedo ese dia, se puede cambiar para el lunes?
+      - cambiar mi reserva pa la 4pm de hoy
+      - adelantar mi reserva un poco, si es posible
+      - hay algun otro dia pa la cancha de reco?
+      - qiero otro dia, el q tengo no va pa mi reserva
+      - mi reserba no m sirve, cambiarla para la proxima semana
+      - reprogramar mi visita al doctor xfa
+      - se puede cambiar la fecha para jugar con los patas?
+      - kiero otro dia pa mi reserva en el centro
+      - mover mi cita de las 6 a mas tarde
+      - qiero cambiar mi reserva de cancha para la noche
+      - hay forma de cambiar el dia de mi turno en la mañana?
+      - necesito cambiar el horario del partido de las 8pm
+      - mi reserva, cambiarla pa la tarde del sabado
+      - qiero otro dia libre pa la cancha de mi barrio
+      - se puede mover mi cita a la 1pm, tengo q salir
+      - cambiar la fecha de la cancha de surco xfavor
+      - la ora, kiero otra xq no llego a tiempo
+      - qiero otra hora pa mi juego de futbol
+      - mi agendamiento, cambiarlo xfa a otro dia
+      - hay otra fecha disponible para mi reserva?
+      - cambiar mi reserba pa otro momento q m quede bien
+      - kiero adelantar o atrasar mi turno del doctor
+      - la fecha de la cancha, otra xfa que no tengo libre
+      - se puede cambiar el dia q aparte la cancha?
+      - mi reserba, qiero cambiar la hora xq tengo un imprevisto
+      - qiero otro dia x la cancha de vill salvador q reserve
+      - cambiar la hora de mi reserva del partido
+      - necesito otro dia pa mi reserva en la reco x el trabajo
+      - la cita, cambiarla xfa pa la tarde
+      - se puede cambiar mi reserva en la cancha de surco para el viernes?
+      - kiero otra hora pa mi turno, tengo q irme antes de las 5
+      - cambiar la fecha del agendamiento de las 3pm
+      - mi reserva de cancha, la kiero pa mas tarde en la noche
+      - qiero otro dia pa jugar, el sabado no puedo ir
+      - hay otra hora disponible pa mi reserva en el club?
+      - cambio la fecha de mi cita por favor
+      - mi reservacion necesito ajustar el horario
+      - es posible variar el dia de mi juego?
+      - la reserva no me calza, cambiarla
+      - necesito otra hora o dia pa mi reserva
+      - qiero mover mi reservacion para el miercoles
+      - la fecha de mi partido, quiero otra
+      - se puede poner otro dia pa mi agendamiento?
+      - tengo q cambiar mi reserva xq salio algo
+      - mi cita, se puede cambiar a las 6pm?
+      - mover mi reserba
+      - cambio mi hora pls
+      - puedo cambiar la fecha
+      - kiero otra hora
+      - necesito mover el turno
+      - kambiar mi reserva xfa
+      - no puedo a esa fecha
+      - pasar mi cita pa otro dia
+      - otro horario x mi reservacion
+      - qiero cambiar mi agenda
+      - se puede atrasar mi turno
+      - necesito reajustar mi hora
+      - cambio de hora x emergencia
+      - puedo re programar mi cita
+      - kiero cambiar fecha de mi reserva
+      - mover el dia del turno
+      - recojen mi reservacion
+      - adelantar la reserva a mas temprano
+      - no puedo ir alas 8pm como hago
+      - kiero otro momento
+      - puedo adelantar mi turno de cancha
+      - cambio para otro dia por surco
+      - como muevo mi reserva de hoy
+      - necesito cambio de fecha urgente
+      - mover mi cita cerca mio
+      - se puede otro dia a esa hora
+      - kiero re programar mi reserva
+      - qiero atrasar mi hora xfa
+      - cambio mi cancha de villa el salvador
+      - necesito mover para mañana mi reserva
+      - como hago para re agendar
+      - se puede otra hora en el mismo lugar
+      - puedo cambiar de dia mi cita xfa
+      - adelantar turno alas 5pm
+      - kiero ajustar mi reserva de 8pm
+      - cambiar mi turno a otra fecha
+      - no puedo a esa hora en miraflores
+      - pasar mi reserva para mas tarde
+      - necesito re programar el encuentro
+      - como hago para mover la reservacion
+      - se puede cambiar para la proxima semana
+      - kiero modificar mi cita de la mañana
+      - otro dia pa mi cancha libre 8pm
+      - mover mi cita aca a mi alrededor
+      - no me da la hora para el turno
+      - cambiar mi reservacion q tengo
+      - puedo poner otro dia mi reserva
+      - atrasar la cita de la tarde
+      - cambiar de hora x emergencia familiar
+      - necesito re agendar la reservacion
+      - se puede adelantar para las 6pm
+      - kiero otra hora x mi turno xfa
+      - mover mi reserva de la cancha en surco
+      - cambio de hora por la chamba
+      - puedo mover mi turno para el viernes
+      - necesito otro dia en vill salvador
+      - re programa mi cita alas 7pm
+      - se puede atrasar mi cita una hora
+      - kiero cambiar mi hora de reserva
+      - mover la fecha x q me salio algo
+      - otra hora pa mi reserva en el rimac
+      - cambio mi turno de mañana para la tarde
+      - puedo re programar mi reserva de cancha
+      - necesito adelantar mi cita de las 9am
+      - cambiar mi reserva de hora y dia
+      - se puede mover el turno xfa
+      - kiero otro momento para mi cita
+      - mover mi reservacion de las 3pm
+      - cambio de cancha en vill el salvador
+      - puedo cambiar la hora de mi cita hoy
+      - necesito atrasar el turno q tengo
+      - re agendar mi reserva x q no llego
+      - cambiar fecha y hora de la reserva
+      - se puede adelantar la cita q tengo
+      - kiero mover mi turno de la cancha
+      - modificar la hora de mi reserva
+      - puedo reprogramar mi cita de hoy
+      - necesito cambiar el dia de mi reserva
+      - kiero otro dia para mi cita en surco
+      - atrasar mi turno x dos horas
+      - cambio de horario de la reserva
+      - se puede mover la fecha de mi turno
+      - kiero adelantar mi reserva en la noche
+      - modificar mi hora de cancha libre
+      - puedo re programar mi cita para mañana
+      - necesito cambiar mi reserva del sabado
+      - kiero cambiar de dia mi cita xfa
+      - mover la hora de mi reserva de las 4pm
+      - cambio de reservacion por un viaje
+      - se puede atrasar mi cancha alas 8
+      - kiero modificar el dia de mi turno
+      - mover mi cita para la proxima semana
+      - puedo cambiar la reserva x otra hora
+      - necesito re agendar mi turno en el rimac
+      - kiero adelantar la fecha de mi reserva
+      - cambiar mi hora y dia de cancha libre
+      - se puede cambiar mi reserva de las 10am
+      - kiero otra hora x mi reserva de cancha
+      - mover el turno para otro dia mas tarde
+      - puedo atrasar mi cita en miraflores
+      - necesito cambiar la hora de la reserva urgente
+      - kiero otro dia en vill salvador xfa
+      - cambio de dia por asunto personal
+      - se puede reprogramar mi reserva de las 7pm
+      - kiero modificar el horario q tengo
+      - Mi reservacion, q tal?
+      - La d la cancha, q se hace?
+      - No me cuadra esa, dime otra
+      - Mi turno del martes, no lo quiero asi
+      - Pa la nochecita, se da?
+      - Si la corro pal domingo?
+      - Kiero otra pa mi reserva
+      - La hora d mi cita, q tengo?
+      - Mi reserba... q le hago?
+      - La cancha d villa, no la hare ahi
+      - Pa mas tarde, xfa
+      - Mas temprano mi cita, lo ves?
+      - La d mañana, si la dejo pendiente?
+      - Que si no llego a mi reserva d las 8pm?
+      - Donde mas libre hay?
+      - Mi turno del jueves, si lo suelto?
+      - No voy a la d las 5
+      - Mi agendamiento, esa no me sirve
+      - Hay otra q calce?
+      - En miraflores, y pa mi?
+      - Mi reserva d la mañana, mejor d noche?
+      - La fecha d la cancha, q show?
+      - Dime si queda espacio
+      - La reserva del martes, q tal?
+      - No estoy para mi cita d las 3
+      - Otra fecha para la cancha, si la encuentro?
+      - Q hago con mi cita d las 10am, pe?
+      - Si no llego, mi reserva q?
+      - Mi turno... tengo q avisar antes?
+      - Mi reserva del sabado, lo hago en otro sitio?
+      - La d las 6pm, si hay mas tarde?
+      - La que aparte, no me vacila
+      - La q aparte para las 8pm, q hago ahora?
+      - Mi cancha d las 9am, q hacemos?
+      - La reserba q hice, no va
+      - La cita d hoy, pa cuando se da?
+      - Mi turno d las 2pm, si lo veo mas alla?
+      - Si pido otra zona, me la das?
+      - La reserva d la cancha cerca d mi casa, la hago en otro punto?
+      - Pa mañana o pasado, se da?
+      - Mi reserva d las 4pm, como la manejo?
+      - La hora d la cancha, se vera diferente?
+      - La cita del lunes, si la pido diferente?
+      - Mi reserva del domgo, pa q dia?
+      - No toy libre pa ese dia
+      - La d las 7pm, algo se hace?
+      - Otra cancha por ahi, si la tienen?
+      - Mi agendamiento, si lo dejo y veo uno nuevo?
+      - La reserva d miraflores, y si es en otro distrito?
+      - No me cae bien las 8am, q tal si?
+      - Si la suelto, la reserva d las 9pm?
+      - Mi turno d la mañana, pa la tarde es mejor?
+      - Esta cita, la hago en otro bloque?
+      - Mi reserva... que podria ser?
+      - La cancha en surco, si la tomo en otro lado?
+      - Para la prox semana, mi reserva q hace?
+      - No me da tiempo pal turno d las 6
+      - Mi cita, q fecha se le pone?
+      - Mi reserva d las 5pm, la veo mas tarde?
+      - La cancha q tengo, si hay una diferente?
+      - La d ayer, la recupero hoy?
+      - Mi reserva... que le busco para q sea diferente?
+      - Si la pongo pa un feriado, bien?
+      - La del jueves en la noche, lo miro?
+      - Mi turno d la tarde, q se le ocurre?
+      - La reserva d vill el salvador, lo pongo en otro barrio?
+      - Si lo hago en otro rato?
+      - No llego pal dia, q se hace?
+      - Mi cita d las 10, y si es mas temprano?
+      - La d las 3, la tomo mas tarde?
+      - Mi reserva... y si es distinto?
+      - La cancha d las 8, si hay diferente?
+      - Si la tomo en la noche, vale?
+      - No me va la hora d mi reserva
+      - Mi cita d las 12, la rehago?
+      - La reserva en surco, si hay otro lapso?
+      - Pa cuando quedan sitio?
+      - Si la tomo en otra ocasion, ok?
+      - Mi turno, que hago pa q funcione?
+      - La reserva d hoy, pa mas tarde, q dice?
+      - Mi cancha d las 7pm, q tal otra?
+      - La de anoche, si la pongo hoy?
+      - Mi cita d las 4pm, y si es un rato mas tarde?
+      - La hora d la reserva, la pongo diferente?
+      - El turno d la mañana, q tal mas tarde?
+      - La reserva d mi chamba, si es d noche?
+      - Mi agendamiento, si le aviso q no voy?
+      - Esto d mi reserva, si le busco algo nuevo?
+      - La cita d las 8, q tal pa un feriado?
+      - Mi reserva del finde, si la congelo?
+      - No estoy segura d mi reserva, si hay algo mas?
+      - La cancha en la molina, y si es en otro turno?
+      - Que pasa si el dia no me va para mi reserva?
+      - Mi turno d las 6, si la estiro mas?
+      - La reserva q tengo, si busco otra?
+      - La d las 9pm, si la saco?
+      - Q tal si mi reserva se hace despues?
+      - La reserva d la tarde, la hago d noche?
+      - Mi cancha d las 11am, si hay otra?
+      - cambiar mi reserva
+      - kiero mover mi cita
+      - reprogramar la hora
+      - modificar lo q separe
+      - cambiar pa mañana
+      - otra cancha porfa
+      - mi reserva esta mal
+      - kiero ajustar el horario
+      - hay chance de moverlo
+      - se me complico puedo cambiar
+      - cambiar de hora 8pm
+      - necesito modificar el turno
+      - arreglar mi reserva
+      - otro dia pa mi cita
+      - se puede cambiar de sede
+      - kiero mover mi reservacion
+      - mi reserva no va
+      - kiero otra hora aca cerca
+      - hay forma de otro turno
+      - cambiar la reserva alas 7
+      - modificar lo q agende
+      - adelantar mi cita
+      - tengo q cambiar lo de ayer
+      - kiero mover mi reserva vill salvador
+      - la hora q tengo no cuadra
+      - otro horario porfavor
+      - mi reserva esta mal kiero cambiar
+      - necesito otro dia en surco
+      - cambiar pa la noche
+      - se puede para las 9
+      - cambiar lo q tengo separado
+      - kiero otro dia xq no puedo
+      - tengo q modificar mi hora
+      - kiero cambiar para luego
+      - otra fecha pa la reserva
+      - se puede cambiar de hora aca a mi alrededor
+      - mi reserva sta mal
+      - necesito arreglar la hora
+      - mover mi reserva para tarde
+      - hay un problema con mi reserva
+      - tengo q cambiar de hora, man
+      - se puede otro dia en chorrillos
+      - kiero cambiar la cancha
+      - la hora de mi reserva ta mal
+      - necesito otro dia xfa
+      - cambiar mi cita para antes
+      - se puede adelantar mi turno
+      - mi reserva no m sirve ya
+      - arreglar lo q reserve
+      - otra hora mas temprano
+      - se puede en 8pm
+      - kiero cambiar mi reservacion en sjl
+      - no puedo a esa hora q separe
+      - necesito cambiar mi dia
+      - se puede otro momento
+      - kiero mover el turno
+      - cambiar mi reserva x la mañana
+      - otra hora por mi casa
+      - se puede cambiar lo agendado
+      - kiero modificar el horario
+      - la reserva esta mal q hago
+      - necesito cambiar el dia q separe
+      - kiero otro dia en magdalena
+      - se puede mover para otro momento
+      - cambiar el horario de mi cita
+      - arreglar la reserva kiero otra hora
+      - otra fecha mas comoda
+      - se puede cambiar cerca mio
+      - kiero modificar mi turno q tengo
+      - la reserva me sale mal
+      - necesito mover lo q programe
+      - kiero cambiar la hora 7pm
+      - se puede cambiar pa otro dia
+      - arreglar mi reserva pa la cancha
+      - otra hora en la victoria
+      - se puede modificar mi reservacion
+      - kiero cambiar el dia por la tarde
+      - la fecha no me da
+      - necesito otro horario pa la reserva
+      - se puede cambiar lo q tengo
+      - arreglar la fecha de mi reserva
+      - otra hora en el callao
+      - se puede modificar la cita
+      - kiero cambiar de dia x la noche
+      - la reserva no esta bien
+      - necesito reajustar mi turno
+      - kiero otro momento por surco
+      - se puede cambiar la hora de mi reserva
+      - otra fecha para la cancha
+      - se puede modificar lo separado
+      - kiero cambiar mi dia cerca a mi
+      - la reserva me choca con algo
+      - necesito otro dia x el centro
+      - oe puedo cambiar mi reserba
+      - se puede ajustar la fecha
+      - necesito otro dia pa mi reserva
+      - cambia la hora puej
+      - mi reserva del 8pm la puedes ver
+      - no llego a esa hora ps
+      - quiero otra cancha la de surco
+      - la reserba de villa el salvador la cambio
+      - hay chance de modificar mi reserva
+      - variar la hora del partido
+      - mi hora de las 8pm se puede mover
+      - la cancha cerca mio kiero otra
+      - se puede adelantar mi reserba
+      - kiero atrasar mi cita mano
+      - arregla mi reserva porfa
+      - otro dia pa mi en la cancha libre
+      - se puede cambiar la hora de la cancha libre 8pm
+      - la q separe en vill salvador la kiero cambiar
+      - no me da la fecha q puse
+      - puedes cambiar la reserba de la mañana
+      - necesito otra hora para el sabado
+      - mi reserva del domingo la movemos
+      - hay forma de cambiar lo de aca a mi alrededor
+      - kiero variar mi fecha en surco
+      - se puede adelantar lo de las 7pm
+      - mi partido del miercoles se cambia
+      - la reserva del jueves kiero otra hora
+      - mover mi cita del viernes pa otro dia
+      - necesito otro horario pa la cancha libre
+      - la reserba de las 9pm se puede
+      - kiero cambiar el dia del entreno
+      - no puedo ese dia q separe
+      - puedes mover mi partido de fut
+      - mi reserba de la cancha la modifico
+      - la hora de las 8 la cambias
+      - se puede poner otro dia mi reserva
+      - quiero cambiar mi partido de barrio
+      - la cancha de cerca mio se puede adelantar
+      - necesito variar la hora de mi reserva
+      - se puede atrasar lo de las 6pm
+      - mi reserva del lun tengo q cambiarla
+      - kiero otro dia pa mi entrenamiento
+      - la cancha libre de 8pm se puede mover
+      - mi reserba en vill salvador la modifico
+      - hay chance de adelantar mi cita
+      - la hora de las 5pm la cambio
+      - se puede cambiar el dia q separe
+      - necesito otro dia pa mi partido
+      - la reserba de aca a mi alrededor la movemos
+      - kiero variar la fecha del partido
+      - puedes ajustar mi reserba de la noche
+      - mi hora de las 7pm la cambio por otra
+      - se puede cambiar la cancha q elegi
+      - quiero otra hora pa mi reserva
+      - la reserva del centro la movemos
+      - necesito otro dia pa mi en el campo
+      - se puede variar la hora del encuentro
+      - mi reserba de surco la modifico
+      - kiero adelantar mi partido del finde
+      - la hora de las 10pm se puede
+      - se puede cambiar lo de mañana en la mañana
+      - necesito otro horario pa la cancha cerca mio
+      - mi reserva del mart se puede atrasar
+      - kiero variar el dia del juego
+      - la cancha libre 8pm quiero otro dia
+      - se puede modificar mi reserba del depa
+      - mi hora de las 4pm la cambio
+      - necesito otra fecha pa mi compromiso
+      - la reserba de la tarde la movemos
+      - kiero cambiar el horario de mi cita
+      - puedes adelantar mi reserva de la cancha
+      - se puede atrasar mi partido de futbol
+      - mi reserva de vill salvador la quiero mover
+      - la cancha de surco la cambio de dia
+      - necesito otro horario pa mi reserva en aca a mi alrededor
+      - se puede ajustar mi cita de la semana
+      - kiero cambiar mi fecha del torneo
+      - la hora de las 11pm se puede modificar
+      - mi reserva del parque la cambio
+      - necesito otro dia pa mi cancha
+      - la de las 8pm se puede mover
+      - kiero variar mi reserba del local
+      - se puede adelantar mi hora del juego
+      - mi partido de las 9am lo cambio
+      - la reserba del gym la muevo
+      - necesito otro horario pa mi cita de la mañana
+      - se puede cambiar la fecha del compromiso
+      - kiero ajustar mi reserva de la tarde
+      - la hora de las 6pm se puede mover
+      - mi reserva del sabado la cambio
+      - necesito otro dia pa mi partido de la noche
+      - se puede variar mi cita de la tarde
+      - kiero adelantar mi reserba de la semana
+      - la hora de las 3pm la modifico
+      - mi reserva de la cancha libre la cambio
+      - necesito otro horario pa mi juego en surco
+      - se puede atrasar mi cita de las 7pm
+      - kiero cambiar el dia de mi partido en vill salvador
+      - la reserba de aca a mi alrededor la adelanto
+      - hola, se puede poner otra pa mi sita?
+      - la reserva q hice, se puede arreglar?
+      - tengo mi reserva, me la pueden poner mas tarde?
+      - el dia q separe no puedo ir
+      - busco otra fecha x el turno
+      - la hora no me combiene, kiero otra
+      - mi agenda no cuadra con la reserva
+      - hay manera de poner otra fecha?
+      - la reserba esta mal, como se corrigue?
+      - la hora q separe, se adelanta?
+      - me salio un imprevisto, la puedo correr?
+      - el turno q tengo, se adelanta?
+      - la cta, hay pa despues?
+      - mi dispinibilidad ya no es la misma
+      - busco otro momento pa mi cta
+      - hay alguna ocion para otro dia?
+      - pa la reserba, se puede otra hora?
+      - la reserva, la podemos poner pa la tarde?
+      - la kiero pa otro dia
+      - no ire en la fecha q separe
+      - q se hace para poner otra?
+      - la q tengo, la puedo aser mas tarde?
+      - como consigo otra fecha pal turno?
+      - si se puede ir mas tarde?
+      - me dan otra hr pa mi reserba?
+      - se podra pa la noche
+      - mmm el dia q tengo no me va
+      - la reserba, se puede poner pa mañana?
+      - la fecha q separe no llego
+      - ay forma de poner otro?
+      - kiero una ora difrente
+      - la reserba, me la pueden poner pa despues?
+      - tengo q ver otro momento
+      - no me keda el horario
+      - se puede para otro dia?
+      - como hago para otra fecha?
+      - la q tengo pa ir, se puede poner antes?
+      - mi cta, la podemos aser antes?
+      - para otro momento la reserva
+      - la hora se puede poner mas tarde?
+      - el dia q reserve, no podre
+      - busco una fecha difente
+      - y si la pongo pa la noche?
+      - podre ponerla otro dia?
+      - mi reserva q tengo, la adelantan?
+      - la cta la podre poner despues?
+      - la hora q tengo, la puedo atrasar?
+      - se puede otro dia pa la reserva?
+      - como se hace pa otro horario?
+      - la q tengo, la pongo antes?
+      - la reserva q hice, es posible otro dia?
+      - q ago pa otra fecha?
+      - otro momento pa mi cta kiero
+      - la hora q tengo, pa otro dia porfa
+      - la de 8pm, la podemos adelantar?
+      - tengo q poner mi reserva pa otro momento
+      - no llego a la hora, se puede poner despues?
+      - el turno q separe, lo puedo aser mas tarde?
+      - kiero otra hr xq no llego
+      - la cancha libre 8pm, se puede poner pa las 9?
+      - se podra para despues de las 7?
+      - no puedo en la tarde, kiero pa la noche
+      - y si es pa mañana la cta?
+      - mi reserba de ayer, la puedo poner pa hoy?
+      - la cta q tengo, la pongo pal fin de semana?
+      - no me funciona ese dia
+      - hay otra hr para la de surco?
+      - kiero otro momento pa la de vill salvador
+      - tengo mi reserva, la puedo poner mas cerca mio?
+      - puedo otro dia la reserba de aca a mi alrededor?
+      - la q tengo, es posible pa otro lado?
+      - q se hace pa poner otro turno?
+      - no podre ir en esa fecha
+      - la reserba, la puedo poner otro dia?
+      - como pido otra hr?
+      - la q tengo, la adelantan o la atrasan?
+      - kiero q me pongan otro dia
+      - se podra pa un dia antes?
+      - puedo poner mi reserva despues?
+      - no me va ese dia, como se hace?
+      - la fecha q tengo esta mal
+      - la reserba, se puede poner para el lunes?
+      - como hago pa q sea otra hora?
+      - el turno q tengo, se puede adelantar?
+      - pa mi reserva, quiero otra hr
+      - la q tengo, se puede poner otro dia?
+      - puedo aser otro horario?
+      - la reserba q hice, se puede poner otra hora?
+      - hay forma de poner otro momento?
+      - mi cta, la puedo poner mas tarde o mas temprano?
+      - la q tengo, se podra poner pa la proxima semana?
+      - q puedo aser con mi reserva de hoy?
+      - kiero otro dia pa mi cta
+      - no me funciona la fecha q tengo
+      - la reserba, se puede poner pa antes?
+      - como se hace pa otro turno?
+      - mi hora, la puedo poner pa otro momento?
+      - tengo mi reserva, q se hace pa ponerla en otro lado?
+      - la fecha q tengo no me sirbe
+      - hay un dia diferente pa la reserva?
+      - mover mi reserva xfa
+      - cambio d hora pa la cancha
+      - kiero otra fecha pa jugar
+      - se puede otro dia pa mi separacion
+      - mi reserva en surco, otra hora
+      - la cancha, otro dia?
+      - no llego, mover mi reserva
+      - qiro cambiar la separacion
+      - otro horario pa mi reserva
+      - mi reserva pa mas tarde
+      - la reserva en vill salvador, cambiar dia
+      - kiero un cambio ps
+      - la hora no me da, la cambio?
+      - mover mi cita urgente
+      - cancha libre 8pm se puede para mi reserva?
+      - cambiame la reserva p
+      - mi reserva, se puede re agendar?
+      - otra fecha pa la cancha ps
+      - la reserva aca a mi alrededor, se cambia?
+      - no puedo el 15, se puede el 16?
+      - qiro cambiar d dia
+      - mi separacion, moverla ps
+      - cambiarla de fecha la reserva
+      - kiero otra hora pa la kancha
+      - mi reserva por surco, la cambio?
+      - se puede adelantar mi separacion?
+      - cambiame la hora q tengo
+      - la cancha, pa otro dia?
+      - kiero mover mi partido
+      - mi reserva pa las 9 mejor
+      - otra hora cerca mio para mi reserva
+      - se puede cambiar el sitio de mi reserva?
+      - la reserva ps, otro dia y hora
+      - ayuda pa cambiar fecha
+      - qiro atrasar la cita
+      - cambio mi hora pa la 8pm
+      - la separacion, se mueve?
+      - mi reserva en vill salvador, otra hora
+      - kiero cambiar mi partido
+      - mover la fecha ps
+      - no puedo esa hora, cambiar p
+      - la reseva ps, adelantarla
+      - qiro otra cancha pa mi reserva
+      - cambiar mi hora de juego
+      - se puede pasar mi reserva pal viernes?
+      - la reserva aca a mi alrededor, otra hora
+      - kiero cambiar mi separacion de dia
+      - mover mi reserva al toque
+      - otra fecha pa la cancha libre 7pm
+      - la reserva la cambiamos de lugar
+      - mi reserva, necesito otro momento
+      - qiro cambiar mi cita de hora
+      - cambiarla pa el fin de semana mi reserva
+      - mi separacion en vill salvador, moverla
+      - la reserva, se atrasa?
+      - no puedo a esa fecha, cambiar
+      - mover la hora de mi reserva
+      - kiero otro dia en surco pa mi reserva
+      - cambiar la hora de mi separacion
+      - mi reserva, puedo re ubicarla?
+      - qiro otra hora pa jugar en vill salvador
+      - se puede cambiar mi reserva pa mañana?
+      - la reserva, otra hora aca cerca
+      - cambiame la fecha d mi cita
+      - no llego al partido, cambiar hora
+      - kiero otra hora pa mi reserva en el mismo lugar
+      - mi reserva para las 6, se puede pa las 7?
+      - cambiar de dia mi cancha reservada
+      - se puede la reserva en otro sitio cerca mio?
+      - la reserva ps, otro dia en surco
+      - qiro adelantar mi reserva pal sabado
+      - mover mi separacion pa un dia despues
+      - la cancha, se puede otra hora?
+      - cambiar mi reserva para la noche
+      - mi reserva en vill salvador, otra fecha
+      - kiero cambiar la hora de mi cancha
+      - se puede atrasar mi reserva pa la semana?
+      - la reserva ps, otro lugar cerca mio
+      - cambiar mi separacion pa las 10pm
+      - qiro otro dia pa la reserva en surco
+      - mi reserva, moverla pal otro mes
+      - la cancha libre 9pm, se puede para mi?
+      - se puede cambiar mi reserva por una mas temprano?
+      - otro horario pa mi reserva en vill salvador
+      - cambiame la reserva pa las 5
+      - qiro mover mi cancha aca a mi alrededor
+      - mi separacion, otro dia mas tarde
+      - la reserva ps, otro dia antes
+      - cambiar mi reserva pa otro dia en surco
+      - se puede otro dia y hora pa mi reserva?
+      - mi cancha reservada, cambiarla de hora
+      - qiro una nueva fecha pa mi reserva
+      - cambiar mi reserva pa la semana siguiente
+      - la separacion ps, otra fecha cerca mio
+      - mover mi reserva al viernes en vill salvador
+      - cancha libre 6pm, para mi reserva en surco
+      - qiro cambiar mi reserva a las 7 de la noche
+      - se puede mi reserva a otra hora aca a mi alrededor?
+      - la cancha, moverla pa mas tarde
+      - mi reserva, pa el miercoles
+      - cambiar la reserva para las 4pm en surco
+      - qiro otro dia pa mi cancha reservada
+      - mi separacion, puedo cambiarla de dia y hora?
+      - la reserva ps, otro dia en vill salvador
+      - ayuda con mi reserva, kiero otro dia
+      - cambiame la hora de mi partido
+      - kiero kambiar mi reserba
+      - podrias mover mi ora?
+      - necesito otro dia ps
+      - cambiame la fehca
+      - puedo moverlo pa mas tarde?
+      - ajusta mi turno
+      - kiero otra ora
+      - pa mañana se podra?
+      - arregla mi reserva xfa
+      - me ekivoke d ora
+      - otra ora porfavor
+      - kiero la cancha d surco
+      - en vill salvador es mejor
+      - la cancha cerca mio ps
+      - aca a mi alrededor ps hay?
+      - si hay cancha libre 8pm
+      - kiero otra fecha xfa
+      - mueve el agendamiento
+      - puedo adelantar el partido?
+      - atrasa mi turno
+      - kiero otro lugar
+      - pa otro lado la cancha?
+      - se puede pa las 9?
+      - o mas temprano d una
+      - cambia el agendado
+      - stoy ocupado ese dia
+      - no puedo ala ora reservada
+      - se me vino un imprevisto
+      - kiero reubicar el juego
+      - otra cancha por recoletta
+      - x ate si hay?
+      - a ver otra disponibiliada
+      - si puedo adelantar la hora
+      - q tal si lo cambio d una
+      - hay pa mover el partido?
+      - me ekivoke d reserva
+      - kiero otro horario pa ir
+      - pa otro momento la pichanga
+      - puedo atrasar la cita?
+      - reubicar mi turno ps
+      - kiero cambiar de fecha
+      - otra opcion de ora
+      - se puede reasignar el juego?
+      - si puedo kambiar mi agendamiento
+      - busco otra fecha pa ir
+      - pa mas tarde el partido
+      - xfa cambia la hora
+      - adelantar pa las 5
+      - atrasar para las 9
+      - pa otro distrito la cancha
+      - cerca a san juan
+      - q tal en miraflores
+      - x barranco se puede?
+      - no voy a poder esa fecha
+      - kambiar mi booking xfa
+      - re programar el turno
+      - a ver si hay otro dia
+      - puedo pedir otro horario
+      - otra ora disponible
+      - porfavor cambia la reserva
+      - si puedo mover mi fecha
+      - kiero otra cancha
+      - no puedo esa hora
+      - se me cruzo algo
+      - puedo mover mi agenda
+      - reasignar mi horario
+      - si puedo moverlo
+      - cambio de dia xfa
+      - otra fecha porfavor
+      - mover mi agendado
+      - modifica el q ya tengo
+      - otra hora en la noche
+      - puedo pa la mañana
+      - la cancha d miraflores
+      - si ay x mi casa
+      - q tal por el centro
+      - necesito reubicar
+      - cambiar lo reservado
+      - me ekivoke en el dia
+      - puedo elegir otra hora
+      - otra opcion ps
+      - re agendar el partido
+      - mover cita pa otro dia
+      - puedo adelantar
+      - atrasar fecha
+      - cambiar de lugar
+      - otro sitio xfa
+      - en surco puede ser
+      - villa el salvador si ay
+      - por san martin d porres
+      - cambiar la reserva ahora
+      - se puede mover mi agendamiento?
+      - kiero ajustar mi reserva
+      - kiero reprogramar mi cita
+      - puedo re programar la hora
+      - se puede re agendar lo q separe
+      - necesito otra fecha causa
+      - mi reserva moverla alas 7pm
+      - xfa otro dia para la cancha
+      - mi booking cambiar d hora
+      - modifica el dia q separe
+      - adelanta mi reserva xfa
+      - atrasar mi hora toy ocupao
+      - q opciones pa otro horario
+      - mi cita moverla mas tarde
+      - kiero otro cupo x la tarde
+      - puedo tener otra hora mejor
+      - reubica mi hora pe
+      - la cancha d las 8pm a q hora
+      - otro dia para mi reserva xf
+      - se puede el finde q viene
+      - otra fecha xq no puedo
+      - reagenda mi espacio
+      - la reserva d mañana cambiar
+      - tengo un impas kiero mover
+      - no puedo ir ala cancha a esa hora
+      - mi hora pasarla pal domingo
+      - se puede otro dia por surco
+      - kiero variar mi momento d atencion
+      - otro espacio para la reserva
+      - aplazar mi cita mano

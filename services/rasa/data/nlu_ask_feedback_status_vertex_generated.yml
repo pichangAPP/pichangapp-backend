@@ -1,0 +1,145 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_feedback_status
+    examples: |
+      - ¿Ya registraron lo que puse?
+      - ¿Se recivio mi aporte?
+      - ¿Llegó mi mensaje?
+      - ¿Han visto mi contribucion?
+      - ¿Está anotado lo que les envié?
+      - ¿Confimaron el envío de mi input?
+      - ¿Qué saben de lo que les hice llegar?
+      - ¿Mi nota está prozesada?
+      - ¿Ya está en su sistma el dato que mandé?
+      - ¿Se rehistró mi contribución?
+      - ¿Tienes lo que remití?
+      - ¿Qué onda con la info que puse?
+      - ¿Ya lo consideraron?
+      - ¿Ha sido tomado en cuenta mi envío?
+      - ¿Se guardó mi aporte correctamente?
+      - ¿Me confirman si recivieron mi comunicación?
+      - ¿Hay alguna novedad sobre lo que les mandé?
+      - ¿Revisaron mi aporte?
+      - ¿Qué pasó con lo que les notifiqué?
+      - ¿Está OK el mensaje que dejé?
+      - ¿Llegó bien lo que les envié?
+      - ¿Ya lo tienen registrado?
+      - ¿Tienen alguna actualisacion sobre mi ingreso?
+      - ¿Se procesó mi aporte?
+      - ¿Está al día el reporte que envié?
+      - ¿Me confirman la recepción de mi escrito?
+      - ¿Ya está mi aporte en el sistema?
+      - ¿Qué tal con la info que les mandé?
+      - ¿Tienen el registro de mi aportacion?
+      - ¿Lo que puse, ya está considerado?
+      - ¿Se valido mi envío?
+      - ¿Puedes ver si mi aporte se procesó?
+      - ¿Hay un registro de lo que comuniqué?
+      - ¿Me llegó alguna confirmación de mi envio?
+      - ¿Se guardó correctamente lo que puse?
+      - ¿Ya figura mi mensaje?
+      - ¿Está en la base de datos mi aporte?
+      - ¿Han verificado mi remision?
+      - ¿Tienes registro de lo que comuniqué?
+      - ¿Se puede saber el estado de mi comunicacion?
+      - ¿Qué novedades hay de mi aportación?
+      - ¿Ya tienen noticias de lo que les hice llegar?
+      - ¿Han revisado mi envío?
+      - ¿Podrían decirme si mi mensaje fue recivido?
+      - ¿Qué saben del dato que envié?
+      - ¿Está pendiente mi aporte o ya lo tienen listo?
+      - ¿Me confírman si les llegó el dato?
+      - ¿Ya está todo conforme con mi ingreso?
+      - ¿Ya lo ingresaron a la base?
+      - ¿Se registró mi participacion?
+      - ¿Tienen mi escrito?
+      - ¿Hay algo sobre el texto que mandé?
+      - ¿Cómo va mi ingreso?
+      - ¿Qué tal el estado de mi remisión?
+      - ¿Se ha gestionado mi comunicación?
+      - ¿Me podrían informar sobre mi mensaje enbiado?
+      - ¿Se dio de alta mi registro?
+      - ¿Todo bien con el dato que les mandé?
+      - ¿Ya se ve el aporte que hice?
+      - ¿Tienen registro de mi mensaje?
+      - ¿Qué informacion hay sobre lo que les remití?
+      - ¿Puedo consultar el estado de mi envío?
+      - ¿Han recivido mi comunicación?
+      - ¿Está en espera mi remisión?
+      - ¿Se procesó la información que les di?
+      - ¿Cómo va el registro de mi escrito?
+      - ¿Ya está en la lista el dato que envié?
+      - ¿Me confirman la recepcion del reporte?
+      - ¿Qué onda con la data que les envié?
+      - ¿Ya tienen registro de mi comunicación?
+      - ¿Se tomó en cuenta el dato?
+      - ¿Qué estado tiene la información que les mande?
+      - ¿Puedes chequear si recivieron mi ingreso?
+      - ¿Ya está procesado lo que les puse hace un rato?
+      - ¿Hay alguna actualisación de la información que remití?
+      - ¿Recibieron mi aporte sin ningún problema?
+      - ¿Quisiera saber sobre el estado de la comunicación que les hize?
+      - ¿Mi aporte ya fue considerado por ustedes?
+      - ¿Tienes info del mensaje que les deje?
+      - ¿Me confirman si les llegó lo que mande hace un rato?
+      - ¿Hay algún informe sobre mi envío?
+      - ¿Se procesó lo que les di, pe?
+      - ¿Qué tal la data que les alcancé?
+      - ¿Ya se ve el dato que ingresé?
+      - ¿Podrían checar lo que les remití?
+      - ¿Se dio curso a mi comunicasión?
+      - ¿Tienen constancia de mi texto?
+      - ¿Cómo anda la nota que envié?
+      - ¿Ha llegado la información que subí?
+      - ¿Ya le dieron una mirada a mi aporte?
+      - ¿Están al tanto de mi notificación?
+      - ¿Me pueden decir sobre mi registro?
+      - ¿Cómo andamos con lo que les pasé?
+      - ¿Se revisó la info que les di?
+      - ¿Hay novedades de mi escrito?
+      - ¿Me confirman si mi envío fue exitoso?
+      - ¿Todo bien con lo que les pasé?
+      - ¿Ya figuró lo que les compartí?
+      - ¿Qué fue de la data que les dejé?
+      - ¿El input que les mandé está procesado?
+      - ¿Me informan el estado de mi texto?
+      - ¿Se pudo validar mi mensage?
+      - ¿Hay registro del aporte que les di?
+      - ¿Quiero saber si llegó lo que les escribí?
+      - ¿Pueden darme un estatus de mi comunicación?
+      - ¿Qué pasó con lo que les dije?
+      - ¿Mi parecer ya fue prozesado?
+      - ¿Han visto lo que comenté ya?
+      - ¿Cómo va el tema de mi sugerencia?
+      - ¿Se consideró la observasion que les hice?
+      - ¿Lo que escribí, ya se rehistró?
+      - ¿Ya chequearon lo que les mandé?
+      - ¿Hay alguna novedad de lo que les expresé?
+      - ¿El punto de vista que di, ya está gestionado?
+      - ¿El seguimiento de lo que les dije, cómo va?
+      - ¿Mi planteamiento fue tomado en cuenta?
+      - ¿Le dieron una mirada a mi apreciación?
+      - ¿Tienen constancia de mi intervensión?
+      - ¿Se confirmó la comunicacion que puse?
+      - ¿Lo que les hice saber, ya se validó?
+      - ¿Está al día mi reporte de lo susedido?
+      - ¿Ya figurea en su sistema lo que les remití?
+      - ¿Se ha revisado mi parecer?
+      - ¿Lo que les dejé, qué tal si ya lo vieron?
+      - ¿Mi contribucion ya está actualisada?
+      - ¿Hubo alguna respuesta a mi punto de vista?
+      - ¿Se tiene en cuenta lo que les conté?
+      - ¿Ya aprobaron mi idea?
+      - ¿Mi dato ya está ok?
+      - ¿Está mi impresión en la base de datos?
+      - ¿Qué tal anda el tema que les planteé?
+      - ¿Se le dio seguimiento a mi solicitud?
+      - ¿La cuestión que expuse ya fue examinada?
+      - ¿Me podrían averiguar sobre mi requerimiento?
+      - ¿El informe que entregué ya está en tratamiento?
+      - ¿Existe algún avance con mi petición?
+      - ¿Mi propuesta ya fue analizada?
+      - ¿Se inició el manejo de los detalles que adjunté?
+      - ¿Me pueden informar sobre la situación del asunto que presenté?
+      - ¿Cuál es el progreso de mi intervención?

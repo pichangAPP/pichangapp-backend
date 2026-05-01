@@ -147,6 +147,38 @@ class AnalyticsClient:
             token=token,
         )
 
+    async def get_rent_metrics(
+        self,
+        *,
+        token: Optional[str] = None,
+        period: str = "today",
+        group_by: str = "day",
+        target_date: Optional[date] = None,
+        campus_id: Optional[int] = None,
+        field_id: Optional[int] = None,
+        sport_id: Optional[int] = None,
+        status: Optional[str] = None,
+    ) -> Optional[Dict[str, Any]]:
+        params: Dict[str, str] = {
+            "period": period,
+            "group_by": group_by,
+        }
+        if target_date is not None:
+            params["target_date"] = target_date.isoformat()
+        if campus_id is not None:
+            params["campus_id"] = str(campus_id)
+        if field_id is not None:
+            params["field_id"] = str(field_id)
+        if sport_id is not None:
+            params["sport_id"] = str(sport_id)
+        if status:
+            params["status"] = status.strip()
+        query = f"?{urlencode(params)}" if params else ""
+        return await self._get_json(
+            f"/analytics/metrics/rents{query}",
+            token=token,
+        )
+
 
 analytics_client = AnalyticsClient()
 

@@ -1,0 +1,250 @@
+{
+  "ask_modify_reservation": {
+    "precision": 0.9903480549868383,
+    "recall": 0.9556872706745696,
+    "f1-score": 0.9727089916690607,
+    "support": 3543.0,
+    "confused_with": {
+      "ask_reprogram_reservation": 154,
+      "affirm": 1
+    }
+  },
+  "affirm": {
+    "precision": 0.9963065558633426,
+    "recall": 0.9890009165902841,
+    "f1-score": 0.9926402943882244,
+    "support": 1091.0,
+    "confused_with": {
+      "inform": 4,
+      "request_field_recommendation": 3
+    }
+  },
+  "request_admin_field_usage": {
+    "precision": 1.0,
+    "recall": 0.99812382739212,
+    "f1-score": 0.9990610328638497,
+    "support": 533.0,
+    "confused_with": {
+      "request_admin_reservations_overview": 1
+    }
+  },
+  "deny": {
+    "precision": 1.0,
+    "recall": 0.9981078524124882,
+    "f1-score": 0.9990530303030303,
+    "support": 1057.0,
+    "confused_with": {
+      "ask_modify_reservation": 1,
+      "inform": 1
+    }
+  },
+  "request_admin_demand_alerts": {
+    "precision": 1.0,
+    "recall": 0.9979338842975206,
+    "f1-score": 0.9989658738366081,
+    "support": 484.0,
+    "confused_with": {
+      "request_admin_metrics": 1
+    }
+  },
+  "show_promotions": {
+    "precision": 1.0,
+    "recall": 0.9943502824858758,
+    "f1-score": 0.9971671388101983,
+    "support": 177.0,
+    "confused_with": {
+      "ask_modify_reservation": 1
+    }
+  },
+  "show_previous_recommendations": {
+    "precision": 0.9950248756218906,
+    "recall": 1.0,
+    "f1-score": 0.9975062344139651,
+    "support": 200.0,
+    "confused_with": {}
+  },
+  "request_field_recommendation": {
+    "precision": 0.9901905300886625,
+    "recall": 0.9939405415640977,
+    "f1-score": 0.9920619920619921,
+    "support": 5281.0,
+    "confused_with": {
+      "inform": 16,
+      "help": 9
+    }
+  },
+  "goodbye": {
+    "precision": 1.0,
+    "recall": 0.9916201117318436,
+    "f1-score": 0.9957924263674615,
+    "support": 1074.0,
+    "confused_with": {
+      "help": 6,
+      "ask_modify_reservation": 2
+    }
+  },
+  "give_positive_feedback": {
+    "precision": 0.9655172413793104,
+    "recall": 1.0,
+    "f1-score": 0.9824561403508771,
+    "support": 56.0,
+    "confused_with": {}
+  },
+  "show_faqs": {
+    "precision": 0.9927272727272727,
+    "recall": 0.9715302491103203,
+    "f1-score": 0.9820143884892086,
+    "support": 281.0,
+    "confused_with": {
+      "help": 7,
+      "ask_reservation_process": 1
+    }
+  },
+  "request_admin_recommendation": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 206.0,
+    "confused_with": {}
+  },
+  "give_negative_feedback": {
+    "precision": 0.9936708860759493,
+    "recall": 1.0,
+    "f1-score": 0.9968253968253968,
+    "support": 157.0,
+    "confused_with": {}
+  },
+  "ask_pricing_info": {
+    "precision": 0.9947414548641542,
+    "recall": 1.0,
+    "f1-score": 0.9973637961335676,
+    "support": 1135.0,
+    "confused_with": {}
+  },
+  "help": {
+    "precision": 0.977703741670938,
+    "recall": 0.9968643846354848,
+    "f1-score": 0.9871910984603441,
+    "support": 3827.0,
+    "confused_with": {
+      "ask_reservation_process": 4,
+      "request_field_recommendation": 3
+    }
+  },
+  "request_admin_top_clients": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 1244.0,
+    "confused_with": {}
+  },
+  "request_admin_reservations_overview": {
+    "precision": 0.9937275985663082,
+    "recall": 0.9910634495084897,
+    "f1-score": 0.992393736017897,
+    "support": 1119.0,
+    "confused_with": {
+      "request_admin_metrics": 10
+    }
+  },
+  "request_user_reservations": {
+    "precision": 1.0,
+    "recall": 0.9906542056074766,
+    "f1-score": 0.9953051643192489,
+    "support": 214.0,
+    "confused_with": {
+      "request_admin_reservations_overview": 1,
+      "ask_reprogram_reservation": 1
+    }
+  },
+  "request_admin_metrics": {
+    "precision": 0.9926428975664969,
+    "recall": 0.9965909090909091,
+    "f1-score": 0.9946129855401191,
+    "support": 1760.0,
+    "confused_with": {
+      "request_admin_reservations_overview": 5,
+      "ask_pricing_info": 1
+    }
+  },
+  "greet": {
+    "precision": 0.996219281663516,
+    "recall": 0.9850467289719627,
+    "f1-score": 0.9906015037593985,
+    "support": 1070.0,
+    "confused_with": {
+      "request_field_recommendation": 7,
+      "help": 6
+    }
+  },
+  "ask_reprogram_reservation": {
+    "precision": 0.9573304157549234,
+    "recall": 0.9923447689254323,
+    "f1-score": 0.9745231797299179,
+    "support": 3527.0,
+    "confused_with": {
+      "ask_modify_reservation": 26,
+      "ask_pricing_info": 1
+    }
+  },
+  "inform": {
+    "precision": 0.9963757173059499,
+    "recall": 0.9927776105928378,
+    "f1-score": 0.994573409707567,
+    "support": 6646.0,
+    "confused_with": {
+      "request_field_recommendation": 38,
+      "affirm": 3
+    }
+  },
+  "ask_reservation_process": {
+    "precision": 0.9977188480182492,
+    "recall": 0.9834176503653738,
+    "f1-score": 0.9905166312809625,
+    "support": 3558.0,
+    "confused_with": {
+      "help": 57,
+      "request_field_recommendation": 1
+    }
+  },
+  "ask_cancellation_policy": {
+    "precision": 0.9990749306197965,
+    "recall": 1.0,
+    "f1-score": 0.999537251272559,
+    "support": 1080.0,
+    "confused_with": {}
+  },
+  "SetSlots": {
+    "precision": 0.875,
+    "recall": 1.0,
+    "f1-score": 0.9333333333333333,
+    "support": 7.0,
+    "confused_with": {}
+  },
+  "ask_feedback_status": {
+    "precision": 0.9947089947089947,
+    "recall": 1.0,
+    "f1-score": 0.9973474801061007,
+    "support": 188.0,
+    "confused_with": {}
+  },
+  "accuracy": 0.9898013412628116,
+  "macro avg": {
+    "precision": 0.9884242037493304,
+    "recall": 0.9930405632291188,
+    "f1-score": 0.990521250386188,
+    "support": 39515.0
+  },
+  "weighted avg": {
+    "precision": 0.9899564668986502,
+    "recall": 0.9898013412628116,
+    "f1-score": 0.9898040703168843,
+    "support": 39515.0
+  },
+  "micro avg": {
+    "precision": 0.9898013412628116,
+    "recall": 0.9898013412628116,
+    "f1-score": 0.9898013412628116,
+    "support": 39515.0
+  }
+}

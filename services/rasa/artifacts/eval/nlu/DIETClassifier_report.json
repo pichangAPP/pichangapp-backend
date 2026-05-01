@@ -1,0 +1,139 @@
+{
+  "surface": {
+    "precision": 0.9956989247311828,
+    "recall": 1.0,
+    "f1-score": 0.9978448275862069,
+    "support": 463.0,
+    "confused_with": {}
+  },
+  "budget": {
+    "precision": 0.9141414141414141,
+    "recall": 0.9863760217983651,
+    "f1-score": 0.9488859764089121,
+    "support": 367.0,
+    "confused_with": {
+      "num_players": 1
+    }
+  },
+  "metric_type": {
+    "precision": 0.926509186351706,
+    "recall": 1.0,
+    "f1-score": 0.9618528610354223,
+    "support": 706.0,
+    "confused_with": {}
+  },
+  "court_type": {
+    "precision": 1.0,
+    "recall": 0.42857142857142855,
+    "f1-score": 0.6,
+    "support": 7.0,
+    "confused_with": {
+      "court": 4
+    }
+  },
+  "court": {
+    "precision": 0.8469387755102041,
+    "recall": 1.0,
+    "f1-score": 0.9171270718232044,
+    "support": 83.0,
+    "confused_with": {}
+  },
+  "num_players": {
+    "precision": 0.9395161290322581,
+    "recall": 0.9957264957264957,
+    "f1-score": 0.966804979253112,
+    "support": 234.0,
+    "confused_with": {}
+  },
+  "court_name": {
+    "precision": 1.0,
+    "recall": 0.9878787878787879,
+    "f1-score": 0.9939024390243902,
+    "support": 165.0,
+    "confused_with": {
+      "court": 2
+    }
+  },
+  "time": {
+    "precision": 0.8805460750853242,
+    "recall": 0.9942196531791907,
+    "f1-score": 0.9339366515837104,
+    "support": 519.0,
+    "confused_with": {}
+  },
+  "location": {
+    "precision": 0.992827868852459,
+    "recall": 0.9979402677651905,
+    "f1-score": 0.9953775038520801,
+    "support": 3884.0,
+    "confused_with": {}
+  },
+  "date": {
+    "precision": 0.8347578347578347,
+    "recall": 0.966996699669967,
+    "f1-score": 0.8960244648318043,
+    "support": 303.0,
+    "confused_with": {}
+  },
+  "facility": {
+    "precision": 0.9090909090909091,
+    "recall": 1.0,
+    "f1-score": 0.9523809523809523,
+    "support": 10.0,
+    "confused_with": {}
+  },
+  "metric_location": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1-score": 0.0,
+    "support": 4.0,
+    "confused_with": {
+      "court": 3,
+      "location": 1
+    }
+  },
+  "sport": {
+    "precision": 0.9759206798866855,
+    "recall": 0.9956647398843931,
+    "f1-score": 0.9856938483547926,
+    "support": 692.0,
+    "confused_with": {
+      "time": 1
+    }
+  },
+  "court_number": {
+    "precision": 1.0,
+    "recall": 0.6,
+    "f1-score": 0.75,
+    "support": 10.0,
+    "confused_with": {
+      "court": 4
+    }
+  },
+  "metric_period": {
+    "precision": 0.9612027158098934,
+    "recall": 0.9959798994974874,
+    "f1-score": 0.9782823297137216,
+    "support": 995.0,
+    "confused_with": {}
+  },
+  "micro avg": {
+    "precision": 0.961512027491409,
+    "recall": 0.994314143567875,
+    "f1-score": 0.9776380153738644,
+    "support": 8442.0
+  },
+  "macro avg": {
+    "precision": 0.8784767008833246,
+    "recall": 0.8632902662647538,
+    "f1-score": 0.8585409270565539,
+    "support": 8442.0
+  },
+  "weighted avg": {
+    "precision": 0.9630016442303759,
+    "recall": 0.994314143567875,
+    "f1-score": 0.9778048890759312,
+    "support": 8442.0
+  },
+  "accuracy": 0.998453781512605
+}

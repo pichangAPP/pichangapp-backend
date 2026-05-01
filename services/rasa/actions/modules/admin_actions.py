@@ -33,7 +33,10 @@ from ..repositories.admin.admin_repository import (
     fetch_active_reservations_from_analytics as _fetch_active_reservations_from_analytics,
     fetch_field_usage_from_analytics as _fetch_field_usage_from_analytics,
     fetch_managed_campuses as _fetch_managed_campuses,
+    fetch_rent_metrics_from_analytics as _fetch_rent_metrics_from_analytics,
     fetch_revenue_metrics_from_analytics as _fetch_revenue_metrics_from_analytics,
+    resolve_field_id_by_name as _resolve_field_id_by_name,
+    resolve_sport_id_by_name as _resolve_sport_id_by_name,
     fetch_top_clients_from_analytics as _fetch_top_clients_from_analytics,
 )
 
@@ -63,6 +66,8 @@ ADMIN_TOPIC_LABELS: Dict[str, str] = {
 
 ADMIN_TOPIC_KEYWORDS: Dict[str, Dict[str, float]] = {
     "metrics": {
+        "kpi": 1.4,
+        "kpis": 1.4,
         "metrica": 1.4,
         "metricas": 1.4,
         "ingresos": 1.2,
@@ -71,9 +76,18 @@ ADMIN_TOPIC_KEYWORDS: Dict[str, Dict[str, float]] = {
         "comparativo": 1.2,
         "tendencia": 1.2,
         "ranking ingresos": 1.3,
+        "horarios pico": 1.5,
+        "horarios copados": 1.5,
+        "horas con mas reservas": 1.5,
+        "cancha con mas ingresos": 1.6,
+        "cancha mas rentable": 1.6,
         "reservas activas": 1.6,
         "reservas de hoy": 1.5,
         "reservas de manana": 1.5,
+        "reservas totales": 1.7,
+        "total reservas": 1.7,
+        "total de reservas": 1.7,
+        "cuantas reservas": 1.5,
         "manana": 0.4,
         "esta semana": 0.4,
         "este mes": 0.4,
@@ -85,6 +99,15 @@ ADMIN_TOPIC_KEYWORDS: Dict[str, Dict[str, float]] = {
         "clientes vip": 1.6,
         "quienes rentan mas": 1.6,
         "quienes reservan mas": 1.6,
+        "quienes han reservado mas": 1.8,
+        "quienes han reservado": 1.6,
+        "quienes me reservan mas": 1.7,
+        "han reservado mas": 1.7,
+        "reservado mas": 1.6,
+        "reservadores top": 1.5,
+        "clientes que mas reservaron": 1.7,
+        "clientes que mas han reservado": 1.7,
+        "usuarios que mas reservaron": 1.7,
         "usuarios frecuentes": 1.4,
         "mejores clientes": 1.5,
         "clientes top": 1.5,
@@ -142,7 +165,26 @@ ADMIN_CONTEXTUAL_HINTS = (
 )
 
 _ADMIN_METRIC_TYPE_REGEX: List[tuple[str, str]] = [
+    (
+        r"\b("
+        r"reservas?\s+(totales?|total|del?\s+dia|de\s+hoy|de\s+manana|de\s+la\s+semana|del?\s+mes)"
+        r"|total\s+de\s+reservas?"
+        r"|total\s+reservas?"
+        r"|kpis?\s+de\s+reservas?"
+        r"|metricas?\s+de\s+reservas?"
+        r"|cuantas?\s+reservas?"
+        r"|cantidad\s+de\s+reservas?"
+        r"|resumen\s+de\s+reservas?"
+        r")\b",
+        "reservas_totales",
+    ),
     (r"\b(reservas?\s+activas?|activas?)\b", "reservas_activas"),
+    (r"\b(disponibilidad|disponible|libre|ocupada|ocupado)\b", "ocupacion"),
+    (r"\b(horarios?\s+(?:mas\s+)?(?:copados?|ocupados?|pico)|horas?\s+con\s+mas\s+reservas?|turnos?\s+mas\s+ocupados?|horarios?\s+que\s+se\s+llenan\s+mas)\b", "horarios_pico"),
+    (r"\b(cancha\s+(?:con\s+mas\s+ingresos|mas\s+rentable|que\s+(?:genero|generó)\s+mas)|ingresos?\s+por\s+cancha|ranking\s+de\s+ingresos?\s+por\s+cancha)\b", "ingresos_por_cancha"),
+    (r"\b(reservas?\s+por\s+(?:cancha|field|campo))\b", "reservas_por_cancha"),
+    (r"\b(reservas?\s+por\s+(?:campus|sede|local))\b", "reservas_por_campus"),
+    (r"\b(rentas?|alquileres?)\b", "reservas_totales"),
     (r"\b(comparativo|comparacion|comparar|ranking|rank)\b", "comparativo"),
     (r"\b(tendencia|tendencias|evolucion)\b", "tendencia"),
     (r"\b(clientes?|usuarios?\s+frecuentes?|top\s+clientes?)\b", "clientes"),
@@ -153,10 +195,15 @@ _ADMIN_METRIC_TYPE_REGEX: List[tuple[str, str]] = [
 ]
 
 _ADMIN_METRIC_PERIOD_REGEX: List[tuple[str, str]] = [
+    (r"\b(ayer|yesterday)\b", "ayer"),
+    (r"\b(pasado\s+manana|pasado\s+mañana)\b", "pasado_manana"),
     (r"\b(manana|tomorrow)\b", "manana"),
-    (r"\b(hoy|dia|today|ahorita)\b", "hoy"),
+    (r"\b(hoy|dia|today|ahorita|ahora)\b", "hoy"),
     (r"\b(esta\s+semana|semana|semanal|week|sem)\b", "semana"),
     (r"\b(este\s+mes|mes|mensual|month)\b", "mes"),
+    (r"\b(dentro\s+de\s+(?:\d+|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\s+dias?)\b", "relative_days"),
+    (r"\b(?:el\s+)?\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b", "fecha"),
+    (r"\b(?:el\s+)?\d{1,2}\s+de\s+[a-záéíóúñ]+\b", "fecha"),
 ]
 
 
@@ -173,6 +220,170 @@ def _tokenize(normalized: str) -> List[str]:
     return [token for token in normalized.split() if token]
 
 
+_CAMPUS_PREFIX_WORDS = {
+    "campus",
+    "sede",
+    "local",
+    "complejo",
+    "cancha",
+    "canchas",
+    "deportivo",
+    "deportiva",
+    "el",
+    "la",
+    "los",
+    "las",
+    "mi",
+    "mis",
+}
+
+_NUMBER_WORD_ALIASES = {
+    "uno": "1",
+    "dos": "2",
+    "tres": "3",
+    "cuatro": "4",
+    "cinco": "5",
+    "seis": "6",
+    "siete": "7",
+    "ocho": "8",
+    "nueve": "9",
+    "diez": "10",
+}
+
+_SPANISH_MONTHS = {
+    "enero": 1,
+    "febrero": 2,
+    "marzo": 3,
+    "abril": 4,
+    "mayo": 5,
+    "junio": 6,
+    "julio": 7,
+    "agosto": 8,
+    "septiembre": 9,
+    "setiembre": 9,
+    "octubre": 10,
+    "noviembre": 11,
+    "diciembre": 12,
+}
+
+_RESERVATION_STATUS_ALIASES = {
+    "activa": "active",
+    "activas": "active",
+    "activo": "active",
+    "activos": "active",
+    "en curso": "in_progress",
+    "curso": "in_progress",
+    "en vivo": "in_progress",
+    "vivo": "in_progress",
+    "jugando": "in_progress",
+    "finalizada": "finished",
+    "finalizado": "finished",
+    "finalizadas": "finished",
+    "finalizados": "finished",
+    "terminada": "finished",
+    "terminado": "finished",
+    "terminadas": "finished",
+    "terminados": "finished",
+    "cancelada": "cancelled",
+    "cancelado": "cancelled",
+    "canceladas": "cancelled",
+    "cancelados": "cancelled",
+    "pendiente": "pending",
+    "pendientes": "pending",
+    "confirmada": "confirmed",
+    "confirmado": "confirmed",
+    "confirmadas": "confirmed",
+    "confirmados": "confirmed",
+}
+
+
+def _canonicalize_campus_text(value: Any) -> str:
+    normalized = _normalize_text(value)
+    if not normalized:
+        return ""
+    tokens = []
+    for token in normalized.split():
+        if token in _CAMPUS_PREFIX_WORDS:
+            continue
+        tokens.append(_NUMBER_WORD_ALIASES.get(token, token))
+    return " ".join(tokens)
+
+
+def _extract_campus_candidates(tracker: Tracker, raw_text: Any) -> List[str]:
+    candidates: List[str] = []
+    for value in _extract_entity_values(tracker, "location"):
+        candidate = str(value).strip()
+        if candidate:
+            candidates.append(candidate)
+
+    if isinstance(raw_text, str) and raw_text.strip():
+        for pattern in (
+            r"\b(?:campus|sede|local|complejo)\s+([a-zA-Z0-9áéíóúÁÉÍÓÚñÑ][a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\-\s]{1,45})",
+            r"\ben\s+(?:el|la)?\s*(?:campus|sede|local|complejo)?\s*([a-zA-Z0-9áéíóúÁÉÍÓÚñÑ][a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\-\s]{1,45})",
+        ):
+            for match in re.finditer(pattern, raw_text, flags=re.IGNORECASE):
+                candidate = match.group(1).strip(" .,:;?¿!¡")
+                candidate = re.split(
+                    r"\b(?:hoy|ayer|manana|mañana|esta semana|este mes|semana|mes|ocupacion|ocupación|ingresos|reservas|kpis?|metricas?)\b",
+                    candidate,
+                    maxsplit=1,
+                    flags=re.IGNORECASE,
+                )[0].strip(" .,:;?¿!¡")
+                if candidate:
+                    candidates.append(candidate)
+
+    seen: set[str] = set()
+    unique: List[str] = []
+    for candidate in candidates:
+        key = _canonicalize_campus_text(candidate)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        unique.append(candidate)
+    return unique
+
+
+def _campus_match_score(
+    campus: Dict[str, Any],
+    normalized_text: str,
+    canonical_text: str,
+    candidates: List[str],
+) -> float:
+    identifiers = [
+        campus.get("name"),
+        campus.get("district"),
+        campus.get("address"),
+    ]
+    best = 0.0
+    text_tokens = set(_tokenize(canonical_text))
+
+    for identifier in identifiers:
+        normalized_identifier = _normalize_text(identifier)
+        canonical_identifier = _canonicalize_campus_text(identifier)
+        if not normalized_identifier or not canonical_identifier:
+            continue
+        if normalized_identifier in normalized_text:
+            best = max(best, 1.0)
+        if canonical_identifier in canonical_text:
+            best = max(best, 0.98)
+        identifier_tokens = set(_tokenize(canonical_identifier))
+        if identifier_tokens and identifier_tokens.issubset(text_tokens):
+            best = max(best, 0.93)
+
+        for candidate in candidates:
+            canonical_candidate = _canonicalize_campus_text(candidate)
+            if not canonical_candidate:
+                continue
+            if canonical_candidate == canonical_identifier:
+                best = max(best, 1.0)
+            elif canonical_candidate in canonical_identifier or canonical_identifier in canonical_candidate:
+                best = max(best, 0.94)
+            else:
+                best = max(best, _fuzzy_similarity(canonical_candidate, canonical_identifier))
+
+    return best
+
+
 def _extract_metric_type(value: Any) -> Optional[str]:
     normalized = _normalize_text(value)
     if not normalized:
@@ -184,16 +395,35 @@ def _extract_metric_type(value: Any) -> Optional[str]:
 
 
 def _extract_metric_period(value: Any) -> Optional[str]:
+    if isinstance(value, str):
+        raw = value.strip().lower()
+        match = re.search(r"\b(?:el\s+)?\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?\b", raw)
+        if match:
+            return match.group(0)
+        match = re.search(r"\b(?:el\s+)?\d{1,2}\s+de\s+[a-záéíóúñ]+\b", raw)
+        if match:
+            return match.group(0)
+
     normalized = _normalize_text(value)
     if not normalized:
         return None
     for pattern, canonical in _ADMIN_METRIC_PERIOD_REGEX:
-        if re.search(pattern, normalized):
-            return canonical
+        match = re.search(pattern, normalized)
+        if not match:
+            continue
+        if canonical in {"relative_days", "fecha"}:
+            return match.group(0)
+        return canonical
     return None
 
 
-def _extract_field_hint(raw_text: Any) -> Optional[str]:
+def _extract_field_hint(raw_text: Any, tracker: Optional[Tracker] = None) -> Optional[str]:
+    if tracker is not None:
+        for value in _extract_entity_values(tracker, "field_name"):
+            candidate = str(value).strip()
+            if candidate:
+                return re.sub(r"^(?:cancha|campo|field)\s+", "", candidate, flags=re.IGNORECASE).strip()
+
     if not isinstance(raw_text, str) or not raw_text.strip():
         return None
     lowered = raw_text.strip()
@@ -205,16 +435,131 @@ def _extract_field_hint(raw_text: Any) -> Optional[str]:
     if not match:
         return None
     candidate = match.group(1).strip(" .,:;")
+    candidate = re.split(
+        r"\b(?:hoy|ayer|manana|mañana|esta semana|este mes|semana|mes|por deporte|deporte)\b",
+        candidate,
+        maxsplit=1,
+        flags=re.IGNORECASE,
+    )[0].strip(" .,:;")
     stop_tokens = {"hoy", "manana", "mañana", "semana", "mes", "sede", "campus"}
-    if candidate.lower() in stop_tokens:
+    if not candidate or candidate.lower() in stop_tokens:
         return None
     return candidate
 
 
+def _extract_admin_period_hint(tracker: Tracker, raw_text: Any) -> Optional[str]:
+    parsed = _extract_metric_period(raw_text)
+    if parsed:
+        return parsed
+    for entity_name in ("metric_period", "date"):
+        for value in _extract_entity_values(tracker, entity_name):
+            candidate = str(value).strip()
+            if candidate:
+                return candidate
+    return None
+
+
+def _extract_reservation_status(tracker: Tracker, raw_text: Any) -> Optional[str]:
+    candidates: List[str] = []
+    candidates.extend(str(value).strip() for value in _extract_entity_values(tracker, "reservation_status"))
+    if isinstance(raw_text, str):
+        candidates.append(raw_text)
+
+    for candidate in candidates:
+        normalized = _normalize_text(candidate)
+        for alias, canonical in _RESERVATION_STATUS_ALIASES.items():
+            if re.search(rf"\b{re.escape(alias)}\b", normalized):
+                return canonical
+    return None
+
+
+def _extract_sport_hint(tracker: Tracker, raw_text: Any) -> Optional[str]:
+    entity_sports = _extract_entity_values(tracker, "sport")
+    if entity_sports:
+        candidate = str(entity_sports[0]).strip()
+        if candidate:
+            return candidate
+    if not isinstance(raw_text, str) or not raw_text.strip():
+        return None
+    normalized = _normalize_text(raw_text)
+    match = re.search(
+        r"\b(?:deporte|sport|disciplina)\s+(?:de\s+)?([a-z0-9][a-z0-9\s]{1,24})\b",
+        normalized,
+    )
+    if match:
+        candidate = re.split(
+            r"\b(?:hoy|ayer|manana|mañana|esta semana|este mes|semana|mes|en|campus|sede)\b",
+            match.group(1),
+            maxsplit=1,
+            flags=re.IGNORECASE,
+        )[0].strip()
+        return candidate or None
+    return None
+
+
 def _resolve_target_date(metric_period: str) -> date:
     today = datetime.now().date()
-    if metric_period in {"manana", "mañana", "tomorrow"}:
+    raw = metric_period.strip().lower() if isinstance(metric_period, str) else ""
+    match = re.search(r"\b(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?\b", raw)
+    if match:
+        day = int(match.group(1))
+        month = int(match.group(2))
+        year = int(match.group(3)) if match.group(3) else today.year
+        if year < 100:
+            year += 2000
+        try:
+            parsed = date(year, month, day)
+        except ValueError:
+            return today
+        if not match.group(3) and parsed < today:
+            parsed = date(today.year + 1, month, day)
+        return parsed
+
+    normalized = _normalize_text(metric_period)
+    if normalized in {"ayer", "yesterday"}:
+        return today - timedelta(days=1)
+    if normalized in {"manana", "mañana", "tomorrow"}:
         return today + timedelta(days=1)
+    if normalized in {"pasado manana", "pasado mañana"}:
+        return today + timedelta(days=2)
+
+    match = re.search(
+        r"dentro\s+de\s+(\d+|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\s+dias?",
+        normalized,
+    )
+    if match:
+        amount_raw = match.group(1)
+        amount = int(_NUMBER_WORD_ALIASES.get(amount_raw, amount_raw))
+        return today + timedelta(days=amount)
+
+    match = re.search(r"\b(\d{1,2})[/-](\d{1,2})(?:[/-](\d{2,4}))?\b", normalized)
+    if match:
+        day = int(match.group(1))
+        month = int(match.group(2))
+        year = int(match.group(3)) if match.group(3) else today.year
+        if year < 100:
+            year += 2000
+        try:
+            parsed = date(year, month, day)
+        except ValueError:
+            return today
+        if not match.group(3) and parsed < today:
+            parsed = date(today.year + 1, month, day)
+        return parsed
+
+    match = re.search(r"\b(?:el\s+)?(\d{1,2})\s+de\s+([a-z]+)\b", normalized)
+    if match:
+        day = int(match.group(1))
+        month = _SPANISH_MONTHS.get(match.group(2))
+        if month:
+            try:
+                parsed = date(today.year, month, day)
+            except ValueError:
+                return today
+            if parsed < today:
+                parsed = date(today.year + 1, month, day)
+            return parsed
+
     return today
 
 
@@ -222,17 +567,24 @@ def _resolve_campus_from_text(
     raw_text: Any,
     campuses: List[Dict[str, Any]],
     fallback: Optional[Dict[str, Any]],
+    tracker: Optional[Tracker] = None,
 ) -> Optional[Dict[str, Any]]:
     normalized = _normalize_text(raw_text)
     if not normalized:
         return fallback
+    canonical_text = _canonicalize_campus_text(raw_text)
+    candidates = _extract_campus_candidates(tracker, raw_text) if tracker is not None else []
+
+    best_campus: Optional[Dict[str, Any]] = None
+    best_score = 0.0
     for campus in campuses:
-        name = _normalize_text(campus.get("name"))
-        district = _normalize_text(campus.get("district"))
-        if name and name in normalized:
-            return campus
-        if district and district in normalized:
-            return campus
+        score = _campus_match_score(campus, normalized, canonical_text, candidates)
+        if score > best_score:
+            best_score = score
+            best_campus = campus
+
+    if best_campus is not None and best_score >= 0.84:
+        return best_campus
     return fallback
 
 
@@ -814,6 +1166,7 @@ class ActionProvideAdminMetrics(Action):
         metadata = actor.enriched_metadata
         session_id = tracker.get_slot("chatbot_session_id")
         user_id = actor.user_id
+        latest_text = latest_message.get("text") or ""
 
         if not actor.admin_authorized:
             response_text = (
@@ -898,16 +1251,9 @@ class ActionProvideAdminMetrics(Action):
         if not campuses and campus_context:
             campuses = [campus_context]
 
-        if campuses:
-            primary = campuses[0]
-            events.append(SlotSet("managed_campus_id", str(primary["id_campus"])))
-            campus_name = primary.get("name")
-            if campus_name:
-                events.append(SlotSet("managed_campus_name", campus_name))
-
         if campus_context is None and campuses:
             campus_context = campuses[0]
-        campus_context = _resolve_campus_from_text(latest_text, campuses, campus_context)
+        campus_context = _resolve_campus_from_text(latest_text, campuses, campus_context, tracker)
 
         if campus_context is None:
             response_text = (
@@ -924,14 +1270,23 @@ class ActionProvideAdminMetrics(Action):
             )
             return events
 
+        events.append(SlotSet("managed_campus_id", str(campus_context["id_campus"])))
+        campus_name_for_slot = campus_context.get("name") or campus_context.get("district")
+        if campus_name_for_slot:
+            events.append(SlotSet("managed_campus_name", campus_name_for_slot))
+
         slot_metric_type = (tracker.get_slot("admin_metric_type") or "").lower()
         slot_metric_period = (tracker.get_slot("admin_metric_period") or "").lower()
         parsed_metric_type = _extract_metric_type(latest_text) or None
-        parsed_metric_period = _extract_metric_period(latest_text) or None
+        parsed_metric_period = _extract_admin_period_hint(tracker, latest_text)
 
         metric_type = parsed_metric_type or slot_metric_type or "ingresos"
         metric_period = parsed_metric_period or slot_metric_period or "hoy"
-        field_hint = _extract_field_hint(latest_text)
+        field_hint = _extract_field_hint(latest_text, tracker)
+        sport_hint = _extract_sport_hint(tracker, latest_text)
+        reservation_status = _extract_reservation_status(tracker, latest_text)
+        if reservation_status and metric_type in {"ingresos"}:
+            metric_type = "reservas_totales"
         auth_token = _extract_token_from_metadata(metadata)
 
         response_text = ""
@@ -941,6 +1296,8 @@ class ActionProvideAdminMetrics(Action):
                 "metric_type": metric_type,
                 "metric_period": metric_period,
                 "field_hint": field_hint,
+                "sport_hint": sport_hint,
+                "reservation_status": reservation_status,
                 "campus_id": campus_context.get("id_campus"),
                 "campus_name": campus_context.get("name"),
                 "source": "analytics_service",
@@ -951,23 +1308,119 @@ class ActionProvideAdminMetrics(Action):
             events.append(SlotSet("admin_metric_type", metric_type))
         if metric_period:
             events.append(SlotSet("admin_metric_period", metric_period))
+        if field_hint:
+            events.append(SlotSet("admin_field_name", field_hint))
+        if reservation_status:
+            events.append(SlotSet("admin_reservation_status", reservation_status))
 
-        if metric_type in {"reservas_activas", "reservas", "activa", "activas"}:
+        if metric_type in {"reservas_totales", "total_reservas", "reservas_total"}:
+            period_map = {
+                "hoy": "today",
+                "dia": "today",
+                "today": "today",
+                "ayer": "date",
+                "manana": "date",
+                "mañana": "date",
+                "pasado_manana": "date",
+                "tomorrow": "date",
+                "semana": "week",
+                "week": "week",
+                "mes": "month",
+                "mensual": "month",
+                "month": "month",
+            }
+            resolved_period = period_map.get(metric_period, "date" if metric_period not in {"semana", "mes"} else "today")
             target_date = _resolve_target_date(metric_period)
-            active_payload = await _fetch_active_reservations_from_analytics(
-                campus_context["id_campus"],
-                token=auth_token,
-                target_date=target_date,
-                field_name=field_hint,
-                limit=120,
+            field_id: Optional[int] = None
+            if field_hint:
+                field_id = await run_in_thread(
+                    _resolve_field_id_by_name,
+                    int(campus_context["id_campus"]),
+                    field_hint,
+                )
+            sport_id: Optional[int] = None
+            if sport_hint:
+                sport_id = await run_in_thread(_resolve_sport_id_by_name, sport_hint)
+
+            try:
+                rents_payload = await _fetch_rent_metrics_from_analytics(
+                    token=auth_token,
+                    period=resolved_period,
+                    group_by="day",
+                    target_date=target_date if resolved_period == "date" else None,
+                    campus_id=int(campus_context["id_campus"]),
+                    field_id=field_id,
+                    sport_id=sport_id,
+                    status=reservation_status,
+                )
+            except Exception:  # noqa: BLE001
+                LOGGER.exception("[ActionProvideAdminMetrics] rent metrics request failed")
+                rents_payload = None
+            total_reservations = int((rents_payload or {}).get("total_reservations") or 0)
+            campus_name = campus_context.get("name") or "tu sede"
+            if resolved_period == "date":
+                today = datetime.now().date()
+                if target_date < today:
+                    period_label = "ayer"
+                elif target_date > today:
+                    period_label = target_date.strftime("%Y-%m-%d")
+                else:
+                    period_label = "hoy"
+            else:
+                period_label = {
+                    "today": "hoy",
+                    "week": "esta semana",
+                    "month": "este mes",
+                }.get(resolved_period, "hoy")
+            scope_bits: List[str] = []
+            if field_hint:
+                scope_bits.append(f"cancha {field_hint}")
+            if sport_hint:
+                scope_bits.append(f"deporte {sport_hint}")
+            if reservation_status:
+                scope_bits.append(f"estado {reservation_status}")
+            if scope_bits:
+                scope_label = " para " + " y ".join(scope_bits)
+            else:
+                scope_label = ""
+            response_text = (
+                f"En {campus_name}, el total de reservas de {period_label}{scope_label} es {total_reservations}."
             )
+            response_metadata["analytics"]["rent_metrics"] = {
+                "period": resolved_period,
+                "target_date": target_date.isoformat() if resolved_period == "date" else None,
+                "total_reservations": total_reservations,
+                "field_id": field_id,
+                "field_hint": field_hint,
+                "sport_id": sport_id,
+                "sport_hint": sport_hint,
+            }
+        elif metric_type in {"reservas_activas", "reservas", "activa", "activas"}:
+            target_date = _resolve_target_date(metric_period)
+            try:
+                active_payload = await _fetch_active_reservations_from_analytics(
+                    campus_context["id_campus"],
+                    token=auth_token,
+                    target_date=target_date,
+                    field_name=field_hint,
+                    limit=120,
+                )
+            except Exception:  # noqa: BLE001
+                LOGGER.exception("[ActionProvideAdminMetrics] active reservations request failed")
+                active_payload = None
             reservations = (active_payload or {}).get("reservations") or []
             campus_name = (
                 (active_payload or {}).get("campus_name")
                 or campus_context.get("name")
                 or "tu sede"
             )
-            date_label = "mañana" if target_date > datetime.now().date() else "hoy"
+            today = datetime.now().date()
+            if target_date < today:
+                date_label = "ayer"
+            elif target_date > today:
+                date_label = target_date.strftime("%Y-%m-%d")
+            else:
+                date_label = "hoy"
             if not reservations:
                 if field_hint:
                     response_text = (
@@ -999,10 +1452,14 @@ class ActionProvideAdminMetrics(Action):
                     "items": reservations[:10],
                 }
         elif metric_type in {"clientes", "client", "clientes_frecuentes"}:
-            top_clients = await _fetch_top_clients_from_analytics(
-                campus_context["id_campus"],
-                token=auth_token,
-            )
+            try:
+                top_clients = await _fetch_top_clients_from_analytics(
+                    campus_context["id_campus"],
+                    token=auth_token,
+                )
+            except Exception:  # noqa: BLE001
+                LOGGER.exception("[ActionProvideAdminMetrics] top clients request failed")
+                top_clients = None
             frequent_clients = (top_clients or {}).get("frequent_clients") or []
             if not frequent_clients:
                 response_text = "Aún no hay clientes frecuentes registrados para esta sede."
@@ -1018,10 +1475,14 @@ class ActionProvideAdminMetrics(Action):
                 )
                 response_metadata["analytics"]["clients"] = frequent_clients[:5]
         elif metric_type in {"canchas", "campos", "fields"}:
-            usage = await _fetch_field_usage_from_analytics(
-                campus_context["id_campus"],
-                token=auth_token,
-            )
+            try:
+                usage = await _fetch_field_usage_from_analytics(
+                    campus_context["id_campus"],
+                    token=auth_token,
+                )
+            except Exception:  # noqa: BLE001
+                LOGGER.exception("[ActionProvideAdminMetrics] field usage request failed")
+                usage = None
             fields = (usage or {}).get("top_fields") or (usage or {}).get("fields") or []
             if not fields:
                 response_text = "Aún no hay datos de uso de canchas para esta sede."
@@ -1055,10 +1516,17 @@ class ActionProvideAdminMetrics(Action):
             else:
                 comparisons: List[Dict[str, Any]] = []
                 for campus in campuses:
-                    metrics = await _fetch_revenue_metrics_from_analytics(
-                        campus["id_campus"],
-                        token=auth_token,
-                    )
+                    try:
+                        metrics = await _fetch_revenue_metrics_from_analytics(
+                            campus["id_campus"],
+                            token=auth_token,
+                        )
+                    except Exception:  # noqa: BLE001
+                        LOGGER.exception(
+                            "[ActionProvideAdminMetrics] comparative metrics request failed for campus_id=%s",
+                            campus.get("id_campus"),
+                        )
+                        metrics = None
                     if not metrics:
                         continue
                     if metric_period in {"hoy", "dia", "today"}:
@@ -1102,11 +1570,15 @@ class ActionProvideAdminMetrics(Action):
                     )
                     response_metadata["analytics"]["comparisons"] = comparisons
         elif metric_type in {"tendencia"}:
-            metrics = await _fetch_revenue_metrics_from_analytics(
-                campus_context["id_campus"],
-                token=auth_token,
-                traffic_mode="daily_last7",
-            )
+            try:
+                metrics = await _fetch_revenue_metrics_from_analytics(
+                    campus_context["id_campus"],
+                    token=auth_token,
+                    traffic_mode="daily_last7",
+                )
+            except Exception:  # noqa: BLE001
+                LOGGER.exception("[ActionProvideAdminMetrics] trend metrics request failed")
+                metrics = None
             if not metrics:
                 response_text = "No pude obtener métricas en este momento. Intenta nuevamente en unos minutos."
             else:
@@ -1152,10 +1624,14 @@ class ActionProvideAdminMetrics(Action):
                     response_metadata["analytics"]["traffic"] = traffic
                     response_metadata["analytics"]["weekly_income"] = income_series
         else:
-            metrics = await _fetch_revenue_metrics_from_analytics(
-                campus_context["id_campus"],
-                token=auth_token,
-            )
+            try:
+                metrics = await _fetch_revenue_metrics_from_analytics(
+                    campus_context["id_campus"],
+                    token=auth_token,
+                )
+            except Exception:  # noqa: BLE001
+                LOGGER.exception("[ActionProvideAdminMetrics] revenue metrics request failed")
+                metrics = None
             if not metrics:
                 response_text = "No pude obtener métricas en este momento. Intenta nuevamente en unos minutos."
             else:
@@ -1177,13 +1653,19 @@ class ActionProvideAdminMetrics(Action):
                 elif metric_type in {"ocupacion", "ocupación", "availability"}:
                     if field_hint:
                         target_date = _resolve_target_date(metric_period)
-                        active_payload = await _fetch_active_reservations_from_analytics(
-                            campus_context["id_campus"],
-                            token=auth_token,
-                            target_date=target_date,
-                            field_name=field_hint,
-                            limit=120,
-                        )
+                        try:
+                            active_payload = await _fetch_active_reservations_from_analytics(
+                                campus_context["id_campus"],
+                                token=auth_token,
+                                target_date=target_date,
+                                field_name=field_hint,
+                                limit=120,
+                            )
+                        except Exception:  # noqa: BLE001
+                            LOGGER.exception(
+                                "[ActionProvideAdminMetrics] field occupancy request failed"
+                            )
+                            active_payload = None
                         reservations = (active_payload or {}).get("reservations") or []
                         date_label = "mañana" if target_date > datetime.now().date() else "hoy"
                         response_text = (

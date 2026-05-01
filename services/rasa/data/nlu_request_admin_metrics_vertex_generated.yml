@@ -1,0 +1,1887 @@
+version: "3.1"
+
+nlu:
+  - intent: request_admin_metrics
+    examples: |
+      - Qué tal el movimiento general, pe?
+      - Qisiera un informe de rendimiento, x favor.
+      - Dame un reporte general de la situacion.
+      - Necesito ver el desempeño del negocio actual.
+      - Q tal los indicadores de hoy, chévere.
+      - Muestra los datos clave del día.
+      - Un vistazo a las cifras importantes.
+      - Los números del día, al toque.
+      - Actualizacion de los resultados, porfa.
+      - ¿Cómo cerramos ayer la jornada?
+      - Q me dices de las estadisticas del local.
+      - Pásame el resumen ejecutivo de hoy.
+      - Kiero saber cómo vamos con todo esto.
+      - ¿Todo bien con los indicadores principales?
+      - Dame la info de gestion de la sede.
+      - Muestra los detalles operativos de ahora.
+      - ¿Q dicen los reportes de rendimiento?
+      - Nesecito ver el estatus actual de las operaciones.
+      - ¿Hay alguna novedad en los numeros finales?
+      - Pásame un consolidado de las cifras.
+      - Qisiera los datos de control del sistema.
+      - ¿Como se comportó el sistema el día de ayer?
+      - Dame un analisis rápido de la situación.
+      - Muestra el rendimiento financiero de la empresa.
+      - Los números, pe, kiero verlos ya.
+      - Dame un toque de los resultados del turno.
+      - Una mirada a los indicadores clave de negocio.
+      - ¿Como andan los números, causa?
+      - Qisiera un resumen del cuadro de mando.
+      - Dame las cifras importantes del mes.
+      - ¿Qué tal estamos en la operacion hoy?
+      - Pásame el balance de hoy mismo.
+      - Nesecito ver los resultados operativos.
+      - ¿Como estamos cerrando el día de chamba?
+      - Dame el resumen de actividades recientes.
+      - Muestra el tablero de control de la gerencia.
+      - Un vistazo al rendimiento general.
+      - ¿Cual es el estatus de las operaciones diarias?
+      - Nesecito los KPIs del periodo.
+      - Dame un informe de gestion detallado.
+      - ¿Como está la situación actual del local?
+      - Muestrame el panorama general de los números.
+      - Qisiera un estado de situación al cierre.
+      - Pásame el reporte de indicadores clave.
+      - ¿Qué tal el movimiento de la chamba de hoy?
+      - Nesecito saber cómo vamos con los objetivos.
+      - Dame los datos de eficiencia.
+      - Muestra un resumen de la actividad comercial.
+      - Kiero ver los datos administrativos.
+      - Nesecito una actualización de los datos mas recientes.
+      - Dame el pulso del negocio, por favor.
+      - ¿Qué tal los resultados principales del día?
+      - Muestrame las estadisticas de gestión.
+      - Kiero un reporte de control de las sedes.
+      - Pásame los numeros clave de la operación.
+      - Nesecito ver el seguimiento de las ventas.
+      - Dame la info de rendimiento.
+      - ¿Qué tal los avances de esta semana?
+      - Kiero una revisión de los datos.
+      - Pásame el informe ejecutivo completo.
+      - Nesecito los números de seguimiento.
+      - Dame el reporte de monitoreo.
+      - Muestrame el resumen de números del mes.
+      - ¿Como está el estado de la empresa hoy?
+      - Kiero una vista general de los resultados.
+      - Pásame el cuadro de resultados de ayer.
+      - Nesecito ver los principales indicadores.
+      - Dame un informe consolidado, x fa.
+      - Muestrame el reporte de gestion de mi sede.
+      - ¿Como estan los numeros de hoy, causa, todo bien?
+      - Qisiera saber los datos del negocio al instante.
+      - Pásame un reporte de lo mas importante.
+      - Nesecito un resumen de los datos principales.
+      - Dame un informe de los KPIs del día, por siaca.
+      - Muestrame la informacion de rendimiento operativa.
+      - Necesito ver los resultados del negocio.
+      - Pásame el reporte de hoy, por favor.
+      - Quisiera saber cómo va todo.
+      - Muéstrame el estado actual de las operaciones.
+      - Dame un resumen general del día.
+      - Qué tal el desempeño de la semana?
+      - Cómo cerramos el día de hoy?
+      - Necesito los indicadores clave.
+      - Pásame la información gerencial.
+      - Cuál es el panorama general?
+      - Me podrías dar las cifras del mes?
+      - Quiero revisar la data más reciente.
+      - Cómo andamos en general?
+      - Dame los números de cómo vamos.
+      - Qué tal el rendimiento de la jornada?
+      - Actualízame con los resultados.
+      - Tendrás el reporte ejecutivo?
+      - Necesito un vistazo rápido al progreso.
+      - Pásame los datos de gestión.
+      - Quiero saber cómo va la cosa.
+      - Muéstrame el performance del negocio.
+      - Dame una idea de cómo estamos.
+      - Qué tal el movimiento de hoy?
+      - Cómo estamos parados al día?
+      - Necesito el estado de situación actual.
+      - Pásame un pantallazo de los resultados.
+      - Quisiera ver el resumen financiero.
+      - Dame las estadísticas generales.
+      - Cómo ha ido el negocio esta semana?
+      - Qué hay de nuevo en los números?
+      - Necesito el balance de operaciones.
+      - Pásame la info de cómo vamos.
+      - Quiero ver el informe diario.
+      - Muéstrame los puntos clave del negocio.
+      - Dame una actualización de los KPIs.
+      - Qué tal la actividad del día?
+      - Cómo vamos con los objetivos?
+      - Necesito ver el dashboard completo.
+      - Pásame los resultados del cierre.
+      - Quisiera saber cómo está el negocio.
+      - Dame un análisis rápido de la situación.
+      - Qué tal la progresión semanal?
+      - Cómo va la chamba, papi?
+      - Necesito los datos frescos, porfa.
+      - Pásame el floro de los resultados.
+      - Quiero saber qué tal el billete.
+      - Muéstrame la vaina, cómo vamos?
+      - Dame un toque para ver los resultados.
+      - Qué tal el cierre, mano?
+      - Pásame la data, al toque.
+      - Cómo estamos con las cifras?
+      - Un recuento de los números actuales.
+      - Qué onda con los resultados?
+      - Me podrías dar los datos que necesito?
+      - Cómo ha estado el día en números?
+      - Dame el resumen rápido del negocio.
+      - Qué tal el panorama actual?
+      - Pásame la tabla de resultados.
+      - Necesito el detalle del rendimiento.
+      - Cómo vamos con los objetivos del mes?
+      - Dame una actualización de los progresos.
+      - Pásame los indicadores de rendimiento.
+      - Qué tal los resultados hasta ahora?
+      - Necesito una idea de cómo vamos este mes.
+      - Muéstrame cómo estamos parados hoy.
+      - quiero saver como vamos hoy
+      - muestrame los istadisticas
+      - pasame los numeros de oy
+      - qiero ver la data del dia
+      - nesecito el reporte de la semana
+      - como estan los kpis de la sede
+      - que tal el disempeño de la tienda
+      - dame la cifra de oy
+      - quiero revisar los resultados, porfa
+      - dame la info de gestion de ayer
+      - qué tal el estado de los indicadores
+      - pásame el balance del mes
+      - necesito el resumen ejecutivo de la semana
+      - cómo está el performance general
+      - me das los números claves?
+      - Me gustaría ver la evolución de la empresa.
+      - Cuál es la situación actual del negocio?
+      - Dime cómo progresamos.
+      - Pásame el informe detallado de hoy.
+      - Muéstrame los [indicadores](metric_type) de [hoy](metric_period).
+      - Me brindas la [data de rendimiento](metric_type) actual?
+      - Nesecito saber cómo vamos en [ventas](metric_type).
+      - Quisiera ver el [panorama financiero](metric_type).
+      - Podrías analizar el [desempeño](metric_type) de la empresa?
+      - Dame un [informe](metric_type) sobre las [actividades recientes](metric_type).
+      - Pásame las [estadísticas de uso](metric_type) de las instalaciones.
+      - Qué tal los [números](metric_type) del [último periodo](metric_period)?
+      - Necesito una [visión general](metric_type) de la gestión.
+      - Cómo están los [resultados operativos](metric_type) de la [sede](location)?
+      - Podrías sacar un [reporte de rentabilidad](metric_type)?
+      - Quiero chequear los [movimientos económicos](metric_type).
+      - Bríndame los [datos de performance](metric_type), porfa.
+      - Una [actualización](metric_type) de los [principales indicadores](metric_type).
+      - Podrías darme un detalle de las [cifras del negocio](metric_type)?
+      - Me gustaría ver cómo se desarrolló la [semana](metric_period).
+      - Dame una [radiografía](metric_type) del [estado actual](metric_period).
+      - Cuál es la [performance general](metric_type) de [hoy](metric_period)?
+      - Necesito un [extracto](metric_type) de los [principales logros](metric_type).
+      - Quiero que me presentes los [KPIs](metric_type) del [mes](metric_period).
+      - Papi, cómo va la [gestión de fondos](metric_type)?
+      - Causa, muéstrame los [avances diarios](metric_type).
+      - Al toque, los [números](metric_type) de la [quincena](metric_period).
+      - Cómo andamos con los [objetivos de ventas](metric_type)?
+      - Necesito el [reporte de performance](metric_type) del [local](location).
+      - Me podrías dar un vistazo a los [gráficos de tendencia](metric_type)?
+      - Quiero un [resumen](metric_type) de [ingresos](metric_type) y [gastos](metric_type).
+      - Me muestras cómo estamos en el [uso de espacios](metric_type)?
+      - Podrías darme un [reporte](metric_type) de la [actividad de usuarios](metric_type)?
+      - Quisiera ver el [balance](metric_type) de la [jornada](metric_period).
+      - Dame los [datos de utilización de recursos](metric_type).
+      - Necesito una [compilación](metric_type) de los [datos clave](metric_type).
+      - Cómo se presenta la [situación económica](metric_type) actual?
+      - Me podrías enviar el [informe completo](metric_type)?
+      - Quiero visualizar los [datos de crecimiento](metric_type).
+      - Dame los [principales hallazgos](metric_type) de [este periodo](metric_period).
+      - Una [perspectiva](metric_type) de los [datos del día](metric_type).
+      - Podrías mostrarme la [proyección de ingresos](metric_type)?
+      - Quiero ver los [indicadores de eficiencia operativa](metric_type).
+      - Papi, una mano con la [data de gestión](metric_type).
+      - Causa, un vistazo a los [resultados recientes](metric_type).
+      - Qué tal los [indicadores](metric_type) de [hoy](metric_period), bro?
+      - Necesito el [balance de operaciones](metric_type) de [ayer](metric_period).
+      - Dame una [instantánea](metric_type) del [rendimiento](metric_type) del [mes](metric_period).
+      - Quisiera ver el [control de costos](metric_type).
+      - Podrías darme un [panorama de la demanda](metric_type)?
+      - Muéstrame el [rendimiento](metric_type) de la [sede de Surco](location).
+      - Dame los [resultados](metric_type) por [ubicación](metric_type).
+      - Qué tal los [indicadores de gasto](metric_type)?
+      - Podrías mostrarme el [análisis de rentabilidad](metric_type)?
+      - Quiero una vista de las [finanzas](metric_type) de la empresa.
+      - Me das un [reporte](metric_type) de la [actividad general](metric_type)?
+      - Cómo estamos en [reservas](metric_type) para [mañana](metric_period)?
+      - Nesecito los [números](metric_type) del [mes pasado](metric_period).
+      - Podrías darme la [información de ventas](metric_type) de [esta semana](metric_period)?
+      - Quisiera revisar las [estadísticas de uso](metric_type) de la [plataforma](metric_type).
+      - Muéstrame el [balance](metric_type) de [hoy](metric_period).
+      - Qué tal la [movida](metric_type) de [hoy](metric_period)?
+      - Necesito saber la [utilización](metric_type) de nuestros [recursos](metric_type).
+      - Podrías darme un [resumen](metric_type) de la [jornada](metric_period)?
+      - Quiero un [reporte de performance](metric_type) a [nivel general](metric_type).
+      - Bríndame las [cifras](metric_type) de [operación](metric_type) de [ayer](metric_period).
+      - Me pasas la [data de ventas](metric_type) de [ayer](metric_period) por [local](location)?
+      - Una checada a los [ingresos](metric_type) del [fin de semana](metric_period).
+      - Cómo va el [desempeño general](metric_type) de la [empresa](location)?
+      - Quiero una [actualización](metric_type) de los [números](metric_type) del [último trimestre](metric_period).
+      - Dame un [detalle](metric_type) de la [ocupación](metric_type) de [canchas](metric_type) para [el martes](metric_period).
+      - Me podrías facilitar los [reportes de administración](metric_type)?
+      - Muéstrame el [balance](metric_type) de [ganancias y pérdidas](metric_type) de [este mes](metric_period).
+      - Pásame el [análisis](metric_type) de la [demanda](metric_type) para la [próxima semana](metric_period).
+      - Necesito un [resumen ejecutivo](metric_type) de la [performance anual](metric_type).
+      - Qué tal la [eficiencia](metric_type) en el [uso de energía](metric_type) en [todas las sedes](location)?
+      - Dame un [reporte](metric_type) de [incidencias](metric_type) operativas.
+      - Nesecito los [detalles](metric_type) de la [facturación](metric_type) por [cliente](metric_type).
+      - Pásame el [histórico](metric_type) de [ventas](metric_type) de los [últimos 3 meses](metric_period).
+      - Cómo ha sido el [crecimiento](metric_type) de [usuarios registrados](metric_type) [este año](metric_period)?
+      - Quiero ver cómo van las cosas
+      - Necesito un reporte de rendimiento, porfa
+      - Me gustaría revisar los indicadores clave
+      - Podrías darme un resumen de las cifras?
+      - Pásame los datos de gestión de hoy
+      - Cuál fue la ganancia de ayer?
+      - Cómo estamos en ocupación para esta semana?
+      - Quisiera saber el movimiento de reservas del mes pasado
+      - Muestrame el historial de ingresos del último año
+      - Qué tal el tráfico de personas en las últimas 24 horas?
+      - Necesito el análisis de ventas de la semana pasada
+      - Dame los resultados de facturación de este trimestre
+      - Cómo va la asistencia de clientes hoy?
+      - Podrías indicarme las canchas con más uso este mes?
+      - Quiero un comparativo de rendimiento entre sedes
+      - Cuál es la tendencia de crecimiento de las reservas?
+      - Muéstrame los KPIs financieros, por favor
+      - Necesito los números de la sede de San Isidro para hoy
+      - Qué proyecciones de ocupación tenemos para mañana?
+      - Cómo cerró el día de ayer en ventas?
+      - Dime el estado general de la operación
+      - Quisiera ver el rendimiento total hasta la fecha
+      - Pásame el informe de lo ganado esta semana
+      - Qué tal la movida de usuarios este feriado?
+      - Dame un vistazo a los ingresos por servicio
+      - Cómo está el porcentaje de ocupación ahora mismo?
+      - Me puedes dar un insight de las reservas futuras?
+      - Quiero saber el promedio de permanencia de los clientes
+      - Cuál es la efectividad de las promociones recientes?
+      - Cómo ha sido el comportamiento de reservas el último mes?
+      - Puedes mostrarme el resumen ejecutivo del negocio?
+      - Dame los indicadores más importantes del día
+      - Pásame el balance de hoy, por favor
+      - Necesito el reporte de ventas por categoría
+      - Muéstrame el dashboard principal
+      - Necesito una visión general del negocio
+      - Qué onda con las ganancias de esta quincena?
+      - Pásame el resumen de lo que entró hasta ahorita
+      - Cómo está el movimiento de la gente en el local?
+      - Dame los números de lo vendido en este turno
+      - Quiero ver los datos de asistencia de los últimos días
+      - Qué tan llenos estamos en el horario pico?
+      - Podrías darme la data de la clientela de siempre?
+      - Cómo cerramos el mes pasado?
+      - Muéstrame el panorama general de la situación actual
+      - Qué tal le fue a la sede de Miraflores ayer?
+      - Dame la info de las reservas pendientes
+      - Quiero saber el porcentaje de cancelación de reservas
+      - Pásame el estatus de la operación de hoy
+      - Me puedes dar un reporte consolidado?
+      - Cuál es el total de transacciones de hoy?
+      - Quiero ver los puntos más altos de ocupación
+      - Necesito el análisis de rentabilidad por servicio
+      - Dame un resumen de ingresos y egresos
+      - Muéstrame el rendimiento de la inversión
+      - Qué tal la afluencia de gente en la mañana?
+      - Pásame los datos de la última semana de marzo
+      - Cómo estuvo el pico de reservas ayer?
+      - Dime los números de cierre de este año
+      - Quiero ver la eficiencia operativa
+      - Necesito el reporte de las horas más concurridas
+      - Cómo se ve el panorama para el siguiente mes?
+      - Muéstrame el top de servicios más solicitados
+      - Dame el histórico de reservas por tipo de cliente
+      - Necesito los números de mi sede en Barranco
+      - Pásame las estadisticas de los últimos tres días
+      - Dame el detalle de la facturación de hoy, pe
+      - Necesito un informe del balance de la sede de La Molina
+      - Kiero ver las cifras de rentabilidad de este mes
+      - Cómo va la actividad general de la empresa?
+      - Quisiera ver los [resultados](metric_type) de [hoy](metric_period).
+      - Necesito saver cómo va el negocio.
+      - Pásame un [informe](metric_type) rápido del [día](metric_period).
+      - Qué tal la [movida](metric_type) de [ayer](metric_period)?
+      - Muéstrame las [cifras](metric_type) de la cemana.
+      - Dime el [desempeño](metric_type) de [este mes](metric_period), porfa.
+      - Dame los [datos de ventas](metric_type).
+      - Quiero un [reporte de ganancias](metric_type).
+      - Las [estadísticas de uso](metric_type) de la cancha principal.
+      - Qué tal las [cancelaciones](metric_type) para el [fin de semana](metric_period)?
+      - Necesito ver el [rendimiento general](metric_type).
+      - Dame un [resumen ejecutivo](metric_type) del [mes anterior](metric_period).
+      - Muéstrame el [balance](metric_type) del [día](metric_period).
+      - Pásame los [kpis](metric_type) de la [semana pasada](metric_period), al toque.
+      - Quiero saber el estado de la sede de Surco.
+      - Dime qué tan [ocupadas](metric_type) están las canchas [hoy](metric_period).
+      - Qué tal la [facturación](metric_type) de la [mañana](metric_period)?
+      - Necesito ver un [comparativo de ingresos](metric_type) por sede.
+      - Muéstrame la [tendencia de reservas](metric_type) del [último mes](metric_period).
+      - Dame los [beneficios](metric_type) de [este año fiscal](metric_period).
+      - Cómo va la [eficiencia operativa](metric_type)?
+      - Pásame un [dashboard](metric_type) actualizado, por favor.
+      - Quiero saber el [promedio de ocupación](metric_type) [semanal](metric_period).
+      - Qué tal las [ventas online](metric_type)?
+      - Muéstrame las [cifras](metric_type) del cierre del [día](metric_period).
+      - Podrías mostrarme los indicadores clave de rendimiento?
+      - Me interesa saber cómo vamos en ventas.
+      - Necesito una vista general de los números del mes pasado.
+      - Qué onda con los resultados de la gestión?
+      - Tira un reporte de facturación porfa.
+      - Quisiera analizar el rendimiento de la sede principal.
+      - Pásame un consolidado de las estadísticas.
+      - Podrías darme un paneo de los datos operativos?
+      - Me urge conocer la proyección de ingresos.
+      - A ver, suelta la info de ocupacion para el finde.
+      - Muéstrame el balance del día de ayer.
+      - Quisiera ver el estatus de las reservas para mañana.
+      - Tienes los datos de asistencia de clientes?
+      - Pásame el detalle de los indicadores que manejamos.
+      - Cómo andan las cosas en términos de eficiencia?
+      - Me gustaría una actualización de los números de la empresa.
+      - Dame los resultados de la última semana porfa.
+      - Quiero que me compartas las estadísticas generales.
+      - Por favor, un informe de rentabilidad de la sede de Miraflores.
+      - Tienes los números de asistencia para hoy?
+      - Pásame un resumen ejecutivo de la operación.
+      - Quisiera ver los datos de crecimiento del negocio.
+      - ¿Qué tal vamos con las cifras de [ventas](metric_type)?
+      - Necesito los indicadores de gestión de [este mes](metric_period).
+      - Pásame los resultados del negocio, ¿cómo va la [ganancia](metric_type)?
+      - Quiero saber el [rendimiento](metric_type) de la sede Surquillo.
+      - ¿Cuál es la [utilidad](metric_type) al [día de hoy](metric_period)?
+      - ¿Cómo andan los números en [Miraflores](location)?
+      - Dame una vista rápida del [movimiento](metric_type) de [reservas](metric_type).
+      - ¿Qué resultados obtuvimos en [octubre](metric_period)?
+      - La [ocupación promedio](metric_type) de las canchas este [finde](metric_period), ¿cómo fue?
+      - Necesito el [comparativo de ventas](metric_type) con el [año pasado](metric_period).
+      - ¿Cuánto se ha [facturado](metric_type) en [todas las sedes](location)?
+      - Pásame el [status de ingresos](metric_type) al momento.
+      - Quiero ver la [performance](metric_type) general.
+      - ¿Los [ingresos](metric_type) de la [semana pasada](metric_period) por sede?
+      - Dime los números del [trimestre](metric_period).
+      - Muéstrame un [resumen ejecutivo](metric_type) de [ayer](metric_period).
+      - Qué tal el [margen de ganancia](metric_type) actual?
+      - Necesito [estadísticas](metric_type) de [uso de canchas](metric_type).
+      - Las [metricas clave](metric_type) del [mes pasado](metric_period), pásalas.
+      - Avísame los [KPIs](metric_type) actualizados de [hoy](metric_period).
+      - Podrías darme los indicadores clave?
+      - Necesito saber cómo le está yendo al negocio.
+      - ¿Cómo cerramos la jornada de ayer?
+      - Pásame un consolidado de las cifras porfa.
+      - Quisiera ver un resumen de los números.
+      - A ver, los resultados del día.
+      - Muestra las estadísticas relevantes.
+      - Quiero chequear cómo va la operación.
+      - Dame un vistazo de los números importantes.
+      - Cuales son los indicadores que importan?
+      - Quisiera ver las metricas de reservas en general.
+      - Me pasas las metricas de reservas del último trimestre?
+      - Necesito un informe de las metricas de reservas de todas las sedes.
+      - Cómo andan las metricas de reservas en el campus [San Borja](location)?
+      - Quiero revisar las métricas de reservas del último semestre.
+      - Podrías darme un resumen de las métricas de reservas para el mes actual?
+      - Las métricas de reservas de la semana, porfa.
+      - Qué tal las métricas de reservas del campus [Miraflores](location)?
+      - Dame el rendimiento de las reservas, pe.
+      - Quisiera analizar las métricas de reservas por campus.
+      - Un vistazo a las métricas de reservas del día.
+      - Qué onda con las métricas de reservas, bro?
+      - Necesito ver las cifras de reservas de [ayer](metric_period), causa.
+      - Cómo estamos en métricas de reservas este mes?
+      - Los KPIs de reservas, porfa.
+      - Quiero saber los KPIs de reservas de la última quincena.
+      - Dame un reporte de los KPIs de reservas del campus [La Molina](location).
+      - Cómo van los KPIs de reservas esta semana?
+      - Podrías actualizarme con los KPIs de reservas por deporte?
+      - Necesito ver los KPIs de reservas por deporte.
+      - Qué tal los KPIs de reservas para [fútbol](sport)?
+      - Pásame los KPIs de reservas para cada cancha.
+      - Un resumen de los kpis de reservas del día de [hoy](metric_period).
+      - Quiero chequear los kpis de reservas del campus [Surco](location).
+      - Los principales kpis de reservas, por campus.
+      - Dime los KPIs de reservas que tenemos hasta ahora.
+      - Cuántas reservas hay en total para [mañana](metric_period)?
+      - El total de reservas para [hoy](metric_period), porfa.
+      - Cuál es el total de reservas para [hoy](metric_period)?
+      - Quiero saber el total de reservas [hoy](metric_period).
+      - El total de reservas de [hoy](metric_period), cómo va?
+      - Dame el total de reservas de [hoy](metric_period) en el campus [Chacarilla](location).
+      - Cuál es el total de reservas de [hoy](metric_period) por [básquet](sport)?
+      - Número total de reservas para [hoy](metric_period) en la cancha 3.
+      - Cuantas reservas se hicieron [hoy](metric_period) en total?
+      - Necesito el conteo total de reservas de [hoy](metric_period) para el [volley](sport).
+      - El total de reservas para la fecha, por cancha.
+      - Pasame el total de reservas de [hoy](metric_period), hermano.
+      - Métricas de reservas por deporte del mes.
+      - Quiero ver los KPIs de reservas por deporte para [voley](sport).
+      - Total de reservas hoy por deporte.
+      - Cómo andan las métricas de reservas por deporte?
+      - Las métricas por deporte de esta semana, porfa.
+      - Dame un desglose de reservas por deporte del año.
+      - Análisis de reservas por deporte [fútbol](sport) y [tenis](sport).
+      - Quisiera saber las reservas por deporte del mes de [marzo](metric_period).
+      - Qué deporte genera más reservas esta semana?
+      - Reporte de reservas por deporte del campus [Pueblo Libre](location).
+      - Métricas de reservas por campus en general.
+      - KPIs de reservas por campus para el [último mes](metric_period).
+      - Total de reservas [hoy](metric_period) por campus.
+      - Cómo está la situación de reservas por campus este trimestre?
+      - Informe de reservas por campus para [ayer](metric_period).
+      - Quiero ver las métricas por cada campus del año pasado.
+      - Cuál campus tiene más reservas ahorita?
+      - Desglose de reservas por campus en el mes de [junio](metric_period).
+      - Métricas de reservas por cancha específica.
+      - KPIs de reservas por cancha sintética.
+      - Total de reservas hoy por cancha de grass.
+      - Rendimiento de reservas por cancha 2 la semana pasada.
+      - Quiero ver cómo van las reservas por cancha múltiple.
+      - Qué cancha tiene más reservas en el campus [San Isidro](location)?
+      - Dame un reporte de reservas por cancha para [hoy](metric_period).
+      - Análisis de reservas por cada cancha del campus [Comas](location).
+      - Quisiera ver un consolidado de métricas de reservas.
+      - Me puedes mostrar los kpi reservas de la temporada?
+      - Dime el total reservas hoy por deporte en el campus [Ate](location).
+      - Necesito saber las métricas de reservas [ayer](metric_period) por cancha.
+      - Pásame los kpis de reservas del mes de [octubre](metric_period).
+      - Cuantas reservas hubo [hoy](metric_period) por campus?
+      - Quiero ver las métricas de reservas de la cancha 5 para [voley](sport).
+      - Dame el total de reservas [mañana](metric_period) por campus.
+      - Cómo están los kpi reservas por deporte para el siguiente mes?
+      - Necesito un detalle de métricas de reservas por cancha principal.
+      - Muéstrame el total reservas [hoy](metric_period) en el campus [Cercado](location).
+      - Qué tal van las métricas de reservas en el [campus universitario](location)?
+      - Quiero los kpis de reservas por campus del mes de [agosto](metric_period).
+      - Dame las métricas de reservas para [baloncesto](sport) de la [semana](metric_period).
+      - Total de reservas [hoy](metric_period) en la cancha techada.
+      - Podrías darme las métricas de reservas por deporte y por campus?
+      - Quiero un resumen de los kpis de reservas del último año.
+      - Cuantas reservas se hicieron [hoy](metric_period) por cancha 4?
+      - Pásame las metricas de reservas del campus [Jesus Maria](location) para [futbol](sport).
+      - Necesito el kpi reservas de [ayer](metric_period) por campus.
+      - Muestrame el total de reservas [esta semana](metric_period) por deporte.
+      - Cómo estamos en métricas de reservas por campus y por deporte?
+      - Dime el total reservas [hoy](metric_period) en la cancha 1 del campus [Lince](location).
+      - Quiero ver los kpis de reservas de todas las canchas para [hoy](metric_period).
+      - Dame un análisis de las métricas de reservas por campus del [último mes](metric_period).
+      - Necesito saber el total reservas [ayer](metric_period) por [tenis](sport).
+      - Los kpis de reservas del [campus norte](location) para la cancha 2.
+      - Quiero ver las metricas de reservas, porfa.
+      - Pásame los kpis de reservas qe tenemos.
+      - Nesecito saber el total de reservas hoy.
+      - Dame un informe de reservas por deporte.
+      - Muéstrame las metricas de reservas por campus.
+      - Q tal el total de reservas hoy por cancha?
+      - Quisiera ver las métricas de reservas en general.
+      - Podrias darme los KPI de reservas actualizados?
+      - Cuántas reservas hicimos en total hoy?
+      - Quiero un desglose de reservas por deporte.
+      - Pásame las cifras de reservas por cada campus.
+      - Necesito los números de reservas por cancha.
+      - Enseñame las metricas de reservas por deporte y campus.
+      - Dime el total de reservas que se concretaron hoy.
+      - Cómo van las métricas de reservas hasta ahora?
+      - Los KPI de reservas, por favor.
+      - Un resumen del total de reservas de hoy.
+      - Cuéntame las reservas por cada deporte.
+      - Quiero el detalle de reservas por campus.
+      - Dame los indicadores de reservas por cancha.
+      - Las metricas de reservas en el campus de Miraflores, porfa.
+      - Qué tal los kpis de reservas para hoy en Surco?
+      - Muéstrame el total de reservas por deporte en el campus de La Molina.
+      - Necesito las metricas de reservas por cancha en San Isidro.
+      - Dime el consolidado de reservas de hoy por deporte.
+      - Quiero saber las metricas de reservas en cada campus hoy.
+      - Pásame los kpis de reservas para las canchas de fútbol.
+      - El total de reservas de voley para hoy, por campus.
+      - Cómo están las metricas de reservas por cancha y deporte?
+      - Me puedes dar el total de reservas hoy, desglosado por campus y deporte?
+      - Las metricas de reservas de hoy, pe'.
+      - Los kpis de reservas, al toke.
+      - Total de reservas para el día, porfa.
+      - Quisiera las metricas de reservas por cada campus.
+      - Dame los kpi de reservas por cada deporte.
+      - Cuántas reservas hay por cancha hoy?
+      - Nesecito las metricas de reservas de este día.
+      - Pasame un informe de kpis de reservas del día.
+      - El total de reservas para el dia de hoy, por favor.
+      - Quiero ver las metricas de reservas por deporte en Surco.
+      - Muestrame los kpi de reservas de tenis por campus.
+      - Cómo va el total de reservas hoy por cancha de básquet?
+      - Las metricas de reservas de las canchas de padel en Miraflores.
+      - Necesito los kpis de reservas de fútbol 7 en todos los campus.
+      - Dime el total de reservas de hoy por campus y deporte.
+      - Quisiera ver un consolidado de reservas por cancha hoy.
+      - Pásame las metricas de reservas por campus y cancha.
+      - Los kpis de reservas de todas las canchas hoy.
+      - Enséñame el total de reservas por deporte en cada campus.
+      - Metricas de reservas del día, por campus y cancha.
+      - Dame los kpis de reservas de las canchas de voley en Surco.
+      - Qué tal el total de reservas de badminton por campus?
+      - Quiero ver las metricas de reservas de hoy en las canchas principales.
+      - Nesecito un reporte de kpis de reservas por deporte en la sede de San Isidro.
+      - El total de reservas hoy, separado por campus.
+      - Dime las metricas de reservas de todas las sedes.
+      - Los kpis de reservas para cada deporte, porfa.
+      - Cuántas reservas se hicieron en total hoy, desglosado por canchas?
+      - Muéstrame las metricas de reservas de hoy en el campus norte.
+      - Pásame los kpis de reservas de las canchas de fútbol.
+      - Total de reservas hoy, discriminado por campus.
+      - Quisiera un consolidado de las metricas de reservas por campus.
+      - Dame los kpis de reservas de hoy en la cancha 3.
+      - Qué tal las reservas totales de hoy por deporte, eh?
+      - Necesito ver las metricas de reservas por cancha en cada campus.
+      - Los kpis de reservas de las actividades de hoy.
+      - Dime las reservas totales de hoy, pe'.
+      - Quiero un resumen de metricas de reservas del día.
+      - Pasame el informe de kpis de reservas general.
+      - El total de reservas de hoy, por cada sede.
+      - Cómo están las metricas de reservas por deporte hoy?
+      - Necesito los kpis de reservas de cada cancha.
+      - Muestrame el total de reservas de hoy en todas las canchas.
+      - Las metricas de reservas de baloncesto por campus.
+      - Dame los kpis de reservas de la cancha 1 del campus de Chorrillos.
+      - El total de reservas para fútbol hoy, por campus.
+      - Quiero ver las metricas de reservas del día en el campus central.
+      - Pásame los kpis de reservas por deporte y por cancha, porfa.
+      - Cómo fue el total de reservas hoy por deporte en cada campus?
+      - Las metricas de reservas de padel hoy, en todos los campus.
+      - Necesito los kpis de reservas de las canchas de voley por sede.
+      - Dime el total de reservas que tenemos hoy, por tipo de cancha.
+      - Quisiera ver el desempeño de reservas por campus hoy.
+      - Pasame el balance de reservas por deporte del día.
+      - Un informe de metricas de reservas por cancha en el campus de La Molina.
+      - Los kpis de reservas para las canchas de usos múltiples.
+      - Cuántas reservas se hicieron en cada campus hoy?
+      - ¿Cómo están las métricas de reservas?
+      - Pásame un resumen de las reservas, porfa.
+      - Quiero ver los datos de las reservas.
+      - Qué onda con los números de reservas.
+      - Necesito un vistazo a las estadísticas de reservas.
+      - Muéstrame el rendimiento de las reservas.
+      - ¿Podrías darme un informe de las reservas?
+      - Los KPIs de reservas, ¿cómo van?
+      - Dime los indicadores clave de reservas.
+      - ¿Cuál es el total de reservas que tenemos?
+      - Cuéntame sobre la cantidad de reservas.
+      - Las reservas de hoy, ¿cuántas son?
+      - Qué tal las métricas de las reservas de hoy.
+      - Necesito el reporte de reservas.
+      - Los datos de reservas para el día, por favor.
+      - Un vistazo a las métricas por deporte, porfa.
+      - Cómo se distribuyen las reservas por deporte.
+      - Dime los números de reservas según el deporte.
+      - Quiero ver el total de reservas por deporte.
+      - Las métricas de reservas por campus, ¿cómo están?
+      - Necesito ver las reservas por campus.
+      - Qué tal la distribución de reservas por cada campus.
+      - Los KPIs de reservas, pero separados por campus.
+      - Dame un detalle de las reservas por campus.
+      - Las métricas de reservas por cancha, ¿me las puedes dar?
+      - Cómo están las reservas por cada cancha.
+      - Quiero ver el rendimiento de las canchas en reservas.
+      - Cuál es el total de reservas por cancha.
+      - Dame los datos de reservas por cancha.
+      - El total de reservas de hoy, ¿lo tienes?
+      - Cuántas reservas tenemos hoy, en total.
+      - Informe de reservas totales para hoy.
+      - Total de reservas para el día, ¿cuánto es?
+      - Muéstrame las reservas totales de hoy.
+      - Quiero ver las métricas de reservas, desglosadas por deporte.
+      - Dame los kpi de reservas por campus.
+      - Pásame el consolidado de reservas de hoy, por cancha.
+      - Las métricas de reservas para hoy, por deporte, porfa.
+      - Cómo están los kpi de reservas por campus para hoy.
+      - Cómo se comportó el total de reservas hoy, cancha por cancha.
+      - Pásame las métricas de reservas por deporte y campus.
+      - Quiero saber los kpi de reservas de cada campus.
+      - Cuántas reservas se registraron hoy, por cada cancha.
+      - Las métricas de reservas, las que son por deporte.
+      - Necesito el kpi de reservas generales.
+      - ¿Cómo va el total de reservas hasta ahora?
+      - Dame las métricas de reservas del sistema.
+      - Quiero ver los kpi de reservas de toda la operación.
+      - Qué tal las métricas de reservas, en general.
+      - Los números de las reservas, ¿me los pasas?
+      - Un resumen de métricas de reservas, por favor.
+      - Pásame la analítica de las reservas.
+      - ¿Me puedes mostrar el estado de las reservas?
+      - Los kpi de reservas por campus, ¿ya los tienes?
+      - Necesito las métricas de reservas segmentadas por deporte.
+      - Quiero el número de reservas de hoy, dividido por campus.
+      - Dame las métricas de reservas de las canchas.
+      - Cuántas reservas se hicieron hoy, por campus.
+      - Un detalle de los kpi de reservas por deporte.
+      - Quiero ver las métricas de reservas en el campus principal.
+      - Los kpi de reservas del campus Surco, ¿cómo van?
+      - Cuántas reservas hubo en la cancha de fútbol.
+      - Las métricas de reservas de la cancha número 3.
+      - Qué tal el kpi de reservas para el voley.
+      - Pásame el volumen de reservas de hoy para básquet.
+      - Quiero ver las métricas de reservas del campus Chorrillos.
+      - Los kpi de reservas del campus San Borja, ¿listo?
+      - Dime las reservas de la cancha número 1.
+      - Pásame las métricas de reservas, pero las del tenis.
+      - Dime el kpi de reservas de la cancha de pádel.
+      - Las reservas de hoy en el campus Miraflores, ¿cómo estuvieron?
+      - Las métricas de reservas en general, por favor.
+      - Quiero ver los kpi de reservas de la temporada.
+      - Dame el total de reservas que tenemos acumuladas.
+      - Necesito las métricas de reservas del último mes.
+      - Cuáles son los kpi de reservas del año.
+      - Pásame las métricas de reservas que sean más relevantes.
+      - Cuántas reservas se hicieron hoy, por el tipo de cancha.
+      - Qué hay de los kpi de reservas segmentados por deporte.
+      - Quiero saber las métricas de reservas por cada campus que tenemos.
+      - Quiero ver las métricas de reservas, porfa.
+      - Dame las métricas de reservas.
+      - Necesito un reporte de las métricas de reservas.
+      - Muestrame las métricas generales de las reservas.
+      - ¿Cómo van las métricas de reservas?
+      - Podrías darme las métricas de reservas?
+      - Qué tal las métricas de reservas, hermano?
+      - Chequea las métricas de las reservas, causa.
+      - Quisiera un panorama de las métricas de reservas.
+      - Saca las métricas de reservas.
+      - Pásame los KPI de reservas.
+      - ¿Cuáles son los KPIs de reservas que tenemos?
+      - Me interesan los KPIs de reservas.
+      - ¿Podrías mostrarme los indicadores clave de reservas?
+      - ¿Qué tal los kpis de reservas hoy?
+      - Quiero saber los kpis de las reservas.
+      - Dime los kpis de reservas.
+      - Los kpi de reservas, al toke.
+      - Dame la info de los kpis de reservas.
+      - ¿Cuántas reservas totales hay hoy?
+      - Necesito saber el total de reservas para hoy.
+      - El total de reservas hoy, cuál es?
+      - ¿Qué cantidad de reservas tenemos hoy?
+      - Muestrame el total de reservas hoy.
+      - ¿Cuántas reservas se hicieron hoy, en total?
+      - El total de reservas de este día.
+      - ¿Podrías decirme el total de reservas del día de hoy?
+      - Dame el número total de reservas de hoy.
+      - ¿Cuántas reservas van en el día?
+      - Las métricas de reservas por deporte.
+      - Quisiera saber el total de reservas de hoy por deporte.
+      - Kpi de reservas desglosado por deporte.
+      - Muéstrame las métricas de reservas por cada deporte.
+      - Dame el total de reservas hoy, pero por deporte.
+      - ¿Cómo están los kpis de reservas por deporte?
+      - Necesito las métricas de reservas por tipo de deporte.
+      - Las reservas totales de hoy por deporte, porfa.
+      - Reporte de kpis de reservas según el deporte.
+      - Me pasas las métricas de reservas por deporte, causa.
+      - Métricas de reservas por campus.
+      - Kpi de reservas por campus, cuál es?
+      - Necesito el total de reservas de hoy por campus.
+      - Quisiera ver las métricas de reservas por cada campus.
+      - Dame las métricas de reservas por campus, las de hoy.
+      - ¿Cómo se distribuyen los kpi de reservas por campus?
+      - Necesito el total de reservas de hoy por campus, porfa.
+      - Un informe de las métricas de reservas por campus.
+      - Pásame los kpis de reservas del día, por campus.
+      - Las reservas totales de hoy, por sede.
+      - Métricas de reservas por cancha.
+      - Kpi reservas por cancha, me lo das?
+      - ¿Podrías mostrarme el total de reservas de hoy por cancha?
+      - Muéstrame las métricas de reservas por cada cancha.
+      - Necesito el total de reservas de hoy por cancha específica.
+      - ¿Cómo andan los kpis de reservas por cancha?
+      - Dame las métricas de reservas por cancha, de hoy.
+      - Las reservas totales del día por cancha, por favor.
+      - Un resumen de los kpis de reservas por cancha.
+      - Quiero ver las métricas de reservas de las canchas.
+      - Chequéame las métricas de reservas de hoy, desglosado por campus y luego por deporte, bacán.
+      - Necesito el total de reservas de hoy, por cada cancha en el campus principal.
+      - Los kpis de reservas por deporte, pero solo para el campus Miraflores.
+      - Pásame un consolidado de las métricas de reservas por campus y también por deporte.
+      - ¿Cuántas reservas se hicieron hoy en total, desglosado por cancha y luego por campus?
+      - Un análisis de los kpis de reservas por deporte y por campus.
+      - Porfa, las métricas de reservas hoy, detalladas por deporte y por cancha.
+      - Muestrame las reservas totales de hoy para el campus Surco, filtrado por deporte.
+      - ¿Qué tal están los kpis de reservas por cancha en el campus San Isidro?
+      - Me podrías dar las métricas de reservas por campus y luego por cada cancha que tienen?
+      - Metrikas de reservas, broder, para hoy.
+      - Los kpi de las reservas de la semana, quiero verlos.
+      - Cuentas claras, necesito ver el total de reservas de hoy por deporte.
+      - Un reporte bacán de las métricas de reservas por campus.
+      - Pasa la info de las reservas por cancha y por campus.
+      - ¿Cuál es el kpi de reservas totales de hoy, ah?
+      - Necesito las metricas de reservas pa' ver cómo vamos.
+      - Dame los numeros de las reservas de hoy, porfa, por campus.
+      - Kiero ver las metricas de reservas de cada cancha.
+      - La data de las reservas, desglosado por deporte y campus, al toque.
+      - Quisiera ver el rendimiento de reservas de esta semana, por deporte y campus, si es posible.
+      - Pásame el desglose de reservas totales por campus para el mes.
+      - Muéstrame las estadísticas de reservas de ayer por cancha, por favor.
+      - ¿Qué onda con los kpis de reservas de la cancha principal hoy?
+      - Necesito un resumen de las reservas por deporte y por campus para la semana.
+      - Dame la data de reservas totales por campus del último mes.
+      - ¿Podrías darme los kpi de reservas por cancha para mañana?
+      - Quiero saber el total de reservas para el campus Surco hoy, por deporte.
+      - Las métricas de reservas del campus Miraflores para este mes.
+      - Necesito el kpi de reservas por cancha del campus principal.
+      - Pásame el total de reservas por deporte de la cancha 1 hoy.
+      - ¿Cómo están las métricas de reservas por campus para la siguiente semana?
+      - Quiero un informe detallado de las reservas por deporte y por campus del último trimestre.
+      - Pásame las métricas de reservas de hoy en el campus de Surco.
+      - ¿Me puedes dar los kpis de reservas por deporte de la cancha 2 ayer?
+      - ¿Cuál es el total de reservas por campus en este mes?
+      - Quisiera ver las métricas de reservas por deporte en el campus Miraflores para la semana pasada.
+      - ¿Me das las métricas de reservas de las canchas de fútbol de hoy?
+      - ¿Qué tal el total de reservas por campus de la cancha 3 ayer?
+      - Pásame los kpis de reservas por campus y por cancha para esta semana.
+      - Quiero ver las métricas de reservas de voley para el campus Surco hoy.
+      - Dame el total de reservas hoy por deporte en el campus Miraflores, al toque.
+      - Necesito los kpis de reservas de básquet por cancha, para mañana.
+      - ¿Qué tal los números de reservas por deporte de las canchas del campus principal, ayer?
+      - ¿Me podrías dar un informe de métricas de reservas por campus y por deporte de hoy?
+      - Pásame el total de reservas del campus San Isidro por cancha para este mes.
+      - Quiero los kpis de reservas de pádel por campus de la semana pasada.
+      - Dame la métrica de reservas totales de hoy por campus y deporte.
+      - Necesito saber cómo van las reservas por cancha en el campus principal de Miraflores este mes.
+      - Muéstrame las métricas de reservas por campus y por deporte de ayer.
+      - Dime el estado de las reservas por cancha en el campus de San Isidro para hoy.
+      - Quiero ver los kpis de reservas de la cancha principal de Miraflores, porfa.
+      - Pásame un consolidado mensual de reservas por deporte, por favor.
+      - Necesito el total de reservas semanales por campus.
+      - Dame los indicadores de reservas por cancha para este mes en el campus Surco.
+      - ¿Cómo vamos con las métricas de reservas de las canchas de tenis hoy?
+      - Pásame el total de reservas hoy, desglosado por campus y deporte.
+      - Necesito el kpi de reservas por campus y cancha de la semana pasada.
+      - Dame un resumen de las métricas de reservas por campus de hoy.
+      - Muestrame los kpis de reservas de hoy en el campus de Miraflores, porfa.
+      - Quiero ver el total de reservas de hoy en la cancha principal por deporte.
+      - Pásame los kpis de reservas por deporte de la cancha 1 del campus Surco.
+      - Necesito el total de reservas por campus y cancha de la semana actual.
+      - Dame las métricas de reservas de hoy por deporte en el campus de San Isidro.
+      - ¿Cómo vamos con los kpis de reservas por cancha en el campus principal de hoy?
+      - Quiero ver el rendimiento de las reservas por deporte y campus de este mes.
+      - Pásame el total de reservas para el campus de Miraflores hoy, por cancha.
+      - Necesito los kpis de reservas por campus y deporte de ayer en la cancha 2.
+      - Dame un panorama de las métricas de reservas por deporte de la semana.
+      - Muestrame el total de reservas por campus de la cancha 1 para el próximo mes.
+      - Quiero ver las métricas de reservas por cancha del campus Surco de este mes.
+      - Pásame los kpis de reservas por deporte de hoy en el campus principal.
+      - Necesito el total de reservas diarias por campus.
+      - Dame un reporte de los kpis de reservas de la cancha 2 para esta semana.
+      - ¿Cómo están las métricas de reservas por deporte y por campus de hoy?
+      - Quiero ver el consolidado de reservas por cancha del campus Miraflores de ayer.
+      - Pásame las estadísticas de reservas por deporte del campus Surco para la siguiente semana.
+      - Necesito un informe completo de las métricas de reservas por campus y cancha de este mes.
+      - Necesito ver las métricas de reservas, las de hoy, porfa.
+      - Quisiera saber sobre las métricas de reservas que tenemos, causa.
+      - Muestrame el rendimiento de las reservas, esas métricas bacanes.
+      - ¿Qué tal están las métricas de reservas a nivel general en todas las sedes?
+      - Las métricas de reservas, por favor, las del día de hoy.
+      - Dame los números de las métricas de reservas, así rapidito.
+      - Chequéame las métricas de reversas, cómo van en Miraflores por deporte?
+      - Podrías darme un reporte de las métricas de reservas por deporte, las de ayer.
+      - Quiero ver cómo van las metricas de reserva, ya sabes, las importantes por campus.
+      - Indícame las métricas de reserva del día por cancha, la de fútbol.
+      - Necesito las métricas de reservaciones, las del mes, por campus de San Borja.
+      - Dame las métricas de reservas para el campus de Surco, las de voley.
+      - ¿Cómo están las métricas de reservas por cada deporte en la sede de San Isidro?
+      - ¿Cuáles son los KPIs de las reservas para hoy en todas las canchas?
+      - Muéstrame los KPIs de reservas, al toque, los actuales.
+      - Necesito los indicadores clave de rendimiento de las reservas por campus, los de esta semana.
+      - ¿Cómo andan los KPIs de reservas para la sede de La Molina por deporte?
+      - Dame los principales KPIs de las reservas del mes, porfa.
+      - Quiero ver los kpis de reservas, a ver qué tal la cancha 3 de hoy.
+      - Pásame los KPIs de las reservas por deporte y campus.
+      - Los KPIs de reversas, porfa, de las canchas de tenis del campus de Lince.
+      - Quisiera ver el rendimiento de los kpis de reservas por campus.
+      - Dame una vista general de los kpis de las reservas de fútbol hoy.
+      - ¿Cuántas reservas hay en total hoy en todas las sedes?
+      - Necesito el total de reservas para el día de hoy, por cancha.
+      - ¿Cuál es el total de reservas que tenemos hoy por deporte?
+      - Dame el total de reversas de este día, las de la sede principal.
+      - El total de reservas para la fecha, por favor, por campus.
+      - Cuantifica el total de reservas de hoy por cancha de básquet.
+      - Indícame el total de reservas de hoy, así rapidito, de cada deporte.
+      - Quiero saber el total de reservas que se han hecho hoy por sede.
+      - Total de reservas para hoy en el campus de Barranco, ¿cuántas son?
+      - ¿Cuántas reservas se registraron hoy en total por campus?
+      - Métricas de reservas por deporte, las de hoy en la sede de Pueblo Libre.
+      - KPIs de reservas por disciplina, porfa, del campus de Lince.
+      - Total de reservas de hoy por cada deporte, quiero verlas, chévere.
+      - ¿Cómo se distribuyen las reservas por deporte en cada sede?
+      - Dame el total de reservas por deporte para hoy, bacán, las de fútbol.
+      - ¿Qué tal las reservas por deporte en la cancha principal?
+      - Los KPIs de reservas diferenciados por deporte para el campus de Monterrico.
+      - Dame los totales de reservas de hoy por tipo de deporte, al toque.
+      - Métricas de reservas por campus, las de fulbito, las de la semana.
+      - KPIs de reservas por sede, los del fin de semana, pásamelos.
+      - Total de reservas hoy por cada campus, pásame ese dato, porfa.
+      - ¿Cómo va el total de reservas por campus en general?
+      - Dame el total de reservas de hoy por campus y por deporte.
+      - ¿Qué tal las reservas por sede, están en verde para hoy?
+      - Los KPIs de reservas por campus, porfa, los actualizados de las últimas 24h.
+      - Métricas de reservas para el campus de Barranco, las de voley de hoy.
+      - Total de reservas de hoy para cada campus, detallado por deporte.
+      - Métricas de reservas por cancha, las de la 5, cómo están?
+      - KPIs de reservas por cancha específica, la de tenis hoy.
+      - Total de reservas hoy por cada cancha, quiero ver el desglose completo.
+      - ¿Cómo va el total de reservas por cancha para este mes en la sede de San Miguel?
+      - Dame el total de reservas de hoy por cancha, las de la sede de Pueblo Libre.
+      - Quisiera ver las métricas de reservas.
+      - Necesito los kpi reservas de hoy.
+      - Cuál es el total de reservas hoy?
+      - Me puedes mostrar las métricas de reservas por deporte?
+      - Dame los kpi reservas por campus.
+      - Quiero saber el total de reservas hoy por cancha.
+      - Pásame las métricas de reservas por campus y por deporte.
+      - Hazme un resumen de los kpi reservas por cancha y por deporte.
+      - Cuéntame del total de reservas hoy por campus.
+      - Necesito un reporte de métricas de reservas, por favor.
+      - Podrías enviarme los kpi de las reservas?
+      - Muestra el total de reservas para este día.
+      - Qué tal van las métricas de reservas por deporte?
+      - A ver los kpi reservas por campus.
+      - Total de reservas hoy por cancha, porfa.
+      - Métricas de reservas por campus y deporte.
+      - Dame los kpi de reservas por cancha y por deporte.
+      - Quiero ver el consolidado de reservas de hoy por campus.
+      - Las métricas de reservas, ¿cómo andan?
+      - Kpi de reservas, please.
+      - Qué onda con el total de reservas hoy?
+      - Podrías darme las métricas de reservas por deporte, por campus y por cancha?
+      - Necesito los kpi reservas, desglosados por campus y luego por deporte.
+      - Quiero el total de reservas hoy, detallado por cada cancha y cada deporte.
+      - Sácame las métricas de reservas de todos los campus.
+      - A cuánto ascienden los kpi reservas por campus?
+      - Cuál fue el total de reservas hoy en cada cancha?
+      - Cómo están las métricas de reservas por deporte en general?
+      - Dame un vistazo a los kpi reservas por campus, porfa.
+      - Indícame el total de reservas hoy por deporte en cada campus.
+      - Quiero las estadísticas de métricas de reservas por deporte.
+      - Solicito el informe de kpi reservas por campus.
+      - Enséñame el total de reservas hoy por cancha de todos los campus.
+      - Revisa las métricas de reservas por campus hoy.
+      - Pasa los kpi reservas de hoy por deporte.
+      - Dame el total de reservas de hoy, agrupadas por cancha.
+      - Muéstrame las métricas de reservas por campus y por deporte.
+      - Quiero un desglose de los kpi reservas por cancha y campus.
+      - Cómo se comportó el total de reservas hoy por deporte?
+      - Necesito el detalle de las métricas de reservas por campus.
+      - Cuáles son los kpi reservas por deporte de cada campus?
+      - Me puedes decir el total de reservas hoy por cancha y deporte?
+      - Presenta las métricas de reservas, por favor.
+      - Podrías darme los kpi de reservas?
+      - Quiero saber el total de reservas del día.
+      - Las métricas de reservas por deporte para todos los campus.
+      - Dame los kpi reservas por campus para la semana.
+      - El total de reservas hoy por cancha, ¿cómo va?
+      - Métricas de reservas por campus, por deporte y por cancha.
+      - Los kpi reservas, desagregados por campus, deporte y cancha.
+      - Consolidado total de reservas hoy, por campus, deporte y cancha.
+      - Dime todo sobre las métricas de reservas.
+      - Necesito un informe completo de kpi reservas.
+      - Total de reservas hoy, al detalle.
+      - Métricas de reservas por deporte, por campus, ¿qué tal?
+      - Quiero los kpi reservas por campus y por deporte.
+      - Cómo está el total de reservas hoy por cancha y por deporte?
+      - Las métricas de reservas en general, ¿me las podrías dar?
+      - Muéstrame los kpi reservas de todos los campus.
+      - Dame el total de reservas hoy de cada cancha.
+      - Reporte de métricas de reservas por deporte.
+      - Kpi reservas por campus, eso quiero ver.
+      - El total de reservas hoy, desglosado por campus.
+      - Podrías darme las métricas de reservas por cancha?
+      - Necesito ver los kpi reservas por deporte.
+      - Indícame el total de reservas hoy por deporte.
+      - Las métricas de las reservas por campus, porfa.
+      - Dime los kpi reservas por cancha.
+      - Total reservas hoy por campus y deporte.
+      - Quiero las métricas de reservas de hoy por deporte.
+      - Pásame los kpi reservas por campus y cancha.
+      - Dame el total de reservas de hoy por deporte y por cancha.
+      - Necesito las métricas de reservas por campus y cancha, al toque.
+      - Cuéntame los kpi reservas por deporte y campus.
+      - Cuál es el total de reservas hoy por campus, deporte y cancha?
+      - Averíguame las métricas de reservas para hoy.
+      - Reporte de kpi reservas para el día.
+      - El total de reservas hoy, ¿me lo pasas?
+      - Quiero un resumen de métricas de reservas por deporte.
+      - Los kpi reservas por campus, ¿cómo están?
+      - Dame el total de reservas hoy por cancha en cada campus.
+      - Métricas de reservas por campus y cancha, por favor.
+      - Los kpi reservas por deporte y cancha.
+      - Dime el total de reservas de hoy por campus y cancha.
+      - Necesito las métricas de reservas para todos los deportes y campus.
+      - Cuál es el estado de los kpi reservas por campus y deporte?
+      - Pásame el total de reservas hoy, agrupado por campus y deporte.
+      - Quisiera ver las métricas de reservas por cancha en cada deporte.
+      - Dame los kpi reservas por campus, cancha y deporte.
+      - El total de reservas para hoy, con desglose por campus, deporte y cancha.
+      - Las métricas de reservas en todos los campus, porfa.
+      - Muéstrame los kpi reservas de todas las canchas.
+      - Qué cantidad de reservas totales tenemos hoy por deporte?
+      - Quiero las metricas de reserbas por campus.
+      - Pasame los kpis de reservas para hoy.
+      - Cual es el total de reservas del dia por canpo?
+      - Necesito las métricas de reservas por deporte en cada campus.
+      - Dime los kpi reservas por campus y por deporte para hoy.
+      - Muestra el total de reservas hoy, con desglose por cancha y deporte.
+      - Cómo están las métricas de reservas en el campus principal?
+      - Quiero ver los kpi reservas del mes por deporte.
+      - Dame el total de reservas para hoy en cada campus, por favor.
+      - Averigua las métricas de reservas por deporte y campus.
+      - Los kpi reservas por cancha en cada campus.
+      - Cual es el total de reservas de hoy por cada cancha?
+      - Podrías darme las métricas de reservas detalladas?
+      - Necesito un informe de kpi reservas por deporte.
+      - Indícame el total de reservas de hoy por campus.
+      - Quiero ver las métricas de reservas por campus y deporte para hoy.
+      - Pásame los kpi reservas por cancha y por campus.
+      - Dame el total de reservas hoy, segregado por deporte y cancha.
+      - Muéstrame las métricas de reservas de todas las canchas por campus.
+      - Necesito los kpi reservas por deporte en cada cancha.
+      - Cuál es el total de reservas hoy, con los datos por deporte y por campus?
+      - Quisiera revisar las métricas de reservas.
+      - Necesito info de las métricas de reservas, porfa.
+      - Muéstrame las métricas de reservas, please.
+      - Las métricas de reservas, ¿cómo van hoy?
+      - Pásame un reporte de métricas de reservas.
+      - ¿Qué tal están las métricas de reservas?
+      - Quisiera saber sobre el kpi reservas.
+      - Dame el kpi de reservas, por favor.
+      - ¿Cómo está el kpi de reservas?
+      - Necesito ver los kpi reservas.
+      - Los kpi de reservas, ¿cuáles son?
+      - ¿Podrías darme el total de reservas que llevamos para hoy?
+      - Me interesa saber el total de reservas del día.
+      - ¿Cuántas reservas hay en total para hoy?
+      - ¿Cuál es el número total de reservas hasta ahora?
+      - Quiero las métricas de reservas por deporte.
+      - Dame las métricas de reservas por campus.
+      - Necesito las métricas de reservas por cancha.
+      - Muéstrame el kpi reservas por deporte.
+      - Pásame el kpi de reservas por campus.
+      - ¿Cuál es el kpi reservas por cancha?
+      - ¿Me podrías dar la cifra de reservas de hoy, por deporte?
+      - Papi, ¿me sacas las métricas de reservas?
+      - Oe, ¿cómo van los kpi de reservas, brother?
+      - Brother, ¿cuál es el total de reservas para este día?
+      - Necesito las métricas de reservas, pero quiero verlas por deporte.
+      - Dame el kpi de reservas que tenemos, pero que esté dividido por campus.
+      - Quiero el total de reservas de hoy, pero por cada cancha.
+      - Las métricas de reservas, ¿me las das por campus y por deporte?
+      - El kpi reservas, ¿me lo puedes segmentar por cancha?
+      - Muéstrame la info de métricas de reservas, por favor.
+      - Necesito el consolidado de kpi reservas.
+      - Dame la estadística de reservas por deporte y campus.
+      - ¿Cuál es el total de reservas del día, separado por deporte?
+      - Las métricas de reservas por campus, ¿me las pasas al toque?
+      - Checa, necesito las métricas de reservas por cancha.
+      - Quiero ver cómo están los kpi de reservas hoy.
+      - Pásame el kpi de reservas por campus, ¿se puede?
+      - Dime cuántas reservas tenemos hoy, por deporte.
+      - Me gustaría saber el total de reservas de hoy, por cancha.
+      - Las métricas de reservas, ¿pueden ser por campus, porfa?
+      - ¿Cómo estamos en kpi reservas, por campus?
+      - Me gustaría una vista detallada de las metricas de reservas para el día, incluyendo un desglose por deporte y por campus.
+      - Necesito un informe completo de los kpi de reservas, que muestre el rendimiento por cancha y la actividad de reservas actual.
+      - Podrías generarme un reporte con el total de reservas hoy, discriminado por deporte, y también por el campus donde se realizaron?
+      - Quiero analizar las métricas de reservas; me interesan las cifras por campus y también el total por deporte.
+      - Dame el resumen de los kpi reservas, que incluya el total de reservas por cancha para este período.
+      - ¿Cómo van esas metricas de reservas? Necesito saberlas por campus y luego por deporte.
+      - Pásame un consolidado de reservas de hoy, que me muestre el total por cancha y por campus, si es posible.
+      - Estoy buscando los kpi de reservas; específicamente, quiero ver la actividad de reservas por deporte.
+      - Quisiera las métricas de reservas, enfocándome en el total de reservas por cancha.
+      - Dame la información de reservas: el kpi por campus y el total de reservas hoy, porfa.
+      - Necesito un panorama de las métricas de reservas por deporte y el total general de reservas para hoy.
+      - ¿Cuál es el estado de los kpi reservas por campus, y el total de reservas por deporte?
+      - Me haces un reporte con las métricas de reservas; necesito el total de hoy por cancha.
+      - Quiero ver el volumen de reservas de hoy, desglosado por campus y luego por deporte.
+      - Dame los kpi de reservas por campus y también el total de reservas por cancha.
+      - ¿Cómo cerramos el total de reservas hoy, y cómo se distribuyó por deporte?
+      - Papi, ¿me pasas las metricas de reserbas por campus y por deporte?
+      - Oe, necesito el kpi reserbas para cada cancha que tenemos.
+      - Brother, ¿cuál es el total de reserbas de la jornada, por deporte?
+      - Quiero las métricas de reservas por campus, con el total de reservas de hoy.
+      - Dame los kpi de reservas, incluyendo el desglose por deporte y por campus.
+      - Necesito las métricas de reservas; me urge el total de reservas de hoy, por cancha.
+      - ¿Cuál fue la cifra de reservas para hoy?
+      - ¿Cuántas reservas se hicieron en total hoy?
+      - ¿Podrías darme el conteo de reservas del día?
+      - Me interesa el volumen total de reservas para esta fecha.
+      - Dame el número de reservas totales que tenemos a la fecha.
+      - Necesito saber la cantidad de reservas globales de hoy.
+      - ¿Cuántas reservas se registraron hoy?
+      - Quiero el consolidado de reservas de la jornada.
+      - Pásame el total de reservas que van hoy.
+      - La métrica de total de reservas del día, porfa.
+      - Quiero ver las métricas de reservas por campus y por deporte, papi.
+      - Necesito los kpis de reservas, dame los de cada cancha y por campus.
+      - Muéstrame el total de reservas para el día, clasificado por deporte.
+      - Dame las métricas de reservas por deporte y también las que son por cancha.
+      - ¿Cómo se distribuyen las reservas hoy por campus y por deporte?
+      - Quisiera un reporte de los kpi reservas, con el total por campus.
+      - Pásame las métricas de reservas; en particular, quiero verlas por cancha.
+      - El total de reservas para hoy, ¿me lo puedes dar por deporte?
+      - Necesito el kpi de reservas por cada campus, con un resumen del total de hoy.
+      - Quiero las métricas de reservas por campus y las de hoy.
+      - Dame los kpis de reservas por deporte y por cancha, porfa.
+      - ¿Cuál es el total de reservas de hoy, pero por campus?
+      - Las métricas de reservas, ¿cómo se ven hoy por deporte?
+      - Pásame el kpi de reservas por campus y por cancha.
+      - Necesito el total de reservas de hoy, segmentado por campus y deporte.
+      - Quiero ver las metricas de reserbas por campus y por deporte, porfa.
+      - Dame los kpi reserbas de cada cancha y de cada campus, oe.
+      - Brother, ¿cuántas reserbas tenemos hoi, clasificadas por deporte?
+      - Un favor, necesito las metricas de reservas, por campus.
+      - ¿Podrías mostrarme el kpi de reservas por deporte y por campus?
+      - ¿Qué tal los números de reservas hoy, por cancha?
+      - Dame el reporte de metricas de reservas por deporte y el total del día.
+      - Necesito saber el kpi de reservas por campus y también por cancha.
+      - Quiero la métrica de reservas totales de la fecha, por campus y por deporte.
+      - Pásame los kpis de reservas con el desglose de hoy por cancha, porfa.
+      - ¿Me pasas las métricas de reservas del día, porfa?
+      - Necesito un reporte de las métricas de reservas por campus, causa.
+      - Quiero ver las métricas de todas las reservas por deporte.
+      - Las métricas de reservas por cancha, ¿las tienes a la mano?
+      - ¿Cómo van las métricas de reservas en el campus de Miraflores?
+      - Dame las métricas de reservas de hoy para cada deporte.
+      - Muéstrame las métricas de reserbas de la semana pasada, por campus.
+      - Requiero un análisis de las métricas de reservas por deporte y campus.
+      - El kpi de reservas por cancha para este mes, ¿cuál es?
+      - Pásame los kpis de las reservas por campus y deporte, al toque.
+      - Quisiera ver los KPIs de reservas para todos los campus.
+      - Dame el kpi de reservas totales de la última semana.
+      - ¿Qué tal los kpis de reservas por deporte, pata?
+      - A ver, los kpi's de reservas del campus de San Isidro.
+      - Me interesa el kpi de reservas para vóley, porfa.
+      - Los kpi reservas por cancha, ¿los tienes actualizados?
+      - ¿Cuántas reservas totales tenemos hoy?
+      - El total de reservas para hoy, desglosado por deporte.
+      - Dame el total de reservas hoy por campus y cancha, chévere.
+      - Cuántas reservas hay en total para el día de hoy, en general?
+      - Sácame el total de reservas hoy por deporte y por campus.
+      - El total de reservas hoy, ¿lo puedes ver por cancha?
+      - Necesito saber el total de reserbas hoy para fútbol y básquet.
+      - ¿Podrías darme el total de reservas hoy, por cada campus?
+      - El total de reservas para hoy, ¿incluye todas las sedes?
+      - Quisiera las métricas de reservas por deporte de la última semana.
+      - Muéstrame el kpi de reservas por campus de la sede de Lince.
+      - Necesito el total de reservas de ayer por cancha, si lo tienes.
+      - Cómo están las métricas de reservas para hoy en el campus de Comas?
+      - Dame los kpis de reservas para cada deporte, por campus.
+      - Chequea el total de reservas de esta semana, por cancha.
+      - Pásame un resumen de las métricas de reservas por campus y deporte.
+      - Quiero los kpi reservas de hoy, desglosado por cancha y deporte.
+      - Asu mare, ¿cuántas reservas totales para hoy por cancha de fútbol?
+      - Dame el detalle de las métricas de reservas por cada campus.
+      - Necesito ver los kpis de reservas por deporte de este mes.
+      - El total de reservas hoy en el campus de Pueblo Libre, ¿cómo va?
+      - ¿Me das las metrikas de reserbas por campus?
+      - Pata, el kpi de reserbas por canha de hoy, ¿lo sabes?
+      - Muéstrame las métricas de las reservas hechas hoy, por deporte.
+      - Quisiera un reporte de los kpis de reservas por campus y cancha.
+      - El total de reservas hoy, ¿lo puedes separar por tipo de deporte?
+      - Revisa las métricas de reservas de este mes, por campus y deporte.
+      - Dame los kpis de reservas por cancha para este fin de semana.
+      - Qué tal el total de reservas hoy en la cancha principal?
+      - Necesito las métricas de reservas por campus y por deporte para analizar.
+      - Pásame los kpi's de reservas de ayer, por cada cancha.
+      - El total de reserbas de hoy, por sede, ¿está disponible?
+      - Quiero ver las métricas de reservas de basket y tenis por campus.
+      - Muéstrame el kpi de reservas por deporte de la semana pasada, porfa.
+      - ¿Cuántas reservas totales se hicieron hoy por campus y deporte?
+      - Dame las métricas de reservas del campus de La Molina, porfa.
+      - Necesito los kpis de reservas por cancha de las canchas de grass.
+      - El total de reservas hoy, por cada cancha de tenis, ¿cuántas son?
+      - Chequea las métricas de reservas por deporte para el campus del Norte.
+      - Pásame los kpi reservas de esta semana, agrupados por campus.
+      - Quisiera saber el total de reservas hoy por deporte y por cancha específica.
+      - Dame las métricas de reservas detalladas por campus y por cancha, chévere.
+      - Necesito ver los kpis de reservas para cada deporte en el campus Sur.
+      - El total de reservas para el campus de Chiclayo hoy, ¿está completo?
+      - ¿Me puedes dar las métricas de reservas por cancha de la sede Centro?
+      - Pata, ¿cuál es el kpi de reservas de básquet por campus?
+      - Muéstrame el total de reserbas de hoy para cada deporte en la sede de Callao.
+      - Quiero las métricas de reservas de este mes, por campus y por tipo de cancha.
+      - Dame los kpis de reservas por cancha y por deporte de toda la semana.
+      - Necesito el total de reservas hoy por campus y deporte, al toque, causa.
+      - Cómo están las métricas de reservas por deporte en el campus principal?
+      - Pásame el kpi de reservas por campus y cancha de la semana pasada, bacán.
+      - El total de reservas hoy, ¿se puede ver por cada campus y sus deportes?
+      - Quiero un resumen de las métricas de reservas por cancha de hoy.
+      - Dame los kpis de reservas por deporte en todos los campus, porfa.
+      - Necesito el total de reservas hoy, desglosado por campus y luego por deporte.
+      - ¿Cómo están las métricas de reservas del campus de San Miguel?
+      - Pásame los kpi's de reservas para hoy en el campus de La Victoria.
+      - El total de reservas hoy, ¿por cada deporte de la cancha 1?
+      - Quisiera las métricas de reservas por campus y luego por cancha, porfa.
+      - Muéstrame el kpi de reservas por deporte de la sede central.
+      - Necesito el total de reservas de mañana, desglosado por campus.
+      - Dame las métricas de reservas de este trimestre por campus y deporte.
+      - Pata, los kpis de reservas para todas las canchas, ¿me los muestras?
+      - El total de reservas hoy, ¿por cada campus de la zona este?
+      - Quiero ver las métricas de reservas de fútbol y básquet, por campus.
+      - Dame el kpi de reservas por cancha para el campus de Cajamarca.
+      - Necesito saber el total de reservas de hoy por deporte, con sus canchas.
+      - Chequea las métricas de reservas del último mes, por campus y por deporte.
+      - Pásame los kpis de reservas por cancha de voley de hoy.
+      - Asu mare, el total de reservas hoy por campus y canchas, ¿es mucho?
+      - Dame un vistazo a las métricas de reserbas por deporte y por campus.
+      - Necesito los kpis de reservas de la temporada, desglosados por deporte y campus.
+      - El total de reservas hoy, ¿por cada deporte de la cancha 2?
+      - Quiero ver las métricas de reservas del campus de Cusco.
+      - Muéstrame el kpi de reservas por deporte de la cancha 3.
+      - Necesito el total de reservas de la semana por cancha.
+      - Dame las métricas de reservas del campus A y campus B, por deporte.
+      - Pásame los kpis de reservas por campus para todos los deportes.
+      - El total de reservas hoy, ¿por cada cancha y deporte que tienen?
+      - Quisiera las métricas de reserbas por campus y sus canchas.
+      - Dame el kpi de reservas de tenis y pádel por campus.
+      - Necesito el total de reservas hoy para el campus de Surco y San Isidro.
+      - Chequea las métricas de reservas por deporte en todas las canchas.
+      - Pásame los kpis de reservas del último semestre, por campus y por deporte.
+      - Asu mare, ¿cuántas reservas totales para hoy por cancha de básquet?
+      - Dame el informe de métricas de reservas por campus, porfa.
+      - Necesito los kpis de reservas de fútbol por cada cancha hoy.
+      - El total de reservas hoy, ¿por campus y por sus deportes principales?
+      - Quiero ver las métricas de reservas del campus La Victoria, por deporte.
+      - Muéstrame el kpi de reservas por cancha para este fin de semana, bacán.
+      - Necesito el total de reservas de hoy para las canchas de grass sintético.
+      - Dame las métricas de reservas por deporte de la sede de Trujillo.
+      - Pásame los kpis de reservas por campus y por cada tipo de cancha.
+      - El total de reservas hoy, ¿por cada deporte de la cancha de tenis?
+      - Quisiera las métricas de reserbas por campus y por deporte para el mes.
+      - Dame el kpi de reservas de voley por campus y sus canchas.
+      - Necesito el total de reservas de hoy en el campus de Arequipa, por deporte.
+      - Chequea las métricas de reservas por cancha en el campus principal hoy.
+      - Pásame los kpis de reservas por deporte para el campus de Chimbote.
+      - El total de reservas hoy, ¿por campus y por cancha especifica?
+      - Necesito las metricas de reservas, porfa
+      - Muéstrame el kpi de reservas
+      - Cuál es el total de reservas que tenemos para hoy?
+      - Dame las metricas de reservas por deporte
+      - Quiero ver los kpi de reservas por campus
+      - Cómo van las reservas por cancha, causa?
+      - Podrías darme las metricas de reservas?
+      - Qué tal el kpi de reservas para el día?
+      - Cuál es la cantidad total de reservas de hoy?
+      - Las metricas de reservas por deporte, por favor
+      - Los kpi de reservas por campus
+      - Un reporte de reservas por cancha, please
+      - Quisiera saber las metricas de reservas que hay
+      - Me podrías decir los kpi de reservas?
+      - Dame el total de reservas que se han hecho hoy
+      - Métricas de reservas, pero desglosadas por deporte
+      - Kpi de reservas para cada campus
+      - Cómo está la situación de reservas por cancha?
+      - Necesito un resumen de las métricas de reservas
+      - Quiero los kpi de reservas
+      - Para hoy, cuál es el total de reservas?
+      - Las metricas de reservas segmentadas por deporte
+      - Pásame los kpi de reservas por cada campus
+      - Información de reservas por cancha
+      - Dame las métricas de reservas, al toque
+      - Cómo andan los kpi de reservas?
+      - El total de reservas de hoy, causas
+      - Reporte de metricas de reservas por deporte
+      - Los kpi de reservas del campus, por favor
+      - Me puedes dar las reservas por cancha?
+      - Las metricas de reservas, mano
+      - Qué tal los kpi de reservas?
+      - Total de reservas para hoy
+      - Muestrame las metricas de reservas por deporte
+      - Quiero los kpi de reservas por campus y deporte
+      - Cómo están las reservas por cancha y por deporte?
+      - Necesito las metricas de reservas de hoy
+      - Kpi de reservas para el día de hoy
+      - Pásame el total de reservas hoy, de todas las canchas
+      - Dame las metricas de reservas por deporte y campus
+      - Los kpi de reservas para cada campus, detallado
+      - Resumen de reservas por cancha para hoy
+      - Métricas de reservas por deporte, porfa
+      - Cuál es el kpi de reservas por campus?
+      - Necesito saber el total de reservas que hay hoy
+      - Cómo se distribuyen las metricas de reservas por deporte?
+      - Podrías pasarme los kpi de reservas por campus?
+      - Muestrame el total de reservas por cancha hoy
+      - Quiero las metricas de reservas, incluyendo los kpi de reservas por deporte
+      - Dame el total de reservas que se registraron hoy por campus
+      - Las metricas de reservas para hoy, desglosadas por deporte y cancha
+      - Kpi de reservas por campus y por deporte, por favor
+      - Cuántas reservas totales hay hoy, desagregado por campus y cancha?
+      - Necesito las metricas de reservas por campus y por cancha
+      - Quiero ver los kpi de reservas por deporte para el día de hoy
+      - Total de reservas por cancha y campus para hoy
+      - Pásame las metricas de reservas que tienes
+      - Cuáles son los kpi de reservas de este momento?
+      - Dime el total de reservas de hoy, sin falla
+      - Las metricas de reservas por deporte, por campus
+      - Los kpi de reservas, incluyendo el detalle por cancha
+      - Muestrame el total de reservas por deporte y por cancha para hoy
+      - Podrías darme las metricas de reservas, por deporte y campus?
+      - Necesito los kpi de reservas de hoy, con desglose por cancha
+      - Cuántas reservas hay en total hoy, por campus?
+      - Las metricas de reservas del día, por deporte
+      - Quiero saber el kpi de reservas por campus hoy
+      - Pásame el total de reservas que hay por cancha para hoy
+      - Qué tal están las metricas de reservas por deporte, por campus?
+      - Dime los kpi de reservas, incluyendo el resumen por cancha
+      - El total de reservas que tenemos hoy, por deporte y campus
+      - Reporte de metricas de reservas, con desglose por cancha y deporte
+      - Los kpi de reservas para cada campus, con su total de reservas hoy
+      - Cuántas reservas totales se hicieron hoy, por campus y deporte?
+      - Necesito ver las metricas de reservas, enfocadas en el total por cancha
+      - Kpi de reservas por deporte para hoy, por campus
+      - Pásame el total de reservas por cancha, del campus principal
+      - Las metricas de reservas, con foco en el deporte y la cancha
+      - Dime los kpi de reservas por campus, porfa
+      - Cuál es el total de reservas de hoy por deporte, eh?
+      - Quisiera ver las metricas de reservas por campus, con un resumen de los kpi
+      - Necesito los kpi de reservas de hoy por campus y por cancha
+      - El total de reservas de hoy, desagregado por campus
+      - Muestrame las metricas de reservas por deporte, y su kpi correspondiente
+      - Pásame el kpi de reservas por campus, y el total de hoy por cancha
+      - Las metricas de reservas con el total por deporte
+      - Kpi de reservas por cancha, para hoy
+      - Dime el total de reservas de hoy por deporte y por campus
+      - Necesito las metricas de reservas por campus, con los kpi detallados por deporte
+      - Cuál es el kpi de reservas para el campus de Miraflores hoy?
+      - El total de reservas de hoy por cancha, dame ese dato
+      - Métricas de reservas para hoy, por campus y por deporte
+      - Los kpi de reservas por deporte, y su total por cancha
+      - Dame el total de reservas por campus, y su respectivo kpi
+      - Quiero ver las metricas de reservas por cancha, y su kpi asociado
+      - Pásame los kpi de reservas, con el total por campus
+      - Necesito el total de reservas hoy, por deporte y cancha
+      - Cuáles son las metricas de reservas que puedo ver, porfa?
+      - Kpi de reservas, total de reservas hoy, por campus
+      - Un informe completo de las metricas de reservas, por deporte, campus y cancha
+      - Podrías darme las métricas de reservas, por favor?
+      - Me indicas los kpi de reservas?
+      - Cuántas reservas hay hoy en total?
+      - Métricas de reservas, desagregadas por deporte
+      - Necesito el kpi de reservas por cada campus
+      - Quiero un resumen de las reservas por cancha
+      - Me pasas las metricas de reservas?
+      - Cómo vamos con los kpi de reservas?
+      - El total de reservas para el día de hoy
+      - Quisiera las metricas de reservas por cada deporte
+      - Dime los kpi de reservas para todos los campus
+      - Las reservas por cancha, cómo están?
+      - quiero ver las metricas de reservas
+      - necesito los kpi reservas de la semana
+      - muéstrame el total reservas hoy
+      - cómo van las metricas de reservas por deporte
+      - pásame los kpi reservas del mes por campus
+      - dime el total reservas hoy por cancha
+      - me interesa saber las metricas de reservas para el campus de San Borja
+      - podrías darme los kpi reservas por deporte, específicamente fútbol
+      - Quiero ver los [kpis](metric_type) de la [sede norte](location) para [esta semana](metric_period).
+      - Podrías mostrarme la [ocupación](metric_type) del [Campus Surco](location) de [ayer](metric_period)?
+      - Necesito los [ingresos](metric_type) totales del [Campus Miraflores](location) en [este mes](metric_period).
+      - Pásame el resumen de [reservas totales](metric_type) de [La 10](location) para [hoy](metric_period).
+      - Cómo va la [ocupacion](metric_type) en el [Campus Villa El Salvador](location) actualmente?
+      - Los [ingresos](metric_type) de la [cancha principal](location) de [hoy](metric_period), porfa.
+      - Quisiera saber las [reservas totales](metric_type) del [Campus Chorrillos](location) de [esta semana](metric_period).
+      - Qué onda con los [kpis](metric_type) del [Campus San Isidro](location) en [este mes](metric_period)?
+      - Me gustaría ver la [ocupación](metric_type) de la [Sede Central](location) [ayer](metric_period).
+      - Un informe de los [ingresos](metric_type) de la [sede norte](location) [hoy](metric_period).
+      - Chequea las [reservas totales](metric_type) del [Campus Surco](location) para [este mes](metric_period).
+      - Cuál fue la [ocupacion](metric_type) en [La Diez](location) [ayer](metric_period)?
+      - Los [ingresos](metric_type) de [Campus Miraflores](location) de [esta semana](metric_period), cómo están?
+      - Dame los [kpis](metric_type) del [Campus Villa El Salvador](location) para [hoy](metric_period).
+      - Me informas sobre la [ocupación](metric_type) de la [cancha principal](location) [esta semana](metric_period)?
+      - Los [ingresos](metric_type) generados en [Campus Chorrillos](location) [ayer](metric_period).
+      - Revisa las [reservas totales](metric_type) del [Campus San Isidro](location) en [este mes](metric_period).
+      - Qué onda con la [ocupacion](metric_type) de la [Sede Central](location) [hoy](metric_period)?
+      - Los [kpis](metric_type) de [sede norte](location) para [este mes](metric_period), por favor.
+      - Podrías darme un estimado de [ingresos](metric_type) del [Campus Surco](location) de [esta semana](metric_period)?
+      - Reporte de [reservas totales](metric_type) de [La 10](location) de [ayer](metric_period).
+      - Quiero saber la [ocupación](metric_type) del [Campus Miraflores](location) para [hoy](metric_period).
+      - Necesito ver los [ingresos](metric_type) del [Campus Villa El Salvador](location) [este mes](metric_period).
+      - Cómo fue la [ocupacion](metric_type) de la [cancha principal](location) [ayer](metric_period)?
+      - Los [kpis](metric_type) del [Campus Chorrillos](location) para [esta semana](metric_period), pls.
+      - Un vistazo a las [reservas totales](metric_type) en [Campus San Isidro](location) [hoy](metric_period).
+      - Dime la [ocupación](metric_type) de la [Sede Central](location) en [este mes](metric_period).
+      - Los [ingresos](metric_type) de la [sede norte](location) de [ayer](metric_period) en la tarde.
+      - Chequea los [kpis](metric_type) generales del [Campus Surco](location) de [hoy](metric_period).
+      - Podrías darme el dato de [reservas totales](metric_type) para [La Diez](location) [esta semana](metric_period)?
+      - Me pasas la [ocupacion](metric_type) del [Campus Miraflores](location) de [ayer](metric_period)?
+      - Quiero ver los [ingresos](metric_type) del [Campus Villa El Salvador](location) para [esta semana](metric_period).
+      - Las [reservas totales](metric_type) de la [cancha principal](location) de [hoy](metric_period).
+      - Qué tal los [kpis](metric_type) del [Campus Chorrillos](location) [este mes](metric_period)?
+      - Necesito saber la [ocupación](metric_type) del [Campus San Isidro](location) para [hoy](metric_period).
+      - Los [ingresos](metric_type) de la [Sede Central](location) de [ayer](metric_period), por favor.
+      - Dame los [reservas totales](metric_type) de la [sede norte](location) en [este mes](metric_period).
+      - Cómo vamos de [ocupacion](metric_type) en [Campus Surco](location) [esta semana](metric_period)?
+      - Los [kpis](metric_type) de [La 10](location) para [hoy](metric_period), ¿cuáles son?
+      - Un resumen de [ingresos](metric_type) del [Campus Miraflores](location) de [ayer](metric_period).
+      - Me podrías indicar las [reservas totales](metric_type) de [Campus Villa El Salvador](location) [esta semana](metric_period)?
+      - Cuál es la [ocupación](metric_type) actual de la [cancha principal](location) [hoy](metric_period)?
+      - Dime los [ingresos](metric_type) del [Campus Chorrillos](location) en [este mes](metric_period).
+      - Qué tal los [kpis](metric_type) de [Campus San Isidro](location) de [ayer](metric_period)?
+      - Necesito la data de [reservas totales](metric_type) de la [Sede Central](location) para [hoy](metric_period).
+      - Cómo estuvo la [ocupacion](metric_type) en la [sede norte](location) [esta semana](metric_period)?
+      - Pásame la cifra de [ingresos](metric_type) del [Campus Surco](location) en [este mes](metric_period).
+      - Los [kpis](metric_type) de [La Diez](location) de [ayer](metric_period), a ver.
+      - Quiero saber las [reservas totales](metric_type) del [Campus Miraflores](location) para [hoy](metric_period).
+      - Dime la [ocupación](metric_type) del [Campus Villa El Salvador](location) [esta semana](metric_period).
+      - Reporte de [ingresos](metric_type) de la [cancha principal](location) de [ayer](metric_period).
+      - Cuál fue el [kpi](metric_type) más importante del [Campus Chorrillos](location) [este mes](metric_period)?
+      - Puedes mostrarme las [reservas totales](metric_type) del [Campus San Isidro](location) [esta semana](metric_period)?
+      - Cómo estuvo la [ocupacion](metric_type) de la [Sede Central](location) [ayer](metric_period)?
+      - Necesito saber los [ingresos](metric_type) de la [sede norte](location) de [hoy](metric_period).
+      - Qué rollo con los [kpis](metric_type) del [Campus Surco](location) de [este mes](metric_period)?
+      - Me pasas la cantidad de [reservas totales](metric_type) de [La 10](location) [ayer](metric_period)?
+      - Quisiera ver la [ocupación](metric_type) del [Campus Miraflores](location) en [este mes](metric_period).
+      - Los [ingresos](metric_type) del [Campus Villa El Salvador](location) para [hoy](metric_period).
+      - La [ocupacion](metric_type) de la [cancha principal](location) de [esta semana](metric_period), porfa.
+      - Dime sobre los [kpis](metric_type) del [Campus Chorrillos](location) de [ayer](metric_period).
+      - Un reporte de [reservas totales](metric_type) del [Campus San Isidro](location) en [este mes](metric_period).
+      - Cómo va la [ocupación](metric_type) de la [Sede Central](location) para [hoy](metric_period)?
+      - Los [ingresos](metric_type) de la [sede norte](location) [esta semana](metric_period), cómo están?
+      - Chequea los [kpis](metric_type) de [Campus Surco](location) [ayer](metric_period), porfa.
+      - Podrías darme las [reservas totales](metric_type) de [La Diez](location) de [este mes](metric_period)?
+      - Qué tal la [ocupacion](metric_type) en el [Campus Miraflores](location) para [hoy](metric_period)?
+      - Necesito los [ingresos](metric_type) del [Campus Villa El Salvador](location) de [ayer](metric_period).
+      - Las [reservas totales](metric_type) de la [cancha principal](location) de [esta semana](metric_period).
+      - Dime los [kpis](metric_type) de [Campus Chorrillos](location) [hoy](metric_period).
+      - Un vistazo a la [ocupación](metric_type) del [Campus San Isidro](location) [este mes](metric_period).
+      - Los [ingresos](metric_type) de la [Sede Central](location) [esta semana](metric_period), pásalos.
+      - Cómo vamos con los [reservas totales](metric_type) en la [sede norte](location) [hoy](metric_period)?
+      - Quiero ver los [kpis](metric_type) del [Campus Surco](location) de [esta semana](metric_period).
+      - Me pasas la [ocupacion](metric_type) de [La 10](location) en [este mes](metric_period)?
+      - Los [ingresos](metric_type) del [Campus Miraflores](location) de [ayer](metric_period), cómo quedaron?
+      - Qué tal la [ocupación](metric_type) en [Campus Villa El Salvador](location) [esta semana](metric_period)?
+      - Necesito los [kpis](metric_type) de la [cancha principal](location) de [hoy](metric_period).
+      - Las [reservas totales](metric_type) del [Campus Chorrillos](location) de [ayer](metric_period).
+      - Dime la [ocupación](metric_type) de [Campus San Isidro](location) [esta semana](metric_period).
+      - Los [ingresos](metric_type) de la [Sede Central](location) para [hoy](metric_period), por favor.
+      - Me podrias dar los [kpis](metric_type) del [campus surco](location) [hoy](metric_period)?
+      - Quisiera ver el desempeño de [ingresos](metric_type) de [campus miraflores](location) [ayer](metric_period).
+      - Como estamos con las [reservas totales](metric_type) en [campus villa el salvador](location) [esta semana](metric_period)?
+      - Necesito un informe de la [ocupación](metric_type) del [campus chorrillos](location) para [este mes](metric_period).
+      - Pasame los [ingresos](metric_type) de [la 10](location) de [ayer](metric_period), porfa.
+      - Muestrame la [ocupacion](metric_type) de la [cancha principal](location) [hoy](metric_period).
+      - Los [kpis](metric_type) de la [sede norte](location) [esta semana](metric_period), como van?
+      - Que tal la [ocupacion](metric_type) de [sede central](location) [este mes](metric_period)?
+      - Dame los [ingresos](metric_type) de [campus surco](location) [esta semana](metric_period).
+      - Verifica las [reservas totales](metric_type) en [campus miraflores](location) [hoy](metric_period).
+      - La [ocupación](metric_type) del [campus san isidro](location) [ayer](metric_period), porfavor.
+      - Como fue la [ocupacion](metric_type) en [la diez](location) [esta semana](metric_period)?
+      - Los [ingresos](metric_type) del [campus villa el salvador](location) [este mes](metric_period) son buenos?
+      - Nesecito saber las [reservas totales](metric_type) del [campus chorrillos](location) [hoy](metric_period).
+      - Podrías darme los [kpis](metric_type) de [sede norte](location) [ayer](metric_period)?
+      - Informacion de [ingresos](metric_type) de la [cancha principal](location) [esta semana](metric_period).
+      - Que tal la [ocupacion](metric_type) del [campus surco](location) [este mes](metric_period)?
+      - Quisiera ver la data de [reservas totales](metric_type) en [campus miraflores](location) [ayer](metric_period).
+      - Me puedes mostrar los [kpis](metric_type) de [campus san isidro](location) [hoy](metric_period)?
+      - Cual es la [ocupación](metric_type) de [la 10](location) [esta semana](metric_period)?
+      - Los [ingresos](metric_type) de la [sede central](location) [este mes](metric_period), por favor.
+      - Dime las [reservas totales](metric_type) del [campus villa el salvador](location) [ayer](metric_period).
+      - Necesito ver la [ocupacion](metric_type) del [campus chorrillos](location) [hoy](metric_period).
+      - Podrias pasarme los [ingresos](metric_type) de [sede norte](location) [ayer](metric_period)?
+      - Que onda con los [kpis](metric_type) de [la diez](location) [esta semana](metric_period)?
+      - Dame un reporte de [ocupación](metric_type) de la [cancha principal](location) [este mes](metric_period).
+      - Como esta el movimiento de [reservas totales](metric_type) en [campus surco](location) [hoy](metric_period)?
+      - Quisiera los [ingresos](metric_type) de [campus miraflores](location) [ayer](metric_period) porfa.
+      - Muestrame la [ocupacion](metric_type) en [campus san isidro](location) [esta semana](metric_period).
+      - Los [kpis](metric_type) de [campus villa el salvador](location) para [este mes](metric_period).
+      - Me indicas las [reservas totales](metric_type) de [campus chorrillos](location) [ayer](metric_period)?
+      - La [ocupación](metric_type) de [la 10](location) [hoy](metric_period), como fue?
+      - Los [ingresos](metric_type) de la [sede norte](location) de [esta semana](metric_period) porfa.
+      - Necesito los [kpis](metric_type) generales de [sede central](location) para [este mes](metric_period).
+      - Que tal la [ocupacion](metric_type) de la [cancha principal](location) [ayer](metric_period)?
+      - Podrías darme las [reservas totales](metric_type) de [campus surco](location) [esta semana](metric_period)?
+      - Quisiera ver los [ingresos](metric_type) de [campus miraflores](location) para [este mes](metric_period).
+      - Muestrame la [ocupación](metric_type) de [campus villa el salvador](location) [hoy](metric_period).
+      - Los [kpis](metric_type) de [campus chorrillos](location) de [ayer](metric_period), porfa.
+      - Me puedes dar las [reservas totales](metric_type) de [campus san isidro](location) [esta semana](metric_period)?
+      - Cual fue la [ocupacion](metric_type) de [la diez](location) [este mes](metric_period)?
+      - Los [ingresos](metric_type) de [la 10](location) [hoy](metric_period), me los pasas?
+      - Dime los [kpis](metric_type) de la [sede norte](location) para [este mes](metric_period).
+      - Como estuvo la [ocupación](metric_type) de [sede central](location) [ayer](metric_period)?
+      - Las [reservas totales](metric_type) de la [cancha principal](location) [esta semana](metric_period), por favor.
+      - Necesito info de los [ingresos](metric_type) del [campus surco](location) [ayer](metric_period).
+      - Me indicas la [ocupacion](metric_type) de [campus miraflores](location) [hoy](metric_period)?
+      - Quisiera saber los [kpis](metric_type) de [campus san isidro](location) [esta semana](metric_period).
+      - Podrias mostrarme las [reservas totales](metric_type) de [campus villa el salvador](location) [este mes](metric_period)?
+      - Que tal los [ingresos](metric_type) de [campus chorrillos](location) [hoy](metric_period)?
+      - Muestrame la [ocupación](metric_type) de [la diez](location) [ayer](metric_period).
+      - Los [kpis](metric_type) de la [cancha principal](location) de [esta semana](metric_period).
+      - Como va la [ocupacion](metric_type) en [sede norte](location) [este mes](metric_period)?
+      - Dime las [reservas totales](metric_type) de [sede central](location) [hoy](metric_period).
+      - Los [ingresos](metric_type) de [campus surco](location) para [este mes](metric_period), por favor.
+      - Necesito la [ocupación](metric_type) de [campus miraflores](location) de [ayer](metric_period).
+      - Me pasas los [kpis](metric_type) de [la 10](location) [hoy](metric_period)?
+      - Quisiera ver las [reservas totales](metric_type) en [campus san isidro](location) [esta semana](metric_period).
+      - Podrías darme un resumen de [ingresos](metric_type) de [campus villa el salvador](location) [ayer](metric_period)?
+      - La [ocupacion](metric_type) de [campus chorrillos](location) [esta semana](metric_period), porfa.
+      - Como estan los [kpis](metric_type) de la [cancha principal](location) [este mes](metric_period)?
+      - Muestrame las [reservas totales](metric_type) de [la diez](location) [hoy](metric_period).
+      - Dime los [ingresos](metric_type) de [sede norte](location) [ayer](metric_period).
+      - Nesecito la [ocupación](metric_type) de [sede central](location) [esta semana](metric_period).
+      - Que tal la [ocupacion](metric_type) del [campus surco](location) [hoy](metric_period)?
+      - Me puedes dar los [ingresos](metric_type) de [campus miraflores](location) [esta semana](metric_period)?
+      - Quisiera saber las [reservas totales](metric_type) de [la 10](location) [este mes](metric_period).
+      - Los [kpis](metric_type) de [campus san isidro](location) de [ayer](metric_period).
+      - Podrias indicarme la [ocupación](metric_type) del [campus villa el salvador](location) [hoy](metric_period)?
+      - Muestrame los [ingresos](metric_type) de [campus chorrillos](location) [esta semana](metric_period).
+      - Dime cómo van las [reservas totales](metric_type) en la [cancha principal](location) [ayer](metric_period).
+      - Necesito ver los [kpis](metric_type) de [la diez](location) [hoy](metric_period).
+      - Me pasas la [ocupacion](metric_type) de [sede norte](location) [este mes](metric_period)?
+      - Como están los [ingresos](metric_type) de [sede central](location) [hoy](metric_period)?
+      - Quisiera los [kpis](metric_type) del [Campus Surco](location) de [esta semana](metric_period).
+      - Muéstrame las [reservas totales](metric_type) en [La 10](location) para [hoy](metric_period), porfa.
+      - Dime la [ocupación](metric_type) de la [cancha principal](location) [ayer](metric_period).
+      - Necesito saber los [ingresos](metric_type) de la [Sede Norte](location) para [este mes](metric_period).
+      - ¿Cómo va la [ocupacion](metric_type) en [Campus Miraflores](location) [hoy](metric_period)?
+      - Pásame el resumen de [kpis](metric_type) del [Campus Villa El Salvador](location) de [esta semana](metric_period).
+      - Quiero ver las [reservas totales](metric_type) de [Campus Chorrillos](location) para [ayer](metric_period).
+      - Dame los [ingresos](metric_type) de [Campus San Isidro](location) [hoy](metric_period), al toque.
+      - Qué tal la [ocupación](metric_type) en [la diez](location) [este mes](metric_period)?
+      - Me puedes dar los [kpis](metric_type) de la [Sede Central](location) de [esta semana](metric_period)?
+      - Los [ingresos](metric_type) de [Campus Surco](location) [ayer](metric_period), por fa.
+      - Quiero ver el estado de [reservas totales](metric_type) en [Campus Miraflores](location) para [hoy](metric_period).
+      - Cómo estamos de [ocupación](metric_type) en [La 10](location) [esta semana](metric_period)?
+      - Me brindas los [kpis](metric_type) del [Campus Villa El Salvador](location) [este mes](metric_period)?
+      - Necesito los [ingresos](metric_type) de la [Sede Norte](location) [ayer](metric_period).
+      - Las [reservas totales](metric_type) del [Campus Chorrillos](location) [hoy](metric_period), causa.
+      - Que onda con la [ocupacion](metric_type) en [Campus San Isidro](location) [esta semana](metric_period)?
+      - Los [kpis](metric_type) de la [cancha principal](location) de [este mes](metric_period).
+      - Pásame los [ingresos](metric_type) de [La 10](location) [hoy](metric_period).
+      - Dime las [reservas totales](metric_type) en [Sede Central](location) [ayer](metric_period).
+      - Qué tal la [ocupación](metric_type) en [Campus Surco](location) [este mes](metric_period)?
+      - Necesito el reporte de [ingresos](metric_type) de [Campus Miraflores](location) de [esta semana](metric_period).
+      - Los [kpis](metric_type) de [Campus Villa El Salvador](location) [hoy](metric_period), por favor.
+      - Dime cuántas [reservas totales](metric_type) tuvimos en [Campus Chorrillos](location) [ayer](metric_period).
+      - Quisiera ver la [ocupacion](metric_type) de la [Sede Norte](location) para [este mes](metric_period).
+      - Dame los [ingresos](metric_type) del [Campus San Isidro](location) de [esta semana](metric_period), pe.
+      - Cuáles son los [kpis](metric_type) de la [cancha principal](location) [hoy](metric_period)?
+      - Me das las [reservas totales](metric_type) de [La 10](location) de [este mes](metric_period)?
+      - Reporte de [ocupación](metric_type) para [Sede Central](location) [ayer](metric_period).
+      - Cómo están los [ingresos](metric_type) del [Campus Surco](location) [hoy](metric_period)?
+      - Quiero ver los [kpis](metric_type) de [Campus Miraflores](location) para [esta semana](metric_period).
+      - Las [reservas totales](metric_type) de [Campus Villa El Salvador](location) [este mes](metric_period).
+      - Qué tal la [ocupacion](metric_type) en [Campus Chorrillos](location) [ayer](metric_period)?
+      - Necesito saber los [ingresos](metric_type) de la [Sede Norte](location) [hoy](metric_period).
+      - Los [kpis](metric_type) de [Campus San Isidro](location) de [esta semana](metric_period), porfis.
+      - Dame las [reservas totales](metric_type) de la [cancha principal](location) [hoy](metric_period).
+      - Cuál es la [ocupación](metric_type) en [La 10](location) [ayer](metric_period)?
+      - Pásame los [ingresos](metric_type) de [Sede Central](location) para [este mes](metric_period).
+      - Me muestras los [kpis](metric_type) del [Campus Surco](location) de [ayer](metric_period)?
+      - Quiero ver las [reservas totales](metric_type) en [Campus Miraflores](location) [esta semana](metric_period).
+      - Cómo va la [ocupacion](metric_type) en [Campus Villa El Salvador](location) [hoy](metric_period)?
+      - Necesito el informe de [ingresos](metric_type) de [Campus Chorrillos](location) [este mes](metric_period).
+      - Los [kpis](metric_type) de la [Sede Norte](location) [hoy](metric_period).
+      - Dime el total de [reservas totales](metric_type) en [Campus San Isidro](location) [ayer](metric_period).
+      - Qué tal la [ocupación](metric_type) de la [cancha principal](location) [esta semana](metric_period)?
+      - Dame los [ingresos](metric_type) de [La 10](location) [este mes](metric_period).
+      - Quiero los [kpis](metric_type) de [Sede Central](location) [hoy](metric_period).
+      - Pásame las [reservas totales](metric_type) del [Campus Surco](location) de [ayer](metric_period).
+      - Cómo ha estado la [ocupacion](metric_type) en [Campus Miraflores](location) [esta semana](metric_period)?
+      - Necesito ver los [ingresos](metric_type) de [Campus Villa El Salvador](location) [hoy](metric_period).
+      - Los [kpis](metric_type) de [Campus Chorrillos](location) para [este mes](metric_period).
+      - Dime las [reservas totales](metric_type) de la [Sede Norte](location) de [esta semana](metric_period).
+      - Qué tal la [ocupación](metric_type) en [Campus San Isidro](location) [ayer](metric_period)?
+      - Dame un resumen de [ingresos](metric_type) de la [cancha principal](location) [hoy](metric_period).
+      - Quiero saber los [kpis](metric_type) de [La 10](location) de [esta semana](metric_period).
+      - Pásame el número de [reservas totales](metric_type) de [Sede Central](location) [este mes](metric_period).
+      - Cómo está la [ocupacion](metric_type) en [Campus Surco](location) [ayer](metric_period)?
+      - Necesito los [ingresos](metric_type) de [Campus Miraflores](location) [hoy](metric_period), causa.
+      - Los [kpis](metric_type) de [Campus Villa El Salvador](location) [esta semana](metric_period).
+      - Dime las [reservas totales](metric_type) de [Campus Chorrillos](location) [hoy](metric_period).
+      - Quisiera ver la [ocupación](metric_type) de la [Sede Norte](location) [este mes](metric_period), pe.
+      - Dame los [ingresos](metric_type) de [Campus San Isidro](location) [ayer](metric_period).
+      - Cuáles son los [kpis](metric_type) de la [cancha principal](location) de [esta semana](metric_period)?
+      - Me das las [reservas totales](metric_type) de [La 10](location) [hoy](metric_period)?
+      - Reporte de [ocupacion](metric_type) para [Sede Central](location) [este mes](metric_period).
+      - Cómo están los [ingresos](metric_type) del [Campus Surco](location) de [esta semana](metric_period)?
+      - Quiero ver los [kpis](metric_type) de [Campus Miraflores](location) [ayer](metric_period).
+      - Las [reservas totales](metric_type) de [Campus Villa El Salvador](location) [hoy](metric_period), brother.
+      - Qué tal la [ocupación](metric_type) en [Campus Chorrillos](location) [esta semana](metric_period)?
+      - Necesito saber los [ingresos](metric_type) de la [Sede Norte](location) para [este mes](metric_period), al toque.
+      - Los [kpis](metric_type) de [Campus San Isidro](location) [ayer](metric_period).
+      - Dame las [reservas totales](metric_type) de la [cancha principal](location) de [este mes](metric_period).
+      - Cuál es la [ocupacion](metric_type) en [La 10](location) [hoy](metric_period)?
+      - Pásame los [ingresos](metric_type) de [Sede Central](location) de [esta semana](metric_period).
+      - ¿Me podrías dar los [kpis](metric_type) de [Campus Surco](location) para [hoy](metric_period)?
+      - Necesito saber cómo van los [ingresos](metric_type) en [La 10](location) [este mes](metric_period).
+      - Me pasas el reporte de [ocupación](metric_type) en [Campus Villa El Salvador](location) de [ayer](metric_period)?
+      - Quisiera ver el estado de las [reservas totales](metric_type) en [Campus Miraflores](location) [esta semana](metric_period).
+      - Qué tal los [kpis](metric_type) de [Campus Chorrillos](location) [esta semana](metric_period)?
+      - Hay info sobre las [reservas totales](metric_type) de [Campus San Isidro](location) [hoy](metric_period)?
+      - Cómo andan los [ingresos](metric_type) en [Sede Norte](location) [ayer](metric_period)?
+      - Podrías indicarme la [ocupación](metric_type) de la [cancha principal](location) [este mes](metric_period)?
+      - Enséñame las cifras de [reservas totales](metric_type) en [Sede Central](location) para [ayer](metric_period).
+      - Quiero conocer los [kpis](metric_type) de [Campus Surco](location) [esta semana](metric_period).
+      - Muéstrame la [ocupación](metric_type) de [La Diez](location) [hoy](metric_period), porfa.
+      - Necesito los [ingresos](metric_type) de [Campus Miraflores](location) de [este mes](metric_period).
+      - Qué onda con las [reservas totales](metric_type) de [Campus Villa El Salvador](location) [ayer](metric_period)?
+      - Me pasas un resumen de [kpis](metric_type) de [Campus Chorrillos](location) [esta semana](metric_period)?
+      - Puedes darme los datos de [ocupación](metric_type) de [Campus San Isidro](location) [hoy](metric_period)?
+      - Cómo están las [reservas totales](metric_type) de [Sede Norte](location) para [este mes](metric_period)?
+      - Quisiera un informe de [ingresos](metric_type) de la [cancha principal](location) [esta semana](metric_period).
+      - Pásame los [kpis](metric_type) de [Sede Central](location) de [ayer](metric_period).
+      - Podrías mostrarme la [ocupación](metric_type) del [Campus Surco](location) para [este mes](metric_period)?
+      - Quiero las [reservas totales](metric_type) de [La 10](location) [hoy](metric_period).
+      - Qué tal la [ocupación](metric_type) en [Campus Miraflores](location) [ayer](metric_period)?
+      - cuales son los [horarios mas copados](metric_type) [hoy](metric_period)?
+      - qiero saber [horarios pico](metric_type) [manana](metric_period) en [campus surco](location)
+      - [horas con mas reservas](metric_type) [esta semana](metric_period) porfa
+      - dame los [turnos mas ocupados](metric_type) de [ayer](metric_period) en [la 10](location)
+      - cual fue la [cancha con mas ingresos](metric_type) [este mes](metric_period)
+      - la [cancha mas rentable](metric_type) de [campus miraflores](location) [ayer](metric_period)
+      - reporte de [ingresos por cancha](metric_type) [hoy](metric_period)
+      - cuantas [reservas por cancha](metric_type) en [sede norte](location) [esta semana](metric_period)
+      - numero de [reservas por campus](metric_type) [este mes](metric_period)
+      - ver [reservas activas](metric_type) [ahorita](metric_period) en [cancha 1](field_name)
+      - mostrar [reservas finalizadas](metric_type) de [ayer](metric_period) [cancha principal](field_name)
+      - que [reservas en curso](metric_type) hay [hoy](metric_period) en [cancha techada](field_name)
+      - las [reservas en vivo](metric_type) de [campus surco](location) [este rato](metric_period)
+      - [disponibilidad](metric_type) [cancha 2](field_name) [pasado manana](metric_period)
+      - [ingresos](metric_type) de [el 5 de mayo](metric_period) en [la 10](location)
+      - [reservas totales](metric_type) para [dentro de tres dias](metric_period)
+      - como va [cancha 1](field_name) [hoy](metric_period) con los [ingresos](metric_type)
+      - [horarios pico](metric_type) [campus miraflores](location) [esta semana](metric_period)
+      - cuantas [reservas activas](metric_type) [manana](metric_period) en [sede norte](location)
+      - [ingresos por cancha](metric_type) [la 10](location) [ayer](metric_period)
+      - ver [cancha con mas ingresos](metric_type) [este mes](metric_period) en [surco](location)
+      - [reservas finalizadas](metric_type) [campus surco](location) [hoy](metric_period)
+      - [reservas en curso](metric_type) [cancha principal](field_name) [ahorita](metric_period)
+      - [disponibilidad](metric_type) [cancha techada](field_name) [este rato](metric_period)
+      - q tal las [horas con mas reservas](metric_type) [hoy](metric_period) [por surco](location)
+      - cuantos [turnos mas ocupados](metric_type) hay [pasado manana](metric_period)?
+      - [reservas totales](metric_type) de [campus miraflores](location) [esta semana](metric_period)
+      - muestra [ingresos](metric_type) de [sede norte](location) [este mes](metric_period)
+      - la [cancha que mas plata hizo](metric_type) [ayer](metric_period) en [la 10](location)
+      - [reservas en vivo](metric_type) [cerca mio](location) [ahorita](metric_period)
+      - lista de [horarios mas copados](metric_type) [manana](metric_period) en [cancha 2](field_name)
+      - checa [horarios pico](metric_type) [el 5 de mayo](metric_period) [campus surco](location)
+      - [horas con mas reservas](metric_type) [dentro de tres dias](metric_period) en [campus miraflores](location)
+      - [turnos mas ocupados](metric_type) [esta semana](metric_period) [cancha 1](field_name)
+      - que [cancha con mas ingresos](metric_type) tenemos [hoy](metric_period) en [la 10](location)
+      - la [cancha mas rentable](metric_type) [ayer](metric_period) de [sede norte](location)
+      - [ingresos por cancha](metric_type) [pasado manana](metric_period) [cancha principal](field_name)
+      - [reservas por cancha](metric_type) [hoy](metric_period) en [cancha techada](field_name)
+      - cuantas [reservas por campus](metric_type) [manana](metric_period) [campus surco](location)
+      - muestrame [reservas activas](metric_type) [este rato](metric_period) en [campus miraflores](location)
+      - las [reservas finalizadas](metric_type) de [el 5 de mayo](metric_period) en [cancha 2](field_name)
+      - ver [reservas en curso](metric_type) [esta semana](metric_period) [sede norte](location)
+      - [reservas en vivo](metric_type) [dentro de tres dias](metric_period) [la 10](location)
+      - [disponibilidad](metric_type) [cancha 1](field_name) [hoy](metric_period) a las 8pm
+      - [ingresos](metric_type) [campus surco](location) [este mes](metric_period)
+      - [reservas totales](metric_type) [ayer](metric_period) en [campus miraflores](location)
+      - los [horarios mas copados](metric_type) para [cancha principal](field_name) [esta semana](metric_period)
+      - q tal [ocupado](reservation_status) esta [cancha techada](field_name) [ahorita](metric_period)?
+      - los q estan jugando [ahorita](metric_period) en [cancha 1](field_name)
+      - q [cancha](field_name) esta [libre](reservation_status) a las 8pm [manana](metric_period) en [la 10](location)?
+      - dame la [disponibilidad](metric_type) de [cancha 2](field_name) [pasado manana](metric_period)
+      - [ingresos](metric_type) de [sede norte](location) [hoy](metric_period)
+      - cuantas [reservas totales](metric_type) para [este mes](metric_period) en [campus surco](location)
+      - que [horarios pico](metric_type) tengo [el 5 de mayo](metric_period) en [campus miraflores](location)
+      - las [horas con mas reservas](metric_type) de [la 10](location) [ayer](metric_period)
+      - ver [turnos mas ocupados](metric_type) [dentro de tres dias](metric_period) [sede norte](location)
+      - [cancha con mas ingresos](metric_type) [esta semana](metric_period) en [cancha 1](field_name)
+      - [cancha mas rentable](metric_type) [hoy](metric_period) de [cancha principal](field_name)
+      - cuanto de [ingresos por cancha](metric_type) en [cancha techada](field_name) [manana](metric_period)
+      - ver [reservas por cancha](metric_type) [pasado manana](metric_period) en [cancha 2](field_name)
+      - cuantas [reservas por campus](metric_type) [este rato](metric_period) en [campus surco](location)
+      - dime las [reservas activas](metric_type) de [el 5 de mayo](metric_period) en [campus miraflores](location)
+      - las [reservas finalizadas](metric_type) de [esta semana](metric_period) en [la 10](location)
+      - q [reservas en curso](metric_type) tienes [dentro de tres dias](metric_period) en [sede norte](location)
+      - muestrame [reservas en vivo](metric_type) [hoy](metric_period) [aca a mi alrededor](location)
+      - [disponibilidad](metric_type) para [cancha 1](field_name) [manana](metric_period) 9pm
+      - [ingresos](metric_type) [ayer](metric_period) de [campus surco](location)
+      - [reservas totales](metric_type) [este mes](metric_period) de [la 10](location)
+      - como anda la [ocupacion](metric_type) [cancha principal](field_name) [hoy](metric_period)
+      - q [cancha](field_name) tiene mas [reservas activas](metric_type) [ahorita](metric_period)
+      - dame los [ingresos](metric_type) [pasado manana](metric_period) de [cancha techada](field_name)
+      - [reservas por cancha](metric_type) en [campus miraflores](location) [este mes](metric_period)
+      - quiero ver [horas con mas reservas](metric_type) [hoy](metric_period) en [sede norte](location)
+      - [cancha 2](field_name) [ingresos](metric_type) [esta semana](metric_period)
+      - cuantas [reservas finalizadas](metric_type) en [cancha 1](field_name) [ayer](metric_period)
+      - [reservas en curso](metric_type) [vill salvador](location) [este rato](metric_period)
+      - cuantos [horarios mas copados](metric_type) hay [manana](metric_period)
+      - reservas [campus surco](location) [hoy](metric_period)
+      - los [horarios pico](metric_type) de [la 10](location)
+      - [plata](metric_type) q entro [ayer](metric_period) en [miraflores](location)
+      - [disponibilidad](metric_type) [cancha 1](field_name) [manana](metric_period)
+      - cuantas [reservas finalizadas](metric_type) hay [esta semana](metric_period)
+      - dame [ingresos](metric_type) de [sede norte](location) [este mes](metric_period)
+      - [cancha techada](field_name) [ocupado](metric_type) [ahorita](metric_period)
+      - los [turnos mas ocupados](metric_type) [campus surco](location) [pasado manana](metric_period)
+      - que tal las [horas con mas reservas](metric_type) [la 10](location)
+      - [ingresos por cancha](metric_type) [ayer](metric_period) dame
+      - [reservas por campus](metric_type) [esta semana](metric_period)
+      - [cancha con mas ingresos](metric_type) [este mes](metric_period) cual es
+      - info de [reservas en curso](metric_type) [hoy](metric_period)
+      - [reservas en vivo](metric_type) de [cancha principal](field_name)
+      - [horarios mas copados](metric_type) en [sede norte](location)
+      - la [cancha q mas plata hizo](metric_type) [ayer](metric_period)
+      - los [q estan jugando](metric_type) [ahorita](metric_period)
+      - que tan [libre](metric_type) esta [cancha 2](field_name) [mañana](metric_period)
+      - [reservas totales](metric_type) de [campus miraflores](location) [el 5 de mayo](metric_period)
+      - [reservas canceladas](metric_type) [esta semana](metric_period) en [surco](location)
+      - dime los [ingresos](metric_type) de [sede norte](location) del [05/05/2026](metric_period)
+      - como vamos de [reservas activas](metric_type) [ahorita](metric_period)
+      - que tal la [disponibilidad](metric_type) en [campus surco](location) [dentro de tres dias](metric_period)
+      - xfa dime los [horarios mas copados](metric_type) de [miraflores](location)
+      - [reservas confirmadas](metric_type) [ayer](metric_period) en [cancha 1](field_name)
+      - qiero saber [cancha mas rentable](metric_type) de [este mes](metric_period)
+      - [reservas pendientes](metric_type) [mañana](metric_period) en [sede norte](location)
+      - cuantos [ingresos](metric_type) hicimos en [cancha 2](field_name) [esta semana](metric_period)
+      - [reservas por cancha](metric_type) de [campus miraflores](location) [hoy](metric_period)
+      - [ingresos](metric_type) de [pasado manana](metric_period)
+      - cuentas [reservas en vivo](metric_type) hay [este rato](metric_period) en [la 10](location)
+      - por [surco](location) dame [reservas activas](metric_type) [ahorita](metric_period)
+      - q hay de [reservas](metric_type) por [vill salvador](location)
+      - cerca mio como van las [reservas en curso](metric_type) [hoy](metric_period)
+      - aca a mi alrededor [disponibilidad](metric_type) de [cancha libre](field_name) [8pm](metric_period)
+      - [cancha libre](field_name) [alas 8](metric_period) [disponibilidad](metric_type)
+      - en la [sede norte](location) los [horarios pico](metric_type) de [hoy](metric_period)
+      - como cerramos de [ingresos](metric_type) [ayer](metric_period) en [campus surco](location)
+      - que canchas estan [ocupados](metric_type) [ahorita](metric_period)
+      - cuantos [turnos mas ocupados](metric_type) tuvimos [esta semana](metric_period)
+      - las [reservas por cancha](metric_type) de [la 10](location) [hoy](metric_period)
+      - [reservas por campus](metric_type) [ayer](metric_period)
+      - dame los [horarios mas copados](metric_type) de [campus miraflores](location) de [esta semana](metric_period)
+      - cuantas [horas con mas reservas](metric_type) tuvimos [este mes](metric_period)
+      - [reservas en curso](metric_type) [cancha principal](field_name) [mañana](metric_period)
+      - [reservas activas](metric_type) para [dentro de tres dias](metric_period)
+      - cuanto fue el [ingreso](metric_type) de [cancha 2](field_name) [ayer](metric_period)
+      - [reservas totales](metric_type) en [sede norte](location) [hoy](metric_period)
+      - que [cancha](field_name) es la [mas rentable](metric_type) [este mes](metric_period)
+      - dime los [ingresos](metric_type) de [cancha techada](field_name) [esta semana](metric_period)
+      - [disponibilidad](metric_type) de [la 10](location) [hoy](metric_period) xfa
+      - cuantas [reservas pendientes](metric_type) tengo [mañana](metric_period)
+      - [horarios pico](metric_type) [sede norte](location) [ayer](metric_period) cual fue
+      - la [cancha](field_name) con [mas ingresos](metric_type) [este mes](metric_period) cual es
+      - [reservas confirmadas](metric_type) en [campus surco](location) [esta semana](metric_period)
+      - [reservas activas](metric_type) en [campus miraflores](location) [este rato](metric_period)
+      - [ingresos por cancha](metric_type) de [cancha 1](field_name) [hoy](metric_period)
+      - [reservas por campus](metric_type) [la 10](location) [pasado manana](metric_period)
+      - q tal los [turnos mas ocupados](metric_type) de [cancha principal](field_name) [ayer](metric_period)
+      - [disponibilidad](metric_type) de [campus surco](location) [8pm](metric_period)
+      - [reservas en vivo](metric_type) [sede norte](location) [ahorita](metric_period)
+      - cuantas [reservas canceladas](metric_type) hubo [hoy](metric_period) en [miraflores](location)
+      - dame los [ingresos](metric_type) de [este mes](metric_period) xfa
+      - ver [horarios pico](metric_type) de [cancha 2](field_name) [dentro de tres dias](metric_period)
+      - cuantas [reservas en vivo](metric_type) hay en [la 10](location)
+      - [ingresos](metric_type) de [cancha 1](field_name) [el 5 de mayo](metric_period)
+      - [reservas por cancha](metric_type) cual es la mas alta [esta semana](metric_period)
+      - [reservas finalizadas](metric_type) de [sede norte](location) [pasado manana](metric_period)
+      - cuales fueron los [turnos mas ocupados](metric_type) [hoy](metric_period)
+      - q tal [reservas activas](metric_type) en [miraflores](location)
+      - quiero ver la [disponibilidad](metric_type) de [cancha techada](field_name) para [manana](metric_period)
+      - cuantas [reservas en curso](metric_type) hay [ahorita](metric_period) en [campus surco](location)
+      - los [ingresos](metric_type) de [la 10](location) [esta semana](metric_period) fueron?
+      - kiero saber [horas con mas reservas](metric_type) en [campus miraflores](location)
+      - q onda con la [cancha mas rentable](metric_type) del [mes](metric_period)
+      - dime de [reservas por cancha](metric_type) [ayer](metric_period) en [surco](location)
+      - [reservas por campus](metric_type) de [sede norte](location) [dentro de tres dias](metric_period)
+      - cuales son las [cancha con mas ingresos](metric_type) [hoy](metric_period)
+      - cuantas [reservas finalizadas](metric_type) tuvo [cancha 2](field_name) [ayer](metric_period)
+      - reporte de [ingresos](metric_type) de [cancha principal](field_name) [este rato](metric_period)
+      - q tal los [horarios mas copados](metric_type) de [la 10](location) [este mes](metric_period)
+      - cuantas [reservas por campus](metric_type) hay [hoy](metric_period)
+      - mostrar [ingresos por cancha](metric_type) para [campus miraflores](location) [esta semana](metric_period)
+      - cuanta [plata](metric_type) hizo [la 10](location) [ayer](metric_period)
+      - estado de [reservas activas](metric_type) en [sede norte](location) [hoy](metric_period)
+      - la [cancha](field_name) con mas [ingresos](metric_type) [esta semana](metric_period)
+      - cuantas [reservas finalizadas](metric_type) tuvo [cancha 1](field_name) [ayer](metric_period)
+      - informe de [disponibilidad](metric_type) en [campus surco](location) [manana](metric_period)
+      - cuales son las [horas con mas reservas](metric_type) [esta semana](metric_period)
+      - cuanto [ingreso](metric_type) tuvo [cancha techada](field_name) [el 5 de mayo](metric_period)
+      - los [horarios pico](metric_type) de [cancha 2](field_name) [hoy](metric_period)
+      - reco de [reservas en vivo](metric_type) en [campus miraflores](location) [ahorita](metric_period)
+      - cuantos [turnos mas ocupados](metric_type) tuvimos [ayer](metric_period)
+      - la [cancha](field_name) que mas [plata](metric_type) hizo [este mes](metric_period)
+      - que tal los [ingresos por cancha](metric_type) de [cancha 2](field_name) [manana](metric_period)
+      - [reservas totales](metric_type) de [la 10](location) [hoy](metric_period)
+      - cuantas [reservas en curso](metric_type) tenemos en [sede norte](location) [ahorita](metric_period)
+      - [disponibilidad](metric_type) de [cancha principal](field_name) [pasado manana](metric_period)
+      - cuales son las [reservas activas](metric_type) en [campus surco](location) [este rato](metric_period)
+      - cuanto facturo [campus miraflores](location) [ayer](metric_period)
+      - ver [horarios mas copados](metric_type) de [cancha 1](field_name) [esta semana](metric_period)
+      - la [cancha mas rentable](metric_type) de [sede norte](location) [este mes](metric_period)
+      - cuantas [reservas confirmadas](metric_type) para [manana](metric_period)
+      - [ingresos](metric_type) por [la 10](location) [pasado manana](metric_period)
+      - como vamos de [reservas totales](metric_type) en [campus surco](location) [este mes](metric_period)
+      - [reservas canceladas](metric_type) en [miraflores](location) [ayer](metric_period)
+      - cuales son los [horarios mas copados](metric_type) de [cancha techada](field_name) [pasado manana](metric_period)
+      - dame los [ingresos](metric_type) por [campus miraflores](location) [el 5 de mayo](metric_period)
+      - chekea la [disponibilidad](metric_type) de [cancha libre](field_name) [hoy](metric_period)
+      - cuantas [reservas activas](metric_type) tenemos en [la 10](location) para [manana](metric_period)
+      - los [ingresos por cancha](metric_type) de [sede norte](location) [ayer](metric_period)
+      - dame la [cancha mas rentable](metric_type) de [campus surco](location) [este mes](metric_period)
+      - que [cancha](field_name) esta [ocupado](metric_type) en [miraflores](location) [ahorita](metric_period)
+      - cuantas [reservas en vivo](metric_type) tengo [hoy](metric_period) en [cancha principal](field_name)
+      - cuanto [dinero](metric_type) hizo [cancha 2](field_name) [esta semana](metric_period)
+      - los [horarios pico](metric_type) de [la 10](location) [dentro de tres dias](metric_period)
+      - dame los [ingresos](metric_type) de [cancha 1](field_name) [pasado manana](metric_period)
+      - qiero ver [reservas por campus](metric_type) para [miraflores](location) [este mes](metric_period)
+      - cuantas [horas con mas reservas](metric_type) hubo en [sede norte](location) [ayer](metric_period)
+      - [reservas en curso](metric_type) de [cancha 1](field_name) [hoy](metric_period) como van
+      - quiero ver los [turnos mas ocupados](metric_type) en [campus miraflores](location) [esta semana](metric_period)
+      - que tal la [disponibilidad](metric_type) de [la 10](location) para [el 5 de mayo](metric_period)
+      - cuales [reservas finalizadas](metric_type) tuvo [campus surco](location) [ayer](metric_period)
+      - muestrame los [ingresos](metric_type) de [cancha techada](field_name) [este mes](metric_period)
+      - q hay de [reservas por cancha](metric_type) en [sede norte](location) [hoy](metric_period)
+      - [reservas activas](metric_type) en [miraflores](location) para [dentro de tres dias](metric_period)
+      - como va [cancha 2](field_name) de [ingresos](metric_type) [esta semana](metric_period)
+      - dame los [horarios mas copados](metric_type) de [cancha principal](field_name) [manana](metric_period)
+      - quiero ver las [reservas pendientes](metric_type) de [la 10](location) [hoy](metric_period)
+      - cuantas [reservas confirmadas](metric_type) para [el 5 de mayo](metric_period) en [surco](location)
+      - [ingresos](metric_type) de [campus surco](location) [05/05/2026](metric_period)
+      - los [q estan jugando](metric_type) en [cancha principal](field_name) [ahorita](metric_period)
+      - cuales son las [cancha mas rentable](metric_type) de [la 10](location) [este mes](metric_period)
+      - que tal la [disponibilidad](metric_type) de [cancha 2](field_name) [8pm](metric_period)
+      - cuantas [reservas en vivo](metric_type) tenemos en [miraflores](location) [hoy](metric_period)
+      - dame un [reporte](metric_type) de [ingresos](metric_type) de [sede norte](location) [esta semana](metric_period)
+      - q tal los [ingresos](metric_type) [hoy](metric_period) en [surco](location)
+      - cuales son las [horas con mas reservas](metric_type) de [campus miraflores](location) [esta semana](metric_period)
+      - reservas [ayer](metric_period) de [cancha 1](field_name)
+      - dame los [horarios mas copados](metric_type) de [la 10](location) [este mes](metric_period)
+      - [reservas activas](metric_type) [ahorita](metric_period) en [cancha principal](field_name)
+      - cuantas [reservas finalizadas](reservation_status) [ayer](metric_period) en [cancha 2](field_name)
+      - [ingresos por cancha](metric_type) de [sede norte](location) [esta semana](metric_period) q tal
+      - [disponibilidad](metric_type) [pasado manana](metric_period) para [cancha techada](field_name)
+      - muestra los [turnos mas ocupados](metric_type) de [campus surco](location) [este mes](metric_period)
+      - la [cancha con mas ingresos](metric_type) [hoy](metric_period)
+      - [reservas por campus](metric_type) [miraflores](location) [manana](metric_period)
+      - ver [reservas en curso](reservation_status) en [la 10](location) [ahorita](metric_period)
+      - [ingresos totales](metric_type) de [campus miraflores](location) [este mes](metric_period)
+      - que tal la [cancha mas rentable](metric_type) [esta semana](metric_period)
+      - dame [reservas por cancha](metric_type) de [surco](location) [hoy](metric_period)
+      - [reservas en vivo](reservation_status) [sede norte](location) dime
+      - cuales [horarios pico](metric_type) [mañana](metric_period) en [cancha principal](field_name)
+      - los [ingresos](metric_type) de [campus surco](location) [dentro de tres dias](metric_period)
+      - [reservas pendientes](reservation_status) [hoy](metric_period) en [cancha 1](field_name)
+      - [cancha 2](field_name) [ayer](metric_period) [ingresos](metric_type)
+      - que onda [disponibilidad](metric_type) [cancha techada](field_name) [el 5 de mayo](metric_period)
+      - [reservas confirmadas](reservation_status) [esta semana](metric_period) en [la 10](location)
+      - q tal va [miraflores](location) con las [reservas activas](metric_type) [este rato](metric_period)
+      - los [horarios mas copados](metric_type) de [cancha 1](field_name) [hoy](metric_period)
+      - [ingresos](metric_type) de [sede norte](location) [pasado manana](metric_period)
+      - cuantas [reservas en curso](reservation_status) [ahorita](metric_period) en [campus surco](location)
+      - la [cancha q mas plata hizo](metric_type) [este mes](metric_period)
+      - dame [reservas totales](metric_type) de [cancha principal](field_name) [ayer](metric_period)
+      - ver [reservas por campus](metric_type) [la 10](location) [manana](metric_period)
+      - [horarios pico](metric_type) [campus miraflores](location) [hoy](metric_period)
+      - estado de [reservas canceladas](reservation_status) [esta semana](metric_period) en [cancha 2](field_name)
+      - los [ingresos por cancha](metric_type) de [campus surco](location) [el 05/05/2026](metric_period)
+      - cuantas [reservas en vivo](reservation_status) tengo [ahorita](metric_period)
+      - las [horas con mas reservas](metric_type) de [cancha techada](field_name) [este mes](metric_period)
+      - [disponibilidad](metric_type) en [sede norte](location) [dentro de tres dias](metric_period)
+      - qiero saber [reservas totales](metric_type) [ayer](metric_period) [la 10](location)
+      - cuantos [ingresos](metric_type) [hoy](metric_period) por [cancha 1](field_name)
+      - dame los [turnos mas ocupados](metric_type) de [campus miraflores](location) [esta semana](metric_period)
+      - [reservas activas](metric_type) [manana](metric_period) en [cancha 2](field_name)
+      - ver las [reservas finalizadas](reservation_status) [hoy](metric_period) en [cancha principal](field_name)
+      - [ingresos](metric_type) [campus surco](location) [ayer](metric_period) dime
+      - la [cancha mas rentable](metric_type) [este mes](metric_period) cual es
+      - reporte de [reservas por cancha](metric_type) [sede norte](location) [esta semana](metric_period)
+      - [reservas en curso](reservation_status) [la 10](location) [ahorita](metric_period) porfa
+      - los [horarios pico](metric_type) de [cancha techada](field_name) [pasado manana](metric_period)
+      - cuanto hicimos de [ingresos](metric_type) [el 5 de mayo](metric_period) en [campus miraflores](location)
+      - [reservas pendientes](reservation_status) [dentro de tres dias](metric_period) en [cancha 2](field_name)
+      - [disponibilidad](metric_type) de [cancha 1](field_name) [manana](metric_period)
+      - q tal los [horarios mas copados](metric_type) de [sede norte](location) [este rato](metric_period)
+      - mostrar [reservas confirmadas](reservation_status) [hoy](metric_period) en [campus surco](location)
+      - los [ingresos por cancha](metric_type) [ayer](metric_period) [campus miraflores](location)
+      - [reservas en vivo](reservation_status) [cancha principal](field_name) [ahorita](metric_period)
+      - la [cancha con mas ingresos](metric_type) [esta semana](metric_period) cual fue
+      - [reservas por campus](metric_type) de [la 10](location) [este mes](metric_period)
+      - ver [reservas activas](metric_type) de [campus surco](location) [pasado manana](metric_period)
+      - que onda [disponibilidad](metric_type) [sede norte](location) [hoy](metric_period)
+      - los [ingresos](metric_type) [este mes](metric_period) en [cancha techada](field_name)
+      - dame un resumen de [reservas totales](metric_type) [hoy](metric_period)
+      - [turnos mas ocupados](metric_type) en [cancha 1](field_name) [manana](metric_period)
+      - [reservas finalizadas](reservation_status) [dentro de tres dias](metric_period) en [campus miraflores](location)
+      - los [horarios pico](metric_type) de [la 10](location) [esta semana](metric_period) quiero
+      - cuantas [reservas en curso](reservation_status) [ahorita](metric_period) [cerca mio](location)
+      - [ingresos](metric_type) de [cancha 2](field_name) [el 5 de mayo](metric_period)
+      - [cancha libre 8pm](metric_type) [hoy](metric_period) en [surco](location)
+      - dame info de [reservas pendientes](reservation_status) [ayer](metric_period) en [cancha principal](field_name)
+      - que tal los [horarios mas copados](metric_type) [vill salvador](location) [manana](metric_period)
+      - [reservas confirmadas](reservation_status) [este rato](metric_period) [campus surco](location)
+      - cuantas [reservas por cancha](metric_type) [hoy](metric_period) en [sede norte](location)
+      - [ingresos](metric_type) [esta semana](metric_period) de [la 10](location) porfa
+      - ver [reservas en vivo](reservation_status) [pasado manana](metric_period) en [cancha techada](field_name)
+      - la [cancha q mas plata hizo](metric_type) [ayer](metric_period) cual fue
+      - [reservas totales](metric_type) [campus miraflores](location) [dentro de tres dias](metric_period)
+      - q tal las [horas con mas reservas](metric_type) [hoy](metric_period) [cancha 2](field_name)
+      - [disponibilidad](metric_type) [el 05/05/2026](metric_period) en [cancha 1](field_name)
+      - [reservas activas](metric_type) [este mes](metric_period) en [sede norte](location)
+      - [ingresos por cancha](metric_type) [hoy](metric_period) en [aca a mi alrededor](location)
+      - cuantas [reservas en curso](reservation_status) [manana](metric_period) [la 10](location)
+      - [horarios pico](metric_type) de [campus surco](location) [este rato](metric_period) dame
+      - q tal la [cancha mas rentable](metric_type) [pasado manana](metric_period)
+      - reservas [activas](metric_type) en [surco](location) ahorita
+      - q tal los [ingresos](metric_type) de la [cancha principal](field_name) [hoy](metric_period)
+      - dame las [horas con mas reservas](metric_type) en [miraflores](location)
+      - reservas [finalizadas](reservation_status) de [ayer](metric_period) en [la 10](location)
+      - los [horarios pico](metric_type) de [cancha 2](field_name) para [esta semana](metric_period)
+      - cuantas [reservas en curso](metric_type) hay en [sede norte](location)
+      - [disponibilidad](metric_type) de [cancha techada](field_name) [manana](metric_period)
+      - la [cancha que mas plata hizo](metric_type) este mes, cual es
+      - kiero ver [reservas por campus](metric_type) de [hoy](metric_period)
+      - [ingresos por cancha](metric_type) en [campus surco](location) [ayer](metric_period)
+      - cuantos [turnos mas ocupados](metric_type) hubo en [la 10](location) [esta semana](metric_period)
+      - [reservas totales](metric_type) de [miraflores](location) el [5 de mayo](metric_period)
+      - [cancha 1](field_name) [reservas activas](metric_type) [este rato](metric_period)
+      - ver [disponibilidad](metric_type) [hoy](metric_period) [cancha principal](field_name)
+      - [reservas por cancha](metric_type) [campus surco](location) [esta semana](metric_period)
+      - dame los [horarios mas copados](metric_type) de [ayer](metric_period)
+      - cuantos [ingresos](metric_type) tiene [cancha 2](field_name) [este mes](metric_period)
+      - [reservas en vivo](metric_type) en [la 10](location) ahorita
+      - [cancha mas rentable](metric_type) de [campus miraflores](location) [este mes](metric_period)
+      - de [surco](location) [reservas hoy](metric_period) dame
+      - [cancha 2](field_name) [ayer](metric_period) [finalizadas](reservation_status)
+      - [en vivo](metric_type) [surco](location) cuales
+      - metricas de [ingresos](metric_type) de [cancha 1](field_name) [hoy](metric_period)
+      - [horas con mas reservas](metric_type) de [sede norte](location) [ayer](metric_period)
+      - q tal la [disponibilidad](metric_type) [cancha techada](field_name) [hoy](metric_period)
+      - kiero saber los [horarios pico](metric_type) de [la 10](location)
+      - [reservas activas](metric_type) para [dentro de tres dias](metric_period) en [miraflores](location)
+      - cuantas [reservas](metric_type) [canceladas](reservation_status) tenemos [esta semana](metric_period)
+      - [ingresos](metric_type) [cancha principal](field_name) [este mes](metric_period)
+      - [cancha con mas ingresos](metric_type) [campus surco](location) [hoy](metric_period)
+      - cuanto entro en [sede norte](location) [ayer](metric_period)
+      - [reservas en curso](metric_type) de [cancha 2](field_name) [ahorita](metric_period)
+      - [horarios mas copados](metric_type) [la 10](location) [manana](metric_period)
+      - de [reservas por cancha](metric_type) para [campus miraflores](location) [esta semana](metric_period)
+      - muestrame [ingresos](metric_type) de [cancha 1](field_name) [05/05/2026](metric_period)
+      - [reservas totales](metric_type) [sede norte](location) [hoy](metric_period)
+      - [turnos mas ocupados](metric_type) [cancha principal](field_name) [este mes](metric_period)
+      - info de [disponibilidad](metric_type) de [cancha 2](field_name) [manana](metric_period)
+      - [cancha mas rentable](metric_type) en [surco](location) el [5 de mayo](metric_period)
+      - ver [reservas activas](metric_type) en [la 10](location) [ayer](metric_period)
+      - cuanto [ingreso](metric_type) [cancha techada](field_name) [esta semana](metric_period)
+      - [reservas en vivo](metric_type) [campus surco](location) que hay
+      - dame un resumen de [reservas por campus](metric_type) [hoy](metric_period)
+      - los [horarios pico](metric_type) de [cancha 1](field_name) [dentro de tres dias](metric_period)
+      - cuantas [reservas pendientes](reservation_status) hay para [manana](metric_period) en [miraflores](location)
+      - [ingresos](metric_type) de [cancha 2](field_name) [hoy](metric_period) porfa
+      - [cancha con mas ingresos](metric_type) de [sede norte](location) [este mes](metric_period)
+      - [reservas totales](metric_type) [ayer](metric_period) de [campus miraflores](location)
+      - [horas con mas reservas](metric_type) de [la 10](location) [esta semana](metric_period)
+      - dame [reservas confirmadas](reservation_status) de [cancha principal](field_name) [pasado manana](metric_period)
+      - q tal la [disponibilidad](metric_type) de [cancha 1](field_name) [este rato](metric_period)
+      - [reservas activas](metric_type) [cancha techada](field_name) [manana](metric_period)
+      - los [ingresos por cancha](metric_type) de [surco](location) [este mes](metric_period)
+      - [turnos mas ocupados](metric_type) en [miraflores](location) [ayer](metric_period)
+      - [reservas en curso](metric_type) [sede norte](location) el [05/05/2026](metric_period)
+      - cual es la [cancha mas rentable](metric_type) [hoy](metric_period)
+      - [horarios mas copados](metric_type) de [campus surco](location) [esta semana](metric_period)
+      - [ingresos](metric_type) [cancha principal](field_name) [ayer](metric_period)

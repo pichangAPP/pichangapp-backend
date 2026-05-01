@@ -1,0 +1,4704 @@
+version: "3.1"
+
+nlu:
+  - intent: request_field_recommendation
+    examples: |
+      - ¿Qué opciones de campos deportivos manejan?
+      - ¿Podrían indicarme sitios para echar una pichanga?
+      - Me gustaría conocer las alternativas para practicar deporte.
+      - Estoy con ganas de jugar, ¿hay algún campo disponible?
+      - ¿Qué lugares me sugieren para un partidito?
+      - Quisiera explorar espacios donde patear la pelota.
+      - ¿Puedes orientarme sobre la disponibilidad de canchas?
+      - Necesito algunas ideas de sitios para pelotear con mi gente.
+      - ¿Hay algún lugar habilitado para hacer deporte?
+      - Dime k locales deportivos tienen por ahí.
+      - Deseo jugar, ¿qué opciones me das para hoy?
+      - ¿Con qué áreas de juego cuentan?
+      - ¿Me podrías facilitar alternativas de recintos deportivos?
+      - Quisiera saber dónde puedo ir a jugar con mis patas.
+      - ¿Hay algún lugar para practicar [futbol](sport)?
+      - ¿Qué centros deportivos hay cercanos?
+      - ¿Me podrías dar información sobre la oferta de canchas?
+      - Quiero ver la gama de campos de juego.
+      - ¿Dónde se puede armar una cascarita?
+      - A ver, suéltame algunos sitios para un encuentro deportivo.
+      - ¿Qué alternativas de losas tienen?
+      - ¿Qué lugares están libres para un partido?
+      - Quiero ver opciones para mi partido de [voley](sport).
+      - ¿Qué recintos deportivos proponen?
+      - ¿Qué campos de juego tienen libres?
+      - ¿Dónde puedo echar un partidito con mis amigos?
+      - ¿Hay algún sitio para jugar a la pelota?
+      - Necesito dónde meter un gol.
+      - ¿Qué lugares para deporte tienen para ofrecer?
+      - Quiero un lugar para divertirme jugando [basket](sport).
+      - ¿Qué me sugieres para un encuentro deportivo grupal?
+      - ¿Me podrías indicar un buen lugar para un partido hoy?
+      - Quiciera jugar, ¿hay algo libre para hoy en la noche?
+      - Dime dónde podemos ir a jugar con el grupo.
+      - Quiero armar un partido, ¿dónde voy?
+      - ¿Tienes halgo sobre campos deportivos abiertos?
+      - ¿Qué hay para jugar por acá?
+      - ¿Qué locales deportivos me recomiendas para el fin de semana?
+      - ¿Me das una lista de canchas disponibles?
+      - ¿Qué opciones de canchas me puedes proporcionar?
+      - Quisiera algunas sugerencias de lugares para practicar deporte.
+      - Dime dónde puedo practicar mi deporte favorito.
+      - ¿Qué canchas tienen para ofrecer en general?
+      - ¿Dónde podría ir a jugar con mi equipo?
+      - ¿Me sugieres un sitio para practicar [tenis](sport)?
+      - Quiero echarme una cascarita, ¿dónde lo armamos?
+      - ¿Qué lugares para jugar están disponibles ahora?
+      - ¿Podrías darme ideas de sitios deportivos para la tarde?
+      - Quiero opciones de juego para el [sábado](date).
+      - ¿Qué recintos hay para entrenar con el equipo?
+      - ¿Me orientas sobre sitios para un partidazo mañana?
+      - ¿Dónde armo la pichanga esta semana?
+      - Quiero ir a jugar, ¿qué me ofreces para mi grupo?
+      - ¿Algún lugar para deporte de grupo cerca de aquí?
+      - ¿Qué opciones de locales deportivos manejas actualmente?
+      - Quisiera que me des una mano para ubicar canchas.
+      - ¿Hay sitios para jugar a la pelota por esta zona?
+      - Quiero sudar la camiseta, ¿a dónde puedo ir?
+      - ¿Me puedes dar la voz de sitios para jugar por la tarde?
+      - ¿Qué lugares hay pa' pelotear con mis amigos?
+      - ¿Dónde podríamos juntarnos a jugar un rato?
+      - Quiero que me indiques dónde hay canchas disponibles.
+      - ¿Me das una sugerencia de campos para hoy?
+      - ¿Tienes info de canchas que estén libres?
+      - ¿Me dices dónde puedo ir a jugar con los muchachos?
+      - ¿Alguna opción para jugar un rato por el barrio?
+      - ¿Qué opciones de campos de juego tienen disponibles para usar?
+      - ¿Dónde me recomiendas hacer deporte con el team?
+      - ¿Dónde se puede ir a jugar un rato con la promo?
+      - ¿Podrías decirme qué canchas están libres para un partido?
+      - ¿Me informas sobre sitios para jugar a la [pelota](sport)?
+      - Quiero ir a patear una pelota, ¿dónde me sugiere ir?
+      - Necesito un lugar pa' mi pichanga con la gente.
+      - ¿Qué lugares me recomiendas para mi partido de [fútbol](sport)?
+      - Quisiera ver opciones para jugar un partido de [vóley](sport) pronto.
+      - ¿Hay algún campo deportivo disponible para un partido informal?
+      - Me gustaría saber dónde hay lugares para jugar [básquet](sport).
+      - ¿Podrías darme algunas ideas de dónde jugar con mi grupo?
+      - ¿Qué opciones de locales deportivos me darías para una tarde de [fulbito](sport)?
+      - Quiero un espacio para jugar con mis amigos, ¿tienes sugerencias porfavor?
+      - ¿Qué sitios me sugieres para un partido?
+      - Me gustaría encontrar dónde practicar deporte.
+      - Busco opciones para hacer ejercicio con la pelota.
+      - Dónde podríamos armar un partidito, ¿sabes?
+      - Necesito que me indiques sitios para ir a pelotear.
+      - ¿Qué alternativas tengo para pasar un rato haciendo deporte?
+      - Quiero descubrir nuevos lugares para jugar.
+      - Me ayudas a ubicar un espacio deportivo, por favor.
+      - ¿Tienes alguna sugerencia de campo para alquilar?
+      - Estoy en busca de un lugar donde se pueda practicar un deporte.
+      - Recomiéndame un punto de encuentro para jugar.
+      - ¿Dónde puedo llevar a mis patas para un [fulbito](sport)?
+      - Quiero salir a moverme, ¿algún sitio libre?
+      - Dame la info de lugares para ir a entrenar.
+      - Quero hacer un poco de deporte, dónde me recomiendas.
+      - ¿Qué sitios están habilitados para jugar con mis amigos?
+      - Ayúdame a ver opciones para jugar un rato.
+      - Dónde podría ir a jugar [fútbol](sport)?
+      - Me interesa jugar [vóley](sport), dónde hay disponibles.
+      - Busco un campo para [básquet](sport).
+      - Me sugieres algún lugar para hacer [tenis](sport)?
+      - ¿Qué alternativas para [pádel](sport)?
+      - Quiero encontrar un lugar para jugar a las [7 pm](time).
+      - Busco sitios para una pichanga por la [noche](time).
+      - ¿Dónde hay lugares para jugar hoy [viernes](time)?
+      - Me das opciones de campos deportivos.
+      - Un lugar para pelotear, ¿qué tal?
+      - Donde sea que haya para hacer deporte.
+      - Qué opciones tienes para [fulbito](sport) por mi [zona](location).
+      - Dónde encuentro algo por [Ate](location).
+      - Quiero un lugar para jugar en [Comas](location).
+      - Cerca a [La Victoria](location), por favor.
+      - ¿Qué hay en [San Juan de Miraflores](location)?
+      - Busco en [San Martín de Porres](location).
+      - Me gustaría jugar por [Independencia](location).
+      - Algo por el [Centro de Lima](location).
+      - En los alrededores de [Breña](location).
+      - Por [Carabayllo](location), algo.
+      - ¿Hay opciones en [Chaclacayo](location)?
+      - Cerca a mi casa, por [Pachacámac](location).
+      - ¿Qué tal por [Punta Negra](location)?
+      - En la zona de [Santa Anita](location).
+      - Que sea de [grass artificial](surface), porfa.
+      - Me gustaría una [losa](surface), si es posible.
+      - Busco un campo con [césped natural](surface).
+      - Quiero una superficie de [cemento](surface) para jugar.
+      - Prefiero [pasto sintético](surface).
+      - Que no sea muy caro, con [S/70](budget) máximo.
+      - Algo económico, mi presupuesto es de [50 soles](budget).
+      - Busco algo que cueste alrededor de [80 soles](budget).
+      - No quiero gastar más de [cien soles](budget).
+      - Un lugar accesible de precio, por favor.
+      - Con un costo que ronde los [sesenta soles](budget).
+      - Misio, busco algo barato.
+      - Dónde puedo jugar [fulbito](sport) en [Lince](location) que tenga [grass sintético](surface).
+      - Busco un campo de [vóley](sport) por [Surquillo](location) que no pase de [S/60](budget).
+      - Necesito jugar [básquet](sport) en [Magdalena](location) con [losa](surface) para la [noche](time).
+      - Recomiéndame un sitio para [pádel](sport) en [Barranco](location) que no sea tan caro.
+      - Quiero jugar [fútbol](sport) en [Chorrillos](location) en una cancha de [grass natural](surface) después de las [6 pm](time).
+      - Me gustaría saber dónde hay campos de [fulbito](sport) por [Los Olivos](location) con [césped sintético](surface) y que no esté tan salado [S/120](budget).
+      - Donde encuentro pa [tenis](sport) en [San Isidro](location) con [cemento](surface) y a un precio razonable.
+      - Busco [vóley](sport) en [La Victoria](location) con [losa](surface) para [mañana](time).
+      - Para [básquet](sport) en [San Borja](location) por la [tarde](time), ¿qué me sugieres?
+      - Necesito un lugar para [fulbito](sport) por [Ate](location) que sea de [grass](surface) y cueste max [90 soles](budget).
+      - Quiero pelotear [fútbol](sport) en [Miraflores](location) con [grass sintético](surface) por la [noche](time).
+      - Un lugar para [vóley](sport) en [Surco](location) con [losa](surface) que sea bacán.
+      - ¿Qué opciones de [fulbito](sport) hay por [San Miguel](location) con [grass](surface) y no tan caro?
+      - Donde jugar [fútbol](sport) en [Pueblo Libre](location) con [grass natural](surface) y un buen precio.
+      - Recomendaciones para [básquet](sport) en [Callao](location) con [losa](surface) después de [chambear](time).
+      - Busco donde echar una pichanga de [fulbito](sport) cerca de [mi casa](location) con un presupuesto de [S/80](budget).
+      - ¿Me pasas la voz de algún lugar para [vóley](sport) en [Jesús María](location) para [hoy](time)?
+      - Queremos jugar [fútbol 7](sport) en [La Molina](location) en [grass artificial](surface), ¿tienes algo?
+      - Necesito un sitio para un partidito de [basket](sport) en [San Luis](location) con [losa de cemento](surface) por la [tarde](time).
+      - Un espacio para [pádel](sport) en [Santiago de Surco](location) que sea un poquito más barato, como [S/65](budget).
+      - Dime dónde puedo jugar [fulbito](sport) con mis patas en [Barranco](location) el [sábado](time).
+      - ¿Qué tal un lugar para [vóley](sport) en [Cercado de Lima](location) de [losa](surface) para después de la [universidad](time)?
+      - Me gustaría encontrar algo para [fútbol](sport) en [Villa María del Triunfo](location) que sea con [grass](surface) y no muy lejos.
+      - Opciones para [básquet](sport) en [Pueblo Libre](location) que tengan [cancha techada](surface) y un costo accesible.
+      - Quiero algo pa' [fulbito](sport) en [Rimac](location) con [grass sintético](surface) y que sea por la [noche](time) tipo [9 pm](time).
+      - ¿Me puedes recomendar sitios para jugar [vóley](sport) en [Puente Piedra](location) que sean con [losa](surface) y cómodos de precio?
+      - ¿Qué alternativas hay para practicar deporte?
+      - Me gustaría que me sugieran campos deportivos.
+      - Por favor, recomiéndenme opciones de juego.
+      - ¿Hay algún lugar para echar una pichanga con los amigos?
+      - Necesito sugerencias para un partido.
+      - Quisiera conocer qué opciones de cancha ofrecen.
+      - ¿Me podrían indicar sitios para hacer [futsal](sport)?
+      - Estoy en [La Molina](location) y quiero jugar [tenis](sport), ¿qué me sugieren?
+      - Busco un lugar para practicar [handball](sport).
+      - Quiero algo por [San Juan de Miraflores](location), ¿qué hay?
+      - ¿Alguna cancha con [grass](surface) por la [Punta Hermosa](location)?
+      - Necesito algo barato para jugar.
+      - ¿Hay campos deportivos por [Carabayllo](location)?
+      - Para jugar [vóley](sport) por la noche, ¿qué me aconsejan?
+      - Que no cueste mucho, por favor.
+      - Estoy en el [Cercado de Lima](location), ¿qué me recomiendan para [básquet](sport)?
+      - Mi gente quiere jugar, ¿qué opciones tienen?
+      - Necesito un campo de [fútbol](sport) con [césped sintético](surface).
+      - ¿Alguna sugerencia de cancha por [Independencia](location)?
+      - Que no exceda los [setenta soles](budget).
+      - ¿Pueden darme ideas de lugares para jugar [fútbol](sport) en [Los Olivos](location)?
+      - Quiero canchas para [baloncesto](sport).
+      - Que sea un [lugar con losa](surface).
+      - Por la zona de [Santa Anita](location), ¿qué hay para [fulbito](sport)?
+      - Dame opciones para jugar [pádel](sport) mañana.
+      - Estoy buscando sitios para hacer deporte.
+      - ¿Me sugieren algo por [Lurín](location)?
+      - Necesito campos con [grass natural](surface).
+      - Quisiera algo económico, por favor.
+      - ¿Qué tal el [Rímac](location)? ¿Hay canchas allí?
+      - Para jugar [vóley](sport) por [cien soles](budget), ¿qué me recomiendas?
+      - Estoy con mis patas, ¿dónde podemos pichanguear?
+      - Ayúdame con opciones de canchas.
+      - Necesito canchas de [fútbol 7](sport) por [San Miguel](location).
+      - Quiero jugar [básket](sport), ¿alguna sugerencia de campos?
+      - ¿Podrían darme una lista de recintos deportivos?
+      - Algo en [El Agustino](location) para jugar [futsal](sport).
+      - Necesito [canchas de tierra](surface).
+      - Para un partidito rápido, ¿qué recomiendan?
+      - Busco alternativas para jugar en [Magdalena del Mar](location).
+      - Que no supere los [ochenta soles](budget).
+      - ¿Qué campos tienen disponibles por [Surquillo](location)?
+      - Quiero jugar [tenis](sport) con [losa de cemento](surface).
+      - Necesito una canchita para la noche.
+      - Por [Ventanilla](location) hay algo para [vóley](sport)?
+      - ¿Qué me aconsejan para un [fútbol](sport) entre amigos?
+      - Estoy en [Pueblo Libre](location), ¿hay opciones para [fulbito](sport)?
+      - Quisiera campos con buena iluminación.
+      - Ayúdame a encontrar un lugar para jugar [squash](sport).
+      - Por [Chaclacayo](location), ¿qué me pueden ofrecer?
+      - Necesito un campo de [hockey](sport).
+      - ¿Qué sugieren para una pichanga al mediodía?
+      - Busco canchas que acepten grupos grandes.
+      - Quisiera opciones de campos de [fútbol](sport) por [cien soles](budget).
+      - Estoy cerca de [Puente Piedra](location), ¿qué canchas me recomiendan?
+      - Dame alternativas de canchas con [superficie de arcilla](surface).
+      - ¿Qué recintos deportivos tienen por [Comas](location)?
+      - Necesito un lugar para [vóleibol](sport) después del trabajo.
+      - Quisiera jugar [frontón](sport), ¿tienen opciones?
+      - Que sea económico y tenga [grass artificial](surface).
+      - Estoy en [San Martín de Porres](location), ¿dónde puedo jugar?
+      - ¿Alguna sugerencia para un partido de [futsal](sport) a las [8 de la noche](time)?
+      - Necesito un campo de [básquet](sport) con [piso de madera](surface).
+      - Dame opciones para jugar [pelota a paleta](sport).
+      - Busco un lugar para divertirme con amigos.
+      - ¿Hay algo por [Pachacámac](location) para practicar [deporte](sport)?
+      - Quisiera un campo de [tenis](sport) con [superficie dura](surface).
+      - Recomiéndame algo bueno para el [miércoles por la tarde](time).
+      - Necesito un sitio donde jugar [mini fútbol](sport).
+      - Estoy con [noventa soles](budget), ¿qué puedo encontrar?
+      - Mis amigos y yo queremos [pichanguear](sport), ¿qué opciones hay por [La Victoria](location)?
+      - Dame sugerencias de campos deportivos por [treinta soles](budget).
+      - ¿Pueden recomendarme algún lugar para [bádminton](sport)?
+      - Quisiera un campo con [losa de concreto](surface).
+      - Por favor, opciones para [fútbol 5](sport) en [Jesús María](location).
+      - Necesito algo asequible en [Breña](location).
+      - ¿Qué me aconsejan para jugar [squash](sport) el [sábado](time)?
+      - Busco un lugar para jugar [voley playa](sport).
+      - Que tenga buenas instalaciones y no sea tan caro.
+      - Estoy buscando canchas por [Cieneguilla](location).
+      - Quisiera que me recomienden para jugar [paleta frontón](sport).
+      - ¿Hay opciones de canchas con [césped](surface) por [S/150](budget)?
+      - Necesito un campo para [paddel](sport) por [dos horas](time).
+      - Busco un lugar para practicar [atletismo](sport), ¿tienen pistas?
+      - ¿Alguna sugerencia de campos cerca de [mi chamba](location)?
+      - Quiero campos de [fútbol](sport) con [medidas reglamentarias](surface).
+      - Estoy en busca de un lugar para un torneo pequeño.
+      - ¿Me podrían ofrecer opciones para jugar [frontón](sport) en la mañana?
+      - Necesito un lugar con [cancha techada](surface).
+      - Quisiera un campo de [rugby](sport) si es posible.
+      - Dame ideas para pasar un rato jugando [fútbol](sport) por acá.
+      - ¿Qué me proponen para [pichanga](sport) con mis patas el [domingo](time)?
+      - Busco canchas para [balonmano](sport).
+      - ¿Hay algo con [suelo de tartán](surface) para correr?
+      - Necesito un sitio para jugar [voleibol](sport) con un presupuesto de [noventa y cinco soles](budget).
+      - Hola, quisiera que me recomiendes algunos campos pa' jugar.
+      - Qué alternativas de lugares pa' hacer deporte me ofreces?
+      - Estoy buscando donde pichangear un rato, tienes ideas?
+      - Me podrias sugerir alguna canchita buena?
+      - Necesito encontrar un espacio pa' moverme, dónde hay?
+      - Dime opciones de sitios pa' echar un partidito.
+      - Por favor, dame recomendaciones de campos deportivos.
+      - Donde puedo ir a patear una pelota?
+      - Qué point me sugieres pa' armar mi partido?
+      - Estoy con ganas de jugar, qué me aconsejas?
+      - Me ayudas a ubicar una canchita porfa?
+      - Kiero sudar la camiseta, dónde puedo ir a jugar?
+      - Tienes algun dato de buenos lugares pa' hacer deporte?
+      - Podrias orientarme sobre donde hay canchas?
+      - Estoy buscando un lugar pa' desestresarme con mis patas.
+      - Dame algunas sugerencias de complejos deportivos.
+      - Donde encuentro un lugar adecuado pa' mi pichanga?
+      - Necesito un sitio pa' correr y jugar, qué me dices?
+      - Qué me sugieres si kiero hacer un poco de deporte?
+      - Me pasas el dato de alguna sede pa' partidos?
+      - Kiero armar un fulbito, dónde me recomiendas?
+      - A ver si me tiras un centro pa' encontrar una cancha.
+      - Estoy a la búsqueda de un lugar pa' mi deporte preferido.
+      - Me gustaría saber donde puedo practicar mi pasatiempo.
+      - Donde puedo ir a quemar calorías jugando?
+      - Tienes opciones de lugares pa' ir a jugar con los amigos?
+      - Por donde podría encontrar un buen campo pa' jugar?
+      - Me das una mano buscando un sitio pa' armar la pichanga?
+      - Necesito un lugar pa' mi equipo, qué tienes?
+      - Estoy organizando un partido, donde me recomiendas ir?
+      - Qué lugares me sugieres pa' un encuentro deportivo?
+      - Quisiera que me digas donde puedo ir a jugar con mi gente.
+      - Podrias darme algunas ideas de donde jugar?
+      - Estoy buscando un lugar donde pueda practicar mi deporte.
+      - Me urge encontrar un campo de juego, qué opciones hay?
+      - Donde hay canchitas libres pa' un partidito?
+      - Necesito que me guíes a un lugar pa' hacer deporte.
+      - Qué tal si me sugieres algun sitio pa' ir a pelotear?
+      - Kiero ir a jugar, pero no sé donde, me aconsejas?
+      - Estoy en la onda de encontrar un lugar pa' mi pichanga.
+      - Me gustaría saber qué opciones de canchas hay pa' mí.
+      - Dame ideas de donde podemos ir a jugar este fin de semana.
+      - Necesito que me des el dato de un lugar pa' mi partido.
+      - Donde puedo encontrar un buen spot pa' jugar?
+      - Qué complejo deportivo me sugieres pa' un buen rato?
+      - Quisiera que me informes sobre donde jugar.
+      - Estoy buscando donde pasar un buen rato jugando.
+      - Me podrías recomendar algun lugar pa' hacer deporte?
+      - Tienes alguna sugerencia pa' un campo donde jugar?
+      - Donde puedo ir a divertirme con una pelota?
+      - Necesito un lugar pa' un partido improvisado.
+      - Qué me aconsejas pa' ir a jugar con mi barra?
+      - Me ayudas a encontrar un sitio pa' jugar porfa?
+      - Kiero encontrar un lugar pa' mi deporte favorito, me ayudas?
+      - Estoy buscando donde jugar con mis causa.
+      - Donde encuentro un lugar pa' mis amigos y yo?
+      - Necesito un espacio pa' jugar, dónde puedo ir?
+      - Qué opciones de lugares pa' practicar deporte tienes?
+      - Me pasas la voz de un buen sitio pa' jugar?
+      - Kiero hacer un poco de ejercicio, donde puedo ir a jugar?
+      - Estoy buscando un lugar chévere pa' mi pichanga.
+      - Me podrías dar un dato de alguna canchita disponible?
+      - Donde puedo ir a desfogar toda mi energía jugando?
+      - Necesito que me des el dato de donde hay campos.
+      - Qué tal si me sugieres un lugar pa' mi deporte?
+      - Kiero saber donde puedo ir a jugar con los chicos.
+      - Estoy en busca de un sitio pa' pasarla bien jugando.
+      - Me gustaría saber qué lugares me recomiendas pa' un partido.
+      - Dame algunas alternativas de donde jugar.
+      - Necesito encontrar un lugar pa' mi partido, qué sugieres?
+      - Donde puedo ir a armar la juerga deportiva?
+      - Qué me sugieres pa' ir a pichanguear un rato?
+      - Me ayudas con algunas opciones de canchas, porfa?
+      - Kiero jugar con mis patas, dónde me aconsejas ir?
+      - Estoy buscando un lugar bueno pa' mi deporte.
+      - Me gustaría saber qué opciones hay pa' jugar.
+      - Donde puedo ir a pasarla bien con una pelota?
+      - Necesito que me des el dato de un lugar pa' mi entreno.
+      - Qué lugares me sugieres pa' ir a patear?
+      - Me podrías dar ideas de donde jugar este fin de semana?
+      - Hola, quisiera saber si tienen alguna sugerencia para hacer deporte.
+      - ¿Me podrían indicar algún sitio bueno para pichanguear?
+      - Ando buscando un campito para jugar [fútbol](sport) por la [Av. La Marina](location).
+      - Necesito un lugar para practicar [voley](sport) hoy en la noche.
+      - ¿Qué opciones de complejos deportivos hay cerca de [San Isidro](location)?
+      - Quisiera un point para [fulbito](sport) con [grass sintético](surface).
+      - Para echar un partidito con mis patas, ¿dónde podemos ir?
+      - Mi gente kiere pelotear, ¿algún dato de sitios?
+      - ¿Hay algún lugar chido para [básquet](sport) por acá?
+      - Busco dónde chutar, ¿tienen ideas?
+      - Opciones de campos de [fútbol](sport) que no sean tan caros, porfa.
+      - Quisiera averiguar por lugares para jugar [tenis](sport).
+      - Un sitio donde armar una pichanga en [Surco](location).
+      - Necesito un espacio adecuado para [baloncesto](sport).
+      - Por el [Callao](location), ¿q se puede encontrar para hacer ejerzicio?
+      - Estoy queriendo jugar algo, ¿hay sugerencias de sitios?
+      - Algún campo de [fulbito](sport) dispobible por la zona.
+      - Busco un área para [vóley](sport) por [Miraflores](location).
+      - Díganme dónde puedo ir a jugar con mis amigos.
+      - Un lugar para practicar [fútbol](sport) con [grass artificial](surface).
+      - Estoy armando mi pichanga y no sé dónde, ¿ayuda?
+      - Algún point con [losa de concreto](surface) para [básquet](sport).
+      - A ver si me dan el dato de algún lugar para [pádel](sport).
+      - Necesito un buen spot para jugar [fútbol](sport) en [Los Olivos](location).
+      - Quiero tirar unas canastas, ¿dónde es bueno?
+      - Mi equipo necesita dónde entrenar [fútbol](sport).
+      - Algo por [San Juan de Lurigancho](location) para echar un partidito.
+      - Sugieranme un sitio chévere para [vóley](sport).
+      - Estoy buscando un lugar para [futbol 7](sport).
+      - Opciones de locaciones para practicar [pádel](sport).
+      - Un sitio para sudar la gota gorda con [fulbito](sport).
+      - Deseo jugar un partido de [tenis](sport), ¿dónde es posible?
+      - Mi gente quiere un sitio para jugar [baloncesto](sport) por [Surco](location).
+      - Estoy organizando una pichanga, ¿qué lugares tienen disponibles?
+      - Algún lugar con [grass natural](surface) para [fútbol](sport) en [La Molina](location).
+      - Quisiera saber sobre disponibilidad de campos deportivos.
+      - Necesitamos un espacio para jugar [vóley](sport) que no sea muy caro.
+      - A ver, díganme dónde hay un campo libre para [fulbito](sport).
+      - Por el área de [Comas](location), ¿qué hay para [básquet](sport)?
+      - Busco un punto para chutar la pelota con mis amigos.
+      - Me gustaría saber dónde puedo practicar [fútbol sala](sport).
+      - Algún centro deportivo cerca de [Ate](location).
+      - Mi pata me dijo que acá se pueden encontrar sitios para [pádel](sport), ¿es cierto?
+      - Quiero jugar [fútbol](sport), ¿qué opciones hay?
+      - Necesito un espacio para mi partido de [vóley](sport) mañana.
+      - Hola, quisiera saber dónde hay canchas libres para jugar.
+      - ¿Me podrían indicar lugares pa' echar una [pichanga](sport)?
+      - Necesito una recomendación de un campo para jugar al [fútbol](sport).
+      - Estoy buscando un lugar para hacer deporte. ¿Alguna sugerencia?
+      - A ver, suelta la data de dónde hay campos de [vóley](sport) por acá.
+      - Quisiera encontrar un espacio adecuado para [baloncesto](sport), ¿me ayudas?
+      - ¿Qué opciones hay para jugar [tenis](sport) por la zona?
+      - Brother, ¿conoces algún buen sitio para jugar [fulbito](sport)?
+      - Tendra alguna sugerencia de campo con [grass sintético](surface) disponibles?
+      - Estoy libre el sábado, ¿dónde puedo ir a pegarle a la pelota?
+      - Busco un lugar chévere para armar un partidito.
+      - Quiero que me digas dónde encuentro una cancha piola.
+      - ¿Hay algún sitio recomendado para [pádel](sport) que esté a buen precio?
+      - Necesito un campo de [futbol sala](sport) por [San Juan de Miraflores](location), que hay?
+      - A ver, ¿dónde hay canchas disponibles con [losa de cemento](surface) en [Comas](location)?
+      - Para jugar [basquet](sport) en la noche, donde me recomiendas buscar?
+      - ¿Qué tal, tendrás campos para [vóley playa](sport) cerca de [Chorrillos](location)?
+      - Estoy en [La Victoria](location), ¿hay algún complejo deportivo cerca para [fulbito](sport)?
+      - Busco un espacio deportivo que no sea tan caro, máximo [S/100](budget).
+      - Quisiera algo para practicar [tenis de mesa](sport) en [Lince](location), ¿sabes de algo?
+      - Mi gente y yo queremos jugar, ¿qué opciones nos das?
+      - ¿Cuál sería la mejor opción para un [partido de fútbol](sport) por la tarde?
+      - Dame alternativas para una [pichanga](sport) con un costo razonable.
+      - Necesito info de canchas de [fulbito](sport) con buen [gras](surface) por [Santa Anita](location).
+      - Quiero ir con mis amigos a jugar un rato, ¿qué lugares conoces?
+      - Estoy en busca de un sitio donde tirar la pelotita.
+      - ¿Tienes algunas recomendaciones de campos deportivos?
+      - Me gustaría saber dónde puedo practicar mi deporte favorito.
+      - Por favor, indícame opciones para armar un partidito.
+      - ¿Dónde encuentro un buen local para entrenar?
+      - Quisiera que me des la data de canchas disponibles.
+      - Necesito un lugar pa' pichanguear con mis patas.
+      - Ando buscando un campito para jugar este fin de semana.
+      - Me urge encontrar un espacio para mi equipo.
+      - ¿Podrías proporcionarme alternativas de establecimientos deportivos?
+      - Estoy planificando una actividad deportiva, ¿dónde lo haré?
+      - Quisiera encontrar un punto para hacer ejercicio al aire libre.
+      - ¿Hay algún complejo deportivo por aquí que pueda usar?
+      - Necesito sugerencias de lugares para practicar deportes.
+      - ¿Me das el dato de dónde puedo ir a jugar?
+      - Me interesa alquilar un espacio para hacer deporte, ¿tienes sugerencias?
+      - Un sitio bueno para jugar un rato, ¿cuál me aconsejas?
+      - Busco dónde pasarla bien haciendo deporte.
+      - ¿Algún lugar para echar una cascarita?
+      - ¿Dónde se puede sudar la camiseta?
+      - Quisiera ver qué opciones tengo para jugar.
+      - Necesito un espacio para realizar mi actividad física.
+      - Me vendría bien una recomendación de un campo de juego.
+      - Para practicar deporte, ¿tienes algún sitio en mente?
+      - Quiero encontrar un lugar adecuado para jugar.
+      - ¿Dónde puedo chutar con mi mancha?
+      - Quisiera encontrar un lugar para hacer mi pichanga.
+      - Estoy en la búsqueda de un complejo deportivo.
+      - Necesito opciones para practicar algún deporte.
+      - Me podrías indicar sitios para jugar pelota.
+      - Estoy viendo dónde meter unos golcitos.
+      - Para mi partido de [fulbito](sport), ¿qué me sugieres?
+      - Estoy buscando un local para mi campeonato de [vóley](sport).
+      - ¿Hay algún club disponible para [tenis](sport)?
+      - Quisiera averiguar sobre lugares para [basket](sport).
+      - Hola, ¿me podrías indicar dónde hay sitios para pichanguear cerca de [Barranco](location)?
+      - Oe causa, ¿tienes algún point bacán para jugar un [fulbito](sport) con la promo?
+      - Estoy buscando un lugar para un partido de [voley](sport) con mis amigas, ¿qué me recomiendas?
+      - Quisiera saber si hay canchas de [pádel](sport) disponibles por la zona de [San Borja](location) para mañana.
+      - Necesito un espacio deportivo para un [basket](sport) a un precio razonable.
+      - ¿Algún centro deportivo bueno para un partido de [fútbol](sport) cerca de [Surco](location)?
+      - Mi equipo quiere jugar [voleyball](sport) y busco una cancha con [losa deportiva](surface), ¿me puedes ayudar?
+      - Deseo jugar [tenis](sport), ¿hay opciones en el distrito de [Miraflores](location)?
+      - A ver, dame alternativas para alquilar una cancha, si es con [grass sintético](surface) mejor.
+      - ¿Conocen algún lugar donde pueda jugar [fulbito](sport) que sea económico?
+      - Hola, estoy por [Magdalena](location), ¿qué sitios hay para practicar algún deporte?
+      - Estoy buscando un espacio para un [basketball](sport) por la noche, ¿qué alternativas me das?
+      - Quiero encontrar un lugar para jugar [fútbol](sport) por la zona de [Ate](location) que no exceda los [S/100](budget).
+      - Una canchita de [fulbito](sport) con [grass sintético](surface) en [Los Olivos](location), ¿qué tal?
+      - Mi causa necesita jugar [basket](sport) en [San Juan de Lurigancho](location), ¿dónde lo puede hacer?
+      - ¿Pueden sugerirme dónde jugar [voley](sport) cerca al [Callao](location)?
+      - A ver si me ubicas una cancha de [fútbol](sport) con [grass natural](surface) por [Chorrillos](location), porfa.
+      - Busco dónde patear una pelota en [Breña](location), algo con [losa de cemento](surface).
+      - Mi gente y yo queremos jugar un partidito, ¿alguna sugerencia de canchas por [Jesús María](location)?
+      - Estoy en [La Victoria](location), ¿dónde puedo encontrar un lugar para hacer deporte?
+      - Uhm, ¿tienes algún point para jugar [fulbito](sport) por [Comas](location) que sea baratito?
+      - Queremos un [voley](sport) en [Surquillo](location), ¿qué me recomiendas para alquilar?
+      - Dime dónde puedo echarme un [fútbol](sport) por [Pueblo Libre](location) a eso de las [7pm](time).
+      - Necesito un espacio de [pádel](sport) en [San Isidro](location) que no pase de los [S/80](budget).
+      - Estoy que busco donde jugar [basket](sport) por [Lince](location), ¿me das unas opciones?
+      - Tenemos un grupo para [fulbito](sport), ¿qué canchas hay cerca de [San Miguel](location)?
+      - Papi, ¿dónde encuentro una buena cancha para [football](sport) con [grass sintético premium](surface)?
+      - Quisiera ver opciones para jugar un [tenis](sport) que sea accesible económicamente.
+      - ¿Me puedes dar el dato de dónde puedo encontrar una cancha de [voley](sport) con [losa de cemento](surface) por la [La Molina](location)?
+      - Estoy con ganas de echar un partidito de [fútbol](sport), ¿hay algún sitio disponible que me puedas recomendar?
+      - ¿Me podrías soltar algunas opciones de campos deportivos?
+      - Estoy buscando un point para echar una pichanguita.
+      - Mi mancha quiere jugar, ¿dónde nos recomiendas?
+      - Necesito un campito para mover la pelota, ¿qué hay?
+      - A ver, búscame un lugar pa' sudar un rato.
+      - Dime dónde podemos pelotear con mis causas.
+      - ¿Hay algún sitio bacán para hacer deporte?
+      - Quisiera armar un partidito, ¿alguna sugerencia de cancha?
+      - Necesito un espacio chévere para desestresarme.
+      - Ando con ganas de chutar, ¿dónde puedo ir?
+      - ¿Qué tal si me das el dato de algún lugar para jugar?
+      - Queremos echar una cascarita, ¿dónde encontramos algo?
+      - Por favor, indícame alternativas de recintos deportivos.
+      - Estoy buscando un lugar para mi pichanga de fin de semana.
+      - ¿Tienes opciones de campos para practicar algún deporte?
+      - Recomiéndame un sitio para entrenar con el equipo.
+      - Necesitamos un ambiente para hacer deporte, ¿qué me dices?
+      - Dime dónde podemos ir a jugar un rato, ¿alguna idea?
+      - Quiero encontrar un sitio para mi activación física.
+      - ¿Hay algún complejo deportivo disponible?
+      - Quisiera ver dónde puedo alquilar un espacio para jugar.
+      - Dame el dato de algún lugar para botar el estrés.
+      - Mi promo busca dónde pelotear.
+      - ¿Me ayudas a encontrar un sitio para hacer deporte con mis patas?
+      - Estoy con ganas de mover el esqueleto, ¿qué opciones hay?
+      - ¿Dónde se puede armar una 'fulbitera'?
+      - Busco un área donde pueda jugar con los amigos.
+      - Quiero un point que esté libre para hoy.
+      - ¿Qué me aconsejas para jugar un partidito?
+      - Necesito saber dónde hay canchas buenas para ir.
+      - ¿Qué tal? ¿Conocen de algún lugar para un fulbito?
+      - Oye, ¿sabes dónde podríamos echar una pichanga con la gente?
+      - Estoy armando un partidito, ¿algún complejo deportivo que sugieran?
+      - ¿Me podrían dar opciones de campos para pelotear por la zona?
+      - Necesito un point bacán para ir con mis patas, ¿tienen un datazo?
+      - Disculpa, ¿qué sitios recomiendan para jugar un rato?
+      - A ver, ¿dónde encuentro un lugarcito para soltar las piernas?
+      - Mi equipo quiere jugar, ¿dónde nos sugieren ir?
+      - ¿Hay alguna losa deportiva disponible para voley?
+      - ¿Saben dónde se puede conseguir un campito para el fin de semana?
+      - Hola, ¿podrían informarme sobre alternativas de campos?
+      - Quisiera averiguar sobre complejos para hacer deporte.
+      - Un sitio para practicar algún deporte, ¿qué tal si me ayudan?
+      - Por fa, necesito ubicar un espacio para un partido.
+      - ¿Algún lugar chévere para la pichanga de hoy?
+      - Estoy buscando un lugar para que mi gente juegue.
+      - ¿Qué opciones tienen para practicar baloncesto?
+      - Deseo encontrar un local para mi grupo de fulbito.
+      - Onde puedo ir a jugar con los amigos, ¿me das un alcance?
+      - Necesito un buen lugar para mi partido de fin de semana.
+      - ¿Me recomiendan algún lugar para echar el voley?
+      - Quiero ver dónde puedo hacer un poco de ejercicio, ¿algún campo?
+      - A ver si hay algun spot para un partidito con la promo.
+      - ¿Podrían darme opciones de lugares para practicar mi deporte?
+      - Mi gente quiere distraerse, ¿dónde podemos ir a pelotear?
+      - Ando buscando un campito para mi equipo, ¿saben de alguno?
+      - ¿Qué alternativas de campos de fútbol hay?
+      - Busco una zona para pichanguear, ¿me ayudan con el dato?
+      - Quisiera ubicar un sitio donde poder hacer un partidito.
+      - Hola, necesito saber si hay puntos para ir a echar una.
+      - ¿Qué opciones hay para pelotear hoy?
+      - Estamos buscando un point para pichanguear
+      - ¿Tendrás alguna sugerencia para un partido de [basket](sport)?
+      - ¿Dónde podríamos organizar un [fulbito](sport)?
+      - A ver si me pasas la voz de un sitio para [vóley](sport)
+      - Quería ver si me ubicas una cancha
+      - ¿Alguna pista para jugar [tenis](sport), porfa?
+      - Mis patas quieren hacer algo de [deporte](sport), ¿qué hay?
+      - Me gustaría un lugar para practicar [pádel](sport)
+      - Para jugar una tocadita, ¿qué me ofreces?
+      - ¿Habrá algo disponible pa' la gente, cerca a [Miraflores](location)?
+      - Estoy buscando un lugar para entrenar, ¿alguna idea?
+      - ¿Dónde podemos chutar un rato?
+      - ¿Me puedes dar alternativas de recintos deportivos?
+      - Tenemos ganas de un partidito de [fútbol](sport), ¿qué nos aconsejas?
+      - Estoy viendo dónde jugar con mis amigos
+      - ¿Qué me recomiendas para un partido de [vóley](sport)?
+      - Un point chévere para [pichanga](sport), ¿tienes?
+      - ¿Algún sitio pa' echar una [cascarita](sport) esta [tarde](time)?
+      - Dime dónde encuentro un espacio para [básquet](sport) en [San Borja](location)
+      - Quisiera ver opciones para jugar [tenis](sport)
+      - ¿Hay algún lugar bacán para [fulbito](sport) en [Surco](location) a eso de las [7pm](time)?
+      - Estoy por [Chorrillos](location) y queremos un point para [futsal](sport)
+      - Necesitamos un campo de [grass natural](surface), ¿tienes alguna opción?
+      - ¿Conoces sitios para jugar [vóley](sport) que no sean tan caros?
+      - Tenemos un presupuesto de [100 lucas](budget), ¿qué hay para [fulbito](sport)?
+      - Algo cerca de [San Isidro](location) para un toque de pelota?
+      - Busco una cancha de [grass sintético](surface) que esté por [La Molina](location)
+      - Para [pádel](sport) por la [noche](time), ¿dónde se puede jugar?
+      - ¿Me indicas dónde puedo ir a jugar con los panas?
+      - kiero una cancha
+      - busco sitio pa jugar
+      - hay alguna cancha
+      - recomiendame algo
+      - donde puedo pelotear
+      - q canchas hay
+      - necesito un lugar
+      - kiero cancha pa hoy
+      - tienen algo x aki
+      - busco canchita cerca mio
+      - una reco pa jugar
+      - cancha disponible hoy
+      - quiero jugar por surco
+      - dame una cancha xfa
+      - kiero un sitio pa la noche
+      - hay canchas alas 8
+      - busco cancha en vill salvador
+      - aca a mi alrededor hay?
+      - dond encuentro canchita
+      - recomiendame un campo
+      - necesito cancha pa mañana
+      - q hay pa jugar x la tarde
+      - busco un lugar cerca d casa
+      - quiero una cancha por mi zona
+      - tienes canchas disponibles
+      - cancha libre para esta noche
+      - kiero cancha por un rato
+      - donde juego hoy dia
+      - dame una opcion cerca
+      - hay algo por ahi pa jugar
+      - necesito un campo pa el fin
+      - busco cancha tipo 7pm
+      - recomiendame una pa ahorita
+      - q canchas hay en mi barrio
+      - kiero jugar x la tarde
+      - tienes algo pa las 9
+      - busco un lugar pa jugar
+      - quiero una cancha cerca
+      - donde hay algo disponible
+      - q cancha hay disponible
+      - busco cancha libre
+      - donde ay cancha pa jugar
+      - kiero jugar ahora mismo
+      - cancha porfa
+      - reco de sitio pa pichar
+      - algo pa jugar x aca
+      - donde encuentro algo libre
+      - un campito cerca
+      - busco donde sudar un rato
+      - dame una opcion hoy
+      - alguna cancha disponible
+      - kiero algo cerca mio
+      - pa pichanga nomas
+      - alguna cancha por surco
+      - cancha en vill salvador
+      - a q hora hay cancha libre
+      - nesesito cancha para hoy en la noche
+      - cancha para las 8pm
+      - donde puedo patear la pelota
+      - algo cerca mio pe
+      - aca a mi alrededor hay alguna?
+      - q me recomiendas para jugar
+      - reco de cancha urgente
+      - alguna disponible x la noche
+      - kiero un espacio pa mi gente
+      - dame dato de cancha
+      - cancha pa hoy alas 7pm
+      - por donde vivo hay canchas?
+      - busco un lugar pa desestresarme
+      - algo pa mover el esqueleto
+      - donde juego mañanita
+      - a ver si hay cancha pa reservar
+      - un lugar cerca de aca para jugar
+      - q tal si hay algo por aca para jugar
+      - alguna cancha que este libre ahora
+      - kiero jugar con los patas
+      - algun lugar bueno para pichanga
+      - cancha para el sabado porfa
+      - busco cancha libre 8pm
+      - reco de cancha
+      - donde kacharreo hoy?
+      - alguna canchita libre?
+      - busco pa pichanga
+      - q hay pa jugar?
+      - nesesito un lugar
+      - cancha serca mio
+      - dime donde juego x aca
+      - ala 8 hay algo?
+      - kiero patear una pelota
+      - un spot para divertirme
+      - x surco tienes?
+      - donde jugar mañana
+      - algun sitio libre?
+      - ayudame a encontrar
+      - q me recomiendas
+      - pa jugar con los patas
+      - vill salvador algo?
+      - busco donde aser deporte
+      - un buen lugar
+      - hay cancha para hoy?
+      - para hoy porfis
+      - reco para mi barrio
+      - nesecito cancha pa las 9
+      - q tienes x el callao
+      - donde juego fut
+      - alguna serca a la chamba
+      - tienes un espacio
+      - busco x ate vitarte
+      - para las 7 p.m.
+      - kiero divertirme
+      - algo libre en mi zona
+      - canchita hoy
+      - pasame la voz si hay algo
+      - donde puedo ir
+      - alguna opcion pa entrenar
+      - que tal en san juan?
+      - cancha ps
+      - reco cancha
+      - donde juego ahorita
+      - hay libre?
+      - algo pa hoy
+      - kiero una pa la noche
+      - busco cancha por surco
+      - donde encuentro algo
+      - necesito jugar ya
+      - reco algo cerca
+      - q hay por aca
+      - dime canchas
+      - cerca mio una
+      - vill salvador ps
+      - algo por aca pa jugar
+      - toy buscando cancha
+      - pa mañana kiero
+      - cancha pa fulbito
+      - donde ir a jugar
+      - necesito una por la noche
+      - q canchas tienes
+      - cerca mio a q hora
+      - hay canchas libres?
+      - pa las 7pm
+      - una cancha por ahi
+      - busco por la tarde
+      - q opciones hay
+      - kiero jugar por mi barrio
+      - cancha cerca
+      - donde puedo jugar hoy
+      - nesecito pa la noche
+      - algo por surco
+      - q hay disponible
+      - reco cancha hoy
+      - canchas pa mañana
+      - busco algo por vill salvador
+      - kiero cancha cerca mio
+      - una cancha ps
+      - kiero jugar hoy
+      - dnde ay cancha
+      - algo pa la noxe
+      - busco sitio pa pelotear
+      - cancha cerca mio
+      - algun lugar pa correr
+      - kiero futbol
+      - pa jugar basket en la zona
+      - aca cerca kiero
+      - busco pa mañana
+      - una kanchita pa fulbito
+      - ayúdame a ubicar una
+      - un sitio pa voley
+      - kiero un campo libre
+      - pa hoy ala noche
+      - algo x surco
+      - una reco xfa
+      - dnd hay libre
+      - kanchita en vill salvador
+      - pa jugar despues
+      - kancha libre 8pm
+      - nesesito cancha urgente
+      - ay pa jugar ahora
+      - q ay por aki
+      - un lugar pa la pichanga
+      - kiero alquilar algo
+      - busco en la tarde
+      - cerca a mi casa
+      - por el barrio
+      - dnd encuentro para mañana
+      - kiero una pa el finde
+      - ayudenme con algo
+      - quiero patear la pelota
+      - busco donde hacer deporte
+      - un sitio pa sudar
+      - x mi zona hay algo
+      - necesito una opcion
+      - dnd juego kn mis patas
+      - cancha pa jugar
+      - q hay pa patear
+      - una reco ps
+      - kiero algo libre
+      - donde me aviento
+      - busco un spot
+      - pa la noche xfa
+      - algo por chorrillos
+      - donde caigo pa un partidito
+      - necesito patear una con mis patas
+      - dame data de sitios para jugar
+      - q tienes disponible pa hoy
+      - donde hay un lugarcito pa la gente
+      - dame una mano con un lugar cerca
+      - kiero chutar un rato por la zona
+      - busco algo por mi barrio ahora
+      - donde me armo un partidito en la noche
+      - q tal las canchas de por aca en magdalena
+      - a q hora hay libre pa jugar fulbito
+      - donde juego mañana por los olivos
+      - pa las 9 de la noche en sjl
+      - necesito un espacio pa entrenar con el equipo
+      - kiero algo rapido por mi chamba
+      - por ate porfavor a ver si encuentras algo
+      - alguna pa hoy en la victoria
+      - a q hora hay cancha libre en el callao
+      - q tal x chorrillos pa un voley asi tranqui
+      - busco algo x las 6pm por mi casa
+      - donde me keda cerca pa ir a jugar
+      - un lugar pa jugar pelota por la molina
+      - hay algo para jugar por breña
+      - pa el fin de semana porfavor
+      - tienes alguna libre pa la tarde
+      - busco un lugar pa fulbito sin mucho lio
+      - pa jugar fut
+      - dime una pa pichanga
+      - algo libre
+      - cancha pa la gente
+      - donde armo una
+      - kiero un partido
+      - algun sitio pa pelotear
+      - algo x la noche
+      - q me recomiendas para mi equipo
+      - un lugar pa hacer deporte
+      - por mi casa q hay
+      - q tal para mañana
+      - busco un lugar pa mi pichanga
+      - algo cerca mio
+      - donde se arma
+      - q tienes pa hoy
+      - necesito pa jugar
+      - alguna cancha
+      - cancha pa la tarde
+      - q hay libre
+      - una pa la noche
+      - donde podemos jugar hoy
+      - q tal una cancha cerk
+      - busco pa mi jato
+      - algun point pa la pichanga
+      - kiero pelotear
+      - q hay cerca
+      - dime una cancha
+      - necesito una pa mañana
+      - hay algun sitio libre pa jugar
+      - busco x ahi
+      - q opciones tengo
+      - para hoy por la noche
+      - q tal una cancha libre porfa
+      - busco una pa jugar
+      - dime de canchas
+      - algo pa jugar
+      - donde me recomiendas
+      - hay algo pa hoy
+      - tienes cancha
+      - nesecito reco
+      - me das opciones
+      - quiero pisar grass
+      - donde x acá
+      - cancha x mi jato
+      - qtal si juegas
+      - pa la noche
+      - una en villa salvador
+      - por surco ahora
+      - canchita x favor
+      - algo disponible
+      - kiero cancha
+      - hay libres?
+      - donde nos juntamos
+      - cancha a las 8pm
+      - algo pa las 7
+      - cancha de barrio
+      - nesecito donde correr
+      - algo pa mañana
+      - cual me recomiendas tu
+      - tienes algo libre
+      - por vill salvador
+      - cancha pa el lunes
+      - en q zona hay
+      - quiero cancha de fulbito
+      - busco algo rapido
+      - donde juego mañana
+      - a ver las canchas
+      - busco pa jugar
+      - dnde puedo ir
+      - algo porfa
+      - una canchita libre
+      - pa hoy en la tarde
+      - kiero jugar pelota
+      - nesesito un sitio
+      - dnde hay pa jugar
+      - tienes algo hoy
+      - una pa mi gente
+      - busco x la noche
+      - algo para mañana
+      - q tienes disponible
+      - vill salvador tienes?
+      - kiero una por surco
+      - un lugarcito pa pichanga
+      - dnd encuentro un point
+      - nesesito jugar xfa
+      - algo para fulbito
+      - hay cancha abierta?
+      - quiero matar la tarde
+      - busco pa las 9pm
+      - dame alguna opción
+      - x aqui cerca
+      - cancha pa hoy
+      - dond puedo pelotiar
+      - pa mi equipo
+      - tienes algun campito
+      - a q hora hay cancha
+      - por mi barrio hay algo
+      - busco pa jugar ahora
+      - un sitio libre
+      - quiero jugar ahorita
+      - algo para la pichanga
+      - dnde vamos
+      - kiero una cancha pa hoy
+      - dond puedo jugar pelota
+      - necesito reco pa jugar
+      - hay cancha libre hoy?
+      - busco espacio pa la pichanga
+      - algo cerca mio xfa
+      - dame opciones pa la tarde
+      - kiero jugar despues del trabajo
+      - pa la noche kiero cancha
+      - cancha libre 7pm
+      - busco cancha x surco
+      - aca a mi alrededor hay algo?
+      - kiero cancha en vill salvador
+      - alguien tiene dato de cancha?
+      - busco cancha pa mi gentita
+      - algo pa jugar fulbito xfa
+      - cancha pa el sabado
+      - necesito jugar mañana urgente
+      - recomiendame algo rapido
+      - dime dond hay cancha ahora
+      - hay cancha x chorrillos?
+      - algo libre x la molina pa jugar
+      - kiero jugar futbol hoy
+      - busco un lugar pa voley
+      - alguna cancha cerquita?
+      - tienen cancha x la tarde?
+      - algo pa la nochecita
+      - q canchas tienen disponibles?
+      - dond puedo jugar basket en la noche?
+      - kiero reco x miraflores
+      - necesito alquilar pa un partido
+      - que canchas hay pa la noche?
+      - pa mas tarde un fulbito
+      - cancha pa hoy en la noche
+      - alguien sabe de una cancha libre?
+      - busco pa jugar, sin importar la zona
+      - libre pa jugar en la noche
+      - quiero cancha sin distrito
+      - necesito alquilar sin hora
+      - dame una reco
+      - hay cancha libre
+      - q hay pa hoy
+      - aca alrededor
+      - por mi zona
+      - san miguel xfa
+      - q hay en miraflores
+      - cancha en comas
+      - chika en sjl
+      - ala noche
+      - kiero a las 7
+      - nochecita
+      - en la mañana
+      - kiero jugar por surco
+      - cancha libre aca a mi alrededor
+      - dame una reco por vill salvador pa la noche
+      - algo pa jugar en sjl mas tarde
+      - necesito un lugar cerca mio pa mañana
+      - q hay pa hoy en comas
+      - busco pa jugar cerca mio alas 7
+      - recomiendame algo por ate vitarte nochecita
+      - kiero una pa jugar
+      - onde hay algo libre
+      - busko un sitio pa fulbito
+      - alguna reco buena
+      - ayuda con cancha pa hoy
+      - ncsito un lugar cerca
+      - cancha pa la noche porfa
+      - pa jugar mañana a las 7
+      - tienes algo disponible?
+      - algo por aca por el centro
+      - hay canchas 9pm
+      - kiero peloteo ps
+      - onde meter gol hoy
+      - canchita libre ahora urgente
+      - pa mi gente un lugar
+      - alguna pichanga disponible
+      - recomienda un spot por aqui
+      - busco pa un partidito
+      - cancha cerca de la casa
+      - aca a mi alrededor algo libre
+      - villa el salvador 8pm
+      - por surco para el viernes
+      - cancha pa la joda
+      - algo pa quemar grasa
+      - basket pa meter unos puntos
+      - fulbito rapido en la tarde
+      - pa mi equipo q tal
+      - cancha para el sabado
+      - q hay pa un toque nomas
+      - busko algo por la zona
+      - ncsito pa mover el cuerpo
+      - canchita por la tarde hoy
+      - 8 de la noxe libre?
+      - pa hoy en la noche donde
+      - onde juegar ps rapido
+      - algo pa un voley
+      - cancha libre hoy 6pm
+      - por vill salvador cerca
+      - buscando pa un partido el domingho
+      - cancha x surco
+      - aca a mi alrrededor
+      - x mi zon
+      - kiero cancha libre 8pm
+      - alas 8 q hay?
+      - vill salvador cancha
+      - recomiendame algo pe
+      - kiero reservar
+      - dime una reco
+      - busco una
+      - q se puede jugar?
+      - ayuda pa cancha
+      - donde juego hoy
+      - reco pa hoy
+      - nesesito uno
+      - cancha x surco pa hoy
+      - algo serca mio pa la noche
+      - aca alrrededor alas 8
+      - x mi zon libre 8pm
+      - vill savador a las 7
+      - recomiendame algo cerca mio
+      - kiero reservar x mi zona
+      - dime una reco pa vill salvador
+      - busco una x surco
+      - q hay pa jugar cerca mio
+      - ayuda kon cancha en vill salvador
+      - tienes algo libre x mi zon
+      - donde juego x aca
+      - reco pa la noche x surco
+      - nesesito uno ala 8pm
+      - oe, cancha libre x surco 8pm?
+      - causa recomiendame algo x mi zona
+      - puedes ver si hay cancha cerca mio pa la noche
+      - me das una reco pa jugar en vill salvador x las 7
+      - quiero reservar algo cerca a mi alrrededor pa mas tarde
+      - dime una recomendacion buena x surco pa hoy a la 8
+      - busco cancha x mi barrio pa la noche
+      - q hay pa jugar cerca de mi casa
+      - necesito cancha libre x akí a las 8
+      - donde jugar cerca mio alas 8pm
+      - reco de cancha en vill salvador libre para hoy
+      - kiero reservar algo pa la tarde x surco
+      - dime una reco pa mi zon para mañana
+      - busco una cancha cerca a mi alrededor
+      - tienes cancha libre pa las 9pm?
+      - q hay pa jugar x vill salvador
+      - ayuda kon una cancha x mi casa alas 8
+      - nesesito algo libre en surco
+      - cancha disponible pa la noche
+      - recomiendame pe pa hoy
+      - kiero reservar un espacio
+      - dime alguna opcion pa jugar
+      - busco donde hacer depórte
+      - donde puedo juagar
+      - q tienes libre ahorita?
+      - algo pa las 6 cerca
+      - nesesito una cerca a mi
+      - cancha x mi zona pa mañana
+      - recomiendame uno x el ves
+      - kiero reservar en surco
+      - dime una recomendacion x aca a mi alrededor
+      - busco algo cerca de mi ubicacion
+      - q hay libre pa hoy ala 7
+      - ayuda pa encontrar cancha
+      - tienes canchas disponibles para esta noche
+      - donde juego en vill salvador
+      - reco pa sabado en surco
+      - nesesito uno cerca a mi x la tarde
+      - cancha libre 8pm cerca mio
+      - alas 8pm aca a mi alrrededor
+      - vill savador x mi zona
+      - recomiendame algo libre pa hoy
+      - kiero reservar x surco 9pm
+      - dime una reco en el ves pa 7pm
+      - busco una cancha libre pa mañana
+      - q hay pa jugar cerca de mi
+      - ayudame pe a buscar
+      - tienes algo pa jugar x aca
+      - donde puedo ir a jugar
+      - reco pa los patas en surco
+      - nesesito un lugar pa jugar
+      - cancha disponible vill salvador
+      - recomiendame algo por mi zon
+      - kiero reservar cerca mio
+      - dime una recomendacion x surco
+      - busco algo libre para mañana
+      - q hay de cancha cerca de mi
+      - ayuda pe kon una cancha
+      - tienes canchas x akí
+      - donde juego a las 8
+      - reco pa hoy en vill salvador
+      - nesesito cancha cerca a mi pa hoy
+      - cancha libre en surco alas 8pm
+      - alas 8pm por mi zon
+      - vill savador aca a mi alrrededor
+      - recomiendame algo libre x surco
+      - kiero reservar algo alas 8
+      - dime una reco pa el ves libre
+      - busco una cancha x mi kasa
+      - q hay pa jugar cerca mio alas 7
+      - ayudame pe a buscar algo libre
+      - tienes algo pa jugar hoy
+      - donde puedo jugar ahora
+      - reco de cancha libre para la tarde
+      - nesesito un lugar para jugar cerca
+      - cancha disponible por mi zona mañana
+      - recomiendame algo para jugar x aki
+      - kiero reservar algo pa hoy cerca a mi
+      - dime una reco buena para la noche
+      - canchita xfa
+      - tienes canchas
+      - reco ps
+      - dime una
+      - pa hoy kiero
+      - x villa salvador
+      - kiero jugar por mi zona
+      - hay algo cerca mio
+      - q recomiendas aca a mi alrededor
+      - dime algo pa reservar
+      - busco una a las 8
+      - alguna reco x surco
+      - x aqui cerkita
+      - cancha pa la noche
+      - kiero saber de canchas
+      - alguna libre x 8pm
+      - q hay por mi barrio
+      - oe una cancha
+      - xfa una reco
+      - cerka pa mi
+      - x el ves
+      - q hay pa las 8
+      - reco una pa ahora
+      - busco algo x aqui
+      - dime unas opciones
+      - una canchita libre 8pm
+      - x surco algo
+      - pa reservar un rato
+      - ayudame a buscar ps
+      - algun dato cerca mio
+      - algo x mi zona alas 8
+      - recomiendame pa hoy
+      - canchita x vill salvador
+      - q hay aca a mi alrededor
+      - quiero reservar una
+      - una cancha libre ps
+      - x surco cerca mio
+      - dime una reco pa las 8
+      - busco algo por mi zona
+      - tienes algo por el VES
+      - kiero un lugar pa jugar
+      - reco algo a las 8pm
+      - dime d una canchita
+      - una cancha cerka
+      - algo libre para hoy
+      - xfa recomiendame uno
+      - canchita pa la reserva
+      - q hay por aqui cerca
+      - dame una opcion pa jugar
+      - kiero reservar pa alas 8
+      - x villa salvador hoy
+      - algun dato x surco
+      - algo cerca a mi alrededor
+      - reco una pa mi barrio
+      - dime q tienes libre
+      - cancha 8pm ps
+      - kiero saber d canchas
+      - alguna reco x mi casa
+      - busco una en mi zona
+      - tienes algo pa reservar
+      - dime algo cerkita
+      - una canchita x 8pm
+      - x surco pa hoy
+      - reco una pa las 8pm
+      - algo aca en mi barrio
+      - quiero reservar algo
+      - dime de algo libre
+      - canchita x el ves 8pm
+      - reco una pa jugar
+      - busco cerca mio alas 8
+      - xfa una recomendacion
+      - dime una libre
+      - algo por mi zona 8pm
+      - tienes canchas pa reservar
+      - una canchita pa la gente
+      - kiero ver canchas x surco
+      - reco una pa mi pe
+      - dime algo aca cerca
+      - busco algo x villa salvador alas 8
+      - cancha pa jugar hoy
+      - q hay disponible cerca mio
+      - recomiendame una pal sabado
+      - dime una cancha por mi zona
+      - kiero reservar xfa
+      - algo libre xfa
+      - canchita pa la noche 8pm
+      - x surco quiero algo
+      - reco algo para mi
+      - dime de una libre aca
+      - busco algo aca a mi alrededor pa alas 8
+      - tienes una canchita por el ves
+      - kiero saber donde jugar
+      - reco una cerca mio pa hoy
+      - q tienes pa jugar hoy
+      - kiero cancha pa la noche
+      - dime onde puedo pelotear
+      - busco onde matar la tarde
+      - reco de cancha xfa
+      - tienes alguna libre pa la gente
+      - pa cuando hay una canchita libre
+      - ayudame a encontrar algo
+      - onde jugamos la noche
+      - tienes cancha disponible para hoy
+      - necesito una pa jugar fut hoy
+      - x mi zona q hay de bueno
+      - un recito pa pichanga
+      - q me recomiendas para el finde
+      - pa jugar hoy q hay de opciones
+      - tienes opciones de cancha cerca
+      - algo pa reservar pa mi gente
+      - donde podemos ir a jugar el sabado
+      - dame una buena reco xfa
+      - algo libre pa la noche de hoy
+      - una reco xfa por surco
+      - cerca mio q encuentras pa jugar
+      - por mi zona dime q hay
+      - cancha libre 8pm donde
+      - alas 8 tienes algo pa futbol
+      - vill salvador hay algo pa pichanga
+      - recomiendame algo x aqui cerca
+      - kiero reservar una canchita
+      - dime una recomendacion buena pa jugar
+      - pa jugar futbol en surco q me das
+      - x chorrillos q hay de canchas
+      - algo pa la noche porfa y cerca
+      - q sea libre para las 9 de la noche
+      - tienes un dato de cancha xvr
+      - kiero jugar a la pelota hoy
+      - q puedo jugar por aca cerca
+      - una cancha x mi casa pa mañana
+      - busco algo en vill salvador pa jugar
+      - cerca mio una libre pa la tarde
+      - x surco q recomiendas pa futbol
+      - pa alas 8pm q hay de canchas
+      - quiero una cancha hoy mismo pa mi barra
+      - q tienes pa mas tarde hoy
+      - una reco por villa el salvador
+      - por mi zona tienes canchas libres
+      - necesito algo cerca mio pa jugar la noche
+      - kiero reservar alas 8pm porfa
+      - dame una recomendacion buena y barata
+      - tienes una cancha libre ahora
+      - onde hay algo pa pichanga hoy
+      - q opciones de cancha hay x aqui
+      - una cancha cerca a mi casa
+      - recomiendame pa hoy en la tarde
+      - q me sugieres pa jugar futbol
+      - aca cerca algo pa fut hoy
+      - cancha libre x la noche a que hora
+      - vill salvador pa jugar fut esta semana
+      - algo por surco alas 8pm q sea bueno
+      - x mi zona kiero algo pa mañana
+      - tienes canchas libres x donde estoy
+      - donde hay canchita pa los amigos
+      - a que hora hay espacio pa reservar
+      - dame una reco rapido q sea buena
+      - kiero una cancha cerca a mi chamba
+      - pa hoy en la tarde q tienes
+      - que cancha me das para el sabado
+      - busca algo pa mi para jugar hoy
+      - q sea x mi zona pa reservar
+      - algo libre pa las 7pm
+      - villa el salvador q hay pa futbol
+      - cerca mio pa reservar pa mañana
+      - alas 8 por surco q hay de canchas
+      - q tal esta cancha q me recomiendas
+      - necesito jugar hoy si o si
+      - dame un dato de cancha barata
+      - q puedo reservar para la semana
+      - busca algo cerca pa pichanga
+      - por mi zona algo bueno pa hoy
+      - canchas libres cerca de mi zona
+      - vill salvador alas 8pm q tal
+      - recomiendame algo xvr pa jugar
+      - quiero reservar pa fut el finde
+      - onde hay cancha libre y barata
+      - q me das por surco pa las 7
+      - cerca mio pa las 9pm
+      - aca a mi alrededor algo libre pa hoy
+      - por mi zona algo pa hoy tarde
+      - cancha libre 8pm en vill salvador
+      - alas 8pm en surco q hay de opciones
+      - recomiendame algo urgente pa la noche
+      - kiero reservar ya mismo una cancha
+      - dime una recomendacion pa jugar fut
+      - pa jugar en surco hoy en la tarde
+      - x chorrillos pa la noche q encuentras
+      - q tienes libre pa mañana en la mañana
+      - busco algo pa jugar la noche de hoy
+      - algun sitio pa pichanguear
+      - dime una reco pa mis patas
+      - kiero alquilar algo rapido
+      - pa cuando hay cupo pa jugar
+      - tienes canchas libres x mi casa
+      - algo pa las 5pm cerca
+      - q tal la canchita de surco
+      - necesito jugar pero no se donde
+      - dame un pique de donde jugar
+      - q hay pa los chibolos cerca
+      - kiero reservar un espacio ya
+      - por mi zona pa las 6 de la tarde
+      - canchita libre alas 7 en villa
+      - reco de cancha pa hoy
+      - donde pichangueo hoy x mi barrio
+      - algo cerca mio pa un fulbito
+      - dime una buena pa reservar
+      - una cancha para 8pm por surco
+      - nesesito cancha, tienes algo
+      - cancha pa jugar x la noche, por mi barrio
+      - cancha libre alas 8? en vill salvador
+      - dime una recomendacion pa jugar
+      - hay cancha pa alquilar aca a mi alrededor
+      - kiero algo para hoy alas 8pm
+      - x surco, tienes cancha libre?
+      - nesesito una cancha pal fulbito
+      - reco pa jugar, cerca a casa
+      - busco por villa el salvador, algo disponible?
+      - cancha pa hoy, dime q hay
+      - kiero reservar una, xfa
+      - canchas disponibles por mi zona?
+      - alguna reco por la noche?
+      - algun lugar pa jugar futbolito en el ves
+      - recomiendame algo en surco pa maña
+      - kiero jugar 8pm, q tienes
+      - dame una reco por mi zona, pa jugar
+      - hay cancha para reservar por aca
+      - nesesito una cancha hoy mismo
+      - alguna reco de cancha por villa
+      - cancha pal finde x mi casa
+      - q canchas recomiendas alas 8pm
+      - kiero una canchita por el surco
+      - hay algo cerca a mi direccion?
+      - busco cancha libre en vill salvador pa jugar
+      - recomiendame algo para la noche
+      - kiero reservar para mañana
+      - dime una reco pa jugar mañana
+      - canchas dispo cerca mio para la tarde
+      - por surco, hay cancha?
+      - una reco de cancha, porfa
+      - kiero jugar hoy alas 8, donde
+      - busco pa jugar en el ves
+      - alguna sugerencia de cancha?
+      - cancha libre por mi zona para la noche
+      - reco algo cerca a mi
+      - kiero reservar cancha por aca
+      - dime q hay para jugar hoy
+      - nesesito cancha, por donde
+      - hay cancha por villa el salvador para hoy?
+      - cancha libre alas 8pm por mi zona
+      - kiero algo para fulbito en surco
+      - dame una recomendacion de cancha
+      - busco cancha cerca a mi alrededor
+      - nesesito una cancha pal viernes
+      - hay canchas por el vill salvador
+      - reco cancha para la noche
+      - kiero jugar alas 8, x aca
+      - dime q canchas hay en surco
+      - busco algo para fulbito x mi barrio
+      - nesesito una cancha pa hoy alas 8pm
+      - hay cancha por mi zona para reservar
+      - q me recomiendas por surco
+      - cancha libre para jugar en el ves
+      - kiero reservar algo pa hoy
+      - dime una cancha disponible
+      - busco canchas aca a mi alrededor pa jugar
+      - nesesito cancha por el sur
+      - hay algo en vill salvador para alas 8
+      - reco cancha pa la tarde
+      - kiero jugar alas 8pm por mi zona
+      - dime opciones de cancha cerca mio
+      - busco una cancha por la noche
+      - nesesito cancha para maña x surco
+      - hay canchas disponibles cerca a mi
+      - q recomiendas pa jugar x el ves
+      - cancha libre alas 8pm por villa el salvador
+      - kiero reservar una cancha por mi alrededor
+      - dime alguna reco de cancha por aca
+      - busco donde jugar alas 8
+      - nesesito cancha en el surco
+      - hay algo pa jugar hoy en vill salvador
+      - reco cancha para el fin de semana
+      - kiero jugar alas 8pm, porfa
+      - dime q canchas hay cerca mio
+      - busco canchas por mi zona alas 8
+      - nesesito una cancha hoy, donde hay
+      - hay algo para reservar en surco
+      - q me recomiendas para hoy alas 8pm
+      - cancha libre por vill salvador alas 8
+      - kiero reservar algo cerca mio
+      - dime una reco de cancha para la noche
+      - busco donde jugar por surco
+      - nesesito cancha para el sabado
+      - hay canchas aca a mi alrededor para la noche
+      - q me recomiendas de cancha para hoy
+      - cancha libre alas 8 por mi barrio
+      - kiero jugar fulbito por villa el salvador
+      - dime q hay para jugar cerca mio
+      - busco cancha alas 8pm
+      - nesesito una cancha para el partido
+      - reco cancha hoy en surco
+      - canchas libres para mañana
+      - kiero jugar cerca de vill salvador
+      - algo para jugar alas 8pm por mi zona
+      - dime donde puedo reservar cancha
+      - busco cancha para la semana
+      - nesesito algo cerca mio para jugar
+      - hay cancha libre para hoy en el ves
+      - q me recomiendas, aca a mi alrededor
+      - kiero reservar algo en surco
+      - dime una reco de cancha pal finde
+      - busco donde jugar x la noche
+      - nesesito cancha, cerca a mi casa
+      - hay algo pa jugar en vill salvador cerca mio
+      - reco cancha para el partido de hoy
+      - oe hay cancha?
+      - dime una reco ps
+      - qiero una libre
+      - algo pa pichangear
+      - tienes canchas cerca mio
+      - busco pa las 8pm
+      - x surco algo?
+      - recomiendame algo aca a mi alrededor
+      - donde consigo cancha
+      - cancha pa jugar pe
+      - hay libre por mi zona
+      - kiero una reco pa hoy
+      - qiero reservar una x vill salvador
+      - dime algo pa las 8
+      - alguna cancha libre 8pm?
+      - me das una reco?
+      - canchas por aca
+      - donde encuentro una cerca mio
+      - q hay pa reservar
+      - una buena pa jugar
+      - libres x esta zona
+      - reco aca a mi alrededor
+      - kiero cancha urgente
+      - pa reservar alas 8
+      - villa salvador libre?
+      - dime una x surco
+      - algo cerca d mi pa pichangear
+      - una reco qiero
+      - tienes canxa disponible?
+      - busco algo pa la noche
+      - cancha x mi zona a las 8pm
+      - oe recomiendame una buena
+      - quiero reservar hoy
+      - q hay aca alrededor
+      - donde sea libre
+      - dime una reco en vill salvador
+      - cerca mio, q hay?
+      - pa jugar hoy a las 8
+      - qiero una en surco
+      - alguna reco alas 8pm
+      - reservar cancha por mi zona
+      - dime una recomendacion rapido
+      - busco algo libre ahora
+      - hay cancha libre 8pm aca a mi alrededor
+      - reco en vill salvador
+      - canchas libres cerca mio
+      - qiero reservar una pa la noche
+      - alguna x surco alas 8
+      - dime una recomendacion en mi zona
+      - quiero una pichanga
+      - recomiendame cancha
+      - tienes algo cerca de mi
+      - busco cancha pa la tarde
+      - dime algo pa hoy
+      - q hay en vill salvador
+      - reservar una cancha cerca mio
+      - una buena por surco pe
+      - dame una reco aca a mi alrededor
+      - kiero saber si hay libre
+      - pa jugar alas 8pm
+      - q hay pa jugar en mi zona
+      - vill salvador recomiendame algo
+      - cerca mio alas 8
+      - quiero reservar una pa la noche cerca mio
+      - algo por surco libre
+      - dime una buena aca a mi alrededor
+      - necsito cancha urgente
+      - pa pichanga 8pm
+      - reco en vill salvador alas 8
+      - busco una cancha cerca mio pa las 8
+      - kiero reservar por surco
+      - dime una reco pa hoy en mi zona
+      - cancha libre 8pm cerca de mi
+      - algo pa reservar alas 8pm
+      - vill salvador, recomiendame algo rapido
+      - una cancha por surco pa la noche
+      - dime una recomendacion cerca mio
+      - qiero algo libre ahora mismo
+      - cancha pa jugar aca a mi alrededor 8pm
+      - reco por mi zona alas 8
+      - quiero reservar en vill salvador
+      - donde hay algo pa pichangear cerca mio
+      - dime una reco q sea buena
+      - busco cancha pa la semana
+      - recomiendame algo en surco pa hoy
+      - kiero reservar una aca a mi alrededor
+      - q hay pa jugar en vill salvador
+      - dime una recomendacion pa mañana
+      - hay cancha por mi zona alas 8
+      - algo libre cerca d mi
+      - reco aca a mi alrededor alas 8pm
+      - qiero una cancha por surco urgente
+      - pa reservar vill salvador
+      - dime algo pa jugar a las 8
+      - busco una cancha libre 8pm
+      - recomiendame algo por mi zona pa pichanga
+      - kiero una reco cerca mio pa hoy
+      - q hay pa jugar por surco
+      - dime una recomendacion en vill salvador
+      - cancha libre 8pm aca cerca
+      - reco pa reservar cerca mio
+      - qiero algo en mi zona pa la noche
+      - hay cancha alas 8 por surco
+      - dime una buena reco ahora
+      - busco cancha en vill salvador a las 8pm
+      - recomiendame una cerca mio pa hoy
+      - qiero reservar algo aca alrededor
+      - reco xfa
+      - ayuda pa una cancha
+      - busco algo
+      - q hay de cancha
+      - una opcion xfa
+      - alguna sugerencia
+      - nesesito una ayuda
+      - como ago para encontrar
+      - dame una idea
+      - q tienes x ahi
+      - alguna novedad
+      - nesesito un dato
+      - alguna cancha para mi
+      - x mi zona
+      - en vill salvador
+      - reco cerca mio
+      - canchas aca a mi alrededor
+      - q hay x mi zona
+      - vill salvador algo
+      - x donde estoy
+      - alguna cerca de mi
+      - por aca
+      - canchas por estos lados
+      - q hay x aqui cerca
+      - dime algo en mi distrito
+      - donde vivo hay algo
+      - reco para mi zona
+      - q hay pa la noche
+      - alas 7pm libre
+      - pa este finde
+      - un espacio pa la noche
+      - horario de la tarde
+      - libre pa la mañana
+      - pa reserbar hoy
+      - cancha pa el viernes
+      - algo para mas tarde
+      - para despues
+      - q dia tienes libre
+      - un hueco pa mañana
+      - pa jugar a la noche
+      - reco x surco pa hoy
+      - algo aca a mi alrededor pa la noche
+      - q hay x mi zona mañana
+      - vill salvador libre 8pm
+      - dime una reco x mi barrio pa la tarde
+      - buscando algo cerca mio alas 7
+      - canchas x surco pa el finde
+      - q hay disponible en vill salvador pa hoy
+      - kiero aser una reserba x mi zona
+      - recomiendame algo aca a mi alrededor pa hoy en la noche
+      - q me ofreces x surco pa mas tarde
+      - algo pa jugar hoy cerca mio
+      - dime una recomendacion x mi zona alas 8pm
+      - cancha libre 8pm x vill salvador
+      - busco algo xfa cerca mio pa hoy
+      - alguna cancha x mi barrio pa mañana
+      - q hay pa reserbar aca a mi alrededor
+      - quiero ver pa reserbar x surco
+      - nesesito un sitio en vill salvador pa el sabado
+      - reco de cancha libre 8pm x mi zona
+      - q hay alas 8 xfa cerca mio
+      - algo aca a mi alrededor x la noche
+      - cancha libre en vill salvador pa alas 8
+      - recomendame algo x surco hoy
+      - busco pa reserbar cerca mio mas tarde
+      - dime algo x mi zona pa la semana
+      - q hay de cancha aca a mi alrededor para el miercoles
+      - vill salvador pa este mes
+      - reco para jugar cerca mio
+      - alguna cancha cerca de mi casa
+      - q canchas tienes libres
+      - dame alguna recomendacion
+      - algo bueno pa salir a jugar
+      - cancha libre para ahorita
+      - nesesito algo rapido
+      - q hay pa la gente
+      - donde podria ir
+      - q me sugieres
+      - alguna opcion de cancha
+      - busco cancha de paso
+      - dime pa donde ir
+      - kiero un dato
+      - q hay de nuevo
+      - nesesito un lugar bueno
+      - algo pa hoy en la noche
+      - recomendame algo cerca
+      - q hay pa reserbar
+      - recomiendame un lugar pa jugar hoy
+      - q hay de kanchas?
+      - algo libre pa hoy?
+      - dime una reco xfa
+      - por surco tienes algo?
+      - cerca mio q hay?
+      - aca a mi alrededor alguna?
+      - vill salvador hay libre?
+      - kiero saber si tienes algo
+      - hay cancha libre alas 8?
+      - pa la noche q tienes?
+      - recomiendame una kancha
+      - q opciones hay ahora?
+      - donde puedo jugar cerca?
+      - busco algo pa la tarde
+      - algo por mi zona?
+      - nesesito saber q kanchas
+      - cancha libre 7pm?
+      - dime una sugerencia
+      - q hay por aca pa jugar?
+      - alas 9 tienes algo?
+      - por surco kiero algo
+      - aca cerca q hay?
+      - vill salvador dame una reco
+      - kiero ver las kanchas
+      - hay algo libre mañana?
+      - pa hoy q recomiendas?
+      - donde encuentro algo cerca?
+      - algo por mi barrio?
+      - nesesito kanchita pa hoy
+      - q tal alguna reco?
+      - a q hora hay cancha libre?
+      - por surco alas 6pm?
+      - cerca mio tienes algo pa jugar?
+      - aca a mi alrededor quiero jugar
+      - vill salvador alguna opcion?
+      - kiero saber si ay cancha pa hoy
+      - hay algo libre 10pm?
+      - pa la mañana q tienes?
+      - recomiendame alguna cerca
+      - q opciones tienes por mi zona?
+      - donde puedo ir a jugar xq no se
+      - busco algo pa la noche por surco
+      - algo x mi zona alas 8?
+      - nesesito saber q hay en vill salvador
+      - cancha libre 5pm por aca?
+      - dime una sugerencia pa hoy cerca mio
+      - q hay por mi barrio pa jugar?
+      - alas 7 tienes algo cerca?
+      - por surco kiero algo libre pa mañana
+      - aca cerca q hay pa la tarde?
+      - vill salvador dame una reco pa hoy
+      - kiero ver las kanchas por mi zona
+      - hay algo libre mañana por surco?
+      - pa hoy q recomiendas cerca mio?
+      - donde encuentro algo libre en vill salvador?
+      - algo por mi barrio alas 8?
+      - nesesito kanchita pa hoy por surco
+      - q tal alguna reco cerca aca?
+      - a q hora hay cancha libre por mi zona?
+      - por surco alas 6pm hay algo?
+      - cerca mio tienes algo pa jugar por la noche?
+      - aca a mi alrededor quiero jugar hoy
+      - vill salvador alguna opcion pa hoy?
+      - kiero saber si ay cancha libre pa mañana
+      - hay algo libre 10pm por surco?
+      - pa la mañana q tienes cerca mio?
+      - recomiendame alguna kancha por mi zona
+      - q opciones tienes por vill salvador pa la tarde?
+      - donde puedo ir a jugar xq no se por aca
+      - busco algo pa la noche cerca mio
+      - algo x mi zona alas 8 de la noche?
+      - nesesito saber q hay en vill salvador pa jugar
+      - cancha libre 5pm por surco?
+      - dime una sugerencia pa hoy cerca aca
+      - q hay por mi barrio pa jugar hoy?
+      - alas 7 tienes algo cerca de vill salvador?
+      - por surco kiero algo libre pa mañana en la tarde
+      - aca cerca q hay pa la tarde hoy?
+      - vill salvador dame una reco pa hoy por la noche
+      - kiero ver las kanchas por mi zona para mañana
+      - hay algo libre mañana por surco alas 9?
+      - pa hoy q recomiendas cerca mio a las 8?
+      - donde encuentro algo libre en vill salvador pa hoy?
+      - algo por mi barrio alas 8 de la noche?
+      - nesesito kanchita pa hoy por surco por la tarde
+      - q tal alguna reco cerca aca para mañana?
+      - a q hora hay cancha libre por mi zona pa hoy?
+      - por surco alas 6pm hay algo libre pa hoy?
+      - cerca mio tienes algo pa jugar por la noche hoy?
+      - aca a mi alrededor quiero jugar hoy alas 7pm
+      - vill salvador alguna opcion pa hoy alas 9pm?
+      - kiero saber si ay cancha libre pa mañana por la mañana
+      - hay algo libre 10pm por surco pa hoy?
+      - pa la mañana q tienes cerca mio mañana?
+      - recomiendame alguna kancha por mi zona pa mañana en la tarde
+      - q opciones tienes por vill salvador pa la tarde hoy?
+      - donde puedo ir a jugar xq no se por aca pa hoy?
+      - busco algo pa la noche cerca mio en surco
+      - algo x mi zona alas 8 de la noche pa hoy?
+      - nesesito saber q hay en vill salvador pa jugar ahora
+      - recomiendame una cancha
+      - x mi zona pa jugar
+      - alas 8 d la noche
+      - reco algo
+      - kiero reservar ps
+      - dime una reco x fa
+      - q hay pa jugar
+      - alguna cancha cerca
+      - necesito jugar hoy
+      - busko un lugar
+      - por el surco algo
+      - x aki cerca
+      - busko cancha 8pm
+      - villasalvador hay
+      - pa reservar x la noche
+      - dime algo pa jugar
+      - ahy canchas libres
+      - busco pa un partido
+      - por mi zona pa ahora
+      - cancha 8pm vill salvador
+      - recomiendame pa 8pm
+      - dime una reco pa la noche
+      - q me dices x surco
+      - libre cerca de aca
+      - necesito cancha pa hoy alas 8
+      - kiero reservar vill salvador
+      - ahy alguna x mi barrio
+      - pa jugar 8pm ps
+      - q me recomiendas x ahi
+      - dime un lugar cerca
+      - kiero cancha ahorita
+      - busko algo pa las 8
+      - alguna reco x vill salvador
+      - pa reservar x surco
+      - ahy algo libre cerca mio
+      - cancha pa jugar 8pm
+      - dime algo pa las ocho
+      - q hay x mi zona pa la noche
+      - busko donde jugar ahora
+      - kiero algo cerca d mi barrio
+      - necesito cancha alas 8 vill salvador
+      - pa reservar cerca a mi
+      - ahy cancha x surco pa la noche
+      - reco pa jugar hoy 8pm
+      - dime un lugar en vill salvador
+      - q me recomiendas cerca mio ps
+      - kiero reservar aca a mi alrededor
+      - busko cancha x mi zona alas 8
+      - alguna libre cerca de vill salvador
+      - pa reservar cancha hoy
+      - reco cancha 8pm
+      - dime una cancha cerca
+      - q hay pa jugar x surco
+      - necesito cancha por ahi
+      - kiero reservar pa mañana
+      - busko donde jugar alas 8
+      - alguna reco vill salvador alas 8
+      - pa reservar x mi zona ps
+      - ahy algo pa la noche cerca mio
+      - reco cancha libre 8pm
+      - dime un lugar pa jugar ahorita
+      - q me recomiendas x aca
+      - kiero reservar cerca a mi alrededor
+      - busko cancha x vill salvador hoy
+      - alguna libre x surco alas 8
+      - pa jugar ahora cerca
+      - reco pa mañana
+      - dime algo pa las 8 pm
+      - q hay x mi barrio pa jugar
+      - necesito cancha libre hoy
+      - kiero algo cerca mio pa la noche
+      - busko cancha alas 8 cerca d aca
+      - alguna reco x mi zona hoy
+      - pa reservar vill salvador 8pm
+      - ahy cancha libre alas 8 x surco
+      - reco pa jugar mañana x ahi
+      - dime un lugar cerca a mi barrio
+      - q me dices pa la noche ps
+      - kiero reservar una cancha libre
+      - busko donde jugar vill salvador
+      - alguna reco pa las 8
+      - pa jugar cerca d mi casa
+      - reco cancha hoy alas 8
+      - dime algo libre cerca
+      - q hay pa jugar 8pm x surco
+      - necesito cancha aca a mi alrrededor
+      - kiero algo x mi zona pa mañana
+      - busko cancha libre vill salvador hoy
+      - alguna reco cerca mio pa las 8
+      - pa reservar cancha alas 8pm
+      - ahy algo libre x mi barrio pa la noche
+      - reco cancha x surco pa hoy
+      - dime un lugar pa jugar 8pm
+      - q me recomiendas cerca de aca alas 8
+      - kiero reservar algo libre vill salvador
+      - busko donde jugar x mi zona alas 8
+      - alguna reco pa la noche cerca mio
+      - pa jugar mañana en vill salvador
+      - reco cancha cerca de mi barrio
+      - dime algo libre pa jugar ahora
+      - q hay pa jugar x surco alas 8
+      - necesito cancha pa la noche aca
+      - kiero algo libre 8pm x mi zona
+      - busko cancha vill salvador alas 8
+      - q ay pa jugar
+      - reco para hoy
+      - cancha libre x mi zona
+      - hay cancha x surco
+      - dime algo x el ves
+      - kiero reserbar algo
+      - aca x mi casa alas 8
+      - donde ay una cancha serca mio
+      - q recomiendas x vill salvador
+      - cancha libre 8pm x ak
+      - dime una reco x mi zona
+      - busco algo pa jugar
+      - algo serca de mi casa
+      - nesesito jugar
+      - hay algo x ahi disponible
+      - reco algo pa pasar el rato
+      - por surco q hay de cancha
+      - aki a mi alrededor una cancha 8pm
+      - kiero reserbar una pero no se donde
+      - cancha pa jugar xfa
+      - algo bueno en mi barrio
+      - donde encuentro cancha pa jugar
+      - kiero saber si hay cancha libre
+      - x mi zona ay cancha
+      - alas 8pm q hay de canchitas
+      - vill salvador q recomiendas
+      - dime una buena opcion para hoy
+      - serca mio una cancha x la noche
+      - reco x surco pa la gente
+      - kiero reserbar algo pa mañana
+      - aki cerca un lugar pa jugar
+      - cancha libre alas 8 x el ves
+      - dame una reco por mi zona ahora
+      - que me das de canchas
+      - hay cancha disponible x aca
+      - quiero jugar pero no se donde
+      - recomiendame xf un lugar
+      - pa 8pm x surco tienes algo
+      - algun dato de cancha
+      - donde podria jugar hoy
+      - busco algo cerca de mi
+      - nesecito cancha de noche
+      - q tal si me das una reco
+      - en vill salvador q hay libre
+      - cancha alas 8pm x mi barrio
+      - dime una recomendacion buena
+      - kiero jugar ahora x surco
+      - tienes alguna cancha libre x ak
+      - reco pa la noche x aca
+      - cerca de mi en surco
+      - pa 8pm por mi zona
+      - ay algo pa 8pm
+      - dime un sitio x aca
+      - kiero cancha libre pa hoy
+      - x vill salvador cancha libre alas 8
+      - recomiendame algo rapido y cerca
+      - cerca mio pa jugar un fulbito
+      - aqui a mi alrededor alguna cancha buena
+      - quiero reservar algo libre alas 8
+      - q me dices de canchas disponibles
+      - x surco q me recomiendas
+      - cancha pa jugar x mi zona
+      - hay alguna libre alas 8 en villa salvador
+      - reco para mas tarde
+      - kiero saber si ay algo x ak
+      - dime algo cerca de mi
+      - por mi barrio cancha a las 8
+      - nesecito una canchita
+      - dond puedo jugar x surco
+      - pa hoy en vill salvador
+      - dame una reco de canchas
+      - kiero reserbar cancha para hoy
+      - algo cerca de mi para jugar a las 8
+      - q ay de canchas por mi zona
+      - cancha libre por surco alas 8
+      - aki a mi alrededor pa jugar
+      - quiero reservar pero no se el horario
+      - dime una recomendacion sin compromiso
+      - cancha cerca mio disponible
+      - x vill salvador alas 8pm algo
+      - reco x mi barrio para este fin de semana
+      - kiero jugar ahora x aca cerca
+      - q cancha libre ay por mi zona alas 8
+      - dime una cancha recomendada
+      - nesesito cancha x surco
+      - por mi zona una cancha alas 8pm
+      - ay canchas x vill salvador disponibles
+      - reco algo pa jugar en la noche
+      - kiero reservar una cancha pero no tengo hora
+      - aki cerca un lugar pa fulbito
+      - dime una recomendacion de una cancha
+      - cancha libre x surco para el viernes
+      - busco algo x vill salvador alas 8
+      - q me das de canchas hoy x aca
+      - reco pa jugar mañana por mi zona
+      - kiero saber si hay cancha cerca mio
+      - dime una buena cancha pa jugar
+      - cancha libre 8pm cerca de mi casa
+      - x surco q cancha me recomiendas
+      - ay algo en vill salvador para la tarde
+      - reco cancha libre x aca
+      - nesesito algo pa jugar x la noche
+      - cancha 8pm x mi zona
+      - kiero saber de canchas disponibles
+      - reco por surco
+      - algo aca a mi alrededor
+      - busko por mi zona
+      - vill salvador pa hoy
+      - alas 8 hay algo
+      - dime una recomendacion
+      - cancha por mi zona
+      - busco una cacha
+      - algo por el ves
+      - cerca d mi ksa
+      - cancha alas 8
+      - kiero reservar algo
+      - dime reco aca
+      - cancha libre cerca mio
+      - oe broer kiero una cancha libre alas 8 x mi zona
+      - recomiendame algo chevere pa jugar cerca mio
+      - q tienes disponible aca a mi alrededor por la tarde
+      - busko una cancha en vill salvador pa jugar mañana
+      - necesito una reco de cancha por surco hoy en la noche
+      - dime una recomendacion pa reservar pa la noche
+      - causita kiero reservar una cancha libre por mi zona ahora
+      - hay canchas disponibles cerca mio pa alas 8 de la noche
+      - tio busco una cancha libre en vill salvador para jugar
+      - recomiendame algo pa jugar cerca a mi alrededor hoy 8pm
+      - kiero una cancha por surco para reservar alas 8
+      - donde puedo encontrar una cancha libre por mi zona
+      - q tal si me recomiendas algo por vill salvador
+      - causa sabes de alguna cancha por surco pa 8pm
+      - kiero algo chevere pa jugar cerca mio hoy noche
+      - ayuda pa encontrar una cancha libre cerca de mi
+      - q hay de cancha por mi zona para jugar alas 8
+      - recomiendame una cancha libre en vill salvador para hoy
+      - dime una buena recomendacion cerca mio para jugar fulbito
+      - quiero reservar una cancha para jugar por surco mañana
+      - busco algo dispo aca a mi alrededor pa la noche
+      - qiero saber q cancha libre hay por mi zona 8pm
+      - reco una cancha libre en vill salvador hoy noche
+      - dime una reco de cancha por surco para reservar
+      - causa kiero una cancha libre alas 8 por mi zona
+      - hay canchas disponibles cerca mio pa alas 8
+      - quiero reservar una cancha por surco para hoy 8pm
+      - dime una recomendacion de cancha por mi zona
+      - kiero una reco rapido por surco
+      - algo cerca mio pa mañana
+      - pa jugar aca a mi alrededor
+      - cancha por mi zona alas 7
+      - vill salvador q hay libre
+      - dime una reco pa 8pm
+      - alguna reco por surco
+      - q me recomiendas hoy
+      - busco cancha ahora
+      - reco algo en el ves
+      - dime una pa reservar
+      - cancha por aqui alas 8
+      - recomiendame por mi zona
+      - kiero una libre ahora
+      - cancha cerca d mi barrio
+      - dime pa jugar en surco
+      - q puedo reservar alas 8
+      - una cancha por mi alrededor
+      - busco una en vill salvador
+      - reco una pa hoy noche
+      - kiero reservar por aqui
+      - dime una reco buena y barata
+      - hay algo aca cerca mio pa jugar
+      - q cancha puedo reservar aca a mi alrededor
+      - quiero una buena recomendacion por mi zona
+      - dime una cancha libre en vill salvador pa la noche
+      - kiero reservar algo alas 8pm por surco
+      - me puedes recomendar una cerca mio pa jugar
+      - busco una cancha libre aca a mi alrededor pa mañana
+      - q cancha me recomiendas por mi zona alas 7
+      - quiero reservar una en vill salvador para hoy en la noche
+      - dime una buena opcion por surco pa alas 8
+      - kiero una cancha libre cerca mio ahora mismo
+      - reco una pa jugar aca a mi alrededor alas 8pm
+      - q tal algo por mi zona pa reservar hoy
+      - dime una buena cancha en vill salvador pa jugar
+      - kiero reservar una cancha por surco pa el domingo
+      - hay alguna reco cerca mio pa hoy noche
+      - q me recomiendas para jugar aca a mi alrededor
+      - busko cancha libre por mi zona para mañana
+      - kiero reservar algo cerca mio alas 8pm
+      - reco una cancha por surco pa el finde
+      - hay cancha libre aca a mi alrededor para la noche
+      - quiero una reco buena por mi zona para jugar
+      - dime algo pa reservar en vill salvador
+      - busco cancha por surco alas 8pm
+      - kiero algo cerca mio pa jugar en la noche
+      - recomiendame una en vill salvador pa el sabado
+      - q cancha puedo reservar por mi zona hoy
+      - dime algo aca a mi alrededor pa alas 8
+      - kiero una reco de cancha cerca mio
+      - busco algo por surco pa la tarde
+      - reco una cancha libre en vill salvador ahora
+      - q hay pa reservar por mi zona alas 8pm
+      - dime una recomendacion cerca mio y barata
+      - algo libre ps
+      - kiero saber dnd hay
+      - cancha dnd?
+      - un sitio pa mi gente
+      - hay algo disponible
+      - busko una x aka
+      - dnd ir a jugar
+      - cancha cerca d mi
+      - alguno q me digas
+      - por mi zona ps
+      - recomiendame algo ahora
+      - q sitios libres
+      - x aki hay algo
+      - por surco q hay
+      - a las 8 dnd
+      - pa jugar 8pm
+      - reco x mi zona
+      - q tal algo pa jugar
+      - donde jugamos hoy
+      - libre para las 8
+      - busco pa la noche
+      - por dnd ando hay?
+      - algo en vill salvador
+      - reco alas 8
+      - por surco xfa
+      - dime un lugar
+      - hay cancha 8pm
+      - que tal una reco
+      - donde ir a esta hora
+      - pa reservar dnd
+      - algo d cancha ps
+      - pa mañana algo
+      - dime una pa hoy
+      - en vill salvador alas 8
+      - libre x aca a mi alrededor
+      - por mi zona 8pm
+      - reco pa jugar mañana
+      - q tal x surco hoy
+      - cancha dnd alas 8
+      - algo cerca mio pa la noche
+      - reco vill salvador
+      - pa jugar tipo 8
+      - busko un sitio xfa
+      - dime algun lugar libre
+      - x mi ksa hay cancha?
+      - algo cerca pa mañana
+      - recomiendame para esta noche
+      - cancha pa las 8
+      - por surco hoy
+      - q hay pa mi zona
+      - dime una reco 8pm
+      - vill salvador libre
+      - busko aca al rededor hoy
+      - dond hay cancha ps
+      - algo cerca mio alas 8
+      - q puedo reservar
+      - hay algo libre x surco
+      - pa mañana cerca
+      - recomiendame hoy
+      - vill salvador cancha libre
+      - q sitios hay x mi zona
+      - dime una reco cerca
+      - cancha pa 8 pm
+      - algo libre x ahi
+      - por surco pa hoy
+      - busko una pa esta noche
+      - reco dnd jugar
+      - q hay vill salvador hoy
+      - algo x mi alrededor
+      - dime opciones de cancha
+      - x surco libre 8pm
+      - recomiendame cerca dnd toy
+      - vill salvador pa mañana
+      - q hay pa jugar mañana alas 8
+      - cancha cerca mio pa 8pm
+      - reco aca al rededor ahora
+      - pa hoy por mi zona
+      - algo libre 8pm xfa
+      - dime una reco vill salvador
+      - q hay en surco pa las 8
+      - recomiendame un sitio libre
+      - busko un lugar por aca
+      - q me dices pa mañana
+      - dime algo cerca mio ps
+      - cancha libre pa hoy alas 8
+      - por mi zona libre
+      - algo en vill salvador pa jugar
+      - reco de sitios para reservar
+      - q hay cerca alas 8
+      - dime una opcion hoy
+      - cancha libre hoy 8pm
+      - recomiendame algo para mañana
+      - por surco hay canchas alas 8
+      - busco donde jugar x mi zona
+      - q hay pa reservar en vill salvador
+      - dime algo aca al rededor libre
+      - oe, q hay libre por aca
+      - algo q me recomiendes ahora
+      - dame una recomendacion xfa
+      - kiero reservar algo x mi zona
+      - por surco q hay disponible alas 8
+      - cerca mio alguna reco
+      - aca a mi alrededor algo pue
+      - vill salvador q tnes pa hoy
+      - alguna reco x la noxe
+      - q me sugieres para mas tarde
+      - dime opciones cerca d mi casa
+      - necesito algo rapido
+      - kiero hacer una reserva ps
+      - q hay libre por villa el salvador
+      - mañana a las 9pm algo q tengas
+      - x mi barrio q hay
+      - recomiendame pue
+      - q me ofreces x el cono sur
+      - dime q hay para jugar
+      - algo cerca pa un rato
+      - cancha para alas 7pm
+      - reco libre 8pm vill salvador
+      - por surco algo para el sabado
+      - oie necesito algo
+      - q puedo reservar x ahi
+      - dame una opcion por aca
+      - quiero ver q tnes
+      - algo libre en la noxe
+      - recomiendame algo por vill salvador
+      - cerca mio q hay alas 8
+      - aca a mi alrededor pa la noxe
+      - por mi zona q hay disponible
+      - q hay pa reservar mañana 8pm
+      - sugiere algo x surco
+      - dime una reco pa hoy
+      - kiero algo libre rapido
+      - q me recomiendas cerca
+      - x ahi q hay libre
+      - algo pa las 6pm
+      - vill salvador q hay libre hoy
+      - por mi chamba q hay
+      - reco para mas tardecita
+      - dame opciones pa reservar
+      - kiero saber q tnes en mi distrito
+      - algo cerca mio alas 9
+      - aca x mi casa q hay libre
+      - pa las 8pm q me recomiendas
+      - surco pa hoy libre
+      - vill salvador x la noxe
+      - q hay pa el dominguito
+      - dime algo chevere por aca
+      - kiero reservar algo pa este finde
+      - una recomendacion pa mañana
+      - q hay libre cerca alas 8pm
+      - aca a mi alrededor algo rapido
+      - vill salvador libre 7pm
+      - por surco q hay pa mañana
+      - kiero ver q hay libre ahora
+      - algo q me recomiendes hoy en la tarde
+      - cerca d mi pa las 10pm
+      - aca a mi alrededor libre 8pm
+      - por mi zona q tnes pa mañana
+      - vill salvador algo pa la noche
+      - recomiendame algo pa un partido
+      - dame una reco pa hoy alas 8
+      - por surco q hay libre pa mas tarde
+      - cerca mio pa la tardecita
+      - aca a mi alrededor q hay libre
+      - vill salvador algo pa este fds
+      - algo libre 8pm en mi barrio
+      - q me recomiendas para reservar
+      - dime una reco q tnes
+      - kiero algo libre x ahi
+      - algo en surco alas 7pm
+      - vill salvador pa mas tarde
+      - q hay disponible en mi zona alas 8
+      - reco pa jugar hoy noche
+      - dame una opcion pa la semana
+      - kiero reservar algo pa el finde
+      - por surco q hay pa la tardecita
+      - cerca mio algo alas 9pm
+      - aca a mi alrededor q tnes
+      - vill salvador pa jugar
+      - q hay libre en mi area 8pm
+      - recomiendame algo por mi casa
+      - dime una reco pa este sabado
+      - kiero algo q este libre
+      - algo en surco alas 8
+      - vill salvador algo pa hoy noche
+      - q hay disponible en mi cuadra
+      - reco pa mañana por la mañana
+      - dame una opcion pa mas tarde
+      - kiero reservar algo para ya
+      - por surco algo libre 8pm
+      - cerca mio q hay pa la tardecita 8pm
+      - aca a mi alrededor algo a las 9
+      - vill salvador pa este viernes
+      - q hay libre cerca d mi zona hoy
+      - recomiendame algo rapido hoy 8pm
+      - dime una reco pa hoy alas 7
+      - kiero algo libre x surco alas 8
+      - q hay disponible cerca mio alas 8pm
+      - quiero reservar cerca mio
+      - busco por mi zona
+      - una reco
+      - nesesito algo
+      - libre 8pm
+      - recomiendame algo ps
+      - quiero reservar ya
+      - cancha por surco
+      - dime algo aca nomas
+      - busco por mi zona hoy
+      - alas 8 cerca mio
+      - vill salvador q hay
+      - kiero una reco
+      - nesesito cancha libre
+      - q tienes pa manana
+      - cancha xfa cerca mio
+      - libre 8pm por surco
+      - quiero reservar aca a mi alrededor
+      - algo por mi zona alas 8
+      - cancha libre 8pm vill salvador
+      - nesesito algo aca a mi alrededor
+      - q tienes por mi zona alas 8
+      - cancha xfa vill salvador
+      - libre 8pm cerca mio
+      - por surco dime algo
+      - aca a mi alrededor quiero reservar
+      - por mi zona nesesito
+      - alas 8 en vill salvador
+      - algo q este libre
+      - dime opciones
+      - busco algo cerca
+      - canchita libre hoy
+      - recomendame cerca mio
+      - kiero alquilar cerca
+      - nesesito xq jugaremos
+      - q hay pa ahora
+      - cancha x mi barrio
+      - libre manana por surco
+      - quiero reservar vill salvador
+      - cancha libre alas 8 por mi zona
+      - dime una recomendacion pa la noche
+      - kiero reservar cerca mio alas 8
+      - nesesito algo por surco pa hoy
+      - q tienes vill salvador libre 8pm
+      - cancha xfa aca a mi alrededor pa manana
+      - libre 8pm por mi zona ps
+      - por surco kiero reservar
+      - aca a mi alrededor dime una reco
+      - por mi zona quiero algo
+      - alas 8 vill salvador q hay libre
+      - reco pa jugar hoy
+      - algo q este libre cerca mio
+      - cancha pa jugar alas 8
+      - dime opciones por surco
+      - busco algo aca a mi alrededor
+      - canchita libre hoy vill salvador
+      - recomendame algo cerca mio alas 8
+      - kiero alquilar por mi zona pa hoy
+      - nesesito xq jugaremos en surco
+      - q hay pa ahora aca a mi alrededor
+      - cancha x mi barrio vill salvador
+      - libre manana cerca mio alas 8pm
+      - dime una reco por surco pa la noche
+      - quiero reservar aca a mi alrededor alas 8pm
+      - algo por mi zona pa hoy alas 8
+      - cancha libre 8pm por vill salvador
+      - dime una recomendacion aca a mi alrededor para manana
+      - kiero reservar por surco libre 8pm
+      - nesesito algo cerca mio alas 8pm
+      - q tienes por mi zona vill salvador pa la noche
+      - cancha xfa alas 8pm aca a mi alrededor
+      - libre 8pm por surco hoy
+      - dime algo aca nomas pa hoy
+      - quiero reservar vill salvador alas 8
+      - algo por mi zona libre 8pm
+      - reco pa jugar alas 8pm
+      - busco algo cerca vill salvador
+      - canchita libre hoy cerca mio
+      - recomendame algo por surco pa hoy
+      - kiero alquilar aca a mi alrededor alas 8
+      - nesesito xq jugaremos por mi zona
+      - q hay pa ahora vill salvador
+      - cancha x mi barrio alas 8pm
+      - libre manana cerca mio
+      - dime una reco por surco libre
+      - quiero reservar aca a mi alrededor pa la noche
+      - algo por mi zona vill salvador alas 8pm
+      - cancha p hoy
+      - recomiendame
+      - dime uno
+      - hay cancha
+      - quiero juegar
+      - dime dond
+      - donde hay
+      - libres
+      - q keda cerca
+      - donde qda
+      - algo serca mio
+      - recomiendame x mi zona
+      - quiero reservar alas 8
+      - por aca a mi alrededor
+      - donde jugar x mi zona
+      - cancha p la noche
+      - algo en el ves
+      - q hay por chorrillos
+      - x surko algo
+      - serca d casa una
+      - quiero reservar algo p la noche x mi zona
+      - dime una recomendacion para jugar en vill salvador
+      - hay cancha libre 8pm por aca a mi alrededor
+      - q kancha me recomiendas cerca mio
+      - algo p alas 8pm x surco
+      - donde podria jugar cerca d vill salvador
+      - q opciones ay por mi zona alas 8
+      - recomiendame una cancha libre por aca
+      - quiero reservar algo serca d casa p la noche
+      - dime q hay p hoy 8pm x surco
+      - algo para jugar alas 8 cerca mio
+      - dime donde puedo ir
+      - q tengo para jugar
+      - una opcion p la tarde
+      - donde podria ir hoy
+      - un lugar q tengas
+      - donde m voy a jugar
+      - cualquiera
+      - dime tu
+      - lo q sea
+      - q hay x mi barrio
+      - dame una reco p el sabado
+      - algo x el ves p la noche
+      - quiero saber d canchas
+      - q opciones tienes cerca d casa
+      - habla, tienes algo p jugar
+      - cae con algo p mi zona
+      - mandame algo libre alas 8
+      - q hay x chorri p mañana
+      - dime si hay cancha x aca
+      - algo p hoy cerca mio
+      - dame una recomendacion x surco p la tarde
+      - quiero reservar sin saber la hora
+      - reco p jugar en vill salvador
+      - algo q sea libre ahorita
+      - dond juego hoy alas 8
+      - cancha x mi zona p el finde
+      - q opciones hay para jugar
+      - reco serca mio alas 8pm
+      - quiero reservar una cancha libre x aca
+      - dime una recomendacion cerca de mi alrededor
+      - cancha p la noche en vill salvador
+      - algo para jugar x mi zona ahorita
+      - recomiendame algo por surco p el domingo
+      - q canchas tienes libres alas 8pm
+      - dame una reco por mi zona
+      - quiero reservar una cancha cualquiera
+      - q hay en vill salvador p el viernes
+      - algo libre cerca mio p la tarde
+      - recomiendame algo sin horario
+      - dime una reco p jugar ahorita
+      - cancha 8pm x aca
+      - q tienes disponible hoy
+      - dame opciones x mi casa
+      - quiero reservar hoy dia
+      - reco p jugar por surco
+      - dime q hay p este fin
+      - cancha libre vill salvador p la noche
+      - q tal algo cerca mio alas 8
+      - una recomendacion p el lunes x mi zona
+      - quiero reservar p la tarde por aca
+      - reco p jugar hoy en vill salvador
+      - algo q recomiendes 8pm
+      - dime donde puedo ir a jugar
+      - cancha x mi casa p el sabado
+      - q opciones tienes sin hora
+      - quiero reservar una cancha libre x surco
+      - reco d canchas p mañana cerca mio
+      - dime una reco p la noche aca a mi alrededor
+      - cancha libre en vill salvador alas 8
+      - algo p jugar x mi zona en la tarde
+      - recomiendame algo por surco p hoy
+      - q canchas tienes disponibles p alas 8pm
+      - dame una reco p jugar en mi barrio
+      - quiero reservar una cancha libre en el ves
+      - q hay en vill salvador p el lunes alas 8
+      - algo libre cerca mio p la noche 8pm
+      - recomiendame algo sin distrito
+      - dime una reco p jugar en este momento
+      - cancha 8pm cerca d casa
+      - q tienes disponible para jugar hoy
+      - dame opciones p mi zona mañana
+      - quiero reservar p la noche alas 8
+      - reco p jugar por surco en la tarde
+      - dime q hay p este fin alas 8pm
+      - cancha libre vill salvador p la noche 8pm
+      - q tal algo cerca mio alas 8 p hoy
+      - una recomendacion p el lunes x mi zona alas 8
+      - oe una cancha xfa
+      - qiero cancha libre alas 8
+      - reco pa fulbito por mi zona
+      - algo pa jugar cerca mio
+      - hay cancha x surco pa hoy
+      - dime una reco porq no se donde
+      - kiero reservar una pa la noche
+      - cancha 8pm aca a mi alrededor
+      - busco algo en vill salvador
+      - mano necesito pa jugar
+      - qiero saber si hay canchas libres
+      - cerca mio pa fulbito ahorita
+      - donde habra una cancha disponible
+      - por surco, dime una recomendacion
+      - alas 8pm cancha libre xfa
+      - vill salvador, q hay por ahi
+      - reco algo pa jugar futbol
+      - kiero reservar cancha pa la tarde
+      - ahi cerca mio, una cancha porfis
+      - q puedo hacer por esta zona
+      - alguna cancha por aca
+      - busco cancha 8pm
+      - oe causa, alguna reco pa hoy
+      - kiero algo cerca en la noche
+      - dime donde puedo jugar ps
+      - hay cancha pa jugar ahorita
+      - x mi zona una cancha libre
+      - vill salvador, necesito algo
+      - recomiendame algo chevere
+      - q hay por surco pa jugar
+      - cancha pa reservar a las 8
+      - cerca mio pa mañana
+      - aca a mi alrededor pa fulbito
+      - por mi zona, una reco
+      - hay algo libre 8pm
+      - vill salvador, cancha por ahi
+      - kiero reservar para hoy
+      - dime una recomendacion ahora
+      - por surco, algo pa hacer
+      - alas 8 cancha, dime
+      - cerca mio, pa padel
+      - aca a mi alrededor, una cancha
+      - por mi zona, hay algo
+      - necesito algo libre 8pm
+      - vill salvador, kiero cancha
+      - recomiendame algo pa la noche
+      - q hay por surco pa reservar
+      - cerca mio pa jugar hoy
+      - aca a mi alrededor, fulbito
+      - por mi zona, dame una cancha
+      - qiero una pa las 8
+      - vill salvador, q hay libre
+      - dime una opcion x surco
+      - alas 8pm algo libre
+      - cerca mio, tienes algo
+      - aca a mi alrededor, una reco
+      - por mi zona pa la noche
+      - nesesito una cancha 8pm
+      - vill salvador, algo ahorita
+      - q hay por surco pa la tarde
+      - cancha pa reservar 8pm
+      - cerca mio pa jugar 8pm
+      - aca a mi alrededor pa la noche
+      - por mi zona, q hay de cancha
+      - qiero jugar alas 8
+      - vill salvador, una cancha xfa
+      - reco una cancha libre hoy
+      - dime una opcion en surco
+      - alas 8pm, hay algo
+      - cerca mio pa futbol
+      - aca a mi alrededor, busco cancha
+      - por mi zona, quiero jugar
+      - vill salvador, necesito cancha
+      - reco algo pa reservar
+      - q hay por surco, recomiendame
+      - cancha pa hoy alas 8
+      - cerca mio, q opciones tienes
+      - aca a mi alrededor, dame reco
+      - por mi zona, hay cancha libre
+      - kiero algo pa jugar 8pm
+      - vill salvador, dime una reco
+      - q hay por surco libre
+      - cancha alas 8pm xfa
+      - cerca mio, pa la noche
+      - aca a mi alrededor, una libre
+      - por mi zona, q puedo jugar
+      - qiero reservar algo hoy
+      - vill salvador, q hay disponible
+      - reco una cancha para las 8
+      - dime opciones x surco
+      - alas 8pm cerca mio
+      - aca a mi alrededor, alguna cancha
+      - por mi zona, kiero una
+      - hay algo pa jugar 8pm
+      - vill salvador, hay cancha ahora
+      - reco algo pa hoy
+      - q hay por surco disponible
+      - cancha pa la noche alas 8
+      - cancha pa hoy ps
+      - aki dond juego
+      - q hay libre 8pm
+      - recomendacion para mañana
+      - por surco algo ps
+      - kiero reservar un campo
+      - dond puedo chutar
+      - aki cerka
+      - algo por la noche
+      - pa jugar xfa
+      - alguna cancha libre
+      - recomiéndame pa fulbito
+      - busko donde peloteo
+      - kiero algun sitio
+      - dond jugar con mis patas
+      - alguna opcion cerca
+      - x mi zona algo pa hoy
+      - reco pa el sabado
+      - q hay disponible p mañana
+      - kiero jugar con mis patas
+      - necesito donde chutar
+      - alguna sugerencia para el viernes
+      - cancha pa jugar ahorita
+      - dond puedo hacer deporte
+      - busco algo pa despejarme
+      - dime una reco buena
+      - cancha por los olivos
+      - q hay libre cerca mio
+      - recomiendame aca a mi alrededor
+      - vill salvador alguna opcion
+      - por surco dond hay
+      - un campo por mi barrio
+      - q me sugieres x ate
+      - algo x sjl
+      - busko x magdalena
+      - dime algo por lince
+      - kiero mover la pelota
+      - onde hay pa un partido
+      - dame una pista
+      - una reco buena pa los amigos
+      - pa jugar en la noche ps
+      - q hay de bueno x aca
+      - cerca mio pa fulbo
+      - por mi barrio alguna cosa
+      - donde puedo desestresarme
+      - hay algo libre ahorita
+      - busco algo de ultima hora
+      - pa jugar un rato
+      - alguna reco de campo libre
+      - dime q puedo hacer
+      - canchita pa hoy en la tarde
+      - x surco pa las 7
+      - vill salvador libre 9pm
+      - aca a mi alrededor algo disponible
+      - por mi zona quiero jugar
+      - recomiendame algo facil
+      - quiero reservar pero no se donde
+      - dime una recomendacion por ahi
+      - q hay ps x aca
+      - necesito donde ir
+      - canchita pa entrenar
+      - donde hacen deporte
+      - algo divertido x la zona
+      - un sitio pa pasar el rato
+      - libres para el fin de semana
+      - alguna reco hoy
+      - busco pa jugar futbol
+      - cancha x barranco
+      - dime algo para el domingo
+      - x surco libre a las 6
+      - q hay pa fulbito cerca
+      - recomendame una pa hoy
+      - kiero reservar un lugar
+      - algo pa sudar la gota gorda
+      - canchas libres x la mñna
+      - vill salvador algo pa este finde
+      - aca cerquita q puedo hacer
+      - dime algo pa un relax
+      - q canchas estan abiertas
+      - recomiendame un spot
+      - busko una x mi casa
+      - pa voley en la tarde
+      - x pueblo libre algo libre
+      - cancha libre 7pm cerca mio
+      - dame opciones pa ir
+      - necesito jugar urgentee
+      - q me sugieres para el miercoles
+      - algo cerca a miraflores alas 5
+      - quiero ver si hay algo pa hoy
+      - dond podemos ir
+      - recomendacion de cancha en la victoria
+      - pa jugar con mis primos xfa
+      - cancha sintetica libre
+      - por surco q hay de noche
+      - q opciones tengo aca al toque
+      - dime una buena reco x aca
+      - algo libre para hoy en vill salvador
+      - kiero reservar pero no tengo hora exacta
+      - algo pa jugar x ahi
+      - busco algo x mi zona
+      - rekomiendame ps algo
+      - ayudame xfa con una kancha
+      - donde puedo jguar
+      - qiero kancha x aki
+      - cancha libre pa 8pm
+      - q hay libre alas 8
+      - cerca mio hay cancha
+      - por mi zona ps una cancha
+      - vill salvador algo pa hoy
+      - por surco xfa una reco
+      - recomiendame algo cerca mio pa alas 8
+      - oe hay algo por mi zona pa hoy
+      - sabes d alguna cancha libre 8pm
+      - kiero reservar una kancha aca a mi alrededor
+      - dime una recomendacion x villa salvador
+      - recomiendame algo para alas 8 por surco
+      - alguna cancha libre 8pm cerca mio
+      - q hay disponible aca a mi alrededor
+      - kiero reservar algo pa mas tarde
+      - dime una recomendacion cerca de mi zona
+      - busco algo por surco pa la noche
+      - cancha libre por mi zona pa las 8pm
+      - alguien sabe d kancha por vill salvador
+      - rekomiendame algo cerca mio pa mañana
+      - kiero reservar para alas 8pm
+      - q hay disponible aca a mi alrededor pa alas 8
+      - dime una recomendacion x mi zona
+      - hay cancha libre 8pm por surco
+      - cerca mio ps a esa hora
+      - kiero reservar ps pa mañana
+      - vill salvador algo disponible
+      - rekomiendame algo ahora mismo
+      - busco x aca nomaz
+      - q me reco en mi zona
+      - hay canchas alas 8pm
+      - alguien me reco por surco
+      - qiero saber d alguna cancha
+      - busco kancha pa reservar
+      - tienes algo pa hoy
+      - rekomiendame una por aki
+      - dime una pa jugar
+      - cancha cerca de mi casa
+      - x mi barrio hay algo
+      - vill salvador tienes kanchas
+      - quiero reservar una pa alas 8pm
+      - dime una recomendacion x aca
+      - alguna cancha libre cerca mio
+      - busco algo x surco pa alas 8
+      - recomiendame pe pa jugar
+      - por mi zona pa alas 8
+      - kiero reservar en vill salvador
+      - dime una recomendacion pa hoy
+      - algo cerca mio pa las 8pm
+      - hay cancha libre 8pm x ahi
+      - reko para mi zona
+      - kiero saber si hay libre alas 8
+      - busco x surco para jugar
+      - dime una kancha en vill salvador
+      - algo pa reservar cerca mio
+      - cancha libre 8pm aca a mi alrededor
+      - quiero reservar por mi zona
+      - recomiendame algo pa las 8pm
+      - q hay x vill salvador alas 8
+      - busco kancha por surco
+      - dime una reco pa alas 8
+      - cancha libre por mi zona
+      - rekomiendame un lugar pa jugar
+      - q hay aca pa la noche
+      - por surco hay cancha alas 8
+      - kiero reservar en mi zona
+      - dime una buena cancha en vill salvador
+      - algo cerca mio pa mañana en la noche
+      - hay kancha libre 8pm en mi zona
+      - reko para alas 8pm por surco
+      - busco pa reservar aca a mi alrededor
+      - dime una recomendacion x ahi
+      - kiero cancha en vill salvador pa alas 8
+      - cerca mio ps una libre
+      - rekomiendame algo x mi zona pa las 8
+      - kiero reservar una cancha libre 8pm
+      - dime una recomendacion por surco cerca mio
+      - reko para vill salvador pa hoy
+      - busco algo pa alas 8 en mi zona
+      - kiero reservar una cancha cerca de mi
+      - dime una buena cancha pa jugar hoy
+      - cancha libre alas 8pm por surco
+      - rekomiendame un sitio aca a mi alrededor
+      - q hay disponible en vill salvador pa las 8
+      - kiero reservar una por mi barrio
+      - dime una reco q esté cerca mio
+      - cancha libre 8pm cerca de mi zona
+      - reko para alas 8pm en vill salvador
+      - busco algo pa jugar en surco x la noche
+      - kiero reservar una kancha pa mañana a las 8
+      - dime una recomendacion aca a mi alrededor pa alas 8
+      - hay cancha libre 8pm por mi zona
+      - rekomiendame un lugar cerca mio pa hoy
+      - q hay pa reservar en vill salvador alas 8pm
+      - kiero una cancha libre 8pm cerca mio
+      - dime una reco por surco pa alas 8pm
+      - algo pa jugar ps
+      - q hay de canchas x ak
+      - dime algo pe
+      - por surco q tienes?
+      - cerca mio alguna libre
+      - aca a mi alrededor hay algo pa jugar
+      - cancha libre 8pm x ahi?
+      - alas 8 q hay de bueno
+      - vill salvador opciones?
+      - recomiendame algo rapido porfa
+      - dime una reco pa mi gente
+      - q hay disponible ahorita
+      - necesito jugar, q tienes
+      - dame una opcion
+      - busco pa hoy x la noche
+      - q me ofreces para mañana
+      - x mi zona algo libre
+      - kiero una cancha porfavor
+      - hay canchas x aki cerca
+      - dime canchas cerca de mi
+      - recomiendame algo pa jugar
+      - ala q hora puedo jugar
+      - algo cercano pa jugar hoy
+      - pa la noche q hay
+      - x mi kasa alguna cancha
+      - dame opciones x mi barrio
+      - q puedo jugar ahorita
+      - pa hoy en la tarde algo
+      - algo a estas horas porfa
+      - en mi barrio alguna reco
+      - x villa q hay libre
+      - en surco hay alguna cancha
+      - cerca a mi chamba q tienes
+      - dime las q hay por aca
+      - una buena reco para jugar
+      - kiero jugar algo hoy
+      - algun lugar para jugar
+      - por mi cuadra algo libre
+      - q me aconsejas para este finde
+      - hay algo disponible cerca
+      - q hay de nuevo por la zona
+      - alas 7 q tienes para mi
+      - algo por la zona porfa
+      - kiero una cancha pa un partido
+      - pa mañana una cancha libre
+      - x la noxe q hay disponible
+      - reco de cancha por aca
+      - q me buscas ahorita
+      - algo x aki pa jugar
+      - q me das de opciones
+      - quiero algo para divertirme
+      - pa jugar con mis patas
+      - por mi casa a que hora puedo jugar
+      - villa salvador q me das de recos
+      - recomiendame algo xfa ps
+      - kiero una x la noche libre
+      - algo por aca cerca de mi
+      - libre alas 9pm hay algo
+      - por mi distrito q opciones
+      - q hay x la zona para jugar
+      - kiero jugar ahorita mismo
+      - dame una x mi barrio hoy
+      - algo pa jugar por surco hoy
+      - cancha alas 8 pa nosotros
+      - q reco me das pa la gente
+      - algo libre cerca mio
+      - porfa una cancha para hoy
+      - dime una para mi y mis amigos
+      - q puedo hacer para jugar
+      - algun sitio para jugar ya
+      - kiero una rapido porfa
+      - q tienes ahorita mismo
+      - reco ahorita pa jugar
+      - porfa rapido una buena
+      - q me sugieres pa el finde
+      - algo por el cono norte
+      - por el sur q hay disponible
+      - q hay para el viernes en la noche
+      - una para jugar con los panitas
+      - kiero una cancha cerca mio pa hoy
+      - recomiendame cerca de mi chamba
+      - aca al costado hay algo libre
+      - libre para hoy en la tarde
+      - q hay de bueno por aca
+      - quiero reservar una para la noche porfa
+      - algo porfa cerca mio para jugar
+      - q hay por vill salvador alas 7
+      - alas 8pm por aca algun sitio
+      - dame una opcion ahorita para jugar
+      - algo libre por mi zona para la noche
+      - quiero una cancha ahorita mismo
+      - q tienes pa mi para hoy
+      - dime canchas por aca cerca
+      - recomiendame algo x mi barrio para el finde
+      - una cancha x el area para este fin
+      - q cancha recomiendas para el equipo
+      - algo disponible ya para jugar
+      - q opciones tienes por mi zona
+      - dame una reco por mi chamba
+      - busco algo pa jugar en la noche
+      - algo libre por el distrito
+      - reco pe
+      - por surco algo
+      - alas 8 kieres
+      - rekomiendame algo xfa
+      - qiero reservar por mi zona
+      - nesesito una cancha libre 8pm
+      - ay canxa x akí
+      - dime una reco cerca mio
+      - busco pa las 8
+      - en surco q hay
+      - aca a mi alrededor recomiendame
+      - qiero algo alas 8
+      - reco por mi zona
+      - qiero reservar una cancha libre 8pm
+      - alguna cancha cerca mio
+      - por surco q recomiendas
+      - aca a mi alrededor ay pa las 8
+      - vill salvador algo pa reservar
+      - alas 8pm cancha libre
+      - recomiendame algo por mi zona
+      - qiero reservar por surco
+      - nesesito cancha cerca mio
+      - dime una recomendacion aca
+      - busko algo por vill salvador
+      - reco de cancha pe
+      - por mi zona cancha libre 8pm
+      - cerca mio, ay algo?
+      - surco, recomiendame
+      - aca a mi alrededor q hay alas 8
+      - vill salvador, kiero reservar
+      - alas 8 pa jugar
+      - dime una reco por mi zona
+      - qiero reservar cerca mio pa las 8
+      - cancha libre 8pm por surco
+      - vill salvador alas 8pm
+      - kiero algo por mi zona pa reservar
+      - cancha cerca mio pa la noche
+      - por surco, cancha libre 8pm
+      - dime una recomendacion vill salvador
+      - qiero reservar alas 8pm por mi zona
+      - rekomiendame un lugar cerca mio
+      - vill salvador, busco cancha libre
+      - alas 8pm, q puedo reservar
+      - por surco, necesito reco
+      - qiero reservar algo
+      - cancha libre por mi zona alas 8
+      - cerca mio, cancha libre 8pm
+      - recomiendame vill salvador
+      - aca a mi alrededor, quiero reservar
+      - cancha libre alas 8pm cerca mio
+      - recomiendame algo vill salvador
+      - por mi zona, algo pa reservar
+      - qiero cancha libre 8pm
+      - dime una recomendacion aca cerca
+      - busko cancha por surco alas 8
+      - cancha libre pa hoy
+      - recomiendame un lugar pa reservar
+      - qiero reservar algo por surco alas 8
+      - por mi zona q recomiendas pa las 8
+      - cerca mio, qiero algo
+      - aca a mi alrededor, cancha libre pa la noche
+      - vill salvador, busco algo alas 8
+      - dime una reco cancha libre 8pm
+      - qiero reservar cerca mio por mi zona
+      - recomiendame algo por surco alas 8pm
+      - qiero algo cerca mio pa reservar
+      - dime una recomendacion por mi zona alas 8
+      - aca a mi alrededor, cancha libre 8pm
+      - por surco, kiero reservar algo
+      - vill salvador, recomiendame algo pa hoy
+      - alas 8pm, q recomiendas por mi zona
+      - reco de cancha cerca mio alas 8
+      - qiero reservar aca a mi alrededor
+      - dime una reco vill salvador alas 8
+      - por surco, busco algo alas 8pm
+      - qiero algo pa reservar cerca mio
+      - recomiendame cancha libre 8pm
+      - aca a mi alrededor, vill salvador
+      - por mi zona, kiero reservar alas 8
+      - cerca mio, q recomiendas pa las 8pm
+      - surco alas 8pm, reco
+      - vill salvador, cancha libre pa hoy
+      - dime una recomendacion por surco
+      - qiero reservar algo aca a mi alrededor pa la noche
+      - cancha libre 8pm cerca mio por mi zona
+      - rekomiendame vill salvador alas 8
+      - kiero reservar por surco, pa la noche
+      - algo cerca mio alas 8pm
+      - dime una reco de cancha por mi zona
+      - aca a mi alrededor, busco pa hoy
+      - vill salvador, qiero reservar 8pm
+      - q tienes ps
+      - busco cancha x mi zona
+      - kiero jugar ps
+      - q tienes pa mañna
+      - reco cancha alas 8
+      - algo pa jugar x aka
+      - q hay x mi alrededor
+      - cancha pa 8pm
+      - cancha x mi zona libre
+      - alguito pa jugar
+      - xq cancha cerca mio
+      - q cancha me das
+      - algo pa reservar
+      - cerca mio q tienes
+      - por surco reco
+      - ala 8pm libre
+      - canchita x aka
+      - dime una opcion
+      - kiero jugar ahora
+      - q tienes pa mi
+      - recomiendame pa mañana
+      - ala noche x surco
+      - cancha x vill salvador
+      - por mi zona pa 8pm
+      - algo aca al toque
+      - canchita 8pm libre
+      - por mi barrio q hay
+      - vill salvador alas 8
+      - q tienes pa jugar
+      - algo cerca de mi
+      - xq cancha x aka
+      - cancha alas 8pm
+      - recomiendame ya
+      - quiero reservar algo pa hoy
+      - cancha pa jugar x aca a mi alrededor
+      - dime una reco cerca mio por surco
+      - kiero cancha en vill salvador alas 8pm
+      - recomiendame algo pa el finde
+      - q hay de cancha x surco pa hoy
+      - necesito reservar pa mañana por mi barrio
+      - dime una opcion en vill salvador xfa
+      - busco cancha aca a mi alrededor pa jugar
+      - quiero reservar algo alas 8 por surco
+      - recomiendame algo por mi zona pa las 9
+      - q cancha me das cerca mio ahora
+      - kiero jugar por surco al toke
+      - algo pa reservar en vill salvador pa la noche
+      - dime una reco buena por mi barrio
+      - cancha libre alas 7 por aca
+      - recomiendame algo 8pm cerca
+      - q tienes disponible por surco pa hoy
+      - quiero reservar por vill salvador en la tarde
+      - algo pa jugar x mi zona ahora
+      - dime una opcion libre para las 8
+      - kiero cancha aca a mi alrededor al toke
+      - xq cancha x surco pa el sabado
+      - recomiendame algo vill salvador ps
+      - q cancha hay libre para mañana alas 8pm
+      - quiero reservar algo cerca mio para la noche
+      - cancha pa el viernes por mi zona
+      - dime una reco al toke cerca
+      - kiero jugar por surco hoy alas 7
+      - algo libre en vill salvador pa la tarde
+      - recomiendame algo x mi barrio 8pm
+      - q tienes de cancha cerca mio para el domingo
+      - quiero reservar aca a mi alrededor pa el lunes
+      - cancha pa hoy en vill salvador
+      - dime una opcion buena por surco alas 6
+      - kiero jugar cerca mio al toque
+      - xq cancha libre 8pm por mi zona
+      - recomiendame algo pa hoy ala noche
+      - q cancha me das por surco ahora
+      - algo pa reservar en vill salvador ala tarde
+      - dime una reco cerca mio pa el sabado
+      - cancha libre aca a mi alrededor alas 8
+      - recomiendame algo x mi zona hoy
+      - q tienes de cancha vill salvador 8pm
+      - quiero reservar por surco para mañana
+      - algo pa jugar cerca mio al toke
+      - dime una opcion en vill salvador alas 9
+      - kiero cancha por mi zona para la noche
+      - xq cancha libre alas 8 por surco
+      - recomiendame algo pa hoy cerca
+      - q cancha hay disponible aca a mi alrededor
+      - quiero reservar en vill salvador para el domingo
+      - algo pa jugar por surco ps
+      - dime una reco por mi zona alas 7
+      - kiero cancha cerca mio al toke
+      - recomiendame algo pa hoy x surco
+      - q tienes de cancha aca a mi alrededor para la noche
+      - quiero reservar en vill salvador ps
+      - algo pa jugar por mi zona 8pm
+      - dime una opcion cerca mio hoy
+      - kiero cancha por surco alas 8
+      - xq cancha libre pa hoy en vill salvador
+      - recomiendame algo aca a mi alrededor alas 7
+      - q cancha me das por mi zona para el sabado
+      - quiero reservar cerca mio al toke
+      - cancha pa hoy en surco
+      - kiero jugar aca a mi alrededor
+      - algo libre 8pm por mi zona
+      - recomiendame algo por surco alas 9
+      - q tienes de cancha cerca mio para el lunes
+      - quiero reservar vill salvador pa hoy
+      - algo pa jugar x mi zona alas 8
+      - dime una opcion cerca de mi
+      - kiero cancha en surco al toke
+      - xq cancha libre alas 7 en vill salvador
+      - kiero algo pa jugar
+      - reco un lugar
+      - q me recomiendas xfa
+      - tienes canchas libres?
+      - busco pa jugar hoy
+      - aki a mi alrededor q hay
+      - cancha pa alas 8
+      - reco algo pe
+      - dnd puedo ir a jugar
+      - hay alguna cancha?
+      - kiero alkilar ps
+      - donde se puede jugar
+      - busco algo asi pa jugar
+      - reco algo chevere
+      - kiero una d tus reco
+      - dame unas opciones
+      - necsito jugar
+      - dond juego hoy
+      - kiero pichanga
+      - q tal algo pa 8pm
+      - recomiendame x aca
+      - dnd encuentro canchas libres
+      - busco jugar
+      - alkila cancha
+      - busko una cancha x vill salvador
+      - dime x surco q hay
+      - hay algo cerca mio para hoy
+      - reco x mi zon pa alas 8
+      - cancha libre 8pm x aca
+      - algo en ves pa las 8
+      - kiero reservar algo x surco
+      - dime una reco d cancha
+      - ayudame a encontrar cancha
+      - kiero alkilar algo
+      - busco donde chutar
+      - muestrame algun lugar
+      - tienes cancha libre pa alas 8
+      - q puedo reservar cerca mio
+      - dime una reco cerca de aca
+      - cancha x mi zona pa 8pm
+      - alguna en vill salvador
+      - kiero reservar pa hoy x la noche
+      - algo de cancha ps
+      - busco cancha x mi barrio
+      - necsito una reco cerca de aca
+      - q me dices de algo en villa el salvador
+      - dime una reco q este libre
+      - algo q este libre ahora
+      - cancha libre xfa
+      - busko algo cerca d mi
+      - recomiendame x aca alas 8
+      - una cancha libre cerca mio
+      - kiero reservar pa alas 8pm en surco
+      - dnd hay cancha cerca de mi
+      - busko una x mi zona pe
+      - reco x surco para 8pm
+      - algo cerka d mi pa alas 8
+      - kiero reservar una pichanga
+      - dime una reco q este a la mano
+      - alguna cancha libre x aca a mi alrededor
+      - busko una cerca de mi x vill salvador
+      - cancha 8pm en mi barrio
+      - q me recomiendas en surco
+      - kiero reservar una cancha para la noche
+      - dime dnd puedo jugar hoy
+      - algo pa jugar x surco
+      - cancha cerca d mi xfa
+      - alguna recomendacion x mi zona
+      - libre pa alas 8pm en vill salvador
+      - kiero reservar algo pa las 8
+      - dime una reco cerca de aca hoy
+      - busko cancha x mi zon pa alas 8
+      - algo de cancha pa hoy en surco
+      - recomiendame pa hoy x vill salvador
+      - cancha libre cerca mio pa alas 8pm
+      - kiero reservar ps xfa
+      - dime una reco facil de llegar
+      - algo pa jugar a la vuelta
+      - tienes canchas cerca de aca?
+      - busko algo x surco ala noche
+      - cancha libre alas 8 x mi barrio
+      - reco en vill salvador pa 8pm
+      - kiero reservar una pa alas 8
+      - dime algo cerka mio pa hoy
+      - busko algo pa alas 8pm
+      - recomiendame x aca a mi alrededor
+      - cancha en surco disponible
+      - kiero reservar una ahora
+      - dime algo bueno pa jugar
+      - algo q este libre x mi zona
+      - reco vill salvador pa hoy
+      - cancha libre x surco alas 8
+      - kiero reservar pa hoy en la noche
+      - dime una opcion x aca cerca mio
+      - busko cancha x mi zon pa hoy
+      - reco alas 8 en vill salvador
+      - cancha libre cerka d mi a las 8
+      - cancha libre hoy x mi zona
+      - reco de cancha pa las 8
+      - qiero reserbar aca cerca
+      - vill salvador algo pa jugar
+      - por surco q ay libre
+      - cerca mio donde juego?
+      - dime una reco pa fulbito
+      - q hay alas 8 por aca
+      - kiero cancha xq kiero jugar
+      - pasame la voz de una cancha libre
+      - algo pa hoy en vill salvador
+      - donde ay cancha por mi barrio
+      - busco pa las 8 pm
+      - reco un lugar cerca mio
+      - por surco hay cancha disponible?
+      - alguna reco de cancha por aca
+      - vill salvador algo libre?
+      - cancha libre 8pm x tu zona
+      - cerca mio q hay de cancha
+      - kiero reserbar una cancha rapido
+      - alrrededor mio hay algo libre
+      - recomiendame algo para la tarde
+      - por surco necesito un espacio
+      - que tal una cancha alas 8
+      - pa vill salvador hay cancha libre 8pm
+      - qiero algo cerca mio pa jugar
+      - reco una cancha aca a mi alrededor
+      - por mi zona hay cancha pa las 8pm
+      - dime una reco buena ps
+      - alguna cancha libre 8pm
+      - vill salvador hay algo ahora
+      - pa las 8pm q tienes
+      - reco algo en mi barrio
+      - qiero reservar por aca
+      - cancha cerca a mi zona para hoy
+      - q hay de cancha x vill salvador
+      - algo pa reservar alas 8
+      - recomiendame una en surco
+      - dime una buena reco para jugar
+      - kiero reservar pero cerca mio
+      - hay cancha en el vill salvador?
+      - algo x surco para jugar hoy
+      - q hay de canchas alas 8pm
+      - reco una cancha por mi casa
+      - qiero reservar una pa fulbito
+      - libre 8pm por aca
+      - algun dato de cancha cerca mio
+      - por surco una cancha libre
+      - kiero reservar ya
+      - canchas por mi zona libres
+      - q ay de canchas por vill salvador
+      - recomiendame un lugar pa jugar
+      - alas 8 q canchas hay
+      - cerca mio hay cancha libre
+      - por surco un lugar pa hoy
+      - dime una reco aca a mi alrededor
+      - alguna reco en vill salvador
+      - hay cancha por mi zona?
+      - dime algo para la noche
+      - recomiendame una pa las 8
+      - qiero reservar en vill salvador
+      - x surco donde puedo ir
+      - dime una reco de cancha
+      - cancha libre hoy alas 8
+      - q hay aca a mi alrededor pa jugar
+      - reco de canchas por mi zona
+      - qiero reservar una en vill salvador
+      - por surco hay cancha pa 8pm
+      - dime una recomendacion rapida
+      - algo libre en vill salvador alas 8
+      - canchas por mi zona para mañana
+      - recomiendame una por surco
+      - dime una reco pa fulbito cerca
+      - kiero reservar un sitio hoy
+      - libre 8pm en vill salvador
+      - cancha cerca mio pa mañana
+      - por surco q ay para reservar
+      - reco algo pa jugar aca
+      - q hay alas 8 en mi zona
+      - dime una reco por vill salvador
+      - kiero reservar alas 8pm
+      - recomiendame un espacio ahora
+      - dime una buena cancha por mi zona
+      - vill salvador algo pa fulbito
+      - cancha libre alas 8 cerca mio
+      - por surco dónde juego
+      - dime una reco pa esta noche
+      - reco aca a mi alrededor pa hoy
+      - kiero reservar alguna cancha
+      - q hay en vill salvador pa jugar
+      - por mi zona hay algo alas 8
+      - kiero reservar para hoy en vill salvador
+      - reco de cancha libre ahora
+      - algo pa las 8pm por surco
+      - oe, tienes cancha?
+      - kiero una
+      - donde hay cancha
+      - algo cerca mio?
+      - cancha libre 8pm?
+      - vill salvador ps, alguna cancha?
+      - aca a mi alrededor, q hay?
+      - pa reservar
+      - alas 8 kiero cancha
+      - tienes algo x aki?
+      - una cancha rapido
+      - donde jugamos hoy?
+      - algo para jugar futbol
+      - necesito cancha xfa
+      - cancha libre ahora
+      - reco pa jugar alas 7
+      - q me dices de vill salvador
+      - quiero algo x mi barrio
+      - cancha pa 9pm
+      - busco cancha de gras
+      - cancha x chorrillos
+      - alguna reco cerca
+      - donde hay cancha libre
+      - kiero pa reservar ya
+      - dame una buena cancha
+      - tienes canchita?
+      - busco una por vill salvador
+      - cancha 8pm en surco
+      - algo cerca mio para las 9
+      - dime una cancha q este libre
+      - pa jugar fulbito
+      - reco en mi zona ps
+      - cancha disponible alas 8
+      - una buena por vill salvador
+      - donde jugamos el sabado?
+      - kiero una reco pa la noche
+      - tienes canchas por la molina
+      - algo para entrenar
+      - recomiendame una en la vicky
+      - busco algo cerca de san miguel
+      - cancha para alas 10pm
+      - algo x comas, porfa
+      - una cancha para jugar con los patas
+      - kiero reservar pa un fulbito
+      - reco de cancha por mi chamba
+      - cancha libre a las 7:30
+      - quiero una cancha cerca de casa
+      - algo en santiago de surco
+      - dime una buena por la zona
+      - necesito cancha pa hoy dia
+      - pa jugar en la tarde
+      - reco de un lugar
+      - cancha en san juan
+      - tienes info de canchas?
+      - kiero jugar aca cerca
+      - dime una recomendacion para el miercoles
+      - cancha para la gente de vill salvador
+      - algo libre para el lunes
+      - busco cancha de basket
+      - dame una reco por mi casa
+      - hay cancha por las 6
+      - kiero reservar un sitio
+      - recomiendame una buena en surco
+      - cancha libre 5pm
+      - q hay pa los patas?
+      - necesito una por aca cerca
+      - dime algo chevere
+      - cancha por la av arequipa
+      - reco de campo
+      - busco algo en lima
+      - kiero jugar por la noche
+      - cancha cerca de mi cuadra
+      - algo pa las 11pm
+      - recomiendame un lugar pa joder
+      - tienes canchas de grass
+      - q me ofreces para jugar
+      - kiero reservar para el domingo
+      - dame una recomendacion para futsal
+      - cancha libre 4pm
+      - algo cerca de aca
+      - reco para mi gente
+      - cancha en callao, tienes?
+      - quiero alquilar algo
+      - dime una cancha q no sea cara
+      - busco algo para el sabado en la noche
+      - reco de cancha por el cercado
+      - cancha disponible pa 8 y media
+      - algo en breña, xfa
+      - kiero reservar pa un deporte
+      - dime canchas cerca del mall
+      - necesito una buena recomendacion
+      - cancha para la quincena
+      - algo pa las 7pm por los olivos
+      - reco de cancha techada
+      - algo pa jugar hoy
+      - q hay libre pa hoy
+      - un lugar cerca pa pichar
+      - dime pa pacharanga ahora
+      - reco pa pichanga por la noche
+      - busko pa este finde x ak
+      - tienes algo libre alas 8
+      - por surco pa hoy a las 7
+      - cerca mio porfa pa fulbito
+      - aca a mi alrededor pa jugar al toke
+      - vill salvador urgente pa la tarde
+      - en mi barrio hay pa fulbito hoy
+      - por el cono sur alas 8
+      - por sjl algo para ahora
+      - cancha libre alas 8 por miraflores
+      - pa la noche q hay porfa
+      - temprano tienes algo por ate?
+      - pa mañana en la tarde x sjm
+      - libres sabado porfa por lurin
+      - dime una reco pa la semana
+      - kiero pichar por surco
+      - donde podemos caer mañana
+      - pido una sugerencia para jugar
+      - algo bacan cerca de mi casa
+      - busco pa un partido 8pm
+      - q tal algo por barranco
+      - hay algo en lince pa hoy
+      - dame una opcion por el callao
+      - kiero reservar pero no se dond
+      - kiero pichar un toque ahorita
+      - busco pa hoy x mi zona
+      - tienes pa pichanga por la tarde
+      - algun lugarsito cerca mio
+      - q hay x ak a mi alrededor pa jugar
+      - reco pa hoy en la noche
+      - pa la tarde tienes algo disponible?
+      - rekomiendame algo pa fulbito
+      - dime una recomendacion pa pichar mañana
+      - algo libre mañana temprano en surco
+      - pa jugar cerca mio hoy
+      - q lugar me aconsejas
+      - necesito pacharanga rapido
+      - algun sitio pa pichar
+      - tienes algo pa fulbito ahorita
+      - donde podemos hacer un partido
+      - que me sugieres pa el sabado
+      - una sugerencia para hoy mismo
+      - por surco pa jugar
+      - algo x mi zona pa reservar
+      - cerca mio pa un partido
+      - por comas un sitio
+      - en sjl q me recomiendas
+      - ate pa la pichanga
+      - por chorrillos q tienes
+      - la molina algo libre
+      - en el callao hay algo
+      - magdalena pa pichar
+      - cercado de lima porfa
+      - barranco libre
+      - san borja pa el finde
+      - lince a la mano
+      - surquillo pa el toque
+      - jesus maria algo
+      - pueblo libre pa fulbito
+      - san miguel donde
+      - santiago de surco algo
+      - alas 8 pa un fulbito
+      - temprano tienes?
+      - este finde disponible
+      - a la hora de almuerzo
+      - despues del trabajo
+      - pa la madrugada
+      - el domingo a las 5
+      - lunes en la mañana
+      - pa la quincena
+      - fin de mes q tal
+      - recomiendame algo por surco alas 8
+      - kiero reservar cerca mio pa la noche
+      - dime una recomendacion aca a mi alrededor pa mañana
+      - vill salvador alas 8 pa pichar
+      - tienes algo pa jugar por surco temprano
+      - kiero reservar algo aca cerca mio
+      - dame una reco por vill salvador pa el finde
+      - hay algo libre alas 8 aca a mi alrededor
+      - por mi zona kiero jugar a las 7
+      - recomiendame algo pa la noche x sjl
+      - dime una recomendacion para hoy porfa cerca mio
+      - aca a mi alrededor q hay pa pacharanga alas 8
+      - kiero reservar en vill salvador pa la tarde
+      - por surco cancha libre 8pm
+      - oe kiero cancha
+      - q cancha ay
+      - busko lugar pa jugar
+      - por surco una kancha
+      - cerca mio q hay
+      - aca a mi alrededor recomiendame algo
+      - alas 8 disponible
+      - vill salvador kiero
+      - ayuda con kancha
+      - pa hoy en la noche
+      - x la tarde kancha libre
+      - cancha x mi casa
+      - oe busko una cancha
+      - alguna kancha libre
+      - pa el fulbito
+      - donde ay canchas
+      - sugiere algo cerca mio
+      - kiero una pa las 8pm
+      - villa salvador libre
+      - una reco pa hoy
+      - cerca mio pa la noche
+      - en mi barrio kiero jugar
+      - kiero saber si ay cancha
+      - kieres reco de kanchas
+      - dime q hay por ahi
+      - x mi zona kiero jugar
+      - cancha pa la noche 8pm
+      - vill salvador quiero reservar
+      - reco kancha pa ahora
+      - quiero reservar x surco
+      - por mi zona algo pa hoy
+      - alas 8 por surco
+      - recomiendame algo por mi barrio
+      - quiero reservar en la noche
+      - dime una recomendacion pa el finde
+      - oe necesito una canchita xfa
+      - q hay por mi zona alas 8
+      - busko cancha cerca mio pa mañana
+      - dame una reco de kanchas
+      - nesesito una pa la tarde
+      - kiero saber donde ay cancha libre
+      - amigo dime una reco
+      - pa las 8pm cerca de mi casa
+      - alguna reco por villa el salvador
+      - q puedo encontrar cerca mio
+      - recomiendame algo pa la noche ps
+      - quiero reservar algo por mi zona
+      - kiero algo x ahi
+      - pa el fulbito ps
+      - nesecito un lugar
+      - a ver tus opciones
+      - donde hay pa hoy
+      - x surco q se arma
+      - en vill salvador q hay
+      - kiero una cancha pa la noche
+      - recomiendame una kancha por ahi
+      - quiero reservar algo x mi zona
+      - dime una recomendacion pa 8pm
+      - por mi zona pa mañana
+      - cancha libre en la noche
+      - alas 8 q hay por surco
+      - recomiendame algo pa hoy
+      - quiero reservar pa mas tarde
+      - oe tienes algo por surco
+      - busko una pa la noche
+      - nesecito cancha por mi zona ps
+      - amigo una reco de kancha
+      - pa las 8pm por mi barrio
+      - donde puedo encontrar
+      - q tal una cancha por vill salvador
+      - q me recomiendas para el fulbito
+      - dime una recomendacion sin apuro
+      - kiero algo x ahi alas 8
+      - pa el fulbito por surco
+      - nesecito un lugar cerca mio
+      - q hay cerca en vill salvador
+      - a ver tus opciones para la noche
+      - dame un dato de kancha libre
+      - donde hay pa hoy 8pm
+      - oe man, busca una cancha
+      - kiero una canchita
+      - necesito un lugar pa hoy
+      - recomiendame algo x surco
+      - cancha libre 8pm xfa
+      - aca a mi alrededor q hay
+      - x mi zona, una reco
+      - kiero reservar pa las 8
+      - vill salvador, algo disponible
+      - dame una recomendacion pa mañana
+      - algo pa hoy en la tarde
+      - busco canchita cerka mio
+      - una libre 8pm xq kiero jugar
+      - q me recomiendas x aki
+      - nesecito una pa la noche
+      - cancha 7pm, tienes
+      - kiero una reco rapido
+      - onde hay una pa la tarde
+      - un espacio aca a mi alrededor
+      - reco para las 8pm
+      - algo en vill salvador xfa
+      - kiero reservar algo cerka
+      - busco un lugar x mi zona
+      - necesito una cancha pa hoy
+      - algo pa las 8, x surco
+      - vill salvador, kiero una pa la noche
+      - cancha pa jugar alas 6pm
+      - tienes algo aca mi alrrededor
+      - recomiendame un espacio xfa
+      - kiero jugar hoy alas 7
+      - busco una cancha cerca mio
+      - dime una buena reco
+      - nesecito pa la 8pm
+      - cancha en vill salvador pa mañana
+      - algo pa reservar cerca mi casa
+      - q me sugieres pa la noche
+      - quiero reservar una ala 8
+      - dame una reco pa jugar x aki
+      - busco una canchita libre
+      - necesito algo rapido hoy
+      - reco por mi zona, pa la tarde
+      - kiero una en vill salvador
+      - dime un lugar aca a mi alrededor
+      - cancha xfa
+      - ahy canchita?
+      - algo libre?
+      - cancha libre x surco
+      - cerca mio ahy?
+      - canchita cerca
+      - busco cancha
+      - por mi zona algo
+      - aca a mi alrededor hay cancha?
+      - 8pm cancha
+      - quiero reservar mano
+      - canchita para jugar
+      - por aca noma ps
+      - kiero algo
+      - reco cancha cerca
+      - cancha libre pa mi zona
+      - alas 8pm ahy algo?
+      - reservar canchita
+      - cerca mio una cancha
+      - q cancha ahy
+      - algo libre ahora
+      - canchita 8pm
+      - busco algo libre
+      - cancha libre vill salvador
+      - reco cerca mio para jugar
+      - q hay pa jugar 8pm
+      - canchita libre pa hoy
+      - necesito una canchita
+      - reservar algo
+      - busco cancha por aca
+      - cancha por surco alas 8
+      - cerca mio, ahy cancha libre?
+      - vill salvador quiero cancha
+      - por mi zona q hay?
+      - quiero reservar una cancha
+      - algo libre aca nomas
+      - reco para las 8
+      - canchita cerca de mi casa
+      - busco canchita por el barrio
+      - cancha libre por aca
+      - alas 8pm por surco
+      - vill salvador algo libre
+      - canchita para reservar
+      - quiero algo cerca
+      - cancha para mañana?
+      - q hay hoy?
+      - busco canchita hoy
+      - reservar por aca
+      - canchita x surco alas 8
+      - cerca mio algo libre 8pm
+      - vill salvador q ahy libre
+      - canchita por mi barrio
+      - quiero jugar por aca
+      - algo pa jugar por surco
+      - vill salvador, busco cancha
+      - canchita ala 8 por mi zona
+      - reservar una libre
+      - busco canchita cerca
+      - donde ahy cancha libre 8pm
+      - cancha libre por aca 8pm
+      - q tal alguna canchita
+      - cancha libre por aca nomas
+      - por surco hay cancha?
+      - q canchas tienen
+      - donde puedo pelotar
+      - busco cancha, dime ps
+      - 8pm cancha libre?
+      - alas 8pm algo libre?
+      - vill salvador hay canchitas?
+      - reco en mi zona
+      - buscando canchita
+      - donde hay pa fulbito
+      - q tienes disponible?
+      - pa reservar una canchita
+      - dime pa jugar
+      - algo pa este rato
+      - por mi barrio hay?
+      - alguna reco por aqui
+      - canchita hoy?
+      - quiero algo libre ahora
+      - puedes recomendarme?
+      - algo cerca ala 8pm
+      - cancha cerca d mi, vill salvador
+      - 8pm en surco, algo?
+      - hay canchita por aca noma?
+      - busco una por mi zona pa las 8
+      - dime q tienes libre pa hoy
+      - alguna reco en mi barrio
+      - canchas disponibles por aqui
+      - kiero jugar hoy, q hay
+      - por donde vivo hay algo
+      - 8pm cerca mio
+      - donde puedo buscar canchita?
+      - ayuda con una cancha
+      - dime si hay canchas
+      - por aca nomas donde juego?
+      - buscando donde meter gol
+      - recomiendame por surco alas 8
+      - algo libre ahora en vill salvador
+      - canchita cerca pa la noche
+      - q se sabe de canchas
+      - alguna canchita pa reservar
+      - cancha libre pa mañana
+      - por aca noma busco una cancha
+      - pa jugar en la noche
+      - quiero jugar, q hay?
+      - dime sitios pa jugar
+      - algo cerca a mi casa?
+      - 8pm cerca mio hay?
+      - busco canchita en vill salvador
+      - por surco, 8pm, hay algo?
+      - canchas disponibles alas 8pm
+      - busco algo por aca noma
+      - quiero una canchita pa este fin
+      - recomiendame por mi zona hoy
+      - pa jugar en la noche, cerca
+      - cancha libre ahora por surco
+      - donde hay canchitas por vill salvador
+      - algo pa reservar ahora
+      - quiero chutar alas 8
+      - q cancha me recomiendas
+      - por mi barrio hay pa jugar?
+      - algo por surco, 8pm
+      - dime algo en vill salvador
+      - cancha cerca de mi, 8pm
+      - buscando canchas libres hoy
+      - kiero reservar canchita
+      - pa jugar algo por aca
+      - reco para una cancha
+      - algo por mi zona
+      - canchita pa hoy en la noche
+      - dime algo disponible ahora
+      - tienes algo pa reservar hoy
+      - donde kiero jugar
+      - kiero canchita
+      - q puedo hacer pa jugar
+      - dónde hay pa peliar
+      - busco dond meter un partido
+      - kiero un lugar pa soltarme
+      - algo p divertirme
+      - q recomiendas
+      - algo bueno pa jugar
+      - alguna recomendacion?
+      - cuales hay
+      - dame una buena
+      - cerca mio algo
+      - x aca noma cancha
+      - algo x aqui
+      - donde xfa cerca
+      - zona dond vivo
+      - aki cerkaita
+      - algo cerca noma
+      - temprano algo
+      - mañana ala 9
+      - xq la noche
+      - pa mas tarde
+      - ahora mismo
+      - por surco pa la noche
+      - vill salvador algo ahora
+      - cerca mio 7pm
+      - x mi zona mas tarde
+      - aca noma pa hoy
+      - reco 8pm vill salvador
+      - q hay cerca alas 6
+      - por aca noma ala tarde
+      - algo pa mañana cerca
+      - canchita pa mi gentita
+      - hay cancha libre?
+      - una canchita xfa
+      - cancha q este libre
+      - alguna canchita cerca
+      - recomiendame canchita
+      - kiero cancha libre
+      - donde hay canchita
+      - busco canchita
+      - para reservar donde
+      - reservar cancha xfa
+      - kiero alquilar
+      - alquilar algo cerca
+      - donde puedo reservar
+      - reservar hoy xfa
+      - kiero resevar
+      - para alkilar
+      - q onda tienes algo pa este fin
+      - buscando un sitio pa jugar con los patas
+      - me ayudas a buscar donde jugar xfa
+      - dame una mano con eso de las canchas
+      - se puede jugar por aca ahora?
+      - hay alguna cancha disponible para mi
+      - donde se puede meter un fulbo hoy
+      - kiero saber dond hay pa peliar
+      - busco algo pa la gnt qiere jugar
+      - dame la posta dond jugar
+      - donde juego
+      - necesito una
+      - a k hora
+      - cancha x aca
+      - alguna libre
+      - aca noma
+      - dime dnd
+      - se puede?
+      - libres hoy
+      - recomienden
+      - pa la noxe
+      - necesito reco
+      - kiero ver
+      - canchas hoy
+      - ala noxe
+      - x villa
+      - cancha ya
+      - cerca del barrio
+      - una canchita
+      - donde ay
+      - kiero canchita libre x mi zona
+      - recomiendame algo pa jugar alas 8
+      - canchita cerca mio disponible pa mañana
+      - busco una cancha por vill salvador 8pm
+      - aca a mi alrededor hay algo pa reservar
+      - alguna cancha libre por surco para esta noche
+      - quiero reservar algo por aca noma pa jugar
+      - necesito un lugar cerca mio pa hoy
+      - cancha libre en vill salvador para las 8
+      - reco una cancha por mi zona
+      - donde ay canchitas disponibles x aqui
+      - kiero jugar por surco hoy mas tarde
+      - alguna cancha pa las 8 cerca mio
+      - canchita libre x villa salvador hoy
+      - recomiendame algo pa jugar por mi barrio
+      - necesito cancha pa las 8 por aca noma
+      - kiero ver canchas disponibles cerca mio
+      - por surco hay algo libre alas 8
+      - busco una canchita x aca noma para hoy
+      - donde ay canchas libres para reservar
+      - reco algo pa jugar en vill salvador
+      - algo pa jugar cerca mio 8pm
+      - quiero reservar una cancha libre por mi zona
+      - cancha libre por surco para las 8
+      - necesito canchita hoy por aca
+      - alguna libre aca a mi alrededor pa la noxe
+      - kiero jugar en villa salvador alas 8
+      - recomienden canchas cerca mio pa hoy
+      - busco un espacio para jugar por mi zona
+      - canchita libre 8pm cerca de mi
+      - reco algo x surco pa hoy
+      - kiero reservar una cancha por aca noma
+      - ay alguna canchita libre pa las 8
+      - necesito una cancha por vill salvador
+      - dime canchas disponibles cerca de mi
+      - por mi zona algo libre pa las 8
+      - recomiendame canchita pa jugar 8pm
+      - quiero jugar futbol x aca cerca mio
+      - hay canchas libres aca a mi alrededor
+      - busco algo libre en vill salvador
+      - cancha disponible para hoy alas 8
+      - kiero reservar algo pa jugar x surco
+      - recomiendame un sitio pa la noche
+      - algo cerca mio pa reservar 8pm
+      - kiero un lugar pa jugar x mi zona
+      - canchita libre hoy alas 8 en vill salvador
+      - me recomiendas
+      - onde ir ps
+      - busco un sitio
+      - canchita libre
+      - aver q hay
+      - alguna canchita
+      - xfa dime algo
+      - por aca noma
+      - vill salvador quiero
+      - mi zona ps
+      - cerkita no mas
+      - pa ahorita
+      - para hoy noche
+      - xfa alas 8
+      - reco algo cerca mio
+      - kiero canchita por mi zona
+      - pa jugar alas 8
+      - algo pa hoy aca a mi alrededor
+      - tienes algo libre por surco
+      - me recomiendas vill salvador
+      - onde ir pa la noche
+      - busco un sitio 8pm
+      - necesito algo cerca d mi casa
+      - canchita libre por aca noma
+      - dame opciones por el barrio
+      - aver q hay en surco
+      - kiero alquilar pa mas tarde
+      - alguna canchita vill salvador
+      - xfa dime algo alas 8
+      - cerca mio pa jugar
+      - por aca noma libre
+      - cerca d mi casa pa hoy
+      - en surco pa mañana
+      - vill salvador quiero en la tarde
+      - cerca d aki en la noche
+      - por el barrio a esta hora
+      - mi zona ps pa ahorita
+      - cerkita no mas para hoy noche
+      - reco algo por el centro xfa alas 8
+      - kiero una canchita en mi cuadra pa jugar
+      - busco un sitio por surco para mas tarde
+      - necesito algo por vill salvador pa la noche
+      - canchita libre aca a mi alrededor pa hoy
+      - dame opciones por mi zona alas 8pm
+      - aver q hay cerca mio pa mañana
+      - kiero alquilar por aca noma en la tarde
+      - alguna canchita cerca d mi casa en la noche
+      - xfa dime algo en surco a esta hora
+      - me recomiendas algo libre vill salvador pa ahorita
+      - onde ir pa jugar por el barrio alas 8
+      - busco un sitio cerca d aki para hoy noche
+      - necesito algo por mi zona xfa alas 8
+      - kiero una canchita pa hoy
+      - reco canchita por surco
+      - hay algo aca a mi alrededor
+      - busco canchita por mi zona
+      - pa reservar una cancha
+      - canchita por aca noma
+      - recomiendame algo pa pichanga
+      - q canchas hay por surco
+      - donde ay canchita cerca
+      - kiero un sitio pa jugar
+      - algo pa las 8pm
+      - canchita libre por el vill salvador
+      - por mi zona hay cancha
+      - necesito un point pa hoy
+      - alguna reco de canchas
+      - dame opciones de canchitas
+      - canchita pa la tarde cerca mio
+      - por surco alas 8
+      - donde se pichanguea por aki
+      - hay canchas disponibles 8pm
+      - reco algo en vill salvador
+      - algo libre aca a mi alrededor
+      - donde ay cancha por mi zona
+      - canchita por surco pa mañana
+      - pa las 8pm cerca de mi
+      - busco una reco de canchas
+      - kiero un lugar pa el fulbito
+      - alguna canchita por el vill salvador
+      - cancha libre por aca noma alas 8
+      - recomiendame un sitio pa pichanguear
+      - q canchas ay cerca mio
+      - dnd puedo jugar por surco
+      - canchita pa un partido
+      - algo pa hoy 8pm
+      - kiero canchita libre
+      - busco algo por mi zona alas 8
+      - canchita en vill salvador
+      - donde ay cancha aca a mi alrededor
+      - pa reservar cancha por surco
+      - canchita pa el fin de semana
+      - algo pa jugar alas 8pm
+      - kiero saber donde hay canchita
+      - busco algo disponible
+      - por surco q hay de canchas
+      - recomiendame canchitas cerca mio
+      - alguna canchita libre hoy
+      - dame una reco de donde jugar
+      - canchita vill salvador libre
+      - algo aca noma pa pichanga
+      - donde ay cancha pa hoy
+      - busco un lugar pa fulbito
+      - canchita por surco pa la noche
+      - reco algo 8pm
+      - hay canchas por aca
+      - kiero algo pa jugar cerca
+      - busco canchita alas 8pm
+      - algo por el vill salvador
+      - recomiendame una canchita por mi zona
+      - canchita libre pa las 8
+      - q opciones hay pa jugar
+      - donde ay cancha libre cerca mio
+      - kiero reservar algo por mi zona
+      - canchita por surco alas 8pm
+      - busco algo aca a mi alrededor pa hoy
+      - reco canchita vill salvador
+      - algo pa jugar alas 8 por aca noma
+      - kiero canchita cerca mio
+      - dame la fija de una canchita
+      - hay algo por surco pa las 8
+      - busco donde pichanguear hoy
+      - recomiendame algo libre alas 8
+      - quiero reservar una canchita
+      - alas 8, tendras algo?
+      - busko una cancha por mi zona
+      - una reco rapido ps
+      - cancha libre vill salvador 8pm
+      - nesesito jugar, donde x mi zona
+      - kiero una canchita por aca noma
+      - algo cerca mio ala 7pm
+      - recomiendame algo, estoy por surco
+      - hay cancha libre alas 9
+      - busco algo pa hoy
+      - para la noche, q hay
+      - tienes canchitas 8pm
+      - donde ahi canchitas por vill salvador
+      - reco de cancha libre por surco
+      - busco reservar pa las 6
+      - necsito algo cerca mio
+      - canchas disponibles por mi barrio
+      - hay algo en vill salvador
+      - donde puedo encotrar algo
+      - recomiendame canchas por aca noma
+      - alguna libre para las 7
+      - dame canchitas por mi zona
+      - busko donde jugar en surco
+      - quiero reservar por aca
+      - hay algo cerca a las 8
+      - alguna opcion de cancha libre
+      - nesesito un lugar para jugar hoy
+      - donde jugar por vill salvador
+      - canchita cerca mio alas 8
+      - q tienes disponible por surco
+      - kiero una cancha por mi barrio
+      - algo libre alas 7pm por aca noma
+      - busco cancha libre en vill salvador
+      - necesito una reco
+      - canchita pa jugar ahora
+      - q tal algo por surco
+      - algo para mañana por aca
+      - kiero cancha libre alas 9
+      - busko donde jugar cerca mio
+      - donde reservo una cancha
+      - recomiendame una canchita
+      - canchas por vill salvador a las 8
+      - algo aca a mi alrededor disponible
+      - nesesito algo para la tarde
+      - kiero jugar cerca de mi
+      - hay cancha para reservar por surco
+      - reco de canchas por aca noma
+      - donde jugar hoy por mi zona
+      - canchita libre 8pm cerca mio
+      - q canchas hay en vill salvador
+      - busco donde hacer un partido
+      - kiero una reco pa jugar
+      - algo por aca noma pa las 7
+      - cancha libre por mi barrio ahora
+      - q tal algo en surco pa hoy
+      - recomiendame algo alas 8pm
+      - busko canchita libre cerca mio
+      - algo pa reservar en vill salvador
+      - nesesito jugar en la noche por aca
+      - kiero un partido en surco
+      - canchita pa hoy alas 6
+      - donde jugar por mi zona en la tarde
+      - reco de canchas 8pm
+      - q hay cerca mio hoy
+      - busco canchita por aca
+      - nesesito reservar una cancha libre
+      - kiero algo disponible ahora
+      - algo por mi zona pe
+      - canchita pa las 8
+      - recomiendame algo x aca
+      - donde jugar cerca mio
+      - algo cerca alas 8pm
+      - hay canchita por surco
+      - necesito una libre 8pm
+      - pa jugar en vill salvador
+      - dime alguna canchita cerca
+      - a k hora hay libre aca
+      - quiero una canchita x aca noma
+      - alas 8pm cerca de mi
+      - algo por mi barrio 8pm
+      - hay algo en mi zona
+      - dime si hay cancha libre
+      - dame opciones pe
+      - quiero una pa la noche
+      - cancha cerca a mi casa
+      - pa jugar en vill salvador pe
+      - algo para reservar
+      - canchita libre x surco
+      - reco algo aca alas 8
+      - necesito cancha pa hoy
+      - algun lugar cerca mio
+      - hay algo libre x la noche
+      - q me recomiendas ahora
+      - canchita disponible por mi zona
+      - dime de alguna cancha cerca
+      - algun sitio pa reservar
+      - x surco nomas hay algo
+      - algo libre pa mañana
+      - canchita pa jugar cerca mio
+      - reco alas 8pm en vill salvador
+      - dime q hay ps
+      - kiero reservar por aca noma
+      - alguna canchita cerca ala 8
+      - x vill salvador alas 8pm
+      - reco algo pa jugar x mi barrio
+      - busco cancha libre 8pm cerca mio
+      - algo en surco pa hoy
+      - dame opciones cerca mio pe
+      - kiero algo alas 8 x aca
+      - canchita pa la noche cerca
+      - q me ofreces en vill salvador
+      - reco para jugar cerca
+      - necesito reservar una canchita
+      - hay algo libre x mi zona
+      - dime donde jugar por surco
+      - algo en mi barrio 8pm
+      - canchita cerca mio pa las 8
+      - q me aconsejas x aca noma
+      - kiero algo pa reservar ya
+      - algo en vill salvador hoy
+      - reco por mi zona pa jugar
+      - cancha libre alas 8pm x surco
+      - hay canchita cerca mio 8pm
+      - dime q hay en vill salvador alas 8
+      - busco algo pa jugar cerca a mi
+      - necesito una reco por aca noma
+      - kiero reservar alguna libre alas 8
+      - hay canchita
+      - dnd hay cancha libre
+      - algo pa fulbito
+      - recomiendame un lugar
+      - kiero reco ps
+      - canchita x surco
+      - ala 8 pm
+      - vill salvador canchas
+      - un dato pa jugar
+      - necesito un spot
+      - recomiendame algo xfa
+      - dnd jugar
+      - un sitio pe
+      - para futbito
+      - q hay cerca mio
+      - por surco kiero
+      - q puedo jugar
+      - algo pa la noche
+      - x surco hoy
+      - cerca mio pa fut
+      - alas 8 pm libre
+      - recomiendame ps
+      - kiero un lugar
+      - necesito un sitio
+      - algo x aca
+      - dond hay canchita
+      - quiero jugar 8pm
+      - cerca mio ala 8
+      - vill salvador recomiendame
+      - kiero reservar un spot
+      - aka a mi alrededor hoy
+      - cancha libre ps
+      - recomiendame un lugar x aca
+      - q hay pa fulbito cerca mio
+      - alas 8 pm por surco
+      - aca a mi alrededor pa jugar
+      - canchita alas 8pm
+      - por aca noma kiero
+      - dnd hay canchita cerca mio
+      - cancha libre por surco
+      - kiero reservar algo hoy
+      - aka a mi alrededor pa fut
+      - recomiendame un spot xfa
+      - q hay pa jugar alas 8
+      - vill salvador hoy libre
+      - cerca mio cancha libre
+      - kiero canchita hoy 8pm
+      - aka noma pa reservar
+      - por mi zona un dato
+      - recomiendame ps x surco
+      - q hay pa fulbito 8pm
+      - donde juego ps
+      - un lugar
+      - quiero separar
+      - para jugar
+      - una libre
+      - por surco una
+      - cerca mio hay
+      - kiero una cerca
+      - x el ves hay?
+      - necesito para 8pm
+      - algo por aca noma
+      - reco x surco
+      - q tal vill salvador
+      - busco cerca mio
+      - una pa hoy
+      - kiero una canchita pa las 8 x aca
+      - recomiendame algo cerca mio pa jugar
+      - hay canchas libres alas 8pm por surco
+      - busco una x vill salvador pa jugar
+      - necesito un espacio cerca mio hoy
+      - q me recomiendas por mi zona pa 8pm
+      - una canchita disponible x aca noma
+      - quiero separar algo en vill salvador
+      - aca alrededor hay canchas libres
+      - algo pa la noche por surco ps
+      - por mi barrio busco algo
+      - canchita 8pm cerca de mi
+      - dond hay canchitas libres ahora
+      - busco para alas 8pm x el ves
+      - quiero reservar algo cerca a mi zona
+      - me puedes buscar algo por aca
+      - hay canchas disponibles x surco
+      - necesito un lugar pa jugar alas 8
+      - oye kiero canchita
+      - un espacio xq kiero jugar
+      - canchas ps dond hay
+      - x mi casa una canchita
+      - q hay libre alas 8?
+      - por el VES algo?
+      - una cancha xfa
+      - reco cancha cerca mio
+      - busko por aca noma
+      - qiero jugar 8pm
+      - kiero algo alas 8
+      - canchita vill salvador
+      - donde hay aca a mi alrededor
+      - cancha libre ahora?
+      - qiero jugar hoy
+      - busca una cancha cerca
+      - recomendame algo bueno
+      - hay canchas en vill salvador?
+      - qiero reserva alas 8
+      - cancha pa manana
+      - canchita por aqui
+      - reco algo por aca
+      - busco cancha para hoy 8pm
+      - qiero cancha cerca de mi casa
+      - hay canchas cerca dnd toy
+      - un lugar pa jugar pelota
+      - dime si hay cancha libre por mi zona
+      - me recomiendas algo en surco
+      - canchita para reservar en vill salvador
+      - kiero una reco por aca nomas
+      - algo libre 8pm
+      - 8pm hay algo?
+      - recomiendame pa hoy alas 8
+      - nesesito reservar un campo
+      - hay canchas por mi alrededor
+      - dame opciones por surco
+      - canchas disponibles vill salvador
+      - kiero reservar 8pm
+      - alguna cancha libre?
+      - recomienda algo
+      - algo por aca nomas
+      - buscando canchita 8pm
+      - kiero saber si hay cancha
+      - donde encuentro cancha libre
+      - a ver q hay por aca
+      - cancha x aca cerca
+      - quiero algo para jugar ahora
+      - canchas libres por mi zona
+      - algo para las 8pm
+      - por surco algo libre?
+      - nesecito cancha cerca
+      - hay canchas por este lado
+      - kiero reservar pa hoy
+      - canchita cerca mio
+      - reco algo cerca 8pm
+      - busca una cancha libre 8pm
+      - donde hay cancha por villa salvador
+      - alguna recomendacion de cancha
+      - algo en villa salvador
+      - cancha libre para las 8
+      - qiero canchita libre
+      - cancha cerca por aqui
+      - 8pm libre?
+      - busko algo cerca mio
+      - donde puedo reservar por aca
+      - recomiendame algo para 8pm
+      - algo por vill salvador
+      - dame una reco de cancha cerca
+      - cancha cerca de mi zona
+      - kiero canchita pa hoy
+      - hay cancha disponible 8pm
+      - busko canchita x aca noma
+      - reco pa 8pm por surco
+      - donde puedo reservar una cancha en vill salvador
+      - canchita pa hoy 8pm cerca mio
+      - kiero alquilar una cancha hoy alas 8
+      - dame opciones por mi zona para jugar
+      - hay cancha libre cerca de mi casa a las 8
+      - nesecito cancha por aca noma alas 8
+      - recomiendame algo en vill salvador para 8pm
+      - busko cancha por surco para hoy
+      - qiero canchita cerca de aca
+      - algo pa las 8
+      - canchita libre por mi zona para hoy
+      - hay algo cerca alas 8pm
+      - necesito una cancha por aca noma para 8pm
+      - reco cancha por surco hoy
+      - busko algo libre 8pm cerca mio
+      - cancha en vill salvador para hoy alas 8
+      - kiero reservar una canchita por mi zona
+      - dame opciones cerca mio 8pm
+      - hay cancha libre en vill salvador 8pm?
+      - algo para jugar
+      - onde puedo ir
+      - busco dnde
+      - q hay
+      - kiero jugr
+      - busco dond jugar
+      - kiero canchita x surco
+      - cancha libre vill salvador hoy
+      - dame algo pa jugar aca nomas
+      - busco dond jugar x aca noma
+      - nesesito cancha libre 8pm
+      - kiero reservar para la noxe
+      - reco d cancha cerca mio
+      - hay algo x mi barrio
+      - donde jugar ahora x surco
+      - busco algo x vill salvador
+      - algo cerca d mi
+      - nesesito cancha pa jugar
+      - q tal algo pa la noche x surco
+      - dame reco cerca mio
+      - kiero cancha cerca dnde estoy
+      - busco x vill salvador pa jugar
+      - algo en surco pa reservar
+      - reco d canchita cerca
+      - onde juego x mi zona
+      - nesesito reservar canchita
+      - pa jugar x aca noma tarde
+      - kiero algo dnd juagr 8pm
+      - q hay x vill salvador
+      - algo aca a mi alrededor pa la noxe
+      - nesesito reservar cerca mio
+      - dame opciones x mi zona
+      - kiero algo x vill salvador alas 8
+      - cancha pa jugar x aca noma
+      - busco donde jugar hoy
+      - reco cerca d mi casa
+      - q canchas hay x surco
+      - nesesito cancha pa mañana
+      - kiero reservar x mi barrio
+      - dame reco d canchas
+      - onde juego cerca mio
+      - busco algo pa jugar x vill salvador
+      - canchita aca a mi alrededor
+      - recomiendame algo para hoy
+      - kiero una cancha por mi zona 8pm
+      - algo cerca d mi trabajo
+      - nesesito reservar por surco
+      - q hay de canchas libres
+      - dame una reco pa jugar
+      - kiero canchita pa la noxe x vill salvador
+      - busco algo aca noma
+      - cancha libre para ahora
+      - nesesito jugar alas 8
+      - kiero donde jugar cerca mio
+      - busco opciones de cancha
+      - dame una cancha x surco
+      - reco pa hoy tarde
+      - q tal algo libre 8pm x vill salvador
+      - nesesito reservar por mi barrio
+      - kiero cancha cerca d casa
+      - canchita libre pa la noxe
+      - recomiendame algo x surco hoy
+      - nesesito cancha hoy x mi zona
+      - busco donde jugar 8pm
+      - reco de cancha x vill salvador
+      - cancha libre por aca nomas alas 8
+      - algo cerca d mi para la noxe
+      - nesesito cancha pa jugar mañana
+      - kiero algo x surco tarde
+      - busco donde jugar cerca mio
+      - reco x mi zona alas 8pm
+      - q hay de cancha libre aca
+      - dame una opcion pa jugar hoy
+      - kiero canchita en vill salvador
+      - busco algo cerca d mi para hoy
+      - algo pa jugar x mi barrio ahora
+      - nesesito reservar una cancha cerca
+      - kiero donde jugar 8 pm
+      - busco algo por aca noma para hoy
+      - reco cerca dnde estoy
+      - q hay de canchitas por surco
+      - dame una reco hoy
+      - kiero cancha libre en vill salvador alas 8
+      - busco donde jugar por mi zona 8pm
+      - algo cerca d mi casa para la noxe
+      - reco algo ps
+      - hay canchita libre
+      - donde ay algo serca
+      - una cancha por vill salbador
+      - por surco q ay
+      - hay cancha alas 8
+      - nesesito jugar aca nomas
+      - un sitio cerca mio
+      - q hay x aca
+      - libres por mi barrio
+      - algo pa reserbar
+      - reco una canchita
+      - x surco, algo
+      - canchita libre 8pm
+      - vill salvador, hay algo
+      - cerca mio, q opciones
+      - donde abra canchita
+      - un lugar pa sudar
+      - q tal algo libre
+      - donde ay canchas libres
+      - hay alguna libre x aki
+      - una reco d canchas
+      - pa reserbar una x mi zona
+      - q hay disponible x vill salvador
+      - reco una canchita x surco
+      - kiero algo aca alrrededor
+      - hay canchas por mi barrio
+      - una canchita pa jugar ps
+      - buscando cancha pa la gente
+      - libre 8 dela noche
+      - en vill salvador, hay algo libre
+      - dame un dato de canchas
+      - pa hoy dia, algo
+      - un espacio pa pelotear
+      - recomiendame x aca noma
+      - canchita cerca a mi barrio
+      - q hay d canchas 8pm
+      - por surco, algun sitio
+      - algo libre, aca alrrededor
+      - nesesito canchita hoy
+      - q hay por mi zona, 8pm
+      - dame una opcion, vill salbador
+      - busco canchita pa la noche
+      - a k hora hay libre
+      - donde podria jugar
+      - kiero canchita cerca
+      - hay libre x surco
+      - cancha alas 8pm x aca
+      - algo por mi zona ala 8
+      - kiero reserbar una por vill salvador
+      - nesesito canchita cerca mio
+      - q hay de libre por aca noma
+      - canchita, algo ps
+      - libre en surco
+      - kiero pelotear pe
+      - algo por aki alas 8
+      - hay canchita 8 dela noche
+      - jugar x vill salvador
+      - recomiendame aca alrrededor
+      - un dato cerca mio
+      - pa reservar, q hay
+      - q opciones hay por surco
+      - hay canchita libre por vill salbador
+      - algo cerca a mi casa pa jugar
+      - nesesito canchita hoy 8pm
+      - reco por aca noma alas 8
+      - q hay d libre cerca mio
+      - cancha para la noche
+      - kiero jugar hoy alas 8
+      - un lugar aca alrrededor para jugar
+      - hay canchita por mi zona alas 8
+      - cancha libre 8pm x surco
+      - vill salvador libre hoy
+      - algo pa reserbar por aca
+      - kiero jugar cerca mio alas 8
+      - q hay d cancha libre x mi zona
+      - nesesito una cancha hoy
+      - reco pa la tarde
+      - canchita disponible 8pm
+      - libre vill salvador alas 8
+      - algo para jugar por aca noma
+      - kiero reservar cerca mio para la noche
+      - q hay d libre hoy x surco
+      - nesesito cancha pa mañana alas 8
+      - reco aca alrrededor 8pm
+      - canchita por mi zona y q este libre
+      - hay cancha libre x vill salvador
+      - cancha alas 8 cerca
+      - q hay por mi zona
+      - reco de canchas ps
+      - algo cerca d mi casa
+      - canchita x la noche 8pm
+      - kiero reservar una p mas tarde
+      - por surco hay cancha disponible
+      - tienen canchas por akis
+      - busco algo libre 8 pm por vill salvador
+      - recomiendame una cancha por mi barrio
+      - una cancha q este libre ahorita
+      - hay reco pa jugar hoy
+      - cancha libre por mi zona para las 8
+      - busco cancha por vill salvador alas 8
+      - necesito algo para jugar ya
+      - q tal algo cerca mio pa jugar
+      - dnde hay canchas disponibles x la noche
+      - recomiendenme algo cerca
+      - quiero reservar algo 8pm
+      - cancha pa las 8 x aca noma
+      - hay algo libre ahorita por mi casa
+      - una cancha por vill salvador cerca de la mia
+      - q hay de cancha x surco 8pm
+      - reco p jugar por mi zona
+      - busco una cancha libre p las 8
+      - algo x vill salvador libre
+      - kiero reservar algo alas 8 pm cerca mio
+      - canchita por mi barrio pa jugar
+      - dame una reco por mi zona p
+      - cancha libre ahorita x aca
+      - q hay de canchas x vill salvador
+      - necesito algo rapido pa las 8
+      - cancha alas 8pm por mi zona
+      - busco algo disponible cerca
+      - kiero cancha por surco
+      - alguna reco p hoy
+      - por aca noma hay cancha libre
+      - canchas disponibles por surco alas 8
+      - kiero reservar una cerca
+      - q hay para jugar x aki
+      - algo libre cerca mio pa las 8
+      - necesito cancha alas 8 en vill salvador
+      - reco de canchita por mi zona
+      - cancha ahorita x aca noma
+      - busco algo disponible alas 8pm
+      - hay cancha libre por surco
+      - dame una reco de cancha p las 8
+      - kiero jugar por vill salvador
+      - algo cerca de mi casa alas 8
+      - canchita pa hoy por mi zona
+      - recomiendame una cancha x aca noma
+      - necesito algo para la noche x surco
+      - q hay por mi zona alas 8pm
+      - cancha pa reservar cerca mio
+      - kiero algo libre x vill salvador
+      - reco de canchas p las 8pm
+      - algo cerca mio pa hoy
+      - busco una cancha por aca noma
+      - necesito una canchita por mi zona alas 8pm
+      - hay cancha libre en surco
+      - recomiendame algo para jugar alas 8
+      - canchita por vill salvador pa la noche
+      - kiero reservar algo libre ahorita
+      - q hay de canchas cerca mio
+      - algo disponible x aca noma alas 8
+      - busco cancha pa hoy x surco
+      - necesito una reco p las 8pm por mi zona
+      - cancha libre alas 8 en vill salvador
+      - recomiendame algo x surco pa hoy
+      - kiero jugar alas 8pm cerca de mi casa
+      - q tal una cancha libre por aca
+      - algo p reservar en vill salvador alas 8
+      - busco algo libre ahora por mi zona
+      - necesito cancha pa hoy alas 8 en surco
+      - canchita cerca mio pa las 8pm
+      - recomiendame una cancha x vill salvador
+      - kiero jugar ahora x aca noma
+      - q hay de cancha libre por mi barrio alas 8
+      - algo p reservar cerca de mi casa alas 8pm
+      - busco algo disponible hoy por surco
+      - necesito una canchita alas 8pm por vill salvador
+      - cancha libre por aca noma pa las 8
+      - recomiendame algo cerca mio pa la noche
+      - kiero una cancha por surco alas 8
+      - q hay pa jugar en vill salvador ahorita
+      - busco una cancha p hoy en mi zona
+      - necesito una reco p mañana alas 8pm
+      - canchita libre 8pm x aca
+      - recomiendame algo cerca de mi trabajo
+      - kiero reservar una cancha por mi casa pa las 8
+      - q hay de canchas por surco para hoy
+      - necesito canchita cerca mio
+      - algo x vill salvador
+      - reco d canchas
+      - donde jugar por mi zona
+      - alguna canchita libre 8pm
+      - por aca noma hay cancha?
+      - busco algo cerca mio
+      - alguien sabe d canchas?
+      - busco algo pa jugar alas 8
+      - canchas libres x surco
+      - reco alguna por aca
+      - quiero canchita aca
+      - donde puedo jugar por mi zona hoy
+      - tienes algo libre para la noche
+      - recomiendame cancha x aca noma
+      - kiero una canchita pa reservar
+      - busco canchas por mi barrio
+      - alguna reco de campo deportivo
+      - que tal una cancha 8pm por surco
+      - algo pa jugar ahora cerca mio
+      - canchas en vill salvador libres
+      - recomiendame una libre alas 8
+      - kiero saber d canchitas aca
+      - donde habra cancha por mi zona
+      - busco cancha pa hoy alas 8
+      - q reco tienes para jugar
+      - quiero alquilar una libre 8pm
+      - necesito jugar, donde?
+      - algo cerca aca a mi alrededor
+      - cancha x surco pa la noche
+      - recomiendame alguna canchita
+      - kiero reservar algo pa jugar
+      - tienes canchas libres x vill salvador?
+      - ayudame con una canchita
+      - donde juego hoy?
+      - q canchas hay cerca mio
+      - kiero una canchita pa las 8
+      - reco una cancha libre
+      - canchita cerca mio hoy 8pm
+      - dame una reco de cancha
+      - busco lugar pa jugar por surco
+      - necesito cancha alas 8
+      - kiero una canchita por mi zona
+      - recomiendame algo por aca noma
+      - q tienes pa reservar 8pm
+      - algo cerca aca noma
+      - recomiendame cancha 8pm
+      - kiero una canchita libre
+      - donde hay canchitas cerca mio
+      - cancha por surco hoy alas 8
+      - q recomiendas pa jugar
+      - canchas libres x mi zona
+      - kiero jugar alas 8pm
+      - ayudame a encontrar cancha cerca
+      - algo pa reservar x surco
+      - dime canchas en vill salvador
+      - recomiendame una buena canchita
+      - kiero cancha cerca de aca
+      - donde puedo reservar por mi zona
+      - busco canchita alas 8
+      - q hay pa jugar 8pm cerca mio
+      - canchas libres aca a mi alrededor
+      - reco una pa hoy
+      - algo pa jugar en vill salvador 8pm
+      - ayudame con una libre 8pm
+      - donde jugar x surco alas 8
+      - recomiendame canchita por mi zona
+      - canchas libres pa la noche
+      - q opciones tienes cerca mio
+      - canchita x vill salvador libre
+      - reco un lugar pa reservar
+      - donde encuentro canchas cerca
+      - busco cancha libre alas 8
+      - canchas cerca a mi alrededor 8pm
+      - reco una canchita por surco
+      - kiero alquilar algo hoy
+      - donde jugar cerca mio hoy
+      - tienes reco de canchas libres
+      - busco algo pa jugar en vill salvador
+      - canchita libre por mi zona alas 8
+      - reco alguna canchita para reservar
+      - kiero saber d canchitas alas 8
+      - donde consigo cancha por surco
+      - busco algo libre cerca de aca
+      - hay canchita por mi zona?
+      - vill salvador q hay pa hoy?
+      - algo cerca de aca a mi alrededor
+      - por aca noma, algo disponible?
+      - q me recomiendas para alas 8?
+      - canchita por surco
+      - cancha pa hoy alas 7
+      - algo pa la noche por aca noma
+      - hay algo libre 9pm?
+      - cerca mio, pa reservar
+      - qiero reservar algo para el finde
+      - cancha libre, q me dices?
+      - por surco, algo pa las 6
+      - aca a mi alrededor, hay?
+      - kiero jugar mañana ps
+      - canchita 8pm por mi zona
+      - donde hay cancha libre ahora?
+      - algo cerca de mi casa
+      - por surco, pa la tarde
+      - reco un buen lugar
+      - vill salvador alas 7pm
+      - kiero reservar algo bueno
+      - cancha pa 10pm?
+      - por mi zona, algo disponible?
+      - cerca mio, q hay para jugar?
+      - qiero reservar hoy mismo
+      - cancha libre por aca noma
+      - vill salvador, q puedo hacer?
+      - kiero reservar para la semana
+      - canchita por surco alas 9
+      - hay algo a mi alrededor?
+      - q me recomiendas para el lunes?
+      - por mi zona, 8pm
+      - cancha libre, busco
+      - qiero reservar sin muchos detalles
+      - algo cerca para reservar
+      - vill salvador, algo libre?
+      - reco alas 8pm
+      - cancha por aca noma
+      - kiero jugar pa relajarme
+      - por surco, para el finde
+      - aca a mi alrededor hay canchita?
+      - qiero reservar ya ps
+      - alas 8pm en vill salvador
+      - q hay cerca, pa reservar?
+      - canchita, q me aconsejas?
+      - por surco, algo disponible ahora
+      - kiero reservar para despues
+      - hay algo libre por aca noma?
+      - vill salvador pa reservar alas 8
+      - cancha libre por mi zona alas 7
+      - cerca mio, algo pa la noche
+      - qiero reservar para este mes
+      - algo para alas 8, por surco
+      - canchita a mi alrededor
+      - recomiendame, qiero jugar
+      - vill salvador algo pa la tarde
+      - kiero reservar algo rapido
+      - cancha libre aca noma
+      - por mi zona, hay canchas?
+      - q me recomiendas para el sabado?
+      - alas 8pm, cerca de mi
+      - qiero reservar para cuando?
+      - cancha por surco, pa jugar hoy
+      - algo en vill salvador alas 6
+      - canchita, algo cerca ps
+      - kiero reservar, por favor
+      - cancha libre, algo por aca
+      - por mi zona, pa reservar alas 8
+      - q hay por surco, pa reservar?
+      - aca a mi alrededor, alas 8pm
+      - vill salvador, recomiendame algo
+      - qiero reservar, cual me dices?
+      - cancha libre, donde hay?
+      - reco un sitio bacan
+      - canchita cerca mio, 7pm
+      - por surco alas 8, q recomiendas?
+      - vill salvador, hay algo hoy?
+      - qiero reservar, dame opciones
+      - cancha libre, algo a mi alrededor
+      - recomiendame alas 8, por mi zona
+      - canchita
+      - donde hay canchas?
+      - una canchita pa la noche
+      - hay algo libre?
+      - recomiendame porfa
+      - q hay alas 8?
+      - necesito una libre
+      - donde hay por aca
+      - algo q sea cerca
+      - reco canchas
+      - a ver q tienes
+      - hay algo disponible?
+      - necesito jugar
+      - algo cerca a mi
+      - quiero una pa las 8
+      - para reservar una
+      - dame la de 8pm
+      - busco libre
+      - por aca noma quiero
+      - canchita en mi zona
+      - algo libre en vill salvador
+      - recomiendame una libre
+      - quiero ver canchas
+      - q tienes para hoy
+      - libre por surco
+      - 8pm por mi zona
+      - kiero una canchita alas 8
+      - muestrame algo
+      - reco algo en surco
+      - libre cerca d mi
+      - kiero reservar una 8pm
+      - canchita libre xfa
+      - por aca noma alas 8
+      - cancha pa mañana
+      - recomiendame una ya
+      - cerca mio algo para jugar
+      - aca a mi alrededor una canchita
+      - por mi zona pa las 8
+      - cancha libre en vill salvador
+      - reco algo para reservar
+      - quiero reservar una cerca mio
+      - una canchita pa jugar
+      - por aca noma una cancha
+      - busco algo alas 8
+      - canchita libre 8pm xfa
+      - algo 8pm por surco
+      - libres aca a mi alrededor
+      - kiero reservar algo cerca
+      - dame una canchita libre
+      - por aca noma 8pm
+      - reco algo alas 8
+      - quiero jugar en surco
+      - libre por aca
+      - algo cercano
+      - busco cerca de vill salvador
+      - recomiendame por mi casa
+      - una pa las ocho
+      - donde encuentro libre
+      - quiero canchas
+      - canchita por surco 8pm
+      - libre cerca mio alas 8
+      - necesito una cancha por aca noma
+      - quiero una pa las 8pm
+      - cerca mio hay algo q recomiendes
+      - aca a mi alrededor q tienes pa jugar
+      - por surco necesito un lugar pa fulbito
+      - alas 8 kiero jugar
+      - vill salvador hay canchas libres
+      - busco canchita por aca noma
+      - donde encuentro algo cerca de mi
+      - pa la noche q hay disponible
+      - algo para jugar por mi barrio
+      - busco canchita pa jugar hoy
+      - una reco rapido porfa
+      - necesito jugar fulbito
+      - quiero hacer deporte donde sea
+      - por surco alas 8pm, q tienes
+      - q hay por mi zona a las 8pm
+      - cerca mio una cancha libre
+      - aca al toque, q hay pa jugar
+      - quiero algo por vill salvador
+      - pa 8pm cerca mio
+      - recomiendame pa hoy nomas
+      - kiero reservar una para ahora
+      - canchita por aca no mas
+      - por surco, q me recomiendas

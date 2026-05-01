@@ -1,0 +1,145 @@
+version: "3.1"
+
+nlu:
+  - intent: show_previous_recommendations
+    examples: |
+      - Dame las alternativas de locales que me propusiste.
+      - Cuáles fueron los sitios que me sugeriste la vez pasada.
+      - Quisiera repasar las sugerencias que me diste hace un rato.
+      - Pásame la lista de lo que me dijiste.
+      - Puedes darme otra vez lo que me presentaste.
+      - Revisa lo que me aconsejaste.
+      - Qué me dijiste que había disponible.
+      - Los datos que me pasaste antes, por favor.
+      - Aquellas opciones de canchas que me indicaste.
+      - La info que me proporcionaste.
+      - Qué locales me dijiste que eran buenos.
+      - La otra vez me hablaste de unos lugares, cuáles eran.
+      - Quisiera ver de nuevo las alternativas.
+      - Lo que me contaste sobre las canchas.
+      - Las opciones que me diste al principio.
+      - Dame un repaso de tus sugerencias.
+      - Quiero chequear lo que me dijiste ayer.
+      - Pásame la data que ya teníamos.
+      - Qué me habías dicho antes sobre las canchas.
+      - Las opciones que me diste en el diálogo.
+      - Necesito las sugerencias que me diste en la primera interacción.
+      - Las canchas que me ofreciste.
+      - Cuáles eran los sitios que ya vimos.
+      - Dame una mano con lo que ya me propusiste.
+      - Quiero ver las canchas que me sugeriste la otra vez.
+      - Ponme otra vez las alternativas que me diste.
+      - Necesito las opciones que ya me habías pasado.
+      - Podrías darme la lista anterior de sugerencias.
+      - Los lugares que me pasaste la última vez.
+      - Me podrías decir otra vez cuáles eran las canchas.
+      - Pásame las que ya vimos.
+      - Las opciones que me diste la primera vez.
+      - Hazme un recordaris de tus recomendaciones.
+      - Qué me habías propuesto, amigo.
+      - Quisiera que me recuerdes las alternativas.
+      - Dame una checada a lo que ya me ofreciste.
+      - Lo que me indicaste sobre las canchas.
+      - Las opciones que me pasaste en un inicio.
+      - Qué alternativas tenías para mí antes.
+      - Me puedes dar un recuento de lo que ya vimos.
+      - Las sugerencias de locales que me presentaste.
+      - Quisiera que me refresques la memoria con lo que me aconsejaste.
+      - Dime de nuevo cuáles eran los lugares.
+      - La lista de lo que ya discutimos.
+      - Cuáles fueron las opciones iniciales.
+      - Necesito ver lo que me habías dicho.
+      - Los piques que me recomendaste hayer.
+      - Me pasas las alternativas que ya tenías.
+      - Repíteme las sugerencias.
+      - Quiero ver las opciones que me diste en el chat.
+      - Los datos que me diste cuando empezamos.
+      - Qué opciones me ofreciste para jugar.
+      - Dame los nombres de las canchas que me dijiste.
+      - La otra vez me hablaste de unos "points", cuáles eran.
+      - Quisiera que me repitas tus sugerencias.
+      - Pásame lo que me recomendaste anteriormente, pata.
+      - Cuáles son las opciones que me diste hace un rato.
+      - La info de los locales que me pasaste.
+      - Quiero un refresh de las alternativas que me diste.
+      - Recuerdas qué me sugeriste el otro día.
+      - Dame una vista rápida de las propuestas anteriores.
+      - Qué me dijiste antes que era bueno.
+      - Los datos de las canchas que ya te pedí.
+      - Podrías darme la lista de lo que propusiste antes.
+      - Qué opciones de lugares me diste en el inicio.
+      - Regrésame a las opciones que ya vimos.
+      - Me podrías refrescar la memoria con las sugerencias.
+      - Las alternativas de canchas que me contaste.
+      - Quisiera ver las opciones que me propusiste al comienzo.
+      - Dame un toque lo que me aconsejaste.
+      - Las opciones que me dijiste que habia.
+      - Pásame la data que ya me habías dado.
+      - Los lugares que me indicaste la vez anterior.
+      - ¿Qué fue, cuáles eran los piques que me pasaste?
+      - Necesito chequear de nuevo las opciones que me diste.
+      - Las alternativas que me presentaste inicialmente.
+      - Dame una revisada a lo que me dijiste hace poco.
+      - Quiero las sugerencias que me compartiste.
+      - Aquellas opciones de lugares para jugar.
+      - Quiero ver lo que me recomendaste la vez pasada, causa.
+      - ¿Qué nombres habías mencionado?
+      - Devuélveme el registro de lo que conversamos.
+      - Trae los resultados de la sesión que tuvimos.
+      - Reproduce los puntos que expusimos.
+      - ¿Qué fue lo que me hiciste saber de inicio?
+      - Quiero que se exhiban los elementos tratados.
+      - Trae a la vista los detalles que me suministraste.
+      - ¿Cuáles fueron los ítems que señalaste?
+      - Saca a relucir lo que expusiste en el arranque.
+      - Tráeme a la memoria lo que ya me entregaste.
+      - Exponme los elementos que ya me dejaste.
+      - ¿Qué articulaste en la fase inicial?
+      - ¿Podrías reponer los hallazgos de nuestro primer contacto?
+      - Quiero que se duplique lo que me revelaste en el comienzo.
+      - ¿Me podrías proveer un sumario de lo que me expusiste en la etapa uno?
+      - ¿Me harías el favor de emitir lo que acordamos?
+      - ¿Qué ítems me preparaste en la primera tanda?
+      - Deseo un despliegue de los resultados que surgieron al comienzo.
+      - Manifiéstame lo que habíamos pactado.
+      - ¿Qué fue lo que me confiaste en la etapa cero?
+      - ¿Qué artículos fueron los que citaste en la primera ocasión?
+      - Hazme llegar la nómina de los hallazgos que compartimos.
+      - ¿Podrías exponer lo que me hiciste llegar de primera instancia?
+      - Quiero visualizar lo que pusiste a mi alcance.
+      - Tráenos el elenco de lo que ya habíamos establecido.
+      - A ver, bótame las recomendaciones que me soltaste antes.
+      - Qué canchitas me mostraste la última vez que chateamos?
+      - Las sugerencias que me diste en el diálogo previo, ¿cuáles eran?
+      - Podrías enviarme las opciones que ya me habías propuesto?
+      - Necesito un recordatorio de las alternativas que me indicaste.
+      - Los datos de los sitios que me sugeriste el otro día, por favor.
+      - Cuáles eran las pichangas que me habías pasado, oe?
+      - Quisiera ver la lista de canchas que me ofreciste al inicio.
+      - Me haces recordar las sugerencias que me diste cuando conversamos?
+      - Los locales que me comentaste que eran buenos, cuáles son?
+      - Muéstrame otra vez las canchas que me hiciste ver.
+      - Podrías repetirme las alternativas que me brindaste anteriormente?
+      - Qué opciones de juego me presentaste hace un ratito?
+      - A ver si me pasas de nuevo las que ya tenía en mente.
+      - Dame las recomendaciones de canchas que me diste en la primera pasada.
+      - Los points que me sugeriste, me los vuelves a dar?
+      - Quisiera ver las canchas que me mostraste la última vez, pe.
+      - A ver, las que me ofreciste el otro día, cuáles eran?
+      - Me puedes refrescar lo que me dijiste sobre las canchas?
+      - Qué locales me señalaste como buenas opciones?
+      - Puedes mostrarme las canchas que habíamos conversado?
+      - Sácame las recomendaciones que ya estaban en el tintero.
+      - Las opciones que me adelantaste, me las pasas de nuevo?
+      - Qué sitios me presentaste en la primera vuelta, causa?
+      - Me das una mirada a las sugerencias que me diste la vez pasada?
+      - Qué tal, me votas las canchas que habíamos visto?
+      - A ver, me sueltas los puntos para pichanga que me dijiste?
+      - Las locaciones que me tiraste la otra vez, cuáles eran?
+      - Podrías repasarme los sitios de juego que me explicaste en la primera charla?
+      - Necesito un toque de lo que me propusiste de canchas.
+      - Manda de nuevo las opciones que habíamos checado, causa.
+      - Los recintos deportivos que me mostraste, me los vuelves a habilitar?
+      - Pata, los 'places' que tenías para mí, me los enseñas?
+      - Qué me contabas sobre las canchas que evaluamos?
+      - A ver si me pones el resumen de canchas que habíamos sacado.

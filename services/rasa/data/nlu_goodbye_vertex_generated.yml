@@ -1,0 +1,1004 @@
+version: "3.1"
+
+nlu:
+  - intent: goodbye
+    examples: |
+      - Nos volveremos a ver.
+      - Que le vaya bien.
+      - Hasta la vista, baby.
+      - Fue un gusto asistirte.
+      - Nos vemos en otra.
+      - Estamos en contacto.
+      - Cuídese.
+      - Estamos hablando.
+      - Ya es hora de retirarme.
+      - Gracias por la atención.
+      - Hasta un nuevo encuentro.
+      - Procedo a retirarme.
+      - Que tengas un buen día.
+      - Que te vaya bonito.
+      - Hasta entonces.
+      - Deseo que le vaya bien.
+      - Nos vemos en otra ocasión.
+      - Bueno, me desconecto.
+      - Me marcho.
+      - Doy por finalizada la conversación.
+      - Me a gustado conversar.
+      - Buen día, me voy yendo.
+      - Ojalá nos encontremos de nuevo.
+      - Ya estoy de salida.
+      - Me tengo que desconectar.
+      - Ha sido una grata conversación.
+      - Hasta otro momento.
+      - Me voy, que siga excelente.
+      - De acuerdo, me marcho ya.
+      - Que tenga una linda noche.
+      - Nos reencontramos.
+      - Que todo marche bien.
+      - Espero que todo te salga bien, me desconecto.
+      - Me tengo que ausentar.
+      - Con su permiso, me ausento.
+      - Saludos cordiales, me marcho.
+      - Si se da, nos vemos en otro momento.
+      - Agradezco tu ayuda, ya me marcho.
+      - Me marcho, que te vaya genial.
+      - Hasta otra oportunidad.
+      - Mi gratitud por todo, me retiro ahora.
+      - Que tenga un excelente día.
+      - Es hora de marcharme.
+      - De acuerdo, me jalo.
+      - Así que me marcho.
+      - Mis saludos finales.
+      - Un placer haberte atendido, me voy yendo.
+      - Que la pase bien.
+      - Ahora mismo me ausento.
+      - Listo, me marcho.
+      - Terminé, me desconecto.
+      - Seguimos conversando.
+      - Nos comunicamos después.
+      - Que tengas una linda tarde.
+      - Todo ha terminado, me retiro.
+      - Pronto me ausento.
+      - Hasta un próximo aviso.
+      - Necesito alejarme ahora.
+      - Fue un placer, me desconecto.
+      - Agradezco tu tiempo, me ausento.
+      - Espero verte de nuevo.
+      - Me marcho, un placer.
+      - Ya cierro la conversación.
+      - Me tengo que ir volando.
+      - Nos vemos en el futuro.
+      - Que sea un buen día.
+      - Se despide un servidor.
+      - Me ausento.
+      - Agradecido por la atención, ya me marcho.
+      - Me voy con satisfacción.
+      - Que te vaya excelente.
+      - Me desconecto, que tengas un buen día.
+      - Listo, me desconecto.
+      - Mi despedida por ahora.
+      - Hasta la próxima interacción.
+      - Valoro tu ayuda, que te vaya súper.
+      - Ha sido un placer, me ausento.
+      - Me voy yendo.
+      - Ya fue, me desconecto.
+      - Bacán, me jalo.
+      - Ahí muere, gente.
+      - Me bajo de aquí.
+      - Desconectándome por ahora.
+      - Que le vaya bacán.
+      - A seguir con las cosas.
+      - Cuelgo ya, mi estimado.
+      - Ya cerramos el tema.
+      - Me jalo, ahí nos vidrios.
+      - Agradesco la charla, me retiro.
+      - Que te vaya de maravilla.
+      - Ya me voy pa' casa.
+      - Se acabó el tiempo.
+      - Fin de mi intervención.
+      - Nos leemos más adelante.
+      - Gracias y buen camino.
+      - Que la fuerza te acompañe, me voy.
+      - Finalizo la consulta.
+      - Nos vemos en el ciberespacio.
+      - Te dejo chambeando.
+      - Me voy a lo mío.
+      - Me voy pa'l break.
+      - Ya cierro el programa.
+      - Un abrazo, me despido.
+      - Ya cumplí, me retiro.
+      - Que tenga una excelente jornada.
+      - Listo, se acabó.
+      - Me abro.
+      - Ya me fui.
+      - Que te vaya super.
+      - Ahí nos cachamos.
+      - Me voy volando.
+      - Hasta una próxima.
+      - Fue grato conversar.
+      - Me paso a retirar.
+      - Que le rinda el día.
+      - Que tenga una buena jornada.
+      - Hasta el próximo encuentro.
+      - Nos vemos cuando se pueda.
+      - Con esto doy por concluido.
+      - Ya me piro.
+      - Me esfumo.
+      - Que le vaya regia.
+      - Ahí nos hablamos.
+      - Un placer ayudarte, gracias.
+      - Ya terminé por hoy.
+      - Que le vaya chévere.
+      - Ya, me voy de aquí.
+      - Aquí cerramos.
+      - Que tengas una tarde productiva.
+      - Nos vemos al ratito.
+      - Listo, me desvinculo del chat.
+      - Mi intervención concluye aquí.
+      - Que te vaya super chévere.
+      - Nos cruzamos más adelante.
+      - Tengo otros compromisos, me aparto.
+      - Cierro la interacción por mi lado.
+      - Hasta que el deber nos junte de nuevo.
+      - Doy por culminado mi contacto.
+      - Que tengan una excelente semana.
+      - Me alejo del teclado.
+      - ya ps, me piro
+      - ahi nos vidrios pe
+      - listo, me esfumo
+      - fue todo x hoy
+      - ok me abro ya
+      - nos hablamos x ahi
+      - ya fue, toy full
+      - tengo q moverme
+      - bno ya, a la calle
+      - me vuelo de aca
+      - hasta la sgte
+      - q la pases chevere
+      - ta bien, ya corto
+      - ya pe, me apago
+      - se termino todo
+      - ya voy saliendo
+      - ta bn, a mi casa
+      - ok, le meto fin
+      - salu2 y exitos
+      - ya me pierdo
+      - toy en camino ya
+      - ahi te doy un toque
+      - q te vaya super bien
+      - ok, ya cerramos ps
+      - ya tengo q hacer mis cosas
+      - nos leemos despues
+      - listo, a chambear
+      - q te vaya de lujo
+      - ok, ya no va mas
+      - bno, me voy a mimir
+      - me bajo del chat
+      - hasta la siguiente vez
+      - tengo q colgar
+      - ya estoy afuera d casa
+      - listo, me arranco
+      - q tengas linda tarde
+      - ahi nos cruzamos
+      - ok, ya estamos en la buena
+      - me desconecto xfa
+      - ok, apago el cel
+      - ya m voy
+      - ahi qdamos
+      - dps t escribo
+      - ya sta, m jalo
+      - nos vemos causa
+      - hablams dspues
+      - ya fui
+      - ok, nos vemos ps
+      - hasta lueguito
+      - ciao q t vaya bien
+      - es todo ya
+      - m tengo q ir ya
+      - ahi t veo
+      - fue bueno, bye
+      - grx x la ayda, adios
+      - ya m retiro x hoy
+      - listo, chaufa
+      - ya ps, ahi qdamos
+      - nos vemos en la esqina
+      - tengo k irme ya
+      - d aki m despido
+      - ya m desconecto
+      - hablamos mañana
+      - suerte en todo
+      - q t cuide dios
+      - ya no mas
+      - m voy, tengo q hacer cosas
+      - ala, me jalo rapido
+      - nos vemos x ahi
+      - ya t dejo el chat
+      - m tengo q ir pa mi jato
+      - dspues t caigo
+      - m piro
+      - ya m voy a almorzar
+      - q tngas buen dia, me voy
+      - adiosito
+      - ahi t busco luego
+      - m voy al toke
+      - ya cerremos esto
+      - q t vaya xvr
+      - ya me abro
+      - me piro de aca
+      - ok, nos vimoz
+      - a la firme, ya fue
+      - listo, me kito ya
+      - ya fue, xaooo
+      - salu2, ahi qdamos
+      - me largo de una vez
+      - ya no hay mas q decir
+      - listo, a mimir se ha dicho
+      - bye pe
+      - hasta la vistula pe
+      - ok, me dejo x aca
+      - me mando de aca
+      - ya listo, me abro
+      - adiosito mi gente
+      - todo bien, me mando de una
+      - xvr, hasta lueguito
+      - ya no hay mas p
+      - tengo q volar ya
+      - me mando x surco
+      - ok, me abro, cerca mio
+      - ya ps, me piro, aca a mi alrededor
+      - listo, salgo pal partido 8pm
+      - salgo pa vill salvador
+      - ya, me fui de una vez
+      - eso es toby
+      - cuidate muchote ps
+      - listo, ya no mas conversacion
+      - me largo de ahi, ya es hora
+      - ya cerramos el chat
+      - me abro en toque
+      - chaucito
+      - listo, fin del tema
+      - ahi muere la conversacion
+      - me voy a otro lado ya
+      - ok, corto el chat
+      - adiosaso
+      - ya estoy fuera del sistema
+      - hasta la vista, manito
+      - listo, asi qdamos
+      - ahi nos stamos viendo
+      - hablamos mas tarde
+      - m tengo q kitar
+      - fue chevere conversar
+      - ya fue, c cuida
+      - listo, s acabo
+      - ya m jalo
+      - m doy x servido
+      - hasta otro rato
+      - gracias, ya me abro
+      - fue todo ps
+      - ya stoy llendo
+      - nos vemos x el barrio
+      - ahi nos wachamos
+      - ya fue, byes
+      - dsp nos hablamos
+      - stoy off
+      - m voy, q t vaya bien
+      - cuidate un monton
+      - q sigan bien
+      - listo, me voy a surco
+      - ya tengo q irme a villa el salvador
+      - nos vemos x la cancha alas 8
+      - m tengo q ir ya, tengo partido
+      - a la prox
+      - d nuevo hablamos dsp
+      - m voy, tengo reco en la cancha
+      - ya termine, nos vemos dsp
+      - gracias x todo, me voy ps
+      - kiero salir d aca
+      - stoy q m voy
+      - me piro, tengo un evento cerca mio
+      - ya me tengo q ir, xq tengo cosas q hacer
+      - hablamos otro dia
+      - ya fue pe, tengo q seguir
+      - me tengo q desocupar ahora
+      - otra vez sera pues
+      - ya pe, ahi nomas
+      - la proxima hablamos, ok?
+      - ya me abro de esta vaina
+      - q les vaya bacan
+      - ya stoy en el bus, salu2
+      - rumbo a mi chamba ya
+      - listo, te suelto nomas
+      - ya fue esta conversacion
+      - ok, saliendo para surco
+      - voy para villa el salvador
+      - q la gente se cuide
+      - listo, apago la maquina
+      - ya me bajo del carro
+      - la proxima sera ps
+      - ya estoy yendo fuera de mi cuadra
+      - ya se me fue la hora pe
+      - saliendo para la reu
+      - listo, borro el chat
+      - q tengas un buen camino
+      - ya pa otro momento
+      - ya estoy por el centro civico
+      - ya ps, tengo q volar
+      - ya ps, se acabo
+      - ahi nos topamos, ojala
+      - ya acabo este tema
+      - ok, q sigan con fe
+      - q las cosas salgan como quieren
+      - bajada alas 8 en punto
+      - listo, ya fue pe, todo bien
+      - la proxima te marco
+      - saliendo pa la cancha libre 8pm
+      - q sea hasta el futuro ps
+      - toy en la calle y me pierdo
+      - ya me abro del chat
+      - listo, ya se armo la hora
+      - ya dejo el cel, tengo q hacer mis cosas
+      - ok, mi bateria se acaba
+      - ya m borro
+      - me piro d aki
+      - ahi se queda todo
+      - nos topamos despues
+      - q t vaya bacan
+      - me abro de una
+      - ya me quito
+      - corta la llamada
+      - listo, ya no doy mas
+      - ok, gracias y fuera
+      - me abro al toke
+      - tengo chamba, adiosito
+      - suelto el cel
+      - q la hagas bien
+      - nos cruzamos por ahi
+      - ya ps causa
+      - me safo d aki
+      - ya fue ya
+      - ahi vemos
+      - me arranco ya
+      - gracias x tu ayuda, m abro
+      - q la pases trankilo
+      - ya, m safo
+      - nos cruzamos en la calle
+      - me arranco pa mi zona
+      - esto ya murio
+      - me rajo
+      - ya finiquitamos
+      - me abro pa otro lado
+      - q siga la racha
+      - me borro del chat
+      - ya fue x hoy, gracias
+      - gracias y punto final
+      - fue buena la atencion, m abro
+      - ya apago el telefono
+      - me deslogueo
+      - ya me largo
+      - ya dejo esto aqui
+      - ya fue, me voy
+      - ahi qda
+      - ahi hablamos dsp
+      - ta luego
+      - weno ya fue
+      - me piro
+      - salgo d aca
+      - toy yendo
+      - listo m voy
+      - ok ya, ahi no mas
+      - me tengo q jalar
+      - no vmos
+      - asta la prox
+      - weno ahi kedamos
+      - ya ps, ahi nos pillamos
+      - q t vaya bien
+      - nos vemos mas tarde
+      - ya me tengo q ir causa
+      - me voy pa la jato
+      - tengo cosas q hacer
+      - dale, no vmos
+      - m largo
+      - q t cuides
+      - ahi nos topamos
+      - weno, ya salgo, x aca a mi alrededor
+      - a otra oportunidad
+      - me voy xq ya es tarde
+      - tengo q ir al toque
+      - m voy pa surco
+      - nos vemos 8pm
+      - ahi nos vemos, me voy pa vill salvador
+      - me piro, cerca mio
+      - ya ps, conversamos luegito
+      - ya qda, gracias
+      - weno, me despido ya
+      - me voy d aca
+      - ya me tengo q ir, cancha libre 8pm
+      - a la firme, ya m voy
+      - ya m kito pe
+      - me rajo a mi casa
+      - toy apurado, no puedo mas
+      - ahi le damos punto final
+      - me piro de volada a vill salvador
+      - es hora d cortar el mensaje
+      - ya se me acabo el tiempo del fono
+      - corta la comunicacion q toy ocupado
+      - ok m abro d esta vaina ya
+      - por hoy ya es lo ultimo
+      - m muevo pa la calle cerca mio
+      - un gusto pero ya es hora de mi novela
+      - ya tengo q ir a comprar por surco
+      - m arranco pa mi barrio por ahi
+      - ya ps en otro momento charlamos
+      - bueno m tengo q rajar ya
+      - ahi quedo el asunto ya
+      - ya me muevo a las 8pm
+      - ya no hay mas d mi lado
+      - acabo la conversacion por hoy
+      - ya es tardecito, m muevo pa casa
+      - m largo de aqui ahorita mismo
+      - m arranco a mi cancha libre 8pm
+      - ya no tengo mas q contarte x hoy
+      - ok, ya no hay nada mas q ver
+      - ya acabo mi gestion x el momento
+      - ok corto el hilo d la charla
+      - ahi le ponemos punto
+      - hasta aqui es suficiente pe
+      - m tengo q apurar xq es tarde
+      - ya m dio sueño, m caigo
+      - m quito del whatsapp
+      - m quito d esta sala
+      - ya ps m esfumo como humo
+      - ojala nos crucemos d nuevo por surco
+      - ya no hay mas q decir al respecto x mi parte
+      - ok, m desligo del dialogo
+      - m arranco a mi casa de aca
+      - ya no hay mas, m las tomo rapido
+      - ok, m arranco a hacer mis cosas ahora
+      - ya me jalo de aca
+      - me tengo q apagar la data
+      - toy ocupao, me fugo
+      - ya fue, desconecto mi cel
+      - despues te hablo
+      - q te vaya de la pt.m
+      - saludos mi brother, me abro
+      - ya toy en camino pa mi casa
+      - tengo mil cosas q hacer
+      - me bajo de este watsap
+      - piola, ahi nos catchamos en el jato
+      - bueno ya me las quito
+      - hasta otro toque
+      - me tengo q ir volando x vill salvador
+      - ya ps, nos encontramos otro dia
+      - hablamos mas lueguito
+      - me quito con mi buena vibra
+      - bacan, me voy pa la calle
+      - tengo q ir por el pan, ya me voy
+      - ya es la hora, me abro de aca
+      - chevere ps, me desconecto ya
+      - me voy a mi cancha libre 8pm
+      - ya toy bajando del bus
+      - ahi tamos, q la pases chvr
+      - nos vemos por el barrio
+      - ok, me voy a la tiendita
+      - a la firme ya me abro
+      - ya me fui del todo
+      - me da palta seguir, me piro
+      - q todo fluya ps
+      - ahi nos leemos, me jalo
+      - weno, hasta aca llegamos
+      - me acaban el saldo, tengo q irme
+      - me voy a echar un fulbito
+      - ya me bajo del sistema
+      - a volar pe, q te rinda
+      - q sea hasta mas tarde ps
+      - me desconecto un toke
+      - hasta aca el chat
+      - me retiro de la zona, ahi tamos
+      - ya fue pe
+      - me abro ya
+      - toy x irme
+      - ya me jalo nomas
+      - ta bien, hablamos luego
+      - q t vaya bien broer
+      - listo causa, tengo q chambear
+      - ya estoy en mi jato, corto el cel
+      - me voy ya ps
+      - ok, ya tengo q rajar
+      - tengo k salir, ahi hablamos
+      - ya ps, me piro del barrio
+      - ahi quedamos nomas
+      - te dejo ahi, ya me jalo
+      - ahi la vemos gente
+      - ya pe, me voy a mi casa
+      - hablamos luego, tengo q hacer cosas
+      - me jalo pa mi house
+      - voy a estar ocupado, ya no mas
+      - t escribo mas tardecito
+      - me voy pal jale, ya fue ps
+      - ya t veo mas lueguito
+      - ya cerramos esto x hoy
+      - me voy a lo mio ya
+      - ok, ya corto la conversacion
+      - ya fue, me piro de este chat
+      - mañana seguimos con el tema
+      - ya fue ps, nos encontramos mas luego
+      - ya cierro el wssp
+      - me voy a mi jato, toy cansado
+      - listo pe, ya me jalo
+      - me desconecto un toque
+      - ya me toy jalando
+      - ahi te la dejo, hablamos mas luego
+      - me voa dormir xq tengo sueño
+      - ya me voy x surco a hacer mis vainas
+      - cerca mio me jalo en la noche ps
+      - aca a mi alrededor ya no hay nada mas, me voy
+      - mañana cancha libre 8pm, me jalo
+      - vill salvador te veo otro dia
+      - ya fue
+      - me abro
+      - q te vaya chevre
+      - listo, me jalo
+      - me piro x surco
+      - ya fue pe, me abro
+      - ok me kito, ya son las 8pm
+      - me voy pa mi jato, ya es tarde x aca
+      - ahi nos comunicamos
+      - ya ps, ahi nos topamos
+      - toy full, me piro a villa
+      - ya me jalo a la cancha libre, 8pm
+      - cuidate mazo
+      - nos estamos viendo, a la prox
+      - me voy nomas, ya
+      - toy saliendo, me voy a descansar
+      - me voy despidiendo, ya es tarde
+      - weno, me jalo, q tengas un dia chevere
+      - ya ta, me desconecto
+      - fin del chateo
+      - me desconecto al toke
+      - ya es tarde, me voy x aca
+      - buena vibra, me piro
+      - bendiciones, toy chambeando
+      - me voy a mi barrio
+      - me jalo, toy cerca mio
+      - me voy pa mi casa
+      - listo, me jalo x el surco
+      - ya no jodo, me kito
+      - q la pases mostro, me voy
+      - ahi t veo, tengo q ir a comprar
+      - me fui
+      - toy cansado, me abro
+      - ya me kito, tengo q ir a comer
+      - estuvo chevere, me jalo
+      - alla nos vemos, me piro al toke
+      - ya ps mi broder
+      - me tengo q jalar sbs
+      - ahi t vemo ps
+      - listo causa grax
+      - nos hablamos luego mano
+      - bno ya me fui
+      - fue la conversacion x hoy
+      - ya esta todo arreglado
+      - t dejo xq toy full chamba
+      - grasias x el dato mi pata
+      - okey ya fue esto
+      - m voi pa mi cantón
+      - ya ta la cosa hecha
+      - ya m voi, se me hizo tarde
+      - un gusto hablar cntigo
+      - nos topamos dspues x ahi
+      - ya me piro
+      - toy saliendo d mi casa
+      - ahi s ve pe
+      - m tengo q ir a surco ahorita
+      - listo okey
+      - se acabo la conversacion
+      - bno ya corto el chat
+      - asta la prox semana
+      - ya quedamos pa el sabado
+      - nos vemos en la cancha libre 8pm
+      - chaufa mano
+      - m retiro tengo q pasar cerca mio
+      - bno t dejo tengo q ir a vill salvador
+      - m despido con un saludo
+      - dspues seguimos conversando
+      - ya es hora d jalarme
+      - t dejo q te cuides
+      - ahy nos estamos viendo
+      - suficiente x ahora
+      - un abrazo y suerte
+      - me jalo xq ya son las 8
+      - t dejo ya m tengo q ir al toque
+      - hablamos x el wsp dspues
+      - ya t dejo no mas
+      - ya toy yendo
+      - sale ps
+      - ala nos vemos
+      - listo me kito
+      - me voy de aca
+      - toy saliendo ya
+      - ya ciao
+      - ahi t dejo
+      - fue un gusto ala
+      - k te vaya chevere
+      - nos pillamos dspues
+      - ya ps q hago
+      - m tengo q ir a mi jato
+      - ya mi causa ahi la vemos
+      - m voy al centro
+      - xvr nos hablamos
+      - ya listo
+      - ala ya
+      - k pases una buena noche
+      - cuidate bro
+      - ahi te espero
+      - nos vemos pa la otra
+      - m tengo q ir a comer
+      - ya m marcho
+      - dpm ahi
+      - xau xau ps
+      - ya me fui
+      - a seguir chambeando
+      - ya hasta la prox
+      - q vaya todo bien
+      - m voy pa mi barrio
+      - ya me paso a retirar
+      - q t vaya bien mano
+      - ya m fui
+      - me abro al toque
+      - toy saliendo del cono norte
+      - mañana sera
+      - por ahi te veo
+      - ahi la vemos
+      - ya pi, me fui
+      - ya era hora, ps
+      - ya fue todo
+      - apaga y vamonos
+      - ya no kiero mas
+      - toy con sueño
+      - ya ps, me jalo
+      - nos topamos en el centro
+      - ya pues, me voy a mi jato
+      - a comer ps, me fui
+      - otro dia seguimos
+      - ahi te caigo otra vez
+      - en villa el salvador nos cruzamos
+      - tengo q ir al mercado
+      - ya m voy d aca
+      - ya corte
+      - aca en mi jato la corto
+      - ya era hora de descansar
+      - a dormir se ha dicho
+      - ya fue x hoy
+      - ya me apago un toque
+      - en la canchita nos encontramos
+      - es tarde, me las tomo
+      - pa'l fulbito te aviso
+      - tengo q ver a la flaca
+      - por surco me largo ahorita
+      - ya pues, finiquitamos
+      - me fui al toque
+      - en la esquinita nos cruzamos
+      - tengo q chambear, me fui
+      - ya me jalo, estoy cansao
+      - a volar se ha dicho
+      - ya ps, me jalo nomas
+      - ahi te las ves
+      - ta bien, me arranco
+      - me piro ya
+      - toy apurado, me fui
+      - ya me fui, ta bien
+      - me voy a mi jato
+      - ya no mas, me voe
+      - me borro de aca
+      - ya me qito de aca
+      - ta bueno, me qito
+      - ya ps, me voe no mas
+      - ok, me alejo
+      - ya me pierdo por aca
+      - kien sabe, me piro
+      - ya toy q me voe
+      - q te vaya piola
+      - xvr, me esfumo
+      - ya fue, me voe
+      - ala mrd, me voe
+      - ta bien, me voe nomas
+      - listo, me voe
+      - ahi la ves tu
+      - ya me estoy fugando
+      - ya, me jalo a mi barrio
+      - me tengo k volar
+      - ya mi causa, nos wachamos
+      - me esfumo
+      - a ver si me borro
+      - me kiero ir ya
+      - ya me choteo de aca
+      - nos wachamos despues
+      - ya me kite
+      - ya me piro pe
+      - a la firme, me voe
+      - ya toy full, me voe
+      - cuidat ps
+      - nos tamos viendo
+      - hablamos despues
+      - aya t veo
+      - xvr, m voy
+      - adios pe
+      - me pierdo
+      - m bajo
+      - ya c fue
+      - nos vemos alla
+      - stoy apurado, chau
+      - ya stamos
+      - nos vemos mas tarde x surco
+      - m despido d una
+      - kiero irme ya
+      - ya es hora d irse
+      - hasta la proxima ps
+      - sigo mi camino
+      - xvr, hasta luegito
+      - ya m largo
+      - alla t veo cerca mio
+      - m tengo q ir d vdd
+      - nos vidrios
+      - m vooy
+      - m desconecto al toque
+      - m voy xq tengo q hacer algo
+      - ya m tengo q retirar d aca
+      - ahi qdamos entonces
+      - kiero desconectarme
+      - m jalo al toque
+      - ya me tengo q ir a villa el salvador
+      - listo, m voy a la jato
+      - ya, cortamos
+      - toy ocupao ya
+      - me kito ahora
+      - voy al mercao
+      - se acabo la conversada
+      - mi fono se apaga
+      - ya a hacer deporte
+      - apuro mi paso
+      - tengo k hacer mis deberes
+      - toy con gente
+      - se corta la señal x aca
+      - tengo mis cosas q hacer
+      - ya me alejo
+      - voy p el callao
+      - a la chamba
+      - es la hora ya
+      - ya me gano la tarde
+      - tengo pichanga 8pm
+      - a mi casita
+      - ahi muere
+      - x hoy, ya fue
+      - a la juerga
+      - la hora se me fue
+      - tengo k ver algo al toque
+      - ya en el paradero
+      - a mi zona
+      - ya en puerta
+      - me doy un toque
+      - corta la soga
+      - ya no respondo
+      - mi tiempo se acabo
+      - voy pa surco, ya
+      - la bateria se fue
+      - este chat acaba
+      - la noche llama
+      - mi tren se va
+      - a otro lao
+      - ya fue el parloteo
+      - ya fue esta conver
+      - me voy de una
+      - me tengo q mover
+      - ya ps, me alejo
+      - se acabo la nota mano
+      - ya me piro de aca
+      - listo mi brother
+      - ya toy ocupao con la chamba
+      - la gente me espera x aca
+      - ya me tengo q ir alas 9
+      - tengo q ir al toque a mi jato
+      - ya es muy tarde pa mi
+      - ok, qedo asi
+      - q la pases bomba
+      - ahi nos cachamos otro dia
+      - mañana seguimos la conversacion
+      - me voy corriendo ya
+      - tengo q ir a mi barrio por surco
+      - mi vieja me llama a comer
+      - se me fue el interne
+      - toy con 10 de bateria
+      - ya termine todo lo q tenia q hacer
+      - ya voy fuera de aki
+      - listo, nos pillamos lueguito
+      - ya ps me abro rapido
+      - me quito de aca ya
+      - se corto la comunicacion
+      - aca a mi alrededor ya es noche, me tengo q ir
+      - me voy volando a mi casa
+      - ya tengo q salir corriendo
+      - ya me voy pal partido
+      - me voy xq mi flaca me espera
+      - mi gente me ta buscando
+      - toy cerca mio y ya me kito
+      - cancha libre 8pm asi q ya me bajo
+      - ya t dejo solito
+      - ahi t aviso cualquier cosa
+      - ya me fui causa
+      - qiero descansar ya
+      - ya me desaparezco por hoy
+      - Ya ps, me abro.
+      - Me kito de aca, papi.
+      - Ahí la dejamos.
+      - No jodo más, me fui.
+      - Me pierdo ahora.
+      - Corto y fue.
+      - Ya me toca ir pa fuera.
+      - A mi jato voy, ya.
+      - Me apuro, tengo cosas.
+      - Estoy de pasada, me esfumo.
+      - Ya, ahí queda.
+      - Me fui ya, yala.
+      - Se corta la conversacion.
+      - Me aperturo, al toque.
+      - Me desaparesco un cacho.
+      - Ya se acabo, me abro.
+      - Buenazo, me piro.
+      - Por surco me voy, estan esperando ya.
+      - Ya me fui, sin señal.
+      - Estoy lejos, ya no estoy.
+      - Corto por este lado, ya.
+      - Me avisas ps, pa otro dia.
+      - Gracias, me desaparezco.
+      - Se anula la charla.
+      - Me voy volando, no hay tiempo.
+      - A la cancha libre 8pm me voy.
+      - Ya no estoy aca a mi alrededor.
+      - A chambear me voy, ya es hora.
+      - A surco me voy, ya tengo q arrancar.
+      - Mi gentita me busca cerca mio, me voy.
+      - Ya, pa mas tarde, me piro.
+      - Fin del chat, me kito.
+      - Ahi lo dejo todo, me esfumo.
+      - Corto y me largo.
+      - Ya me dio sueño, me abro.
+      - Se acabo la cháchara, me piro.
+      - Ya no respondo, me fui.
+      - Por vill salvador, a mi casa me voy.
+      - Ya llego mi caña, pal tone me voy.
+      - Me kito, toy agotado.
+      - ya cortamos
+      - toy en surco ya me kmo
+      - ala m voy
+      - hablamos otra ves
+      - gn, toy x irme
+      - ok gaa
+      - pasala bien
+      - xau xau
+      - suertee
+      - toy en otra cosa
+      - corta el chat causa
+      - ya dspues seguimos
+      - ya toy x irme d aca
+      - x surco ya me baje del carro
+      - cerca mio la prox hablamos
+      - me voy xq ya me llamaron
+      - aki aca a mi alrededor
+      - cancha libre 8pm hablamos mañana
+      - vill salvador voy pa mi casa
+      - me voy a mimir
+      - listo todo bien entonces
+      - ok ya no escribo mas
+      - x hoy ya fue
+      - voy a cenar
+      - saliendo del trabajo
+      - me quedo aca nomas
+      - ya cerramo la charla
+      - a mimir se dijo
+      - te yamo luego
+      - toy cansado, ya no sigo
+      - nos vemos mañanita
+      - ya fue causa, ta bien
+      - me apago ya
+      - ya toy en el paradero
+      - bueno, ahí qeda
+      - q la pases piola
+      - me rajo ya
+      - toy ocupao ps
+      - ya, tengo k hacer mi vaina
+      - estoy en otra onda, mano
+      - me piro, causa
+      - ahi qeda el asunto
+      - estoy con apuro ya
+      - kiero descansar ahora
+      - me aburri d esto, oe
+      - ya pe, me fui
+      - toy en el bus yendo
+      - ya, tengo q estudiar
+      - ahi la dejamos ps
+      - se hace tard, me piro
+      - ya, me desocupo
+      - toy full, mano
+      - ahi lo dejamos, oe
+      - ya, tengo q atender
+      - me fui d aqui nomas
+      - tengo un chivo q hacer
+      - ya no puedo mas, hablamos
+      - voy a bajarme de la red
+      - ya pe, a otra cosa
+      - bueno, me fui d aca
+      - ya, toy x dormir
+      - se me acaba la bateria del cel
+      - voy a mi reu ahora
+      - ya fue la charla d hoy
+      - toy yendo al trabajo, me piro
+      - listo, ya no mas charla
+      - voy a descansar un rato
+      - me piro de una vez
+      - ya, tengo q ver a mi gente
+      - ya, basta d chachara
+      - ya, muevo pa surco
+      - me piro, toy en villa salvador
+      - listo, se va la gente
+      - ya, hago otras cosas ahora
+      - ahi la dejo, me estan llamando
+      - ya m piro
+      - toy con la hora
+      - toy apurado
+      - se hizo d noche
+      - normal ps
+      - ya no puedo seguir
+      - me jalo de aca
+      - cuelgo ya
+      - ya estuvo
+      - por hoy ya no mas
+      - se me acabo el tiempo
+      - tengo q correr
+      - ya me toca seguir
+      - ya me voy a mi rumb
+      - tengo planes
+      - me voy a surco
+      - ya toy x vill salvador
+      - cerca mio tengo q estar
+      - ya toy x la cancha libre 8pm
+      - aca a mi alrededor hay cosas q hacer
+      - me voy x aca
+      - a mi jato me voy
+      - ya es tarde
+      - tengo q descansar
+      - ya es dmasiao
+      - mando msj despues
+      - ya cabe
+      - me voy a mi casa
+      - ahi t paso la voz
+      - q sea d noche
+      - me voy para la calle
+      - ya me toca mis asuntos
+      - tengo q chapar bus
+      - oe, ya me abro
+      - weno ya, adiosin
+      - ya kiero irme
+      - q la pases xvr
+      - fin del chat x hoy
+      - ya fue, me piro
+      - t hablo mas tarde
+      - q t vaya chevere
+      - ya pe, ahi kedamos
+      - voy a apagar esto
+      - fin x mi parte
+      - nos pillamos despues
+      - ya es tarde, me voy
+      - tengo q salir ya
+      - mña nos hablamos
+      - pa la prox pe
+      - q t vaya piola
+      - weno, ya me retiro d aca
+      - por mi, ya cerramos
+      - corte y fuera
+      - ya m fui, ps
+      - me voy a la caleta, chau
+      - terminamos aqui pe
+      - salu2, me piro
+      - ya es todo lo q keria
+      - pa otra sera
+      - nos chekeamos

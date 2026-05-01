@@ -1,0 +1,445 @@
+version: "3.1"
+
+nlu:
+  - intent: request_admin_demand_alerts
+    examples: |
+      - Notifícame sobre la afluencia de usuarios en mis instalaciones.
+      - Quiero reportes sobre los espacios disponibles, porfa.
+      - Necesito saber cuándo hay pocos usuarios en los turnos.
+      - Infórmame si el aforo de las canchas es bajo.
+      - Ponme al tanto de la concurrencia en los campos.
+      - Avísame sobre el movimiento de reservas en los horarios de la tarde.
+      - Alertame cuando haya mucha gente en las salas, pe'.
+      - Configura notificaciones para los horarios que no se llenan.
+      - Quiero recibir mensajes si la reserva baja mucho.
+      - Envíame un reporte si los turnos están libres.
+      - Hazme saber si los recintos están sin usar.
+      - Podrías mandarme alertas de la poca asistencia?
+      - Dime si hay cupos sin cubrir en los próximos días.
+      - Me gustaría estar enterado si la utilización es escasa.
+      - Necesito que me notifiques cuando los espacios estén libres.
+      - Alértame si el nivel de aforo es muy bajo.
+      - Genera notificaciones para cuando la concurrencia sea elevada.
+      - Pásame la voz si las canchas tienen poca afluencia.
+      - Indícame si el flujo de clientes es bajo en algún momento.
+      - Quisiera que me informaras sobre los horarios poco solicitados.
+      - Mándame notificaciones si los cupos se agotan.
+      - Reporta cualquier cambio en la utilización de las instalaciones.
+      - Necesito recibir alertas de los turnos sin reservas.
+      - Infórmame si los campos deportivos no tienen mucha gente.
+      - Activa las notificaciones para cuando la afluencia sea mínima.
+      - Hazme llegar informes de los espacios que están sin usar.
+      - Manténme informado sobre el estado de los recintos.
+      - Quiero que me informes si hay franjas libres en mis canchas.
+      - Notifícame de los picos de uso en las salas.
+      - Envíame un aviso cuando el uso sea muy alto.
+      - Dime si la utilización de las instalaciones baja considerablemente.
+      - Necesito que me notifiques si hay poca gente en los horarios punta.
+      - Me gustaría recibir alertas de los horarios que no se llenan bien.
+      - Por favor, configúrame las alertas de poca asistencia.
+      - Alértame si la disponibilidad de espacios es mucha.
+      - Pásame la voz si se están llenando los turnos al mango.
+      - Quiero estar al día con la afluencia de gente en mis locales.
+      - Envía reportes si los turnos están quedando vacíos por mucho tiempo.
+      - Infórmame si el interés por las reservas disminuye.
+      - Necesito alertas para los horarios donde hay pocos inscritos.
+      - Hazme saber si el aforo está por debajo de lo esperado.
+      - Notifícame si las canchas se llenan de golpe.
+      - Quiero que me pases la info de cuando los campos tienen poca gente.
+      - Genera alertas de baja concurrencia en los días de semana.
+      - Mándame un aviso si los espacios deportivos están muy solicitados.
+      - Necesito que me informes si hay disponibilidad excesiva.
+      - Podrías enviarme notificaciones de los turnos que nadie reserva?
+      - Dime si la cantidad de usuarios es reducida en las mañanas.
+      - Quiero estar al tanto si los recintos están con poca afluencia.
+      - Alértame si los cupos se acaban rápido, porfa.
+      - Configúrame para recibir notificaciones de los horarios muertos.
+      - Hazme un reporte si la movida de las reservas es lenta.
+      - Necesito saber si los espacios están poco utilizados.
+      - Infórmame sobre las franjas horarias con bajo uso.
+      - Pásame la data si la afluencia está en caída.
+      - Quiero que me notifiques cuando los horarios están muy libres.
+      - Notifícame de cualquier anomalía en la ocupación de los recintos.
+      - Envíame un mensaje si las canchas tienen mucho espacio libre.
+      - Alértame si el interés por los turnos es bajísimo.
+      - Necesito recibir información sobre la poca actividad en los campos.
+      - Quiero que me informes sobre los picos de afluencia.
+      - Dime si la cantidad de reservas es mínima para los días fuertes.
+      - Configúrame para notificaciones de espacios subutilizados.
+      - Hazme saber si las salas se quedan sin gente, pe'.
+      - Pásame la voz si los horarios se llenan al toque.
+      - Quiero estar enterado si la concurrencia es baja por la noche.
+      - Notifícame si los turnos de la mañana no se cubren.
+      - Envíame un reporte si la utilización de los espacios es crítica.
+      - Alértame si el número de asistentes es escaso.
+      - Necesito que me informes si los locales tienen baja afluencia.
+      - Quisiera que me mandaras alertas de los cupos que sobran.
+      - Dime si hay poca gente en los entrenamientos.
+      - Configura las notificaciones para cuando haya disponibilidad masiva.
+      - Hazme saber si los recintos están poco concurridos.
+      - Pásame el dato si el flujo de reservas es lento.
+      - Quiero estar al día con la utilización de mis instalaciones deportivas.
+      - Notifícame si las franjas horarias no tienen reservas.
+      - Envíame un aviso si la afluencia de usuarios es casi nula.
+      - Alértame cuando el interés de los clientes caiga en picada.
+      - Necesito que me mantengas informado sobre los horarios con poca gente.
+      - Que me llegue un aviso si hay pocos registrados, pe'.
+      - Necesito que me notifiquen si las instalaciones están con baja concurrencia.
+      - Pásame la data si la afluencia es muy baja en las mañanas, causa.
+      - Avísame cuando el movimiento de reservas esté lento.
+      - Quiero notificaciones si los espacios se ven muy desocupados.
+      - Dime si hay poquísima gente en los entrenamientos de la tarde.
+      - Configúrame alertas si las canchas no se llenan bien.
+      - Hazme el favor de avisar si los horarios están bien libres.
+      - Me urge saber si la utilización de los recintos es mínima.
+      - Que me llegue un mensaje si los cupos no se están moviendo.
+      - Infórmame si el aforo no llega ni a la mitad, choche.
+      - Quiero estar al tanto si la gente no viene a los turnos.
+      - Alértame si los salones deportivos están muy tranquilos.
+      - Necesito que me pases la voz si la asistencia baja mucho.
+      - Dime si hay horarios muertos para las reservas.
+      - ¿Podrías enviarme alertas si las franjas horarias están vacías?
+      - Que me notifiquen cuando los campos tienen poca actividad.
+      - Mándame un pitazo si la concurrencia es mínima.
+      - Avísame si hay poca demanda para los fines de semana.
+      - Quiero saber si los recintos están con bajo uso.
+      - Necesito reportes si la afluencia de usuarios disminuye.
+      - Dime si las reservas están por el suelo.
+      - Configura las alertas de los espacios poco solicitados.
+      - Hazme llegar un aviso si los turnos están flojos, pe'.
+      - Que me informe si las instalaciones están con poca gente.
+      - Quiero notificaciones si los cupos no se cubren.
+      - Pásame la voz si las canchas están muy libres.
+      - Alertame si la utilización de los espacios es baja.
+      - Necesito que me avises cuando la asistencia esté pobre.
+      - Dime si hay pocos inscritos en los cursos, porfa.
+      - Configúrame las alertas para las horas con menos movimiento.
+      - Hazme saber si los recintos están poco utilizados.
+      - Pásame el dato si el flujo de clientes es bajo, choche.
+      - Quiero que me notifiques cuando los horarios tengan poca acogida.
+      - Notifícame de cualquier irregularidad en la ocupación, pe'.
+      - Envíame un mensaje si las canchas tienen mucho espacio sin usar.
+      - Dime si las reservas están flojas en días fuertes.
+      - Avísame si la demanda sube de golpe.
+      - Quiero saber si los espacios están a tope.
+      - Notificaciones de alta ocupacion, porfa.
+      - Alertame cuando haya mucha demanda.
+      - Necesito un aviso si las canchas están llenísimas.
+      - Dime si el aforo está al máximo.
+      - Que me lleguen alertas si los horarios se copan.
+      - Infórmame si la afluencia de gente es mucha, pe'.
+      - Pásame la voz si se llenan las reservas al toque.
+      - Quiero estar al tanto si los turnos están repletos.
+      - Alertame si la capacidad está casi al límite.
+      - Necesito que me avises si hay picos de uso.
+      - Dime si los cupos se agotan rápidamente.
+      - Configúrame las alertas para alta concurrencia.
+      - Hazme saber si los recintos están sobrecargados.
+      - Que me notifiquen cuando los espacios tienen mucha demanda.
+      - Mándame un aviso si los campos están llenos.
+      - Quiero recibir alertas de los horarios con mucha gente.
+      - Necesito que me informes si la afluencia es excesiva.
+      - Dime si la utilización de las instalaciones es máxima.
+      - Avísame si hay sobrecupo en las clases.
+      - Quiero estar al día si la demanda supera lo habitual.
+      - Notificaciones para cuando los espacios estén saturados.
+      - Envíame un reporte si la gente no para de llegar.
+      - Alértame si las reservas explotan.
+      - Necesito saber si los horarios están super solicitados.
+      - Quisiera que me mandes un aviso si la afluencia es masiva.
+      - Dime si los turnos se llenan sin parar.
+      - Activar notificaciones de ocupación.
+      - Quiero recibir alertas sobre la demanda.
+      - Necesito que me informen sobre la ocupación.
+      - Avísame sobre el movimiento de la demanda.
+      - Pásame la voz sobre la afluencia, pe'.
+      - Dime qué tal la demanda de espacios.
+      - Genera avisos de afluencia de público.
+      - Quiero monitorear la demanda con alertas.
+      - Necesito alertas sobre la concurrencia de clientes.
+      - Configura notificaciones de ocupación de canchas.
+      - Hazme saber el estado de la demanda.
+      - Que me avisen de la situación de las reservas.
+      - Quiero recibir informes de aforo.
+      - Dime cómo está la movida de la gente.
+      - Alertas sobre la utilización de los espacios.
+      - Necesito información sobre la demanda actual.
+      - Avísame si hay cambios en la ocupación.
+      - Pásame la data de la afluencia en tiempo real.
+      - Quiero saber el nivel de demanda de las instalaciones.
+      - Notifícame cualquier variación en la afluencia.
+      - Quisiera activar las alertas de demanda.
+      - Necesito que me avises sobre el movimiento de la demanda.
+      - Podrías configurarme las alertas de ocupación?
+      - Deseo recibir notificaciones sobre la afluencia.
+      - Avísame si la demanda está por los suelos.
+      - Quiero saber cuando mis instalaciones estén con poca gente.
+      - ¿Me puedes mandar una alerta si la cancha está vacía?
+      - Solicito avisos sobre la demanda de los servicios.
+      - Informame si la ocupación es baja en algún momento.
+      - Activa mis notificaciones de demanda de usuarios.
+      - Pásame la voz si la gente no está viniendo.
+      - Me gustaría tener alertas cuando los cupos no se llenen.
+      - ¿Puedes alertarme si los horarios de la noche están libres?
+      - Necesito estar al tanto de la demanda de mi centro.
+      - Avisame de cualquier cambio en la ocupación, porfa.
+      - Quiero que me informen si los espacios están con poca gente.
+      - Actívale las alertas a mi usuario sobre la demanda.
+      - Dime si la asistencia a mis clases está baja.
+      - Mándame avisos de cuando la demanda esté floja.
+      - Podrías generarme notificaciones de la ocupación al instante?
+      - Necesito saber si mis canchas tienen pocos clientes.
+      - Que me llegue una alerta si los turnos no se completan.
+      - Avísame si el flujo de reservas anda lento, pe.
+      - Quiero que me notifiques sobre la demanda de los entrenamientos.
+      - Mantenme informado si hay baja concurrencia.
+      - Por favor, activa las alertas de aforo mínimo.
+      - Dime cuando mi local esté quedando vacío.
+      - Quisiera recibir notificaciones de poca demanda.
+      - Necesito alertas de cuándo la gente no viene.
+      - ¿Me puedes alertar si los espacios deportivos están desocupados?
+      - Pásame la info si los turnos están libres.
+      - Avísame sobre el interés de mis clientes en mis servicios.
+      - Quiero saber si los campos tienen poca gente.
+      - Solicito que me lleguen avisos de la poca utilización.
+      - Infórmame cuando las reservas caigan.
+      - Actívame las alertas de aforo reducido.
+      - Dime si los horarios de la mañana no se llenan.
+      - Requiero que me informen si hay demasiados espacios libres.
+      - Que me alerten si la demanda está muy baja.
+      - Mándame notificaciones de los picos bajos de ocupación.
+      - Avísame si los jugadores no están reservando mucho.
+      - Quiero que me pases la voz si los espacios están vacíos.
+      - Configúrame alertas de poca afluencia.
+      - Necesito que me digas si la asistencia está disminuyendo.
+      - Avísame cuando la demanda sea mínima.
+      - Quiero recibir reportes de los horarios sin reservas.
+      - Dime si mis salas tienen baja concurrencia.
+      - Por favor, actívame las alertas de ocupación.
+      - Que me notifiquen si el aforo es escaso.
+      - Necesito saber si los recintos están con poco movimiento.
+      - Pásame la información si los turnos están libres por mucho tiempo.
+      - Avísame si hay pocos usuarios en mis instalaciones.
+      - Quiero que me avises cuando no haya mucha gente.
+      - Configúrame para recibir alertas de la falta de demanda.
+      - Dime si los horarios de la tarde están flojos.
+      - Necesito notificaciones si la ocupación es muy baja.
+      - Que me alerten sobre la disponibilidad de espacios.
+      - Mándame un mensaje si la demanda cae mucho.
+      - Avísame si los clientes no están reservando.
+      - Quiero saber si hay pocos usuarios en mis canchas.
+      - Actívame los avisos de baja asistencia.
+      - Necesito que me informes si los campos están poco utilizados.
+      - Pásame la data si la afluencia está floja.
+      - Avísame si hay menos gente de lo normal.
+      - Quiero recibir alertas de los espacios que no se llenan.
+      - Dime si la actividad en mis locales es baja.
+      - Configúrame las notificaciones de poca utilización.
+      - Necesito saber si los horarios no tienen mucha demanda.
+      - Que me avise si la concurrencia está por debajo.
+      - Mándame alertas de baja ocupación.
+      - Avísame si el flujo de clientes es bajo.
+      - Quiero que me digas si la demanda está cayendo.
+      - Solicito que me lleguen alertas de disponibilidad.
+      - Infórmame si los turnos no se están vendiendo.
+      - Activa notificaciones de falta de reservas.
+      - Dime si los espacios se están quedando vacíos.
+      - Necesito que me avises cuando la demanda sea poca.
+      - Que me alerten si el interés es bajo.
+      - Pásame el dato si los horarios están poco concurridos.
+      - Quiero estar al tanto de la demanda de mi negocio.
+      - quiero recibir alertas sobre el movimiento de la demanda
+      - necesito avisos de la ocupacion de mis locales
+      - alértame si los espacios tienen poca afluensia
+      - dime si la demanda de canchas está baja
+      - puedes darme notificaciones de la ocupación
+      - que me avise cuando la afluencia disminuya
+      - quiero reportes de la demanda de reservas
+      - envíame alertas de la utilización de las instalaciones
+      - hazme saber si la concurrencia es baja
+      - necesito que me avises si hay franjas horarias vacías
+      - avísame cuando los campos deportivos estén libres
+      - quiero notificarme si la cantidad de gente baja
+      - dímelo si la ocupación es crítica
+      - alertas de la demanda de usuarios
+      - pásame la voz si las canchas tienen poca gente
+      - mantente informado de la ocupación para avisarme
+      - que me lleguen avisos de la poca afluencia
+      - quiero ver la información de la demanda
+      - infórmame si la utiilización es baja
+      - dame notificaciones de poca ocupación
+      - avísame si los horarios no se llenan
+      - quiero que me alertes de los espacios vacíos
+      - dime si hay sobre ocupacion en mis sedes
+      - ¿puedes alertarme sobre la demanda?
+      - quiero recibir avisos sobre la cantidad de reservas
+      - notifícame si la afluencia de gente es baja
+      - hazme saber cuando las canchas estén libres
+      - necesito alertas de cuando la ocupación sea alta
+      - quiero saber si los espacios están con poca demanda
+      - dímelo si las franjas horarias están subutilizadas
+      - pásame los avisos de la ocupación
+      - ponme al tanto de la demanda de reservas
+      - que me avise si los campos están casi vacíos
+      - quiero notificaciones para cuando la demanda esté al máximo
+      - envíame alertas de baja afluencia
+      - necesito que me avisen de la movida de la gente
+      - infórmame sobre los horarios que no se llenan
+      - dímelo si la concurrencia en los locales es poca
+      - quiero alertas de la ocupación de mis instalaciones
+      - avísame si la cantidad de usuarios disminuye
+      - hazme llegar los reportes de la demanda
+      - necesito saber si hay poca actividad en los turnos
+      - quiero notificaciones sobre el uso de mis espacios
+      - dime si la ocupación está muy baja
+      - pásame la data de la afluencia de gente
+      - que me avisen si los turnos están libres
+      - quiero alertas de ocupación en mis centros
+      - notifícame si la demanda de las reservas es mínima
+      - envíame avisos de los cupos que no se llenan
+      - necesito que me informes de la utilizacion de mis canchas
+      - dímelo si los espacios deportivos están vacíos por mucho tiempo
+      - quiero recibir alertas de la afluencia de clientes
+      - avísame si la cantidad de reservas es baja
+      - hazme saber si los horarios están disponibles
+      - necesito notificaciones de alta ocupación
+      - quiero que me alertes si la demanda es excesiva
+      - dime si hay poca gente en los campos
+      - pásame la voz si la ocupación es crítica
+      - que me avise cuando los recintos estén libres
+      - quiero reportes de la ocupación
+      - infórmame si la afluencia es baja en el día
+      - necesito alertas de la demanda de los usuarios
+      - dímelo si las franjas horarias no se cubren
+      - quiero notificaciones de baja demanda
+      - avísame si los espacios tienen poca utilizacion
+      - hazme llegar los avisos de ocupación
+      - necesito saber si la concurrencia es mínima
+      - quiero que me avises de la afluencia de personas
+      - dime si los horarios estan libres en mis instalaciones
+      - pásame la data si la ocupación es baja
+      - que me avisen si la demanda se cae
+      - quiero alertas de la utilización de mis instalaciones
+      - notifícame si la afluencia de gente está por el piso
+      - envíame avisos cuando los campos no se usan
+      - necesito que me informes si hay poca movida
+      - dímelo si los cupos están libres en los turnos
+      - quiero recibir alertas de la ocupación de mis locales deportivos
+      - avísame si la cantidad de gente es menor a la esperada
+      - hazme saber si la demanda de reservas es débil
+      - necesito notificaciones para cuando la ocupación sea escasa
+      - Notifícame si las canchas tienen poca concurrencia.
+      - Quiero una alerta si la demanda de los domingos baja.
+      - Avísame si hay menos gente de lo normal en los turnos de la tarde.
+      - Mándame un aviso si un espacio se queda sin uso por mucho tiempo.
+      - Necesito saber cuando el aforo de un local está por los suelos.
+      - Pásame la voz si las reservas bajan de golpe en algún horario.
+      - Alértame si los campos tienen poca actividad en las mañanas.
+      - Quiero que me informes cuando haya mucha disponibilidad.
+      - Dime si un turno se está quedando vacío, porfa.
+      - ¿Podrías enviarme alertas sobre la baja asistencia?
+      - Hazme llegar una notificación si la ocupación es mínima.
+      - Configúrame alertas para los horarios donde hay pocos clientes.
+      - Necesito que me avises si las salas se llenan o vacían rápido.
+      - Quisiera reportes de la demanda por horas, che.
+      - Manténme al tanto de los espacios deportivos con baja afluencia.
+      - Avísame si un horario en específico no se está vendiendo bien.
+      - Quiero recibir alertas de los días con menos reservas.
+      - Dime si la asistencia a los entrenamientos ha caído, pe'.
+      - Notifícame cuando la utilización de las canchas sea baja.
+      - Manda alertas si hay espacios disponibles para llenar.
+      - Necesito una alerta si la demanda es pobre para el fin de semana.
+      - Alértame sobre los horarios que tienen pocos cupos reservados.
+      - Avísame si hay algún bajón grande en las reservas.
+      - Quiero que me digas si la gente no está viniendo.
+      - Dame un aviso si los campos están quedando desocupados.
+      - Pásame la info si los turnos de la noche están sin cubrir.
+      - Hazme saber cuando la cantidad de usuarios disminuya.
+      - ¿Podrías mandarme notificaciones de los picos y valles de demanda?
+      - Necesito que me informes sobre la poca concurrencia en mis locales.
+      - Alértame si los espacios se están quedando libres mucho rato.
+      - Avísame si la afluencia de gente es baja los días de semana.
+      - Quiero que me pases la data de la ocupación, porfas.
+      - Dime si hay mucha disponibilidad en el campus central.
+      - Notifícame si los horarios de la tarde están muy vacíos.
+      - Mándame un reporte si la demanda es escasa para ciertos días.
+      - Necesito alertas para las franjas horarias con bajo interés.
+      - Configúrame para que me avises si los turnos no se llenan.
+      - Alértame cuando la utilización sea crítica de baja.
+      - Avísame si las ventas de cupos están por debajo del promedio.
+      - Quiero saber si hay huecos en la programación de mis canchas.
+      - Dime si el flujo de reservas es lento, porfis.
+      - Pásame la voz si los espacios deportivos están sin movimiento.
+      - Hazme llegar información de los horarios muertos, pe'.
+      - Necesito que me indiques si hay poca gente en las mañanas.
+      - Alértame si la disponibilidad de franjas es alta.
+      - Avísame si las salas están subutilizadas.
+      - Quiero que me informes si la afluencia es menor a la esperada.
+      - Dime cuando los cupos se agotan y cuando sobran.
+      - Notifícame sobre la ocupación en tiempo real, si se puede.
+      - Manda alertas si un evento no está generando suficiente demanda.
+      - Necesito saber si los horarios premium están con poca gente.
+      - Configúrame para que me avisen si un recinto está muy libre.
+      - Alértame si la participación en los turnos es baja.
+      - Avísame si hay espacios que nadie quiere reservar.
+      - Quiero un reporte si la cantidad de inscritos es mínima.
+      - ¿Podrías mandarme alertas si la gente no viene?
+      - Necesito saber al instante si la afluencia es mínima.
+      - Avísame si las canchas no se llenan, pe'.
+      - Quiero un aviso cuando la demanda sea escasa.
+      - Dime si los turnos están desocupados.
+      - Envía un alerta si la ocupación pisa fondo.
+      - Alértame si los recintos deportivos tienen pocos usuarios.
+      - Pásame la voz si las reservas bajan de golpe.
+      - Necesito un monitoreo constante de la afluencia.
+      - Quiero estar al tanto de los momentos de poca actividad.
+      - Genera reportes de cuándo la asistencia es crítica.
+      - Avísame si la gente no está llegando en las franjas importantes.
+      - Dime si hay exceso de cupos libres.
+      - Mantenme informado si los campos se quedan sin reservas.
+      - Necesito alertas de la poca acogida en los horarios pico.
+      - Configúrame para saber si la movida está floja.
+      - Quiero una alerta cuando la demanda no sea la esperada.
+      - Avísame si los jugadores no se están inscribiendo.
+      - Dime si la utilización de las instalaciones está por los suelos.
+      - Necesito que me avises si hay franjas con casi nada de gente.
+      - Pásame el dato si el interés por las reservas ha caído mucho.
+      - Alértame si los horarios nocturnos se quedan en el aire.
+      - Quiero recibir un pitazo si la asistencia es paupérrima.
+      - Manténme al tanto si hay pocas reservas para el finde.
+      - Notifícame si el movimiento de reservas es nulo.
+      - Deseo recibir notificaciones sobre la demanda de mis servicios.
+      - Quisiera que me avises si la ocupación baja mucho, pe'.
+      - Hazme un ping si los espacios se vacían rápido.
+      - Necesito saber si algún horario se está quedando sin gente, al toque.
+      - Podrías mantenerme informado acerca de las fluctuaciones en la demanda de reservas?
+      - Quiero saver cuándo mis canchas tienen menos clientes.
+      - Alertas de interés de usuarios.
+      - Dime si la gente ya no viene a mis locales.
+      - Por favor, configure un sistema de alerta para bajas de demanda.
+      - Avísame si el interés por mis turnos decae inesperadamente.
+      - Sería de gran ayuda recibir notificaciones si la cantidad de reservas cae por debajo de lo esperado.
+      - Nesecito que me mandes un aviso si la ocupacion es baja.
+      - Alertas de movimiento de clientela.
+      - Pásame la voz si los horarios se ponen flojos.
+      - ¿Puedes chequear la demanda y avisarme si hay cambios bruscos?
+      - Solicito notificaciones sobre la demanda de servicios en tiempo real.
+      - Me gustaría ser notificado si la afluencia de usuarios en los distintos horarios presenta disminuciones significativas.
+      - Quiero que me informes si ay poca jente.
+      - Avisos de demanda.
+      - Dime si se va la clientela en alguna franja, man.
+      - Necesito saber si los fines de semana tienen poca movida.
+      - Requiero alertas proactivas sobre la ocupación y el interés del público.
+      - Quisiera recibir un reporte constante sobre cómo se está comportando la demanda en mis instalaciones deportivas.
+      - Alertas de cuando los cupos esten libres.
+      - Notificaciones de afluencia.
+      - Quiero recibir avisos del flujo de reservas.
+      - Por favor, mándame alertas sobre el estado del aforo.
+      - Necesito enterarme si los espacios deportivos no se están usando.
+      - Que me lleguen notificaciones de la ocupasión en las mañanas.
+      - Páseme la voz si la cancha está vacía.
+      - Avísame cuando haya poca gente en mis locales, por favor.
+      - Deseo alertas sobre el movimiento de clientes.
+      - Si hay muchos cupos libres, que me notifiques.
+      - Quiero un aviso si la demanda en los campos es muy baja.
+      - Hazme saber si el recinto deportivo está con poca afluencia.
